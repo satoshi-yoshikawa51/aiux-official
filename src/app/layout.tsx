@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { BANNER } from "./data";
 import "./globals.css";
 
@@ -36,6 +37,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
       </head>
       <body>{children}</body>
+      <GoogleAnalytics gaId="G-2FVS6MP6GQ" />
     </html>
   );
 }
