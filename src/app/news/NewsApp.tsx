@@ -32,6 +32,11 @@ export default function NewsApp() {
   const [newKeyword, setNewKeyword] = useState("");
   const [toast, setToast] = useState("");
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // キーワードタブ・検索タブ用のGoogle News検索結果
+  const [kwResults, setKwResults] = useState<Record<string, Article[]>>({});
+  const [kwLoading, setKwLoading] = useState<string | null>(null);
+  const [searchRemote, setSearchRemote] = useState<Article[]>([]);
+  const queryRef = useRef("");
 
   const refresh = async () => {
     setFetching(true);
@@ -152,17 +157,71 @@ export default function NewsApp() {
       const cat = activeFeed.slice(4);
       return visible.filter((a) => a.category === cat);
     }
-    const kw = activeFeed.slice(3).toLowerCase();
-    return visible
-      .filter((a) => a.title.toLowerCase().includes(kw))
+    // キーワードタブ: Yahoo記事のタイトル一致 + Google News検索結果を新着順で
+    const kw = activeFeed.slice(3);
+    const kwLower = kw.toLowerCase();
+    const local = visible.filter((a) => a.title.toLowerCase().includes(kwLower));
+    const remote = (kwResults[kw] ?? []).filter((a) => !profile.hiddenIDs.includes(a.id));
+    const seen = new Set<string>();
+    return [...remote, ...local]
+      .filter((a) => {
+        if (seen.has(a.id)) return false;
+        seen.add(a.id);
+        return true;
+      })
       .sort((x, y) => (y.publishedAt ?? "").localeCompare(x.publishedAt ?? ""));
-  }, [activeFeed, articles, profile, recommended]);
+  }, [activeFeed, articles, profile, recommended, kwResults]);
+
+  // キーワードタブを開いたらGoogle News検索（/api/keyword）から記事を取得する
+  useEffect(() => {
+    if (!activeFeed.startsWith("kw:")) return;
+    const kw = activeFeed.slice(3);
+    if (kwResults[kw]) return;
+    let cancelled = false;
+    setKwLoading(kw);
+    fetch(`/api/keyword?q=${encodeURIComponent(kw)}`)
+      .then((r) => r.json())
+      .then((d: { articles: Article[] }) => {
+        if (!cancelled) setKwResults((prev) => ({ ...prev, [kw]: d.articles ?? [] }));
+      })
+      .catch(() => {
+        if (!cancelled) setKwResults((prev) => ({ ...prev, [kw]: [] }));
+      })
+      .finally(() => {
+        if (!cancelled) setKwLoading(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeFeed, kwResults]);
+
+  // 検索タブ: 入力が落ち着いたらWeb全体（Google News）からも検索する
+  useEffect(() => {
+    const q = query.trim();
+    queryRef.current = q;
+    setSearchRemote([]);
+    if (q.length < 2) return;
+    const timer = setTimeout(() => {
+      fetch(`/api/keyword?q=${encodeURIComponent(q)}`)
+        .then((r) => r.json())
+        .then((d: { articles: Article[] }) => {
+          if (queryRef.current === q) setSearchRemote(d.articles ?? []);
+        })
+        .catch(() => {});
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [query]);
 
   const searchResults = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
     return articles.filter((a) => a.title.toLowerCase().includes(q));
   }, [articles, query]);
+
+  const searchRemoteOnly = useMemo(
+    () => searchRemote.filter((a) => !searchResults.some((b) => b.id === a.id)),
+    [searchRemote, searchResults]
+  );
 
   // ---- 描画 ----
 
@@ -245,7 +304,14 @@ export default function NewsApp() {
               />
             )}
             {(activeFeed === "forYou" ? feedArticles.slice(1, 80) : feedArticles).map(row)}
-            {!fetching && articles.length > 0 && feedArticles.length === 0 && (
+            {kwLoading !== null && activeFeed === `kw:${kwLoading}` && feedArticles.length === 0 && (
+              <div className="pn-skeletons">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="pn-skeleton" />
+                ))}
+              </div>
+            )}
+            {!fetching && kwLoading === null && articles.length > 0 && feedArticles.length === 0 && (
               <div className="pn-empty">
                 <p>このタブに表示できる記事が今はありません</p>
               </div>
@@ -286,12 +352,17 @@ export default function NewsApp() {
                 <p>気になる話題を検索してみましょう</p>
               </div>
             )
-          ) : searchResults.length > 0 ? (
-            searchResults.map(row)
           ) : (
-            <div className="pn-empty">
-              <p>「{query.trim()}」に一致する記事が見つかりません</p>
-            </div>
+            <>
+              {searchResults.map(row)}
+              {searchRemoteOnly.length > 0 && <p className="pn-section">Webのニュース</p>}
+              {searchRemoteOnly.map(row)}
+              {searchResults.length === 0 && searchRemoteOnly.length === 0 && (
+                <div className="pn-empty">
+                  <p>「{query.trim()}」に一致する記事が見つかりません</p>
+                </div>
+              )}
+            </>
           )}
         </main>
       )}
@@ -405,7 +476,7 @@ export default function NewsApp() {
             学習データをリセット
           </button>
           <p className="pn-note">
-            データソース：Yahoo!ニュース RSS ／
+            データソース：Yahoo!ニュース RSS・Google News RSS（キーワード・検索） ／
             学習データはすべてこの端末のブラウザ内に保存され、外部送信されません。
           </p>
 
@@ -480,16 +551,19 @@ export default function NewsApp() {
 function Thumb({ article, large }: { article: Article; large?: boolean }) {
   return (
     <div className={large ? "pn-thumb pn-thumb-lg" : "pn-thumb"}>
-      {/* og:imageが無い記事はonErrorで非表示にし、下のグラデ背景を見せる */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        loading="lazy"
-        src={`/api/ogimage?url=${encodeURIComponent(article.link)}`}
-        alt=""
-        onError={(e) => {
-          e.currentTarget.style.display = "none";
-        }}
-      />
+      {/* og:image取得はYahoo記事のみ（検索結果はリダイレクトURLのため取得不可）。
+          画像が無い場合はonErrorで非表示にし、下のグラデ背景を見せる */}
+      {article.category !== "search" && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          loading="lazy"
+          src={`/api/ogimage?url=${encodeURIComponent(article.link)}`}
+          alt=""
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+        />
+      )}
     </div>
   );
 }
