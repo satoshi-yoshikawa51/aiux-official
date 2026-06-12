@@ -16,7 +16,8 @@ import {
 } from "./lib";
 
 type Tab = "news" | "search" | "saved" | "settings";
-type Feed = "forYou" | Category;
+// フィード選択: "forYou" ｜ "cat:<カテゴリID>" ｜ "kw:<キーワード>"
+type Feed = string;
 
 export default function NewsApp() {
   const [profile, setProfile] = useState<Profile>(emptyProfile);
@@ -129,10 +130,33 @@ export default function NewsApp() {
       .map(([a]) => a);
   }, [articles, profile]);
 
-  const feedArticles =
-    feed === "forYou"
-      ? recommended
-      : articles.filter((a) => a.category === feed && !profile.hiddenIDs.includes(a.id));
+  // タブには「選んだジャンル」と「フォロー中キーワード」だけを出す。
+  // ジャンル未選択（オンボーディング前など）のときは全ジャンルを出す。
+  const interestCategories =
+    profile.interests.length > 0
+      ? CATEGORIES.filter((c) => profile.interests.includes(c.id))
+      : CATEGORIES;
+
+  // 設定でジャンルやキーワードを外した直後は「おすすめ」に戻す
+  const activeFeed: Feed =
+    feed === "forYou" ||
+    (feed.startsWith("cat:") && interestCategories.some((c) => `cat:${c.id}` === feed)) ||
+    (feed.startsWith("kw:") && profile.followedKeywords.includes(feed.slice(3)))
+      ? feed
+      : "forYou";
+
+  const feedArticles = useMemo(() => {
+    if (activeFeed === "forYou") return recommended;
+    const visible = articles.filter((a) => !profile.hiddenIDs.includes(a.id));
+    if (activeFeed.startsWith("cat:")) {
+      const cat = activeFeed.slice(4);
+      return visible.filter((a) => a.category === cat);
+    }
+    const kw = activeFeed.slice(3).toLowerCase();
+    return visible
+      .filter((a) => a.title.toLowerCase().includes(kw))
+      .sort((x, y) => (y.publishedAt ?? "").localeCompare(x.publishedAt ?? ""));
+  }, [activeFeed, articles, profile, recommended]);
 
   const searchResults = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -172,18 +196,27 @@ export default function NewsApp() {
 
           <div className="pn-chips">
             <button
-              className={feed === "forYou" ? "pn-chip pn-chip-on" : "pn-chip"}
+              className={activeFeed === "forYou" ? "pn-chip pn-chip-on" : "pn-chip"}
               onClick={() => setFeed("forYou")}
             >
               ✦ おすすめ
             </button>
-            {CATEGORIES.map((c) => (
+            {interestCategories.map((c) => (
               <button
                 key={c.id}
-                className={feed === c.id ? "pn-chip pn-chip-on" : "pn-chip"}
-                onClick={() => setFeed(c.id)}
+                className={activeFeed === `cat:${c.id}` ? "pn-chip pn-chip-on" : "pn-chip"}
+                onClick={() => setFeed(`cat:${c.id}`)}
               >
                 {c.name}
+              </button>
+            ))}
+            {profile.followedKeywords.map((k) => (
+              <button
+                key={k}
+                className={activeFeed === `kw:${k}` ? "pn-chip pn-chip-on" : "pn-chip"}
+                onClick={() => setFeed(`kw:${k}`)}
+              >
+                #{k}
               </button>
             ))}
           </div>
@@ -204,14 +237,19 @@ export default function NewsApp() {
                 </button>
               </div>
             )}
-            {feed === "forYou" && feedArticles[0] && (
+            {activeFeed === "forYou" && feedArticles[0] && (
               <Hero
                 article={feedArticles[0]}
                 onOpen={() => markRead(feedArticles[0])}
                 onMenu={() => setMenuArticle(feedArticles[0])}
               />
             )}
-            {(feed === "forYou" ? feedArticles.slice(1, 80) : feedArticles).map(row)}
+            {(activeFeed === "forYou" ? feedArticles.slice(1, 80) : feedArticles).map(row)}
+            {!fetching && articles.length > 0 && feedArticles.length === 0 && (
+              <div className="pn-empty">
+                <p>このタブに表示できる記事が今はありません</p>
+              </div>
+            )}
             {!fetching && articles.length > 0 && (
               <button className="pn-btn pn-refresh" onClick={() => void refresh()}>
                 最新のニュースに更新
@@ -280,7 +318,7 @@ export default function NewsApp() {
             <h1 className="pn-logo">設定</h1>
           </header>
 
-          <p className="pn-section">興味のあるジャンル</p>
+          <p className="pn-section">興味のあるジャンル（選んだものだけタブに表示されます）</p>
           <div className="pn-kwchips">
             {CATEGORIES.map((c) => {
               const on = profile.interests.includes(c.id);
@@ -304,7 +342,7 @@ export default function NewsApp() {
             })}
           </div>
 
-          <p className="pn-section">フォロー中のキーワード（タップで削除）</p>
+          <p className="pn-section">フォロー中のキーワード（タブに表示・タップで削除）</p>
           <div className="pn-kwchips">
             {profile.followedKeywords.map((k) => (
               <button
