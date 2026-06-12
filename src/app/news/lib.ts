@@ -10,7 +10,8 @@ export type Category =
   | "sports"
   | "it"
   | "science"
-  | "local";
+  | "local"
+  | "search"; // キーワード検索（Google News）の結果用。タブ・興味選択には出さない
 
 export const CATEGORIES: { id: Category; name: string }[] = [
   { id: "top", name: "主要" },
@@ -24,9 +25,10 @@ export const CATEGORIES: { id: Category; name: string }[] = [
   { id: "local", name: "地域" },
 ];
 
-export const CATEGORY_NAME = Object.fromEntries(
-  CATEGORIES.map((c) => [c.id, c.name])
-) as Record<Category, string>;
+export const CATEGORY_NAME = {
+  ...(Object.fromEntries(CATEGORIES.map((c) => [c.id, c.name])) as Record<Category, string>),
+  search: "Web",
+} as Record<Category, string>;
 
 export type Article = {
   id: string;
