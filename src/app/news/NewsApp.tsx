@@ -1,0 +1,610 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Article,
+  CATEGORIES,
+  Category,
+  CATEGORY_NAME,
+  Profile,
+  emptyProfile,
+  learn,
+  loadProfile,
+  saveProfile,
+  scoreArticle,
+  timeAgo,
+} from "./lib";
+
+type Tab = "news" | "search" | "saved" | "settings";
+type Feed = "forYou" | Category;
+
+export default function NewsApp() {
+  const [profile, setProfile] = useState<Profile>(emptyProfile);
+  const [profileLoaded, setProfileLoaded] = useState(false);
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [fetching, setFetching] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
+  const [tab, setTab] = useState<Tab>("news");
+  const [feed, setFeed] = useState<Feed>("forYou");
+  const [menuArticle, setMenuArticle] = useState<Article | null>(null);
+  const [query, setQuery] = useState("");
+  const [newKeyword, setNewKeyword] = useState("");
+  const [toast, setToast] = useState("");
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const refresh = async () => {
+    setFetching(true);
+    setFetchError(false);
+    try {
+      const res = await fetch("/api/news");
+      if (!res.ok) throw new Error("fetch failed");
+      const data = (await res.json()) as { articles: Article[] };
+      setArticles(data.articles ?? []);
+    } catch {
+      setFetchError(true);
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    setProfile(loadProfile());
+    setProfileLoaded(true);
+    void refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateProfile = (next: Profile) => {
+    setProfile(next);
+    saveProfile(next);
+  };
+
+  const showToast = (message: string) => {
+    setToast(message);
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(""), 2200);
+  };
+
+  // ---- 行動シグナル ----
+
+  const markRead = (a: Article) => {
+    if (profile.readIDs.includes(a.id)) return;
+    const next = learn(profile, a, 0.3);
+    updateProfile({ ...next, readIDs: [...next.readIDs, a.id].slice(-500) });
+  };
+
+  const likeArticle = (a: Article) => {
+    if (!profile.likedIDs.includes(a.id)) {
+      const next = learn(profile, a, 1);
+      updateProfile({ ...next, likedIDs: [...next.likedIDs, a.id] });
+    }
+    setMenuArticle(null);
+    showToast("いいねしました。似た記事が増えます");
+  };
+
+  const hideArticle = (a: Article) => {
+    if (!profile.hiddenIDs.includes(a.id)) {
+      const next = learn(profile, a, -1);
+      updateProfile({ ...next, hiddenIDs: [...next.hiddenIDs, a.id] });
+    }
+    setMenuArticle(null);
+    showToast("この記事を非表示にし、似た記事を減らします");
+  };
+
+  const toggleBookmark = (a: Article) => {
+    const exists = profile.bookmarks.some((b) => b.id === a.id);
+    updateProfile({
+      ...profile,
+      bookmarks: exists
+        ? profile.bookmarks.filter((b) => b.id !== a.id)
+        : [a, ...profile.bookmarks],
+    });
+    setMenuArticle(null);
+    showToast(exists ? "あとで読むから削除しました" : "あとで読むに保存しました");
+  };
+
+  const shareArticle = async (a: Article) => {
+    setMenuArticle(null);
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: a.title, url: a.link });
+      } else {
+        await navigator.clipboard.writeText(a.link);
+        showToast("リンクをコピーしました");
+      }
+    } catch {
+      // 共有キャンセルは何もしない
+    }
+  };
+
+  const isBookmarked = (a: Article) => profile.bookmarks.some((b) => b.id === a.id);
+
+  // ---- フィード ----
+
+  const recommended = useMemo(() => {
+    return articles
+      .filter((a) => !profile.hiddenIDs.includes(a.id))
+      .map((a) => [a, scoreArticle(profile, a)] as const)
+      .sort((x, y) => y[1] - x[1])
+      .map(([a]) => a);
+  }, [articles, profile]);
+
+  const feedArticles =
+    feed === "forYou"
+      ? recommended
+      : articles.filter((a) => a.category === feed && !profile.hiddenIDs.includes(a.id));
+
+  const searchResults = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return articles.filter((a) => a.title.toLowerCase().includes(q));
+  }, [articles, query]);
+
+  // ---- 描画 ----
+
+  const row = (a: Article) => (
+    <ArticleRow
+      key={a.id}
+      article={a}
+      read={profile.readIDs.includes(a.id)}
+      bookmarked={isBookmarked(a)}
+      onOpen={() => markRead(a)}
+      onMenu={() => setMenuArticle(a)}
+    />
+  );
+
+  return (
+    <div className="pn-root">
+      {tab === "news" && (
+        <>
+          <header className="pn-header">
+            <h1 className="pn-logo">
+              Prism<span>.</span>
+            </h1>
+            <span className="pn-date">
+              {new Date().toLocaleDateString("ja-JP", {
+                month: "long",
+                day: "numeric",
+                weekday: "short",
+              })}
+            </span>
+          </header>
+
+          <div className="pn-chips">
+            <button
+              className={feed === "forYou" ? "pn-chip pn-chip-on" : "pn-chip"}
+              onClick={() => setFeed("forYou")}
+            >
+              ✦ おすすめ
+            </button>
+            {CATEGORIES.map((c) => (
+              <button
+                key={c.id}
+                className={feed === c.id ? "pn-chip pn-chip-on" : "pn-chip"}
+                onClick={() => setFeed(c.id)}
+              >
+                {c.name}
+              </button>
+            ))}
+          </div>
+
+          <main className="pn-list">
+            {fetching && articles.length === 0 && (
+              <div className="pn-skeletons">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="pn-skeleton" />
+                ))}
+              </div>
+            )}
+            {fetchError && articles.length === 0 && !fetching && (
+              <div className="pn-empty">
+                <p>記事を取得できませんでした</p>
+                <button className="pn-btn" onClick={() => void refresh()}>
+                  再読み込み
+                </button>
+              </div>
+            )}
+            {feed === "forYou" && feedArticles[0] && (
+              <Hero
+                article={feedArticles[0]}
+                onOpen={() => markRead(feedArticles[0])}
+                onMenu={() => setMenuArticle(feedArticles[0])}
+              />
+            )}
+            {(feed === "forYou" ? feedArticles.slice(1, 80) : feedArticles).map(row)}
+            {!fetching && articles.length > 0 && (
+              <button className="pn-btn pn-refresh" onClick={() => void refresh()}>
+                最新のニュースに更新
+              </button>
+            )}
+          </main>
+        </>
+      )}
+
+      {tab === "search" && (
+        <main className="pn-pane">
+          <div className="pn-search">
+            <input
+              type="search"
+              placeholder="キーワードで探す"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+          {query.trim() === "" ? (
+            profile.followedKeywords.length > 0 ? (
+              <>
+                <p className="pn-section">フォロー中のキーワード</p>
+                <div className="pn-kwchips">
+                  {profile.followedKeywords.map((k) => (
+                    <button key={k} className="pn-chip" onClick={() => setQuery(k)}>
+                      {k}
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="pn-empty">
+                <p>気になる話題を検索してみましょう</p>
+              </div>
+            )
+          ) : searchResults.length > 0 ? (
+            searchResults.map(row)
+          ) : (
+            <div className="pn-empty">
+              <p>「{query.trim()}」に一致する記事が見つかりません</p>
+            </div>
+          )}
+        </main>
+      )}
+
+      {tab === "saved" && (
+        <main className="pn-pane">
+          <header className="pn-header">
+            <h1 className="pn-logo">あとで読む</h1>
+            <span className="pn-date">{profile.bookmarks.length}件</span>
+          </header>
+          {profile.bookmarks.length === 0 ? (
+            <div className="pn-empty">
+              <p>記事の「⋯」から「あとで読む」に保存できます</p>
+            </div>
+          ) : (
+            profile.bookmarks.map(row)
+          )}
+        </main>
+      )}
+
+      {tab === "settings" && (
+        <main className="pn-pane pn-settings">
+          <header className="pn-header">
+            <h1 className="pn-logo">設定</h1>
+          </header>
+
+          <p className="pn-section">興味のあるジャンル</p>
+          <div className="pn-kwchips">
+            {CATEGORIES.map((c) => {
+              const on = profile.interests.includes(c.id);
+              return (
+                <button
+                  key={c.id}
+                  className={on ? "pn-chip pn-chip-on" : "pn-chip"}
+                  onClick={() =>
+                    updateProfile({
+                      ...profile,
+                      interests: on
+                        ? profile.interests.filter((i) => i !== c.id)
+                        : [...profile.interests, c.id],
+                    })
+                  }
+                >
+                  {on ? "✓ " : ""}
+                  {c.name}
+                </button>
+              );
+            })}
+          </div>
+
+          <p className="pn-section">フォロー中のキーワード（タップで削除）</p>
+          <div className="pn-kwchips">
+            {profile.followedKeywords.map((k) => (
+              <button
+                key={k}
+                className="pn-chip"
+                onClick={() => {
+                  updateProfile({
+                    ...profile,
+                    followedKeywords: profile.followedKeywords.filter((x) => x !== k),
+                  });
+                  showToast(`「${k}」のフォローを外しました`);
+                }}
+              >
+                {k} ×
+              </button>
+            ))}
+          </div>
+          <div className="pn-kwadd">
+            <input
+              type="text"
+              placeholder="キーワードを追加（例：生成AI）"
+              value={newKeyword}
+              onChange={(e) => setNewKeyword(e.target.value)}
+            />
+            <button
+              className="pn-btn"
+              disabled={newKeyword.trim() === ""}
+              onClick={() => {
+                const k = newKeyword.trim();
+                if (k && !profile.followedKeywords.includes(k)) {
+                  updateProfile({
+                    ...profile,
+                    followedKeywords: [...profile.followedKeywords, k],
+                  });
+                }
+                setNewKeyword("");
+              }}
+            >
+              追加
+            </button>
+          </div>
+
+          <p className="pn-section">学習データ</p>
+          <button
+            className="pn-btn pn-btn-danger"
+            onClick={() => {
+              if (confirm("いいね・興味なし・閲覧履歴から学習したデータをリセットしますか？（ブックマークは残ります）")) {
+                updateProfile({
+                  ...profile,
+                  categoryWeights: {},
+                  keywordWeights: {},
+                  readIDs: [],
+                  likedIDs: [],
+                  hiddenIDs: [],
+                });
+                showToast("学習データをリセットしました");
+              }
+            }}
+          >
+            学習データをリセット
+          </button>
+          <p className="pn-note">
+            データソース：Yahoo!ニュース RSS ／
+            学習データはすべてこの端末のブラウザ内に保存され、外部送信されません。
+          </p>
+
+          <p className="pn-section">ホーム画面に追加（アプリ化）</p>
+          <p className="pn-note">
+            Safariの共有ボタン（□↑）→「ホーム画面に追加」で、アプリのように全画面で使えます。
+          </p>
+        </main>
+      )}
+
+      <nav className="pn-tabbar">
+        {(
+          [
+            ["news", "ニュース", "📰"],
+            ["search", "検索", "🔍"],
+            ["saved", "あとで読む", "🔖"],
+            ["settings", "設定", "⚙️"],
+          ] as [Tab, string, string][]
+        ).map(([id, label, icon]) => (
+          <button
+            key={id}
+            className={tab === id ? "pn-tab pn-tab-on" : "pn-tab"}
+            onClick={() => setTab(id)}
+          >
+            <span className="pn-tab-icon">{icon}</span>
+            <span>{label}</span>
+          </button>
+        ))}
+      </nav>
+
+      {menuArticle && (
+        <div className="pn-sheet-backdrop" onClick={() => setMenuArticle(null)}>
+          <div className="pn-sheet" onClick={(e) => e.stopPropagation()}>
+            <p className="pn-sheet-title">{menuArticle.title}</p>
+            <button onClick={() => likeArticle(menuArticle)}>
+              👍 いいね（似た記事を増やす）
+            </button>
+            <button onClick={() => toggleBookmark(menuArticle)}>
+              {isBookmarked(menuArticle) ? "🔖 あとで読むから削除" : "🔖 あとで読む"}
+            </button>
+            <button onClick={() => void shareArticle(menuArticle)}>↗️ 共有</button>
+            <button className="pn-danger" onClick={() => hideArticle(menuArticle)}>
+              👎 興味なし（似た記事を減らす）
+            </button>
+            <button className="pn-cancel" onClick={() => setMenuArticle(null)}>
+              キャンセル
+            </button>
+          </div>
+        </div>
+      )}
+
+      {toast && <div className="pn-toast">{toast}</div>}
+
+      {profileLoaded && !profile.hasOnboarded && (
+        <Onboarding
+          onDone={(interests, keywords) =>
+            updateProfile({
+              ...profile,
+              hasOnboarded: true,
+              interests,
+              followedKeywords: keywords,
+            })
+          }
+        />
+      )}
+    </div>
+  );
+}
+
+// ---- 部品 ----
+
+function Thumb({ article, large }: { article: Article; large?: boolean }) {
+  return (
+    <div className={large ? "pn-thumb pn-thumb-lg" : "pn-thumb"}>
+      {/* og:imageが無い記事はonErrorで非表示にし、下のグラデ背景を見せる */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        loading="lazy"
+        src={`/api/ogimage?url=${encodeURIComponent(article.link)}`}
+        alt=""
+        onError={(e) => {
+          e.currentTarget.style.display = "none";
+        }}
+      />
+    </div>
+  );
+}
+
+function ArticleRow({
+  article,
+  read,
+  bookmarked,
+  onOpen,
+  onMenu,
+}: {
+  article: Article;
+  read: boolean;
+  bookmarked: boolean;
+  onOpen: () => void;
+  onMenu: () => void;
+}) {
+  return (
+    <div className="pn-row">
+      <a
+        className="pn-row-main"
+        href={article.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onOpen}
+      >
+        <div className="pn-row-text">
+          <h3 className={read ? "pn-title pn-read" : "pn-title"}>{article.title}</h3>
+          <div className="pn-meta">
+            <span className="pn-cat">{CATEGORY_NAME[article.category]}</span>
+            <span>{article.source}</span>
+            {article.publishedAt && <span>{timeAgo(article.publishedAt)}</span>}
+            {bookmarked && <span className="pn-bm">🔖</span>}
+          </div>
+        </div>
+        <Thumb article={article} />
+      </a>
+      <button className="pn-more" onClick={onMenu} aria-label="記事メニュー">
+        ⋯
+      </button>
+    </div>
+  );
+}
+
+function Hero({
+  article,
+  onOpen,
+  onMenu,
+}: {
+  article: Article;
+  onOpen: () => void;
+  onMenu: () => void;
+}) {
+  return (
+    <div className="pn-hero">
+      <a href={article.link} target="_blank" rel="noopener noreferrer" onClick={onOpen}>
+        <Thumb article={article} large />
+        <div className="pn-hero-overlay" />
+        <div className="pn-hero-body">
+          <span className="pn-hero-badge">✦ あなたへのおすすめ</span>
+          <h2>{article.title}</h2>
+          <div className="pn-meta pn-meta-light">
+            <span className="pn-cat">{CATEGORY_NAME[article.category]}</span>
+            <span>{article.source}</span>
+            {article.publishedAt && <span>{timeAgo(article.publishedAt)}</span>}
+          </div>
+        </div>
+      </a>
+      <button className="pn-more pn-hero-more" onClick={onMenu} aria-label="記事メニュー">
+        ⋯
+      </button>
+    </div>
+  );
+}
+
+function Onboarding({
+  onDone,
+}: {
+  onDone: (interests: Category[], keywords: string[]) => void;
+}) {
+  const [selected, setSelected] = useState<Category[]>(["top"]);
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [input, setInput] = useState("");
+
+  const addKeyword = () => {
+    const k = input.trim();
+    if (k && !keywords.includes(k)) setKeywords([...keywords, k]);
+    setInput("");
+  };
+
+  return (
+    <div className="pn-onboarding">
+      <h1 className="pn-logo pn-logo-xl">
+        Prism<span>.</span>
+      </h1>
+      <p className="pn-lead">
+        あなたの興味に合わせて、毎日のニュースを自動で厳選します。読むほどに、おすすめが賢くなります。
+      </p>
+
+      <p className="pn-section">気になるジャンルを選んでください</p>
+      <div className="pn-kwchips">
+        {CATEGORIES.map((c) => {
+          const on = selected.includes(c.id);
+          return (
+            <button
+              key={c.id}
+              className={on ? "pn-chip pn-chip-on" : "pn-chip"}
+              onClick={() =>
+                setSelected(on ? selected.filter((i) => i !== c.id) : [...selected, c.id])
+              }
+            >
+              {c.name}
+            </button>
+          );
+        })}
+      </div>
+
+      <p className="pn-section">フォローするキーワード（任意）</p>
+      <div className="pn-kwadd">
+        <input
+          type="text"
+          placeholder="例：生成AI、大谷翔平、半導体"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") addKeyword();
+          }}
+        />
+        <button className="pn-btn" disabled={input.trim() === ""} onClick={addKeyword}>
+          追加
+        </button>
+      </div>
+      {keywords.length > 0 && (
+        <div className="pn-kwchips">
+          {keywords.map((k) => (
+            <button
+              key={k}
+              className="pn-chip"
+              onClick={() => setKeywords(keywords.filter((x) => x !== k))}
+            >
+              {k} ×
+            </button>
+          ))}
+        </div>
+      )}
+
+      <button
+        className="pn-btn pn-btn-primary"
+        disabled={selected.length === 0}
+        onClick={() => onDone(selected, keywords)}
+      >
+        はじめる
+      </button>
+    </div>
+  );
+}
