@@ -551,9 +551,9 @@ export default function NewsApp() {
 function Thumb({ article, large }: { article: Article; large?: boolean }) {
   return (
     <div className={large ? "pn-thumb pn-thumb-lg" : "pn-thumb"}>
-      {/* og:image取得はYahoo記事のみ（検索結果はリダイレクトURLのため取得不可）。
-          画像が無い場合はonErrorで非表示にし、下のグラデ背景を見せる */}
-      {article.category !== "search" && (
+      {/* og:imageが取れない記事はonErrorで非表示にし、下のグラデ背景を見せる。
+          Google News経由の中継URLだけは取得不可のためスキップ */}
+      {!article.link.startsWith("https://news.google.com/") && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           loading="lazy"
