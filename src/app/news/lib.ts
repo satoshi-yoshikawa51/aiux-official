@@ -37,6 +37,7 @@ export type Article = {
   category: Category;
   source: string;
   publishedAt: string | null;
+  imageURL?: string | null; // RSSに画像が含まれる場合（Bing検索結果など）
 };
 
 export type Profile = {

@@ -549,15 +549,21 @@ export default function NewsApp() {
 // ---- 部品 ----
 
 function Thumb({ article, large }: { article: Article; large?: boolean }) {
+  // RSS付属の画像（Bing検索結果）を最優先。無ければ記事ページのog:imageを
+  // /api/ogimage 経由で取得する。Google News経由の中継URLだけは取得不可のためスキップ。
+  const src = article.imageURL
+    ? article.imageURL
+    : article.link.startsWith("https://news.google.com/")
+      ? null
+      : `/api/ogimage?url=${encodeURIComponent(article.link)}`;
   return (
     <div className={large ? "pn-thumb pn-thumb-lg" : "pn-thumb"}>
-      {/* og:imageが取れない記事はonErrorで非表示にし、下のグラデ背景を見せる。
-          Google News経由の中継URLだけは取得不可のためスキップ */}
-      {!article.link.startsWith("https://news.google.com/") && (
+      {/* 画像が取れない記事はonErrorで非表示にし、下のグラデ背景を見せる */}
+      {src && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           loading="lazy"
-          src={`/api/ogimage?url=${encodeURIComponent(article.link)}`}
+          src={src}
           alt=""
           onError={(e) => {
             e.currentTarget.style.display = "none";
