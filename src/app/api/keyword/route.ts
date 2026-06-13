@@ -20,6 +20,7 @@ type SearchArticle = {
   category: "search";
   source: string;
   publishedAt: string | null;
+  imageURL: string | null;
 };
 
 function decodeEntities(s: string): string {
@@ -42,7 +43,8 @@ function toArticle(
   title: string,
   link: string,
   pubDate: string,
-  source: string
+  source: string,
+  imageURL: string | null = null
 ): SearchArticle | null {
   if (!title || !link.startsWith("http")) return null;
   const date = new Date(pubDate);
@@ -53,6 +55,7 @@ function toArticle(
     category: "search",
     source,
     publishedAt: isNaN(date.getTime()) ? null : date.toISOString(),
+    imageURL,
   };
 }
 
@@ -109,11 +112,14 @@ async function fetchBingNews(q: string): Promise<SearchArticle[]> {
       } catch {
         // そのまま使う
       }
+      // Bing RSSはサムネイル画像URL（News:Image）を直接含んでいる
+      const image = pickTag(block, "News:Image");
       const article = toArticle(
         pickTag(block, "title"),
         link,
         pickTag(block, "pubDate"),
-        pickTag(block, "News:Source") || "Bing News"
+        pickTag(block, "News:Source") || "Bing News",
+        image.startsWith("https://") ? image : null
       );
       if (article) articles.push(article);
       if (articles.length >= 30) break;
