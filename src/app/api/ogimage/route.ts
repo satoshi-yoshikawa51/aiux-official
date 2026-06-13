@@ -1,8 +1,28 @@
 import { NextResponse } from "next/server";
 
-// Yahoo!ニュースのRSSにはサムネイルが含まれないため、
-// 記事ページのOGP（og:image）を取り出して画像URLへリダイレクトする。
-// SSRF防止のため news.yahoo.co.jp のみ許可。1時間キャッシュ。
+// RSSにはサムネイルが含まれないため、記事ページのOGP（og:image）を
+// 取り出して画像URLへリダイレクトする。Yahoo!ニュースに加え、
+// キーワード検索（Bing/Google News）で出る一般ニュースサイトにも対応。
+// SSRF防止のため https・公開ホスト名のみ許可。1時間キャッシュ。
+
+const BROWSER_HEADERS = {
+  "User-Agent":
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1",
+  Accept: "text/html, */*",
+  "Accept-Language": "ja",
+};
+
+function isAllowedTarget(u: URL): boolean {
+  if (u.protocol !== "https:") return false;
+  if (u.port && u.port !== "443") return false;
+  if (u.username || u.password) return false;
+  const host = u.hostname.toLowerCase();
+  if (host === "localhost" || host.endsWith(".local") || host.endsWith(".internal")) return false;
+  if (/^\d+\.\d+\.\d+\.\d+$/.test(host)) return false; // IPv4リテラル
+  if (host.includes(":")) return false; // IPv6リテラル
+  if (!host.includes(".")) return false;
+  return true;
+}
 
 export async function GET(request: Request) {
   const raw = new URL(request.url).searchParams.get("url") ?? "";
@@ -12,18 +32,22 @@ export async function GET(request: Request) {
   } catch {
     return new NextResponse("invalid url", { status: 400 });
   }
-  if (target.protocol !== "https:" || target.hostname !== "news.yahoo.co.jp") {
+  if (!isAllowedTarget(target)) {
     return new NextResponse("forbidden host", { status: 400 });
   }
 
   try {
-    const res = await fetch(target.toString(), { next: { revalidate: 3600 } });
+    const res = await fetch(target.toString(), {
+      headers: BROWSER_HEADERS,
+      next: { revalidate: 3600 },
+    });
     if (!res.ok) return new NextResponse("fetch failed", { status: 404 });
     // og:imageはhead内にあるので先頭部分だけ見れば十分
-    const html = (await res.text()).slice(0, 200000);
+    const html = (await res.text()).slice(0, 300000);
     const match =
       html.match(/property="og:image"[^>]*content="([^"]+)"/) ??
-      html.match(/content="([^"]+)"[^>]*property="og:image"/);
+      html.match(/content="([^"]+)"[^>]*property="og:image"/) ??
+      html.match(/name="twitter:image"[^>]*content="([^"]+)"/);
     const image = match?.[1]?.replace(/&amp;/g, "&");
     if (!image || !image.startsWith("https://")) {
       return new NextResponse("no og:image", { status: 404 });

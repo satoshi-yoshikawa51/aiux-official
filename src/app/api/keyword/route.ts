@@ -128,11 +128,13 @@ export async function GET(request: Request) {
   const q = (new URL(request.url).searchParams.get("q") ?? "").trim().slice(0, 60);
   if (!q) return NextResponse.json({ articles: [], provider: "none" });
 
-  let articles = await fetchGoogleNews(q);
-  let provider = "google";
+  // Bingを優先する: 実記事URLが取れるためサムネイル（og:image）を取得できる。
+  // Google Newsのリンクは中継ページのURLでサムネイルが取れない。
+  let articles = await fetchBingNews(q);
+  let provider = "bing";
   if (articles.length === 0) {
-    articles = await fetchBingNews(q);
-    provider = articles.length > 0 ? "bing" : "none";
+    articles = await fetchGoogleNews(q);
+    provider = articles.length > 0 ? "google" : "none";
   }
 
   return NextResponse.json(
