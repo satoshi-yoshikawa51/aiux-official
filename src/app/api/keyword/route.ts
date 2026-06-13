@@ -6,9 +6,11 @@ import { NextResponse } from "next/server";
 // データセンターからのアクセスがbot扱いされないようブラウザ相当のUAを付ける。
 // 10分キャッシュ。`debug=1` で生RSSの先頭アイテムを確認できる。
 
+// 注意: モバイルUAだとBingがformat=rssを無視してHTMLを返すため、
+// デスクトップブラウザ相当のUAを使う
 const BROWSER_HEADERS = {
   "User-Agent":
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
   Accept: "application/rss+xml, application/xml, text/xml, */*",
   "Accept-Language": "ja",
 };
@@ -95,7 +97,8 @@ async function fetchFeed(
       next: { revalidate: 600 },
     });
     if (!res.ok) return { articles: [], status: res.status, rawFirstItem: null };
-    const xml = await res.text();
+    // 文字コード誤判定による文字化けを防ぐため、UTF-8として強制デコードする
+    const xml = new TextDecoder("utf-8").decode(await res.arrayBuffer());
     const articles: SearchArticle[] = [];
     let rawFirstItem: string | null = null;
     for (const match of xml.matchAll(/<item[ >]([\s\S]*?)<\/item>/g)) {
