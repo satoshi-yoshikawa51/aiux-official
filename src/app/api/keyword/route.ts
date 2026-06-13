@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 
 // フォロー中キーワードのタブと検索タブ用。
-// Google News RSS検索（APIキー不要・日本語対応）で横断検索し、
-// 失敗・0件のときはBing News RSSに自動フォールバックする。
+// Bing News RSS（実記事URL・サムネイル付き）を優先し、
+// 失敗・0件のときはGoogle News RSSにフォールバックする。
 // データセンターからのアクセスがbot扱いされないようブラウザ相当のUAを付ける。
-// 10分キャッシュ。
+// 10分キャッシュ。`debug=1` で生RSSの先頭アイテムを確認できる。
 
 const BROWSER_HEADERS = {
   "User-Agent":
@@ -23,6 +23,12 @@ type SearchArticle = {
   imageURL: string | null;
 };
 
+type FetchResult = {
+  articles: SearchArticle[];
+  status: number;
+  rawFirstItem: string | null;
+};
+
 function decodeEntities(s: string): string {
   return s
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
@@ -35,8 +41,28 @@ function decodeEntities(s: string): string {
 }
 
 function pickTag(block: string, tag: string): string {
-  const m = block.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`));
+  const m = block.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, "i"));
   return m ? decodeEntities(m[1]) : "";
+}
+
+// RSSで画像が入りうる場所を順に探す
+function pickImage(block: string): string | null {
+  const candidates = [
+    block.match(/<News:Image[^>]*>([\s\S]*?)<\/News:Image>/i)?.[1],
+    block.match(/<media:thumbnail[^>]*url="([^"]+)"/i)?.[1],
+    block.match(/<media:content[^>]*url="([^"]+)"/i)?.[1],
+    block.match(/<enclosure[^>]*url="([^"]+)"[^>]*type="image/i)?.[1],
+    block.match(/<img[^>]*src=&quot;([^&]+)&quot;/i)?.[1],
+    block.match(/<img[^>]*src="([^"]+)"/i)?.[1],
+  ];
+  for (const c of candidates) {
+    if (!c) continue;
+    const url = decodeEntities(c).trim();
+    if (url.startsWith("https://")) return url;
+    if (url.startsWith("http://")) return "https://" + url.slice(7);
+    if (url.startsWith("//")) return "https:" + url;
+  }
+  return null;
 }
 
 function toArticle(
@@ -44,7 +70,7 @@ function toArticle(
   link: string,
   pubDate: string,
   source: string,
-  imageURL: string | null = null
+  imageURL: string | null
 ): SearchArticle | null {
   if (!title || !link.startsWith("http")) return null;
   const date = new Date(pubDate);
@@ -59,92 +85,106 @@ function toArticle(
   };
 }
 
-async function fetchGoogleNews(q: string): Promise<SearchArticle[]> {
+async function fetchFeed(
+  rssURL: string,
+  mapItem: (block: string) => SearchArticle | null
+): Promise<FetchResult> {
   try {
-    const rssURL = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=ja&gl=JP&ceid=JP:ja`;
     const res = await fetch(rssURL, {
       headers: BROWSER_HEADERS,
       next: { revalidate: 600 },
     });
-    if (!res.ok) return [];
+    if (!res.ok) return { articles: [], status: res.status, rawFirstItem: null };
     const xml = await res.text();
     const articles: SearchArticle[] = [];
-    for (const match of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
-      const block = match[1];
-      const source = pickTag(block, "source");
-      let title = pickTag(block, "title");
-      // Google Newsのタイトルは「記事タイトル - メディア名」形式なので末尾を落とす
-      if (source && title.endsWith(` - ${source}`)) {
-        title = title.slice(0, -(source.length + 3)).trim();
-      }
-      const article = toArticle(
-        title,
-        pickTag(block, "link"),
-        pickTag(block, "pubDate"),
-        source || "Google News"
-      );
+    let rawFirstItem: string | null = null;
+    for (const match of xml.matchAll(/<item[ >]([\s\S]*?)<\/item>/g)) {
+      if (rawFirstItem === null) rawFirstItem = match[1].slice(0, 2000);
+      const article = mapItem(match[1]);
       if (article) articles.push(article);
       if (articles.length >= 30) break;
     }
-    return articles;
+    // <item>属性なし形式にも対応
+    if (articles.length === 0) {
+      for (const match of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
+        if (rawFirstItem === null) rawFirstItem = match[1].slice(0, 2000);
+        const article = mapItem(match[1]);
+        if (article) articles.push(article);
+        if (articles.length >= 30) break;
+      }
+    }
+    return { articles, status: res.status, rawFirstItem };
   } catch {
-    return [];
+    return { articles: [], status: 0, rawFirstItem: null };
   }
 }
 
-async function fetchBingNews(q: string): Promise<SearchArticle[]> {
+function mapBingItem(block: string): SearchArticle | null {
+  // Bingのリンクはリダイレクト用URL（url=パラメータに実URL）
+  let link = pickTag(block, "link");
   try {
-    const rssURL = `https://www.bing.com/news/search?q=${encodeURIComponent(q)}&format=rss&setmkt=ja-JP`;
-    const res = await fetch(rssURL, {
-      headers: BROWSER_HEADERS,
-      next: { revalidate: 600 },
-    });
-    if (!res.ok) return [];
-    const xml = await res.text();
-    const articles: SearchArticle[] = [];
-    for (const match of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
-      const block = match[1];
-      // Bingのリンクはリダイレクト用URL（url=パラメータに実URL）
-      let link = pickTag(block, "link");
-      try {
-        const real = new URL(link).searchParams.get("url");
-        if (real && real.startsWith("http")) link = real;
-      } catch {
-        // そのまま使う
-      }
-      // Bing RSSはサムネイル画像URL（News:Image）を直接含んでいる
-      const image = pickTag(block, "News:Image");
-      const article = toArticle(
-        pickTag(block, "title"),
-        link,
-        pickTag(block, "pubDate"),
-        pickTag(block, "News:Source") || "Bing News",
-        image.startsWith("https://") ? image : null
-      );
-      if (article) articles.push(article);
-      if (articles.length >= 30) break;
-    }
-    return articles;
+    const real = new URL(link).searchParams.get("url");
+    if (real && real.startsWith("http")) link = real;
   } catch {
-    return [];
+    // そのまま使う
   }
+  return toArticle(
+    pickTag(block, "title"),
+    link,
+    pickTag(block, "pubDate"),
+    pickTag(block, "News:Source") || "Bing News",
+    pickImage(block)
+  );
+}
+
+function mapGoogleItem(block: string): SearchArticle | null {
+  const source = pickTag(block, "source");
+  let title = pickTag(block, "title");
+  // Google Newsのタイトルは「記事タイトル - メディア名」形式なので末尾を落とす
+  if (source && title.endsWith(` - ${source}`)) {
+    title = title.slice(0, -(source.length + 3)).trim();
+  }
+  return toArticle(
+    title,
+    pickTag(block, "link"),
+    pickTag(block, "pubDate"),
+    source || "Google News",
+    pickImage(block)
+  );
 }
 
 export async function GET(request: Request) {
-  const q = (new URL(request.url).searchParams.get("q") ?? "").trim().slice(0, 60);
+  const params = new URL(request.url).searchParams;
+  const q = (params.get("q") ?? "").trim().slice(0, 60);
+  const debug = params.get("debug") === "1";
   if (!q) return NextResponse.json({ articles: [], provider: "none" });
 
-  // Bingを優先する: 実記事URLが取れるためサムネイル（og:image）を取得できる。
-  // Google Newsのリンクは中継ページのURLでサムネイルが取れない。
-  let articles = await fetchBingNews(q);
+  const bingURL = `https://www.bing.com/news/search?q=${encodeURIComponent(q)}&format=rss&setmkt=ja-JP`;
+  const googleURL = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=ja&gl=JP&ceid=JP:ja`;
+
+  const bing = await fetchFeed(bingURL, mapBingItem);
+  let chosen = bing;
   let provider = "bing";
-  if (articles.length === 0) {
-    articles = await fetchGoogleNews(q);
-    provider = articles.length > 0 ? "google" : "none";
+  let google: FetchResult | null = null;
+  if (bing.articles.length === 0) {
+    google = await fetchFeed(googleURL, mapGoogleItem);
+    chosen = google;
+    provider = google.articles.length > 0 ? "google" : "none";
+  }
+
+  if (debug) {
+    return NextResponse.json({
+      provider,
+      bing: { status: bing.status, count: bing.articles.length, rawFirstItem: bing.rawFirstItem },
+      google: google
+        ? { status: google.status, count: google.articles.length, rawFirstItem: google.rawFirstItem }
+        : "(未使用: bingで取得成功)",
+      sample: chosen.articles[0] ?? null,
+    });
   }
 
   return NextResponse.json(
-    { articles, provider },
+    { articles: chosen.articles, provider },
     {
       headers: {
         "Cache-Control": "public, s-maxage=600, stale-while-revalidate=1200",
