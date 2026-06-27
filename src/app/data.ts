@@ -125,7 +125,7 @@ export const WORKS: Work[] = [
   {
     category: "ゲーム",
     title: "Claude Code Quest ライト版",
-    desc: "Claude Code Questをぎゅっとまとめた、軽くて手軽なWeb版。",
+    desc: "コマンドを入力せず、選択肢から選んで進める。気軽に遊べるかんたん版。",
     url: "https://claude-code-quest-v2.vercel.app/",
     image: "/works/ccq-lite.png",
     tone: "ink",
