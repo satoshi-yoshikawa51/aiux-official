@@ -154,6 +154,7 @@ function HeroActionsLight() {
 /* ═══════════════ Hero（YouTube背景動画） ═══════════════ */
 function HeroVideo() {
   const [failed, setFailed] = React.useState(false);
+  const [playing, setPlaying] = React.useState(false);
   React.useEffect(() => {
     let player: any;
     function create() {
@@ -178,6 +179,14 @@ function HeroVideo() {
               try {
                 e.target.mute();
                 e.target.playVideo();
+              } catch {}
+            },
+            onStateChange: (e: any) => {
+              try {
+                // 実際に再生が始まったら（PLAYING=1）動画を表示。
+                // それまではバナー静止画のままにして、YouTubeの
+                // 再生/一時停止オーバーレイやロゴを見せない。
+                if (e.data === 1) setPlaying(true);
               } catch {}
             },
             onError: () => setFailed(true),
@@ -216,7 +225,7 @@ function HeroVideo() {
       <div className="hero-media">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="hero-fallback" src={BANNER} alt="AI＆UX" />
-        <div style={{ position: "absolute", inset: 0, opacity: failed ? 0 : 1, transition: "opacity .4s ease" }}>
+        <div style={{ position: "absolute", inset: 0, opacity: playing && !failed ? 1 : 0, transition: "opacity .5s ease" }}>
           <div id="yt-hero" />
         </div>
         <div
