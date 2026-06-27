@@ -12,6 +12,5 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
     sitemap: "https://comixai.dev/sitemap.xml",
-    host: "https://comixai.dev",
   };
 }
