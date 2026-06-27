@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { BANNER } from "./data";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "吉川 聡史 | AI＆UX — オフィシャルサイト",
+  metadataBase: new URL("https://aiux-official.vercel.app"),
+  title: "吉川 聡史 | COMIXAI — オフィシャルサイト",
   description:
     "AIクリエイター・漫画家・UXディレクター 吉川聡史のオフィシャルサイト。noteの連載マンガでAI活用を面白く、わかりやすく。",
   openGraph: {
-    title: "吉川 聡史 | AI＆UX — オフィシャルサイト",
-    description:
-      "AIクリエイター・漫画家・UXディレクター 吉川聡史のオフィシャルサイト。noteの連載マンガでAI活用を面白く、わかりやすく。",
+    title: "吉川 聡史 | COMIXAI",
+    description: "AIを、面白く。わかりやすく。マンガ×UXでAI活用を伝える。",
     type: "website",
     locale: "ja_JP",
-    images: [BANNER],
+    images: ["/ogp.png"],
   },
   twitter: {
     card: "summary_large_image",

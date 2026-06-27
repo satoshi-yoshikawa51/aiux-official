@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-// ブラウザのタブに出るファビコン（AI＆UX マンガ調マーク）
+// ブラウザのタブに出るファビコン（COMIXAI モノグラム：C=インク黒 / M=赤）
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
@@ -23,8 +23,8 @@ export default function Icon() {
           letterSpacing: -1,
         }}
       >
-        <span>AI</span>
-        <span style={{ color: "#E60012" }}>&</span>
+        <span>C</span>
+        <span style={{ color: "#E60012" }}>M</span>
       </div>
     ),
     { ...size }

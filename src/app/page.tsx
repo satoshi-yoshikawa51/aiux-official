@@ -74,7 +74,7 @@ function Nav() {
               flex: "none",
             }}
           >
-            AI<span style={{ color: "var(--red-500)" }}>＆</span>UX
+            CO<span style={{ color: "var(--red-500)" }}>MIX</span>AI
           </span>
           <span style={{ fontFamily: "var(--font-hand)", fontSize: 14, color: "var(--text-muted)", whiteSpace: "nowrap", flex: "none" }}>
             吉川 聡史
@@ -162,7 +162,7 @@ function HeroVideo() {
     <section className="hero-video" style={{ borderBottom: "var(--bw-heavy) solid var(--ink-900)" }}>
       <div className="hero-media">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="hero-fallback" src={BANNER} alt="AI＆UX" />
+        <img className="hero-fallback" src={BANNER} alt="COMIXAI" />
         <video
           ref={videoRef}
           className="hero-bg-video"
@@ -773,7 +773,7 @@ function Footer() {
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0 34px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, flexWrap: "wrap" }}>
         <div>
           <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 24, color: "var(--paper-50)" }}>
-            AI<span style={{ color: "var(--red-500)" }}>＆</span>UX{" "}
+            CO<span style={{ color: "var(--red-500)" }}>MIX</span>AI{" "}
             <span style={{ fontFamily: "var(--font-hand)", fontSize: 16, color: "var(--paper-200)" }}>吉川 聡史</span>
           </div>
           <div style={{ fontFamily: "var(--font-hand)", fontSize: 14, marginTop: 6 }}>AIを、面白く。わかりやすく。</div>
@@ -805,7 +805,7 @@ function Footer() {
       </div>
       <div style={{ borderTop: "1px solid rgba(244,236,221,0.16)" }}>
         <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "14px 0", fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)" }}>
-          © {new Date().getFullYear()} 吉川 聡史 / AI＆UX
+          © {new Date().getFullYear()} 吉川 聡史 / COMIXAI
         </div>
       </div>
     </footer>
