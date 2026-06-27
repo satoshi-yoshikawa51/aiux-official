@@ -1,0 +1,23 @@
+{
+  "_comment": "note記事のメタ情報（カテゴリ・色・説明文・タグ）。サイトの data.ts はこのファイル＋note APIから自動生成されます。新しい記事を新着/人気に出したいのにメタが無いと警告されたら、その記事URLのエントリをここに追記してください。tone は yellow|red|ink|blue|paper のいずれか。",
+  "https://note.com/aiux_unite/n/ndd10e1acf1b1": { "badge": "3Dゲーム", "tone": "yellow", "excerpt": "手描きのイラストから、Claudeを使って3Dゲームを作り上げるまでの一部始終を公開。", "tags": ["ClaudeCode", "3D"] },
+  "https://note.com/aiux_unite/n/n750de90c0668": { "badge": "ClaudeCode", "tone": "blue", "excerpt": "Claude Codeのスマホアプリ版（Fable 5）で、通勤時間だけでニュースアプリを作ってみた記録。", "tags": ["ClaudeCode", "アプリ開発"] },
+  "https://note.com/aiux_unite/n/n480de3323d7d": { "badge": "Claude Design", "tone": "red", "excerpt": "Claude Designでデザインシステムをゼロから構築し、オフィシャルサイトを公開するまでの実践録。", "tags": ["ClaudeDesign", "デザイン"] },
+  "https://note.com/aiux_unite/n/nac0fe6e0679f": { "badge": "Claude Code", "tone": "ink", "excerpt": "GAで計測→Claudeで分析→Claude Codeで改善。データドリブンにLPとゲーム体験を磨き直した実践録。", "tags": ["ClaudeCode", "生成AI"] },
+  "https://note.com/aiux_unite/n/n169ba6bd6c1e": { "badge": "AI実践", "tone": "blue", "excerpt": "毎朝のAIニュース収集から、自分の業務をどう改善できるかの提案までを自動でCoworkにやってもらう試み。", "tags": ["Claude", "業務効率化"] },
+  "https://note.com/aiux_unite/n/n09103ac67356": { "badge": "Claude Code", "tone": "yellow", "excerpt": "新規事業開発の手法を使って、Claude Codeを遊びながら学べるゲームをゼロから企画・実装した記録。", "tags": ["ClaudeCode", "新規事業"] },
+  "https://note.com/aiux_unite/n/ndfbcb2825479": { "badge": "Claude Code", "tone": "paper", "excerpt": "複数のClaudeがチームで協力して実装する「Agent Teams」を、非エンジニア目線でゼロから試した。", "tags": ["ClaudeCode", "AgentTeams"] },
+  "https://note.com/aiux_unite/n/ndae7f58601fc": { "badge": "業務DX", "tone": "red", "excerpt": "企画・施策の承認フローをスムーズに通すためのAI活用術を、Gemini × NotebookLMの組み合わせで。", "tags": ["Gemini", "NotebookLM"] },
+  "https://note.com/aiux_unite/n/na87618c2923d": { "badge": "エッセイ", "tone": "ink", "excerpt": "AIの活用の「本質」と「流行」の両方を、AIの先にあるべきものという視点で読み解くエッセイ。", "tags": ["AI", "考察"] },
+  "https://note.com/aiux_unite/n/n39742e82cd30": { "badge": "入門編", "tone": "yellow", "excerpt": "「生成AIって、結局なに？」をマンガで解説。AIを“こわい存在”ではなく現場の相棒として迎える第一歩。", "tags": ["生成AI", "入門"] },
+  "https://note.com/aiux_unite/n/n24dc19c0ff2d": { "badge": "業務DX", "tone": "blue", "excerpt": "「Gemini」×「NotebookLM」で出来る業務フロー改善（DX）。AIでの業務改善について。", "tags": ["Gemini", "DX"] },
+  "https://note.com/aiux_unite/n/nbbdec3944965": { "badge": "入門編", "tone": "ink", "excerpt": "AIアプリ制作の流れを、わずか7ページのマンガでわかりやすく解説。", "tags": ["AIアプリ", "入門"] },
+  "https://note.com/aiux_unite/n/n9e20c3906cec": { "badge": "入門編", "tone": "red", "excerpt": "AI時代に“ものづくり”はどう変わる？　現場目線でマンガ解説。", "tags": ["ものづくり", "入門"] },
+  "https://note.com/aiux_unite/n/n3d980b7ca111": { "badge": "AI実践", "tone": "blue", "excerpt": "非エンジニアがChatGPT APIを使って、Pythonアプリの構築に挑戦した実践録。", "tags": ["ChatGPT", "Python"] },
+  "https://note.com/aiux_unite/n/n3254dbb5e6b1": { "badge": "入門編", "tone": "paper", "excerpt": "思いどおりの答えを引き出すには？　現場で効く“伝え方”のコツをマンガで。", "tags": ["プロンプト", "コツ"] },
+  "https://note.com/aiux_unite/n/n5d028f1932ed": { "badge": "動画生成", "tone": "red", "excerpt": "Canvaだけで「AI試着カメラ」のPR動画を作った制作の軌跡。", "tags": ["Canva", "動画"] },
+  "https://note.com/aiux_unite/n/naac3d48a3258": { "badge": "デザイン", "tone": "ink", "excerpt": "FigmaとClaudeをMCPでつなぎ、デザインシステムに沿ったワイヤー〜実装を自動生成するフロー。", "tags": ["Figma", "Claude"] },
+  "https://note.com/aiux_unite/n/n759b5bbfe9e2": { "badge": "動画生成", "tone": "yellow", "excerpt": "AIを使って“動く”ストーリーボードを作る方法を解説。", "tags": ["AI", "動画"] },
+  "https://note.com/aiux_unite/n/ndc6365524f2a": { "badge": "動画生成", "tone": "blue", "excerpt": "RunwayGen-3 × Midjourney × DomoAIで、漫画風の動画を生成する手順。", "tags": ["Runway", "Midjourney"] },
+  "https://note.com/aiux_unite/n/n185107973a2f": { "badge": "入門編", "tone": "red", "excerpt": "RAGとファインチューニングの違いと使いどころを、マンガでやさしく。", "tags": ["RAG", "入門"] }
+}
