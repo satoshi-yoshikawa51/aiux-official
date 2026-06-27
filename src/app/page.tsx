@@ -157,6 +157,7 @@ function HeroVideo() {
   const [playing, setPlaying] = React.useState(false);
   React.useEffect(() => {
     let player: any;
+    let revealTimer: ReturnType<typeof setTimeout> | undefined;
     function create() {
       try {
         player = new window.YT.Player("yt-hero", {
@@ -183,10 +184,13 @@ function HeroVideo() {
             },
             onStateChange: (e: any) => {
               try {
-                // 実際に再生が始まったら（PLAYING=1）動画を表示。
-                // それまではバナー静止画のままにして、YouTubeの
-                // 再生/一時停止オーバーレイやロゴを見せない。
-                if (e.data === 1) setPlaying(true);
+                // 再生が始まったら（PLAYING=1）動画を表示。ただし開始
+                // 直後はYouTubeが中央に大きな再生/一時停止オーバーレイを
+                // 一瞬出すので、それが自動で消えるまで少し待ってから
+                // フェードインする。それまではバナー静止画を見せておく。
+                if (e.data === 1 && !revealTimer) {
+                  revealTimer = setTimeout(() => setPlaying(true), 1200);
+                }
               } catch {}
             },
             onError: () => setFailed(true),
@@ -215,6 +219,7 @@ function HeroVideo() {
     }
     return () => {
       try {
+        if (revealTimer) clearTimeout(revealTimer);
         player && player.destroy();
       } catch {}
     };
