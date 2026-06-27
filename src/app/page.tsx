@@ -18,19 +18,10 @@ import {
   SOCIALS,
   FORMSPREE_ENDPOINT,
   CONTACT_EMAIL,
-  HERO_VIDEO_ID,
   BANNER,
   type Article,
   type Tone,
 } from "./data";
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-declare global {
-  interface Window {
-    YT?: any;
-    onYouTubeIframeAPIReady?: () => void;
-  }
-}
 
 const PAGE = "min(1080px, 92vw)";
 const HERO_INTRO =
@@ -151,78 +142,18 @@ function HeroActionsLight() {
   );
 }
 
-/* ═══════════════ Hero（YouTube背景動画） ═══════════════ */
+/* ═══════════════ Hero（背景動画・自前ホスト） ═══════════════ */
 function HeroVideo() {
-  const [failed, setFailed] = React.useState(false);
-  const [playing, setPlaying] = React.useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
   React.useEffect(() => {
-    let player: any;
-    let revealTimer: ReturnType<typeof setTimeout> | undefined;
-    function create() {
-      try {
-        player = new window.YT.Player("yt-hero", {
-          videoId: HERO_VIDEO_ID,
-          playerVars: {
-            autoplay: 1,
-            mute: 1,
-            controls: 0,
-            loop: 1,
-            playlist: HERO_VIDEO_ID,
-            modestbranding: 1,
-            rel: 0,
-            playsinline: 1,
-            disablekb: 1,
-            fs: 0,
-            iv_load_policy: 3,
-          },
-          events: {
-            onReady: (e: any) => {
-              try {
-                e.target.mute();
-                e.target.playVideo();
-              } catch {}
-            },
-            onStateChange: (e: any) => {
-              try {
-                // 再生が始まったら（PLAYING=1）動画を表示。ただし開始
-                // 直後はYouTubeが中央に大きな再生/一時停止オーバーレイを
-                // 一瞬出すので、それが自動で消えるまで少し待ってから
-                // フェードインする。それまではバナー静止画を見せておく。
-                if (e.data === 1 && !revealTimer) {
-                  revealTimer = setTimeout(() => setPlaying(true), 1200);
-                }
-              } catch {}
-            },
-            onError: () => setFailed(true),
-          },
-        });
-      } catch {
-        setFailed(true);
-      }
-    }
-    if (window.YT && window.YT.Player) {
-      create();
-    } else {
-      const prev = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = () => {
-        try {
-          prev && prev();
-        } catch {}
-        create();
-      };
-      if (!document.getElementById("yt-iframe-api")) {
-        const s = document.createElement("script");
-        s.id = "yt-iframe-api";
-        s.src = "https://www.youtube.com/iframe_api";
-        document.head.appendChild(s);
-      }
-    }
-    return () => {
-      try {
-        if (revealTimer) clearTimeout(revealTimer);
-        player && player.destroy();
-      } catch {}
-    };
+    // 一部ブラウザの自動再生対策として明示的に再生を試みる（失敗時は
+    // poster画像のまま）。YouTubeプレイヤーは使わないので、再生/一時停止
+    // マークやロゴなどの余計なUIは一切出ない。
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    const p = v.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
   }, []);
 
   return (
@@ -230,9 +161,18 @@ function HeroVideo() {
       <div className="hero-media">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="hero-fallback" src={BANNER} alt="AI＆UX" />
-        <div style={{ position: "absolute", inset: 0, opacity: playing && !failed ? 1 : 0, transition: "opacity .5s ease" }}>
-          <div id="yt-hero" />
-        </div>
+        <video
+          ref={videoRef}
+          className="hero-bg-video"
+          src="/hero.mp4"
+          poster="/hero-poster.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
         <div
           style={{
             position: "absolute",
