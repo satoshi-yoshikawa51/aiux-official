@@ -3,7 +3,10 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aiux-official.vercel.app"),
+  metadataBase: new URL("https://comixai.dev"),
+  alternates: {
+    canonical: "/",
+  },
   title: "吉川 聡史 | COMIXAI — オフィシャルサイト",
   description:
     "AIクリエイター・漫画家・UXディレクター 吉川聡史のオフィシャルサイト。noteの連載マンガでAI活用を面白く、わかりやすく。",

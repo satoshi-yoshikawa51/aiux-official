@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   icons: {
     apple: "/prism-icon-180.png",
   },
+  alternates: { canonical: "/news" },
   robots: { index: false },
 };
 
