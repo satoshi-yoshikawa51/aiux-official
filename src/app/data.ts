@@ -86,6 +86,65 @@ export const MAGAZINES: Magazine[] = [
   },
 ];
 
+/* —— つくったもの（ゲーム / ニュース などのプロダクト） ——
+   category でグルーピング表示。url が http で始まるものは別タブ、
+   内部リンク（/game, /news）は同タブで開く。image は public/ 配下のパス。 */
+export interface Work {
+  category: "ゲーム" | "ニュース";
+  title: string;
+  desc: string;
+  url: string;
+  image: string;
+  tone: Tone;
+  cta: string;
+  badge?: string;
+  fit?: "cover" | "contain";
+}
+
+export const WORKS: Work[] = [
+  {
+    category: "ゲーム",
+    title: "マンガから作る！3Dゲーム",
+    desc: "そらとびマスコットでコインを集める、ブラウザですぐ遊べる3Dアクション。",
+    url: "/game",
+    image: "/game/ogp.png",
+    tone: "yellow",
+    cta: "あそぶ",
+    badge: "3D",
+  },
+  {
+    category: "ゲーム",
+    title: "Claude Code Quest",
+    desc: "Claude Codeを遊びながら学べるRPG。Webディレクターが冒険する通常版。",
+    url: "https://claude-code-quest.vercel.app/",
+    image: "/works/ccq.png",
+    tone: "red",
+    cta: "あそぶ",
+    badge: "通常版",
+  },
+  {
+    category: "ゲーム",
+    title: "Claude Code Quest ライト版",
+    desc: "Claude Code Questをぎゅっとまとめた、軽くて手軽なWeb版。",
+    url: "https://claude-code-quest-v2.vercel.app/",
+    image: "/works/ccq-lite.png",
+    tone: "ink",
+    cta: "あそぶ",
+    badge: "ライト版",
+  },
+  {
+    category: "ニュース",
+    title: "Prism",
+    desc: "AIニュースをやさしく届ける、シンプルなニュースリーダー。",
+    url: "/news",
+    image: "/prism-icon-512.png",
+    tone: "blue",
+    cta: "ひらく",
+    badge: "アプリ",
+    fit: "contain",
+  },
+];
+
 /* —— 記事カセット（note RSSから取得した実データ） ——
    新着タブは date の降順で自動的に並びます。 */
 export const ARTICLES: Article[] = [
