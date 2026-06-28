@@ -642,7 +642,7 @@ function Contact() {
         <div>
           <SectionHead kicker="CONTACT — お問い合わせ" title="お仕事のご相談" />
           <p style={{ fontSize: 15.5, lineHeight: 1.95, color: "var(--text-body)", maxWidth: 380 }}>
-            講演・寄稿・制作・取材などのご相談はお気軽に。いただいた内容はメールでお届けします。
+            講演・寄稿・制作・取材などのご相談はお気軽に。いただいたご相談には、メールにて返信いたします。
           </p>
           <div style={{ marginTop: 22 }}>
             <SpeechBubble variant="say" tail="bottom-left" style={{ fontSize: 16 }}>
