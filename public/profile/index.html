@@ -401,7 +401,26 @@
 .nav-links a { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--ink-900); text-decoration: none; padding: 8px 12px; border-radius: 8px; }
 .nav-links a:hover { background: rgba(20,17,15,0.06); }
 .nav .cta { margin-left: 14px; }
-@media (max-width: 760px) { .nav-links { display: none; } .nav .cta { margin-left: auto; } }
+/* HERO左右パディング（スマホで端に詰まらないように） */
+.hero-grid { padding-left: 28px; padding-right: 28px; }
+/* ハンバーガー（モバイル用） */
+.hamburger { display: none; margin-left: auto; background: none; border: 0; padding: 6px 8px; cursor: pointer; color: var(--ink-900); font-size: 30px; line-height: 1; }
+.mobile-menu { display: none; flex-direction: column; border-top: var(--bw-line) solid var(--ink-900); background: rgba(251,247,239,0.98); }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-family: var(--font-heading); font-weight: 700; font-size: 16px; color: var(--ink-900); text-decoration: none; padding: 14px 28px; border-bottom: 1px solid rgba(20,17,15,0.08); }
+.mobile-menu a.cta-item { color: #fff; background: var(--red-500); border-bottom: 0; }
+/* フッター（トップに合わせる） */
+.foot-tag { font-family: var(--font-hand); font-size: 14px; color: var(--paper-200); margin-top: 6px; }
+.foot-social { display: flex; gap: 10px; flex-wrap: wrap; }
+.foot-social a { width: 40px; height: 40px; border-radius: 999px; border: var(--bw-line) solid var(--paper-200); display: inline-flex; align-items: center; justify-content: center; color: var(--paper-50); text-decoration: none; font-size: 18px; }
+.foot-social a:hover { background: rgba(244,236,221,0.12); }
+.foot-copy { border-top: 1px solid rgba(244,236,221,0.16); }
+.foot-copy .wrap { display: block; padding: 14px 28px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-300); }
+@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .nav .cta { display: none; }
+  .hamburger { display: inline-flex; }
+}
 </style>
 </head>
 <body>
@@ -417,7 +436,16 @@
       <a href="/#social">SNS</a>
     </div>
     <a class="btn btn-primary cta" href="/#contact"><i class="ph-bold ph-envelope-simple"></i>お問い合わせ</a>
+    <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-menu"><i class="ph-bold ph-list"></i></button>
   </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="/#articles">記事</a>
+    <a href="/#magazines">マガジン</a>
+    <a href="/#works">WORKS</a>
+    <a href="/#profile">プロフィール</a>
+    <a href="/#social">SNS</a>
+    <a class="cta-item" href="/#contact"><i class="ph-bold ph-envelope-simple"></i> お問い合わせ</a>
+  </div>
 </header>
 
 <main>
@@ -605,14 +633,43 @@
 <footer class="site">
   <div class="wrap">
     <div>
-      <div class="fb">CO<span class="mix">MIX</span>AI <span style="font-family:var(--font-hand);font-size:15px;color:var(--paper-200)">吉川 聡史</span></div>
-      <div class="copy">© <span id="yr"></span> 吉川 聡史 / COMIXAI</div>
+      <div class="fb">CO<span class="mix">MIX</span>AI <span style="font-family:var(--font-hand);font-size:16px;color:var(--paper-200)">吉川 聡史</span></div>
+      <div class="foot-tag">AIを、面白く。わかりやすく。</div>
     </div>
-    <a class="home" href="/"><i class="ph-bold ph-arrow-left"></i> オフィシャルサイトへ</a>
+    <div class="foot-social">
+      <a href="https://x.com/yoshikawa5116" target="_blank" rel="noopener" aria-label="X"><i class="ph-bold ph-x-logo"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=100008552592871" target="_blank" rel="noopener" aria-label="Facebook"><i class="ph-bold ph-facebook-logo"></i></a>
+      <a href="https://jp.linkedin.com/in/%E8%81%A1%E5%8F%B2-%E5%90%89%E5%B7%9D-7b121a255" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ph-bold ph-linkedin-logo"></i></a>
+      <a href="https://www.threads.com/@ai_baystars" target="_blank" rel="noopener" aria-label="Threads"><i class="ph-bold ph-threads-logo"></i></a>
+      <a href="https://mixi.social/@yoshikawa5116" target="_blank" rel="noopener" aria-label="mixi2"><i class="ph-bold ph-chats-circle"></i></a>
+      <a href="https://youtrust.jp/users/yoshikawa51" target="_blank" rel="noopener" aria-label="YOUTRUST"><i class="ph-bold ph-handshake"></i></a>
+    </div>
+  </div>
+  <div class="foot-copy">
+    <div class="wrap">© <span id="yr"></span> 吉川 聡史 / COMIXAI</div>
   </div>
 </footer>
 
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+(function () {
+  var btn = document.getElementById('hamburger');
+  var menu = document.getElementById('mobile-menu');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', function () {
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+  });
+  menu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      menu.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'メニューを開く');
+    });
+  });
+})();
+</script>
 
 <!-- 構造化データ (SEO) : Person + FAQ + Breadcrumb -->
 <script type="application/ld+json">
