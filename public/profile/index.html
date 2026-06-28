@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>吉川 聡史（よしかわ さとし）プロフィール｜AIクリエイター・漫画家・UXディレクター｜COMIXAI</title>
+<meta name="description" content="吉川聡史（よしかわさとし）のプロフィール。週刊少年チャンピオン連載の漫画家であり、株式会社ニジボックスの室長／UXディレクター。生成AI活用をマンガで伝えるAIクリエイターとして、note「COMIXAI」で「マンガでわかる！AI活用」などを連載。経歴・専門領域・実績を紹介します。">
+<meta name="keywords" content="吉川聡史,よしかわさとし,COMIXAI,AIクリエイター,漫画家,UXディレクター,ニジボックス,生成AI,AI活用,Claude Code,週刊少年チャンピオン">
+<link rel="canonical" href="https://comixai.dev/profile">
+
+<!-- OGP / Twitter Card — 公開時は og:url と og:image を実際の公開URLに書き換えてください -->
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="COMIXAI">
+<meta property="og:title" content="吉川 聡史 プロフィール｜AIクリエイター・漫画家・UXディレクター">
+<meta property="og:description" content="マンガとUXの力で、生成AIを『現場で使える武器』に。漫画家・UXディレクター・AIクリエイター 吉川聡史のプロフィール。">
+<meta property="og:url" content="https://comixai.dev/profile">
+<meta property="og:image" content="https://comixai.dev/ogp.png">
+<meta property="og:image:width" content="924">
+<meta property="og:image:height" content="540">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="profile:first_name" content="聡史">
+<meta property="profile:last_name" content="吉川">
+
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+<style>
+/* ===== fonts.css ===== */
+/* ============================================================
+   AI＆UX — Webfonts
+   Brand has no defined typeface; these are Google Fonts chosen
+   to match the "fun + clear + manga" voice. SUBSTITUTION — see
+   readme.md "Visual Foundations". Replace if real fonts arrive.
+   ------------------------------------------------------------
+   Zen Kaku Gothic New → display + headings + body (clean gothic;
+                         900 for impact titles & episode numbers)
+   Yusei Magic       → handwritten manga captions / speech
+   JetBrains Mono    → AI/code, prompts, model names
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Yusei+Magic&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ===== colors.css ===== */
+/* ============================================================
+   AI＆UX — Color tokens
+   Manga ink + paper, shonen-red lead, friendly support hues.
+   ============================================================ */
+:root {
+  /* —— Base ink & paper (the manga page) —— */
+  --ink-900: #14110F;   /* sumi black — primary text, panel borders */
+  --ink-800: #2A2420;
+  --ink-700: #463E38;
+  --ink-500: #6E635B;   /* muted ink — secondary text */
+  --ink-300: #A89C92;   /* disabled / captions */
+  --paper-0:  #FFFFFF;  /* pure white — bubble fill, highlights */
+  --paper-50: #FBF7EF;  /* manga paper cream — app background */
+  --paper-100:#F4ECDD;  /* sunk panels, code wells */
+  --paper-200:#E9DFC9;  /* hairlines on cream */
+
+  /* —— Shonen red (lead accent) —— */
+  --red-50:  #FFE9EA;
+  --red-100: #FFC9CC;
+  --red-500: #E60012;   /* Champion red — primary action, emphasis */
+  --red-600: #C70010;   /* hover */
+  --red-700: #A1000C;   /* press */
+
+  /* —— AI blue (tech / links / info) —— */
+  --blue-50:  #E7F0FF;
+  --blue-500: #1A6CFF;
+  --blue-600: #0F54D6;
+
+  /* —— Highlight yellow (marker / screentone pop) —— */
+  --yellow-200: #FFE89A;
+  --yellow-400: #FFD23F;  /* marker highlight behind text */
+
+  /* —— Support semantics —— */
+  --green-500: #1FA463;   /* success */
+  --green-50:  #E4F6EC;
+  --amber-500: #F08C00;   /* warning */
+  --amber-50:  #FFF1DB;
+
+  /* —— Halftone / screentone neutrals —— */
+  --tone-dot: rgba(20,17,15,0.14); /* dot color for screentone fills */
+
+  /* ============================================================
+     Semantic aliases — reference these in components
+     ============================================================ */
+  --bg-page:        var(--paper-50);
+  --bg-surface:     var(--paper-0);
+  --bg-sunk:        var(--paper-100);
+  --bg-ink:         var(--ink-900);   /* inverted / poster sections */
+
+  --text-strong:    var(--ink-900);
+  --text-body:      var(--ink-800);
+  --text-muted:     var(--ink-500);
+  --text-disabled:  var(--ink-300);
+  --text-on-ink:    var(--paper-50);
+  --text-on-accent: var(--paper-0);
+  --text-link:      var(--blue-600);
+
+  --accent:         var(--red-500);
+  --accent-hover:   var(--red-600);
+  --accent-press:   var(--red-700);
+  --accent-soft:    var(--red-50);
+
+  --border-ink:     var(--ink-900);   /* bold manga outline */
+  --border-soft:    var(--paper-200); /* quiet hairline on cream */
+  --border-focus:   var(--blue-500);
+
+  --marker:         var(--yellow-400);
+}
+
+/* ===== typography.css ===== */
+/* ============================================================
+   AI＆UX — Typography tokens
+   ============================================================ */
+:root {
+  /* —— Families —— */
+  --font-display: "Zen Kaku Gothic New", system-ui, sans-serif;                     /* impact titles, episode numbers (clean heavy gothic) */
+  --font-heading: "Zen Kaku Gothic New", system-ui, sans-serif;                     /* section headings, UI */
+  --font-body:    "Zen Kaku Gothic New", system-ui, sans-serif;                     /* body copy */
+  --font-hand:    "Yusei Magic", "Zen Kaku Gothic New", system-ui, sans-serif;      /* handwritten manga captions, bubbles */
+  --font-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;      /* prompts, model names, code */
+
+  /* —— Weights —— */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium:  500; /* @kind font */
+  --fw-bold:    700; /* @kind font */
+  --fw-black:   900; /* @kind font */
+
+  /* —— Type scale (fluid-friendly, px base 16) —— */
+  --fs-display: 64px;  /* hero / cover title */
+  --fs-h1: 44px;
+  --fs-h2: 32px;
+  --fs-h3: 24px;
+  --fs-h4: 20px;
+  --fs-lead: 19px;     /* intro paragraph */
+  --fs-body: 16px;
+  --fs-sm: 14px;
+  --fs-xs: 12px;
+  --fs-mono: 14px;
+
+  /* —— Line heights —— */
+  --lh-tight: 1.12; /* @kind font */
+  --lh-snug: 1.35; /* @kind font */
+  --lh-body: 1.85; /* @kind font */
+  --lh-mono: 1.6; /* @kind font */
+
+  /* —— Letter spacing —— */
+  --ls-display: 0.01em; /* @kind font */
+  --ls-heading: 0.02em; /* @kind font */
+  --ls-body: 0.02em; /* @kind font */
+  --ls-caps: 0.14em; /* @kind font */
+}
+
+/* ===== spacing.css ===== */
+/* ============================================================
+   AI＆UX — Spacing & layout tokens
+   8px base grid.
+   ============================================================ */
+:root {
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* —— Container widths —— */
+  --container-reader: 680px;   /* note-style article column */
+  --container-text: 760px;
+  --container-page: 1080px;
+  --container-wide: 1280px;
+
+  --gutter: var(--space-5);
+}
+
+/* ===== effects.css ===== */
+/* ============================================================
+   AI＆UX — Effects: radii, borders, shadows, screentone
+   Manga vocabulary: bold ink outlines + hard offset "sticker"
+   shadows, plus a couple of soft shadows for app surfaces.
+   ============================================================ */
+:root {
+  /* —— Corner radii —— (friendly, but never pill-soft on panels) */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-bubble: 22px;   /* speech-bubble body */
+  --radius-full: 999px;
+
+  /* —— Borders —— (the manga ink line) */
+  --bw-hair: 1px;
+  --bw-line: 2px;          /* default ink outline */
+  --bw-bold: 3px;          /* emphasis panels, buttons */
+  --bw-heavy: 4px;         /* hero panels, covers */
+  --border-ink-line: var(--bw-line) solid var(--ink-900);
+  --border-ink-bold: var(--bw-bold) solid var(--ink-900);
+
+  /* —— Hard offset "sticker" shadows (no blur) —— */
+  --shadow-pop-sm: 3px 3px 0 var(--ink-900);
+  --shadow-pop:    5px 5px 0 var(--ink-900);
+  --shadow-pop-lg: 8px 8px 0 var(--ink-900);
+  --shadow-pop-red: 5px 5px 0 var(--red-500);
+
+  /* —— Soft shadows (app chrome, menus, toasts) —— */
+  --shadow-soft-sm: 0 1px 3px rgba(20,17,15,0.10);
+  --shadow-soft:    0 6px 20px rgba(20,17,15,0.12);
+  --shadow-soft-lg: 0 18px 48px rgba(20,17,15,0.18);
+
+  /* —— Focus ring —— */
+  --ring: 0 0 0 3px var(--blue-50), 0 0 0 5px var(--blue-500);
+
+  /* —— Screentone / halftone fills (decorative backgrounds) —— */
+  --tone-dots:
+    radial-gradient(var(--tone-dot) 1.4px, transparent 1.5px);
+  --tone-dots-size: 9px 9px;
+  --tone-lines:
+    repeating-linear-gradient(-45deg, var(--tone-dot) 0 2px, transparent 2px 7px);
+}
+
+/* ===== motion.css ===== */
+/* ============================================================
+   AI＆UX — Motion tokens
+   Snappy, slightly bouncy "pop". Things land like a stamped
+   manga sound-effect, not a slow corporate fade.
+   ============================================================ */
+:root {
+  --dur-instant: 80ms; /* @kind other */
+  --dur-fast: 140ms;   /* @kind other */
+  --dur-base: 220ms;   /* @kind other */
+  --dur-slow: 360ms;   /* @kind other */
+
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1); /* @kind other */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+
+  /* Press feedback */
+  --press-scale: 0.96; /* @kind other */
+}
+
+
+</style>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper-50); color: var(--text-strong); font-family: var(--font-body); line-height: var(--lh-body); -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--marker); }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 28px; }
+
+  /* ── Header ── */
+  header.site { position: sticky; top: 0; z-index: 60; background: rgba(251,247,239,0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: var(--bw-line) solid var(--ink-900); }
+  .nav { display: flex; align-items: center; gap: 18px; height: 64px; }
+  .brand { font-family: var(--font-display); font-weight: 900; font-size: 25px; letter-spacing: .01em; text-decoration: none; color: var(--ink-900); white-space: nowrap; }
+  .brand .mix { color: var(--red-500); }
+  .nav .back { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--text-muted); text-decoration: none; }
+  .nav .back:hover { color: var(--ink-900); }
+  .nav .cta { margin-left: auto; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-weight: 700; text-decoration: none; border: var(--bw-bold) solid var(--ink-900); border-radius: var(--radius-xl); cursor: pointer; transition: transform var(--dur-fast,140ms) var(--ease-pop, ease), box-shadow var(--dur-fast,140ms); }
+  .btn-primary { background: var(--red-500); color: #fff; padding: 11px 22px; font-size: 15px; box-shadow: var(--shadow-pop-sm); }
+  .btn-primary:hover { background: var(--red-600); transform: translate(-2px,-2px); box-shadow: var(--shadow-pop); }
+  .btn-primary:active { transform: translate(0,0); box-shadow: 1px 1px 0 var(--ink-900); }
+  .btn-ink { background: var(--ink-900); color: var(--paper-50); padding: 13px 26px; font-size: 16px; box-shadow: var(--shadow-pop-sm); }
+  .btn-ink:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-pop); }
+  .btn-ghost { background: var(--paper-0); color: var(--ink-900); padding: 13px 26px; font-size: 16px; box-shadow: var(--shadow-pop-sm); }
+  .btn-ghost:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-pop); }
+
+  /* ── Hero ── */
+  .hero { position: relative; overflow: hidden; border-bottom: var(--bw-bold) solid var(--ink-900); }
+  .hero::before { content:""; position:absolute; inset:0; background-image: var(--tone-dots); background-size: 14px 14px; opacity: .5; pointer-events:none; }
+  .hero-grid { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; padding: 56px 0 50px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: .14em; color: var(--red-600); margin-bottom: 18px; }
+  .eyebrow .d { width: 9px; height: 9px; border-radius: 999px; background: var(--red-500); }
+  h1.name { font-family: var(--font-display); font-weight: 900; font-size: clamp(44px, 7vw, 72px); line-height: 1.08; letter-spacing: .01em; }
+  h1.name .en { display: block; font-family: var(--font-mono); font-weight: 500; font-size: clamp(14px,1.6vw,17px); letter-spacing: .18em; color: var(--text-muted); margin-top: 12px; }
+  .role-line { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .role-chip { font-family: var(--font-heading); font-weight: 700; font-size: 14px; padding: 6px 13px; border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-full); background: var(--paper-0); }
+  .role-chip.red { background: var(--red-500); color: #fff; border-color: var(--ink-900); }
+  .lead { margin-top: 22px; font-size: 17px; line-height: 1.95; color: var(--text-body); max-width: 480px; }
+  .lead b { background: linear-gradient(transparent 62%, var(--marker) 62%); font-weight: 700; }
+  .hero-cta { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* portrait panel */
+  .portrait { position: relative; }
+  .portrait .frame { position: relative; border: var(--bw-heavy) solid var(--ink-900); border-radius: var(--radius-lg); overflow: hidden; background: var(--paper-0); box-shadow: var(--shadow-pop-lg); }
+  .portrait .frame img { width: 100%; height: auto; display: block; }
+  .portrait .num { position: absolute; top: 0; left: 0; z-index: 3; background: var(--ink-900); color: var(--paper-50); font-family: var(--font-display); font-weight: 900; font-size: 14px; padding: 7px 12px 9px; border-bottom-right-radius: var(--radius-sm); letter-spacing: .04em; }
+  .bubble { position: absolute; z-index: 4; right: -10px; bottom: 26px; background: var(--yellow-400); border: var(--bw-bold) solid var(--ink-900); font-family: var(--font-display); font-weight: 900; font-size: 19px; color: var(--ink-900); padding: 14px 18px; box-shadow: var(--shadow-pop-sm); transform: rotate(-4deg); border-radius: 6px; clip-path: polygon(0 14%,8% 0,32% 9%,52% 0,74% 9%,93% 0,100% 16%,96% 42%,100% 64%,94% 88%,100% 100%,74% 90%,50% 100%,28% 90%,7% 100%,2% 74%,0 48%,4% 30%); padding: 20px 26px; }
+
+  /* ── Section scaffolding ── */
+  section { padding: 60px 0; }
+  .sec-head { margin-bottom: 32px; }
+  .kicker { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: .16em; color: var(--red-600); margin-bottom: 8px; }
+  h2.sec-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(27px, 3.6vw, 37px); line-height: 1.2; letter-spacing: .01em; }
+  .sec-sub { margin-top: 10px; font-size: 16px; color: var(--text-muted); max-width: 640px; }
+
+  /* roles grid */
+  .roles { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+  .role-card { border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-md); background: var(--paper-0); padding: 18px 14px; box-shadow: var(--shadow-pop-sm); }
+  .role-card i { font-size: 26px; color: var(--red-500); }
+  .role-card .jp { font-family: var(--font-heading); font-weight: 900; font-size: 16px; margin-top: 9px; }
+  .role-card .en { font-family: var(--font-mono); font-size: 10px; letter-spacing: .05em; color: var(--text-muted); margin-top: 3px; }
+  .role-card .note { font-size: 11px; color: var(--red-600); font-weight: 700; margin-top: 8px; line-height: 1.45; }
+
+  /* ── inverted (career) ── */
+  .ink-sec { background: var(--ink-900); color: var(--paper-50); border-top: var(--bw-bold) solid var(--ink-900); border-bottom: var(--bw-bold) solid var(--ink-900); position: relative; }
+  .ink-sec::before { content:""; position:absolute; inset:0; background-image: radial-gradient(rgba(255,255,255,.07) 1.3px, transparent 1.4px); background-size: 13px 13px; pointer-events:none; }
+  .ink-sec .wrap { position: relative; }
+  .ink-sec .kicker { color: var(--yellow-400); }
+  .timeline { display: grid; gap: 16px; }
+  .tl-item { display: grid; grid-template-columns: 56px 1fr; gap: 18px; align-items: start; background: var(--paper-50); color: var(--ink-900); border: var(--bw-line) solid var(--paper-50); border-radius: var(--radius-md); padding: 20px 22px; box-shadow: 6px 6px 0 rgba(0,0,0,0.35); }
+  .tl-step { font-family: var(--font-display); font-weight: 900; font-size: 30px; color: var(--red-500); line-height: 1; }
+  .tl-item h3 { font-family: var(--font-heading); font-weight: 900; font-size: 19px; margin-bottom: 7px; }
+  .tl-item p { font-size: 14.5px; line-height: 1.85; color: var(--ink-700); }
+
+  /* ── expertise ── */
+  .expertise { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+  .exp-card { border: var(--bw-bold) solid var(--ink-900); border-radius: var(--radius-md); background: var(--paper-0); padding: 22px; box-shadow: var(--shadow-pop-sm); }
+  .exp-card .ic { width: 46px; height: 46px; border-radius: var(--radius-sm); border: var(--bw-line) solid var(--ink-900); display: flex; align-items: center; justify-content: center; background: var(--red-500); color: #fff; }
+  .exp-card .ic i { font-size: 24px; }
+  .exp-card h3 { font-family: var(--font-heading); font-weight: 900; font-size: 18px; margin: 14px 0 6px; }
+  .exp-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.8; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+  .tag { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--ink-800); background: var(--paper-100); border: var(--bw-hair) solid var(--paper-200); border-radius: var(--radius-full); padding: 4px 11px; }
+
+  /* ── facts (dl) ── */
+  .facts { display: grid; grid-template-columns: repeat(2,1fr); gap: 0; border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-md); overflow: hidden; background: var(--paper-0); }
+  .facts div { display: flex; gap: 14px; padding: 16px 20px; border-bottom: var(--bw-hair) solid var(--paper-200); }
+  .facts div:nth-child(odd) { border-right: var(--bw-hair) solid var(--paper-200); }
+  .facts dt { flex: none; width: 78px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: var(--red-600); font-weight: 700; padding-top: 3px; }
+  .facts dd { font-size: 14.5px; line-height: 1.7; }
+
+  /* ── output links ── */
+  .out-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+  .out-card { display: block; text-decoration: none; color: inherit; border: var(--bw-bold) solid var(--ink-900); border-radius: var(--radius-md); background: var(--paper-0); padding: 20px; box-shadow: var(--shadow-pop-sm); transition: transform var(--dur-base,220ms) var(--ease-pop,ease), box-shadow var(--dur-base,220ms); }
+  .out-card:hover { transform: translate(-3px,-3px); box-shadow: var(--shadow-pop); }
+  .out-card .top { display: flex; align-items: center; justify-content: space-between; }
+  .out-card .badge { font-family: var(--font-heading); font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: var(--radius-full); border: var(--bw-line) solid var(--ink-900); }
+  .out-card h3 { font-family: var(--font-heading); font-weight: 900; font-size: 17px; margin: 14px 0 6px; line-height: 1.45; }
+  .out-card p { font-size: 13px; color: var(--text-muted); line-height: 1.75; }
+  .out-card .go { margin-top: 12px; font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--red-600); }
+
+  /* ── FAQ ── */
+  .faq { display: grid; gap: 12px; }
+  .faq details { border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-md); background: var(--paper-0); box-shadow: var(--shadow-pop-sm); overflow: hidden; }
+  .faq summary { cursor: pointer; list-style: none; padding: 18px 22px; font-family: var(--font-heading); font-weight: 900; font-size: 16.5px; display: flex; align-items: center; gap: 12px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary .q { flex: none; font-family: var(--font-display); font-weight: 900; color: var(--red-500); font-size: 18px; }
+  .faq summary .chev { margin-left: auto; transition: transform .2s ease; color: var(--text-muted); }
+  .faq details[open] summary .chev { transform: rotate(180deg); }
+  .faq .a { padding: 0 22px 20px 56px; font-size: 14.5px; line-height: 1.9; color: var(--text-body); }
+  .faq .a a { color: var(--blue-600); font-weight: 700; }
+
+  /* ── CTA ── */
+  .cta-sec { text-align: center; }
+  .cta-box { border: var(--bw-heavy) solid var(--ink-900); border-radius: var(--radius-lg); background: var(--paper-0); box-shadow: var(--shadow-pop-lg); padding: 44px 28px; }
+  .cta-box h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px,3.4vw,34px); }
+  .cta-box p { margin-top: 12px; font-size: 16px; color: var(--text-muted); }
+  .cta-actions { margin-top: 26px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .socials { margin-top: 30px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .socials a { width: 44px; height: 44px; border-radius: var(--radius-full); border: var(--bw-line) solid var(--ink-900); background: var(--ink-900); color: var(--paper-50); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform var(--dur-fast,140ms) var(--ease-pop,ease); }
+  .socials a:hover { transform: translateY(-3px); background: var(--red-500); }
+  .socials a i { font-size: 19px; }
+
+  /* ── footer ── */
+  footer.site { background: var(--ink-900); color: var(--paper-200); border-top: var(--bw-heavy) solid var(--ink-900); }
+  footer.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 28px 28px; flex-wrap: wrap; }
+  footer .fb { font-family: var(--font-display); font-weight: 900; font-size: 22px; color: var(--paper-50); }
+  footer .fb .mix { color: var(--red-500); }
+  footer .copy { font-family: var(--font-mono); font-size: 11px; color: var(--ink-300); }
+  footer a.home { font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--paper-50); text-decoration: none; }
+
+  /* ── responsive ── */
+  @media (max-width: 880px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+    .portrait { max-width: 380px; margin: 0 auto; }
+    .roles { grid-template-columns: repeat(2,1fr); }
+    .expertise, .out-grid { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: 1fr; }
+    .facts div:nth-child(odd) { border-right: none; }
+  }
+  @media (max-width: 520px) {
+    .roles { grid-template-columns: 1fr 1fr; }
+    .nav .back span { display: none; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    section, .hero { animation: rise .5s ease both; }
+    @keyframes rise { from { transform: translateY(14px); } to { transform: none; } }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav wrap">
+    <a class="brand" href="/">CO<span class="mix">MIX</span>AI</a>
+    <a class="back" href="/"><i class="ph-bold ph-arrow-left"></i><span>トップへ戻る</span></a>
+    <a class="btn btn-primary cta" href="/#contact"><i class="ph-bold ph-envelope-simple"></i>お問い合わせ</a>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" aria-label="プロフィール概要">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <span class="eyebrow"><span class="d"></span>PROFILE ・ 吉川 聡史</span>
+        <h1 class="name">吉川 聡史<span class="en">SATOSHI YOSHIKAWA</span></h1>
+        <div class="role-line">
+          <span class="role-chip red">AIクリエイター</span>
+          <span class="role-chip">漫画家</span>
+          <span class="role-chip">UXディレクター</span>
+        </div>
+        <p class="lead">「<b>AIを、面白く。わかりやすく。</b>」をテーマに、マンガとUXの力で生成AIを"現場で使える武器"に変える。週刊少年チャンピオンで連載を持っていた漫画家であり、株式会社ニジボックスの室長／UXディレクター。note「AI-UX UNITE」で、AI活用を描いたマンガや記事を発信しています。</p>
+        <div class="hero-cta">
+          <a class="btn btn-ink" href="https://note.com/aiux_unite" target="_blank" rel="noopener"><i class="ph-bold ph-book-open"></i>noteでマンガを読む</a>
+          <a class="btn btn-ghost" href="#career">経歴を見る</a>
+        </div>
+      </div>
+      <div class="portrait">
+        <div class="frame">
+          <span class="num">PROFILE</span>
+          <img src="/profile/portrait.png" alt="AIクリエイター・漫画家・UXディレクター 吉川聡史のプロフィール写真" width="1500" height="2000">
+        </div>
+        <span class="bubble">AI、こわくない！</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 ROLES -->
+  <section aria-label="5つの顔">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">FIVE ROLES — 5つの顔</div>
+        <h2 class="sec-title">物語をつくる人が、AIを語る。</h2>
+        <p class="sec-sub">漫画・ゲーム・映像・UX——「伝える」現場を渡り歩いてきた経験すべてが、AI活用の発信に活きています。</p>
+      </div>
+      <div class="roles">
+        <div class="role-card"><i class="ph-bold ph-sparkle"></i><div class="jp">AIクリエイター</div><div class="en">AI Creator</div></div>
+        <div class="role-card"><i class="ph-bold ph-pen-nib"></i><div class="jp">漫画家</div><div class="en">Manga Artist</div><div class="note">週刊少年チャンピオンで連載</div></div>
+        <div class="role-card"><i class="ph-bold ph-compass"></i><div class="jp">UXディレクター</div><div class="en">UX Director</div></div>
+        <div class="role-card"><i class="ph-bold ph-film-slate"></i><div class="jp">映像ディレクター</div><div class="en">Film Director</div></div>
+        <div class="role-card"><i class="ph-bold ph-game-controller"></i><div class="jp">ゲームプランナー</div><div class="en">Game Planner</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAREER -->
+  <section class="ink-sec" id="career" aria-label="経歴">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">CAREER — 経歴</div>
+        <h2 class="sec-title">「伝える」を、ずっと。</h2>
+        <p class="sec-sub" style="color:var(--paper-200)">エンタメの最前線で培った"伝える技術"を、いまはAI活用の領域へ。</p>
+      </div>
+      <ol class="timeline">
+        <li class="tl-item"><span class="tl-step">01</span><div><h3>漫画家として、物語で伝える</h3><p>週刊少年チャンピオンで連載を持っていた漫画家として、キャラクターとストーリーで「むずかしいことを面白く伝える」技術を磨く。これがすべての原点。</p></div></li>
+        <li class="tl-item"><span class="tl-step">02</span><div><h3>株式会社ニジボックスで、体験を設計する</h3><p>株式会社ニジボックス（NIJIBOX）で、ゲームプランナー・映像ディレクター・UXディレクターとして企画・演出・体験設計に携わり、室長を務める。ユーザー視点で「売れる」「伝わる」体験をつくる。</p></div></li>
+        <li class="tl-item"><span class="tl-step">03</span><div><h3>AIクリエイターとして、現場の知をマンガに</h3><p>生成AIをWeb制作・UXの現場に統合。その実践とノウハウを、note「AI-UX UNITE」でAI活用マンガ・記事として発信している。</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section aria-label="専門領域">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">EXPERTISE — 専門領域</div>
+        <h2 class="sec-title">AI × UX × ストーリーテリング</h2>
+        <p class="sec-sub">最新ツールの"流行"と、変わらない"本質"。その両方を行き来しながら、現場で使える形に落とし込みます。</p>
+      </div>
+      <div class="expertise">
+        <article class="exp-card">
+          <div class="ic"><i class="ph-bold ph-robot"></i></div>
+          <h3>生成AI活用</h3>
+          <p>Web制作・業務改善のための実践的なAI活用。ツール選定からワークフロー構築まで。</p>
+          <div class="tags"><span class="tag">Claude / Claude Code</span><span class="tag">ChatGPT API</span><span class="tag">Gemini × NotebookLM</span><span class="tag">Midjourney</span><span class="tag">Figma Make</span></div>
+        </article>
+        <article class="exp-card">
+          <div class="ic"><i class="ph-bold ph-compass"></i></div>
+          <h3>UX・Web制作</h3>
+          <p>ユーザー視点での体験設計。リサーチからデザイン、実装までを一気通貫で。</p>
+          <div class="tags"><span class="tag">UXデザイン</span><span class="tag">ワイヤーフレーム</span><span class="tag">デザインシステム</span><span class="tag">カスタマージャーニー</span><span class="tag">ペルソナ</span></div>
+        </article>
+        <article class="exp-card">
+          <div class="ic"><i class="ph-bold ph-pen-nib"></i></div>
+          <h3>ストーリーテリング</h3>
+          <p>漫画・映像で培った"伝える力"。複雑な概念を、誰もがわかる物語に変換する。</p>
+          <div class="tags"><span class="tag">マンガ連載</span><span class="tag">キャラクター設計</span><span class="tag">映像演出</span><span class="tag">企画・脚本</span></div>
+        </article>
+      </div>
+      <dl class="facts" style="margin-top:24px" aria-label="基本情報">
+        <div><dt>氏名</dt><dd>吉川 聡史（よしかわ さとし）／ Satoshi Yoshikawa</dd></div>
+        <div><dt>所属</dt><dd>株式会社ニジボックス（NIJIBOX）室長</dd></div>
+        <div><dt>連載</dt><dd>週刊少年チャンピオンで漫画を連載</dd></div>
+        <div><dt>発信</dt><dd>note「AI-UX UNITE」でAI活用マンガ・記事を発信・YouTube @aiux-unite</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- OUTPUT -->
+  <section aria-label="発信・実績">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">OUTPUT — 発信・連載</div>
+        <h2 class="sec-title">マンガで読む、AI活用</h2>
+        <p class="sec-sub">noteで3つのマガジンを連載中。入門から実践、そして本質まで。</p>
+      </div>
+      <div class="out-grid">
+        <a class="out-card" href="https://note.com/aiux_unite/m/m92e0de4e5627" target="_blank" rel="noopener">
+          <div class="top"><span class="badge">入門編・全7話</span><i class="ph-bold ph-arrow-up-right"></i></div>
+          <h3>マンガでわかる！AI活用</h3>
+          <p>「生成AIとは？」から始まる、AI活用の第一歩。こわくない、を実感できる入門マンガ。</p>
+          <div class="go">マガジンを読む →</div>
+        </a>
+        <a class="out-card" href="https://note.com/aiux_unite/m/m0b7bcbd79d18" target="_blank" rel="noopener">
+          <div class="top"><span class="badge">実践編・全6話</span><i class="ph-bold ph-arrow-up-right"></i></div>
+          <h3>マンガで実践！AI活用</h3>
+          <p>"売れる"Webサイトを、AIで作る。現場で使えるテクニックを実践録として。</p>
+          <div class="go">マガジンを読む →</div>
+        </a>
+        <a class="out-card" href="https://note.com/aiux_unite/m/m19a44a319753" target="_blank" rel="noopener">
+          <div class="top"><span class="badge">エッセイ・連載中</span><i class="ph-bold ph-arrow-up-right"></i></div>
+          <h3>AI時代の「流行」と「本質」</h3>
+          <p>次々と出る新ツール。追うべきものと、変わらない芯。IT業界目線で考えるAIとの付き合い方。</p>
+          <div class="go">マガジンを読む →</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section aria-label="よくある質問">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">FAQ — よくある質問</div>
+        <h2 class="sec-title">吉川聡史について</h2>
+      </div>
+      <div class="faq">
+        <details open>
+          <summary><span class="q">Q</span>吉川聡史とは、どんな人物ですか？<i class="ph-bold ph-caret-down chev"></i></summary>
+          <div class="a">吉川聡史（よしかわさとし）は、AIクリエイター・漫画家・UXディレクターです。週刊少年チャンピオンで連載を持っていた漫画家でありながら、株式会社ニジボックスの室長として Web制作・UXデザインをリード。生成AIの活用を、マンガでわかりやすく伝える発信者として活動しています。</div>
+        </details>
+        <details>
+          <summary><span class="q">Q</span>AI活用マンガはどこで読めますか？<i class="ph-bold ph-caret-down chev"></i></summary>
+          <div class="a">note「AI-UX UNITE」（<a href="https://note.com/aiux_unite" target="_blank" rel="noopener">note.com/aiux_unite</a>）で読めます。「マンガでわかる！AI活用」「マンガで実践！AI活用」「AI時代の流行と本質」の3マガジンを連載中。動画は YouTube（<a href="https://www.youtube.com/@aiux-unite" target="_blank" rel="noopener">@aiux-unite</a>）でも発信しています。</div>
+        </details>
+        <details>
+          <summary><span class="q">Q</span>どんな分野が専門ですか？<i class="ph-bold ph-caret-down chev"></i></summary>
+          <div class="a">生成AI活用（Claude / Claude Code、ChatGPT API、Gemini × NotebookLM、Midjourney、Figma Make など）、UX・Web制作、そして漫画・映像で培ったストーリーテリングが専門領域です。AIとUXと物語を掛け合わせた発信が特徴です。</div>
+        </details>
+        <details>
+          <summary><span class="q">Q</span>仕事の依頼・相談はできますか？<i class="ph-bold ph-caret-down chev"></i></summary>
+          <div class="a">講演・寄稿・制作・取材などのご相談を受け付けています。<a href="/#contact">お問い合わせフォーム</a>からご連絡ください。各種SNS（X・Facebook・LinkedIn・Threads・mixi2・YOUTRUST）でもつながれます。</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-sec" aria-label="お問い合わせ">
+    <div class="wrap">
+      <div class="cta-box">
+        <h2>一緒に、AIを面白く。</h2>
+        <p>講演・寄稿・制作・取材のご相談はお気軽に。</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" style="padding:14px 28px;font-size:16px" href="/#contact"><i class="ph-bold ph-paper-plane-tilt"></i>お問い合わせ</a>
+          <a class="btn btn-ghost" href="/"><i class="ph-bold ph-house"></i>トップページ</a>
+        </div>
+        <div class="socials">
+          <a href="https://x.com/yoshikawa5116" target="_blank" rel="noopener" aria-label="X"><i class="ph-bold ph-x-logo"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=100008552592871" target="_blank" rel="noopener" aria-label="Facebook"><i class="ph-bold ph-facebook-logo"></i></a>
+          <a href="https://jp.linkedin.com/in/%E8%81%A1%E5%8F%B2-%E5%90%89%E5%B7%9D-7b121a255" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ph-bold ph-linkedin-logo"></i></a>
+          <a href="https://www.threads.com/@ai_baystars" target="_blank" rel="noopener" aria-label="Threads"><i class="ph-bold ph-threads-logo"></i></a>
+          <a href="https://mixi.social/@yoshikawa5116" target="_blank" rel="noopener" aria-label="mixi2"><i class="ph-bold ph-chats-circle"></i></a>
+          <a href="https://youtrust.jp/users/yoshikawa51" target="_blank" rel="noopener" aria-label="YOUTRUST"><i class="ph-bold ph-handshake"></i></a>
+          <a href="https://www.youtube.com/@aiux-unite" target="_blank" rel="noopener" aria-label="YouTube"><i class="ph-bold ph-youtube-logo"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <div class="fb">CO<span class="mix">MIX</span>AI <span style="font-family:var(--font-hand);font-size:15px;color:var(--paper-200)">吉川 聡史</span></div>
+      <div class="copy">© <span id="yr"></span> 吉川 聡史 / COMIXAI</div>
+    </div>
+    <a class="home" href="/"><i class="ph-bold ph-arrow-left"></i> オフィシャルサイトへ</a>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+
+<!-- 構造化データ (SEO) : Person + FAQ + Breadcrumb -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "name": "吉川 聡史",
+      "alternateName": ["よしかわ さとし", "Satoshi Yoshikawa", "AI-UX UNITE", "COMIXAI"],
+      "jobTitle": ["AIクリエイター", "漫画家", "UXディレクター"],
+      "description": "週刊少年チャンピオンで連載を持っていた漫画家であり、株式会社ニジボックスの室長／UXディレクター。生成AI活用をマンガで伝えるAIクリエイター。",
+      "image": "https://comixai.dev/profile/portrait.png",
+      "url": "https://comixai.dev/profile",
+      "worksFor": { "@type": "Organization", "name": "株式会社ニジボックス", "alternateName": "NIJIBOX" },
+      "knowsAbout": ["生成AI", "AI活用", "Claude Code", "UXデザイン", "Web制作", "漫画", "ストーリーテリング", "Midjourney", "プロンプトエンジニアリング"],
+      "sameAs": [
+        "https://note.com/aiux_unite",
+        "https://www.youtube.com/@aiux-unite",
+        "https://x.com/yoshikawa5116",
+        "https://www.facebook.com/profile.php?id=100008552592871",
+        "https://jp.linkedin.com/in/%E8%81%A1%E5%8F%B2-%E5%90%89%E5%B7%9D-7b121a255",
+        "https://www.threads.com/@ai_baystars",
+        "https://mixi.social/@yoshikawa5116",
+        "https://youtrust.jp/users/yoshikawa51"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "吉川聡史とは、どんな人物ですか？", "acceptedAnswer": { "@type": "Answer", "text": "吉川聡史（よしかわさとし）は、AIクリエイター・漫画家・UXディレクターです。週刊少年チャンピオンで連載を持っていた漫画家でありながら、株式会社ニジボックスの室長としてWeb制作・UXデザインをリード。生成AIの活用をマンガでわかりやすく伝える発信者として活動しています。" } },
+        { "@type": "Question", "name": "AI活用マンガはどこで読めますか？", "acceptedAnswer": { "@type": "Answer", "text": "note「AI-UX UNITE」（note.com/aiux_unite）で読めます。「マンガでわかる！AI活用」「マンガで実践！AI活用」「AI時代の流行と本質」の3マガジンを連載中。動画はYouTube @aiux-unite でも発信しています。" } },
+        { "@type": "Question", "name": "どんな分野が専門ですか？", "acceptedAnswer": { "@type": "Answer", "text": "生成AI活用（Claude / Claude Code、ChatGPT API、Gemini × NotebookLM、Midjourney、Figma Make など）、UX・Web制作、そして漫画・映像で培ったストーリーテリングが専門領域です。" } },
+        { "@type": "Question", "name": "仕事の依頼・相談はできますか？", "acceptedAnswer": { "@type": "Answer", "text": "講演・寄稿・制作・取材などのご相談を受け付けています。オフィシャルサイトのお問い合わせフォーム、または各種SNSからご連絡ください。" } }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://comixai.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "プロフィール", "item": "https://comixai.dev/profile" }
+      ]
+    }
+  ]
+}
+</script>
+
+</body>
+</html>
