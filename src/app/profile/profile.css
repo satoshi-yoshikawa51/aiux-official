@@ -1,0 +1,354 @@
+/* プロフィールページ専用スタイル（Claude Design由来の本文部分）
+   ヘッダー/フッターは共有コンポーネント(site-chrome)を使うため除外済み。
+   .pf-hero-grid は globals と衝突するため .pf-hero-grid にリネーム。 */
+/* ===== fonts.css ===== */
+/* ============================================================
+   AI＆UX — Webfonts
+   Brand has no defined typeface; these are Google Fonts chosen
+   to match the "fun + clear + manga" voice. SUBSTITUTION — see
+   readme.md "Visual Foundations". Replace if real fonts arrive.
+   ------------------------------------------------------------
+   Zen Kaku Gothic New → display + headings + body (clean gothic;
+                         900 for impact titles & episode numbers)
+   Yusei Magic       → handwritten manga captions / speech
+   JetBrains Mono    → AI/code, prompts, model names
+   ============================================================ */
+
+
+/* ===== colors.css ===== */
+/* ============================================================
+   AI＆UX — Color tokens
+   Manga ink + paper, shonen-red lead, friendly support hues.
+   ============================================================ */
+:root {
+  /* —— Base ink & paper (the manga page) —— */
+  --ink-900: #14110F;   /* sumi black — primary text, panel borders */
+  --ink-800: #2A2420;
+  --ink-700: #463E38;
+  --ink-500: #6E635B;   /* muted ink — secondary text */
+  --ink-300: #A89C92;   /* disabled / captions */
+  --paper-0:  #FFFFFF;  /* pure white — bubble fill, highlights */
+  --paper-50: #FBF7EF;  /* manga paper cream — app background */
+  --paper-100:#F4ECDD;  /* sunk panels, code wells */
+  --paper-200:#E9DFC9;  /* hairlines on cream */
+
+  /* —— Shonen red (lead accent) —— */
+  --red-50:  #FFE9EA;
+  --red-100: #FFC9CC;
+  --red-500: #E60012;   /* Champion red — primary action, emphasis */
+  --red-600: #C70010;   /* hover */
+  --red-700: #A1000C;   /* press */
+
+  /* —— AI blue (tech / links / info) —— */
+  --blue-50:  #E7F0FF;
+  --blue-500: #1A6CFF;
+  --blue-600: #0F54D6;
+
+  /* —— Highlight yellow (marker / screentone pop) —— */
+  --yellow-200: #FFE89A;
+  --yellow-400: #FFD23F;  /* marker highlight behind text */
+
+  /* —— Support semantics —— */
+  --green-500: #1FA463;   /* success */
+  --green-50:  #E4F6EC;
+  --amber-500: #F08C00;   /* warning */
+  --amber-50:  #FFF1DB;
+
+  /* —— Halftone / screentone neutrals —— */
+  --tone-dot: rgba(20,17,15,0.14); /* dot color for screentone fills */
+
+  /* ============================================================
+     Semantic aliases — reference these in components
+     ============================================================ */
+  --bg-page:        var(--paper-50);
+  --bg-surface:     var(--paper-0);
+  --bg-sunk:        var(--paper-100);
+  --bg-ink:         var(--ink-900);   /* inverted / poster sections */
+
+  --text-strong:    var(--ink-900);
+  --text-body:      var(--ink-800);
+  --text-muted:     var(--ink-500);
+  --text-disabled:  var(--ink-300);
+  --text-on-ink:    var(--paper-50);
+  --text-on-accent: var(--paper-0);
+  --text-link:      var(--blue-600);
+
+  --accent:         var(--red-500);
+  --accent-hover:   var(--red-600);
+  --accent-press:   var(--red-700);
+  --accent-soft:    var(--red-50);
+
+  --border-ink:     var(--ink-900);   /* bold manga outline */
+  --border-soft:    var(--paper-200); /* quiet hairline on cream */
+  --border-focus:   var(--blue-500);
+
+  --marker:         var(--yellow-400);
+}
+
+/* ===== typography.css ===== */
+/* ============================================================
+   AI＆UX — Typography tokens
+   ============================================================ */
+:root {
+  /* —— Families —— */
+  --font-display: "Zen Kaku Gothic New", system-ui, sans-serif;                     /* impact titles, episode numbers (clean heavy gothic) */
+  --font-heading: "Zen Kaku Gothic New", system-ui, sans-serif;                     /* section headings, UI */
+  --font-body:    "Zen Kaku Gothic New", system-ui, sans-serif;                     /* body copy */
+  --font-hand:    "Yusei Magic", "Zen Kaku Gothic New", system-ui, sans-serif;      /* handwritten manga captions, bubbles */
+  --font-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;      /* prompts, model names, code */
+
+  /* —— Weights —— */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium:  500; /* @kind font */
+  --fw-bold:    700; /* @kind font */
+  --fw-black:   900; /* @kind font */
+
+  /* —— Type scale (fluid-friendly, px base 16) —— */
+  --fs-display: 64px;  /* hero / cover title */
+  --fs-h1: 44px;
+  --fs-h2: 32px;
+  --fs-h3: 24px;
+  --fs-h4: 20px;
+  --fs-lead: 19px;     /* intro paragraph */
+  --fs-body: 16px;
+  --fs-sm: 14px;
+  --fs-xs: 12px;
+  --fs-mono: 14px;
+
+  /* —— Line heights —— */
+  --lh-tight: 1.12; /* @kind font */
+  --lh-snug: 1.35; /* @kind font */
+  --lh-body: 1.85; /* @kind font */
+  --lh-mono: 1.6; /* @kind font */
+
+  /* —— Letter spacing —— */
+  --ls-display: 0.01em; /* @kind font */
+  --ls-heading: 0.02em; /* @kind font */
+  --ls-body: 0.02em; /* @kind font */
+  --ls-caps: 0.14em; /* @kind font */
+}
+
+/* ===== spacing.css ===== */
+/* ============================================================
+   AI＆UX — Spacing & layout tokens
+   8px base grid.
+   ============================================================ */
+:root {
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* —— Container widths —— */
+  --container-reader: 680px;   /* note-style article column */
+  --container-text: 760px;
+  --container-page: 1080px;
+  --container-wide: 1280px;
+
+  --gutter: var(--space-5);
+}
+
+/* ===== effects.css ===== */
+/* ============================================================
+   AI＆UX — Effects: radii, borders, shadows, screentone
+   Manga vocabulary: bold ink outlines + hard offset "sticker"
+   shadows, plus a couple of soft shadows for app surfaces.
+   ============================================================ */
+:root {
+  /* —— Corner radii —— (friendly, but never pill-soft on panels) */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-bubble: 22px;   /* speech-bubble body */
+  --radius-full: 999px;
+
+  /* —— Borders —— (the manga ink line) */
+  --bw-hair: 1px;
+  --bw-line: 2px;          /* default ink outline */
+  --bw-bold: 3px;          /* emphasis panels, buttons */
+  --bw-heavy: 4px;         /* hero panels, covers */
+  --border-ink-line: var(--bw-line) solid var(--ink-900);
+  --border-ink-bold: var(--bw-bold) solid var(--ink-900);
+
+  /* —— Hard offset "sticker" shadows (no blur) —— */
+  --shadow-pop-sm: 3px 3px 0 var(--ink-900);
+  --shadow-pop:    5px 5px 0 var(--ink-900);
+  --shadow-pop-lg: 8px 8px 0 var(--ink-900);
+  --shadow-pop-red: 5px 5px 0 var(--red-500);
+
+  /* —— Soft shadows (app chrome, menus, toasts) —— */
+  --shadow-soft-sm: 0 1px 3px rgba(20,17,15,0.10);
+  --shadow-soft:    0 6px 20px rgba(20,17,15,0.12);
+  --shadow-soft-lg: 0 18px 48px rgba(20,17,15,0.18);
+
+  /* —— Focus ring —— */
+  --ring: 0 0 0 3px var(--blue-50), 0 0 0 5px var(--blue-500);
+
+  /* —— Screentone / halftone fills (decorative backgrounds) —— */
+  --tone-dots:
+    radial-gradient(var(--tone-dot) 1.4px, transparent 1.5px);
+  --tone-dots-size: 9px 9px;
+  --tone-lines:
+    repeating-linear-gradient(-45deg, var(--tone-dot) 0 2px, transparent 2px 7px);
+}
+
+/* ===== motion.css ===== */
+/* ============================================================
+   AI＆UX — Motion tokens
+   Snappy, slightly bouncy "pop". Things land like a stamped
+   manga sound-effect, not a slow corporate fade.
+   ============================================================ */
+:root {
+  --dur-instant: 80ms; /* @kind other */
+  --dur-fast: 140ms;   /* @kind other */
+  --dur-base: 220ms;   /* @kind other */
+  --dur-slow: 360ms;   /* @kind other */
+
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1); /* @kind other */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+
+  /* Press feedback */
+  --press-scale: 0.96; /* @kind other */
+}
+
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper-50); color: var(--text-strong); font-family: var(--font-body); line-height: var(--lh-body); -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--marker); }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: min(1080px, 92vw); margin: 0 auto; padding: 0; }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-weight: 700; text-decoration: none; border: var(--bw-bold) solid var(--ink-900); border-radius: var(--radius-xl); cursor: pointer; transition: transform var(--dur-fast,140ms) var(--ease-pop, ease), box-shadow var(--dur-fast,140ms); }
+  .btn-primary { background: var(--red-500); color: #fff; padding: 11px 22px; font-size: 15px; box-shadow: var(--shadow-pop-sm); }
+  .btn-primary:hover { background: var(--red-600); transform: translate(-2px,-2px); box-shadow: var(--shadow-pop); }
+  .btn-primary:active { transform: translate(0,0); box-shadow: 1px 1px 0 var(--ink-900); }
+  .btn-ink { background: var(--ink-900); color: var(--paper-50); padding: 13px 26px; font-size: 16px; box-shadow: var(--shadow-pop-sm); }
+  .btn-ink:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-pop); }
+  .btn-ghost { background: var(--paper-0); color: var(--ink-900); padding: 13px 26px; font-size: 16px; box-shadow: var(--shadow-pop-sm); }
+  .btn-ghost:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-pop); }
+
+  /* ── Hero ── */
+  .hero { position: relative; overflow: hidden; border-bottom: var(--bw-bold) solid var(--ink-900); }
+  .hero::before { content:""; position:absolute; inset:0; background-image: var(--tone-dots); background-size: 14px 14px; opacity: .5; pointer-events:none; }
+  .pf-hero-grid { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; padding: 56px 0 50px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: .14em; color: var(--red-600); margin-bottom: 18px; }
+  .eyebrow .d { width: 9px; height: 9px; border-radius: 999px; background: var(--red-500); }
+  h1.name { font-family: var(--font-display); font-weight: 900; font-size: clamp(44px, 7vw, 72px); line-height: 1.08; letter-spacing: .01em; }
+  h1.name .en { display: block; font-family: var(--font-mono); font-weight: 500; font-size: clamp(14px,1.6vw,17px); letter-spacing: .18em; color: var(--text-muted); margin-top: 12px; }
+  .role-line { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .role-chip { font-family: var(--font-heading); font-weight: 700; font-size: 14px; padding: 6px 13px; border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-full); background: var(--paper-0); }
+  .role-chip.red { background: var(--red-500); color: #fff; border-color: var(--ink-900); }
+  .lead { margin-top: 22px; font-size: 17px; line-height: 1.95; color: var(--text-body); max-width: 480px; }
+  .lead b { background: linear-gradient(transparent 62%, var(--marker) 62%); font-weight: 700; }
+  .hero-cta { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* portrait panel */
+  .portrait { position: relative; }
+  .portrait .frame { position: relative; border: var(--bw-heavy) solid var(--ink-900); border-radius: var(--radius-lg); overflow: hidden; background: var(--paper-0); box-shadow: var(--shadow-pop-lg); }
+  .portrait .frame img { width: 100%; height: auto; display: block; }
+  .portrait .num { position: absolute; top: 0; left: 0; z-index: 3; background: var(--ink-900); color: var(--paper-50); font-family: var(--font-display); font-weight: 900; font-size: 14px; padding: 7px 12px 9px; border-bottom-right-radius: var(--radius-sm); letter-spacing: .04em; }
+  .bubble { position: absolute; z-index: 4; right: -10px; bottom: 26px; background: var(--yellow-400); border: var(--bw-bold) solid var(--ink-900); font-family: var(--font-display); font-weight: 900; font-size: 19px; color: var(--ink-900); padding: 14px 18px; box-shadow: var(--shadow-pop-sm); transform: rotate(-4deg); border-radius: 6px; clip-path: polygon(0 14%,8% 0,32% 9%,52% 0,74% 9%,93% 0,100% 16%,96% 42%,100% 64%,94% 88%,100% 100%,74% 90%,50% 100%,28% 90%,7% 100%,2% 74%,0 48%,4% 30%); padding: 20px 26px; }
+
+  /* ── Section scaffolding ── */
+  section { padding: 60px 0; }
+  .sec-head { margin-bottom: 32px; }
+  .kicker { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: .16em; color: var(--red-600); margin-bottom: 8px; }
+  h2.sec-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(27px, 3.6vw, 37px); line-height: 1.2; letter-spacing: .01em; }
+  .sec-sub { margin-top: 10px; font-size: 16px; color: var(--text-muted); max-width: 640px; }
+
+  /* roles grid */
+  .roles { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+  .role-card { border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-md); background: var(--paper-0); padding: 18px 14px; box-shadow: var(--shadow-pop-sm); }
+  .role-card i { font-size: 26px; color: var(--red-500); }
+  .role-card .jp { font-family: var(--font-heading); font-weight: 900; font-size: 16px; margin-top: 9px; }
+  .role-card .en { font-family: var(--font-mono); font-size: 10px; letter-spacing: .05em; color: var(--text-muted); margin-top: 3px; }
+  .role-card .note { font-size: 11px; color: var(--red-600); font-weight: 700; margin-top: 8px; line-height: 1.45; }
+
+  /* ── inverted (career) ── */
+  .ink-sec { background: var(--ink-900); color: var(--paper-50); border-top: var(--bw-bold) solid var(--ink-900); border-bottom: var(--bw-bold) solid var(--ink-900); position: relative; }
+  .ink-sec::before { content:""; position:absolute; inset:0; background-image: radial-gradient(rgba(255,255,255,.07) 1.3px, transparent 1.4px); background-size: 13px 13px; pointer-events:none; }
+  .ink-sec .wrap { position: relative; }
+  .ink-sec .kicker { color: var(--yellow-400); }
+  .timeline { display: grid; gap: 16px; }
+  .tl-item { display: grid; grid-template-columns: 56px 1fr; gap: 18px; align-items: start; background: var(--paper-50); color: var(--ink-900); border: var(--bw-line) solid var(--paper-50); border-radius: var(--radius-md); padding: 20px 22px; box-shadow: 6px 6px 0 rgba(0,0,0,0.35); }
+  .tl-step { font-family: var(--font-display); font-weight: 900; font-size: 30px; color: var(--red-500); line-height: 1; }
+  .tl-item h3 { font-family: var(--font-heading); font-weight: 900; font-size: 19px; margin-bottom: 7px; }
+  .tl-item p { font-size: 14.5px; line-height: 1.85; color: var(--ink-700); }
+
+  /* ── expertise ── */
+  .expertise { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+  .exp-card { border: var(--bw-bold) solid var(--ink-900); border-radius: var(--radius-md); background: var(--paper-0); padding: 22px; box-shadow: var(--shadow-pop-sm); }
+  .exp-card .ic { width: 46px; height: 46px; border-radius: var(--radius-sm); border: var(--bw-line) solid var(--ink-900); display: flex; align-items: center; justify-content: center; background: var(--red-500); color: #fff; }
+  .exp-card .ic i { font-size: 24px; }
+  .exp-card h3 { font-family: var(--font-heading); font-weight: 900; font-size: 18px; margin: 14px 0 6px; }
+  .exp-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.8; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+  .tag { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--ink-800); background: var(--paper-100); border: var(--bw-hair) solid var(--paper-200); border-radius: var(--radius-full); padding: 4px 11px; }
+
+  /* ── facts (dl) ── */
+  .facts { display: grid; grid-template-columns: repeat(2,1fr); gap: 0; border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-md); overflow: hidden; background: var(--paper-0); }
+  .facts div { display: flex; gap: 14px; padding: 16px 20px; border-bottom: var(--bw-hair) solid var(--paper-200); }
+  .facts div:nth-child(odd) { border-right: var(--bw-hair) solid var(--paper-200); }
+  .facts dt { flex: none; width: 78px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: var(--red-600); font-weight: 700; padding-top: 3px; }
+  .facts dd { font-size: 14.5px; line-height: 1.7; }
+
+  /* ── output links ── */
+  .out-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+  .out-card { display: block; text-decoration: none; color: inherit; border: var(--bw-bold) solid var(--ink-900); border-radius: var(--radius-md); background: var(--paper-0); padding: 20px; box-shadow: var(--shadow-pop-sm); transition: transform var(--dur-base,220ms) var(--ease-pop,ease), box-shadow var(--dur-base,220ms); }
+  .out-card:hover { transform: translate(-3px,-3px); box-shadow: var(--shadow-pop); }
+  .out-card .top { display: flex; align-items: center; justify-content: space-between; }
+  .out-card .badge { font-family: var(--font-heading); font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: var(--radius-full); border: var(--bw-line) solid var(--ink-900); }
+  .out-card h3 { font-family: var(--font-heading); font-weight: 900; font-size: 17px; margin: 14px 0 6px; line-height: 1.45; }
+  .out-card p { font-size: 13px; color: var(--text-muted); line-height: 1.75; }
+  .out-card .go { margin-top: 12px; font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--red-600); }
+
+  /* ── FAQ ── */
+  .faq { display: grid; gap: 12px; }
+  .faq details { border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-md); background: var(--paper-0); box-shadow: var(--shadow-pop-sm); overflow: hidden; }
+  .faq summary { cursor: pointer; list-style: none; padding: 18px 22px; font-family: var(--font-heading); font-weight: 900; font-size: 16.5px; display: flex; align-items: center; gap: 12px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary .q { flex: none; font-family: var(--font-display); font-weight: 900; color: var(--red-500); font-size: 18px; }
+  .faq summary .chev { margin-left: auto; transition: transform .2s ease; color: var(--text-muted); }
+  .faq details[open] summary .chev { transform: rotate(180deg); }
+  .faq .a { padding: 0 22px 20px 56px; font-size: 14.5px; line-height: 1.9; color: var(--text-body); }
+  .faq .a a { color: var(--blue-600); font-weight: 700; }
+
+  /* ── CTA ── */
+  .cta-sec { text-align: center; }
+  .cta-box { border: var(--bw-heavy) solid var(--ink-900); border-radius: var(--radius-lg); background: var(--paper-0); box-shadow: var(--shadow-pop-lg); padding: 44px 28px; }
+  .cta-box h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px,3.4vw,34px); }
+  .cta-box p { margin-top: 12px; font-size: 16px; color: var(--text-muted); }
+  .cta-actions { margin-top: 26px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .socials { margin-top: 30px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .socials a { width: 44px; height: 44px; border-radius: var(--radius-full); border: var(--bw-line) solid var(--ink-900); background: var(--ink-900); color: var(--paper-50); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform var(--dur-fast,140ms) var(--ease-pop,ease); }
+  .socials a:hover { transform: translateY(-3px); background: var(--red-500); }
+  .socials a i { font-size: 19px; }
+
+  /* ── responsive ── */
+  @media (max-width: 880px) {
+    .pf-hero-grid { grid-template-columns: 1fr; gap: 30px; padding-top: 24px; padding-bottom: 38px; }
+    .portrait { max-width: 380px; margin: 0 auto; }
+    .roles { grid-template-columns: repeat(2,1fr); }
+    .expertise, .out-grid { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: 1fr; }
+    .facts div:nth-child(odd) { border-right: none; }
+  }
+  @media (max-width: 520px) {
+    .roles { grid-template-columns: 1fr 1fr; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    section, .hero { animation: rise .5s ease both; }
+    @keyframes rise { from { transform: translateY(14px); } to { transform: none; } }
+  }
