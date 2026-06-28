@@ -395,14 +395,27 @@
     section, .hero { animation: rise .5s ease both; }
     @keyframes rise { from { transform: translateY(14px); } to { transform: none; } }
   }
+/* ヘッダーをトップページと揃える */
+.brand .brand-name { margin-left: 9px; font-family: var(--font-hand); font-size: 14px; color: var(--text-muted); font-weight: 400; letter-spacing: 0; }
+.nav-links { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.nav-links a { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--ink-900); text-decoration: none; padding: 8px 12px; border-radius: 8px; }
+.nav-links a:hover { background: rgba(20,17,15,0.06); }
+.nav .cta { margin-left: 14px; }
+@media (max-width: 760px) { .nav-links { display: none; } .nav .cta { margin-left: auto; } }
 </style>
 </head>
 <body>
 
 <header class="site">
   <nav class="nav wrap">
-    <a class="brand" href="/">CO<span class="mix">MIX</span>AI</a>
-    <a class="back" href="/"><i class="ph-bold ph-arrow-left"></i><span>トップへ戻る</span></a>
+    <a class="brand" href="/">CO<span class="mix">MIX</span>AI<span class="brand-name">吉川 聡史</span></a>
+    <div class="nav-links">
+      <a href="/#articles">記事</a>
+      <a href="/#magazines">マガジン</a>
+      <a href="/#works">WORKS</a>
+      <a href="/#profile">プロフィール</a>
+      <a href="/#social">SNS</a>
+    </div>
     <a class="btn btn-primary cta" href="/#contact"><i class="ph-bold ph-envelope-simple"></i>お問い合わせ</a>
   </nav>
 </header>
