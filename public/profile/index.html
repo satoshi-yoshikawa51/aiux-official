@@ -254,11 +254,11 @@
   ::selection { background: var(--marker); }
   img { display: block; max-width: 100%; }
   a { color: inherit; }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 28px; }
+  .wrap { max-width: min(1080px, 92vw); margin: 0 auto; padding: 0; }
 
   /* ── Header ── */
   header.site { position: sticky; top: 0; z-index: 60; background: rgba(251,247,239,0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: var(--bw-line) solid var(--ink-900); }
-  .nav { display: flex; align-items: center; gap: 18px; height: 64px; }
+  .nav { display: flex; align-items: center; gap: 18px; height: 66px; }
   .brand { font-family: var(--font-display); font-weight: 900; font-size: 25px; letter-spacing: .01em; text-decoration: none; color: var(--ink-900); white-space: nowrap; }
   .brand .mix { color: var(--red-500); }
   .nav .back { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--text-muted); text-decoration: none; }
@@ -372,7 +372,7 @@
 
   /* ── footer ── */
   footer.site { background: var(--ink-900); color: var(--paper-200); border-top: var(--bw-heavy) solid var(--ink-900); }
-  footer.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 28px 28px; flex-wrap: wrap; }
+  footer.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 40px 0 34px; flex-wrap: wrap; }
   footer .fb { font-family: var(--font-display); font-weight: 900; font-size: 22px; color: var(--paper-50); }
   footer .fb .mix { color: var(--red-500); }
   footer .copy { font-family: var(--font-mono); font-size: 11px; color: var(--ink-300); }
@@ -380,7 +380,7 @@
 
   /* ── responsive ── */
   @media (max-width: 880px) {
-    .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 30px; padding-top: 24px; padding-bottom: 38px; }
     .portrait { max-width: 380px; margin: 0 auto; }
     .roles { grid-template-columns: repeat(2,1fr); }
     .expertise, .out-grid { grid-template-columns: 1fr; }
@@ -401,8 +401,6 @@
 .nav-links a { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--ink-900); text-decoration: none; padding: 8px 12px; border-radius: 8px; }
 .nav-links a:hover { background: rgba(20,17,15,0.06); }
 .nav .cta { margin-left: 14px; }
-/* HERO左右パディング（スマホで端に詰まらないように） */
-.hero-grid { padding-left: 28px; padding-right: 28px; }
 /* ハンバーガー（モバイル用） */
 .hamburger { display: none; margin-left: auto; background: none; border: 0; padding: 6px 8px; cursor: pointer; color: var(--ink-900); font-size: 30px; line-height: 1; }
 .mobile-menu { display: none; flex-direction: column; border-top: var(--bw-line) solid var(--ink-900); background: rgba(251,247,239,0.98); }
@@ -415,8 +413,8 @@
 .foot-social a { width: 40px; height: 40px; border-radius: 999px; border: var(--bw-line) solid var(--paper-200); display: inline-flex; align-items: center; justify-content: center; color: var(--paper-50); text-decoration: none; font-size: 18px; }
 .foot-social a:hover { background: rgba(244,236,221,0.12); }
 .foot-copy { border-top: 1px solid rgba(244,236,221,0.16); }
-.foot-copy .wrap { display: block; padding: 14px 28px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-300); }
-@media (max-width: 760px) {
+.foot-copy .wrap { display: block; padding: 14px 0; font-family: var(--font-mono); font-size: 11px; color: var(--ink-300); }
+@media (max-width: 900px) {
   .nav-links { display: none; }
   .nav .cta { display: none; }
   .hamburger { display: inline-flex; }

@@ -129,6 +129,18 @@ img {
 .nav-link:hover {
   background: var(--paper-100);
 }
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.hamburger {
+  display: none;
+}
+.mobile-menu a:active {
+  background: var(--paper-100);
+}
 .social-card:hover {
   transform: translate(-2px, -2px);
   box-shadow: var(--shadow-pop);
@@ -235,8 +247,12 @@ img {
   .contact-grid {
     grid-template-columns: 1fr !important;
   }
-  .nav-links a.nav-link {
+  .nav-links {
     display: none;
+  }
+  .hamburger {
+    display: inline-flex;
+    align-items: center;
   }
 }
 @media (max-width: 560px) {

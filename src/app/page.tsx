@@ -48,6 +48,7 @@ function Nav() {
     { label: "プロフィール", href: "#profile" },
     { label: "SNS", href: "#social" },
   ];
+  const [open, setOpen] = React.useState(false);
   return (
     <header
       style={{
@@ -80,7 +81,7 @@ function Nav() {
             吉川 聡史
           </span>
         </a>
-        <nav style={{ marginLeft: "auto", display: "flex", gap: 4, alignItems: "center" }} className="nav-links">
+        <nav className="nav-links">
           {items.map((it) => (
             <a
               key={it.href}
@@ -105,7 +106,66 @@ function Nav() {
             </Button>
           </a>
         </nav>
+        <button
+          type="button"
+          className="hamburger"
+          aria-label={open ? "メニューを閉じる" : "メニューを開く"}
+          aria-expanded={open}
+          onClick={() => setOpen((o) => !o)}
+          style={{
+            marginLeft: "auto",
+            background: "none",
+            border: 0,
+            padding: "6px 8px",
+            cursor: "pointer",
+            color: "var(--ink-900)",
+            fontSize: 30,
+            lineHeight: 1,
+          }}
+        >
+          <i className={"ph-bold " + (open ? "ph-x" : "ph-list")} />
+        </button>
       </div>
+      {open && (
+        <nav className="mobile-menu" style={{ borderTop: "var(--bw-line) solid var(--ink-900)", background: "rgba(251,247,239,0.98)", display: "flex", flexDirection: "column" }}>
+          {items.map((it) => (
+            <a
+              key={it.href}
+              href={it.href}
+              onClick={() => setOpen(false)}
+              style={{
+                fontFamily: "var(--font-heading)",
+                fontWeight: 700,
+                fontSize: 16,
+                color: "var(--ink-900)",
+                textDecoration: "none",
+                width: PAGE,
+                margin: "0 auto",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(20,17,15,0.08)",
+              }}
+            >
+              {it.label}
+            </a>
+          ))}
+          <a
+            href="#contact"
+            onClick={() => setOpen(false)}
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontWeight: 700,
+              fontSize: 16,
+              color: "#fff",
+              background: "var(--red-500)",
+              textDecoration: "none",
+              textAlign: "center",
+              padding: "15px 0",
+            }}
+          >
+            お問い合わせ
+          </a>
+        </nav>
+      )}
     </header>
   );
 }
