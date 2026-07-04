@@ -1,0 +1,35 @@
+# noteマガジンから収録エピソードを取得し、episodes.json を更新するワークフロー。
+# 手動実行（workflow_dispatch）と毎週月曜9時(JST)の定期実行。
+# Claude Code のサンドボックスからは note.com に到達できないため、
+# 取得はこのワークフロー（GitHub Actionsランナー）上で行う。
+name: Refresh manga episodes
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 1" # 毎週月曜 00:00 UTC = 09:00 JST
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Fetch episodes from note
+        run: node scripts/fetch-manga-episodes.mjs
+      - name: Commit & push if changed
+        run: |
+          if git diff --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/app/manga/episodes.json
+          git commit -m "chore: refresh manga episodes from note"
+          git push

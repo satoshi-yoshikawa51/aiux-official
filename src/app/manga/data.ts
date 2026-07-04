@@ -2,13 +2,13 @@
    連載シリーズ（noteマガジン）ハブページのデータ。
    /manga/[slug] のコンテンツはすべてここから生成される。
 
-   ・エピソードを追加するときは episodes 配列に1件足し、
-     lastUpdated をその日の日付に更新する（sitemapに反映される）。
-   ・url が未確認の話は載せない（誤リンクを置くくらいなら
-     note マガジンへの導線に任せる）。
+   ・収録エピソードは episodes.json から読み込む。
+     episodes.json は scripts/fetch-manga-episodes.mjs がnoteから
+     自動生成する（手動追記も可）。更新日はsitemapに反映される。
    ・slug は data.ts の MAGAZINES.id と一致させる。
    ============================================================ */
 import type { Tone } from "../data";
+import EPISODES_JSON from "./episodes.json";
 
 export interface MangaEpisode {
   /** 話数（第n話）。エッセイなど話数のないシリーズでは省略 */
@@ -34,7 +34,7 @@ export interface MangaSeries {
   noteUrl: string;
   cover: string;
   tone: Tone;
-  /** ページ内容を更新したら日付を上げる（sitemap の lastModified 用） */
+  /** episodes.json の updatedAt（sitemap の lastModified 用） */
   lastUpdated: string;
   metaTitle: string;
   metaDescription: string;
@@ -50,7 +50,9 @@ export interface MangaSeries {
   relatedUrls: string[];
 }
 
-export const MANGA_SERIES: MangaSeries[] = [
+type SeriesBase = Omit<MangaSeries, "episodes" | "lastUpdated">;
+
+const SERIES_BASE: SeriesBase[] = [
   {
     slug: "wakaru",
     title: "マンガでわかる！AI活用",
@@ -59,7 +61,6 @@ export const MANGA_SERIES: MangaSeries[] = [
     cover:
       "https://assets.st-note.com/production/uploads/images/153723212/magazine_cover_landscape_74e4cd3b836dcf9092fc5631a2048ad8.png?width=900",
     tone: "yellow",
-    lastUpdated: "2026-07-04",
     metaTitle: "マンガでわかる！AI活用（全7話）｜生成AI入門をマンガで学ぶ",
     metaDescription:
       "「生成AIとは？」から、RAGとファインチューニング、プロンプトのコツ、AIアプリ制作まで。Web制作の現場で本当に使っているAI活用術を、漫画家・AIクリエイター吉川聡史がマンガでわかりやすく解説する入門シリーズ（全7話）。",
@@ -105,53 +106,6 @@ export const MANGA_SERIES: MangaSeries[] = [
       "チームにAI活用を広めたいWeb制作・企画職の人",
     ],
     totalEpisodes: 7,
-    episodes: [
-      {
-        no: 1,
-        title: "マンガでわかる！AI活用　第1話：「生成AIとは？」",
-        desc: "「生成AIって、結局なに？」をマンガで解説。AIを“こわい存在”ではなく現場の相棒として迎える第一歩。",
-        url: "https://note.com/aiux_unite/n/n39742e82cd30",
-        thumb:
-          "https://assets.st-note.com/production/uploads/images/152747436/rectangle_large_type_2_c5040904ab93143ada337a3054b1120a.png?fit=bounds&quality=85&width=800",
-        likes: 390,
-      },
-      {
-        no: 3,
-        title: "マンガでわかる！AI活用　第3話：「RAGとファインチューニング」",
-        desc: "RAGとファインチューニングの違いと使いどころを、マンガでやさしく。",
-        url: "https://note.com/aiux_unite/n/n185107973a2f",
-        thumb:
-          "https://assets.st-note.com/production/uploads/images/154542114/rectangle_large_type_2_24f4f59647fa4290d420221b09a347d1.png?fit=bounds&quality=85&width=800",
-        likes: 202,
-      },
-      {
-        no: 4,
-        title: "マンガでわかる！AI活用　第4話：「7ページで解説！AIアプリ制作」",
-        desc: "AIアプリ制作の流れを、わずか7ページのマンガでわかりやすく解説。",
-        url: "https://note.com/aiux_unite/n/nbbdec3944965",
-        thumb:
-          "https://assets.st-note.com/production/uploads/images/161279677/rectangle_large_type_2_bbb52d0e3ddcd8c629055fcd8f8c8d03.png?fit=bounds&quality=85&width=800",
-        likes: 245,
-      },
-      {
-        no: 5,
-        title: "マンガでわかる！AI活用　第5話：「AI時代のものづくり」",
-        desc: "AI時代に“ものづくり”はどう変わる？　現場目線でマンガ解説。",
-        url: "https://note.com/aiux_unite/n/n9e20c3906cec",
-        thumb:
-          "https://assets.st-note.com/production/uploads/images/168210375/rectangle_large_type_2_3c70c65ab72def9625ba12f236ed183d.png?fit=bounds&quality=85&width=800",
-        likes: 239,
-      },
-      {
-        no: 6,
-        title: "マンガでわかる！AI活用　第6話：「プロンプトを攻略する」",
-        desc: "思いどおりの答えを引き出すには？　現場で効く“伝え方”のコツをマンガで。",
-        url: "https://note.com/aiux_unite/n/n3254dbb5e6b1",
-        thumb:
-          "https://assets.st-note.com/production/uploads/images/178188346/rectangle_large_type_2_1a3b426cb0bc9ec0973cbf59b2455313.png?fit=bounds&quality=85&width=800",
-        likes: 221,
-      },
-    ],
     relatedUrls: [
       "https://note.com/aiux_unite/n/n24dc19c0ff2d",
       "https://note.com/aiux_unite/n/n3d980b7ca111",
@@ -166,7 +120,6 @@ export const MANGA_SERIES: MangaSeries[] = [
     cover:
       "https://assets.st-note.com/production/uploads/images/187520549/magazine_cover_landscape_6bdb11f606659c04533285cbee28805d.png?width=900",
     tone: "red",
-    lastUpdated: "2026-07-04",
     metaTitle: "マンガで実践！AI活用（全6話）｜Web制作の現場で使えるAI活用テクニック",
     metaDescription:
       "「マンガでわかる！AI活用」の続編となる実践編。実際に「売れる」WebサイトをAIツールを駆使して作る過程を全6話のマンガで公開。Web制作の現場でそのまま使えるAI活用テクニックを、AIクリエイター・漫画家の吉川聡史が実践形式で解説します。",
@@ -206,7 +159,6 @@ export const MANGA_SERIES: MangaSeries[] = [
       "ツールは触ったけれど、業務の成果につながっていない人",
     ],
     totalEpisodes: 6,
-    episodes: [],
     relatedUrls: [
       "https://note.com/aiux_unite/n/n480de3323d7d",
       "https://note.com/aiux_unite/n/n09103ac67356",
@@ -221,7 +173,6 @@ export const MANGA_SERIES: MangaSeries[] = [
     cover:
       "https://assets.st-note.com/production/uploads/images/241594001/magazine_cover_landscape_a3a3e13d093dbc63f86cda7838bec694.png?width=900",
     tone: "ink",
-    lastUpdated: "2026-07-04",
     metaTitle: "AI時代の「流行」と「本質」｜IT業界目線のAI考察エッセイ",
     metaDescription:
       "新しいAIツールの使い方という「流行」と、仕事を通じて見えてきたAI活用の「本質」。その両方を届ける連載エッセイ。AIクリエイター・UXディレクターの吉川聡史が、IT業界目線でAI時代を生き延びる術を綴ります。",
@@ -259,16 +210,6 @@ export const MANGA_SERIES: MangaSeries[] = [
       "ツール紹介より一段深い考察を読みたい人",
       "AI時代のキャリアに漠然とした不安がある人",
     ],
-    episodes: [
-      {
-        title: "AI時代の「流行」と「本質」：AIの先にあるべきもの",
-        desc: "AIの活用の「本質」と「流行」の両方を、AIの先にあるべきものという視点で読み解くエッセイ。",
-        url: "https://note.com/aiux_unite/n/na87618c2923d",
-        thumb:
-          "https://assets.st-note.com/production/uploads/images/241595402/rectangle_large_type_2_a064de6ee4a40431b78183268d658ed0.png?fit=bounds&quality=85&width=800",
-        likes: 166,
-      },
-    ],
     relatedUrls: [
       "https://note.com/aiux_unite/n/n169ba6bd6c1e",
       "https://note.com/aiux_unite/n/ndae7f58601fc",
@@ -276,6 +217,22 @@ export const MANGA_SERIES: MangaSeries[] = [
     ],
   },
 ];
+
+/* episodes.json（自動生成）の収録エピソードと更新日をマージする */
+interface EpisodesFile {
+  generatedAt: string;
+  series: Record<string, { updatedAt: string; episodes: MangaEpisode[] }>;
+}
+const EPISODES = EPISODES_JSON as unknown as EpisodesFile;
+
+export const MANGA_SERIES: MangaSeries[] = SERIES_BASE.map((s) => {
+  const entry = EPISODES.series[s.slug];
+  return {
+    ...s,
+    episodes: entry?.episodes ?? [],
+    lastUpdated: entry?.updatedAt ?? EPISODES.generatedAt,
+  };
+});
 
 export function getSeries(slug: string): MangaSeries | undefined {
   return MANGA_SERIES.find((s) => s.slug === slug);
