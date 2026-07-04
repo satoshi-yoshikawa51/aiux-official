@@ -131,24 +131,38 @@ function HeroVideo() {
             </Badge>
           </div>
           <h1
-            className="hero-enter"
-            style={
-              {
-                fontFamily: "var(--font-display)",
-                fontWeight: 900,
-                fontSize: "clamp(40px, 6.4vw, 72px)",
-                lineHeight: 1.1,
-                margin: 0,
-                letterSpacing: "0.01em",
-                color: "var(--paper-50)",
-                textShadow: "0 2px 18px rgba(0,0,0,0.55)",
-                "--i": 1,
-              } as React.CSSProperties
-            }
+            aria-label="AIを、面白く。わかりやすく。"
+            style={{
+              position: "relative",
+              fontFamily: "var(--font-display)",
+              fontWeight: 900,
+              fontSize: "clamp(40px, 6.4vw, 72px)",
+              lineHeight: 1.1,
+              margin: 0,
+              letterSpacing: "0.01em",
+              color: "var(--paper-50)",
+              textShadow: "0 2px 18px rgba(0,0,0,0.55)",
+            }}
           >
-            AIを、<span style={{ color: "var(--yellow-400)" }}>面白く。</span>
-            <br />
-            わかりやすく。
+            <span className="hero-burst" aria-hidden="true" />
+            <span aria-hidden="true">
+              {["A", "I", "を", "、"].map((c, i) => (
+                <span key={i} className="ht-ch" style={{ "--c": i } as React.CSSProperties}>
+                  {c}
+                </span>
+              ))}
+              {["面", "白", "く", "。"].map((c, i) => (
+                <span key={"e" + i} className="ht-ch ht-em" style={{ "--c": i + 4, color: "var(--yellow-400)" } as React.CSSProperties}>
+                  {c}
+                </span>
+              ))}
+              <br />
+              {["わ", "か", "り", "や", "す", "く", "。"].map((c, i) => (
+                <span key={"w" + i} className="ht-ch" style={{ "--c": i + 8 } as React.CSSProperties}>
+                  {c}
+                </span>
+              ))}
+            </span>
           </h1>
           <p
             className="hero-enter"
@@ -160,13 +174,13 @@ function HeroVideo() {
                 maxWidth: 480,
                 margin: "20px 0 30px",
                 textShadow: "0 1px 10px rgba(0,0,0,0.6)",
-                "--i": 2,
+                "--i": 5,
               } as React.CSSProperties
             }
           >
             {HERO_INTRO}
           </p>
-          <div className="hero-enter" style={{ "--i": 3 } as React.CSSProperties}>
+          <div className="hero-enter" style={{ "--i": 6 } as React.CSSProperties}>
             <HeroActionsLight />
           </div>
         </div>
