@@ -386,8 +386,8 @@ function Magazines() {
         <SectionHead kicker="MAGAZINE — noteマガジン" title="シリーズで読む" hand="まとめ買い・フォローはこちら" />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 22 }} className="mag-grid">
           {MAGAZINES.map((m) => (
-            <a key={m.id} href={m.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
-              <Card variant="pop" hover padding={0} style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
+            <Card key={m.id} variant="pop" hover padding={0} style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
+              <a href={`/manga/${m.id}`} style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", flex: 1 }}>
                 <div style={{ position: "relative", aspectRatio: "900/300", borderBottom: "var(--bw-bold) solid var(--ink-900)", overflow: "hidden", background: toneBg(m.tone) }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={m.cover} alt={m.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -395,18 +395,20 @@ function Magazines() {
                     <Badge tone="red">{m.label}</Badge>
                   </span>
                 </div>
-                <div style={{ padding: "16px 18px 18px", display: "flex", flexDirection: "column", flex: 1 }}>
+                <div style={{ padding: "16px 18px 14px", display: "flex", flexDirection: "column", flex: 1 }}>
                   <h3 style={{ margin: "0 0 8px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 19, lineHeight: 1.4, textWrap: "pretty" }}>{m.title}</h3>
-                  <p style={{ margin: "0 0 16px", fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)", textWrap: "pretty" }}>{m.desc}</p>
-                  <div style={{ marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 14 }}>全{m.count}本</span>
-                    <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
-                      マガジンを見る <i className="ph-bold ph-arrow-up-right" />
-                    </span>
-                  </div>
+                  <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)", textWrap: "pretty" }}>{m.desc}</p>
                 </div>
-              </Card>
-            </a>
+              </a>
+              <div style={{ padding: "0 18px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+                <a href={`/manga/${m.id}`} style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
+                  シリーズ紹介を見る <i className="ph-bold ph-arrow-right" />
+                </a>
+                <a href={m.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--text-muted)" }}>
+                  noteで読む <i className="ph-bold ph-arrow-up-right" />
+                </a>
+              </div>
+            </Card>
           ))}
         </div>
       </div>
