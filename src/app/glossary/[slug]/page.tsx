@@ -4,6 +4,7 @@ import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
 import { Breadcrumb, SectionHead } from "../../site-ui";
 import { TERMS, getTerm } from "../data";
+import { TermDiagram } from "../diagrams";
 
 export const dynamicParams = false;
 
@@ -105,6 +106,16 @@ export default async function GlossaryTermPage({ params }: Props) {
           </div>
           <p style={{ margin: 0, fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 16.5, lineHeight: 1.9 }}>{t.short}</p>
         </Card>
+        <div style={{ maxWidth: 760, marginTop: 26 }}>
+          {t.image ? (
+            <div style={{ border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", boxShadow: "var(--shadow-pop)", overflow: "hidden" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={t.image.src} alt={t.image.alt} style={{ width: "100%", display: "block" }} />
+            </div>
+          ) : (
+            <TermDiagram slug={t.slug} />
+          )}
+        </div>
         <div style={{ maxWidth: 760, marginTop: 26 }}>
           {t.body.map((p) => (
             <p key={p.slice(0, 12)} style={{ fontSize: 15.5, lineHeight: 2.1, color: "var(--text-body)", margin: "0 0 16px" }}>

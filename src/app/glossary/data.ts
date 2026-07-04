@@ -28,6 +28,9 @@ export interface GlossaryTerm {
   links: TermLink[];
   relatedSlugs: string[];
   lastUpdated: string;
+  /** 手描きイラスト（設定するとSVG図解の代わりに表示される）。
+      public/glossary/ に画像を置いて { src: "/glossary/rag.png", alt: "..." } を指定 */
+  image?: { src: string; alt: string };
 }
 
 export const GLOSSARY_UPDATED = "2026-07-04";
