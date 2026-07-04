@@ -1,5 +1,16 @@
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
+/* フォントとアイコンはセルフホスト（npmパッケージからバンドル）。
+   外部CDNへのレンダーブロッキング読み込みをなくし、LCPを改善する。 */
+import "@fontsource/zen-kaku-gothic-new/400.css";
+import "@fontsource/zen-kaku-gothic-new/500.css";
+import "@fontsource/zen-kaku-gothic-new/700.css";
+import "@fontsource/zen-kaku-gothic-new/900.css";
+import "@fontsource/yusei-magic/400.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
+import "@fontsource/jetbrains-mono/700.css";
+import "@phosphor-icons/web/bold";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -75,13 +86,6 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Yusei+Magic&family=JetBrains+Mono:wght@400;500;700&display=swap"
-        />
-        <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
