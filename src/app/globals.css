@@ -238,18 +238,22 @@ img {
     opacity: 0;
   }
   .rv-card-in {
-    animation: purun 0.42s var(--ease-out) backwards;
-    animation-delay: calc(var(--rv-i, 0) * 60ms);
+    animation: purun 0.5s ease backwards;
+    animation-delay: calc(var(--rv-i, 0) * 70ms);
+    transform-origin: 50% 100%;
   }
-  /* さっくり登場: 小さく浮き上がり、最後にわずかに揺れて収まる */
+  /* 浮き上がって少し行き過ぎ、かすかに潰れてぷるんと収まる */
   @keyframes purun {
     0% {
       opacity: 0;
-      transform: translateY(14px);
+      transform: translateY(18px);
     }
-    72% {
+    60% {
       opacity: 1;
-      transform: translateY(-2px);
+      transform: translateY(-5px);
+    }
+    78% {
+      transform: translateY(1px) scaleX(1.008) scaleY(0.982);
     }
     100% {
       opacity: 1;
