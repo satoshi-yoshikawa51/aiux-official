@@ -6,50 +6,107 @@
       "updatedAt": "2026-07-04",
       "episodes": [
         {
-          "no": 1,
-          "title": "マンガでわかる！AI活用　第1話：「生成AIとは？」",
+          "title": "マンガでわかる！AI活用 第1話：「生成AIとは？」",
           "desc": "「生成AIって、結局なに？」をマンガで解説。AIを“こわい存在”ではなく現場の相棒として迎える第一歩。",
           "url": "https://note.com/aiux_unite/n/n39742e82cd30",
-          "thumb": "https://assets.st-note.com/production/uploads/images/152747436/rectangle_large_type_2_c5040904ab93143ada337a3054b1120a.png?fit=bounds&quality=85&width=800",
+          "no": 1,
+          "thumb": "https://assets.st-note.com/production/uploads/images/152747436/rectangle_large_type_2_c5040904ab93143ada337a3054b1120a.png?width=800",
           "likes": 390
         },
         {
-          "no": 3,
-          "title": "マンガでわかる！AI活用　第3話：「RAGとファインチューニング」",
+          "title": "マンガでわかる！AI活用 第2話：「タイトル未定」",
+          "desc": "こんにちは！吉川です。 マンガでわかる！AI活用 先週に続き第2話です！タイトルは・・・ 続きをみる",
+          "url": "https://note.com/aiux_unite/n/nd077cf0ae271",
+          "no": 2,
+          "thumb": "https://assets.st-note.com/production/uploads/images/153596667/rectangle_large_type_2_1695a10f73e47f8f078fa586782b7fd5.png?width=800"
+        },
+        {
+          "title": "マンガでわかる！AI活用 第3話：「RAGとファインチューニング」",
           "desc": "RAGとファインチューニングの違いと使いどころを、マンガでやさしく。",
           "url": "https://note.com/aiux_unite/n/n185107973a2f",
-          "thumb": "https://assets.st-note.com/production/uploads/images/154542114/rectangle_large_type_2_24f4f59647fa4290d420221b09a347d1.png?fit=bounds&quality=85&width=800",
+          "no": 3,
+          "thumb": "https://assets.st-note.com/production/uploads/images/154542114/rectangle_large_type_2_24f4f59647fa4290d420221b09a347d1.png?width=800",
           "likes": 202
         },
         {
-          "no": 4,
-          "title": "マンガでわかる！AI活用　第4話：「7ページで解説！AIアプリ制作」",
+          "title": "マンガでわかる！AI活用 第4話：「7ページで解説！AIアプリ制作」",
           "desc": "AIアプリ制作の流れを、わずか7ページのマンガでわかりやすく解説。",
           "url": "https://note.com/aiux_unite/n/nbbdec3944965",
-          "thumb": "https://assets.st-note.com/production/uploads/images/161279677/rectangle_large_type_2_bbb52d0e3ddcd8c629055fcd8f8c8d03.png?fit=bounds&quality=85&width=800",
+          "no": 4,
+          "thumb": "https://assets.st-note.com/production/uploads/images/161279677/rectangle_large_type_2_bbb52d0e3ddcd8c629055fcd8f8c8d03.png?width=800",
           "likes": 245
         },
         {
-          "no": 5,
-          "title": "マンガでわかる！AI活用　第5話：「AI時代のものづくり」",
+          "title": "マンガでわかる！AI活用 第5話：「AI時代のものづくり」",
           "desc": "AI時代に“ものづくり”はどう変わる？　現場目線でマンガ解説。",
           "url": "https://note.com/aiux_unite/n/n9e20c3906cec",
-          "thumb": "https://assets.st-note.com/production/uploads/images/168210375/rectangle_large_type_2_3c70c65ab72def9625ba12f236ed183d.png?fit=bounds&quality=85&width=800",
+          "no": 5,
+          "thumb": "https://assets.st-note.com/production/uploads/images/168210375/rectangle_large_type_2_3c70c65ab72def9625ba12f236ed183d.png?width=800",
           "likes": 239
         },
         {
-          "no": 6,
-          "title": "マンガでわかる！AI活用　第6話：「プロンプトを攻略する」",
+          "title": "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」",
           "desc": "思いどおりの答えを引き出すには？　現場で効く“伝え方”のコツをマンガで。",
           "url": "https://note.com/aiux_unite/n/n3254dbb5e6b1",
-          "thumb": "https://assets.st-note.com/production/uploads/images/178188346/rectangle_large_type_2_1a3b426cb0bc9ec0973cbf59b2455313.png?fit=bounds&quality=85&width=800",
+          "no": 6,
+          "thumb": "https://assets.st-note.com/production/uploads/images/178188346/rectangle_large_type_2_1a3b426cb0bc9ec0973cbf59b2455313.png?width=800",
           "likes": 221
+        },
+        {
+          "title": "マンガでわかる！AI活用 第7話：「AIワークフロー」",
+          "desc": "こんにちは！吉川です。 「マンガでわかる！AI活用」の今回のテーマはAIワークフロー！ 続きをみる",
+          "url": "https://note.com/aiux_unite/n/nb9bbe68255bd",
+          "no": 7,
+          "thumb": "https://assets.st-note.com/production/uploads/images/182782634/rectangle_large_type_2_36f28703c3da5f3ed014c791f5981439.png?width=800"
         }
       ]
     },
     "jissen": {
       "updatedAt": "2026-07-04",
-      "episodes": []
+      "episodes": [
+        {
+          "title": "マンガで実践！AI活用 第1話：「AIで叶える夢」",
+          "desc": "こんにちは！吉川です。 今回から始まった新シリーズ 「マンガで実践！AI活用」 続きをみる",
+          "url": "https://note.com/aiux_unite/n/nd8c3cec60650",
+          "no": 1,
+          "thumb": "https://assets.st-note.com/production/uploads/images/185789127/rectangle_large_type_2_9fc628dc764b6eb239338b9eda830ffa.png?width=800"
+        },
+        {
+          "title": "マンガで実践！AI活用 第2話：「見切り発車」",
+          "desc": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせる。突如“無謀な夢”に目覚めた吉川。 その一部始終をさらけ出す実践記が、いよいよ本格始",
+          "url": "https://note.com/aiux_unite/n/nba0bd5d5c1c5",
+          "no": 2,
+          "thumb": "https://assets.st-note.com/production/uploads/images/186837635/rectangle_large_type_2_5fc0ef5f666e36f83bd28f81dfccd65f.png?width=800"
+        },
+        {
+          "title": "マンガで実践！AI活用 第3話：「KPI」※KPIシートサンプル付き！",
+          "desc": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせる。 その為にnoteの読者数5万UU/月を目指すことになった吉川。 一見無謀な目標に",
+          "url": "https://note.com/aiux_unite/n/n2d4b8ecfcef4",
+          "no": 3,
+          "thumb": "https://assets.st-note.com/production/uploads/images/188492524/rectangle_large_type_2_3c0a8eb2ff367d9e66a0b09af59b85a4.png?width=800"
+        },
+        {
+          "title": "マンガで実践！AI活用 第4話：「ペルソナ」",
+          "desc": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせたい。 前回はKPIシートを作り、目標達成までの道筋を設定が完了。 それだけで安心しき",
+          "url": "https://note.com/aiux_unite/n/nbd39b2f9a740",
+          "no": 4,
+          "thumb": "https://assets.st-note.com/production/uploads/images/196089454/rectangle_large_type_2_43198dc8b4ed80a236d2c9cc8b53f93a.png?width=800"
+        },
+        {
+          "title": "マンガで実践！AI活用 第5話：「カスタマージャーニーマップ」",
+          "desc": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせたい。 前回はペルソナをつくり、目標の設計と顧客像の具体化まで完了！ よりペルソナを具",
+          "url": "https://note.com/aiux_unite/n/nd8a16aa12aed",
+          "no": 5,
+          "thumb": "https://assets.st-note.com/production/uploads/images/203471197/rectangle_large_type_2_cf2b29e6dcdba1ae7e6e5ad79156aa2d.png?width=800"
+        },
+        {
+          "title": "マンガで実践！AI活用 第6話：「要件定義」",
+          "desc": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画をPRし大ヒットさせたい。 前回はカスタマージャーニーマップとユーザーシナリオを作り、顧客体験の可視",
+          "url": "https://note.com/aiux_unite/n/n0075638cfe70",
+          "no": 6,
+          "thumb": "https://assets.st-note.com/production/uploads/images/207964761/rectangle_large_type_2_714f49231b7bd5c4dc4b6466dbae75f6.png?width=800"
+        }
+      ]
     },
     "honshitsu": {
       "updatedAt": "2026-07-04",
@@ -58,8 +115,14 @@
           "title": "AI時代の「流行」と「本質」：AIの先にあるべきもの",
           "desc": "AIの活用の「本質」と「流行」の両方を、AIの先にあるべきものという視点で読み解くエッセイ。",
           "url": "https://note.com/aiux_unite/n/na87618c2923d",
-          "thumb": "https://assets.st-note.com/production/uploads/images/241595402/rectangle_large_type_2_a064de6ee4a40431b78183268d658ed0.png?fit=bounds&quality=85&width=800",
+          "thumb": "https://assets.st-note.com/production/uploads/images/241595402/rectangle_large_type_2_a064de6ee4a40431b78183268d658ed0.png?width=800",
           "likes": 166
+        },
+        {
+          "title": "AI時代の「流行」と「本質」：序章_AI時代にAIを叫ぶ",
+          "desc": "続きをみる",
+          "url": "https://note.com/aiux_unite/n/nff496f7dcb30",
+          "thumb": "https://assets.st-note.com/production/uploads/images/234391578/rectangle_large_type_2_16f5322764bba3c85123b46d58b5d31a.png?width=800"
         }
       ]
     }
