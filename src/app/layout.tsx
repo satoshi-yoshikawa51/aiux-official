@@ -12,6 +12,7 @@ import "@fontsource/jetbrains-mono/500.css";
 import "@fontsource/jetbrains-mono/700.css";
 import "@phosphor-icons/web/bold";
 import "./globals.css";
+import { ScrollReveal } from "./reveal";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://comixai.dev"),
@@ -92,7 +93,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ScrollReveal />
+        {children}
+      </body>
       <GoogleAnalytics gaId="G-2FVS6MP6GQ" />
     </html>
   );

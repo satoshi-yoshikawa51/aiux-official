@@ -204,17 +204,243 @@ img {
   }
 }
 
-/* Entrance — transform only so content is never permanently hidden */
+/* —— MVのスクロールキュー —— */
+.hero-scroll-cue {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--paper-50);
+  text-decoration: none;
+  font-family: var(--font-hand);
+  font-size: 13px;
+  opacity: 0.85;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+.hero-scroll-cue i {
+  font-size: 18px;
+}
+@media (max-width: 700px) {
+  .hero-scroll-cue {
+    display: none;
+  }
+}
+
+/* —— MV見出しの文字・集中線（ベース） —— */
+.ht-ch {
+  display: inline-block;
+}
+.hero-burst {
+  position: absolute;
+  inset: -46% -14%;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-conic-gradient(
+    rgba(255, 255, 255, 0.3) 0deg 1.1deg,
+    transparent 1.1deg 9deg
+  );
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 32%, #000 48%, transparent 72%);
+  mask-image: radial-gradient(ellipse at center, transparent 32%, #000 48%, transparent 72%);
+}
+
+/* —— 用語チップ: ホバーで少し傾く遊び —— */
+.rv-stagger a {
+  transition: transform 0.16s var(--ease-pop);
+}
+.rv-stagger a:hover {
+  transform: rotate(-2deg) scale(1.05);
+}
+
+/* Entrance & scroll reveal — transform/opacityのみ（レイアウトを動かさない）。
+   .rv はJS(reveal.tsx)が視界外のセクションにだけ付けるので、
+   JS無効環境では何も隠れない。 */
 @media (prefers-reduced-motion: no-preference) {
   section,
   footer {
     animation: rise 0.5s var(--ease-out) both;
+    transition: opacity 0.5s var(--ease-out);
   }
   @keyframes rise {
     from {
       transform: translateY(16px);
     }
     to {
+      transform: none;
+    }
+  }
+  /* セクションはフェードのみ。移動はカード側に一本化して
+     二重の動きによるガタつきを避ける */
+  section.rv,
+  footer.rv {
+    opacity: 0;
+  }
+  section.rv-in,
+  footer.rv-in {
+    opacity: 1;
+  }
+  /* カード/チップは1枚ずつポヨンと登場（reveal.tsxが個別に発火）。
+     backwardsフィルなのでアニメ終了後は素のスタイルに戻り、
+     ホバー演出と干渉しない */
+  .rv-card {
+    opacity: 0;
+  }
+  .rv-card-in {
+    animation: purun 0.5s ease backwards;
+    animation-delay: calc(var(--rv-i, 0) * 70ms);
+    transform-origin: 50% 100%;
+  }
+  /* 浮き上がって少し行き過ぎ、かすかに潰れてぷるんと収まる */
+  @keyframes purun {
+    0% {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(-5px);
+    }
+    78% {
+      transform: translateY(1px) scaleX(1.008) scaleY(0.982);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* 用語集の図解: 箱・矢印が流れの順にポンポンと現れる */
+  .diag > * {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: diag-in 0.45s var(--ease-pop) forwards;
+  }
+  .diag > *:nth-child(1) { animation-delay: 0.05s; }
+  .diag > *:nth-child(2) { animation-delay: 0.15s; }
+  .diag > *:nth-child(3) { animation-delay: 0.25s; }
+  .diag > *:nth-child(4) { animation-delay: 0.35s; }
+  .diag > *:nth-child(5) { animation-delay: 0.45s; }
+  .diag > *:nth-child(6) { animation-delay: 0.55s; }
+  .diag > *:nth-child(7) { animation-delay: 0.65s; }
+  .diag > *:nth-child(8) { animation-delay: 0.75s; }
+  .diag > *:nth-child(9) { animation-delay: 0.85s; }
+  .diag > *:nth-child(10) { animation-delay: 0.95s; }
+  .diag > *:nth-child(11) { animation-delay: 1.05s; }
+  .diag > *:nth-child(12) { animation-delay: 1.15s; }
+  .diag > *:nth-child(13) { animation-delay: 1.25s; }
+  .diag > *:nth-child(14) { animation-delay: 1.35s; }
+  .diag > *:nth-child(15) { animation-delay: 1.45s; }
+  .diag > *:nth-child(16) { animation-delay: 1.55s; }
+  /* MV: バッジ→見出し→リード→ボタンの順にぷるんと登場 */
+  .hero-enter {
+    animation: purun 0.55s ease backwards;
+    animation-delay: calc(var(--i, 0) * 130ms + 120ms);
+  }
+  .hero-enter-badge {
+    animation: hero-pop 0.55s var(--ease-pop) backwards;
+    animation-delay: 100ms;
+  }
+  @keyframes hero-pop {
+    0% {
+      opacity: 0;
+      transform: translateY(14px) rotate(-6deg) scale(0.9);
+    }
+    70% {
+      opacity: 1;
+      transform: translateY(-2px) rotate(2deg);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* MV見出し: 1文字ずつマンガのタイトルロゴのように飛び込む */
+  .ht-ch {
+    animation: char-pop 0.5s var(--ease-pop) backwards;
+    animation-delay: calc(var(--c, 0) * 45ms + 220ms);
+  }
+  .ht-em {
+    animation-name: char-pop-em;
+  }
+  @keyframes char-pop {
+    0% {
+      opacity: 0;
+      transform: translateY(0.42em) rotate(-8deg) scale(0.5);
+    }
+    62% {
+      opacity: 1;
+      transform: translateY(-0.06em) rotate(2deg) scale(1.06);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* 「面白く。」は少し大きく跳ねる */
+  @keyframes char-pop-em {
+    0% {
+      opacity: 0;
+      transform: translateY(0.5em) rotate(-10deg) scale(0.4);
+    }
+    62% {
+      opacity: 1;
+      transform: translateY(-0.09em) rotate(3deg) scale(1.16);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* 「面白く。」が決まった瞬間、集中線が一瞬走る */
+  .hero-burst {
+    animation: burst 0.6s ease-out 0.62s both;
+  }
+  @keyframes burst {
+    0% {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    35% {
+      opacity: 0.85;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.18);
+    }
+  }
+
+  /* スクロールキューはふわふわ上下 */
+  .hero-scroll-cue i {
+    animation: cue-bob 1.7s ease-in-out infinite;
+  }
+  @keyframes cue-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.65;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+  }
+
+  @keyframes diag-in {
+    0% {
+      opacity: 0;
+      transform: translateY(14px) scale(0.8);
+    }
+    62% {
+      opacity: 1;
+      transform: translateY(-4px) scale(1.07);
+    }
+    100% {
+      opacity: 1;
       transform: none;
     }
   }

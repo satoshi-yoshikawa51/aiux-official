@@ -66,7 +66,7 @@ function T({ x, y, text, size = 13, color = MUTED, anchor = "middle", bold = fal
 
 function Svg({ h, title, children }: { h: number; title: string; children: React.ReactNode }) {
   return (
-    <svg viewBox={`0 0 600 ${h}`} width="100%" role="img" aria-label={title} style={{ display: "block" }}>
+    <svg viewBox={`0 0 600 ${h}`} width="100%" role="img" aria-label={title} className="diag" style={{ display: "block" }}>
       <title>{title}</title>
       {children}
     </svg>

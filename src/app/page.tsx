@@ -125,11 +125,15 @@ function HeroVideo() {
       </div>
       <div className="hero-content" style={{ maxWidth: PAGE, margin: "0 auto" }}>
         <div style={{ maxWidth: 600 }}>
-          <Badge tone="red" style={{ marginBottom: 20, boxShadow: "var(--shadow-pop-sm)" }}>
-            AIクリエイター × 漫画家
-          </Badge>
+          <div className="hero-enter-badge" style={{ display: "inline-block" }}>
+            <Badge tone="red" style={{ marginBottom: 20, boxShadow: "var(--shadow-pop-sm)" }}>
+              AIクリエイター × 漫画家
+            </Badge>
+          </div>
           <h1
+            aria-label="AIを、面白く。わかりやすく。"
             style={{
+              position: "relative",
               fontFamily: "var(--font-display)",
               fontWeight: 900,
               fontSize: "clamp(40px, 6.4vw, 72px)",
@@ -140,25 +144,51 @@ function HeroVideo() {
               textShadow: "0 2px 18px rgba(0,0,0,0.55)",
             }}
           >
-            AIを、<span style={{ color: "var(--yellow-400)" }}>面白く。</span>
-            <br />
-            わかりやすく。
+            <span className="hero-burst" aria-hidden="true" />
+            <span aria-hidden="true">
+              {["A", "I", "を", "、"].map((c, i) => (
+                <span key={i} className="ht-ch" style={{ "--c": i } as React.CSSProperties}>
+                  {c}
+                </span>
+              ))}
+              {["面", "白", "く", "。"].map((c, i) => (
+                <span key={"e" + i} className="ht-ch ht-em" style={{ "--c": i + 4, color: "var(--yellow-400)" } as React.CSSProperties}>
+                  {c}
+                </span>
+              ))}
+              <br />
+              {["わ", "か", "り", "や", "す", "く", "。"].map((c, i) => (
+                <span key={"w" + i} className="ht-ch" style={{ "--c": i + 8 } as React.CSSProperties}>
+                  {c}
+                </span>
+              ))}
+            </span>
           </h1>
           <p
-            style={{
-              fontSize: 17,
-              lineHeight: 1.9,
-              color: "var(--paper-100)",
-              maxWidth: 480,
-              margin: "20px 0 30px",
-              textShadow: "0 1px 10px rgba(0,0,0,0.6)",
-            }}
+            className="hero-enter"
+            style={
+              {
+                fontSize: 17,
+                lineHeight: 1.9,
+                color: "var(--paper-100)",
+                maxWidth: 480,
+                margin: "20px 0 30px",
+                textShadow: "0 1px 10px rgba(0,0,0,0.6)",
+                "--i": 5,
+              } as React.CSSProperties
+            }
           >
             {HERO_INTRO}
           </p>
-          <HeroActionsLight />
+          <div className="hero-enter" style={{ "--i": 6 } as React.CSSProperties}>
+            <HeroActionsLight />
+          </div>
         </div>
       </div>
+      <a href="#profile" className="hero-scroll-cue" aria-label="下へスクロール">
+        <span>Scroll</span>
+        <i className="ph-bold ph-caret-double-down" />
+      </a>
     </section>
   );
 }
@@ -462,7 +492,7 @@ function Glossary() {
     >
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 60px" }}>
         <SectionHead kicker="GLOSSARY — AI用語集" title="いまさら聞けない、AI用語。" hand="図解つき・現場目線でサクッと" />
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", maxWidth: 880 }}>
+        <div className="rv-stagger" style={{ display: "flex", gap: 10, flexWrap: "wrap", maxWidth: 880 }}>
           {TERMS.map((t) => (
             <a
               key={t.slug}
