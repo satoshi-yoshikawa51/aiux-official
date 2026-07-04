@@ -11,7 +11,6 @@ import {
   NOTE_ALL,
   YOUTUBE,
   MAGAZINES,
-  WORKS,
   ARTICLES_NEW,
   ARTICLES_POPULAR,
   ROLES,
@@ -23,6 +22,8 @@ import {
   type Article,
   type Tone,
 } from "./data";
+import { WORK_DETAILS } from "./works/data";
+import { WorkCard } from "./works/ui";
 import { PAGE, Nav, Footer } from "./site-chrome";
 
 const HERO_INTRO =
@@ -434,7 +435,7 @@ function Works() {
     <section id="works" style={{ maxWidth: PAGE, margin: "0 auto", padding: "62px 0 56px" }}>
       <SectionHead kicker="WORKS — つくったもの" title="つくったもの" hand="遊べる・読める、AIプロダクト集" />
       {WORK_CATS.map((cat) => {
-        const items = WORKS.filter((w) => w.category === cat.key);
+        const items = WORK_DETAILS.filter((w) => w.category === cat.key);
         if (!items.length) return null;
         return (
           <div key={cat.key} style={{ marginBottom: 30 }}>
@@ -443,45 +444,20 @@ function Works() {
               <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17 }}>{cat.key}</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }} className="articles-grid">
-              {items.map((w) => {
-                const external = w.url.startsWith("http");
-                const linkProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
-                return (
-                  <a key={w.title} href={w.url} {...linkProps} style={{ textDecoration: "none", color: "inherit" }}>
-                    <Card variant="pop" hover padding={0} style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
-                      <div style={{ position: "relative", height: 150, background: toneBg(w.tone), borderBottom: "var(--bw-bold) solid var(--ink-900)", overflow: "hidden" }}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={w.image}
-                          alt={w.title}
-                          loading="lazy"
-                          style={{ width: "100%", height: "100%", objectFit: w.fit || "cover", objectPosition: "center", padding: w.fit === "contain" ? 20 : 0, display: "block" }}
-                        />
-                        {w.badge && (
-                          <span style={{ position: "absolute", top: 0, left: 0 }}>
-                            <Badge tone="ink" style={{ borderRadius: "0 0 var(--radius-sm) 0", fontSize: 11 }}>
-                              {w.badge}
-                            </Badge>
-                          </span>
-                        )}
-                      </div>
-                      <div style={{ padding: "16px 16px 18px", display: "flex", flexDirection: "column", flex: 1 }}>
-                        <h3 style={{ margin: "0 0 8px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16.5, lineHeight: 1.4, textWrap: "pretty" }}>{w.title}</h3>
-                        <p style={{ margin: "0 0 14px", fontSize: 13, lineHeight: 1.8, color: "var(--text-muted)", textWrap: "pretty" }}>{w.desc}</p>
-                        <div style={{ marginTop: "auto", display: "flex", justifyContent: "flex-end" }}>
-                          <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)", whiteSpace: "nowrap" }}>
-                            {w.cta} <i className="ph-bold ph-arrow-up-right" />
-                          </span>
-                        </div>
-                      </div>
-                    </Card>
-                  </a>
-                );
-              })}
+              {items.map((w) => (
+                <WorkCard key={w.slug} work={w} />
+              ))}
             </div>
           </div>
         );
       })}
+      <div style={{ textAlign: "center", marginTop: 4 }}>
+        <a href="/works" style={{ textDecoration: "none" }}>
+          <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+            つくったもの一覧を見る
+          </Button>
+        </a>
+      </div>
     </section>
   );
 }

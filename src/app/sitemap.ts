@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { MANGA_SERIES } from "./manga/data";
+import { WORK_DETAILS } from "./works/data";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -38,6 +39,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...MANGA_SERIES.map((s) => ({
       url: `${base}/manga/${s.slug}`,
       lastModified: new Date(s.lastUpdated),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    {
+      url: `${base}/works`,
+      lastModified: new Date(
+        WORK_DETAILS.map((w) => w.lastUpdated).sort().at(-1)!
+      ),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...WORK_DETAILS.map((w) => ({
+      url: `${base}/works/${w.slug}`,
+      lastModified: new Date(w.lastUpdated),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
