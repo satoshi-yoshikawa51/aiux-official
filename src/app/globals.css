@@ -238,26 +238,18 @@ img {
     opacity: 0;
   }
   .rv-card-in {
-    animation: purun 0.6s ease backwards;
-    animation-delay: calc(var(--rv-i, 0) * 80ms);
-    transform-origin: 50% 100%;
+    animation: purun 0.42s var(--ease-out) backwards;
+    animation-delay: calc(var(--rv-i, 0) * 60ms);
   }
-  /* 下から上がって着地 → ぷにっと潰れる → ぷるんと戻る
-     （スクワッシュ&ストレッチ。拡大方向のオーバーシュートはしない） */
+  /* さっくり登場: 小さく浮き上がり、最後にわずかに揺れて収まる */
   @keyframes purun {
     0% {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(14px);
     }
-    52% {
+    72% {
       opacity: 1;
-      transform: translateY(-4px);
-    }
-    70% {
-      transform: translateY(0) scaleX(1.025) scaleY(0.955);
-    }
-    85% {
-      transform: scaleX(0.99) scaleY(1.012);
+      transform: translateY(-2px);
     }
     100% {
       opacity: 1;
