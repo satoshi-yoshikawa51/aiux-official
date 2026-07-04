@@ -250,26 +250,10 @@ function Profile() {
           ))}
         </div>
         <div style={{ marginTop: 30 }}>
-          <a
-            href="/profile"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "var(--yellow-400)",
-              color: "var(--ink-900)",
-              border: "var(--bw-line) solid var(--ink-900)",
-              borderRadius: "var(--radius-md)",
-              boxShadow: "var(--shadow-pop-sm)",
-              padding: "13px 22px",
-              fontFamily: "var(--font-heading)",
-              fontWeight: 900,
-              fontSize: 15,
-              textDecoration: "none",
-            }}
-          >
-            詳しいプロフィールを見る
-            <i className="ph-bold ph-arrow-right" />
+          <a href="/profile" style={{ textDecoration: "none" }}>
+            <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              詳しいプロフィールを見る
+            </Button>
           </a>
         </div>
       </div>

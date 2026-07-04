@@ -8,7 +8,7 @@ import React from "react";
 type CSS = React.CSSProperties;
 
 /* ---------------- Button ---------------- */
-type ButtonVariant = "primary" | "secondary" | "ink" | "ghost";
+type ButtonVariant = "primary" | "secondary" | "ink" | "ghost" | "yellow";
 type Size = "sm" | "md" | "lg";
 
 interface ButtonProps
@@ -44,6 +44,8 @@ export function Button({
     secondary: { background: "var(--paper-0)", color: "var(--ink-900)", border: "var(--bw-bold) solid var(--ink-900)", boxShadow: "var(--shadow-pop-sm)" },
     ink: { background: "var(--ink-900)", color: "var(--paper-50)", border: "var(--bw-bold) solid var(--ink-900)", boxShadow: "var(--shadow-pop-sm)" },
     ghost: { background: "transparent", color: "var(--ink-900)", border: "var(--bw-bold) solid transparent", boxShadow: "none" },
+    /* 黒背景セクション上の主要CTA用（ink が沈む場面で使う） */
+    yellow: { background: "var(--yellow-400)", color: "var(--ink-900)", border: "var(--bw-bold) solid var(--ink-900)", boxShadow: "var(--shadow-pop-sm)" },
   };
   const v = variants[variant] || variants.primary;
   const base: CSS = {
@@ -87,6 +89,7 @@ export function Button({
         if (variant === "primary") e.currentTarget.style.background = "var(--red-600)";
         if (variant === "secondary") e.currentTarget.style.background = "var(--paper-100)";
         if (variant === "ink") e.currentTarget.style.background = "var(--ink-800)";
+        if (variant === "yellow") e.currentTarget.style.background = "var(--yellow-200)";
       }}
       onMouseLeave={(e) => {
         reset(e);

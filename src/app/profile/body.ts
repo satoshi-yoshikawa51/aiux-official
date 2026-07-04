@@ -13,8 +13,8 @@ export const PROFILE_BODY = `<main>
         </div>
         <p class="lead">「<b>AIを、面白く。わかりやすく。</b>」をテーマに、マンガとUXの力で生成AIを"現場で使える武器"に変える。週刊少年チャンピオンで連載を持っていた漫画家であり、株式会社ニジボックスの室長／UXディレクター。note「AI-UX UNITE」で、AI活用を描いたマンガや記事を発信しています。</p>
         <div class="hero-cta">
-          <a class="btn btn-ink" href="https://note.com/aiux_unite" target="_blank" rel="noopener"><i class="ph-bold ph-book-open"></i>noteでマンガを読む</a>
-          <a class="btn btn-ghost" href="#career">経歴を見る</a>
+          <a class="btn btn-ink" href="https://note.com/aiux_unite" target="_blank" rel="noopener"><i class="ph-bold ph-book-open"></i>noteでマンガを読む<i class="ph-bold ph-arrow-up-right"></i></a>
+          <a class="btn btn-ghost" href="#career">経歴を見る<i class="ph-bold ph-arrow-down"></i></a>
         </div>
       </div>
       <div class="portrait">
@@ -164,8 +164,8 @@ export const PROFILE_BODY = `<main>
         <h2>一緒に、AIを面白く。</h2>
         <p>講演・寄稿・制作・取材のご相談はお気軽に。</p>
         <div class="cta-actions">
-          <a class="btn btn-primary" style="padding:14px 28px;font-size:16px" href="/#contact"><i class="ph-bold ph-paper-plane-tilt"></i>お問い合わせ</a>
-          <a class="btn btn-ghost" href="/"><i class="ph-bold ph-house"></i>トップページ</a>
+          <a class="btn btn-primary" style="padding:14px 28px;font-size:16px" href="/#contact"><i class="ph-bold ph-paper-plane-tilt"></i>お問い合わせ<i class="ph-bold ph-arrow-right"></i></a>
+          <a class="btn btn-ghost" href="/"><i class="ph-bold ph-house"></i>トップページ<i class="ph-bold ph-arrow-right"></i></a>
         </div>
         <div class="socials">
           <a href="https://x.com/yoshikawa5116" target="_blank" rel="noopener" aria-label="X"><i class="ph-bold ph-x-logo"></i></a>
