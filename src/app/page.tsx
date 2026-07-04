@@ -411,6 +411,13 @@ function Magazines() {
             </Card>
           ))}
         </div>
+        <div style={{ textAlign: "center", marginTop: 34 }}>
+          <a href="/manga" style={{ textDecoration: "none" }}>
+            <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              連載シリーズ一覧を見る
+            </Button>
+          </a>
+        </div>
       </div>
     </section>
   );
