@@ -24,6 +24,7 @@ import {
 } from "./data";
 import { WORK_DETAILS } from "./works/data";
 import { WorkCard } from "./works/ui";
+import { TERMS } from "./glossary/data";
 import { PAGE, Nav, Footer } from "./site-chrome";
 
 const HERO_INTRO =
@@ -446,6 +447,57 @@ function Works() {
   );
 }
 
+/* ═══════════════ AI用語集 ═══════════════ */
+function Glossary() {
+  return (
+    <section
+      id="glossary"
+      style={{
+        background: "var(--paper-100)",
+        borderTop: "var(--bw-line) solid var(--ink-900)",
+        borderBottom: "var(--bw-line) solid var(--ink-900)",
+        backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)",
+        backgroundSize: "11px 11px",
+      }}
+    >
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 60px" }}>
+        <SectionHead kicker="GLOSSARY — AI用語集" title="いまさら聞けない、AI用語。" hand="図解つき・現場目線でサクッと" />
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", maxWidth: 880 }}>
+          {TERMS.map((t) => (
+            <a
+              key={t.slug}
+              href={`/glossary/${t.slug}`}
+              style={{
+                textDecoration: "none",
+                fontFamily: "var(--font-heading)",
+                fontWeight: 700,
+                fontSize: 14,
+                color: "var(--ink-900)",
+                background: "var(--paper-0)",
+                border: "var(--bw-line) solid var(--ink-900)",
+                borderRadius: "var(--radius-full)",
+                padding: "10px 18px",
+                boxShadow: "var(--shadow-pop-sm)",
+              }}
+            >
+              {t.term}
+              <span style={{ color: "var(--text-muted)", fontWeight: 500 }}>とは</span>
+              <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
+            </a>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: 34 }}>
+          <a href="/glossary" style={{ textDecoration: "none" }}>
+            <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              AI用語集を見る
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ═══════════════ SNS + YouTube ═══════════════ */
 function Social() {
   return (
@@ -697,6 +749,7 @@ export default function Page() {
       <Articles />
       <Magazines />
       <Works />
+      <Glossary />
       <Social />
       <Contact />
       <Footer />

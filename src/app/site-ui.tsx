@@ -51,6 +51,49 @@ export function SectionHead({ kicker, title, hand }: { kicker: string; title: st
   );
 }
 
+/* —— サムネイル＋概要つきの横型リンクカード
+      （用語集の「もっと深く」等。マガジンの収録エピソードと同デザイン） —— */
+export function MediaLinkCard({
+  href, title, desc, thumb, badge, tone = "paper", likes, external,
+}: {
+  href: string; title: string; desc?: string; thumb?: string;
+  badge?: string; tone?: Tone; likes?: number; external: boolean;
+}) {
+  return (
+    <a href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: "none", color: "inherit" }}>
+      <Card variant="pop" hover padding={0} style={{ overflow: "hidden" }}>
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+          {thumb && (
+            <div style={{ flex: "0 1 220px", minWidth: 180, background: toneBg(tone) }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={thumb} alt={title} loading="lazy" style={{ width: "100%", height: "100%", minHeight: 110, objectFit: "cover", display: "block" }} />
+            </div>
+          )}
+          <div style={{ flex: "1 1 260px", padding: "14px 16px", display: "flex", flexDirection: "column", borderLeft: thumb ? "var(--bw-line) solid var(--ink-900)" : "none" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 7 }}>
+              {badge && <Badge tone={tone === "paper" ? "ink" : tone === "ink" ? "ink" : tone}>{badge}</Badge>}
+              {likes != null && (
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)" }}>
+                  <i className="ph-bold ph-heart" style={{ color: "var(--red-500)" }} /> {likes}
+                </span>
+              )}
+            </div>
+            <h3 style={{ margin: "0 0 5px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15.5, lineHeight: 1.5, textWrap: "pretty" }}>{title}</h3>
+            {desc && <p style={{ margin: 0, fontSize: 13, lineHeight: 1.75, color: "var(--text-muted)" }}>{desc}</p>}
+            <span style={{ marginTop: "auto", paddingTop: 8, alignSelf: "flex-end", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
+              {external ? (
+                <>noteで読む <i className="ph-bold ph-arrow-up-right" /></>
+              ) : (
+                <>くわしく見る <i className="ph-bold ph-arrow-right" /></>
+              )}
+            </span>
+          </div>
+        </div>
+      </Card>
+    </a>
+  );
+}
+
 /* —— あわせて読みたい note 記事カード —— */
 export function RelatedArticleCard({ a }: { a: Article }) {
   return (

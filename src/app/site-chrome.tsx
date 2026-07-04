@@ -18,10 +18,12 @@ export function Nav({ home = true }: { home?: boolean }) {
     { label: "記事", href: "#articles" },
     { label: "マガジン", href: "#magazines" },
     { label: "WORKS", href: "#works" },
+    { label: "用語集", href: "/glossary" },
     { label: "プロフィール", href: "#profile" },
     { label: "SNS", href: "#social" },
   ];
-  const link = (href: string) => (home ? href : "/" + href);
+  /* #アンカーはトップページ内リンク、/パスはどのページからも共通 */
+  const link = (href: string) => (href.startsWith("#") ? (home ? href : "/" + href) : href);
   const [open, setOpen] = React.useState(false);
   return (
     <header

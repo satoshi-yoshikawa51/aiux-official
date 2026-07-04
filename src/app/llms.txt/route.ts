@@ -1,5 +1,6 @@
 import { MANGA_SERIES } from "../manga/data";
 import { WORK_DETAILS } from "../works/data";
+import { TERMS } from "../glossary/data";
 
 /* llms.txt — AI検索・LLMクローラー向けのサイト案内（llmstxt.org 形式）。
    マンガ連載・作品データから自動生成するので、ページを増やせば追従する。 */
@@ -30,6 +31,13 @@ export function GET() {
     "- [つくったもの一覧](https://comixai.dev/works): Claude / Claude Code で作ったプロダクト",
     ...WORK_DETAILS.map(
       (w) => `- [${w.title}](https://comixai.dev/works/${w.slug}): ${w.metaDescription}`
+    ),
+    "",
+    "## AI用語集",
+    "",
+    "- [AI用語集トップ](https://comixai.dev/glossary): 生成AIの頻出用語を現場目線でわかりやすく解説",
+    ...TERMS.map(
+      (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`
     ),
     "",
     "## 外部リンク",

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { MANGA_SERIES } from "./manga/data";
 import { WORK_DETAILS } from "./works/data";
+import { TERMS, GLOSSARY_UPDATED } from "./glossary/data";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -55,6 +56,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(w.lastUpdated),
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    {
+      url: `${base}/glossary`,
+      lastModified: new Date(GLOSSARY_UPDATED),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    ...TERMS.map((t) => ({
+      url: `${base}/glossary/${t.slug}`,
+      lastModified: new Date(t.lastUpdated),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
   ];
 }
