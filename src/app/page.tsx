@@ -399,7 +399,7 @@ function Magazines() {
       }}
     >
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "60px 0 64px" }}>
-        <SectionHead kicker="MAGAZINE — noteマガジン" title="シリーズで読む" hand="まとめ買い・フォローはこちら" />
+        <SectionHead kicker="MAGAZINE — noteマガジン" title="シリーズで読む" hand="まとめ読み・フォローはこちら" />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 22 }} className="mag-grid">
           {MAGAZINES.map((m) => (
             <Card key={m.id} variant="pop" hover padding={0} style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
