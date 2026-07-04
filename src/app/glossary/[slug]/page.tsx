@@ -2,9 +2,48 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
-import { Breadcrumb, SectionHead } from "../../site-ui";
-import { TERMS, getTerm } from "../data";
+import { Breadcrumb, SectionHead, MediaLinkCard } from "../../site-ui";
+import { ARTICLES, ARTICLES_POPULAR, type Tone } from "../../data";
+import { MANGA_SERIES } from "../../manga/data";
+import { WORK_DETAILS } from "../../works/data";
+import { TERMS, getTerm, type TermLink } from "../data";
 import { TermDiagram } from "../diagrams";
+
+/* —— リンク先URLから、サムネ・概要つきのカード情報を解決する ——
+   マガジン/作品/note記事/収録エピソードの既存データを引くので、
+   用語データ側はURLを書くだけでよい。 */
+interface RichLink {
+  href: string;
+  title: string;
+  desc?: string;
+  thumb?: string;
+  badge?: string;
+  tone: Tone;
+  likes?: number;
+  external: boolean;
+}
+
+const ARTICLE_POOL = new Map(
+  [...ARTICLES, ...ARTICLES_POPULAR].map((a) => [a.url, a])
+);
+
+function resolveLink(l: TermLink): RichLink {
+  if (l.href.startsWith("/manga/")) {
+    const s = MANGA_SERIES.find((x) => `/manga/${x.slug}` === l.href);
+    if (s) return { href: l.href, title: `連載「${s.title}」`, desc: s.intro[0], thumb: s.cover, badge: s.label, tone: s.tone, external: false };
+  }
+  if (l.href.startsWith("/works/")) {
+    const w = WORK_DETAILS.find((x) => `/works/${x.slug}` === l.href);
+    if (w) return { href: l.href, title: w.title, desc: w.tagline, thumb: w.image, badge: w.badge ?? w.category, tone: w.tone, external: false };
+  }
+  const a = ARTICLE_POOL.get(l.href);
+  if (a) return { href: l.href, title: a.title, desc: a.excerpt, thumb: a.thumb, badge: a.badge, tone: a.tone, likes: a.likes, external: true };
+  for (const s of MANGA_SERIES) {
+    const ep = s.episodes.find((e) => e.url === l.href);
+    if (ep) return { href: l.href, title: ep.title, desc: ep.desc || undefined, thumb: ep.thumb, badge: ep.no != null ? `第${ep.no}話` : s.label, tone: s.tone, likes: ep.likes, external: true };
+  }
+  return { href: l.href, title: l.label, tone: "paper", external: l.href.startsWith("http") };
+}
 
 export const dynamicParams = false;
 
@@ -129,20 +168,10 @@ export default async function GlossaryTermPage({ params }: Props) {
       <section style={{ background: "var(--paper-100)", borderTop: "var(--bw-line) solid var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)", backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)", backgroundSize: "11px 11px" }}>
         <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "50px 0 54px" }}>
           <SectionHead kicker="LEARN MORE — もっと深く" title="マンガ・実践記事で理解する" hand="読むより速い、体感で学ぶ" />
-          <div style={{ display: "grid", gap: 12, maxWidth: 760 }}>
+          <div style={{ display: "grid", gap: 14, maxWidth: 760 }}>
             {t.links.map((l) => {
-              const external = l.href.startsWith("http");
-              return (
-                <a key={l.href} href={l.href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: "none", color: "inherit" }}>
-                  <Card variant="pop" hover padding={16} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                    <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 15, lineHeight: 1.6 }}>
-                      <i className={"ph-bold " + (external ? "ph-book-open" : "ph-arrow-bend-down-right")} style={{ color: "var(--red-500)", marginRight: 10 }} />
-                      {l.label}
-                    </span>
-                    <i className={"ph-bold " + (external ? "ph-arrow-up-right" : "ph-arrow-right")} style={{ color: "var(--red-600)", flex: "none" }} />
-                  </Card>
-                </a>
-              );
+              const r = resolveLink(l);
+              return <MediaLinkCard key={r.href} {...r} />;
             })}
           </div>
 
