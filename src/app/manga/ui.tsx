@@ -22,7 +22,7 @@ export function SeriesCard({ series }: { series: MangaSeries }) {
         </div>
         <div style={{ padding: "16px 18px 18px", display: "flex", flexDirection: "column", flex: 1 }}>
           <h3 style={{ margin: "0 0 8px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 19, lineHeight: 1.4, textWrap: "pretty" }}>{series.title}</h3>
-          <p style={{ margin: "0 0 16px", fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)", textWrap: "pretty" }}>{series.intro[0]}</p>
+          <p style={{ margin: "0 0 16px", fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)" }}>{series.intro[0]}</p>
           <div style={{ marginTop: "auto", display: "flex", justifyContent: "flex-end" }}>
             <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
               シリーズ紹介を見る <i className="ph-bold ph-arrow-right" />

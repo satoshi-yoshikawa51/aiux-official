@@ -71,7 +71,7 @@ export default function MangaIndexPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           マンガで読む、AI活用。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0, textWrap: "pretty" }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
           むずかしい生成AIの話も、マンガなら楽しく頭に入る。週刊少年チャンピオンで連載経験のある漫画家であり、Web制作の現場に立つAIクリエイターでもある吉川聡史が、noteで3つのシリーズを連載しています。入門から実践、そしてAI時代を生き延びるための考察まで——あなたに合うシリーズから、どうぞ。
         </p>
       </section>

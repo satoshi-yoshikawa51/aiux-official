@@ -111,11 +111,11 @@ export default async function WorkDetailPage({ params }: Props) {
             </h1>
             <p style={{ fontFamily: "var(--font-hand)", fontSize: 17, color: "var(--text-muted)", margin: "0 0 16px" }}>{w.tagline}</p>
             {w.intro.map((p) => (
-              <p key={p.slice(0, 12)} style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: "0 0 14px", textWrap: "pretty" }}>
+              <p key={p.slice(0, 12)} style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: "0 0 14px" }}>
                 {p}
               </p>
             ))}
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 }}>
+            <div className="hero-cta-row" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 }}>
               <a href={w.appUrl} {...appLinkProps} style={{ textDecoration: "none" }}>
                 <Button variant="primary" size="lg" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
                   いますぐ{w.cta}（無料）
@@ -142,7 +142,7 @@ export default async function WorkDetailPage({ params }: Props) {
               <Card key={f.title} variant="pop" padding={20}>
                 <i className={"ph-bold " + f.icon} style={{ fontSize: 26, color: "var(--red-500)" }} />
                 <h3 style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, margin: "10px 0 6px" }}>{f.title}</h3>
-                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.9, color: "var(--text-muted)", textWrap: "pretty" }}>{f.text}</p>
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.9, color: "var(--text-muted)" }}>{f.text}</p>
               </Card>
             ))}
           </div>
