@@ -125,40 +125,56 @@ function HeroVideo() {
       </div>
       <div className="hero-content" style={{ maxWidth: PAGE, margin: "0 auto" }}>
         <div style={{ maxWidth: 600 }}>
-          <Badge tone="red" style={{ marginBottom: 20, boxShadow: "var(--shadow-pop-sm)" }}>
-            AIクリエイター × 漫画家
-          </Badge>
+          <div className="hero-enter-badge" style={{ display: "inline-block" }}>
+            <Badge tone="red" style={{ marginBottom: 20, boxShadow: "var(--shadow-pop-sm)" }}>
+              AIクリエイター × 漫画家
+            </Badge>
+          </div>
           <h1
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 900,
-              fontSize: "clamp(40px, 6.4vw, 72px)",
-              lineHeight: 1.1,
-              margin: 0,
-              letterSpacing: "0.01em",
-              color: "var(--paper-50)",
-              textShadow: "0 2px 18px rgba(0,0,0,0.55)",
-            }}
+            className="hero-enter"
+            style={
+              {
+                fontFamily: "var(--font-display)",
+                fontWeight: 900,
+                fontSize: "clamp(40px, 6.4vw, 72px)",
+                lineHeight: 1.1,
+                margin: 0,
+                letterSpacing: "0.01em",
+                color: "var(--paper-50)",
+                textShadow: "0 2px 18px rgba(0,0,0,0.55)",
+                "--i": 1,
+              } as React.CSSProperties
+            }
           >
             AIを、<span style={{ color: "var(--yellow-400)" }}>面白く。</span>
             <br />
             わかりやすく。
           </h1>
           <p
-            style={{
-              fontSize: 17,
-              lineHeight: 1.9,
-              color: "var(--paper-100)",
-              maxWidth: 480,
-              margin: "20px 0 30px",
-              textShadow: "0 1px 10px rgba(0,0,0,0.6)",
-            }}
+            className="hero-enter"
+            style={
+              {
+                fontSize: 17,
+                lineHeight: 1.9,
+                color: "var(--paper-100)",
+                maxWidth: 480,
+                margin: "20px 0 30px",
+                textShadow: "0 1px 10px rgba(0,0,0,0.6)",
+                "--i": 2,
+              } as React.CSSProperties
+            }
           >
             {HERO_INTRO}
           </p>
-          <HeroActionsLight />
+          <div className="hero-enter" style={{ "--i": 3 } as React.CSSProperties}>
+            <HeroActionsLight />
+          </div>
         </div>
       </div>
+      <a href="#profile" className="hero-scroll-cue" aria-label="下へスクロール">
+        <span>Scroll</span>
+        <i className="ph-bold ph-caret-double-down" />
+      </a>
     </section>
   );
 }

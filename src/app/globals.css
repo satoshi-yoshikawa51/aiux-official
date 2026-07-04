@@ -204,6 +204,40 @@ img {
   }
 }
 
+/* —— MVのスクロールキュー —— */
+.hero-scroll-cue {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--paper-50);
+  text-decoration: none;
+  font-family: var(--font-hand);
+  font-size: 13px;
+  opacity: 0.85;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+.hero-scroll-cue i {
+  font-size: 18px;
+}
+@media (max-width: 700px) {
+  .hero-scroll-cue {
+    display: none;
+  }
+}
+
+/* —— 用語チップ: ホバーで少し傾く遊び —— */
+.rv-stagger a {
+  transition: transform 0.16s var(--ease-pop);
+}
+.rv-stagger a:hover {
+  transform: rotate(-2deg) scale(1.05);
+}
+
 /* Entrance & scroll reveal — transform/opacityのみ（レイアウトを動かさない）。
    .rv はJS(reveal.tsx)が視界外のセクションにだけ付けるので、
    JS無効環境では何も隠れない。 */
@@ -284,6 +318,45 @@ img {
   .diag > *:nth-child(14) { animation-delay: 1.35s; }
   .diag > *:nth-child(15) { animation-delay: 1.45s; }
   .diag > *:nth-child(16) { animation-delay: 1.55s; }
+  /* MV: バッジ→見出し→リード→ボタンの順にぷるんと登場 */
+  .hero-enter {
+    animation: purun 0.55s ease backwards;
+    animation-delay: calc(var(--i, 0) * 130ms + 120ms);
+  }
+  .hero-enter-badge {
+    animation: hero-pop 0.55s var(--ease-pop) backwards;
+    animation-delay: 100ms;
+  }
+  @keyframes hero-pop {
+    0% {
+      opacity: 0;
+      transform: translateY(14px) rotate(-6deg) scale(0.9);
+    }
+    70% {
+      opacity: 1;
+      transform: translateY(-2px) rotate(2deg);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* スクロールキューはふわふわ上下 */
+  .hero-scroll-cue i {
+    animation: cue-bob 1.7s ease-in-out infinite;
+  }
+  @keyframes cue-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.65;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+  }
+
   @keyframes diag-in {
     0% {
       opacity: 0;
