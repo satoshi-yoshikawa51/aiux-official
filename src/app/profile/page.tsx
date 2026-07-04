@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nav, Footer } from "../site-chrome";
+import { Breadcrumb } from "../site-ui";
 import { PROFILE_BODY } from "./body";
 import { PROFILE_JSONLD } from "./jsonld";
 import "./profile.css";
@@ -39,6 +40,7 @@ export default function ProfilePage() {
   return (
     <div style={{ background: "var(--paper-50)", minHeight: "100vh" }}>
       <Nav home={false} />
+      <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "プロフィール" }]} />
       <div dangerouslySetInnerHTML={{ __html: PROFILE_BODY }} />
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: PROFILE_JSONLD }} />
