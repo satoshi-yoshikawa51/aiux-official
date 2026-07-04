@@ -231,18 +231,32 @@ img {
     opacity: 1;
     transform: none;
   }
-  /* グリッドのカードは時間差で登場（--rv-i はreveal.tsxが付与） */
-  section.rv .articles-grid > *,
-  section.rv .mag-grid > * {
+  /* カード/チップは1枚ずつポヨンと登場（reveal.tsxが個別に発火）。
+     backwardsフィルなのでアニメ終了後は素のスタイルに戻り、
+     ホバー演出と干渉しない */
+  .rv-card {
     opacity: 0;
-    transform: translateY(16px);
   }
-  section.rv-in .articles-grid > *,
-  section.rv-in .mag-grid > * {
-    opacity: 1;
-    transform: none;
-    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-pop);
-    transition-delay: calc(var(--rv-i, 0) * 70ms);
+  .rv-card-in {
+    animation: poyon 0.65s cubic-bezier(0.22, 1.4, 0.36, 1) backwards;
+    animation-delay: calc(var(--rv-i, 0) * 90ms);
+  }
+  @keyframes poyon {
+    0% {
+      opacity: 0;
+      transform: translateY(30px) scale(0.9);
+    }
+    62% {
+      opacity: 1;
+      transform: translateY(-8px) scale(1.03);
+    }
+    82% {
+      transform: translateY(3px) scale(0.99);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   /* 用語集の図解: 箱・矢印が流れの順にポンポンと現れる */
@@ -269,11 +283,15 @@ img {
   .diag > *:nth-child(15) { animation-delay: 1.45s; }
   .diag > *:nth-child(16) { animation-delay: 1.55s; }
   @keyframes diag-in {
-    from {
+    0% {
       opacity: 0;
-      transform: translateY(9px) scale(0.96);
+      transform: translateY(14px) scale(0.8);
     }
-    to {
+    62% {
+      opacity: 1;
+      transform: translateY(-4px) scale(1.07);
+    }
+    100% {
       opacity: 1;
       transform: none;
     }

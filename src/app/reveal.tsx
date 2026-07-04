@@ -1,38 +1,72 @@
 "use client";
 /* ============================================================
-   スクロール出現演出。視界に入ったセクションに .rv-in を付け、
-   グリッドの子カードには時間差用のインデックス(--rv-i)を振る。
-   ・JSが無効な環境では何も隠さない（.rv はここでしか付けない）
+   スクロール出現演出。
+   ・セクションは視界に入ったらふわっと表示（.rv → .rv-in）
+   ・カード/チップは1枚ずつ監視し、視界に入った瞬間に
+     ポヨンと登場（.rv-card → .rv-card-in）。モバイル(1カラム)でも
+     1枚ごとに動きが見えるように、セクション単位ではなく個別発火。
+   ・JSが無効な環境では何も隠さない（隠すクラスはここでしか付けない）
    ・prefers-reduced-motion: reduce では演出しない
    ============================================================ */
 import { useEffect } from "react";
 
+const CARD_SELECTOR = ".articles-grid > *, .mag-grid > *, .rv-stagger > *";
+
 export function ScrollReveal() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const els = Array.from(document.querySelectorAll<HTMLElement>("section, footer"));
-    const io = new IntersectionObserver(
+
+    const inView = (el: Element) => {
+      const r = el.getBoundingClientRect();
+      return r.top < window.innerHeight && r.bottom > 0;
+    };
+
+    /* —— セクション: ふわっと —— */
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("section, footer"));
+    const ioSection = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
             e.target.classList.add("rv-in");
-            io.unobserve(e.target);
+            ioSection.unobserve(e.target);
           }
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
+      { rootMargin: "0px 0px -6% 0px", threshold: 0.05 }
     );
-    for (const el of els) {
-      el.querySelectorAll<HTMLElement>(
-        ".articles-grid > *, .mag-grid > *"
-      ).forEach((c, i) => c.style.setProperty("--rv-i", String(Math.min(i, 8))));
-      const r = el.getBoundingClientRect();
-      const inView = r.top < window.innerHeight && r.bottom > 0;
-      if (inView) continue; // 初期表示分は隠さない（ロード時のriseに任せる）
+    for (const el of sections) {
+      if (inView(el)) continue;
       el.classList.add("rv");
-      io.observe(el);
+      ioSection.observe(el);
     }
-    return () => io.disconnect();
+
+    /* —— カード/チップ: 1枚ずつポヨン —— */
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(CARD_SELECTOR));
+    const ioCard = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            const el = e.target as HTMLElement;
+            el.classList.remove("rv-card");
+            el.classList.add("rv-card-in");
+            ioCard.unobserve(el);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -4% 0px", threshold: 0.12 }
+    );
+    cards.forEach((el, i) => {
+      /* 同時に入ってくる横並び分だけ軽く時間差をつける */
+      el.style.setProperty("--rv-i", String(i % 3));
+      if (inView(el)) return;
+      el.classList.add("rv-card");
+      ioCard.observe(el);
+    });
+
+    return () => {
+      ioSection.disconnect();
+      ioCard.disconnect();
+    };
   }, []);
   return null;
 }

@@ -462,7 +462,7 @@ function Glossary() {
     >
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 60px" }}>
         <SectionHead kicker="GLOSSARY — AI用語集" title="いまさら聞けない、AI用語。" hand="図解つき・現場目線でサクッと" />
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", maxWidth: 880 }}>
+        <div className="rv-stagger" style={{ display: "flex", gap: 10, flexWrap: "wrap", maxWidth: 880 }}>
           {TERMS.map((t) => (
             <a
               key={t.slug}
