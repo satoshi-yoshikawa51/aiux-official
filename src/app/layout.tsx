@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://comixai.dev"),
   alternates: {
     canonical: "/",
+    types: { "application/rss+xml": "/feed.xml" },
   },
   title: "吉川 聡史 | COMIXAI — オフィシャルサイト",
   description:
