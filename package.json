@@ -8,7 +8,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/yusei-magic": "^5.2.8",
+    "@fontsource/zen-kaku-gothic-new": "^5.2.7",
     "@next/third-parties": "^16.2.7",
+    "@phosphor-icons/web": "^2.1.2",
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4"
