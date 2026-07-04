@@ -190,7 +190,7 @@ export default async function MangaSeriesPage({ params }: Props) {
                         )}
                       </div>
                       <h3 style={{ margin: "0 0 6px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16.5, lineHeight: 1.5, textWrap: "pretty" }}>{e.title}</h3>
-                      <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)", textWrap: "pretty" }}>{e.desc}</p>
+                      {e.desc && <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)", textWrap: "pretty" }}>{e.desc}</p>}
                       <span style={{ marginTop: "auto", paddingTop: 10, alignSelf: "flex-end", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
                         noteで読む <i className="ph-bold ph-arrow-up-right" />
                       </span>

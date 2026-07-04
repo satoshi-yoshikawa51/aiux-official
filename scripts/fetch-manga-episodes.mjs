@@ -55,6 +55,15 @@ const stripHtml = (s) =>
 
 const unCdata = (s) => (s || "").replace(/^<!\[CDATA\[|\]\]>$/g, "").trim();
 
+/* RSS由来の紹介文から定型ノイズ（挨拶・「続きをみる」）を除いて短くする。
+   手書きの紹介文に適用しても変化しない（冪等）ようにしておく */
+const cleanDesc = (s) =>
+  stripHtml(s)
+    .replace(/こんにちは！吉川です。?/g, "")
+    .replace(/続きをみる\s*$/, "")
+    .trim()
+    .slice(0, 90);
+
 const NOTE_KEY = /^n[0-9a-f]{10,16}$/;
 
 /* —— 1) RSS —— */
@@ -73,11 +82,13 @@ function parseRss(xml) {
       (it.match(/<media:thumbnail[^>]*>([\s\S]*?)<\/media:thumbnail>/) || [])[1]?.trim() ||
       (it.match(/<media:thumbnail[^>]*url="([^"]+)"/) || [])[1] ||
       "";
+    const pubDate = pick("pubDate");
     items.push({
       key: keyMatch[1],
       title: stripHtml(pick("title")),
       desc: stripHtml(pick("description")),
       thumb: unCdata(thumb),
+      date: pubDate ? new Date(pubDate).toISOString().slice(0, 10) : undefined,
     });
   }
   return items;
@@ -162,12 +173,13 @@ function buildEpisodes(notes, prevEpisodes, meta) {
     const prev = prevByUrl.get(url);
     const ep = {
       title: n.title,
-      /* 手書き(メタ/既存)の紹介文を優先し、なければ取得したdescを短縮 */
-      desc: meta[url]?.excerpt || prev?.desc || (n.desc ? n.desc.slice(0, 90) : ""),
+      /* 手書き(メタ)の紹介文を優先し、なければ既存/取得分をノイズ除去して使う */
+      desc: meta[url]?.excerpt || cleanDesc(prev?.desc || "") || cleanDesc(n.desc || ""),
       url,
     };
     const no = epNo(n.title);
     if (no != null) ep.no = no;
+    if (n.date) ep.date = n.date;
     const thumb = n.thumb || prev?.thumb;
     if (thumb) ep.thumb = thumb;
     const likes = n.likes ?? prev?.likes;
@@ -176,6 +188,9 @@ function buildEpisodes(notes, prevEpisodes, meta) {
   });
   if (eps.length && eps.every((e) => e.no != null)) {
     eps = eps.sort((a, b) => a.no - b.no);
+  } else if (eps.length && eps.every((e) => e.date)) {
+    /* 話数がないシリーズ（エッセイ等）は公開日の昇順＝連載順に並べる */
+    eps = eps.sort((a, b) => (a.date < b.date ? -1 : 1));
   }
   return eps;
 }

@@ -16,6 +16,7 @@ export interface MangaEpisode {
   title: string;
   desc: string;
   url: string;
+  date?: string;
   thumb?: string;
   likes?: number;
 }
