@@ -8,6 +8,14 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * 1" # 毎週月曜 00:00 UTC = 09:00 JST
+  # workflow_dispatch はデフォルトブランチにマージされるまで使えないため、
+  # 開発ブランチではスクリプト/ワークフロー変更のpushでも起動する
+  push:
+    branches:
+      - "claude/comix-ai-seo-expansion-pliej2"
+    paths:
+      - "scripts/fetch-manga-episodes.mjs"
+      - ".github/workflows/refresh-manga-episodes.yml"
 
 permissions:
   contents: write
