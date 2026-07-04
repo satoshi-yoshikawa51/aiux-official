@@ -230,14 +230,15 @@
   a { color: inherit; }
   .wrap { max-width: min(1080px, 92vw); margin: 0 auto; padding: 0; }
 
-  .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-weight: 700; text-decoration: none; border: var(--bw-bold) solid var(--ink-900); border-radius: var(--radius-xl); cursor: pointer; transition: transform var(--dur-fast,140ms) var(--ease-pop, ease), box-shadow var(--dur-fast,140ms); }
-  .btn-primary { background: var(--red-500); color: #fff; padding: 11px 22px; font-size: 15px; box-shadow: var(--shadow-pop-sm); }
-  .btn-primary:hover { background: var(--red-600); transform: translate(-2px,-2px); box-shadow: var(--shadow-pop); }
-  .btn-primary:active { transform: translate(0,0); box-shadow: 1px 1px 0 var(--ink-900); }
-  .btn-ink { background: var(--ink-900); color: var(--paper-50); padding: 13px 26px; font-size: 16px; box-shadow: var(--shadow-pop-sm); }
-  .btn-ink:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-pop); }
-  .btn-ghost { background: var(--paper-0); color: var(--ink-900); padding: 13px 26px; font-size: 16px; box-shadow: var(--shadow-pop-sm); }
-  .btn-ghost:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-pop); }
+  /* ds.tsx の Button と同じルール: 角丸小さめ・ホバーは色変化・押下で沈む */
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-weight: 700; text-decoration: none; border: var(--bw-bold) solid var(--ink-900); border-radius: var(--radius-md); cursor: pointer; box-shadow: var(--shadow-pop-sm); transition: background var(--dur-fast,140ms), transform var(--dur-fast,140ms) var(--ease-pop, ease), box-shadow var(--dur-fast,140ms); }
+  .btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink-900); }
+  .btn-primary { background: var(--red-500); color: #fff; padding: 11px 22px; font-size: 15px; }
+  .btn-primary:hover { background: var(--red-600); }
+  .btn-ink { background: var(--ink-900); color: var(--paper-50); padding: 13px 26px; font-size: 16px; }
+  .btn-ink:hover { background: var(--ink-800); }
+  .btn-ghost { background: var(--paper-0); color: var(--ink-900); padding: 13px 26px; font-size: 16px; }
+  .btn-ghost:hover { background: var(--paper-100); }
 
   /* ── Hero ── */
   .hero { position: relative; overflow: hidden; border-bottom: var(--bw-bold) solid var(--ink-900); }
