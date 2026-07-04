@@ -106,11 +106,11 @@ export default async function MangaSeriesPage({ params }: Props) {
               {s.title}
             </h1>
             {s.intro.map((p) => (
-              <p key={p.slice(0, 12)} style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: "0 0 14px", textWrap: "pretty" }}>
+              <p key={p.slice(0, 12)} style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: "0 0 14px" }}>
                 {p}
               </p>
             ))}
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 }}>
+            <div className="hero-cta-row" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 }}>
               <a href={s.noteUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
                 <Button variant="primary" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
                   noteでこのシリーズを読む
@@ -137,7 +137,7 @@ export default async function MangaSeriesPage({ params }: Props) {
               <Card key={pt.title} variant="pop" padding={20}>
                 <i className={"ph-bold " + pt.icon} style={{ fontSize: 26, color: "var(--red-500)" }} />
                 <h3 style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, margin: "10px 0 6px" }}>{pt.title}</h3>
-                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.9, color: "var(--text-muted)", textWrap: "pretty" }}>{pt.text}</p>
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.9, color: "var(--text-muted)" }}>{pt.text}</p>
               </Card>
             ))}
           </div>
@@ -190,7 +190,7 @@ export default async function MangaSeriesPage({ params }: Props) {
                         )}
                       </div>
                       <h3 style={{ margin: "0 0 6px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16.5, lineHeight: 1.5, textWrap: "pretty" }}>{e.title}</h3>
-                      {e.desc && <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)", textWrap: "pretty" }}>{e.desc}</p>}
+                      {e.desc && <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)" }}>{e.desc}</p>}
                       <span style={{ marginTop: "auto", paddingTop: 10, alignSelf: "flex-end", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
                         noteで読む <i className="ph-bold ph-arrow-up-right" />
                       </span>

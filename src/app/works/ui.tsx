@@ -31,7 +31,7 @@ export function WorkCard({ work }: { work: WorkDetail }) {
         </div>
         <div style={{ padding: "16px 16px 14px", display: "flex", flexDirection: "column", flex: 1 }}>
           <h3 style={{ margin: "0 0 8px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16.5, lineHeight: 1.4, textWrap: "pretty" }}>{work.title}</h3>
-          <p style={{ margin: 0, fontSize: 13, lineHeight: 1.8, color: "var(--text-muted)", textWrap: "pretty" }}>{work.tagline}</p>
+          <p style={{ margin: 0, fontSize: 13, lineHeight: 1.8, color: "var(--text-muted)" }}>{work.tagline}</p>
         </div>
       </a>
       <div style={{ padding: "0 16px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
