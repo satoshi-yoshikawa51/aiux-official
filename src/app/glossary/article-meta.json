@@ -1,8 +1,10 @@
 {
   "_comment": "用語集ページのLEARN MOREカード用のnote記事メタ（自動生成）。scripts/fetch-glossary-articles.mjs が更新します。badge/tone/excerpt を調整したい場合は note-article-meta.json に同じURLのエントリを書いてください。",
   "https://note.com/aiux_unite/n/n2abeb7d9d9b5": {
-    "title": "【完全解説！】Midjourneyで作るアニメーションPV",
+    "title": "Figma Makeで「デザインを再現」させる技",
     "excerpt": "Midjourneyで生成したイラストを動かして、アニメーションPVに仕上げるまでの手順を完全解説。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/234495412/rectangle_large_type_2_0c02fd6033e2bd0296ce3d6d5dc873e0.png?fit=bounds&quality=85&width=1280",
+    "likes": 108,
     "badge": "Midjourney",
     "tone": "yellow"
   }
