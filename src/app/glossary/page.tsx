@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
-import { Button, Card, Badge } from "../ds";
+import { Button, Card } from "../ds";
 import { Breadcrumb, SectionHead } from "../site-ui";
-import { TERMS, TERM_CATEGORIES, GLOSSARY_UPDATED } from "./data";
+import { TERMS, FEATURED_TERMS } from "./data";
+import { GlossaryBrowser } from "./browser";
 
 export const metadata: Metadata = {
   title: "AI用語集｜生成AI・LLM・RAGをわかりやすく解説｜COMIXAI",
@@ -67,34 +68,31 @@ export default function GlossaryIndexPage() {
       </section>
 
       <section style={{ background: "var(--paper-100)", borderTop: "var(--bw-line) solid var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)", backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)", backgroundSize: "11px 11px" }}>
-        <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "54px 0 60px" }}>
-          {TERM_CATEGORIES.map((cat) => {
-            const items = TERMS.filter((t) => t.category === cat);
-            if (!items.length) return null;
-            return (
-              <div key={cat} style={{ marginBottom: 34 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-                  <Badge tone="ink">{cat}</Badge>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)" }}>{items.length}語</span>
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 }} className="articles-grid">
-                  {items.map((t) => (
-                    <a key={t.slug} href={`/glossary/${t.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
-                      <Card variant="pop" hover padding={18} style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-                        <h2 style={{ margin: "0 0 4px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17.5, lineHeight: 1.4 }}>{t.term}</h2>
-                        {t.en && <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)", marginBottom: 8 }}>{t.en}</div>}
-                        <p style={{ margin: "0 0 14px", fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)" }}>{t.short}</p>
-                        <span style={{ marginTop: "auto", alignSelf: "flex-end", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
-                          くわしく見る <i className="ph-bold ph-arrow-right" />
-                        </span>
-                      </Card>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+        <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "54px 0 58px" }}>
+          <SectionHead kicker="START HERE — まずはここから" title="まずはこの12語" hand="図解つき・代表用語" />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 }} className="articles-grid">
+            {FEATURED_TERMS.map((t) => (
+              <a key={t.slug} href={`/glossary/${t.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
+                <Card variant="pop" hover padding={18} style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                  <h2 style={{ margin: "0 0 4px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17.5, lineHeight: 1.4 }}>{t.term}</h2>
+                  {t.en && <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)", marginBottom: 8 }}>{t.en}</div>}
+                  <p style={{ margin: "0 0 14px", fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)" }}>{t.short}</p>
+                  <span style={{ marginTop: "auto", alignSelf: "flex-end", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
+                    くわしく見る <i className="ph-bold ph-arrow-right" />
+                  </span>
+                </Card>
+              </a>
+            ))}
+          </div>
         </div>
+      </section>
+
+      {/* ═══ 全用語をさがす ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "54px 0 60px" }}>
+        <SectionHead kicker="SEARCH — 全用語をさがす" title={`全${TERMS.length}語から、さがす。`} hand="読み・英語・意味でも検索OK" />
+        <GlossaryBrowser
+          terms={TERMS.map((t) => ({ slug: t.slug, term: t.term, yomi: t.yomi, en: t.en, category: t.category, short: t.short }))}
+        />
       </section>
 
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0 46px" }}>

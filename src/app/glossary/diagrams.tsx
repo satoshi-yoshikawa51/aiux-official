@@ -271,6 +271,10 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
   },
 };
 
+export function hasDiagram(slug: string): boolean {
+  return slug in DIAGRAMS;
+}
+
 /* —— 図解パネル（用語ページから使う） —— */
 export function TermDiagram({ slug }: { slug: string }) {
   const d = DIAGRAMS[slug];

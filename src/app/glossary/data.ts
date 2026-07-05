@@ -33,9 +33,16 @@ export interface GlossaryTerm {
   image?: { src: string; alt: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-07-04";
+export const GLOSSARY_UPDATED = "2026-07-05";
 
-export const TERMS: GlossaryTerm[] = [
+/* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
+export const FEATURED_SLUGS = [
+  "generative-ai", "llm", "prompt-engineering", "hallucination",
+  "rag", "fine-tuning", "ai-agent", "mcp",
+  "claude-code", "vibe-coding", "image-generation-ai", "ai-workflow",
+];
+
+const TERMS_BATCH1: GlossaryTerm[] = [
   {
     slug: "generative-ai",
     term: "生成AI",
@@ -264,7 +271,352 @@ export const TERMS: GlossaryTerm[] = [
   },
 ];
 
+
+/* ============================================================
+   第2バッチ（+18語 / 2026-07-05）。図解は主要語のみの方針のため
+   このバッチはテキスト＋関連リンク構成。
+   ============================================================ */
+const TERMS_BATCH2: GlossaryTerm[] = [
+  {
+    slug: "machine-learning",
+    term: "機械学習",
+    yomi: "きかいがくしゅう",
+    en: "Machine Learning",
+    category: "基礎知識",
+    short:
+      "人間がルールを1つずつ教え込むのではなく、大量のデータからコンピュータ自身にパターンを学ばせる技術。現代のAIのほぼすべての土台。",
+    body: [
+      "「猫の写真とは何か」をルールで定義するのは至難の業ですが、猫の写真を大量に見せて特徴を学ばせることはできます。これが機械学習の基本的な発想で、迷惑メール判定からレコメンド、生成AIまで、いま「AI」と呼ばれるものの大半はこの仕組みの上に成り立っています。",
+      "現場で覚えておきたいのは「機械学習のAIは、学習したデータの範囲でしか賢くない」ということ。データにない状況には弱く、データの偏りはそのまま結果の偏りになります。AIの得意・不得意を見極める出発点になる考え方です。",
+    ],
+    links: [
+      { label: "マンガでわかる！AI活用 第1話：「生成AIとは？」", href: "https://note.com/aiux_unite/n/n39742e82cd30" },
+      { label: "連載「マンガでわかる！AI活用」シリーズ紹介", href: "/manga/wakaru" },
+    ],
+    relatedSlugs: ["deep-learning", "neural-network", "generative-ai"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "deep-learning",
+    term: "ディープラーニング",
+    yomi: "でぃーぷらーにんぐ",
+    en: "Deep Learning",
+    category: "基礎知識",
+    short:
+      "人間の脳の神経回路を参考にした「ニューラルネットワーク」を何層にも深く重ねた機械学習の手法。画像認識や生成AIの爆発的進化を生んだ立役者。",
+    body: [
+      "従来の機械学習では「どこに注目するか（特徴）」を人間が設計する必要がありましたが、ディープラーニングはデータから特徴そのものを自動で見つけ出します。層が深いほど複雑なパターンを捉えられるため「ディープ（深い）」と呼ばれます。",
+      "2012年ごろの画像認識ブレイクスルーから、ChatGPTなどの大規模言語モデルまで、この10年のAIの進化はほぼディープラーニングの進化です。生成AIを理解する上での前提知識として、名前と位置づけだけでも押さえておくと役立ちます。",
+    ],
+    links: [
+      { label: "連載「マンガでわかる！AI活用」シリーズ紹介", href: "/manga/wakaru" },
+    ],
+    relatedSlugs: ["machine-learning", "neural-network", "transformer"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "multimodal-ai",
+    term: "マルチモーダルAI",
+    yomi: "まるちもーだるエーアイ",
+    en: "Multimodal AI",
+    category: "基礎知識",
+    short:
+      "テキストだけでなく、画像・音声・動画など複数の種類（モード）の情報をまとめて理解・生成できるAI。「画像を見せて質問する」が当たり前になった背景の技術。",
+    body: [
+      "スクリーンショットを貼って「このエラー何？」と聞く、手描きのラフを見せて「これをWebデザインにして」と頼む——こうした使い方ができるのは、AIがマルチモーダル化したからです。ChatGPTもClaudeもGeminiも、いまや標準で画像を理解します。",
+      "現場での意味は大きく、「言葉で説明しづらいものは、見せればいい」が成立します。デザインのフィードバック、資料の読み取り、ホワイトボードの清書など、テキスト入力の手間を飛ばせる場面から試すのがおすすめです。",
+    ],
+    links: [
+      { label: "手書きイラストを3Dゲームに！Claudeで作った一部始終", href: "https://note.com/aiux_unite/n/ndd10e1acf1b1" },
+    ],
+    relatedSlugs: ["generative-ai", "image-generation-ai", "llm"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "agi",
+    term: "AGI（汎用人工知能）",
+    yomi: "エージーアイ",
+    en: "Artificial General Intelligence",
+    category: "基礎知識",
+    short:
+      "特定のタスク専用ではなく、人間のように幅広い知的作業を自律的にこなせるAIの概念。現在のAIはまだ「特化型」で、AGIは各社が目指す到達点とされる。",
+    body: [
+      "いまのAIは驚くほど賢く見えますが、原理的には「学習したパターンの再構成」が得意な特化型です。AGIは、初めての課題にも人間のように柔軟に対応できる汎用性を持つAIを指し、OpenAIやAnthropicなどが公言する長期目標でもあります。",
+      "「いつ実現するか」は専門家の間でも数年〜数十年と意見が割れています。現場の私たちにとって大事なのは時期の予想より、「AIが汎用化していく方向にある」前提で、自分の仕事のどこをAIと分担するかを考え続けることです。",
+    ],
+    links: [
+      { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
+    ],
+    relatedSlugs: ["singularity", "ai-agent", "llm"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "singularity",
+    term: "シンギュラリティ",
+    yomi: "しんぎゅらりてぃ",
+    en: "Singularity",
+    category: "基礎知識",
+    short:
+      "AIが人間の知能を超え、AI自身がAIを改良し始めることで、技術進化が予測不能なスピードに達するとされる転換点。「技術的特異点」とも呼ばれる。",
+    body: [
+      "未来学者レイ・カーツワイルが「2045年に訪れる」と予言したことで広く知られるようになった概念です。生成AIの急速な進化により、この言葉が再び現実味を帯びて語られるようになりました。",
+      "ただし、シンギュラリティが来るかどうかを議論するより、「AIの進化スピードが人間の学習スピードを超えつつある」いまの状況にどう向き合うかのほうが実務的です。流行を追いかけるだけでなく本質を掴む——連載エッセイで扱っているテーマそのものです。",
+    ],
+    links: [
+      { label: "AI時代の「流行」と「本質」：AIの先にあるべきもの", href: "https://note.com/aiux_unite/n/na87618c2923d" },
+      { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
+    ],
+    relatedSlugs: ["agi", "generative-ai"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "ai-literacy",
+    term: "AIリテラシー",
+    yomi: "エーアイりてらしー",
+    en: "AI Literacy",
+    category: "基礎知識",
+    short:
+      "AIの得意・不得意を理解し、適切に使いこなし、結果を鵜呑みにせず判断できる能力。「使えるか」ではなく「正しく付き合えるか」を指す言葉。",
+    body: [
+      "AIリテラシーはプログラミング能力のことではありません。①AIに何を任せられるかを見極める、②的確に指示する（プロンプト）、③出てきた結果の真偽や品質を判断する、④著作権や情報漏えいなどのリスクに配慮する——この4つがそろって初めて「AIを使える人」です。",
+      "チームにAIを広めるときも、ツールの操作方法より先にこの考え方を共有するのが近道。マンガ連載「マンガでわかる！AI活用」は、まさにこのAIリテラシーを楽しく身につけてもらうために描いています。",
+    ],
+    links: [
+      { label: "連載「マンガでわかる！AI活用」シリーズ紹介", href: "/manga/wakaru" },
+      { label: "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
+    ],
+    relatedSlugs: ["prompt-engineering", "hallucination", "ai-workflow"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "neural-network",
+    term: "ニューラルネットワーク",
+    yomi: "にゅーらるねっとわーく",
+    en: "Neural Network",
+    category: "しくみ・技術",
+    short:
+      "脳の神経細胞（ニューロン）のつながりを数式で模した仕組み。大量の「重み」を調整しながら学習する、ディープラーニングの基本構造。",
+    body: [
+      "入力（例：画像のピクセル）を受け取り、無数の計算ノードを経由して出力（例：「猫である確率」）を出す——この計算の網がニューラルネットワークです。学習とは、正解に近づくように網の中の「重み」を少しずつ調整していく作業を指します。",
+      "ChatGPTのパラメータ数が「数千億」と言われるのは、この重みの数のこと。仕組みの詳細を覚える必要はありませんが、「AIの中身は膨大な調整済みの数値のかたまり」というイメージを持っておくと、AIの振る舞いへの理解がぐっと現実的になります。",
+    ],
+    links: [
+      { label: "連載「マンガでわかる！AI活用」シリーズ紹介", href: "/manga/wakaru" },
+    ],
+    relatedSlugs: ["deep-learning", "machine-learning", "transformer"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "transformer",
+    term: "トランスフォーマー",
+    yomi: "とらんすふぉーまー",
+    en: "Transformer",
+    category: "しくみ・技術",
+    short:
+      "2017年にGoogleが発表した、文中の単語同士の関係性（どこに注目すべきか）を効率よく捉えるAIの構造。ChatGPTの「T」であり、生成AIブームの技術的な源流。",
+    body: [
+      "文章を理解するには「その単語が文中の何と関係しているか」を掴む必要があります。トランスフォーマーは「アテンション（注意機構）」という仕組みでこれを並列に高速処理できるようにし、大規模な言語モデルの学習を現実的にしました。",
+      "GPTは「Generative Pre-trained Transformer」の略。つまりChatGPTの名前には、この技術がそのまま入っています。LLMの性能競争は、突き詰めればこのトランスフォーマーをどれだけ大きく・賢く育てられるかの競争から始まりました。",
+    ],
+    links: [
+      { label: "連載「マンガでわかる！AI活用」シリーズ紹介", href: "/manga/wakaru" },
+    ],
+    relatedSlugs: ["llm", "neural-network", "token"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "token",
+    term: "トークン",
+    yomi: "とーくん",
+    en: "Token",
+    category: "しくみ・技術",
+    short:
+      "AIが文章を処理するときの最小単位。単語より少し細かい「文字のかたまり」で、AIの料金や入力できる文章量はこのトークン数で数えられる。",
+    body: [
+      "AIは文章をそのまま読むのではなく、トークンという単位に刻んでから処理します。日本語はおおよそ1文字＝1〜2トークン程度。「このモデルは20万トークンまで扱える」「API料金は100万トークンあたり◯円」のように、AIの世界の“通貨”のような存在です。",
+      "実務では「長い資料を渡したら途中で切れた」「APIの請求が思ったより高い」といった場面で必ずこの概念に出会います。文章量＝トークン数がコストと限界を決める、と覚えておけば十分です。",
+    ],
+    links: [
+      { label: "ノンエンジニアが挑むChatGPT APIを使ったPythonアプリ構築", href: "https://note.com/aiux_unite/n/n3d980b7ca111" },
+    ],
+    relatedSlugs: ["llm", "context-window"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "context-window",
+    term: "コンテキストウィンドウ",
+    yomi: "こんてきすとうぃんどう",
+    en: "Context Window",
+    category: "しくみ・技術",
+    short:
+      "AIが一度に覚えていられる情報量の上限。会話の履歴や渡した資料はすべてこの「作業机の広さ」の中に収まっている必要がある。",
+    body: [
+      "長く会話していると、AIが最初のほうの指示を忘れたように振る舞うことがあります。これはコンテキストウィンドウ（文脈の窓）から古い情報があふれたため。AIの記憶力ではなく「机の広さ」の問題です。",
+      "対策はシンプルで、①大事な前提は要所で言い直す、②長い作業は区切って新しい会話で始める、③資料は必要な部分だけ渡す、の3つ。最近のモデルは窓がかなり広くなりましたが、「無限ではない」と知っているだけでAIとの付き合い方が変わります。",
+    ],
+    links: [
+      { label: "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
+    ],
+    relatedSlugs: ["token", "llm", "rag"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "embedding",
+    term: "埋め込み（エンベディング）",
+    yomi: "うめこみ",
+    en: "Embedding",
+    category: "しくみ・技術",
+    short:
+      "文章や画像の「意味」を数値の並び（ベクトル）に変換する技術。意味が近いものは近い数値になるため、キーワードが一致しなくても「似た内容」を探せるようになる。",
+    body: [
+      "「経費精算のやり方」と「立て替えたお金の申請方法」は言葉こそ違いますが意味は近い——埋め込みを使うと、この2つが数値空間上で近くに配置されるため、意味ベースの検索ができます。",
+      "RAG（検索拡張生成）の裏側で資料を探しているのは、たいていこの技術です。「AIが意味で検索できるのはなぜ？」の答えがこれ、と覚えておくと、社内ナレッジ検索などの仕組みを検討するときに話が早くなります。",
+    ],
+    links: [
+      { label: "マンガでわかる！AI活用 第3話：「RAGとファインチューニング」", href: "https://note.com/aiux_unite/n/n185107973a2f" },
+    ],
+    relatedSlugs: ["rag", "llm"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "local-llm",
+    term: "ローカルLLM",
+    yomi: "ろーかるエルエルエム",
+    en: "Local LLM",
+    category: "しくみ・技術",
+    short:
+      "クラウドのAPIではなく、自分のPCや自社サーバー上で動かすLLM。データを外部に送らずに済むため、機密情報を扱う用途で注目されている。",
+    body: [
+      "ChatGPTやClaudeは基本的にクラウド上のAIに文章を送って使いますが、オープンなモデル（Llama、Gemmaなど）を手元のマシンで動かすのがローカルLLMです。データが社外に出ない、通信費がかからない、カスタマイズしやすいのが利点です。",
+      "一方で、最高性能のクラウドモデルには賢さで及ばないこと、動かすためのマシンスペックが必要なことがトレードオフ。「機密データはローカル、それ以外はクラウド」のような使い分けが現実的な落としどころです。",
+    ],
+    links: [
+      { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
+    ],
+    relatedSlugs: ["llm", "fine-tuning"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "chatgpt",
+    term: "ChatGPT",
+    yomi: "ちゃっとじーぴーてぃー",
+    en: "ChatGPT",
+    category: "開発・活用",
+    short:
+      "OpenAI社が提供する対話型AI。2022年11月の公開をきっかけに生成AIブームが始まった、いちばん有名なAIサービス。",
+    body: [
+      "文章作成・要約・翻訳・企画出し・コード生成まで、チャット形式で何でも頼める汎用AIです。生成AIという言葉が一般に広まったのは間違いなくChatGPTの功績で、「AI＝ChatGPT」と認識している人も多いはず。",
+      "開発者向けにはAPIも提供されており、自分のアプリにAIを組み込めます。ノンエンジニアがChatGPT APIでPythonアプリ開発に挑戦した実践録を下の記事で公開しているので、「使う側」から「作る側」への一歩を踏み出したい人はどうぞ。",
+    ],
+    links: [
+      { label: "ノンエンジニアが挑むChatGPT APIを使ったPythonアプリ構築", href: "https://note.com/aiux_unite/n/n3d980b7ca111" },
+    ],
+    relatedSlugs: ["llm", "claude", "gemini"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "claude",
+    term: "Claude",
+    yomi: "くろーど",
+    en: "Claude",
+    category: "開発・活用",
+    short:
+      "Anthropic社が提供する対話型AI。自然で丁寧な文章力と、長い文書の読解力に定評があり、開発向けの「Claude Code」などのエコシステムも充実している。",
+    body: [
+      "ChatGPTと並ぶ代表的なAIアシスタントで、特に日本語の文章の自然さ、長い資料の読み込み、コーディング支援の評価が高いモデルです。このサイトのコンテンツ制作や、掲載しているゲーム・アプリの開発でも、Claudeを中心に使っています。",
+      "コーディングエージェント「Claude Code」、デザイン生成、エージェント機能など周辺ツールの進化も速く、「AIに作業を任せる」体験を先取りしたい人に向いています。まずは遊びながら体感できるClaude Code Questからどうぞ。",
+    ],
+    links: [
+      { label: "Claude Code とは（用語解説）", href: "/glossary/claude-code" },
+      { label: "Claude Code Quest（遊びながら学べるRPG）", href: "/works/claude-code-quest" },
+    ],
+    relatedSlugs: ["claude-code", "chatgpt", "llm"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "gemini",
+    term: "Gemini",
+    yomi: "じぇみに",
+    en: "Gemini",
+    category: "開発・活用",
+    short:
+      "Google社が提供する対話型AI。検索やGmail、スプレッドシートなどGoogleのサービス群と連携しやすいのが最大の強み。",
+    body: [
+      "Googleアカウントがあればすぐ使える身近さと、Googleドキュメント・スプレッドシート・Gmailとの連携が魅力のAIです。仕事のデータがGoogleワークスペースに集まっている職場なら、最有力の選択肢になります。",
+      "NotebookLMと組み合わせた業務フロー改善（DX）は、実際に現場で効果があった鉄板の組み合わせ。企画の承認フローを通すためのAI活用術など、実践例を下の記事で公開しています。",
+    ],
+    links: [
+      { label: "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）", href: "https://note.com/aiux_unite/n/n24dc19c0ff2d" },
+      { label: "企画(施策)の「承認フロー」を通すAI活用術", href: "https://note.com/aiux_unite/n/ndae7f58601fc" },
+    ],
+    relatedSlugs: ["notebooklm", "chatgpt", "ai-workflow"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "notebooklm",
+    term: "NotebookLM",
+    yomi: "のーとぶっくエルエム",
+    en: "NotebookLM",
+    category: "開発・活用",
+    short:
+      "Googleが提供する「自分の資料専用のAI」。アップロードした資料の内容だけにもとづいて回答するため、社内文書の理解や要約に強い。",
+    body: [
+      "普通のチャットAIとの違いは、「渡した資料の中身だけを根拠に答える」こと。出典も示してくれるため、ハルシネーションが起きにくく、規程集・議事録・マニュアルの読み込みといった業務用途で真価を発揮します。",
+      "Geminiで作業し、NotebookLMで資料を裏取りする——この組み合わせによる業務フロー改善の実践例を下の記事で公開しています。「AIに社内のことを答えさせたい」と思ったら、まず試すべきツールです。",
+    ],
+    links: [
+      { label: "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）", href: "https://note.com/aiux_unite/n/n24dc19c0ff2d" },
+    ],
+    relatedSlugs: ["gemini", "rag", "ai-workflow"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "midjourney",
+    term: "Midjourney",
+    yomi: "みっどじゃーにー",
+    en: "Midjourney",
+    category: "開発・活用",
+    short:
+      "テキストから高品質なイラスト・画像を生成できる代表的な画像生成AIサービス。アート性の高い仕上がりに定評がある。",
+    body: [
+      "画像生成AIの中でも、Midjourneyは「絵としての美しさ」で頭ひとつ抜けた存在です。プロンプトの書き方次第で、水彩画からアニメ調、実写風まで幅広いスタイルを出し分けられます。",
+      "動画生成AIと組み合わせれば、静止画からアニメーションPVまで制作可能。Midjourneyで生成した絵を動かして漫画風動画やプロモーション映像を作る実践例を、下の記事で一部始終公開しています。",
+    ],
+    links: [
+      { label: "【完全解説！】Midjourneyで作るアニメーションPV", href: "https://note.com/aiux_unite/n/n2abeb7d9d9b5" },
+      { label: "漫画風の動画を生成する！（RunwayGen-3×Midjourney×DomoAI）", href: "https://note.com/aiux_unite/n/ndc6365524f2a" },
+    ],
+    relatedSlugs: ["image-generation-ai", "video-generation-ai", "prompt-engineering"],
+    lastUpdated: "2026-07-05",
+  },
+  {
+    slug: "video-generation-ai",
+    term: "動画生成AI",
+    yomi: "どうがせいせいエーアイ",
+    en: "Video Generation AI",
+    category: "開発・活用",
+    short:
+      "テキストや画像から動画を生成するAI。SoraやRunway、Veoなどが代表例で、静止画に動きを与えるところから本格的な映像制作まで進化が続く領域。",
+    body: [
+      "「一枚の絵が動き出す」体験は、画像生成AIとはまた別の衝撃があります。プロンプトから直接動画を作る方法と、画像生成AIで作った絵を動かす方法があり、後者のほうがイメージをコントロールしやすいのが現状です。",
+      "映像ディレクターの視点で言うと、絵コンテやストーリーボードの段階で「動くイメージ」を共有できるのが実務での最大の価値。漫画風動画やアニメーションPVを作った実践録を下の記事で公開しています。",
+    ],
+    links: [
+      { label: "漫画風の動画を生成する！（RunwayGen-3×Midjourney×DomoAI）", href: "https://note.com/aiux_unite/n/ndc6365524f2a" },
+      { label: "【AIで作る】動くストーリーボード", href: "https://note.com/aiux_unite/n/n759b5bbfe9e2" },
+    ],
+    relatedSlugs: ["image-generation-ai", "midjourney", "generative-ai"],
+    lastUpdated: "2026-07-05",
+  },
+];
+
+export const TERMS: GlossaryTerm[] = [...TERMS_BATCH1, ...TERMS_BATCH2];
+
+export const FEATURED_TERMS = FEATURED_SLUGS.map((sl) => TERMS.find((t) => t.slug === sl)!).filter(Boolean);
+
 export const TERM_CATEGORIES: TermCategory[] = ["基礎知識", "しくみ・技術", "開発・活用"];
+
+export const ALL_TERMS_COUNT = TERMS.length;
 
 export function getTerm(slug: string): GlossaryTerm | undefined {
   return TERMS.find((t) => t.slug === slug);
