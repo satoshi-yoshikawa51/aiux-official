@@ -8,6 +8,7 @@ import { MANGA_SERIES } from "../../manga/data";
 import { WORK_DETAILS } from "../../works/data";
 import { TERMS, getTerm, type TermLink } from "../data";
 import { TermDiagram, hasDiagram } from "../diagrams";
+import ARTICLE_META from "../article-meta.json";
 
 /* —— リンク先URLから、サムネ・概要つきのカード情報を解決する ——
    マガジン/作品/note記事/収録エピソードの既存データを引くので、
@@ -36,12 +37,19 @@ function resolveLink(l: TermLink): RichLink {
     const w = WORK_DETAILS.find((x) => `/works/${x.slug}` === l.href);
     if (w) return { href: l.href, title: w.title, desc: w.tagline, thumb: w.image, badge: w.badge ?? w.category, tone: w.tone, external: false };
   }
+  if (l.href.startsWith("/glossary/")) {
+    const t = TERMS.find((x) => `/glossary/${x.slug}` === l.href);
+    if (t) return { href: l.href, title: `${t.term}とは？（用語解説）`, desc: t.short, badge: "AI用語集", tone: "yellow", external: false };
+  }
   const a = ARTICLE_POOL.get(l.href);
   if (a) return { href: l.href, title: a.title, desc: a.excerpt, thumb: a.thumb, badge: a.badge, tone: a.tone, likes: a.likes, external: true };
   for (const s of MANGA_SERIES) {
     const ep = s.episodes.find((e) => e.url === l.href);
     if (ep) return { href: l.href, title: ep.title, desc: ep.desc || undefined, thumb: ep.thumb, badge: ep.no != null ? `第${ep.no}話` : s.label, tone: s.tone, likes: ep.likes, external: true };
   }
+  /* CIがnoteから収集した記事メタ（article-meta.json）で解決する */
+  const m = (ARTICLE_META as Record<string, { title?: string; excerpt?: string; thumb?: string; likes?: number; badge?: string; tone?: string }>)[l.href];
+  if (m?.title) return { href: l.href, title: m.title, desc: m.excerpt, thumb: m.thumb, badge: m.badge, tone: (m.tone as Tone) ?? "paper", likes: m.likes, external: true };
   return { href: l.href, title: l.label, tone: "paper", external: l.href.startsWith("http") };
 }
 

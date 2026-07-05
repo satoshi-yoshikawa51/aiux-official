@@ -1,4 +1,5 @@
-# noteマガジンから収録エピソードを取得し、episodes.json を更新するワークフロー。
+# noteから収録エピソード(episodes.json)と用語集リンク先の記事メタ
+# (glossary/article-meta.json)を取得・更新するワークフロー。
 # 手動実行（workflow_dispatch）と毎週月曜9時(JST)の定期実行。
 # Claude Code のサンドボックスからは note.com に到達できないため、
 # 取得はこのワークフロー（GitHub Actionsランナー）上で行う。
@@ -15,6 +16,8 @@ on:
       - "claude/comix-ai-seo-expansion-pliej2"
     paths:
       - "scripts/fetch-manga-episodes.mjs"
+      - "scripts/fetch-glossary-articles.mjs"
+      - "src/app/glossary/data.ts"
       - ".github/workflows/refresh-manga-episodes.yml"
 
 permissions:
@@ -30,6 +33,8 @@ jobs:
           node-version: 20
       - name: Fetch episodes from note
         run: node scripts/fetch-manga-episodes.mjs
+      - name: Fetch glossary article meta from note
+        run: node scripts/fetch-glossary-articles.mjs
       - name: Commit & push if changed
         run: |
           if git diff --quiet; then
@@ -38,6 +43,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/app/manga/episodes.json
-          git commit -m "chore: refresh manga episodes from note"
+          git add src/app/manga/episodes.json src/app/glossary/article-meta.json
+          git commit -m "chore: refresh note article data"
           git push
