@@ -129,67 +129,106 @@ export default async function GlossaryTermPage({ params }: Props) {
       <Nav home={false} />
       <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "AI用語集", href: "/glossary" }, { name: t.term }]} />
 
-      {/* ═══ 定義 ═══ */}
-      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 50px" }}>
-        <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
-          <Badge tone="red">{t.category}</Badge>
-          <span style={{ fontFamily: "var(--font-hand)", fontSize: 14, color: "var(--text-muted)" }}>{t.yomi}</span>
-          {t.en && <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)" }}>{t.en}</span>}
-        </div>
-        <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(28px,4.4vw,44px)", lineHeight: 1.3, margin: "0 0 22px" }}>
-          {t.term}とは？
-        </h1>
-        <Card variant="pop" padding={22} style={{ maxWidth: 760, background: "var(--yellow-400)" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.14em", fontWeight: 700, marginBottom: 8 }}>
-            DEFINITION — ひとことで言うと
-          </div>
-          <p style={{ margin: 0, fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 16.5, lineHeight: 1.9 }}>{t.short}</p>
-        </Card>
-        <div style={{ maxWidth: 760, marginTop: 26 }}>
-          {t.image ? (
-            <div style={{ border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", boxShadow: "var(--shadow-pop)", overflow: "hidden" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={t.image.src} alt={t.image.alt} style={{ width: "100%", display: "block" }} />
+      {/* ═══ 本文 + サイドバーの2カラム ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 56px" }}>
+        <div className="glossary-layout" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 300px", gap: 44, alignItems: "start" }}>
+          {/* —— 本文カラム —— */}
+          <div>
+            <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
+              <Badge tone="red">{t.category}</Badge>
+              <span style={{ fontFamily: "var(--font-hand)", fontSize: 14, color: "var(--text-muted)" }}>{t.yomi}</span>
+              {t.en && <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)" }}>{t.en}</span>}
             </div>
-          ) : (
-            <TermDiagram slug={t.slug} />
-          )}
-        </div>
-        <div style={{ maxWidth: 760, marginTop: 26 }}>
-          {t.body.map((p) => (
-            <p key={p.slice(0, 12)} style={{ fontSize: 15.5, lineHeight: 2.1, color: "var(--text-body)", margin: "0 0 16px" }}>
-              {p}
-            </p>
-          ))}
-        </div>
-      </section>
-
-      {/* ═══ あわせて読みたい ═══ */}
-      <section style={{ background: "var(--paper-100)", borderTop: "var(--bw-line) solid var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)", backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)", backgroundSize: "11px 11px" }}>
-        <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "50px 0 54px" }}>
-          <SectionHead kicker="LEARN MORE — もっと深く" title="マンガ・実践記事で理解する" hand="読むより速い、体感で学ぶ" />
-          <div style={{ display: "grid", gap: 14, maxWidth: 760 }}>
-            {t.links.map((l) => {
-              const r = resolveLink(l);
-              return <MediaLinkCard key={r.href} {...r} />;
-            })}
-          </div>
-
-          {related.length > 0 && (
-            <div style={{ marginTop: 30 }}>
-              <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, marginBottom: 12 }}>
-                <i className="ph-bold ph-link" style={{ color: "var(--red-500)", marginRight: 8 }} />
-                関連用語
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(28px,4.4vw,44px)", lineHeight: 1.3, margin: "0 0 22px" }}>
+              {t.term}とは？
+            </h1>
+            <Card variant="pop" padding={22} style={{ background: "var(--yellow-400)" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.14em", fontWeight: 700, marginBottom: 8 }}>
+                DEFINITION — ひとことで言うと
               </div>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                {related.map((r) => (
-                  <a key={r.slug} href={`/glossary/${r.slug}`} style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--ink-900)", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "8px 16px", boxShadow: "var(--shadow-pop-sm)" }}>
-                    {r.term} <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)" }} />
-                  </a>
-                ))}
+              <p style={{ margin: 0, fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 16.5, lineHeight: 1.9 }}>{t.short}</p>
+            </Card>
+            <div style={{ marginTop: 26 }}>
+              {t.image ? (
+                <div style={{ border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", boxShadow: "var(--shadow-pop)", overflow: "hidden" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={t.image.src} alt={t.image.alt} style={{ width: "100%", display: "block" }} />
+                </div>
+              ) : (
+                <TermDiagram slug={t.slug} />
+              )}
+            </div>
+            <div style={{ marginTop: 26 }}>
+              {t.body.map((p) => (
+                <p key={p.slice(0, 12)} style={{ fontSize: 15.5, lineHeight: 2.1, color: "var(--text-body)", margin: "0 0 16px" }}>
+                  {p}
+                </p>
+              ))}
+            </div>
+
+            <div style={{ marginTop: 40 }}>
+              <SectionHead kicker="LEARN MORE — もっと深く" title="マンガ・実践記事で理解する" hand="読むより速い、体感で学ぶ" />
+              <div style={{ display: "grid", gap: 14 }}>
+                {t.links.map((l) => {
+                  const r = resolveLink(l);
+                  return <MediaLinkCard key={r.href} {...r} />;
+                })}
               </div>
             </div>
-          )}
+          </div>
+
+          {/* —— サイドバー —— */}
+          <aside>
+            <div style={{ position: "sticky", top: 86, display: "grid", gap: 18 }}>
+              {/* 著者カード（E-E-A-T） */}
+              <Card variant="pop" padding={18}>
+                <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 10 }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/profile/portrait.png"
+                    alt="吉川聡史のプロフィール写真"
+                    loading="lazy"
+                    style={{ width: 54, height: 54, borderRadius: "50%", objectFit: "cover", objectPosition: "top", border: "var(--bw-line) solid var(--ink-900)", flex: "none" }}
+                  />
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15 }}>吉川 聡史</div>
+                    <div style={{ fontSize: 11.5, color: "var(--text-muted)", lineHeight: 1.5 }}>AIクリエイター / 漫画家 / UXディレクター</div>
+                  </div>
+                </div>
+                <p style={{ margin: "0 0 12px", fontSize: 12.5, lineHeight: 1.8, color: "var(--text-muted)" }}>
+                  週刊少年チャンピオンで連載経験のある漫画家が、Web制作の現場目線で執筆しています。
+                </p>
+                <a href="/profile" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
+                  プロフィールを見る <i className="ph-bold ph-arrow-right" />
+                </a>
+              </Card>
+
+              {/* 関連用語 */}
+              {related.length > 0 && (
+                <Card variant="flat" padding={18}>
+                  <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14, marginBottom: 12 }}>
+                    <i className="ph-bold ph-link" style={{ color: "var(--red-500)", marginRight: 7 }} />
+                    関連用語
+                  </div>
+                  <div style={{ display: "grid", gap: 8 }}>
+                    {related.map((r) => (
+                      <a key={r.slug} href={`/glossary/${r.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--ink-900)", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "9px 14px", boxShadow: "var(--shadow-pop-sm)" }}>
+                        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.term}</span>
+                        <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", flex: "none" }} />
+                      </a>
+                    ))}
+                  </div>
+                </Card>
+              )}
+
+              {/* 用語集へ */}
+              <a href="/glossary" style={{ textDecoration: "none" }}>
+                <Button variant="secondary" size="md" block iconRight={<i className="ph-bold ph-arrow-right" />}>
+                  用語集の一覧を見る
+                </Button>
+              </a>
+            </div>
+          </aside>
         </div>
       </section>
 
