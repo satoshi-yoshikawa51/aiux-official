@@ -583,7 +583,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       "動画生成AIと組み合わせれば、静止画からアニメーションPVまで制作可能。Midjourneyで生成した絵を動かして漫画風動画やプロモーション映像を作る実践例を、下の記事で一部始終公開しています。",
     ],
     links: [
-      { label: "【完全解説！】Midjourneyで作るアニメーションPV", href: "https://note.com/aiux_unite/n/n2abeb7d9d9b5" },
+      { label: "【完全解説！】Midjourneyで作るアニメーションPV", href: "https://note.com/aiux_unite/n/nc925996d0652" },
       { label: "漫画風の動画を生成する！（RunwayGen-3×Midjourney×DomoAI）", href: "https://note.com/aiux_unite/n/ndc6365524f2a" },
     ],
     relatedSlugs: ["image-generation-ai", "video-generation-ai", "prompt-engineering"],

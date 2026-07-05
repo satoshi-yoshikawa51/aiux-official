@@ -18,7 +18,7 @@
   "https://note.com/aiux_unite/n/n5d028f1932ed": { "badge": "動画生成", "tone": "red", "excerpt": "Canvaだけで「AI試着カメラ」のPR動画を作った制作の軌跡。", "tags": ["Canva", "動画"] },
   "https://note.com/aiux_unite/n/naac3d48a3258": { "badge": "デザイン", "tone": "ink", "excerpt": "FigmaとClaudeをMCPでつなぎ、デザインシステムに沿ったワイヤー〜実装を自動生成するフロー。", "tags": ["Figma", "Claude"] },
   "https://note.com/aiux_unite/n/n759b5bbfe9e2": { "badge": "動画生成", "tone": "yellow", "excerpt": "AIを使って“動く”ストーリーボードを作る方法を解説。", "tags": ["AI", "動画"] },
-  "https://note.com/aiux_unite/n/n2abeb7d9d9b5": { "badge": "Midjourney", "tone": "yellow", "excerpt": "Midjourneyで生成したイラストを動かして、アニメーションPVに仕上げるまでの手順を完全解説。", "tags": ["Midjourney", "動画"] },
+  "https://note.com/aiux_unite/n/nc925996d0652": { "badge": "Midjourney", "tone": "yellow", "excerpt": "Midjourneyで生成したイラストを動かして、アニメーションPVに仕上げるまでの手順を完全解説。", "tags": ["Midjourney", "動画"] },
   "https://note.com/aiux_unite/n/ndc6365524f2a": { "badge": "動画生成", "tone": "blue", "excerpt": "RunwayGen-3 × Midjourney × DomoAIで、漫画風の動画を生成する手順。", "tags": ["Runway", "Midjourney"] },
   "https://note.com/aiux_unite/n/n185107973a2f": { "badge": "入門編", "tone": "red", "excerpt": "RAGとファインチューニングの違いと使いどころを、マンガでやさしく。", "tags": ["RAG", "入門"] }
 }
