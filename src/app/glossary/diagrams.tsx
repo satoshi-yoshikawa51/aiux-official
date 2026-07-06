@@ -64,6 +64,27 @@ function T({ x, y, text, size = 13, color = MUTED, anchor = "middle", bold = fal
   );
 }
 
+/* 縦向き矢印 */
+function AV({ x, y1, y2, label }: { x: number; y1: number; y2: number; label?: string }) {
+  const dir = y2 > y1 ? 1 : -1;
+  return (
+    <g>
+      <line x1={x} y1={y1} x2={x} y2={y2 - 10 * dir} stroke={INK} strokeWidth={3.5} />
+      <polygon points={`${x},${y2} ${x - 7},${y2 - 13 * dir} ${x + 7},${y2 - 13 * dir}`} fill={INK} />
+      {label && (
+        <text x={x + 12} y={(y1 + y2) / 2} textAnchor="start" fontFamily={HEAD} fontSize={12} fill={MUTED}>
+          {label}
+        </text>
+      )}
+    </g>
+  );
+}
+
+/* 丸ノード（ニューラルネットワーク用） */
+function C({ cx, cy, r = 16, fill = PAPER }: { cx: number; cy: number; r?: number; fill?: string }) {
+  return <circle cx={cx} cy={cy} r={r} fill={fill} stroke={INK} strokeWidth={3} />;
+}
+
 function Svg({ h, title, children }: { h: number; title: string; children: React.ReactNode }) {
   return (
     <svg viewBox={`0 0 600 ${h}`} width="100%" role="img" aria-label={title} className="diag" style={{ display: "block" }}>
@@ -269,7 +290,243 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+
+  "machine-learning": {
+    caption: "ルールを教えるのではなく、データからパターンを学ばせる",
+    render: () => (
+      <Svg h={300} title="機械学習のしくみ図解">
+        <T x={30} y={40} text="従来：人間がルールを書く" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={190} h={60} label="ルールを書く" sub="「もし〇〇なら△△」" />
+        <AH x1={225} x2={320} y={85} />
+        <B x={325} y={55} w={120} h={60} label="判定" />
+        <T x={30} y={185} text="機械学習：データから学ぶ" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={198} w={160} h={60} label="大量のデータ" fill={BLUE} color="#fff" />
+        <AH x1={195} x2={280} y={228} label="学習" />
+        <B x={285} y={198} w={160} h={60} label="パターンを発見" fill={YELLOW} />
+        <AH x1={450} x2={480} y={228} />
+        <B x={485} y={198} w={95} h={60} label="判定" />
+      </Svg>
+    ),
+  },
+  "deep-learning": {
+    caption: "層を深く重ねるほど、複雑な特徴を捉えられる",
+    render: () => (
+      <Svg h={260} title="ディープラーニングのしくみ図解">
+        <B x={15} y={90} w={105} h={70} label="入力" sub="画像など" />
+        <AH x1={123} x2={148} y={125} />
+        <B x={152} y={90} w={70} h={70} label="層" fill={YELLOW} />
+        <AH x1={225} x2={247} y={125} />
+        <B x={251} y={90} w={70} h={70} label="層" fill={YELLOW} />
+        <AH x1={324} x2={346} y={125} />
+        <B x={350} y={90} w={70} h={70} label="層" fill={YELLOW} />
+        <AH x1={423} x2={448} y={125} />
+        <B x={452} y={90} w={133} h={70} label="出力" sub="猫の確率 98%" />
+        <T x={300} y={215} text="この「層の深さ」がディープの由来。深いほど複雑なパターンを学べる" size={13} />
+      </Svg>
+    ),
+  },
+  "neural-network": {
+    caption: "無数のノードのつながりと「重み」の調整で学習する",
+    render: () => (
+      <Svg h={300} title="ニューラルネットワークのしくみ図解">
+        <T x={90} y={38} text="入力" size={14} color={INK} bold />
+        <T x={300} y={38} text="隠れ層（重みを調整）" size={14} color={INK} bold />
+        <T x={505} y={38} text="出力" size={14} color={INK} bold />
+        {[95, 165, 235].map((y) =>
+          [70, 130, 190, 250].map((hy) => (
+            <line key={`a${y}-${hy}`} x1={90} y1={y} x2={300} y2={hy} stroke={INK} strokeWidth={1.2} opacity={0.35} />
+          ))
+        )}
+        {[70, 130, 190, 250].map((hy) =>
+          [125, 205].map((oy) => (
+            <line key={`b${hy}-${oy}`} x1={300} y1={hy} x2={505} y2={oy} stroke={INK} strokeWidth={1.2} opacity={0.35} />
+          ))
+        )}
+        {[95, 165, 235].map((y) => (
+          <C key={`i${y}`} cx={90} cy={y} />
+        ))}
+        {[70, 130, 190, 250].map((y) => (
+          <C key={`h${y}`} cx={300} cy={y} fill={YELLOW} />
+        ))}
+        {[125, 205].map((y) => (
+          <C key={`o${y}`} cx={505} cy={y} fill={RED} />
+        ))}
+      </Svg>
+    ),
+  },
+  transformer: {
+    caption: "文中のどの単語同士が関係するかに「注目」して意味を掴む",
+    render: () => (
+      <Svg h={260} title="トランスフォーマー（アテンション）のしくみ図解">
+        <T x={300} y={45} text="アテンション＝単語同士の関係への「注目」" size={14} color={INK} bold />
+        {["今日", "の", "天気", "は", "いい"].map((w, i) => (
+          <B key={w} x={35 + i * 110} y={150} w={95} h={55} label={w} fill={i === 2 || i === 4 ? YELLOW : PAPER} />
+        ))}
+        <path d="M 522 148 C 480 70, 330 70, 288 148" fill="none" stroke={RED} strokeWidth={4} />
+        <polygon points="288,148 284,130 300,134" fill={RED} />
+        <T x={410} y={128} text="「いい」→「天気」に注目" size={12.5} color={RED} bold />
+      </Svg>
+    ),
+  },
+  token: {
+    caption: "文章はトークンに刻まれて処理される。数＝料金と上限",
+    render: () => (
+      <Svg h={280} title="トークンのしくみ図解">
+        <B x={150} y={40} w={300} h={55} label="「こんにちは、吉川です。」" />
+        <AV x={300} y1={100} y2={135} label="トークンに分割" />
+        {["こん", "にちは", "、", "吉川", "です", "。"].map((t, i) => (
+          <B key={i} x={38 + i * 90} y={145} w={80} h={50} label={t} fill={YELLOW} />
+        ))}
+        <T x={300} y={240} text="この1つ1つがトークン。「何トークンまで」「◯トークンあたり◯円」の単位" size={13} />
+      </Svg>
+    ),
+  },
+  "context-window": {
+    caption: "机に載る分だけ覚えていられる。あふれた分は忘れる",
+    render: () => (
+      <Svg h={300} title="コンテキストウィンドウのしくみ図解">
+        <rect x={70} y={55} width={460} height={150} rx={12} fill={PAPER} stroke={INK} strokeWidth={3.5} />
+        <T x={300} y={45} text="コンテキストウィンドウ（作業机の広さ）" size={14} color={INK} bold />
+        <B x={95} y={90} w={125} h={60} label={"最初の指示"} fill={YELLOW} />
+        <B x={240} y={90} w={120} h={60} label="資料" />
+        <B x={380} y={90} w={125} h={60} label={"会話の続き"} />
+        <AH x1={110} x2={60} y={245} />
+        <B x={115} y={220} w={150} h={50} label="古いやり取り" dashed />
+        <T x={425} y={250} text="机からあふれた情報は「忘れた」ように振る舞う" size={12} />
+      </Svg>
+    ),
+  },
+  embedding: {
+    caption: "意味を数値にすると、「近い意味」を距離で探せる",
+    render: () => (
+      <Svg h={300} title="埋め込み（エンベディング）のしくみ図解">
+        <B x={20} y={60} w={150} h={50} label="経費精算" />
+        <B x={20} y={125} w={150} h={50} label={"立て替えの申請"} />
+        <B x={20} y={190} w={150} h={50} label="猫の写真" />
+        <AH x1={175} x2={225} y={150} />
+        <B x={230} y={115} w={130} h={70} label={"数値に変換"} sub="ベクトル化" fill={YELLOW} />
+        <AH x1={365} x2={405} y={150} />
+        <rect x={415} y={55} width={170} height={200} rx={12} fill={PAPER} stroke={INK} strokeWidth={3} />
+        <T x={500} y={45} text="意味の空間" size={13} color={INK} bold />
+        <circle cx={465} cy={105} r={9} fill={RED} stroke={INK} strokeWidth={2.5} />
+        <circle cx={490} cy={130} r={9} fill={RED} stroke={INK} strokeWidth={2.5} />
+        <T x={478} y={85} text="経費・立替＝近い" size={11.5} />
+        <circle cx={545} cy={225} r={9} fill={BLUE} stroke={INK} strokeWidth={2.5} />
+        <T x={523} y={247} text="猫＝遠い" size={11.5} />
+      </Svg>
+    ),
+  },
+  "multimodal-ai": {
+    caption: "テキストも画像も音声も、まとめて理解・生成できる",
+    render: () => (
+      <Svg h={300} title="マルチモーダルAIのしくみ図解">
+        <B x={25} y={40} w={120} h={55} label="テキスト" />
+        <B x={25} y={122} w={120} h={55} label="画像" fill={BLUE} color="#fff" />
+        <B x={25} y={205} w={120} h={55} label="音声" />
+        <line x1={148} y1={67} x2={245} y2={135} stroke={INK} strokeWidth={3.5} />
+        <line x1={148} y1={150} x2={245} y2={150} stroke={INK} strokeWidth={3.5} />
+        <line x1={148} y1={232} x2={245} y2={165} stroke={INK} strokeWidth={3.5} />
+        <B x={250} y={110} w={140} h={80} label={"マルチモーダル\nAI"} fill={YELLOW} />
+        <AH x1={395} x2={435} y={150} />
+        <B x={440} y={110} w={145} h={80} label={"まとめて\n理解・生成"} />
+      </Svg>
+    ),
+  },
+  agi: {
+    caption: "「1つだけ得意」から「人間のように何でも」へ",
+    render: () => (
+      <Svg h={300} title="AGI（汎用人工知能）の図解">
+        <T x={30} y={42} text="いまのAI：特化型" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={165} h={60} label="翻訳が得意" />
+        <B x={215} y={55} w={165} h={60} label="絵が得意" />
+        <B x={400} y={55} w={165} h={60} label="対話が得意" />
+        <T x={30} y={185} text="AGI：なんでもできる汎用型" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={198} w={535} h={70} label="初めての課題にも、人間のように柔軟に対応" fill={YELLOW} />
+      </Svg>
+    ),
+  },
+  singularity: {
+    caption: "AIの進化曲線が人間を追い越すとされる転換点",
+    render: () => (
+      <Svg h={300} title="シンギュラリティの図解">
+        <line x1={60} y1={250} x2={560} y2={250} stroke={INK} strokeWidth={3} />
+        <line x1={60} y1={250} x2={60} y2={50} stroke={INK} strokeWidth={3} />
+        <T x={555} y={272} text="時間 →" size={12.5} anchor="end" />
+        <T x={52} y={45} text="知能" size={12.5} anchor="end" />
+        <path d="M 60 195 L 540 175" stroke={INK} strokeWidth={3.5} strokeDasharray="8 6" fill="none" />
+        <T x={165} y={178} text="人間の知能" size={13} color={INK} bold />
+        <path d="M 60 245 C 260 235, 400 200, 470 70" stroke={RED} strokeWidth={4.5} fill="none" />
+        <T x={330} y={232} text="AIの知能" size={13} color={RED} bold />
+        <circle cx={409} cy={184} r={10} fill={YELLOW} stroke={INK} strokeWidth={3} />
+        <T x={395} y={155} text="ここがシンギュラリティ" size={13} color={INK} bold anchor="end" />
+      </Svg>
+    ),
+  },
+  "ai-literacy": {
+    caption: "「操作できる」ではなく、この4つがそろって「使える」",
+    render: () => (
+      <Svg h={300} title="AIリテラシーの4要素の図解">
+        <B x={40} y={50} w={245} h={90} label={"① 見極める"} sub="何を任せて何を任せないか" fill={YELLOW} />
+        <B x={315} y={50} w={245} h={90} label={"② 指示する"} sub="的確なプロンプトで伝える" />
+        <B x={40} y={165} w={245} h={90} label={"③ 確かめる"} sub="鵜呑みにせず事実確認" />
+        <B x={315} y={165} w={245} h={90} label={"④ 配慮する"} sub="権利・機密情報のリスク" fill={YELLOW} />
+      </Svg>
+    ),
+  },
+  "local-llm": {
+    caption: "クラウドは外部に送信、ローカルは手元で完結",
+    render: () => (
+      <Svg h={300} title="ローカルLLMのしくみ図解">
+        <T x={30} y={42} text="クラウドAI：データを外部に送る" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={120} h={60} label="PC" />
+        <AH x1={155} x2={330} y={85} label="インターネット越しに送信" />
+        <B x={335} y={55} w={230} h={60} label="クラウド上のAI" fill={BLUE} color="#fff" />
+        <T x={30} y={185} text="ローカルLLM：手元で完結" size={15} color={INK} anchor="start" bold />
+        <rect x={30} y={198} width={310} height={80} rx={12} fill={PAPER} stroke={INK} strokeWidth={3.5} />
+        <T x={110} y={243} text="自分のPC・サーバー" size={13.5} color={INK} bold />
+        <B x={205} y={213} w={115} h={50} label="AI" fill={YELLOW} />
+        <T x={465} y={243} text="🔒 データが外に出ない" size={14} color={INK} bold />
+      </Svg>
+    ),
+  },
+  notebooklm: {
+    caption: "渡した資料の中身「だけ」を根拠に、出典つきで答える",
+    render: () => (
+      <Svg h={260} title="NotebookLMのしくみ図解">
+        <B x={20} y={90} w={160} h={80} label={"自分の資料"} sub="議事録・規程・PDF" fill={BLUE} color="#fff" />
+        <AH x1={185} x2={235} y={130} label="読み込み" />
+        <B x={240} y={85} w={150} h={90} label="NotebookLM" sub="資料の中だけ参照" fill={YELLOW} />
+        <AH x1={395} x2={445} y={130} />
+        <B x={450} y={90} w={135} h={80} label={"出典つきの\n回答"} />
+        <T x={300} y={225} text="資料の外のことは答えないから、ハルシネーションが起きにくい" size={13} />
+      </Svg>
+    ),
+  },
+  "video-generation-ai": {
+    caption: "テキストや画像から、動く映像を生成する",
+    render: () => (
+      <Svg h={280} title="動画生成AIのしくみ図解">
+        <B x={25} y={60} w={135} h={55} label="テキスト指示" />
+        <B x={25} y={145} w={135} h={55} label={"1枚の画像"} fill={BLUE} color="#fff" />
+        <line x1={163} y1={87} x2={245} y2={120} stroke={INK} strokeWidth={3.5} />
+        <line x1={163} y1={172} x2={245} y2={140} stroke={INK} strokeWidth={3.5} />
+        <B x={250} y={95} w={140} h={70} label={"動画生成AI"} sub="Sora・Runway等" fill={YELLOW} />
+        <AH x1={395} x2={430} y={130} />
+        {[0, 1, 2].map((i) => (
+          <g key={i}>
+            <rect x={438 + i * 50} y={100} width={44} height={60} rx={6} fill={PAPER} stroke={INK} strokeWidth={3} />
+            <polygon points={`${452 + i * 50},${120} ${452 + i * 50},${140} ${470 + i * 50},${130}`} fill={RED} />
+          </g>
+        ))}
+        <T x={510} y={185} text="連続するフレーム＝動画" size={12} />
+      </Svg>
+    ),
+  },
 };
+
+export function hasDiagram(slug: string): boolean {
+  return slug in DIAGRAMS;
+}
 
 /* —— 図解パネル（用語ページから使う） —— */
 export function TermDiagram({ slug }: { slug: string }) {
