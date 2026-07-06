@@ -66,7 +66,7 @@ export default function QuizPage() {
         </p>
       </section>
 
-      <section style={{ maxWidth: 720, margin: "0 auto", padding: "0 0 60px" }}>
+      <section style={{ maxWidth: "min(680px, 92vw)", margin: "0 auto", padding: "0 0 60px" }}>
         <QuizPlayer termNames={termNames} />
       </section>
 

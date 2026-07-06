@@ -48,7 +48,7 @@ export default async function QuizResultPage({ params }: Props) {
   return (
     <div style={{ background: "var(--paper-50)", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Nav home={false} />
-      <section style={{ flex: 1, maxWidth: 640, width: "100%", margin: "0 auto", padding: "50px 20px 60px", boxSizing: "border-box" }}>
+      <section style={{ flex: 1, maxWidth: "min(640px, 92vw)", width: "100%", margin: "0 auto", padding: "50px 0 60px" }}>
         <Card variant="pop" padding={0} style={{ overflow: "hidden" }}>
           <div style={{ padding: "36px 30px 30px", textAlign: "center", background: "var(--yellow-400)", borderBottom: "var(--bw-bold) solid var(--ink-900)" }}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 12.5, fontWeight: 700, letterSpacing: "0.14em", marginBottom: 10 }}>
