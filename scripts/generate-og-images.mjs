@@ -17,8 +17,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = path.join(ROOT, "public/og/glossary");
+const QUIZ_OUT_DIR = path.join(ROOT, "public/og/quiz");
 
 const { TERMS } = await import(pathToFileURL(path.join(ROOT, "src/app/glossary/data.ts")).href);
+const { GRADES, QUIZ_SIZE } = await import(pathToFileURL(path.join(ROOT, "src/app/quiz/data.ts")).href);
 
 /* —— サイトのデザイントークン（globals.cssと揃えること） —— */
 const INK = "#14110f";
@@ -53,7 +55,7 @@ function termSize(term) {
   return 62;
 }
 
-function pageHtml({ kicker, badge, title, titleSize, sub, short }) {
+function pageHtml({ kicker, badge, title, titleSize, sub, short, site = "comixai.dev/glossary" }) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 ${FONTS}
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -122,7 +124,7 @@ body { width: 1200px; height: 630px; font-family: "Zen Kaku Gothic New", sans-se
   </div>
   <div class="bottom">
     <div class="logo">CO<span class="mix">MIX</span>AI</div>
-    <div class="site">comixai.dev/glossary</div>
+    <div class="site">${site}</div>
   </div>
 </div></div>
 </body></html>`;
@@ -143,10 +145,10 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 
 await mkdir(OUT_DIR, { recursive: true });
 
-async function shoot(html, file) {
+async function shoot(html, file, dir = OUT_DIR) {
   await page.setContent(html, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({ path: path.join(OUT_DIR, file) });
+  await page.screenshot({ path: path.join(dir, file) });
   console.log(`  ✔ ${file}`);
 }
 
@@ -178,5 +180,38 @@ await shoot(
   "index.png"
 );
 
+/* —— AI用語力診断（/quiz）用 —— */
+await mkdir(QUIZ_OUT_DIR, { recursive: true });
+
+await shoot(
+  pageHtml({
+    kicker: "QUIZ — AI用語力診断",
+    badge: `全${QUIZ_SIZE}問・3分`,
+    title: "あなたのAI用語力は、<br>何級？",
+    titleSize: 92,
+    sub: "🐣 ヒヨコ級 〜 👑 賢者級",
+    short: "生成AI・LLM・RAG・トークン…今さら聞けないAI用語、どこまでわかる？1問ごとに解説つき。",
+    site: "comixai.dev/quiz",
+  }),
+  "quiz.png",
+  QUIZ_OUT_DIR
+);
+
+for (const g of GRADES) {
+  await shoot(
+    pageHtml({
+      kicker: "QUIZ — AI用語力診断",
+      badge: "判定結果",
+      title: `${g.emoji} ${g.title}`,
+      titleSize: 104,
+      sub: `AI用語力診断（全${QUIZ_SIZE}問）の判定`,
+      short: `${g.comment.split("。")[0]}。あなたのAI用語力は何級？ → comixai.dev/quiz`,
+      site: "comixai.dev/quiz",
+    }),
+    `${g.slug}.png`,
+    QUIZ_OUT_DIR
+  );
+}
+
 await browser.close();
-console.log(`完了: ${TERMS.length + 1}枚を public/og/glossary/ に生成しました`);
+console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 を生成しました`);
