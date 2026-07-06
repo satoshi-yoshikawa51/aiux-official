@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: t.short,
       url: `/glossary/${t.slug}`,
       locale: "ja_JP",
-      images: [{ url: "/ogp.png", width: 924, height: 540 }],
+      images: [{ url: `/og/glossary/${t.slug}.png`, width: 1200, height: 630, alt: `${t.term}とは？今さら聞けないAI用語集` }],
     },
     twitter: { card: "summary_large_image" },
   };

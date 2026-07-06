@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     description: "AI活用の頻出用語を、マンガ連載とセットで現場目線でわかりやすく解説。",
     url: "/glossary",
     locale: "ja_JP",
-    images: [{ url: "/ogp.png", width: 924, height: 540 }],
+    images: [{ url: "/og/glossary/index.png", width: 1200, height: 630, alt: "今さら聞けないAI用語集｜COMIXAI" }],
   },
   twitter: { card: "summary_large_image" },
 };
