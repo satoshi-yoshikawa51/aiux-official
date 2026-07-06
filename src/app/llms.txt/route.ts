@@ -36,6 +36,7 @@ export function GET() {
     "## AI用語集",
     "",
     "- [AI用語集トップ](https://comixai.dev/glossary): 生成AIの頻出用語を現場目線でわかりやすく解説",
+    "- [AI用語力診断](https://comixai.dev/quiz): AI用語の理解度を12問・3分で5段階判定するクイズ（解説つき）",
     ...TERMS.map(
       (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`
     ),

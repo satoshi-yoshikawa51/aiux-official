@@ -95,6 +95,28 @@ export default function GlossaryIndexPage() {
         />
       </section>
 
+      {/* ═══ 腕試し：AI用語力診断 ═══ */}
+      <section style={{ background: "var(--ink-900)", borderTop: "var(--bw-line) solid var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)" }}>
+        <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "38px 0 42px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+          <div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 8 }}>
+              QUIZ — 腕試し
+            </div>
+            <h2 style={{ margin: "0 0 6px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3.2vw,27px)", color: "var(--paper-50)" }}>
+              覚えたら、AI用語力診断へ。🐣→👑
+            </h2>
+            <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "rgba(251,247,239,0.75)" }}>
+              この30語から毎回12問を出題。3分で5段階判定、結果はXでシェアできます。
+            </p>
+          </div>
+          <a href="/quiz" style={{ textDecoration: "none" }}>
+            <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              診断してみる
+            </Button>
+          </a>
+        </div>
+      </section>
+
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0 46px" }}>
         <SectionHead kicker="MANGA — マンガ連載" title="用語の先は、マンガで。" hand="ストーリーで学ぶと忘れない" />
         <a href="/manga" style={{ textDecoration: "none" }}>
