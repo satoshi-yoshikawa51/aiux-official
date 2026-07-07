@@ -525,17 +525,17 @@ function Glossary() {
         </div>
 
         {/* —— AI用語力診断への導線（表紙動画つき） —— */}
-        <a href="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 760, margin: "40px auto 0" }}>
+        <a href="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "40px auto 0" }}>
           <div
             className="quiz-banner"
             style={{
               background: "var(--ink-900)",
               borderRadius: "var(--radius-lg)",
               boxShadow: "var(--shadow-pop)",
-              padding: "22px 28px",
+              padding: "26px 42px",
               display: "flex",
               alignItems: "center",
-              gap: 24,
+              gap: 28,
               flexWrap: "wrap",
             }}
           >
