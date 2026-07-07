@@ -179,6 +179,38 @@ export default async function GlossaryTermPage({ params }: Props) {
               ))}
             </div>
 
+            {/* —— 隠しコンテンツの扉（secretを持つ用語だけ） —— */}
+            {t.secret && (
+              <a href={t.secret.href} style={{ textDecoration: "none", color: "inherit", display: "block", marginTop: 34 }}>
+                <div
+                  style={{
+                    background: "var(--ink-900)",
+                    borderRadius: "var(--radius-lg)",
+                    boxShadow: "var(--shadow-pop)",
+                    padding: "24px 30px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 22,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <div style={{ flex: "none", fontSize: 40, lineHeight: 1 }}>🚪</div>
+                  <div style={{ flex: "1 1 240px" }}>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 6 }}>
+                      SECRET — 隠しコンテンツ
+                    </div>
+                    <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(18px,2.8vw,23px)", color: "var(--paper-50)", lineHeight: 1.4 }}>
+                      {t.secret.title}
+                    </div>
+                    <div style={{ fontSize: 13, lineHeight: 1.8, color: "rgba(251,247,239,0.75)", marginTop: 4 }}>{t.secret.desc}</div>
+                  </div>
+                  <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+                    ラボに入る
+                  </Button>
+                </div>
+              </a>
+            )}
+
             <div style={{ marginTop: 40 }}>
               <SectionHead kicker="LEARN MORE — もっと深く" title="マンガ・実践記事で理解する" hand="読むより速い、体感で学ぶ" />
               <div style={{ display: "grid", gap: 14 }}>
