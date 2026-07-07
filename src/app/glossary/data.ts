@@ -114,6 +114,7 @@ const TERMS_BATCH1: GlossaryTerm[] = [
       "対策の基本は、①事実・数字・出典は必ず人間が確認する、②RAGなどで根拠となる資料を渡してから答えさせる、③「わからない場合はわからないと答えて」と指示する、の3つ。AIの答えを鵜呑みにしない運用ルールが、AI活用の信頼性を支えます。",
     ],
     links: [
+      { label: "【ゲーム】AIのウソを見抜け", href: "/uso" },
       { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
     ],
     relatedSlugs: ["llm", "rag"],
@@ -384,6 +385,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       "チームにAIを広めるときも、ツールの操作方法より先にこの考え方を共有するのが近道。マンガ連載「マンガでわかる！AI活用」は、まさにこのAIリテラシーを楽しく身につけてもらうために描いています。",
     ],
     links: [
+      { label: "【ゲーム】AIのウソを見抜け", href: "/uso" },
       { label: "連載「マンガでわかる！AI活用」シリーズ紹介", href: "/manga/wakaru" },
       { label: "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
     ],

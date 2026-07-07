@@ -21,6 +21,7 @@ const QUIZ_OUT_DIR = path.join(ROOT, "public/og/quiz");
 
 const { TERMS } = await import(pathToFileURL(path.join(ROOT, "src/app/glossary/data.ts")).href);
 const { GRADES, QUIZ_SIZE } = await import(pathToFileURL(path.join(ROOT, "src/app/quiz/data.ts")).href);
+const { USO_GRADES, USO_ROUNDS } = await import(pathToFileURL(path.join(ROOT, "src/app/uso/data.ts")).href);
 
 /* —— サイトのデザイントークン（globals.cssと揃えること） —— */
 const INK = "#14110f";
@@ -221,6 +222,40 @@ for (const g of GRADES) {
     }),
     `${g.slug}.png`,
     QUIZ_OUT_DIR
+  );
+}
+
+/* —— AIのウソを見抜け（/uso）用 —— */
+const USO_OUT_DIR = path.join(ROOT, "public/og/uso");
+await mkdir(USO_OUT_DIR, { recursive: true });
+
+await shoot(
+  pageHtml({
+    kicker: "GAME — ハルシネーション体験",
+    badge: `全${USO_ROUNDS}問`,
+    title: "AIのウソを、<br>見抜け。",
+    titleSize: 96,
+    sub: "2つの回答、片方にウソが混ざってる",
+    short: "架空の判例、捏造された出典、古い制度の知識——実際のAIがやらかす「ウソの型」だけを集めました。",
+    site: "comixai.dev/uso",
+  }),
+  "uso.png",
+  USO_OUT_DIR
+);
+
+for (const g of USO_GRADES) {
+  await shoot(
+    pageHtml({
+      kicker: "GAME — AIのウソを見抜け",
+      badge: "判定結果",
+      title: `${g.emoji} ${g.title}`,
+      titleSize: 88,
+      sub: `全${USO_ROUNDS}問のハルシネーション見抜き判定`,
+      short: `${g.comment.split("。")[0]}。あなたはAIに騙されない自信ある？ → comixai.dev/uso`,
+      site: "comixai.dev/uso",
+    }),
+    `${g.slug}.png`,
+    USO_OUT_DIR
   );
 }
 
