@@ -7,7 +7,7 @@
    ============================================================ */
 import React from "react";
 import { Badge, Button, Card } from "../ds";
-import { QUESTIONS, QUIZ_SIZE, gradeFor, type QuizQuestion } from "./data";
+import { GRADES, QUESTIONS, QUIZ_SIZE, gradeFor, type QuizQuestion } from "./data";
 
 interface DrawnQuestion {
   src: QuizQuestion;
@@ -56,7 +56,39 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
     return (
       <Card variant="pop" padding={0} style={{ overflow: "hidden" }}>
         <div style={{ padding: "34px 30px 30px", textAlign: "center" }}>
-          <div style={{ fontSize: 46, marginBottom: 6 }}>🐣📖⚡🔥👑</div>
+          {/* 表紙動画（テレビのワイプ風の丸窓・ループ再生）
+              ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
+          <div
+            style={{
+              width: 190,
+              height: 190,
+              margin: "0 auto 18px",
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "var(--bw-bold) solid var(--ink-900)",
+              boxShadow: "var(--shadow-pop)",
+              background: "var(--yellow-400)",
+              transform: "rotate(-2deg)",
+            }}
+            dangerouslySetInnerHTML={{
+              __html:
+                '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
+            }}
+          />
+          {/* 5つの級キャラ */}
+          <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 10 }}>
+            {GRADES.map((g) => (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                key={g.slug}
+                src={g.image}
+                alt={g.title}
+                width={52}
+                height={52}
+                style={{ borderRadius: "50%", border: "2.5px solid var(--ink-900)", background: "#fff", objectFit: "cover" }}
+              />
+            ))}
+          </div>
           <h2 style={{ margin: "0 0 10px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.6vw,30px)" }}>
             あなたのAI用語力は、何級？
           </h2>
@@ -90,7 +122,14 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 12.5, fontWeight: 700, letterSpacing: "0.14em", marginBottom: 10 }}>
               RESULT — {score} / {QUIZ_SIZE} 問正解
             </div>
-            <div style={{ fontSize: 60, lineHeight: 1, marginBottom: 8 }}>{grade.emoji}</div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={grade.image}
+              alt={grade.title}
+              width={150}
+              height={150}
+              style={{ margin: "0 auto 10px", borderRadius: "50%", border: "var(--bw-bold) solid var(--ink-900)", background: "#fff", objectFit: "cover", boxShadow: "var(--shadow-pop-sm)" }}
+            />
             <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,5vw,42px)" }}>{grade.title}</h2>
           </div>
           <div style={{ padding: "22px 28px 26px", textAlign: "center" }}>

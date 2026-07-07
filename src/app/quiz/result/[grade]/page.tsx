@@ -54,7 +54,14 @@ export default async function QuizResultPage({ params }: Props) {
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 12.5, fontWeight: 700, letterSpacing: "0.14em", marginBottom: 10 }}>
               AI用語力診断 — 判定
             </div>
-            <div style={{ fontSize: 62, lineHeight: 1, marginBottom: 8 }}>{g.emoji}</div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={g.image}
+              alt={g.title}
+              width={170}
+              height={170}
+              style={{ margin: "0 auto 12px", borderRadius: "50%", border: "var(--bw-bold) solid var(--ink-900)", background: "#fff", objectFit: "cover", boxShadow: "var(--shadow-pop-sm)" }}
+            />
             <h1 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(32px,6vw,44px)" }}>{g.title}</h1>
           </div>
           <div style={{ padding: "24px 28px 30px", textAlign: "center" }}>

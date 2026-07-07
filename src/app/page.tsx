@@ -523,6 +523,59 @@ function Glossary() {
             </Button>
           </a>
         </div>
+
+        {/* —— AI用語力診断への導線（表紙動画つき） —— */}
+        <a href="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "40px auto 0" }}>
+          <div
+            className="quiz-banner"
+            style={{
+              background: "var(--ink-900)",
+              borderRadius: "var(--radius-lg)",
+              boxShadow: "var(--shadow-pop)",
+              padding: "26px 42px",
+              display: "flex",
+              alignItems: "center",
+              gap: 28,
+              flexWrap: "wrap",
+            }}
+          >
+            <div style={{ flex: "1 1 260px" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 6 }}>
+                QUIZ — 腕試し
+              </div>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(19px,3vw,25px)", color: "var(--paper-50)", lineHeight: 1.4 }}>
+                あなたのAI用語力は、何級？
+              </div>
+              <div style={{ fontSize: 13.5, lineHeight: 1.8, color: "rgba(251,247,239,0.75)", marginTop: 4 }}>
+                毎回変わる12問・3分で5段階判定。1問ごとに解説つき。
+              </div>
+              <div style={{ marginTop: 16 }}>
+                <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+                  診断してみる
+                </Button>
+              </div>
+            </div>
+            {/* 表紙動画のワイプ（タイトルの右）。PCでは右端、スマホでは折り返して中央。
+                ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
+            <div
+              style={{
+                width: 148,
+                height: 148,
+                flex: "none",
+                margin: "0 auto",
+                borderRadius: "50%",
+                overflow: "hidden",
+                border: "3px solid var(--paper-50)",
+                background: "var(--yellow-400)",
+                transform: "rotate(3deg)",
+              }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
+              }}
+            />
+          </div>
+        </a>
       </div>
     </section>
   );

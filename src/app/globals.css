@@ -476,6 +476,11 @@ img {
   .glossary-layout {
     grid-template-columns: 1fr !important;
   }
+  /* トップの診断バナー：折り返したら文字・ボタン・動画を中央揃えに */
+  .quiz-banner {
+    text-align: center;
+    justify-content: center;
+  }
   .nav-links {
     display: none;
   }
