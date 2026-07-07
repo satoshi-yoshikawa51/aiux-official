@@ -525,7 +525,7 @@ function Glossary() {
         </div>
 
         {/* —— AI用語力診断への導線（表紙動画つき） —— */}
-        <a href="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", marginTop: 40 }}>
+        <a href="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 760, margin: "40px auto 0" }}>
           <div
             className="quiz-banner"
             style={{
