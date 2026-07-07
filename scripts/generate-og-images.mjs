@@ -259,6 +259,55 @@ for (const g of USO_GRADES) {
   );
 }
 
+/* —— 用語ゲーム4本（/vibe /agent /shinjin /sodate）用 —— */
+const GAMES_OUT_DIR = path.join(ROOT, "public/og/games");
+await mkdir(GAMES_OUT_DIR, { recursive: true });
+const GAME_OGS = [
+  {
+    file: "vibe.png",
+    kicker: "GAME — バイブコーディング体験",
+    badge: "81通り",
+    title: "仕様書ゼロで、<br>アプリを作ろう。",
+    sub: "「もっとポップに」「なんかこう、ドン！って」",
+    short: "雑な一言を選ぶだけで、目の前でミニアプリが変形していく。3分で完成、あなただけの一品。",
+    site: "comixai.dev/vibe",
+  },
+  {
+    file: "agent.png",
+    kicker: "GAME — エージェント見守りSLG",
+    badge: "結末6種",
+    title: "任せる勇気、<br>試されます。",
+    sub: "口を出しすぎても、放置しすぎても、事故る",
+    short: "AIエージェントに競合調査を任せるシミュレーション。あなたの「任せ方」で結末が分岐します。",
+    site: "comixai.dev/agent",
+  },
+  {
+    file: "shinjin.png",
+    kicker: "GAME — プロンプト体験",
+    badge: "伝わり度判定",
+    title: "その指示、AIに<br>伝わってますか？",
+    sub: "指定しないと「いい感じ」に解釈されます",
+    short: "AI新人くんに発注して、指示の抜けが事故になる様子を体験。笑って学ぶプロンプトの基本4点セット。",
+    site: "comixai.dev/shinjin",
+  },
+  {
+    file: "sodate.png",
+    kicker: "GAME — ファインチューニング体験",
+    badge: "育成ゲーム",
+    title: "AIの人格は、<br>餌で決まる。",
+    sub: "🐱を与えすぎると…何を聞いても猫の話に",
+    short: "学習データ（餌）を3回与えてAIを育てる。「過学習」がどう起きるか、育てて体感してください。",
+    site: "comixai.dev/sodate",
+  },
+];
+for (const g of GAME_OGS) {
+  await shoot(
+    pageHtml({ kicker: g.kicker, badge: g.badge, title: g.title, titleSize: 84, sub: g.sub, short: g.short, site: g.site }),
+    g.file,
+    GAMES_OUT_DIR
+  );
+}
+
 /* —— トークナイザー体験（/tokenizer）用 —— */
 await shoot(
   pageHtml({
