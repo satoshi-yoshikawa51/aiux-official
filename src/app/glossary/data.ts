@@ -31,8 +31,8 @@ export interface GlossaryTerm {
   /** 手描きイラスト（設定するとSVG図解の代わりに表示される）。
       public/glossary/ に画像を置いて { src: "/glossary/rag.png", alt: "..." } を指定 */
   image?: { src: string; alt: string };
-  /** 隠しコンテンツへの扉（黒いバナーで表示される） */
-  secret?: { href: string; title: string; desc: string };
+  /** 隠しコンテンツへの扉（黒いバナーで表示される）。ctaはボタン文言（省略時「ラボに入る」） */
+  secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
 export const GLOSSARY_UPDATED = "2026-07-05";
@@ -116,6 +116,12 @@ const TERMS_BATCH1: GlossaryTerm[] = [
     links: [
       { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
     ],
+    secret: {
+      href: "/uso",
+      title: "AIのウソを、見抜け。",
+      desc: "2つのAI回答、片方にウソが混ざっています。実際のAIの“やらかし”だけを集めた全8問——騙されずにいられるか。",
+      cta: "挑戦する",
+    },
     relatedSlugs: ["llm", "rag"],
     lastUpdated: "2026-07-04",
   },

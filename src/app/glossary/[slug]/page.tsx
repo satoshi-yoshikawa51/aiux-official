@@ -37,6 +37,9 @@ function resolveLink(l: TermLink): RichLink {
     const w = WORK_DETAILS.find((x) => `/works/${x.slug}` === l.href);
     if (w) return { href: l.href, title: w.title, desc: w.tagline, thumb: w.image, badge: w.badge ?? w.category, tone: w.tone, external: false };
   }
+  if (l.href === "/uso") {
+    return { href: l.href, title: "【ゲーム】AIのウソを、見抜け。", desc: "2つのAI回答、片方にウソが混ざっています。実際のAIがやらかす「ウソの型」を遊んで学べる全8問。", badge: "GAME", tone: "red", external: false };
+  }
   if (l.href === "/tokenizer") {
     return { href: l.href, title: "【体験】AIは、文章をこう読む。", desc: "文章を打つと、その場でトークンに刻まれるのが見えるラボ。料金の目安や「作業机」の使用量も体験できます。", badge: "LAB", tone: "blue", external: false };
   }
@@ -205,7 +208,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                     <div style={{ fontSize: 13, lineHeight: 1.8, color: "rgba(251,247,239,0.75)", marginTop: 4 }}>{t.secret.desc}</div>
                   </div>
                   <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
-                    ラボに入る
+                    {t.secret.cta ?? "ラボに入る"}
                   </Button>
                 </div>
               </a>
