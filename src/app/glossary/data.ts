@@ -31,6 +31,8 @@ export interface GlossaryTerm {
   /** 手描きイラスト（設定するとSVG図解の代わりに表示される）。
       public/glossary/ に画像を置いて { src: "/glossary/rag.png", alt: "..." } を指定 */
   image?: { src: string; alt: string };
+  /** 隠しコンテンツへの扉（黒いバナーで表示される） */
+  secret?: { href: string; title: string; desc: string };
 }
 
 export const GLOSSARY_UPDATED = "2026-07-05";
@@ -437,9 +439,13 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       "実務では「長い資料を渡したら途中で切れた」「APIの請求が思ったより高い」といった場面で必ずこの概念に出会います。文章量＝トークン数がコストと限界を決める、と覚えておけば十分です。",
     ],
     links: [
-      { label: "【体験】トークナイザーで文章を刻んでみる", href: "/tokenizer" },
       { label: "ノンエンジニアが挑むChatGPT APIを使ったPythonアプリ構築", href: "https://note.com/aiux_unite/n/n3d980b7ca111" },
     ],
+    secret: {
+      href: "/tokenizer",
+      title: "AIは、文章をこう読む。",
+      desc: "文章を打つと、その場でトークンに刻まれていく隠しラボ。料金の目安も「作業机」の使用量も、触ればわかります。",
+    },
     relatedSlugs: ["llm", "context-window"],
     lastUpdated: "2026-07-05",
   },
