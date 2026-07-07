@@ -56,7 +56,26 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
     return (
       <Card variant="pop" padding={0} style={{ overflow: "hidden" }}>
         <div style={{ padding: "34px 30px 30px", textAlign: "center" }}>
-          <div style={{ fontSize: 46, marginBottom: 6 }}>🐣📖⚡🔥👑</div>
+          {/* 表紙動画（テレビのワイプ風の丸窓・ループ再生）
+              ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
+          <div
+            style={{
+              width: 190,
+              height: 190,
+              margin: "0 auto 18px",
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "var(--bw-bold) solid var(--ink-900)",
+              boxShadow: "var(--shadow-pop)",
+              background: "var(--yellow-400)",
+              transform: "rotate(-2deg)",
+            }}
+            dangerouslySetInnerHTML={{
+              __html:
+                '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
+            }}
+          />
+          <div style={{ fontSize: 34, marginBottom: 6 }}>🐣📖⚡🔥👑</div>
           <h2 style={{ margin: "0 0 10px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.6vw,30px)" }}>
             あなたのAI用語力は、何級？
           </h2>
