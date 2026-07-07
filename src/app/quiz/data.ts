@@ -362,6 +362,7 @@ export interface QuizGrade {
   slug: string;
   min: number; // この正解数以上でこの級
   emoji: string;
+  image: string; // 級キャラのイラスト（public/quiz/grades/）
   title: string;
   comment: string;
   share: string; // シェア文言のベース
@@ -370,6 +371,7 @@ export interface QuizGrade {
 export const GRADES: QuizGrade[] = [
   {
     slug: "hiyoko",
+    image: "/quiz/grades/hiyoko.webp",
     min: 0,
     emoji: "🐣",
     title: "AIヒヨコ級",
@@ -378,6 +380,7 @@ export const GRADES: QuizGrade[] = [
   },
   {
     slug: "minarai",
+    image: "/quiz/grades/minarai.webp",
     min: 4,
     emoji: "📖",
     title: "AI見習い級",
@@ -386,6 +389,7 @@ export const GRADES: QuizGrade[] = [
   },
   {
     slug: "tsukaite",
+    image: "/quiz/grades/tsukaite.webp",
     min: 7,
     emoji: "⚡",
     title: "AI使い級",
@@ -394,6 +398,7 @@ export const GRADES: QuizGrade[] = [
   },
   {
     slug: "master",
+    image: "/quiz/grades/master.webp",
     min: 10,
     emoji: "🔥",
     title: "AIマスター級",
@@ -402,6 +407,7 @@ export const GRADES: QuizGrade[] = [
   },
   {
     slug: "kenja",
+    image: "/quiz/grades/kenja.webp",
     min: 12,
     emoji: "👑",
     title: "AI賢者級",

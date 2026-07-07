@@ -55,7 +55,7 @@ function termSize(term) {
   return 62;
 }
 
-function pageHtml({ kicker, badge, title, titleSize, sub, short, site = "comixai.dev/glossary" }) {
+function pageHtml({ kicker, badge, title, titleSize, sub, short, site = "comixai.dev/glossary", img }) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 ${FONTS}
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -83,7 +83,14 @@ body { width: 1200px; height: 630px; font-family: "Zen Kaku Gothic New", sans-se
   background: ${INK}; border-radius: 999px; padding: 8px 26px;
   margin-right: 116px; /* 右上のバーストと重ならないように */
 }
-.mid { flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+.row { flex: 1; display: flex; align-items: center; gap: 36px; min-height: 0; }
+.mid { flex: 1; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.char {
+  flex: none; width: 300px; height: 300px; border-radius: 50%;
+  border: 5px solid ${INK}; background: #fff; overflow: hidden;
+  transform: rotate(2deg); box-shadow: 7px 7px 0 rgba(20,17,15,0.85);
+}
+.char img { width: 100%; height: 100%; object-fit: cover; }
 .title {
   font-weight: 900; line-height: 1.14; letter-spacing: 0.01em;
   display: inline; align-self: flex-start;
@@ -117,10 +124,13 @@ body { width: 1200px; height: 630px; font-family: "Zen Kaku Gothic New", sans-se
     <div class="kicker">${kicker}</div>
     ${badge ? `<div class="badge">${badge}</div>` : ""}
   </div>
-  <div class="mid">
-    <div><span class="title" style="font-size:${titleSize}px">${title}</span></div>
-    ${sub ? `<div class="sub">${sub}</div>` : ""}
-    ${short ? `<div class="short">${short}</div>` : ""}
+  <div class="row">
+    <div class="mid">
+      <div><span class="title" style="font-size:${titleSize}px">${title}</span></div>
+      ${sub ? `<div class="sub">${sub}</div>` : ""}
+      ${short ? `<div class="short">${short}</div>` : ""}
+    </div>
+    ${img ? `<div class="char"><img src="${img}"></div>` : ""}
   </div>
   <div class="bottom">
     <div class="logo">CO<span class="mix">MIX</span>AI</div>
@@ -202,11 +212,12 @@ for (const g of GRADES) {
     pageHtml({
       kicker: "QUIZ — AI用語力診断",
       badge: "判定結果",
-      title: `${g.emoji} ${g.title}`,
-      titleSize: 104,
+      title: g.title,
+      titleSize: 88,
       sub: `AI用語力診断（全${QUIZ_SIZE}問）の判定`,
       short: `${g.comment.split("。")[0]}。あなたのAI用語力は何級？ → comixai.dev/quiz`,
       site: "comixai.dev/quiz",
+      img: `data:image/webp;base64,${(await readFile(path.join(ROOT, "public", g.image))).toString("base64")}`,
     }),
     `${g.slug}.png`,
     QUIZ_OUT_DIR
