@@ -224,5 +224,20 @@ for (const g of GRADES) {
   );
 }
 
+/* —— トークナイザー体験（/tokenizer）用 —— */
+await shoot(
+  pageHtml({
+    kicker: "LAB — トークナイザー体験",
+    badge: "触って学べる",
+    title: "AIは、文章を<br>こう読む。",
+    titleSize: 92,
+    sub: "むかし / むかし / 、 / ある / ところ / に…",
+    short: "文章を打つと、その場でトークンに刻まれる。料金の目安も「作業机」の使用量も、触ればわかる。",
+    site: "comixai.dev/tokenizer",
+  }),
+  "tokenizer.png",
+  path.join(ROOT, "public/og")
+);
+
 await browser.close();
-console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 を生成しました`);
+console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 + ラボ1枚 を生成しました`);

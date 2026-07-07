@@ -75,5 +75,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${base}/tokenizer`,
+      lastModified: new Date(GLOSSARY_UPDATED),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 }

@@ -437,6 +437,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       "実務では「長い資料を渡したら途中で切れた」「APIの請求が思ったより高い」といった場面で必ずこの概念に出会います。文章量＝トークン数がコストと限界を決める、と覚えておけば十分です。",
     ],
     links: [
+      { label: "【体験】トークナイザーで文章を刻んでみる", href: "/tokenizer" },
       { label: "ノンエンジニアが挑むChatGPT APIを使ったPythonアプリ構築", href: "https://note.com/aiux_unite/n/n3d980b7ca111" },
     ],
     relatedSlugs: ["llm", "context-window"],

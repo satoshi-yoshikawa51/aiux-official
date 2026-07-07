@@ -481,6 +481,39 @@ img {
     text-align: center;
     justify-content: center;
   }
+}
+
+/* ═══ トークナイザー体験（/tokenizer） ═══ */
+.tok-spin {
+  display: inline-block;
+  animation: tok-spin 0.9s linear infinite;
+}
+@keyframes tok-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.tok-gauge-fill {
+  transition: width 0.55s var(--ease-pop);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tok-chip {
+    animation: tok-pop 0.36s var(--ease-pop) backwards;
+  }
+  @keyframes tok-pop {
+    0% {
+      transform: scale(0.3) translateY(8px);
+      opacity: 0;
+    }
+    70% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: none;
+      opacity: 1;
+    }
+  }
   .nav-links {
     display: none;
   }
