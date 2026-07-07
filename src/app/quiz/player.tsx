@@ -128,7 +128,7 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
               alt={grade.title}
               width={150}
               height={150}
-              style={{ borderRadius: "50%", border: "var(--bw-bold) solid var(--ink-900)", background: "#fff", objectFit: "cover", boxShadow: "var(--shadow-pop-sm)", marginBottom: 10 }}
+              style={{ margin: "0 auto 10px", borderRadius: "50%", border: "var(--bw-bold) solid var(--ink-900)", background: "#fff", objectFit: "cover", boxShadow: "var(--shadow-pop-sm)" }}
             />
             <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,5vw,42px)" }}>{grade.title}</h2>
           </div>

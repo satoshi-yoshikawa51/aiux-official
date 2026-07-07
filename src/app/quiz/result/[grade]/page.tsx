@@ -60,7 +60,7 @@ export default async function QuizResultPage({ params }: Props) {
               alt={g.title}
               width={170}
               height={170}
-              style={{ borderRadius: "50%", border: "var(--bw-bold) solid var(--ink-900)", background: "#fff", objectFit: "cover", boxShadow: "var(--shadow-pop-sm)", marginBottom: 12 }}
+              style={{ margin: "0 auto 12px", borderRadius: "50%", border: "var(--bw-bold) solid var(--ink-900)", background: "#fff", objectFit: "cover", boxShadow: "var(--shadow-pop-sm)" }}
             />
             <h1 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(32px,6vw,44px)" }}>{g.title}</h1>
           </div>
