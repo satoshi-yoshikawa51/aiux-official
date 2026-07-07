@@ -456,7 +456,6 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       "対策はシンプルで、①大事な前提は要所で言い直す、②長い作業は区切って新しい会話で始める、③資料は必要な部分だけ渡す、の3つ。最近のモデルは窓がかなり広くなりましたが、「無限ではない」と知っているだけでAIとの付き合い方が変わります。",
     ],
     links: [
-      { label: "【体験】トークナイザーで文章を刻んでみる", href: "/tokenizer" },
       { label: "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
     ],
     relatedSlugs: ["token", "llm", "rag"],
