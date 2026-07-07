@@ -9,6 +9,7 @@
      ことはない）。
    ============================================================ */
 import React from "react";
+import { createPortal } from "react-dom";
 import { Badge, Button, Card } from "../ds";
 
 /* —— 料金・コンテキストの参考値（2026年7月時点・入力単価） —— */
@@ -110,6 +111,32 @@ export function TokenizerLab() {
   const typingTimer = React.useRef<ReturnType<typeof setInterval> | null>(null);
   const debounce = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const [selected, setSelected] = React.useState<number | null>(null);
+  const [focused, setFocused] = React.useState(false);
+  const [kbInset, setKbInset] = React.useState(0);
+
+  /* スマホのソフトキーボードで分割結果が隠れる問題への対策：
+     visualViewportでキーボードの高さを検知し、キーボードの
+     すぐ上に「ライブ帯」（トークン数＋直近チップ）を浮かせる。
+     ?debugkb=1 でPCでも帯を強制表示できる（動作確認用） */
+  const debugKb = typeof window !== "undefined" && window.location.search.includes("debugkb");
+  React.useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const update = () => {
+      const inset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      setKbInset(inset);
+    };
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    update();
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+    };
+  }, []);
+  const showLiveBar = debugKb || (focused && kbInset > 120);
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
 
   /* トークナイザーは重いので、マウント後に裏で読み込む */
   React.useEffect(() => {
@@ -180,6 +207,8 @@ export function TokenizerLab() {
             id="tok-input"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
             placeholder="例：吾輩は猫である。名前はまだ無い。"
             rows={3}
             style={{
@@ -433,6 +462,71 @@ export function TokenizerLab() {
           ))}
         </div>
       </div>
+
+      {/* ═══ キーボード上のライブ帯（スマホ入力中だけ表示）。
+           祖先のtransform（スクロール出現アニメ）にfixed基準を
+           壊されないよう、Portalでbody直下に描画する ═══ */}
+      {mounted && showLiveBar && createPortal(
+        <div
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            left: 10,
+            right: 10,
+            bottom: kbInset + 10,
+            zIndex: 60,
+            pointerEvents: "none",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 7,
+              background: "var(--ink-900)",
+              border: "2.5px solid var(--ink-900)",
+              borderRadius: 14,
+              boxShadow: "var(--shadow-pop-sm)",
+              padding: "9px 12px",
+              overflow: "hidden",
+            }}
+          >
+            <span style={{ flex: "none", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 14, color: "var(--yellow-400)" }}>
+              {tokenCount.toLocaleString()}<span style={{ fontSize: 10.5 }}>トークン</span>
+            </span>
+            <span style={{ flex: "none", width: 2, height: 20, background: "rgba(251,247,239,0.25)", borderRadius: 2 }} />
+            <div style={{ display: "flex", gap: 5, overflow: "hidden", justifyContent: "flex-end", flex: 1 }}>
+              {chips.slice(-7).map((c, i, arr) => (
+                <span
+                  key={`${chips.length - arr.length + i}-${c.text}`}
+                  className="tok-chip"
+                  style={{
+                    flex: "none",
+                    fontFamily: "var(--font-mono)",
+                    fontWeight: 700,
+                    fontSize: 13,
+                    whiteSpace: "pre",
+                    padding: "4px 7px",
+                    borderRadius: 6,
+                    border: "1.5px solid var(--ink-900)",
+                    background: CHIP_COLORS[(chips.length - arr.length + i) % CHIP_COLORS.length],
+                    color: "var(--ink-900)",
+                  }}
+                >
+                  {c.text.replace(/ /g, "␣").replace(/\n/g, "⏎")}
+                  {c.n > 1 && <span style={{ fontSize: 9, marginLeft: 3, color: "var(--red-600)" }}>×{c.n}</span>}
+                </span>
+              ))}
+              {chips.length === 0 && (
+                <span style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "rgba(251,247,239,0.7)" }}>
+                  打つと、ここに刻まれていきます
+                </span>
+              )}
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
