@@ -39,6 +39,10 @@ export function GET() {
     "- [AI用語力診断](https://comixai.dev/quiz): AI用語の理解度を12問・3分で5段階判定するクイズ（解説つき）",
     "- [トークナイザー体験](https://comixai.dev/tokenizer): 文章がAIのトークンに刻まれる様子をその場で体験できるラボ",
     "- [AIのウソを見抜け](https://comixai.dev/uso): AIの回答に混ざったハルシネーションを見抜く体験ゲーム（全8問・解説つき）",
+    "- [3分バイブコーディング](https://comixai.dev/vibe): 雑な一言でミニアプリが変形していくバイブコーディング体験",
+    "- [AIエージェントに任せてみた](https://comixai.dev/agent): 任せ方で結末が分岐するエージェント見守りシミュレーション",
+    "- [AI新人くんに指示を出せ](https://comixai.dev/shinjin): 指示の抜けが事故になるプロンプトエンジニアリング体験",
+    "- [AIを育てよう](https://comixai.dev/sodate): 学習データでAIの人格が変わる、過学習体験の育成ゲーム",
     ...TERMS.map(
       (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`
     ),

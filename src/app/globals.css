@@ -496,6 +496,57 @@ img {
 .tok-gauge-fill {
   transition: width 0.55s var(--ease-pop);
 }
+/* ═══ ミニゲーム共通（/vibe /agent /shinjin /sodate） ═══ */
+.vibe-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.vibe-marquee-inner {
+  display: inline-block;
+  animation: vibe-marquee 10s linear infinite;
+}
+@keyframes vibe-marquee {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .game-in {
+    animation: game-in 0.4s var(--ease-pop) backwards;
+  }
+  @keyframes game-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .vibe-confetti {
+    position: absolute;
+    pointer-events: none;
+    animation: vibe-confetti 0.9s ease-out forwards;
+  }
+  @keyframes vibe-confetti {
+    from {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-90px) translateX(var(--cx, 0px)) rotate(340deg) scale(1.4);
+      opacity: 0;
+    }
+  }
+  .vibe-preview {
+    transition: background 0.5s ease, color 0.5s ease, border-radius 0.5s var(--ease-pop);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .tok-chip {
     animation: tok-pop 0.36s var(--ease-pop) backwards;

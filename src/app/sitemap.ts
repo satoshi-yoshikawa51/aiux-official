@@ -87,5 +87,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    ...["vibe", "agent", "shinjin", "sodate"].map((slug) => ({
+      url: `${base}/${slug}`,
+      lastModified: new Date(GLOSSARY_UPDATED),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
   ];
 }
