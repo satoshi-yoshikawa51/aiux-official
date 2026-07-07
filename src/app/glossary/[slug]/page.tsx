@@ -208,7 +208,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                     <div style={{ fontSize: 13, lineHeight: 1.8, color: "rgba(251,247,239,0.75)", marginTop: 4 }}>{t.secret.desc}</div>
                   </div>
                   <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
-                    ラボに入る
+                    {t.secret.cta ?? "ラボに入る"}
                   </Button>
                 </div>
               </a>
