@@ -37,6 +37,9 @@ function resolveLink(l: TermLink): RichLink {
     const w = WORK_DETAILS.find((x) => `/works/${x.slug}` === l.href);
     if (w) return { href: l.href, title: w.title, desc: w.tagline, thumb: w.image, badge: w.badge ?? w.category, tone: w.tone, external: false };
   }
+  if (l.href === "/tokenizer") {
+    return { href: l.href, title: "【体験】AIは、文章をこう読む。", desc: "文章を打つと、その場でトークンに刻まれるのが見えるラボ。料金の目安や「作業机」の使用量も体験できます。", badge: "LAB", tone: "blue", external: false };
+  }
   if (l.href.startsWith("/glossary/")) {
     const t = TERMS.find((x) => `/glossary/${x.slug}` === l.href);
     if (t) return { href: l.href, title: `${t.term}とは？（用語解説）`, desc: t.short, badge: "AI用語集", tone: "yellow", external: false };

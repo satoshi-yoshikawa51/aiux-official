@@ -437,6 +437,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       "実務では「長い資料を渡したら途中で切れた」「APIの請求が思ったより高い」といった場面で必ずこの概念に出会います。文章量＝トークン数がコストと限界を決める、と覚えておけば十分です。",
     ],
     links: [
+      { label: "【体験】トークナイザーで文章を刻んでみる", href: "/tokenizer" },
       { label: "ノンエンジニアが挑むChatGPT APIを使ったPythonアプリ構築", href: "https://note.com/aiux_unite/n/n3d980b7ca111" },
     ],
     relatedSlugs: ["llm", "context-window"],
@@ -455,6 +456,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       "対策はシンプルで、①大事な前提は要所で言い直す、②長い作業は区切って新しい会話で始める、③資料は必要な部分だけ渡す、の3つ。最近のモデルは窓がかなり広くなりましたが、「無限ではない」と知っているだけでAIとの付き合い方が変わります。",
     ],
     links: [
+      { label: "【体験】トークナイザーで文章を刻んでみる", href: "/tokenizer" },
       { label: "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
     ],
     relatedSlugs: ["token", "llm", "rag"],
