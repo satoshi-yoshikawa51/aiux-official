@@ -95,26 +95,58 @@ export default function GlossaryIndexPage() {
         />
       </section>
 
-      {/* ═══ 腕試し：AI用語力診断 ═══ */}
-      <section style={{ background: "var(--ink-900)", borderTop: "var(--bw-line) solid var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)" }}>
-        <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "38px 0 42px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
-          <div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 8 }}>
-              QUIZ — 腕試し
+      {/* ═══ 腕試し：AI用語力診断（トップと同じ表紙動画つきバナー） ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "8px 0 14px" }}>
+        <a href="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "0 auto" }}>
+          <div
+            className="quiz-banner"
+            style={{
+              background: "var(--ink-900)",
+              borderRadius: "var(--radius-lg)",
+              boxShadow: "var(--shadow-pop)",
+              padding: "26px 42px",
+              display: "flex",
+              alignItems: "center",
+              gap: 28,
+              flexWrap: "wrap",
+            }}
+          >
+            <div style={{ flex: "1 1 260px" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 6 }}>
+                QUIZ — 腕試し
+              </div>
+              <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(19px,3vw,25px)", color: "var(--paper-50)", lineHeight: 1.4 }}>
+                あなたのAI用語力は、何級？
+              </h2>
+              <div style={{ fontSize: 13.5, lineHeight: 1.8, color: "rgba(251,247,239,0.75)", marginTop: 4 }}>
+                この30語から毎回12問・3分で5段階判定。結果はXでシェアできます。
+              </div>
+              <div style={{ marginTop: 16 }}>
+                <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+                  診断してみる
+                </Button>
+              </div>
             </div>
-            <h2 style={{ margin: "0 0 6px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3.2vw,27px)", color: "var(--paper-50)" }}>
-              覚えたら、AI用語力診断へ。🐣→👑
-            </h2>
-            <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "rgba(251,247,239,0.75)" }}>
-              この30語から毎回12問を出題。3分で5段階判定、結果はXでシェアできます。
-            </p>
+            {/* 表紙動画のワイプ。ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
+            <div
+              style={{
+                width: 148,
+                height: 148,
+                flex: "none",
+                margin: "0 auto",
+                borderRadius: "50%",
+                overflow: "hidden",
+                border: "3px solid var(--paper-50)",
+                background: "var(--yellow-400)",
+                transform: "rotate(3deg)",
+              }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
+              }}
+            />
           </div>
-          <a href="/quiz" style={{ textDecoration: "none" }}>
-            <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
-              診断してみる
-            </Button>
-          </a>
-        </div>
+        </a>
       </section>
 
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0 46px" }}>
