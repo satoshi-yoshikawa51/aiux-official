@@ -144,13 +144,13 @@ export function EmakiFx() {
       const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
       setProgress(p);
       const mid = window.innerHeight * 0.55;
-      /* 時代の切り替えは「前のカセットの下端と次のカセットの上端のちょうど中間」が
-         判定線を越えた瞬間に発火する（＝カセットとカセットの間で年号が変わる） */
+      /* 時代の切り替えは「前のカセットの下端を過ぎたすぐ後（ギャップの18%地点）」が
+         判定線を越えた瞬間に発火する */
       let current: HTMLElement | null = null;
       let prevBottom: number | null = null;
       for (const el of panels) {
         const r = el.getBoundingClientRect();
-        const switchAt = prevBottom === null ? r.top : (prevBottom + r.top) / 2;
+        const switchAt = prevBottom === null ? r.top : prevBottom + (r.top - prevBottom) * 0.18;
         if (switchAt < mid) current = el;
         prevBottom = r.bottom;
       }
