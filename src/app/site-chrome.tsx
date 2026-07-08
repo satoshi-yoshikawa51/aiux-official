@@ -19,6 +19,7 @@ export function Nav({ home = true }: { home?: boolean }) {
     { label: "マガジン", href: "#magazines" },
     { label: "WORKS", href: "#works" },
     { label: "用語集", href: "/glossary" },
+    { label: "絵巻", href: "/history" },
     { label: "プロフィール", href: "#profile" },
     { label: "SNS", href: "#social" },
   ];
@@ -184,8 +185,14 @@ export function Footer() {
         </div>
       </div>
       <div style={{ borderTop: "1px solid rgba(244,236,221,0.16)" }}>
-        <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "14px 0", fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)" }}>
-          © {new Date().getFullYear()} 吉川 聡史 / COMIXAI
+        <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "14px 0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)" }}>
+            © {new Date().getFullYear()} 吉川 聡史 / COMIXAI
+          </div>
+          {/* あそんだ記録の入り口。隠し部屋の場所は明かさず、静かに置いておく */}
+          <a href="/zukan" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+            🐾 COMIXAI図鑑 — あそんだ記録
+          </a>
         </div>
       </div>
     </footer>

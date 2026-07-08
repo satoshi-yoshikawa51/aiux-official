@@ -643,6 +643,10 @@ img {
       opacity: 1;
     }
   }
+}
+
+/* モバイル：ナビをハンバーガーに切り替え */
+@media (max-width: 900px) {
   .nav-links {
     display: none;
   }
