@@ -514,7 +514,11 @@ img {
 .emaki-panel {
   position: relative;
   padding-left: 46px;
-  margin-bottom: 36px;
+  /* コマの間を大きくあけて、時代の演出を堪能できるようにする */
+  margin-bottom: clamp(220px, 46vh, 460px);
+}
+.emaki-panel:last-of-type {
+  margin-bottom: 70px;
 }
 .emaki-dot {
   position: absolute;
@@ -527,6 +531,35 @@ img {
   box-shadow: var(--shadow-pop-sm);
 }
 @media (prefers-reduced-motion: no-preference) {
+  .emaki-watermark {
+    animation: emaki-wm 1.1s ease both;
+  }
+  @keyframes emaki-wm {
+    from {
+      opacity: 0;
+      transform: scale(1.08);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .emaki-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 42%, rgba(255, 250, 235, 0.95), rgba(255, 250, 235, 0) 70%);
+    animation: emaki-flash 0.65s ease-out both;
+  }
+  @keyframes emaki-flash {
+    from {
+      opacity: 0.85;
+    }
+    to {
+      opacity: 0;
+    }
+  }
   .emaki-panel.emaki-hide {
     opacity: 0;
     transform: translateY(28px);
