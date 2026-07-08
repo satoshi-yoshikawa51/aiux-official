@@ -27,6 +27,7 @@ interface Era {
   title: string;
   scene: string; // 絵文字のコマ（画像が来るまでのプレースホルダ）
   image?: string; // 主人公猫のシーン画像（public/history/ に置いたら差し替わる）
+  video?: string; // シーン動画（あれば画像より優先。imageはposter兼フォールバックに使う）
   body: string;
   hand?: string; // 手書きふうツッコミ
   terms?: { label: string; slug: string }[];
@@ -39,6 +40,7 @@ const ERAS: Era[] = [
   {
     year: "1950",
     image: "/history/1950.webp",
+    video: "/history/1950.mp4",
     fx: "dust", tint: "linear-gradient(180deg,#ead9b8,#c0a878)",
     title: "「機械は考えられるか？」",
     scene: "🤔💭🖥️",
@@ -48,6 +50,7 @@ const ERAS: Era[] = [
   {
     year: "1956",
     image: "/history/1956.webp",
+    video: "/history/1956.mp4",
     fx: "dust", tint: "linear-gradient(180deg,#ead9b8,#c0a878)",
     title: "「人工知能」という言葉が生まれる",
     scene: "🎓🤝📛",
@@ -57,6 +60,7 @@ const ERAS: Era[] = [
   {
     year: "1966",
     image: "/history/1966.webp",
+    video: "/history/1966.mp4",
     fx: "dust", tint: "linear-gradient(180deg,#eaddc0,#cdbb90)",
     title: "はじめてのおしゃべりAI「ELIZA」",
     scene: "💬🤖👩‍⚕️",
@@ -65,6 +69,7 @@ const ERAS: Era[] = [
   {
     year: "1974",
     image: "/history/1974.webp",
+    video: "/history/1974.mp4",
     fx: "snow", tint: "linear-gradient(180deg,#cfe0ff,#84a8e8)",
     title: "第1次AI冬、到来",
     scene: "❄️🥶📉",
@@ -75,6 +80,7 @@ const ERAS: Era[] = [
   {
     year: "1980s",
     image: "/history/1980s.webp",
+    video: "/history/1980s.mp4",
     fx: "snow", tint: "linear-gradient(180deg,#cfe0ff,#84a8e8)",
     title: "エキスパートシステムと、2度目の冬",
     scene: "🏭📚❄️",
@@ -231,7 +237,15 @@ export default function HistoryPage() {
                 {era.tone === "winter" && <Badge tone="blue" style={{ marginLeft: 10 }}>AIの冬</Badge>}
               </div>
               <Card variant="pop" padding={0} style={{ overflow: "hidden", background: era.tone === "winter" ? "#f3f7ff" : "var(--paper-0)" }}>
-                {era.image ? (
+                {era.video ? (
+                  /* ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む（クイズバナーと同じ手法） */
+                  <div
+                    style={{ borderBottom: "var(--bw-line) solid var(--ink-900)", aspectRatio: "720 / 544", background: era.tone === "winter" ? "#f3f7ff" : "var(--paper-100)" }}
+                    dangerouslySetInnerHTML={{
+                      __html: `<video src="${era.video}" poster="${era.image ?? ""}" autoplay muted loop playsinline preload="metadata" aria-label="${era.title}" style="width:100%;height:100%;object-fit:cover;display:block;"></video>`,
+                    }}
+                  />
+                ) : era.image ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img src={era.image} alt={era.title} loading="lazy" style={{ width: "100%", display: "block", borderBottom: "var(--bw-line) solid var(--ink-900)" }} />
                 ) : (
