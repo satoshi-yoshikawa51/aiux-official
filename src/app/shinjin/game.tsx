@@ -7,6 +7,8 @@
    ============================================================ */
 import React from "react";
 import { Badge, Button, Card } from "../ds";
+import { unlock } from "../zukan/store";
+import { ZukanNote } from "../zukan/collection";
 
 const TASK = {
   title: "明日の定例会議のリマインドを作らせよう",
@@ -107,6 +109,13 @@ export function ShinjinGame() {
   const [order, setOrder] = React.useState<Order>({ who: null, format: null, tone: null, length: null });
   const [delivered, setDelivered] = React.useState<ReturnType<typeof build> | null>(null);
   const [working, setWorking] = React.useState(false);
+
+  /* 図鑑：隠し部屋の発見＋実績を記録 */
+  React.useEffect(() => unlock("rooms", "shinjin"), []);
+  React.useEffect(() => {
+    if (delivered?.score === 100) unlock("shinjin", "perfect");
+    if (delivered?.score === 0) unlock("shinjin", "marunage");
+  }, [delivered]);
 
   const submit = () => {
     setWorking(true);
@@ -241,6 +250,7 @@ export function ShinjinGame() {
                 指定を増やして「これで頼む！」し直すと、伝わり度が上がります
               </p>
             )}
+            <ZukanNote />
           </Card>
         </div>
       )}

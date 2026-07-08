@@ -6,6 +6,8 @@
    ============================================================ */
 import React from "react";
 import { Badge, Button, Card } from "../ds";
+import { unlock } from "../zukan/store";
+import { ZukanNote } from "../zukan/collection";
 
 /* —— 選択肢が変えるアプリの状態 —— */
 type AppKey = "neko" | "ramen" | "oshi";
@@ -250,6 +252,12 @@ export function VibeGame() {
   const [thinking, setThinking] = React.useState(false);
   const done = round >= ROUNDS.length;
 
+  /* 図鑑：隠し部屋の発見＋完成した作品を記録 */
+  React.useEffect(() => unlock("rooms", "vibe"), []);
+  React.useEffect(() => {
+    if (done && state.app) unlock("vibe", state.app);
+  }, [done, state.app]);
+
   const pickOption = (opt: { value: string; label: string; reply: string }) => {
     if (thinking) return;
     const r = ROUNDS[round];
@@ -365,6 +373,7 @@ export function VibeGame() {
               <p style={{ margin: "14px 0 0", fontFamily: "var(--font-hand)", fontSize: 13.5, color: "var(--text-muted)" }}>
                 ちなみに、このサイト自体もこのノリ（＋本物のAI）で作られています
               </p>
+              <ZukanNote />
             </div>
           )}
         </div>

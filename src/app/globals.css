@@ -496,6 +496,50 @@ img {
 .tok-gauge-fill {
   transition: width 0.55s var(--ease-pop);
 }
+/* ═══ AI歴史絵巻（/history） ═══ */
+.emaki-wrap {
+  position: relative;
+  padding-left: 4px;
+}
+.emaki-wrap::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 8px;
+  bottom: 8px;
+  width: 4px;
+  background: var(--ink-900);
+  border-radius: 2px;
+}
+.emaki-panel {
+  position: relative;
+  padding-left: 46px;
+  margin-bottom: 36px;
+}
+.emaki-dot {
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid var(--ink-900);
+  box-shadow: var(--shadow-pop-sm);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .emaki-panel.emaki-hide {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  .emaki-panel.emaki-in {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.55s ease,
+      transform 0.55s var(--ease-pop);
+  }
+}
+
 /* ═══ ミニゲーム共通（/vibe /agent /shinjin /sodate） ═══ */
 .vibe-marquee {
   overflow: hidden;

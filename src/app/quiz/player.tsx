@@ -8,6 +8,8 @@
 import React from "react";
 import { Badge, Button, Card } from "../ds";
 import { GRADES, QUESTIONS, QUIZ_SIZE, gradeFor, type QuizQuestion } from "./data";
+import { unlock } from "../zukan/store";
+import { ZukanNote } from "../zukan/collection";
 
 interface DrawnQuestion {
   src: QuizQuestion;
@@ -111,6 +113,7 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
   if (phase === "result") {
     const score = results.filter(Boolean).length;
     const grade = gradeFor(score);
+    unlock("quiz", grade.slug);
     const wrong = qs.filter((_, i) => !results[i]);
     const shareText = `AI用語力診断（全${QUIZ_SIZE}問）で${score}問正解！${grade.share}\nあなたのAI用語力は何級？\n#今さら聞けないAI用語集`;
     const shareUrl = `https://comixai.dev/quiz/result/${grade.slug}`;
@@ -144,6 +147,7 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
                 もう一回挑戦
               </Button>
             </div>
+            <ZukanNote />
           </div>
         </Card>
 
