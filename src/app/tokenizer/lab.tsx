@@ -11,6 +11,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { Badge, Button, Card } from "../ds";
+import { unlock } from "../zukan/store";
 
 /* —— 料金・コンテキストの参考値（2026年7月時点・入力単価） —— */
 const JPY_PER_USD = 155;
@@ -137,6 +138,9 @@ export function TokenizerLab() {
   const showLiveBar = debugKb || (focused && kbInset > 120);
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
+
+  /* 図鑑：隠し部屋の発見を記録 */
+  React.useEffect(() => unlock("rooms", "tokenizer"), []);
 
   /* トークナイザーは重いので、マウント後に裏で読み込む */
   React.useEffect(() => {

@@ -308,6 +308,35 @@ for (const g of GAME_OGS) {
   );
 }
 
+/* —— 絵巻・図鑑用 —— */
+await shoot(
+  pageHtml({
+    kicker: "EMAKI — AI歴史絵巻",
+    badge: "1950→2026",
+    title: "AIの75年を、<br>ひと巻きに。",
+    titleSize: 88,
+    sub: "チューリング → 冬の時代 → ChatGPT → エージェント",
+    short: "スクロールすると、時代が進む。いまのAIブームが「何度目の春」か、ぜんぶ読むとわかります。",
+    site: "comixai.dev/history",
+    img: `data:image/webp;base64,${(await readFile(path.join(ROOT, "public/history/cover.webp"))).toString("base64")}`,
+  }),
+  "history.png",
+  GAMES_OUT_DIR
+);
+await shoot(
+  pageHtml({
+    kicker: "ZUKAN — コレクション",
+    badge: "全34項目",
+    title: "COMIXAI図鑑、<br>集めきれるか。",
+    titleSize: 84,
+    sub: "隠し部屋6つ・称号・エンディング…",
+    short: "このサイトのどこかに隠し部屋が6つ。遊んだ記録はぜんぶ図鑑に刻まれます。コンプした人には称号を。",
+    site: "comixai.dev/zukan",
+  }),
+  "zukan.png",
+  GAMES_OUT_DIR
+);
+
 /* —— トークナイザー体験（/tokenizer）用 —— */
 await shoot(
   pageHtml({

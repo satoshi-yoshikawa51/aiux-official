@@ -7,6 +7,8 @@
    ============================================================ */
 import React from "react";
 import { Badge, Button, Card } from "../ds";
+import { unlock } from "../zukan/store";
+import { ZukanNote } from "../zukan/collection";
 
 interface LogLine {
   icon: string;
@@ -123,6 +125,7 @@ const CHOICE3: { prompt: string; options: Choice[] } = {
 };
 
 interface Ending {
+  id: string;
   emoji: string;
   title: string;
   stars: number;
@@ -132,6 +135,7 @@ interface Ending {
 function ending(f: Flags): Ending {
   if (f.abort === "self")
     return {
+      id: "self",
       emoji: "🫠",
       title: "「結局自分でやる」エンド",
       stars: 1,
@@ -140,6 +144,7 @@ function ending(f: Flags): Ending {
     };
   if (f.abort === "redo")
     return {
+      id: "redo",
       emoji: "🌀",
       title: "「マイクロマネジメント沼」エンド",
       stars: 1,
@@ -148,6 +153,7 @@ function ending(f: Flags): Ending {
     };
   if (f.data === "fabricated")
     return {
+      id: "fabricated",
       emoji: "🔥",
       title: "「それっぽい数字事件」エンド",
       stars: 2,
@@ -156,6 +162,7 @@ function ending(f: Flags): Ending {
     };
   if (f.scope === "creep")
     return {
+      id: "creep",
       emoji: "📦",
       title: "「風呂敷たたみきれず」エンド",
       stars: 3,
@@ -164,6 +171,7 @@ function ending(f: Flags): Ending {
     };
   if (f.trust >= 1)
     return {
+      id: "kami",
       emoji: "👑",
       title: "「神マネージャー」エンド",
       stars: 5,
@@ -171,6 +179,7 @@ function ending(f: Flags): Ending {
       lesson: "任せる勇気と、判断ポイントでの明確な指示。AIエージェント時代のマネジメントは「人に仕事を任せる力」そのものです。",
     };
   return {
+    id: "kenjitsu",
     emoji: "🧱",
     title: "「堅実の人」エンド",
     stars: 4,
@@ -257,6 +266,13 @@ export function AgentGame() {
     setFlags({ trust: 0, data: null, scope: null, abort: null });
     setFinished(false);
   };
+
+  /* 図鑑：隠し部屋の発見＋回収したエンディングを記録 */
+  React.useEffect(() => unlock("rooms", "agent"), []);
+  React.useEffect(() => {
+    if (finished) unlock("agent", ending(flags).id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [finished]);
 
   if (!started) {
     return (
@@ -372,6 +388,7 @@ export function AgentGame() {
                 別の任せ方を試す
               </Button>
             </div>
+            <ZukanNote />
           </div>
         </Card>
       )}

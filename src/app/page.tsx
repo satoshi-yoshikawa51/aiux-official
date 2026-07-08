@@ -576,6 +576,56 @@ function Glossary() {
             />
           </div>
         </a>
+
+        {/* —— AI歴史絵巻への導線（1950年の猫サムネつき） —— */}
+        <a href="/history" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "18px auto 0" }}>
+          <div
+            className="quiz-banner"
+            style={{
+              background: "var(--paper-0)",
+              border: "var(--bw-line) solid var(--ink-900)",
+              borderRadius: "var(--radius-lg)",
+              boxShadow: "var(--shadow-pop)",
+              padding: "26px 42px",
+              display: "flex",
+              alignItems: "center",
+              gap: 28,
+              flexWrap: "wrap",
+            }}
+          >
+            <div
+              style={{
+                width: 148,
+                height: 148,
+                flex: "none",
+                margin: "0 auto",
+                borderRadius: "var(--radius-lg)",
+                overflow: "hidden",
+                border: "3px solid var(--ink-900)",
+                transform: "rotate(-3deg)",
+                boxShadow: "5px 5px 0 rgba(20,17,15,0.85)",
+              }}
+            >
+              <img src="/history/1950.webp" alt="AI歴史絵巻 1950年のコマ" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+            <div style={{ flex: "1 1 260px" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 6 }}>
+                EMAKI — AI歴史絵巻
+              </div>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(19px,3vw,25px)", color: "var(--ink-900)", lineHeight: 1.4 }}>
+                AIの75年を、ひと巻きに。
+              </div>
+              <div style={{ fontSize: 13.5, lineHeight: 1.8, color: "var(--text-muted)", marginTop: 4 }}>
+                1950年の「機械は考えられるか？」から、冬の時代、ChatGPT、エージェントまで。スクロールすると時代が進む、読む絵巻です。
+              </div>
+              <div style={{ marginTop: 16 }}>
+                <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+                  絵巻を読む
+                </Button>
+              </div>
+            </div>
+          </div>
+        </a>
       </div>
     </section>
   );

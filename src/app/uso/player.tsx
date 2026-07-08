@@ -7,6 +7,8 @@
 import React from "react";
 import { Badge, Button, Card } from "../ds";
 import { USO_QUESTIONS, USO_ROUNDS, usoGradeFor, type UsoQuestion } from "./data";
+import { unlock } from "../zukan/store";
+import { ZukanNote } from "../zukan/collection";
 
 interface Round {
   src: UsoQuestion;
@@ -48,6 +50,9 @@ export function UsoPlayer() {
   const [picked, setPicked] = React.useState<"A" | "B" | null>(null);
   const [results, setResults] = React.useState<boolean[]>([]);
 
+  /* 図鑑：隠し部屋の発見を記録 */
+  React.useEffect(() => unlock("rooms", "uso"), []);
+
   const start = () => {
     setRounds(draw());
     setIdx(0);
@@ -84,6 +89,7 @@ export function UsoPlayer() {
   if (phase === "result") {
     const score = results.filter(Boolean).length;
     const grade = usoGradeFor(score);
+    unlock("uso", grade.slug);
     const shareText = `「AIのウソを見抜け」で${USO_ROUNDS}問中${score}問見抜けた！${grade.share}\nあなたはAIに騙されない自信ある？\n#今さら聞けないAI用語集`;
     const shareUrl = `https://comixai.dev/uso/result/${grade.slug}`;
     const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
@@ -111,6 +117,7 @@ export function UsoPlayer() {
           <p style={{ margin: "20px 0 0", fontFamily: "var(--font-hand)", fontSize: 14, color: "var(--text-muted)" }}>
             AIを疑う技術は<a href="/glossary/ai-literacy" style={{ color: "var(--red-600)", fontWeight: 700 }}>AIリテラシー</a>のページでも解説しています
           </p>
+          <ZukanNote />
         </div>
       </Card>
     );

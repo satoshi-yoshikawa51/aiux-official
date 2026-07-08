@@ -43,6 +43,7 @@ export function GET() {
     "- [AIエージェントに任せてみた](https://comixai.dev/agent): 任せ方で結末が分岐するエージェント見守りシミュレーション",
     "- [AI新人くんに指示を出せ](https://comixai.dev/shinjin): 指示の抜けが事故になるプロンプトエンジニアリング体験",
     "- [AIを育てよう](https://comixai.dev/sodate): 学習データでAIの人格が変わる、過学習体験の育成ゲーム",
+    "- [AI歴史絵巻](https://comixai.dev/history): 1950年から2026年まで、AIの75年史をスクロールで読める年表絵巻",
     ...TERMS.map(
       (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`
     ),

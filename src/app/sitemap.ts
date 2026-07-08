@@ -87,6 +87,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${base}/history`,
+      lastModified: new Date("2026-07-08"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
     ...["vibe", "agent", "shinjin", "sodate"].map((slug) => ({
       url: `${base}/${slug}`,
       lastModified: new Date(GLOSSARY_UPDATED),

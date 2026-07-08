@@ -7,6 +7,8 @@
    ============================================================ */
 import React from "react";
 import { Badge, Button, Card } from "../ds";
+import { unlock } from "../zukan/store";
+import { ZukanNote } from "../zukan/collection";
 
 type FoodKey = "neko" | "biz" | "haiku" | "slang" | "jiten";
 
@@ -97,11 +99,12 @@ function faceFor(diet: FoodKey[]): string {
   return "🤖";
 }
 
-function finalResult(diet: FoodKey[]): { name: string; emoji: string; verdict: string; lesson: string } {
+function finalResult(diet: FoodKey[]): { id: string; name: string; emoji: string; verdict: string; lesson: string } {
   const { key, count } = dominant(diet);
   const labels: Record<FoodKey, string> = { neko: "ネコ", biz: "ビジネス", haiku: "俳句", slang: "ネットノリ", jiten: "百科事典" };
   if (key && count === 3)
     return {
+      id: key,
       name: `${labels[key]}過学習モデル v3`,
       emoji: "🌀",
       verdict: `何を聞いても${labels[key]}の話しかしなくなりました。かわいい（面白い）けど実用性はほぼゼロ。これが「過学習」です。`,
@@ -109,12 +112,14 @@ function finalResult(diet: FoodKey[]): { name: string; emoji: string; verdict: s
     };
   if (key && count === 2)
     return {
+      id: `almost-${key}`,
       name: `ほぼ${labels[key]}モデル`,
       emoji: "🎭",
       verdict: `${labels[key]}に強く引っ張られた個性派AIになりました。専門特化としてはアリ。ただし他の話題はちょっと苦手そうです。`,
       lesson: "データを寄せれば「その道のAI」が作れる——これがファインチューニングの狙いです。問題は、寄せすぎると戻れないこと。",
     };
   return {
+    id: "balance",
     name: "バランス型モデル",
     emoji: "🎓",
     verdict: "幅広い話題にそつなく対応できる、優等生AIに育ちました。とがった芸はないけど、実務ではこういう子がいちばん頼れます。",
@@ -145,6 +150,13 @@ export function SodateGame() {
 
   const done = diet.length >= 3;
   const result = done ? finalResult(diet) : null;
+
+  /* 図鑑：隠し部屋の発見＋育成したモデルを記録 */
+  React.useEffect(() => unlock("rooms", "sodate"), []);
+  React.useEffect(() => {
+    if (result) unlock("sodate", result.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
   const shareText = result
     ? `AIを育てたら【${result.name}】${result.emoji}になった。\n最後の返事：「${log[2]?.a.slice(0, 40)}…」\nあなたはどんなAIに育てる？\n#今さら聞けないAI用語集`
     : "";
@@ -227,6 +239,7 @@ export function SodateGame() {
                   別の子を育てる
                 </Button>
               </div>
+              <ZukanNote />
             </div>
           )
         )}
