@@ -513,6 +513,7 @@ img {
 }
 .emaki-panel {
   position: relative;
+  z-index: 2; /* 巨大年号の透かし(z1)より前面＝年号はカセットの後ろに隠れる */
   padding-left: 46px;
   /* コマの間を大きくあけて、時代の演出を堪能できるようにする */
   margin-bottom: clamp(220px, 46vh, 460px);
@@ -547,7 +548,7 @@ img {
   .emaki-flash {
     position: fixed;
     inset: 0;
-    z-index: 3;
+    z-index: 5;
     pointer-events: none;
     background: radial-gradient(circle at 50% 42%, rgba(255, 250, 235, 0.95), rgba(255, 250, 235, 0) 70%);
     animation: emaki-flash 0.65s ease-out both;

@@ -308,7 +308,7 @@ export function EmakiFx() {
         style={{
           position: "fixed",
           inset: 0,
-          zIndex: 1,
+          zIndex: 4,
           pointerEvents: "none",
           background: tint,
           opacity: 0.22,
@@ -344,7 +344,7 @@ export function EmakiFx() {
       {/* 時代ジャンプのフラッシュ */}
       {flashKey > 0 && <div key={`fl-${flashKey}`} aria-hidden="true" className="emaki-flash" />}
       {/* パーティクル */}
-      <canvas ref={canvasRef} aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 2, pointerEvents: "none" }} />
+      <canvas ref={canvasRef} aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 3, pointerEvents: "none" }} />
       {/* 進捗バー＋年号チップ */}
       <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 70, pointerEvents: "none" }}>
         <div style={{ height: 5, background: "rgba(20,17,15,0.12)" }}>
