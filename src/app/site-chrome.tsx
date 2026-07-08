@@ -20,7 +20,7 @@ export function Nav({ home = true }: { home?: boolean }) {
     { label: "WORKS", href: "#works" },
     { label: "用語集", href: "/glossary" },
     { label: "絵巻", href: "/history" },
-    { label: "プロフィール", href: "#profile" },
+    { label: "プロフィール", href: "/profile" },
     { label: "SNS", href: "#social" },
   ];
   /* #アンカーはトップページ内リンク、/パスはどのページからも共通 */
