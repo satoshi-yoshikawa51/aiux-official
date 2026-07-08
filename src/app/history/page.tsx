@@ -236,7 +236,10 @@ export default function HistoryPage() {
         </p>
       </section>
 
-      <section style={{ maxWidth: "min(720px, 92vw)", margin: "0 auto", padding: "10px 0 40px" }}>
+      {/* リビール由来のtransformがこのsectionをスタッキングコンテキスト化するため、
+          section自体をz2に上げて演出レイヤー(z1)より前面で描画させる。
+          カード間の余白は透明なので、背面のパーティクル・年号・ティントはそこから見える */}
+      <section style={{ maxWidth: "min(720px, 92vw)", margin: "0 auto", padding: "10px 0 40px", position: "relative", zIndex: 2 }}>
         <div className="emaki-wrap">
           {ERAS.map((era) => (
             <article key={era.year} className="emaki-panel" data-year={era.year.slice(0, 4)} data-fx={era.fx} data-tint={era.tint}>

@@ -308,16 +308,16 @@ export function EmakiFx() {
 
   return (
     <>
-      {/* 時代の空（グラデーションをmultiplyで重ねる） */}
+      {/* 時代の空（グラデーションをmultiplyで重ねる）。カセット(z2)の背面で背景紙だけを染める */}
       <div
         aria-hidden="true"
         style={{
           position: "fixed",
           inset: 0,
-          zIndex: 4,
+          zIndex: 1,
           pointerEvents: "none",
           background: tint,
-          opacity: 0.22,
+          opacity: 0.28,
           mixBlendMode: "multiply",
           transition: "background 1.2s ease",
         }}
