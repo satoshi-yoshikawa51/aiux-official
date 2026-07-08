@@ -143,6 +143,7 @@ const ERAS: Era[] = [
   {
     year: "2022",
     image: "/history/2022.webp",
+    video: "/history/2022.mp4",
     fx: "confetti", tint: "linear-gradient(180deg,#ffe4c0,#ffb870)",
     title: "ChatGPT、世界を変えた2ヶ月",
     scene: "🚀🌍💥",
@@ -157,6 +158,7 @@ const ERAS: Era[] = [
   {
     year: "2023",
     image: "/history/2023.webp",
+    video: "/history/2023.mp4",
     fx: "confetti", tint: "linear-gradient(180deg,#ffdce8,#ffa8c4)",
     title: "生成AI元年——絵も動画も",
     scene: "🎨🎬🎵",
@@ -169,6 +171,7 @@ const ERAS: Era[] = [
   {
     year: "2024-25",
     image: "/history/2024-25.webp",
+    video: "/history/2024-25.mp4",
     fx: "code", tint: "linear-gradient(180deg,#cdeef8,#7cc4dd)",
     title: "エージェント時代のはじまり",
     scene: "🤖🛠️🏃",
@@ -183,6 +186,7 @@ const ERAS: Era[] = [
   {
     year: "2026",
     image: "/history/2026.webp",
+    video: "/history/2026.mp4",
     fx: "sparkle", tint: "linear-gradient(180deg,#fff2c8,#ffd268)",
     title: "そして、いま。",
     scene: "🧑‍💻🤝🤖",
@@ -220,16 +224,38 @@ export default function HistoryPage() {
       <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "AI歴史絵巻" }]} />
 
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 30px" }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 10 }}>
-          EMAKI — AI歴史絵巻
+        <div className="quiz-banner" style={{ display: "flex", alignItems: "center", gap: 32, flexWrap: "wrap" }}>
+          <div style={{ flex: "1 1 320px" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 10 }}>
+              EMAKI — AI歴史絵巻
+            </div>
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
+              AIの75年を、ひと巻きに。
+            </h1>
+            <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+              1950年の「機械は考えられるか？」から、AI冬の時代、ディープラーニング革命、ChatGPT、そしてエージェント時代まで。
+              下にスクロールすると、時代が進みます。ぜんぶ読むと、いまのAIブームが「何度目の春」なのかがわかります。
+            </p>
+          </div>
+          {/* 表紙動画のワイプ。ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
+          <div
+            style={{
+              width: 170,
+              height: 170,
+              flex: "none",
+              margin: "0 auto",
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "3px solid var(--ink-900)",
+              boxShadow: "var(--shadow-pop-sm)",
+              transform: "rotate(3deg)",
+            }}
+            dangerouslySetInnerHTML={{
+              __html:
+                '<video src="/history/cover.mp4" poster="/history/cover.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
+            }}
+          />
         </div>
-        <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
-          AIの75年を、ひと巻きに。
-        </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
-          1950年の「機械は考えられるか？」から、AI冬の時代、ディープラーニング革命、ChatGPT、そしてエージェント時代まで。
-          下にスクロールすると、時代が進みます。ぜんぶ読むと、いまのAIブームが「何度目の春」なのかがわかります。
-        </p>
       </section>
 
       <section style={{ maxWidth: "min(720px, 92vw)", margin: "0 auto", padding: "10px 0 40px" }}>
