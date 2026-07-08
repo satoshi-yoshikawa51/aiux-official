@@ -25,16 +25,20 @@ export const metadata: Metadata = {
 interface Era {
   year: string;
   title: string;
-  scene: string; // 絵文字のコマ
+  scene: string; // 絵文字のコマ（画像が来るまでのプレースホルダ）
+  image?: string; // 主人公猫のシーン画像（public/history/ に置いたら差し替わる）
   body: string;
   hand?: string; // 手書きふうツッコミ
   terms?: { label: string; slug: string }[];
   tone?: "winter" | "boom";
+  fx: string; // パーティクルのモード（emaki-fx.tsx参照）
+  tint: string; // 時代の色ガラス
 }
 
 const ERAS: Era[] = [
   {
     year: "1950",
+    fx: "dust", tint: "#c9b489",
     title: "「機械は考えられるか？」",
     scene: "🤔💭🖥️",
     body: "数学者アラン・チューリングが論文で問いかけます。「機械が人間と区別がつかない会話をできたら、それは“考えている”と言えるのではないか」——のちに「チューリングテスト」と呼ばれる、AIのはじまりの問いです。",
@@ -42,6 +46,7 @@ const ERAS: Era[] = [
   },
   {
     year: "1956",
+    fx: "dust", tint: "#c9b489",
     title: "「人工知能」という言葉が生まれる",
     scene: "🎓🤝📛",
     body: "米ダートマス大学に研究者たちが集まり、この分野に「Artificial Intelligence（人工知能）」という名前がつきました。世界は「20年もあれば人間並みの機械ができる」と本気で信じていました。",
@@ -49,12 +54,14 @@ const ERAS: Era[] = [
   },
   {
     year: "1966",
+    fx: "dust", tint: "#d9c9a3",
     title: "はじめてのおしゃべりAI「ELIZA」",
     scene: "💬🤖👩‍⚕️",
     body: "カウンセラーのまねをする対話プログラムELIZAが登場。仕組みは単純なオウム返しなのに、本気で心を開く人が続出しました。「人はAIに人格を感じてしまう」という発見は、いまのチャットAI時代の伏線です。",
   },
   {
     year: "1974",
+    fx: "snow", tint: "#9db8e8",
     title: "第1次AI冬、到来",
     scene: "❄️🥶📉",
     body: "「すぐ人間並みになる」という約束が果たされず、期待は失望に変わり、研究資金が凍りつきます。AIの歴史は、ブームと冬の繰り返し。この最初の冬は10年近く続きました。",
@@ -63,6 +70,7 @@ const ERAS: Era[] = [
   },
   {
     year: "1980s",
+    fx: "snow", tint: "#9db8e8",
     title: "エキスパートシステムと、2度目の冬",
     scene: "🏭📚❄️",
     body: "「専門家の知識をぜんぶルールとして書き込めば賢くなるはず」というエキスパートシステムが第2次ブームを起こします。しかしルールを人間が書き切れるはずもなく、ブームは再び冬へ。日本の「第五世代コンピュータ」計画もこの時代でした。",
@@ -70,12 +78,14 @@ const ERAS: Era[] = [
   },
   {
     year: "1997",
+    fx: "stones", tint: "#b8c6de",
     title: "チェス王者、機械に敗れる",
     scene: "♟️🤖🏆",
     body: "IBMのディープ・ブルーが、チェス世界王者カスパロフに勝利。「機械が人間の知性の象徴を破った」と世界に衝撃が走りました。ただしこれは力まかせの探索の勝利で、「学習するAI」の時代はまだ先です。",
   },
   {
     year: "2012",
+    fx: "spark", tint: "#f5d98a",
     title: "ディープラーニング革命",
     scene: "🧠⚡📸",
     body: "画像認識コンテストで、ヒントン教授らのチームが深層学習（ディープラーニング）を使って圧勝。「データから特徴を自分で学ぶ」この技術が、長い冬を終わらせました。ここから現代AIの直系の歴史が始まります。",
@@ -87,12 +97,14 @@ const ERAS: Era[] = [
   },
   {
     year: "2016",
+    fx: "stones", tint: "#cfd8cf",
     title: "AlphaGo、囲碁で人間を超える",
     scene: "⚫⚪😱",
     body: "「囲碁だけは、あと10年は人間が勝つ」——その予想を裏切り、Google DeepMindのAlphaGoがトップ棋士イ・セドルに勝利。人間が思いつかない一手「37手目」は、AIが人間の直感を超えうることを見せつけました。",
   },
   {
     year: "2017",
+    fx: "network", tint: "#c3b8f0",
     title: "運命の論文「Attention Is All You Need」",
     scene: "📄✨🔮",
     body: "Googleの研究者たちが「トランスフォーマー」という新しい仕組みを発表。単語同士の関係に“注目”するこの設計が、のちのChatGPTもClaudeもGeminiも、ぜんぶの土台になりました。タイトルの意味は「注目こそすべて」。",
@@ -101,6 +113,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2020",
+    fx: "spark", tint: "#f5d98a",
     title: "GPT-3——「デカくしたら、賢くなった」",
     scene: "📈🐘💬",
     body: "モデルとデータをとにかく巨大にしたGPT-3が登場し、翻訳も作文も雑談もこなす汎用性で研究者を驚かせます。「スケールさせるほど賢くなる」という発見が、その後の大規模言語モデル（LLM）競争の号砲になりました。",
@@ -108,6 +121,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2022",
+    fx: "confetti", tint: "#ffd9a8",
     title: "ChatGPT、世界を変えた2ヶ月",
     scene: "🚀🌍💥",
     body: "11月30日、OpenAIがChatGPTを公開。誰でも無料で試せるAIチャットは、わずか2ヶ月で月間ユーザー1億人に到達しました。AIが研究室から、世界中の日常へ。「生成AI」という言葉が一気に広まります。",
@@ -120,6 +134,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2023",
+    fx: "confetti", tint: "#ffc9d9",
     title: "生成AI元年——絵も動画も",
     scene: "🎨🎬🎵",
     body: "MidjourneyやStable Diffusionが「言葉から絵を生む」を当たり前にし、GPT-4やClaudeが長文読解・推論で人間の仕事に食い込み始めます。世界中の企業が「AIをどう使うか」を真剣に考え始めた年です。",
@@ -130,6 +145,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2024-25",
+    fx: "code", tint: "#a8d8e8",
     title: "エージェント時代のはじまり",
     scene: "🤖🛠️🏃",
     body: "AIは「聞けば答える」から「任せれば働く」へ。自分で計画してツールを使うAIエージェント、会話でアプリを作るバイブコーディング、AIとツールをつなぐMCP——働き方の前提が変わり始めました。",
@@ -142,6 +158,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2026",
+    fx: "sparkle", tint: "#ffe9b0",
     title: "そして、いま。",
     scene: "🧑‍💻🤝🤖",
     body: "75年前の「機械は考えられるか？」という問いは、「機械と、どう働くか？」に変わりました。この絵巻の続きを描くのは、いまAIを学び、使い、ツッコミを入れているあなたです。",
@@ -193,16 +210,21 @@ export default function HistoryPage() {
       <section style={{ maxWidth: "min(720px, 92vw)", margin: "0 auto", padding: "10px 0 40px" }}>
         <div className="emaki-wrap">
           {ERAS.map((era) => (
-            <article key={era.year} className="emaki-panel" data-year={era.year.slice(0, 4)}>
+            <article key={era.year} className="emaki-panel" data-year={era.year.slice(0, 4)} data-fx={era.fx} data-tint={era.tint}>
               <span className="emaki-dot" style={{ background: era.tone === "winter" ? "#dbe9ff" : era.tone === "boom" ? "var(--red-500)" : "var(--yellow-400)" }} />
               <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 15, color: era.tone === "winter" ? "var(--blue-500)" : "var(--red-600)", marginBottom: 6 }}>
                 {era.year}
                 {era.tone === "winter" && <Badge tone="blue" style={{ marginLeft: 10 }}>AIの冬</Badge>}
               </div>
               <Card variant="pop" padding={0} style={{ overflow: "hidden", background: era.tone === "winter" ? "#f3f7ff" : "var(--paper-0)" }}>
-                <div style={{ textAlign: "center", fontSize: 44, letterSpacing: "0.15em", padding: "22px 10px 14px", borderBottom: "var(--bw-line) solid var(--ink-900)", background: era.tone === "boom" ? "var(--yellow-400)" : undefined }}>
-                  {era.scene}
-                </div>
+                {era.image ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={era.image} alt={era.title} loading="lazy" style={{ width: "100%", display: "block", borderBottom: "var(--bw-line) solid var(--ink-900)" }} />
+                ) : (
+                  <div style={{ textAlign: "center", fontSize: 44, letterSpacing: "0.15em", padding: "22px 10px 14px", borderBottom: "var(--bw-line) solid var(--ink-900)", background: era.tone === "boom" ? "var(--yellow-400)" : undefined }}>
+                    {era.scene}
+                  </div>
+                )}
                 <div style={{ padding: "16px 20px 18px" }}>
                   <h2 style={{ margin: "0 0 10px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 18.5, lineHeight: 1.5 }}>{era.title}</h2>
                   <p style={{ margin: 0, fontSize: 14, lineHeight: 2, color: "var(--text-body)" }}>{era.body}</p>
