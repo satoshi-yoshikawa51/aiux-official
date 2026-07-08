@@ -38,6 +38,7 @@ interface Era {
 const ERAS: Era[] = [
   {
     year: "1950",
+    image: "/history/1950.webp",
     fx: "dust", tint: "linear-gradient(180deg,#ead9b8,#c0a878)",
     title: "「機械は考えられるか？」",
     scene: "🤔💭🖥️",
@@ -46,6 +47,7 @@ const ERAS: Era[] = [
   },
   {
     year: "1956",
+    image: "/history/1956.webp",
     fx: "dust", tint: "linear-gradient(180deg,#ead9b8,#c0a878)",
     title: "「人工知能」という言葉が生まれる",
     scene: "🎓🤝📛",
@@ -54,6 +56,7 @@ const ERAS: Era[] = [
   },
   {
     year: "1966",
+    image: "/history/1966.webp",
     fx: "dust", tint: "linear-gradient(180deg,#eaddc0,#cdbb90)",
     title: "はじめてのおしゃべりAI「ELIZA」",
     scene: "💬🤖👩‍⚕️",
@@ -61,6 +64,7 @@ const ERAS: Era[] = [
   },
   {
     year: "1974",
+    image: "/history/1974.webp",
     fx: "snow", tint: "linear-gradient(180deg,#cfe0ff,#84a8e8)",
     title: "第1次AI冬、到来",
     scene: "❄️🥶📉",
@@ -70,6 +74,7 @@ const ERAS: Era[] = [
   },
   {
     year: "1980s",
+    image: "/history/1980s.webp",
     fx: "snow", tint: "linear-gradient(180deg,#cfe0ff,#84a8e8)",
     title: "エキスパートシステムと、2度目の冬",
     scene: "🏭📚❄️",
@@ -78,6 +83,7 @@ const ERAS: Era[] = [
   },
   {
     year: "1997",
+    image: "/history/1997.webp",
     fx: "stones", tint: "linear-gradient(180deg,#dde4f0,#9fb2d0)",
     title: "チェス王者、機械に敗れる",
     scene: "♟️🤖🏆",
@@ -85,6 +91,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2012",
+    image: "/history/2012.webp",
     fx: "spark", tint: "linear-gradient(180deg,#ffedb8,#eec25e)",
     title: "ディープラーニング革命",
     scene: "🧠⚡📸",
@@ -97,6 +104,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2016",
+    image: "/history/2016.webp",
     fx: "stones", tint: "linear-gradient(180deg,#e4ece4,#b0c4b0)",
     title: "AlphaGo、囲碁で人間を超える",
     scene: "⚫⚪😱",
@@ -104,6 +112,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2017",
+    image: "/history/2017.webp",
     fx: "network", tint: "linear-gradient(180deg,#ded2ff,#a390e8)",
     title: "運命の論文「Attention Is All You Need」",
     scene: "📄✨🔮",
@@ -113,6 +122,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2020",
+    image: "/history/2020.webp",
     fx: "spark", tint: "linear-gradient(180deg,#ffedb8,#eec25e)",
     title: "GPT-3——「デカくしたら、賢くなった」",
     scene: "📈🐘💬",
@@ -121,6 +131,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2022",
+    image: "/history/2022.webp",
     fx: "confetti", tint: "linear-gradient(180deg,#ffe4c0,#ffb870)",
     title: "ChatGPT、世界を変えた2ヶ月",
     scene: "🚀🌍💥",
@@ -134,6 +145,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2023",
+    image: "/history/2023.webp",
     fx: "confetti", tint: "linear-gradient(180deg,#ffdce8,#ffa8c4)",
     title: "生成AI元年——絵も動画も",
     scene: "🎨🎬🎵",
@@ -145,6 +157,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2024-25",
+    image: "/history/2024-25.webp",
     fx: "code", tint: "linear-gradient(180deg,#cdeef8,#7cc4dd)",
     title: "エージェント時代のはじまり",
     scene: "🤖🛠️🏃",
@@ -158,6 +171,7 @@ const ERAS: Era[] = [
   },
   {
     year: "2026",
+    image: "/history/2026.webp",
     fx: "sparkle", tint: "linear-gradient(180deg,#fff2c8,#ffd268)",
     title: "そして、いま。",
     scene: "🧑‍💻🤝🤖",

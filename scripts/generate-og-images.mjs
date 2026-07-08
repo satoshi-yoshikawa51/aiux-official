@@ -318,6 +318,7 @@ await shoot(
     sub: "チューリング → 冬の時代 → ChatGPT → エージェント",
     short: "スクロールすると、時代が進む。いまのAIブームが「何度目の春」か、ぜんぶ読むとわかります。",
     site: "comixai.dev/history",
+    img: `data:image/webp;base64,${(await readFile(path.join(ROOT, "public/history/cover.webp"))).toString("base64")}`,
   }),
   "history.png",
   GAMES_OUT_DIR
