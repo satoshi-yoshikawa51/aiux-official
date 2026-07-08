@@ -548,7 +548,8 @@ img {
   .emaki-flash {
     position: fixed;
     inset: 0;
-    z-index: 5;
+    /* カセット(z2)の背面で光る。カードの上には何も描かない */
+    z-index: 1;
     pointer-events: none;
     background: radial-gradient(circle at 50% 42%, rgba(255, 250, 235, 0.95), rgba(255, 250, 235, 0) 70%);
     animation: emaki-flash 0.65s ease-out both;

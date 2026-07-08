@@ -593,6 +593,7 @@ function Glossary() {
               flexWrap: "wrap",
             }}
           >
+            {/* 表紙動画のワイプ。ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
             <div
               style={{
                 width: 148,
@@ -605,9 +606,11 @@ function Glossary() {
                 transform: "rotate(-3deg)",
                 boxShadow: "5px 5px 0 rgba(20,17,15,0.85)",
               }}
-            >
-              <img src="/history/1950.webp" alt="AI歴史絵巻 1950年のコマ" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </div>
+              dangerouslySetInnerHTML={{
+                __html:
+                  '<video src="/history/cover.mp4" poster="/history/cover.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
+              }}
+            />
             <div style={{ flex: "1 1 260px" }}>
               <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 6 }}>
                 EMAKI — AI歴史絵巻

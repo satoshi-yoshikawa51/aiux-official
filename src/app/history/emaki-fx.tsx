@@ -144,9 +144,15 @@ export function EmakiFx() {
       const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
       setProgress(p);
       const mid = window.innerHeight * 0.55;
+      /* 時代の切り替えは「前のカセットの下端と次のカセットの上端のちょうど中間」が
+         判定線を越えた瞬間に発火する（＝カセットとカセットの間で年号が変わる） */
       let current: HTMLElement | null = null;
+      let prevBottom: number | null = null;
       for (const el of panels) {
-        if (el.getBoundingClientRect().top < mid) current = el;
+        const r = el.getBoundingClientRect();
+        const switchAt = prevBottom === null ? r.top : (prevBottom + r.top) / 2;
+        if (switchAt < mid) current = el;
+        prevBottom = r.bottom;
       }
       const y = current?.dataset.year ?? "1950";
       if (y !== currentYear) {
@@ -302,16 +308,16 @@ export function EmakiFx() {
 
   return (
     <>
-      {/* 時代の空（グラデーションをmultiplyで重ねる） */}
+      {/* 時代の空（グラデーションをmultiplyで重ねる）。カセット(z2)の背面で背景紙だけを染める */}
       <div
         aria-hidden="true"
         style={{
           position: "fixed",
           inset: 0,
-          zIndex: 4,
+          zIndex: 1,
           pointerEvents: "none",
           background: tint,
-          opacity: 0.22,
+          opacity: 0.28,
           mixBlendMode: "multiply",
           transition: "background 1.2s ease",
         }}
@@ -343,8 +349,8 @@ export function EmakiFx() {
       )}
       {/* 時代ジャンプのフラッシュ */}
       {flashKey > 0 && <div key={`fl-${flashKey}`} aria-hidden="true" className="emaki-flash" />}
-      {/* パーティクル */}
-      <canvas ref={canvasRef} aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 3, pointerEvents: "none" }} />
+      {/* パーティクル（透かしと同じくカセットの背面。DOM順で透かしより前に描画される） */}
+      <canvas ref={canvasRef} aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }} />
       {/* 進捗バー＋年号チップ */}
       <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 70, pointerEvents: "none" }}>
         <div style={{ height: 5, background: "rgba(20,17,15,0.12)" }}>
