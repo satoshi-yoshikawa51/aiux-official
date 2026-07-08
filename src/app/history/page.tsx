@@ -90,6 +90,7 @@ const ERAS: Era[] = [
   {
     year: "1997",
     image: "/history/1997.webp",
+    video: "/history/1997.mp4",
     fx: "stones", tint: "linear-gradient(180deg,#dde4f0,#9fb2d0)",
     title: "チェス王者、機械に敗れる",
     scene: "♟️🤖🏆",
@@ -98,6 +99,7 @@ const ERAS: Era[] = [
   {
     year: "2012",
     image: "/history/2012.webp",
+    video: "/history/2012.mp4",
     fx: "spark", tint: "linear-gradient(180deg,#ffedb8,#eec25e)",
     title: "ディープラーニング革命",
     scene: "🧠⚡📸",
@@ -111,6 +113,7 @@ const ERAS: Era[] = [
   {
     year: "2016",
     image: "/history/2016.webp",
+    video: "/history/2016.mp4",
     fx: "stones", tint: "linear-gradient(180deg,#e4ece4,#b0c4b0)",
     title: "AlphaGo、囲碁で人間を超える",
     scene: "⚫⚪😱",
@@ -119,6 +122,7 @@ const ERAS: Era[] = [
   {
     year: "2017",
     image: "/history/2017.webp",
+    video: "/history/2017.mp4",
     fx: "network", tint: "linear-gradient(180deg,#ded2ff,#a390e8)",
     title: "運命の論文「Attention Is All You Need」",
     scene: "📄✨🔮",
@@ -129,6 +133,7 @@ const ERAS: Era[] = [
   {
     year: "2020",
     image: "/history/2020.webp",
+    video: "/history/2020.mp4",
     fx: "spark", tint: "linear-gradient(180deg,#ffedb8,#eec25e)",
     title: "GPT-3——「デカくしたら、賢くなった」",
     scene: "📈🐘💬",
