@@ -27,9 +27,20 @@ function shuffle<T>(arr: T[]): T[] {
 
 function draw(): DrawnQuestion[] {
   const perLevel = QUIZ_SIZE / 3;
-  const picked = ([1, 2, 3] as const).flatMap((lv) =>
-    shuffle(QUESTIONS.filter((q) => q.level === lv)).slice(0, perLevel)
-  );
+  /* 同じ用語に複数の問題（通常＋ひっかけ）があるため、1回の診断では
+     同じ用語から1問までしか出さない */
+  const usedSlugs = new Set<string>();
+  const picked = ([1, 2, 3] as const).flatMap((lv) => {
+    const pool = shuffle(QUESTIONS.filter((q) => q.level === lv));
+    const taken: typeof pool = [];
+    for (const q of pool) {
+      if (taken.length >= perLevel) break;
+      if (usedSlugs.has(q.termSlug)) continue;
+      usedSlugs.add(q.termSlug);
+      taken.push(q);
+    }
+    return taken;
+  });
   return picked.map((src) => ({
     src,
     choices: shuffle(src.choices.map((text, i) => ({ text, correct: i === src.answer }))),
@@ -95,7 +106,7 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
             あなたのAI用語力は、何級？
           </h2>
           <p style={{ margin: "0 auto 22px", fontSize: 14.5, lineHeight: 1.9, color: "var(--text-muted)", maxWidth: 440 }}>
-            用語集の基本30語から毎回ランダムに<strong>12問</strong>を出題。
+            用語集の全50語から毎回ランダムに<strong>12問</strong>を出題。
             1問ごとに解説つきだから、遊び終わるころには少し詳しくなっています。所要3分。
           </p>
           <Button variant="primary" size="lg" onClick={start} iconRight={<i className="ph-bold ph-arrow-right" />}>
@@ -244,10 +255,12 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
               {correct ? "⭕ 正解！" : "❌ ざんねん…"}
             </div>
             <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "var(--text-body)" }}>{q.src.explanation}</p>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
               <a href={`/glossary/${q.src.termSlug}`} target="_blank" rel="noopener" style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)", textDecoration: "none" }}>
                 「{termNames[q.src.termSlug] ?? q.src.termSlug}」をくわしく見る <i className="ph-bold ph-arrow-up-right" />
               </a>
+              {/* 折り返しても常に右端に固定する */}
+              <span style={{ marginLeft: "auto" }}>
               <Button
                 variant="primary"
                 size="sm"
@@ -262,6 +275,7 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
               >
                 {idx + 1 >= qs.length ? "結果を見る" : "次の問題へ"}
               </Button>
+              </span>
             </div>
           </div>
         )}
