@@ -787,6 +787,12 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       "現場でのポイントは使い分けです。メールの下書きに推論モデルは大げさで、逆に込み入った不具合調査や契約書のチェックを反射型に任せると浅くなる。「速い思考と遅い思考」を相手によって切り替える——AIも人間と同じになってきた、というわけです。",
     ],
     links: [],
+    secret: {
+      href: "/nou",
+      title: "速い脳と遅い脳、使い分けろ。",
+      desc: "反射AI⚡と熟考AI🧠に仕事を振り分けるリアルタイム采配ゲーム。ひっかけ仕事にご用心。",
+      cta: "仕分ける",
+    },
     relatedSlugs: ["llm", "deepseek", "context-window"],
     lastUpdated: "2026-07-09",
   },
@@ -838,6 +844,12 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       { label: "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
       { label: "マンガでわかる！AI活用 第3話：「RAGとファインチューニング」", href: "https://note.com/aiux_unite/n/n185107973a2f" },
     ],
+    secret: {
+      href: "/tsukue",
+      title: "AIの机、片づけられる？",
+      desc: "容量制限の机にどの資料を載せるかのパズル。全文資料は圧迫、古い資料は毒。",
+      cta: "片づける",
+    },
     relatedSlugs: ["prompt-engineering", "context-window", "rag"],
     lastUpdated: "2026-07-09",
   },
@@ -856,6 +868,12 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     links: [
       { label: "AI時代の「流行」と「本質」：AIの先にあるべきもの", href: "https://note.com/aiux_unite/n/na87618c2923d" },
     ],
+    secret: {
+      href: "/slop",
+      title: "その情報、食べる前に嗅げ。",
+      desc: "流れてくる記事を スロップ🗑️/良質✨ でスワイプ判定。あなたのタイムラインを守る鑑定ゲーム。",
+      cta: "鑑定する",
+    },
     relatedSlugs: ["generative-ai", "hallucination", "llmo"],
     lastUpdated: "2026-07-09",
   },
@@ -874,6 +892,12 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     links: [
       { label: "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
     ],
+    secret: {
+      href: "/gakuya",
+      title: "楽屋で、台本を書け。",
+      desc: "システムプロンプトを設計してAI窓口を開店。ジェイルブレイカーが来店しても守れる？",
+      cta: "開店する",
+    },
     relatedSlugs: ["prompt-engineering", "prompt-injection", "context-engineering"],
     lastUpdated: "2026-07-09",
   },
@@ -890,6 +914,12 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       "AIがメールを読み、サイトを操作し、ファイルを扱うようになるほど、この攻撃の影響は大きくなります。対策は発展途上で、「AIに強い権限を渡しすぎない」「重要な操作は人間が承認する」という設計面の防御が現実解。AIエージェントを業務に入れるなら、便利さとセットで必ず知っておくべき用語です。",
     ],
     links: [],
+    secret: {
+      href: "/keibi",
+      title: "エージェントを、守れ。",
+      desc: "文書に仕込まれた「隠れ指示」を摘発する警備ゲーム。見えない白文字の罠、見抜ける？",
+      cta: "検問する",
+    },
     relatedSlugs: ["system-prompt", "ai-agent", "ai-browser"],
     lastUpdated: "2026-07-09",
   },
@@ -972,6 +1002,12 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     links: [
       { label: "Claude Codeの「Agent Teams」をゼロから実践してみた", href: "https://note.com/aiux_unite/n/ndfbcb2825479" },
     ],
+    secret: {
+      href: "/shacho",
+      title: "AI社長、就任。",
+      desc: "3体の部下エージェントに仕事を割り振る経営ゲーム。順序を間違えると怪文書が納品されます。",
+      cta: "経営する",
+    },
     relatedSlugs: ["ai-agent", "mcp", "context-engineering"],
     lastUpdated: "2026-07-09",
   },

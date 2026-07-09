@@ -26,7 +26,7 @@ interface Era {
   year: string;
   title: string;
   scene: string; // 絵文字のコマ（画像が来るまでのプレースホルダ）
-  image?: string; // 主人公猫のシーン画像（public/history/ に置いたら差し替わる）
+  image?: string; // 主人公キャラのシーン画像（public/history/ に置いたら差し替わる）
   video?: string; // シーン動画（あれば画像より優先。imageはposter兼フォールバックに使う）
   body: string;
   hand?: string; // 手書きふうツッコミ
