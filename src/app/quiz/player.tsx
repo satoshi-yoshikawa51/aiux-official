@@ -27,9 +27,20 @@ function shuffle<T>(arr: T[]): T[] {
 
 function draw(): DrawnQuestion[] {
   const perLevel = QUIZ_SIZE / 3;
-  const picked = ([1, 2, 3] as const).flatMap((lv) =>
-    shuffle(QUESTIONS.filter((q) => q.level === lv)).slice(0, perLevel)
-  );
+  /* 同じ用語に複数の問題（通常＋ひっかけ）があるため、1回の診断では
+     同じ用語から1問までしか出さない */
+  const usedSlugs = new Set<string>();
+  const picked = ([1, 2, 3] as const).flatMap((lv) => {
+    const pool = shuffle(QUESTIONS.filter((q) => q.level === lv));
+    const taken: typeof pool = [];
+    for (const q of pool) {
+      if (taken.length >= perLevel) break;
+      if (usedSlugs.has(q.termSlug)) continue;
+      usedSlugs.add(q.termSlug);
+      taken.push(q);
+    }
+    return taken;
+  });
   return picked.map((src) => ({
     src,
     choices: shuffle(src.choices.map((text, i) => ({ text, correct: i === src.answer }))),
