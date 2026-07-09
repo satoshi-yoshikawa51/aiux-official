@@ -532,17 +532,33 @@ img {
   box-shadow: var(--shadow-pop-sm);
 }
 @media (prefers-reduced-motion: no-preference) {
+  /* 新しい年号：拡大状態から縮んで着地（前の年号のフェードと同時進行） */
   .emaki-watermark {
-    animation: emaki-wm 1.1s ease both;
+    animation: emaki-wm 0.8s var(--ease-pop) both;
   }
   @keyframes emaki-wm {
     from {
       opacity: 0;
-      transform: scale(1.08);
+      transform: scale(1.9);
+    }
+    60% {
+      opacity: 1;
     }
     to {
       opacity: 1;
       transform: none;
+    }
+  }
+  /* 前の年号：その場に残ったままフェードで消える */
+  .emaki-watermark-out {
+    animation: emaki-wm-out 0.8s ease-out both;
+  }
+  @keyframes emaki-wm-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
     }
   }
   .emaki-flash {

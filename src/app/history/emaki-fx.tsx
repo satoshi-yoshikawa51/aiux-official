@@ -108,10 +108,12 @@ function spawnHero(char: string, w: number, h: number): Particle {
 export function EmakiFx() {
   const [progress, setProgress] = React.useState(0);
   const [year, setYear] = React.useState("1950");
+  const [prevYear, setPrevYear] = React.useState<string | null>(null); // フェードアウト中の前の年号
   const [tint, setTint] = React.useState("transparent");
   const [flashKey, setFlashKey] = React.useState(0);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const reducedRef = React.useRef(false);
+  const prevTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   React.useEffect(() => {
     const panels = Array.from(document.querySelectorAll<HTMLElement>(".emaki-panel"));
@@ -156,9 +158,14 @@ export function EmakiFx() {
       }
       const y = current?.dataset.year ?? "1950";
       if (y !== currentYear) {
+        const old = currentYear;
         currentYear = y;
         setYear(y);
         if (!reduced) {
+          /* 前の年号を残してフェードアウトさせ、新しい年号を上から被せる */
+          setPrevYear(old);
+          if (prevTimerRef.current) clearTimeout(prevTimerRef.current);
+          prevTimerRef.current = setTimeout(() => setPrevYear(null), 850);
           setFlashKey((k) => k + 1); // 時代ジャンプのフラッシュ
           heroQueue.push(...(HEROES[y] ?? []));
         }
@@ -322,6 +329,31 @@ export function EmakiFx() {
           transition: "background 1.2s ease",
         }}
       />
+      {/* 消えていく前の年号（その場でフェードアウト） */}
+      {!reducedRef.current && prevYear && (
+        <div
+          key={`wm-out-${prevYear}`}
+          aria-hidden="true"
+          className="emaki-watermark-out"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1,
+            pointerEvents: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: "var(--font-mono)",
+            fontWeight: 700,
+            fontSize: "min(30vw, 260px)",
+            color: "rgba(20,17,15,0.07)",
+            letterSpacing: "-0.04em",
+            userSelect: "none",
+          }}
+        >
+          {prevYear}
+        </div>
+      )}
       {/* 巨大な年号の透かし */}
       {!reducedRef.current && (
         <div
