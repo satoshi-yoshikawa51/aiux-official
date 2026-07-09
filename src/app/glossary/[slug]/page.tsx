@@ -214,15 +214,17 @@ export default async function GlossaryTermPage({ params }: Props) {
               </a>
             )}
 
-            <div style={{ marginTop: 40 }}>
-              <SectionHead kicker="LEARN MORE — もっと深く" title="マンガ・実践記事で理解する" hand="読むより速い、体感で学ぶ" />
-              <div style={{ display: "grid", gap: 14 }}>
-                {t.links.map((l) => {
-                  const r = resolveLink(l);
-                  return <MediaLinkCard key={r.href} {...r} />;
-                })}
+            {t.links.length > 0 && (
+              <div style={{ marginTop: 40 }}>
+                <SectionHead kicker="LEARN MORE — もっと深く" title="マンガ・実践記事で理解する" hand="読むより速い、体感で学ぶ" />
+                <div style={{ display: "grid", gap: 14 }}>
+                  {t.links.map((l) => {
+                    const r = resolveLink(l);
+                    return <MediaLinkCard key={r.href} {...r} />;
+                  })}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* —— サイドバー —— */}

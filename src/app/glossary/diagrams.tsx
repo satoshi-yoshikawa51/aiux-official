@@ -522,6 +522,230 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  /* ————— 第3弾（2026-07）の図解 ————— */
+  "deep-research": {
+    caption: "即答ではなく「持ち帰って調べてから報告」してくれる",
+    render: () => (
+      <Svg h={300} title="ディープリサーチのしくみ図解">
+        <T x={30} y={40} text="ふつうのチャット" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={130} h={55} label="質問" />
+        <AH x1={165} x2={275} y={82} label="数秒" />
+        <B x={280} y={55} w={140} h={55} label="即答" dashed />
+        <T x={30} y={180} text="ディープリサーチ" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={195} w={110} h={60} label="質問" />
+        <AH x1={145} x2={185} y={225} />
+        <B x={190} y={185} w={170} h={80} label={"大量のWebを\n読み込む"} sub="数分〜数十分" fill={YELLOW} />
+        <AH x1={365} x2={405} y={225} />
+        <B x={410} y={195} w={165} h={60} label={"出典つき\nレポート"} fill={RED} color="#fff" />
+      </Svg>
+    ),
+  },
+  "reasoning-model": {
+    caption: "「考える時間」を取るぶん、複雑な問題に強くなる",
+    render: () => (
+      <Svg h={300} title="推論モデルのしくみ図解">
+        <T x={30} y={40} text="従来のLLM：反射で答える" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={130} h={55} label="質問" />
+        <AH x1={165} x2={275} y={82} label="即答" />
+        <B x={280} y={55} w={160} h={55} label="答え" dashed />
+        <T x={30} y={180} text="推論モデル：考えてから答える" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={195} w={110} h={60} label="質問" />
+        <AH x1={145} x2={185} y={225} />
+        <B x={190} y={185} w={170} h={80} label={"頭の中で\n下書き・検算"} sub="思考の連鎖" fill={YELLOW} />
+        <AH x1={365} x2={405} y={225} />
+        <B x={410} y={195} w={165} h={60} label={"精度の高い\n答え"} fill={RED} color="#fff" />
+      </Svg>
+    ),
+  },
+  "ai-browser": {
+    caption: "AIがタブを横断して読み、操作まで代行してくれる",
+    render: () => (
+      <Svg h={280} title="AIブラウザのしくみ図解">
+        <B x={20} y={100} w={130} h={70} label={"ユーザー"} sub="「調べて比べて」" />
+        <AH x1={155} x2={215} y={135} label="頼む" />
+        <rect x={220} y={40} width={360} height={210} rx={12} fill={PAPER} stroke={INK} strokeWidth={3} />
+        <T x={400} y={68} text="AIブラウザ" size={15} color={INK} bold />
+        <B x={240} y={85} w={100} h={55} label="タブA" dashed />
+        <B x={350} y={85} w={100} h={55} label="タブB" dashed />
+        <B x={460} y={85} w={100} h={55} label="タブC" dashed />
+        <B x={285} y={170} w={270} h={60} label={"AIが横断して読む・操作する"} fill={YELLOW} />
+        <AV x={290} y1={143} y2={167} />
+        <AV x={400} y1={143} y2={167} />
+        <AV x={510} y1={143} y2={167} />
+      </Svg>
+    ),
+  },
+  "world-model": {
+    caption: "言葉ではなく「世界がどう動くか」を頭の中に持つ",
+    render: () => (
+      <Svg h={260} title="ワールドモデルのしくみ図解">
+        <B x={20} y={95} w={140} h={70} label={"いまの状況"} sub="カメラ・状態" />
+        <AH x1={165} x2={225} y={130} />
+        <B x={230} y={80} w={180} h={100} label={"ワールドモデル"} sub="頭の中で未来を再生" fill={YELLOW} />
+        <AH x1={415} x2={475} y={130} />
+        <B x={480} y={95} w={105} h={70} label={"少し先を\n予測"} />
+        <T x={300} y={225} text="「落とせば落ちる」を知っているから、試さずに動ける" size={13} />
+      </Svg>
+    ),
+  },
+  "context-engineering": {
+    caption: "答えの質は、指示文より「机の上に何を載せるか」で決まる",
+    render: () => (
+      <Svg h={290} title="コンテキストエンジニアリングの図解">
+        <rect x={20} y={40} width={340} height={210} rx={12} fill={PAPER} stroke={INK} strokeWidth={3} />
+        <T x={190} y={68} text="AIの作業机（コンテキスト）" size={15} color={INK} bold />
+        <B x={40} y={85} w={140} h={60} label="指示" />
+        <B x={200} y={85} w={140} h={60} label="資料" fill={BLUE} color="#fff" />
+        <B x={40} y={160} w={140} h={60} label="これまでの流れ" />
+        <B x={200} y={160} w={140} h={60} label="使えるツール" />
+        <AH x1={365} x2={425} y={145} label="設計" />
+        <B x={430} y={110} w={150} h={70} label={"質の高い\n答え"} fill={YELLOW} />
+        <T x={300} y={275} text="何を載せ、何を片付けるか——それが設計の腕" size={13} />
+      </Svg>
+    ),
+  },
+  "ai-slop": {
+    caption: "量産されたスロップの中で、確かな一皿の価値が上がる",
+    render: () => (
+      <Svg h={270} title="AIスロップの図解">
+        <T x={30} y={40} text="AIで量産された低品質コンテンツ" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={120} h={50} label="量産記事" dashed />
+        <B x={160} y={70} w={120} h={50} label="量産記事" dashed />
+        <B x={290} y={52} w={120} h={50} label="量産画像" dashed />
+        <B x={420} y={68} w={120} h={50} label="量産動画" dashed />
+        <T x={300} y={155} text="⋯ネットにあふれて、探す側は疲れる⋯" size={13} />
+        <B x={150} y={180} w={300} h={60} label={"一次情報・実体験・検証つき"} sub="価値はむしろ上がる" fill={YELLOW} />
+      </Svg>
+    ),
+  },
+  "system-prompt": {
+    caption: "ユーザーには見えない「楽屋の指示」がAIの性格を決めている",
+    render: () => (
+      <Svg h={280} title="システムプロンプトのしくみ図解">
+        <B x={40} y={40} w={520} h={70} label={"システムプロンプト（見えない指示）"} sub="役割・口調・禁止事項" dashed />
+        <AV x={300} y1={113} y2={140} label="先に効く" />
+        <B x={40} y={145} w={220} h={60} label={"ユーザーの入力"} />
+        <AH x1={265} x2={315} y={175} />
+        <B x={320} y={145} w={110} h={60} label="AI" fill={YELLOW} />
+        <AH x1={435} x2={485} y={175} />
+        <B x={490} y={145} w={90} h={60} label="答え" />
+        <T x={300} y={250} text="丁寧語で話すのも、危険な質問を断るのも、楽屋での申し合わせ" size={13} />
+      </Svg>
+    ),
+  },
+  "prompt-injection": {
+    caption: "読ませた文章の中の「隠れた指示」に、AIが釣られてしまう",
+    render: () => (
+      <Svg h={280} title="プロンプトインジェクションのしくみ図解">
+        <B x={20} y={60} w={190} h={90} label={"Webページ・メール"} sub="⚠ 隠れた指示入り" dashed />
+        <AH x1={215} x2={275} y={105} label="読ませる" />
+        <B x={280} y={70} w={130} h={70} label="AI" sub="指示と文章の区別が苦手" fill={YELLOW} />
+        <AH x1={415} x2={475} y={105} />
+        <B x={480} y={70} w={105} h={70} label={"意図しない\n動作"} fill={RED} color="#fff" />
+        <rect x={150} y={200} width={300} height={44} rx={22} fill={INK} />
+        <T x={300} y={227} text="対策：強い権限を渡しすぎない＋人間の承認" size={13.5} color="#fff" bold />
+      </Svg>
+    ),
+  },
+  "shadow-ai": {
+    caption: "「便利だから」が、会社の知らないところで事故になる",
+    render: () => (
+      <Svg h={300} title="シャドーAIの図解">
+        <T x={30} y={40} text="公認ルート" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={130} h={55} label="社員" />
+        <AH x1={165} x2={275} y={82} label="ルール内で" />
+        <B x={280} y={55} w={180} h={55} label="会社公認のAI" fill={YELLOW} />
+        <T x={30} y={180} text="シャドーAI" size={15} color={RED} anchor="start" bold />
+        <B x={30} y={195} w={130} h={55} label="社員" />
+        <AH x1={165} x2={275} y={222} label="こっそり" />
+        <B x={280} y={195} w={150} h={55} label="個人契約のAI" dashed />
+        <AH x1={435} x2={465} y={222} />
+        <B x={470} y={195} w={110} h={55} label={"機密が\n社外へ"} fill={RED} color="#fff" />
+      </Svg>
+    ),
+  },
+  "ai-governance": {
+    caption: "国 → 業界 → 社内。重なるルールが「安心して攻める」を支える",
+    render: () => (
+      <Svg h={290} title="AIガバナンスの図解">
+        <rect x={30} y={30} width={540} height={230} rx={12} fill={PAPER} stroke={INK} strokeWidth={3} />
+        <T x={300} y={58} text="国・地域のルール（EU AI法・日本のAI法など）" size={14} color={INK} bold />
+        <rect x={70} y={75} width={460} height={165} rx={10} fill="#fff7dc" stroke={INK} strokeWidth={3} />
+        <T x={300} y={102} text="業界・事業者ガイドライン" size={14} color={INK} bold />
+        <rect x={110} y={120} width={380} height={100} rx={10} fill={YELLOW} stroke={INK} strokeWidth={3} />
+        <T x={300} y={147} text="会社のAI利用ルール" size={14.5} color={INK} bold />
+        <T x={300} y={172} text="入力していい情報／確認する人／使っていいツール" size={12.5} color={INK} />
+        <T x={300} y={198} text="＝ AIと働くための「就業規則」" size={12.5} color={INK} />
+      </Svg>
+    ),
+  },
+  "ai-copyright": {
+    caption: "「学習」と「生成・利用」は分けて考えるのが第一歩",
+    render: () => (
+      <Svg h={300} title="生成AIと著作権の図解">
+        <T x={30} y={40} text="学習の段階" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={150} h={55} label="既存の作品" />
+        <AH x1={185} x2={295} y={82} label="学習" />
+        <B x={300} y={55} w={130} h={55} label="AI" fill={YELLOW} />
+        <T x={455} y={86} text="日本では広く可 ※例外あり" size={12.5} anchor="start" />
+        <T x={30} y={180} text="生成・利用の段階" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={195} w={130} h={55} label="生成物" />
+        <AH x1={165} x2={275} y={222} label="類似＋依拠なら" />
+        <B x={280} y={195} w={160} h={55} label={"著作権侵害の\nリスク"} fill={RED} color="#fff" />
+        <T x={455} y={218} text="AI製でも" size={12.5} anchor="start" />
+        <T x={455} y={234} text="侵害になりうる" size={12.5} anchor="start" />
+      </Svg>
+    ),
+  },
+  llmo: {
+    caption: "「検索で上位に出る」から「AIの答えに引用される」へ",
+    render: () => (
+      <Svg h={300} title="LLMO（AI検索最適化）の図解">
+        <T x={30} y={40} text="SEO：検索結果で選ばれる" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={130} h={55} label="ユーザー" />
+        <AH x1={165} x2={245} y={82} label="検索" />
+        <B x={250} y={55} w={150} h={55} label="検索エンジン" />
+        <AH x1={405} x2={455} y={82} />
+        <B x={460} y={55} w={110} h={55} label="サイト" />
+        <T x={30} y={180} text="LLMO：AIの答えの中で引用される" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={195} w={130} h={55} label="ユーザー" />
+        <AH x1={165} x2={245} y={222} label="質問" />
+        <B x={250} y={195} w={150} h={55} label={"AIの答え"} sub="出典として引用" fill={YELLOW} />
+        <AH x1={455} x2={405} y={222} label="良質な一次情報" />
+        <B x={460} y={195} w={110} h={55} label="サイト" fill={RED} color="#fff" />
+      </Svg>
+    ),
+  },
+  "multi-agent": {
+    caption: "リーダーが仕事を割り振る「AIのチーム制」",
+    render: () => (
+      <Svg h={310} title="マルチエージェントのしくみ図解">
+        <B x={225} y={30} w={150} h={65} label={"リーダーAI"} sub="タスクを分解" fill={YELLOW} />
+        <AV x={150} y1={98} y2={135} />
+        <AV x={300} y1={98} y2={135} />
+        <AV x={450} y1={98} y2={135} />
+        <line x1={150} y1={98} x2={450} y2={98} stroke={INK} strokeWidth={3.5} />
+        <B x={85} y={140} w={130} h={60} label="調査係" />
+        <B x={235} y={140} w={130} h={60} label="執筆係" />
+        <B x={385} y={140} w={130} h={60} label="チェック係" />
+        <AV x={300} y1={205} y2={235} label="統合" />
+        <B x={210} y={240} w={180} h={55} label="成果物" fill={RED} color="#fff" />
+      </Svg>
+    ),
+  },
+  distillation: {
+    caption: "大きいモデルの「答え方」をお手本に、小さいモデルを育てる",
+    render: () => (
+      <Svg h={280} title="蒸留（知識蒸留）のしくみ図解">
+        <B x={20} y={60} w={170} h={110} label={"大きいモデル"} sub="教師：賢いが重い" fill={BLUE} color="#fff" />
+        <AH x1={195} x2={285} y={115} label="お手本を見せる" />
+        <B x={290} y={75} w={150} h={80} label={"小さいモデル"} sub="生徒：軽い" fill={YELLOW} />
+        <AH x1={445} x2={495} y={115} />
+        <B x={500} y={75} w={85} h={80} label={"軽い\n速い\n安い"} />
+        <T x={300} y={225} text="スマホで動くローカルLLMの多くは、この技術の恩恵" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
