@@ -95,7 +95,7 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
             あなたのAI用語力は、何級？
           </h2>
           <p style={{ margin: "0 auto 22px", fontSize: 14.5, lineHeight: 1.9, color: "var(--text-muted)", maxWidth: 440 }}>
-            用語集の基本30語から毎回ランダムに<strong>12問</strong>を出題。
+            用語集の全50語から毎回ランダムに<strong>12問</strong>を出題。
             1問ごとに解説つきだから、遊び終わるころには少し詳しくなっています。所要3分。
           </p>
           <Button variant="primary" size="lg" onClick={start} iconRight={<i className="ph-bold ph-arrow-right" />}>
