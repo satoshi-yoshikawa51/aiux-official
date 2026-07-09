@@ -118,7 +118,7 @@ const DOCS: Doc[] = [
 ];
 
 const GRADES = [
-  { id: "teppeki", min: 7, emoji: "🛡️", name: "鉄壁のセキュリティ猫", comment: "完璧に近い検問でした。あなたのエージェントは今日も安全に働けます。この嗅覚、本業でも武器になります。" },
+  { id: "teppeki", min: 7, emoji: "🛡️", name: "鉄壁のセキュリティ", comment: "完璧に近い検問でした。あなたのエージェントは今日も安全に働けます。この嗅覚、本業でも武器になります。" },
   { id: "shinmai", min: 5, emoji: "👮", name: "新米警備員", comment: "いい線いってます。「AIへ話しかける文」「白文字」「HTMLコメント」——この3大手口を覚えれば鉄壁まであと一歩。" },
   { id: "zaru", min: 0, emoji: "🕳️", name: "ザル警備", comment: "エージェントがだいぶ自由に動いてしまいました…。でも大丈夫、手口を知った今のあなたはもう昨日とは違います。" },
 ];
@@ -224,7 +224,7 @@ export function KeibiGame() {
     return (
       <Card variant="pop" padding={0} style={{ overflow: "hidden" }}>
         <div style={{ padding: "30px 24px 26px", textAlign: "center" }}>
-          <div style={{ fontSize: 52 }}>🛡️🐱</div>
+          <div style={{ fontSize: 52 }}>🛡️🤖</div>
           <h2 style={{ margin: "8px 0 10px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.6vw,28px)" }}>エージェントを、守れ。</h2>
           <p style={{ margin: "0 auto 8px", fontSize: 14, lineHeight: 1.9, color: "var(--text-body)", maxWidth: 460 }}>
             あなたはAIエージェントの警備員。エージェントが読む文書{DOCS.length}通を検問し、<b>仕込まれた「隠れ指示」の行をタップして摘発</b>してください。何もなければ「通す」。

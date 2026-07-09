@@ -577,7 +577,7 @@ function Glossary() {
           </div>
         </a>
 
-        {/* —— AI歴史絵巻への導線（1950年の猫サムネつき） —— */}
+        {/* —— AI歴史絵巻への導線（1950年のサムネつき） —— */}
         <a href="/history" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "18px auto 0" }}>
           <div
             className="quiz-banner"

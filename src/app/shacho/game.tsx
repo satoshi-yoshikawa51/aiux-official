@@ -13,9 +13,9 @@ import { ZukanNote } from "../zukan/collection";
 
 type AgentKey = "chosa" | "shippitsu" | "check";
 const AGENTS: { key: AgentKey; emoji: string; name: string; forte: string }[] = [
-  { key: "chosa", emoji: "🔎", name: "調査猫", forte: "調べもの担当" },
-  { key: "shippitsu", emoji: "✍️", name: "執筆猫", forte: "書きもの担当" },
-  { key: "check", emoji: "🧐", name: "チェック猫", forte: "検品担当" },
+  { key: "chosa", emoji: "🔎", name: "調査係", forte: "調べもの担当" },
+  { key: "shippitsu", emoji: "✍️", name: "執筆係", forte: "書きもの担当" },
+  { key: "check", emoji: "🧐", name: "チェック係", forte: "検品担当" },
 ];
 
 interface Task {
@@ -125,7 +125,7 @@ function simulate(place: Record<string, Placement>): SimResult {
       id: "zangyo",
       emoji: "🔥",
       name: "残業まみれの現場",
-      story: "同じ猫に仕事が集中し、オフィスの灯りは消えませんでした。品質はギリギリ、猫はヘトヘト。労基署ならぬ猫基署が来ます。",
+      story: "同じ係に仕事が集中し、オフィスの灯りは消えませんでした。品質はギリギリ、現場はヘトヘト。そろそろ労基署（AI担当）が来ます。",
       lesson: "並列化の敵は「偏り」。負荷を分散させてこそ、マルチエージェントは速くなります。",
     };
   } else if (quality >= 90 && time <= 3) {
@@ -133,7 +133,7 @@ function simulate(place: Record<string, Placement>): SimResult {
       id: "kanpeki",
       emoji: "👑",
       name: "完璧な分業",
-      story: "調査→執筆→チェックが美しく流れ、全員が本職で輝きました。納期どおり、品質満点。部下の猫たちから尊敬の目で見られています。",
+      story: "調査→執筆→チェックが美しく流れ、全員が本職で輝きました。納期どおり、品質満点。部下のエージェントたちから尊敬の目で見られています。",
       lesson: "適材適所×正しい順序×並列。これがマルチエージェント設計の教科書です。あなたには才能があります。",
     };
   } else if (quality >= 70) {

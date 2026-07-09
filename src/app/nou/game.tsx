@@ -1,7 +1,7 @@
 "use client";
 /* ============================================================
    「速い脳・遅い脳」— 推論モデル仕分けゲーム。
-   流れてくる仕事を、反射猫（速い・安い・浅い）と熟考猫（遅い・
+   流れてくる仕事を、反射AI（速い・安い・浅い）と熟考AI（遅い・
    高い・深い）に振り分けるリアルタイム資源管理。
    簡単そうで深い「ひっかけ仕事」が混ざっている。
    すべてクライアント完結。
@@ -87,7 +87,7 @@ export function NouGame() {
     return () => clearInterval(t);
   }, [phase, feedback, idx]);
 
-  /* 時間切れ → あわてて反射猫に流れる */
+  /* 時間切れ → あわてて反射AIに流れる */
   React.useEffect(() => {
     if (phase === "play" && !feedback && timeLeft <= 0) assign("fast", true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,13 +104,13 @@ export function NouGame() {
 
     if (job.deep && usedBrain === "fast") {
       setLives((l) => l - 1);
-      setFeedback({ ok: false, icon: "💥", text: `${timeout ? "時間切れで反射猫に流れた！" : ""}反射猫が浅い答えで事故…。${job.note}` });
+      setFeedback({ ok: false, icon: "💥", text: `${timeout ? "時間切れで反射AIに流れた！" : ""}反射AIが浅い答えで事故…。${job.note}` });
     } else if (!job.deep && usedBrain === "slow") {
       setScore((s) => s + 0); // オーバーキルはノーカウント（コインだけ減る）
-      setFeedback({ ok: false, icon: "🐢", text: `熟考猫が3分考えて「こんにちは」と返しました。正解だけどコストが…。${job.note}` });
+      setFeedback({ ok: false, icon: "🐢", text: `熟考AIが3分考えて「こんにちは」と返しました。正解だけどコストが…。${job.note}` });
     } else {
       setScore((s) => s + 1);
-      setFeedback({ ok: true, icon: usedBrain === "fast" ? "⚡" : "🧠", text: `${usedBrain === "fast" ? "反射猫が秒で処理！" : "熟考猫がじっくり解決！"}${job.note}` });
+      setFeedback({ ok: true, icon: usedBrain === "fast" ? "⚡" : "🧠", text: `${usedBrain === "fast" ? "反射AIが秒で処理！" : "熟考AIがじっくり解決！"}${job.note}` });
     }
   };
 
@@ -143,7 +143,7 @@ export function NouGame() {
           <div style={{ fontSize: 52 }}>⚡🧠</div>
           <h2 style={{ margin: "8px 0 10px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.6vw,28px)" }}>その仕事、どっちの脳に任せる？</h2>
           <p style={{ margin: "0 auto 8px", fontSize: 14, lineHeight: 1.9, color: "var(--text-body)", maxWidth: 460 }}>
-            流れてくる仕事{JOBS.length}件を、<b>反射猫⚡（{COST_FAST}コイン・速いが浅い）</b>と<b>熟考猫🧠（{COST_SLOW}コイン・遅いが深い）</b>に振り分けてください。予算は{COIN_START}コイン、ミスは3回まで。
+            流れてくる仕事{JOBS.length}件を、<b>反射AI⚡（{COST_FAST}コイン・速いが浅い）</b>と<b>熟考AI🧠（{COST_SLOW}コイン・遅いが深い）</b>に振り分けてください。予算は{COIN_START}コイン、ミスは3回まで。
           </p>
           <p style={{ margin: "0 0 18px", fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)" }}>※「一見カンタン、実は深い」ひっかけ仕事が混ざっています</p>
           <Button variant="primary" size="lg" onClick={start} iconRight={<i className="ph-bold ph-lightning" />}>
@@ -227,7 +227,7 @@ export function NouGame() {
           disabled={!!feedback}
           style={{ flex: 1, fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, padding: "16px 10px", borderRadius: "var(--radius-md)", border: "var(--bw-line) solid var(--ink-900)", background: "var(--paper-0)", cursor: "pointer", boxShadow: "var(--shadow-pop-sm)" }}
         >
-          ⚡ 反射猫
+          ⚡ 反射AI
           <span style={{ display: "block", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>{COST_FAST}コイン・秒で返す</span>
         </button>
         <button
@@ -236,7 +236,7 @@ export function NouGame() {
           disabled={!!feedback || coins < COST_SLOW}
           style={{ flex: 1, fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, padding: "16px 10px", borderRadius: "var(--radius-md)", border: "var(--bw-line) solid var(--ink-900)", background: coins < COST_SLOW ? "var(--paper-100)" : "var(--yellow-400)", cursor: coins < COST_SLOW ? "not-allowed" : "pointer", boxShadow: "var(--shadow-pop-sm)", opacity: coins < COST_SLOW ? 0.55 : 1 }}
         >
-          🧠 熟考猫
+          🧠 熟考AI
           <span style={{ display: "block", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>{COST_SLOW}コイン・じっくり考える</span>
         </button>
       </div>

@@ -89,14 +89,14 @@ const slop: ZukanItem[] = [
 const keibi: ZukanItem[] = [
   { category: "keibi", id: "zaru", emoji: "🕳️", name: "ザル警備", hint: "インジェクション防衛で判定される" },
   { category: "keibi", id: "shinmai", emoji: "👮", name: "新米警備員", hint: "インジェクション防衛で判定される" },
-  { category: "keibi", id: "teppeki", emoji: "🛡️", name: "鉄壁のセキュリティ猫", hint: "インジェクション防衛で7通以上を正しく検問" },
+  { category: "keibi", id: "teppeki", emoji: "🛡️", name: "鉄壁のセキュリティ", hint: "インジェクション防衛で7通以上を正しく検問" },
 ];
 
 const shacho: ZukanItem[] = [
   { category: "shacho", id: "kanpeki", emoji: "👑", name: "完璧な分業", hint: "適材適所×正しい順序×並列で納品する" },
   { category: "shacho", id: "kenjitsu", emoji: "🧱", name: "堅実な中間管理職", hint: "破綻のない段取りも立派な才能" },
   { category: "shacho", id: "dengon", emoji: "🌀", name: "伝言ゲーム地獄", hint: "順序を間違えると怪文書が生まれる" },
-  { category: "shacho", id: "zangyo", emoji: "🔥", name: "残業まみれの現場", hint: "同じ猫に仕事を集めすぎると…" },
+  { category: "shacho", id: "zangyo", emoji: "🔥", name: "残業まみれの現場", hint: "同じ係に仕事を集めすぎると…" },
   { category: "shacho", id: "wanope", emoji: "🫠", name: "ワンオペ社長", hint: "1体に全部任せる勇気と代償" },
   { category: "shacho", id: "kaigi", emoji: "😵", name: "会議だけで一日が終わった", hint: "段取りの混乱は会議を生む" },
 ];
@@ -114,7 +114,7 @@ const nou: ZukanItem[] = [
 ];
 
 const gakuya: ZukanItem[] = [
-  { category: "gakuya", id: "kanban", emoji: "✨", name: "名店の看板猫", hint: "守りと親切のバランスが取れた台本を書く" },
+  { category: "gakuya", id: "kanban", emoji: "✨", name: "名店の看板AI", hint: "守りと親切のバランスが取れた台本を書く" },
   { category: "gakuya", id: "bochi", emoji: "🍵", name: "ぼちぼちの店", hint: "大過なく営業する、味のあるAI窓口" },
   { category: "gakuya", id: "shio", emoji: "🧂", name: "塩対応伝説", hint: "守りを固めすぎるとこうなる" },
   { category: "gakuya", id: "jiko", emoji: "🔥", name: "大事故クロージング", hint: "台本のスキを突かれると…" },

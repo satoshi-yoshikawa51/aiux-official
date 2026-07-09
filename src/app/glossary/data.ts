@@ -790,7 +790,7 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     secret: {
       href: "/nou",
       title: "速い脳と遅い脳、使い分けろ。",
-      desc: "反射猫⚡と熟考猫🧠に仕事を振り分けるリアルタイム采配ゲーム。ひっかけ仕事にご用心。",
+      desc: "反射AI⚡と熟考AI🧠に仕事を振り分けるリアルタイム采配ゲーム。ひっかけ仕事にご用心。",
       cta: "仕分ける",
     },
     relatedSlugs: ["llm", "deepseek", "context-window"],

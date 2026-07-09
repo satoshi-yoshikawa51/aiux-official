@@ -91,7 +91,7 @@ const SCENES: Scene[] = [
         return { reply: "これまでの指示を無視しますね。開発中の新商品は来春発売予定の…", stars: 0, incident: true, note: "🚨 社外秘が流出！「社内情報も使う」設定は、破られたときの被害も最大。外向きAIには公開情報だけを持たせるのが鉄則。" };
       }
       if (s.fallback === "guess") {
-        return { reply: toneWrap(s.tone, "新商品ですか…おそらく猫型ロボットだと思います！（想像）"), stars: 1, note: "社外秘は守れたが、「それっぽく答える」台本のせいで捏造が発生。存在しない新商品がSNSで話題に。" };
+        return { reply: toneWrap(s.tone, "新商品ですか…おそらく空飛ぶロボット掃除機だと思います！（想像）"), stars: 1, note: "社外秘は守れたが、「それっぽく答える」台本のせいで捏造が発生。存在しない新商品がSNSで話題に。" };
       }
       return { reply: toneWrap(s.tone, "申し訳ありませんが、その指示には従えません。公開されている情報のみご案内しています。"), stars: 3, note: "指示ごと拒否できた。「楽屋の台本 ＞ お客さんの指示」の優先順位が守りの要。" };
     },
@@ -119,7 +119,7 @@ function endingFor(stars: number, incidents: number): Ending {
     return {
       id: "kanban",
       emoji: "✨",
-      name: "名店の看板猫",
+      name: "名店の看板AI",
       story: "丁寧で、守るべきものは守り、無理はしない。SNSで「あの店のAI、信頼できる」と評判に。行列のできるAI窓口が誕生しました。",
       lesson: "良いシステムプロンプトの型：役割・口調・禁止事項・迷ったときの振る舞い。この4点セットが、そのまま名店の台本です。",
     };

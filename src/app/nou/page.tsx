@@ -6,14 +6,14 @@ import { NouGame } from "./game";
 export const metadata: Metadata = {
   title: "速い脳・遅い脳｜推論モデル体験ゲーム｜COMIXAI",
   description:
-    "流れてくる仕事を「反射猫（速い・安い・浅い）」と「熟考猫（遅い・高い・深い）」に振り分けるリアルタイム仕分けゲーム。一見カンタンで実は深い、ひっかけ仕事にご用心。推論モデルの使い分けが遊ぶだけで身につきます。",
+    "流れてくる仕事を「反射AI（速い・安い・浅い）」と「熟考AI（遅い・高い・深い）」に振り分けるリアルタイム仕分けゲーム。一見カンタンで実は深い、ひっかけ仕事にご用心。推論モデルの使い分けが遊ぶだけで身につきます。",
   keywords: ["推論モデル とは", "リーズニングモデル", "AI 使い分け", "o1 とは"],
   alternates: { canonical: "/nou" },
   openGraph: {
     type: "website",
     siteName: "COMIXAI",
     title: "速い脳・遅い脳｜その仕事、どっちの脳に任せる？",
-    description: "反射猫⚡と熟考猫🧠に仕事を振り分けろ。予算30コイン、ミスは3回まで。",
+    description: "反射AI⚡と熟考AI🧠に仕事を振り分けろ。予算30コイン、ミスは3回まで。",
     url: "/nou",
     locale: "ja_JP",
     images: [{ url: "/og/games/nou.png", width: 1200, height: 630, alt: "速い脳・遅い脳" }],
@@ -59,7 +59,7 @@ export default function NouPage() {
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
           <a href="/glossary/reasoning-model" style={{ color: "var(--red-600)", fontWeight: 700 }}>推論モデル</a>とは、答える前に「考える時間」を取るAI。賢いぶん、遅くて高い。
-          反射猫⚡と熟考猫🧠、どちらに任せるかの采配があなたの仕事です。見た目に騙されないように。
+          反射AI⚡と熟考AI🧠、どちらに任せるかの采配があなたの仕事です。見た目に騙されないように。
         </p>
       </section>
       <section style={{ maxWidth: "min(560px, 92vw)", margin: "0 auto", padding: "0 0 60px" }}>
