@@ -1,5 +1,5 @@
 /* ============================================================
-   COMIXAI図鑑の台帳。全34項目。
+   COMIXAI図鑑の台帳。
    category/id は各ゲームの unlock() 呼び出しと一致させること。
    hint は未解除のときに表示される「匂わせ」。
    ============================================================ */
@@ -26,6 +26,12 @@ const rooms: ZukanItem[] = [
   { category: "rooms", id: "agent", emoji: "🤖", name: "エージェント見守り室", hint: "「AIエージェント」のページに、扉があるらしい" },
   { category: "rooms", id: "shinjin", emoji: "🧑‍💼", name: "AI新人くんのデスク", hint: "「プロンプトエンジニアリング」のページに、扉があるらしい" },
   { category: "rooms", id: "sodate", emoji: "🍼", name: "AI育成ラボ", hint: "「ファインチューニング」のページに、扉があるらしい" },
+  { category: "rooms", id: "slop", emoji: "🗑️", name: "スロップ鑑定所", hint: "「AIスロップ」のページに、扉があるらしい" },
+  { category: "rooms", id: "keibi", emoji: "🛡️", name: "エージェント警備室", hint: "「プロンプトインジェクション」のページに、扉があるらしい" },
+  { category: "rooms", id: "shacho", emoji: "🏢", name: "AI社長室", hint: "「マルチエージェント」のページに、扉があるらしい" },
+  { category: "rooms", id: "tsukue", emoji: "🪑", name: "AIの作業机", hint: "「コンテキストエンジニアリング」のページに、扉があるらしい" },
+  { category: "rooms", id: "nou", emoji: "🧠", name: "脳の仕分け所", hint: "「推論モデル」のページに、扉があるらしい" },
+  { category: "rooms", id: "gakuya", emoji: "🎭", name: "AIの楽屋", hint: "「システムプロンプト」のページに、扉があるらしい" },
 ];
 
 const quiz: ZukanItem[] = [
@@ -73,18 +79,65 @@ const shinjin: ZukanItem[] = [
   { category: "shinjin", id: "marunage", emoji: "🎲", name: "伝説の丸投げ", hint: "何ひとつ指定せずに発注する勇気" },
 ];
 
+const slop: ZukanItem[] = [
+  { category: "slop", id: "unomi", emoji: "🍽️", name: "スロップ完食", hint: "スロップ鑑定で判定される（食べすぎ注意）" },
+  { category: "slop", id: "minarai", emoji: "🧹", name: "鑑定見習い", hint: "スロップ鑑定で判定される" },
+  { category: "slop", id: "kanteishi", emoji: "🔍", name: "スロップ鑑定士", hint: "スロップ鑑定で7問見抜く" },
+  { category: "slop", id: "sommelier", emoji: "🍷", name: "スロップ・ソムリエ", hint: "スロップ鑑定で9問以上見抜く…できる？" },
+];
+
+const keibi: ZukanItem[] = [
+  { category: "keibi", id: "zaru", emoji: "🕳️", name: "ザル警備", hint: "インジェクション防衛で判定される" },
+  { category: "keibi", id: "shinmai", emoji: "👮", name: "新米警備員", hint: "インジェクション防衛で判定される" },
+  { category: "keibi", id: "teppeki", emoji: "🛡️", name: "鉄壁のセキュリティ猫", hint: "インジェクション防衛で7通以上を正しく検問" },
+];
+
+const shacho: ZukanItem[] = [
+  { category: "shacho", id: "kanpeki", emoji: "👑", name: "完璧な分業", hint: "適材適所×正しい順序×並列で納品する" },
+  { category: "shacho", id: "kenjitsu", emoji: "🧱", name: "堅実な中間管理職", hint: "破綻のない段取りも立派な才能" },
+  { category: "shacho", id: "dengon", emoji: "🌀", name: "伝言ゲーム地獄", hint: "順序を間違えると怪文書が生まれる" },
+  { category: "shacho", id: "zangyo", emoji: "🔥", name: "残業まみれの現場", hint: "同じ猫に仕事を集めすぎると…" },
+  { category: "shacho", id: "wanope", emoji: "🫠", name: "ワンオペ社長", hint: "1体に全部任せる勇気と代償" },
+  { category: "shacho", id: "kaigi", emoji: "😵", name: "会議だけで一日が終わった", hint: "段取りの混乱は会議を生む" },
+];
+
+const tsukue: ZukanItem[] = [
+  { category: "tsukue", id: "chirakashi", emoji: "🌪️", name: "散らかし屋", hint: "AIの作業机で判定される" },
+  { category: "tsukue", id: "minarai", emoji: "🧹", name: "片付け見習い", hint: "AIの作業机で判定される" },
+  { category: "tsukue", id: "tatsujin", emoji: "🧘", name: "整頓の達人", hint: "3タスクとも完璧な机を作る…できる？" },
+];
+
+const nou: ZukanItem[] = [
+  { category: "nou", id: "noukin", emoji: "💪", name: "脳筋ディスパッチャ", hint: "速い脳・遅い脳で判定される" },
+  { category: "nou", id: "balance", emoji: "⚖️", name: "バランス派", hint: "速い脳・遅い脳で判定される" },
+  { category: "nou", id: "shirei", emoji: "🎖️", name: "司令塔マスター", hint: "12件すべて正しい脳に振り分ける…できる？" },
+];
+
+const gakuya: ZukanItem[] = [
+  { category: "gakuya", id: "kanban", emoji: "✨", name: "名店の看板猫", hint: "守りと親切のバランスが取れた台本を書く" },
+  { category: "gakuya", id: "bochi", emoji: "🍵", name: "ぼちぼちの店", hint: "大過なく営業する、味のあるAI窓口" },
+  { category: "gakuya", id: "shio", emoji: "🧂", name: "塩対応伝説", hint: "守りを固めすぎるとこうなる" },
+  { category: "gakuya", id: "jiko", emoji: "🔥", name: "大事故クロージング", hint: "台本のスキを突かれると…" },
+];
+
 const emaki: ZukanItem[] = [
   { category: "emaki", id: "read", emoji: "📜", name: "AI75年史・読破", hint: "AIの歴史絵巻を最後までスクロールする" },
 ];
 
 export const ZUKAN_SECTIONS: ZukanSection[] = [
-  { category: "rooms", title: "隠し部屋の発見", sub: "用語集のどこかに、6つの扉がある", items: rooms },
+  { category: "rooms", title: "隠し部屋の発見", sub: "用語集のどこかに、12の扉がある", items: rooms },
   { category: "quiz", title: "用語力診断の級", sub: "全5階級をコレクション", items: quiz },
   { category: "uso", title: "ウソ見抜きの級", sub: "全5階級をコレクション", items: uso },
   { category: "agent", title: "エージェントの結末", sub: "任せ方しだいの6エンディング", items: agent },
   { category: "sodate", title: "育成したAIモデル", sub: "過学習5種＋バランス型", items: sodate },
   { category: "vibe", title: "バイブで作った作品", sub: "3つの題材ぜんぶ作る", items: vibe },
   { category: "shinjin", title: "指示力の実績", sub: "完璧な発注と、伝説の丸投げ", items: shinjin },
+  { category: "slop", title: "スロップ鑑定の腕前", sub: "タイムラインを守る鑑定眼", items: slop },
+  { category: "keibi", title: "警備員の勤務成績", sub: "インジェクションから守り切れ", items: keibi },
+  { category: "shacho", title: "AI社長の経営結果", sub: "段取りしだいの6エンディング", items: shacho },
+  { category: "tsukue", title: "作業机の整頓レベル", sub: "何を載せるかが答えを決める", items: tsukue },
+  { category: "nou", title: "脳の采配力", sub: "速い脳と遅い脳の使い分け", items: nou },
+  { category: "gakuya", title: "AI窓口の営業結果", sub: "台本しだいの4エンディング", items: gakuya },
   { category: "emaki", title: "歴史の証人", sub: "AIの75年を見届ける", items: emaki },
 ];
 

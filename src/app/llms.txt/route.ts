@@ -43,6 +43,12 @@ export function GET() {
     "- [AIエージェントに任せてみた](https://comixai.dev/agent): 任せ方で結末が分岐するエージェント見守りシミュレーション",
     "- [AI新人くんに指示を出せ](https://comixai.dev/shinjin): 指示の抜けが事故になるプロンプトエンジニアリング体験",
     "- [AIを育てよう](https://comixai.dev/sodate): 学習データでAIの人格が変わる、過学習体験の育成ゲーム",
+    "- [スロップ・スワイプ](https://comixai.dev/slop): 低品質AIコンテンツを見抜くスワイプ鑑定ゲーム",
+    "- [インジェクション・ディフェンス](https://comixai.dev/keibi): プロンプトインジェクションの手口を体験する防衛ゲーム",
+    "- [AI社長](https://comixai.dev/shacho): マルチエージェントの分業設計を体験する経営ゲーム",
+    "- [AIの作業机](https://comixai.dev/tsukue): コンテキストエンジニアリングを体験する資料選びパズル",
+    "- [速い脳・遅い脳](https://comixai.dev/nou): 推論モデルの使い分けを体験する仕分けゲーム",
+    "- [楽屋の台本](https://comixai.dev/gakuya): システムプロンプト設計を体験する接客シミュレーション",
     "- [AI歴史絵巻](https://comixai.dev/history): 1950年から2026年まで、AIの75年史をスクロールで読める年表絵巻",
     ...TERMS.map(
       (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`

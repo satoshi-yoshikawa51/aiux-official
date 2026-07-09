@@ -7,7 +7,7 @@ import { ZukanCollection } from "./collection";
 export const metadata: Metadata = {
   title: `COMIXAI図鑑｜隠し部屋・称号・エンディングを集めよう【全${ZUKAN_TOTAL}項目】｜COMIXAI`,
   description:
-    "このサイトに散らばる隠し部屋6つ、診断の級、ゲームのエンディング——ぜんぶ集めるとどうなる？あなたの冒険の記録が刻まれるコレクション図鑑。",
+    "このサイトに散らばる隠し部屋12こ、診断の級、ゲームのエンディング——ぜんぶ集めるとどうなる？あなたの冒険の記録が刻まれるコレクション図鑑。",
   robots: { index: false, follow: true },
   alternates: { canonical: "/zukan" },
   openGraph: {
@@ -35,7 +35,7 @@ export default function ZukanPage() {
           COMIXAI図鑑
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
-          このサイトのどこかに、隠し部屋が6つあります。診断の級、ゲームのエンディング、育てたAIモデル——
+          このサイトのどこかに、隠し部屋が12こあります。診断の級、ゲームのエンディング、育てたAIモデル——
           遊んだ記録はぜんぶ、この図鑑に刻まれます。全{ZUKAN_TOTAL}項目。コンプした人には、称号を。
         </p>
       </section>
