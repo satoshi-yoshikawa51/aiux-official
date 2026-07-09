@@ -189,10 +189,21 @@ export function Footer() {
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)" }}>
             © {new Date().getFullYear()} 吉川 聡史 / COMIXAI
           </div>
-          {/* あそんだ記録の入り口。隠し部屋の場所は明かさず、静かに置いておく */}
-          <a href="/zukan" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
-            🐾 COMIXAI図鑑 — あそんだ記録
-          </a>
+          {/* サイト内サブリンク（静かに置いておく） */}
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <a href="/start" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+              🚀 AIのはじめかた
+            </a>
+            <a href="/play" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+              🎮 あそびば
+            </a>
+            <a href="/faq" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+              💬 よくある質問
+            </a>
+            <a href="/zukan" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+              🐾 COMIXAI図鑑
+            </a>
+          </div>
         </div>
       </div>
     </footer>
