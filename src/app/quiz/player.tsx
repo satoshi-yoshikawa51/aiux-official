@@ -244,10 +244,12 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
               {correct ? "⭕ 正解！" : "❌ ざんねん…"}
             </div>
             <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "var(--text-body)" }}>{q.src.explanation}</p>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
               <a href={`/glossary/${q.src.termSlug}`} target="_blank" rel="noopener" style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)", textDecoration: "none" }}>
                 「{termNames[q.src.termSlug] ?? q.src.termSlug}」をくわしく見る <i className="ph-bold ph-arrow-up-right" />
               </a>
+              {/* 折り返しても常に右端に固定する */}
+              <span style={{ marginLeft: "auto" }}>
               <Button
                 variant="primary"
                 size="sm"
@@ -262,6 +264,7 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
               >
                 {idx + 1 >= qs.length ? "結果を見る" : "次の問題へ"}
               </Button>
+              </span>
             </div>
           </div>
         )}
