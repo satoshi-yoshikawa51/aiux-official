@@ -440,9 +440,10 @@ function Magazines() {
 }
 
 /* ═══════════════ つくったもの（WORKS） ═══════════════ */
-const WORK_CATS: { key: "ゲーム" | "ニュース"; icon: string }[] = [
+const WORK_CATS: { key: "ゲーム" | "ニュース" | "ツール"; icon: string }[] = [
   { key: "ゲーム", icon: "ph-game-controller" },
   { key: "ニュース", icon: "ph-newspaper" },
+  { key: "ツール", icon: "ph-wrench" },
 ];
 
 function Works() {
@@ -839,6 +840,23 @@ function Contact() {
           <div style={{ marginTop: 26, display: "flex", alignItems: "center", gap: 10, fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--text-muted)" }}>
             <i className="ph-bold ph-envelope-simple" /> {CONTACT_EMAIL}
           </div>
+          {/* AI受付への導線 */}
+          <a href="/uketsuke" style={{ textDecoration: "none", display: "block", marginTop: 20, maxWidth: 380 }}>
+            <Card variant="pop" hover padding={16} style={{ background: "var(--yellow-400)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/quiz/grades/minarai.webp" alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", border: "2px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }} />
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14.5, color: "var(--ink-900)" }}>
+                    文章を考えるのが面倒なら、AI受付へ
+                  </div>
+                  <div style={{ fontSize: 12.5, color: "var(--ink-900)", opacity: 0.75, marginTop: 2 }}>
+                    AIと話すだけでお問い合わせが完成 <i className="ph-bold ph-arrow-right" />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </a>
         </div>
 
         <Card variant="pop" padding={24}>

@@ -73,7 +73,7 @@ export default async function WorkDetailPage({ params }: Props) {
         inLanguage: "ja",
         ...(w.schemaType === "VideoGame"
           ? { gamePlatform: "Web browser", playMode: "SinglePlayer" }
-          : { applicationCategory: "NewsApplication", operatingSystem: "Web browser" }),
+          : { applicationCategory: w.appCategory || "NewsApplication", operatingSystem: "Web browser" }),
         offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" },
         author: {
           "@type": "Person",

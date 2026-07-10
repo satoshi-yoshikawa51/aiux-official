@@ -14,7 +14,7 @@ export interface WorkFeature {
 
 export interface WorkDetail {
   slug: string;
-  category: "ゲーム" | "ニュース";
+  category: "ゲーム" | "ニュース" | "ツール";
   title: string;
   /** 一覧カードやヒーローで使う短いキャッチ */
   tagline: string;
@@ -38,6 +38,8 @@ export interface WorkDetail {
   tech: string[];
   /** JSON-LD の @type */
   schemaType: "VideoGame" | "WebApplication";
+  /** schemaType が WebApplication のときの applicationCategory（省略時 NewsApplication） */
+  appCategory?: string;
   /** 制作ストーリー（note記事URL。data.ts の記事プールから解決） */
   storyUrls: string[];
 }
@@ -233,6 +235,53 @@ export const WORK_DETAILS: WorkDetail[] = [
     tech: ["Claude Code", "Next.js", "Vercel"],
     schemaType: "WebApplication",
     storyUrls: ["https://note.com/aiux_unite/n/n750de90c0668"],
+  },
+  {
+    slug: "uketsuke",
+    category: "ツール",
+    title: "COMIXAI AI受付",
+    tagline: "AIと話すだけで、お問い合わせが完成する。",
+    appUrl: "/uketsuke",
+    cta: "つかう",
+    image: "/works/uketsuke.png",
+    tone: "yellow",
+    badge: "AI",
+    lastUpdated: "2026-07-10",
+    metaTitle: "COMIXAI AI受付｜Claude APIで作ったチャット型お問い合わせ窓口",
+    metaDescription:
+      "フォームの空欄に固まらなくていい、チャット型のお問い合わせ窓口。AI（Claude API）があなたの用件をヒアリングして内容を自動で要約し、整理された状態で本人に届きます。AI活用の実例としても体験できるWORKS作品です。",
+    keywords: [
+      "AI 問い合わせフォーム",
+      "チャットボット 受付",
+      "Claude API 活用事例",
+      "AIヒアリング",
+      "問い合わせ 自動要約",
+    ],
+    intro: [
+      "お問い合わせフォームの「ご相談内容」欄を前に、何をどう書けばいいか固まってしまう——その体験そのものをAIで作り変えた作品です。チャットでAIがあなたの用件をヒアリングし、話し終わるころにはお問い合わせ内容がきれいに要約されています。あとは名前とメールを入れて送信するだけ。",
+      "中身はAnthropicのClaude APIで、このサイト初のサーバー連携機能。AIは受付と要約だけを担当し、判断や返信はすべて本人が行う設計です。「AIに仕事をどう任せるか」の等身大の実例として、ぜひ触ってみてください。",
+    ],
+    features: [
+      {
+        icon: "ph-chats-circle",
+        title: "書く前に、話せる",
+        text: "文章を組み立てるのはAIの仕事。あなたは質問に答えるだけで、伝わる問い合わせ文ができあがる。",
+      },
+      {
+        icon: "ph-list-checks",
+        title: "自動で要約、確認してから送信",
+        text: "会話の内容をAIが要点整理。送信前に確認・修正できるから、言った内容がそのまま正しく届く。",
+      },
+      {
+        icon: "ph-shield-check",
+        title: "AIは受付だけ、判断は人間",
+        text: "日程や条件の約束はAIには任せない設計。個人情報も会話ではなく最後の確認画面でだけ入力。",
+      },
+    ],
+    tech: ["Claude API", "Claude Code", "Next.js", "Vercel"],
+    schemaType: "WebApplication",
+    appCategory: "BusinessApplication",
+    storyUrls: [],
   },
 ];
 
