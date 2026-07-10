@@ -639,7 +639,7 @@ function StartSection() {
   return (
     <section id="ai-start" style={{ maxWidth: PAGE, margin: "0 auto", padding: "62px 0 56px" }}>
       <SectionHead kicker="START — はじめての人へ" title="AI、何から始める？" hand="迷ったら、ここから" />
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }} className="yt-grid">
+      <div style={{ maxWidth: 680, margin: "0 auto" }}>
         <a href="/start" style={{ textDecoration: "none", color: "inherit" }}>
           <Card variant="pop" padding={0} style={{ overflow: "hidden", height: "100%" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -655,25 +655,10 @@ function StartSection() {
             </div>
           </Card>
         </a>
-        <a href="/play" style={{ textDecoration: "none", color: "inherit" }}>
-          <Card variant="pop" padding={0} style={{ overflow: "hidden", height: "100%" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/og/games/play.png" alt="あそびば" loading="lazy" style={{ width: "100%", aspectRatio: "1200 / 630", objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }} />
-            <div style={{ padding: "16px 20px 20px" }}>
-              <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, marginBottom: 6 }}>🎮 あそびば</div>
-              <p style={{ margin: "0 0 12px", fontSize: 13.5, lineHeight: 1.85, color: "var(--text-body)" }}>
-                診断・絵巻・図鑑——遊べるコンテンツの入口。そしてこのサイトのどこかには、12個の隠し部屋があります。見つけられる？
-              </p>
-              <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-game-controller" />}>
-                あそびばへ
-              </Button>
-            </div>
-          </Card>
-        </a>
       </div>
       <p style={{ margin: "16px 0 0", fontSize: 13.5, lineHeight: 1.9, color: "var(--text-muted)" }}>
         使う前の不安には <a href="/faq" style={{ color: "var(--red-600)", fontWeight: 700 }}>AIのよくある質問</a>、
-        道具選びに迷ったら <a href="/compare" style={{ color: "var(--red-600)", fontWeight: 700 }}>ChatGPT・Claude・Gemini比較</a> をどうぞ。
+        道具選びに迷ったら <a href="/compare" style={{ color: "var(--red-600)", fontWeight: 700 }}>ChatGPT・Claude・Gemini比較</a> を。あそんだ記録は <a href="/zukan" style={{ color: "var(--red-600)", fontWeight: 700 }}>COMIXAI図鑑</a> に刻まれます。
       </p>
     </section>
   );

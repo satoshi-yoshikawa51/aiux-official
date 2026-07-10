@@ -318,8 +318,8 @@ export default function StartPage() {
             ここまでの冒険の記録は<a href="/zukan" style={{ color: "var(--ink-900)", fontWeight: 900 }}>COMIXAI図鑑</a>に刻まれています。
             そして——このサイトの隠し部屋は全部で<b>12</b>。まだ見つけていない扉は、<a href="/glossary" style={{ color: "var(--ink-900)", fontWeight: 900 }}>用語集</a>のどこかに。
           </p>
-          <a href="/play" style={{ textDecoration: "none" }}>
-            <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-game-controller" />}>あそびばで全体を見る</Button>
+          <a href="/zukan" style={{ textDecoration: "none" }}>
+            <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-notebook" />}>図鑑をひらく</Button>
           </a>
         </div>
       </section>

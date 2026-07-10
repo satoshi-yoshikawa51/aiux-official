@@ -194,9 +194,6 @@ export function Footer() {
             <a href="/start" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               🚀 AIのはじめかた
             </a>
-            <a href="/play" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
-              🎮 あそびば
-            </a>
             <a href="/faq" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               💬 よくある質問
             </a>

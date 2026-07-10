@@ -37,9 +37,9 @@ export default function NotFound() {
                 ハルシネーションとは
               </Button>
             </a>
-            <a href="/play" style={{ textDecoration: "none" }}>
+            <a href="/quiz" style={{ textDecoration: "none" }}>
               <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-game-controller" />}>
-                あそびばへ
+                診断であそぶ
               </Button>
             </a>
           </div>

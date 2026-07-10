@@ -294,16 +294,6 @@ const GAME_OGS = [
     site: "comixai.dev/compare",
   },
   {
-    file: "play.png",
-    kicker: "PLAY — あそびば",
-    badge: "隠し部屋12",
-    title: "遊びながら、<br>AIを覚える。",
-    titleSize: 88,
-    sub: "診断・絵巻・図鑑…そして隠し部屋",
-    short: "遊べる学習コンテンツの入口。このサイトのどこかには、12個の隠し部屋があります。",
-    site: "comixai.dev/play",
-  },
-  {
     file: "slop.png",
     kicker: "GAME — AIスロップ鑑定",
     badge: "スワイプ判定",

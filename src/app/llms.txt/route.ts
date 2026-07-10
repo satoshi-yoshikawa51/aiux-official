@@ -52,7 +52,6 @@ export function GET() {
     "- [AIのはじめかた](https://comixai.dev/start): 歴史→用語→診断→ゲーム→実践の初心者向け学習ロードマップ",
     "- [AIのよくある質問](https://comixai.dev/faq): 仕事を奪われる？会社で使っていい？などの不安に一問一答",
     "- [ChatGPT・Claude・Gemini比較](https://comixai.dev/compare): 3大AIの違いと用途別の使い分け",
-    "- [あそびば](https://comixai.dev/play): 遊んで学べるコンテンツの入口（隠し部屋12の匂わせつき）",
     "- [AI歴史絵巻](https://comixai.dev/history): 1950年から2026年まで、AIの75年史をスクロールで読める年表絵巻",
     ...TERMS.map(
       (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`
