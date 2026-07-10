@@ -5,16 +5,16 @@ import { Breadcrumb } from "../site-ui";
 import { MANGA_SERIES } from "../manga/data";
 
 export const metadata: Metadata = {
-  title: "AIのはじめかた｜何から学ぶ？マンガから始める学習コース｜COMIXAI",
+  title: "AIのはじめかた｜何から学ぶ？歴史とマンガから始める学習コース｜COMIXAI",
   description:
-    "「AIを勉強したいけど、何から始めればいいかわからない」人のための学習コース。マンガで全体像→用語を覚えたらすぐ体験ゲーム→診断で腕試し→仕事につなげる。全部無料、順番に進むだけでAIの基礎が身につきます。",
+    "「AIを勉強したいけど、何から始めればいいかわからない」人のための学習コース。絵巻で歴史→マンガで全体像→用語を覚えたらすぐ体験ゲーム→診断で腕試し→仕事につなげる。全部無料、順番に進むだけでAIの基礎が身につきます。",
   keywords: ["AI 勉強 何から", "AI 初心者 独学", "生成AI 学び方", "AI 入門", "AI 学習 ロードマップ"],
   alternates: { canonical: "/start" },
   openGraph: {
     type: "article",
     siteName: "COMIXAI",
-    title: "AIのはじめかた｜マンガから始める学習コース",
-    description: "マンガで全体像→用語→体験ゲーム→診断→実践。何から始めるか、もう迷わない。",
+    title: "AIのはじめかた｜歴史とマンガから始める学習コース",
+    description: "絵巻で歴史→マンガ→用語→体験ゲーム→診断→実践。何から始めるか、もう迷わない。",
     url: "/start",
     locale: "ja_JP",
     images: [{ url: "/og/games/start.png", width: 1200, height: 630, alt: "AIのはじめかた" }],
@@ -60,9 +60,19 @@ export default function StartPage() {
   const CHAPTERS: Chapter[] = [
     {
       n: 1,
-      title: "まず「わかる」——マンガと絵巻で全体像",
-      lead: "最初の一歩は勉強ではなく読み物から。ここだけで、AIニュースの解像度が一段上がります。",
+      title: "まず「わかる」——絵巻とマンガで全体像",
+      lead: "最初の一歩は勉強ではなく、絵巻とマンガから。ここだけで、AIニュースの解像度が一段上がります。",
       items: [
+        {
+          thumb: "/og/games/history.png",
+          thumbAlt: "AI歴史絵巻",
+          badge: "まずはここから",
+          time: "5分",
+          title: "AI歴史絵巻で、75年の流れをつかむ",
+          descPlain: "最初の一歩は歴史から。AIの75年をスクロールで読む絵巻で、ブームと冬の繰り返しを知ります。",
+          desc: <>最初の一歩は、勉強ではなく歴史散歩から。いまのAIブームが<b>3回目の春</b>だと知っていますか？　スクロールするだけで75年が流れる絵巻で、まず背骨を入れましょう。ここを知ると、ニュースに振り回されなくなります。</>,
+          links: [{ label: "絵巻を読む", href: "/history" }],
+        },
         {
           thumb: ep1?.thumb ?? "/og/glossary/generative-ai.png",
           thumbAlt: "マンガでわかる！AI活用 第1話",
@@ -70,7 +80,7 @@ export default function StartPage() {
           time: "5分",
           title: "第1話「生成AIとは？」から始める",
           descPlain: "連載マンガの第1話。生成AIとは何かを、ストーリーで最初に体感します。",
-          desc: <>すべてはここから。連載「マンガでわかる！AI活用」の第1話で、<b>生成AIが何なのか</b>をストーリーでつかみます。活字より先にマンガ——このサイトの流儀です。</>,
+          desc: <>歴史をつかんだら、いまの主役「生成AI」へ。連載「マンガでわかる！AI活用」の第1話で、<b>生成AIが何なのか</b>をストーリーでつかみます。堅い解説より先にマンガ——このサイトの流儀です。</>,
           links: [
             { label: "第1話を読む", href: ep1?.url ?? "https://note.com/aiux_unite", external: true },
             { label: "シリーズ一覧", href: "/manga/wakaru" },
@@ -88,16 +98,6 @@ export default function StartPage() {
             { label: "生成AIとは", href: "/glossary/generative-ai" },
             { label: "LLMとは", href: "/glossary/llm" },
           ],
-        },
-        {
-          thumb: "/og/games/history.png",
-          thumbAlt: "AI歴史絵巻",
-          badge: "スクロールで読む",
-          time: "5分",
-          title: "AI歴史絵巻で、75年の流れをつかむ",
-          descPlain: "AIの75年をスクロールで読む絵巻。ブームと冬の繰り返しを知ると、ニュースの見え方が変わります。",
-          desc: <>いまのAIブームは<b>3回目の春</b>だと知っていますか？　スクロールするだけで75年が流れる絵巻で、歴史の背骨を入れましょう。ここを知ると、ニュースに振り回されなくなります。</>,
-          links: [{ label: "絵巻を読む", href: "/history" }],
         },
       ],
     },
@@ -232,8 +232,8 @@ export default function StartPage() {
       },
       {
         "@type": "HowTo",
-        name: "AIのはじめかた——マンガから始める学習コース",
-        description: "AI初心者のための学習コース。マンガで全体像→用語と体験ゲーム→診断→実務、の順で無料で学べます。",
+        name: "AIのはじめかた——歴史とマンガから始める学習コース",
+        description: "AI初心者のための学習コース。絵巻で歴史→マンガ→用語と体験ゲーム→診断→実務、の順で無料で学べます。",
         inLanguage: "ja",
         step: CHAPTERS.flatMap((c) =>
           c.items.map((it, i) => ({
@@ -256,10 +256,10 @@ export default function StartPage() {
           START — AIのはじめかた
         </div>
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
-          マンガから始める、AI学習コース。
+          歴史から始める、AI学習コース。
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
-          「勉強しなきゃ」と思うと続きません。このコースは<b>マンガで入って、用語で固めて、ゲームで体感する</b>順番に組んであります。
+          「勉強しなきゃ」と思うと続きません。このコースは<b>絵巻とマンガで入って、用語で固めて、ゲームで体感する</b>順番に組んであります。
           全3章・ぜんぶ無料・登録不要。上から順にどうぞ。
         </p>
       </section>
