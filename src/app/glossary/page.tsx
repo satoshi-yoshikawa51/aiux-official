@@ -147,6 +147,24 @@ export default function GlossaryIndexPage() {
             />
           </div>
         </a>
+
+        {/* 不安と道具選びの受け皿 */}
+        <div style={{ maxWidth: 680, margin: "18px auto 0", display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <a href="/faq" style={{ flex: "1 1 260px", textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 10, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", padding: "12px 16px", boxShadow: "var(--shadow-pop-sm)" }}>
+            <span style={{ fontSize: 24, flex: "none" }}>💬</span>
+            <span>
+              <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14 }}>AIのよくある質問</span>
+              <span style={{ display: "block", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>仕事を奪われる？会社で使っていい？→ 一問一答20選</span>
+            </span>
+          </a>
+          <a href="/compare" style={{ flex: "1 1 260px", textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 10, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", padding: "12px 16px", boxShadow: "var(--shadow-pop-sm)" }}>
+            <span style={{ fontSize: 24, flex: "none" }}>⚖️</span>
+            <span>
+              <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14 }}>3大AIの使い分け</span>
+              <span style={{ display: "block", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>ChatGPT・Claude・Gemini、結局どれ？→ 比較表</span>
+            </span>
+          </a>
+        </div>
       </section>
 
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0 46px" }}>
