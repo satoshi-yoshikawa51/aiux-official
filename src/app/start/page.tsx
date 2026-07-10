@@ -252,16 +252,26 @@ export default function StartPage() {
       <Nav home={false} />
       <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "AIのはじめかた" }]} />
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 26px" }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 10 }}>
-          START — AIのはじめかた
+        <div style={{ display: "grid", gridTemplateColumns: "1fr minmax(0, 480px)", gap: 32, alignItems: "center" }} className="mag-grid">
+          <div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 10 }}>
+              START — AIのはじめかた
+            </div>
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
+              誰でも、今日から始められる。
+            </h1>
+            <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+              「勉強しなきゃ」と思うと続きません。このコースは<b>絵巻とマンガで入って、用語で固めて、ゲームで体感する</b>順番に組んであります。
+              全3章・ぜんぶ無料・登録不要。上から順にどうぞ。
+            </p>
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/start/hero.webp"
+            alt="？の山を越えて、赤い道を進んでいくキャラクター"
+            style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-pop)", transform: "rotate(1.2deg)", display: "block" }}
+          />
         </div>
-        <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
-          誰でも、今日から始められる。
-        </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
-          「勉強しなきゃ」と思うと続きません。このコースは<b>絵巻とマンガで入って、用語で固めて、ゲームで体感する</b>順番に組んであります。
-          全3章・ぜんぶ無料・登録不要。上から順にどうぞ。
-        </p>
       </section>
 
       <section style={{ maxWidth: "min(820px, 92vw)", margin: "0 auto", padding: "10px 0 50px" }}>

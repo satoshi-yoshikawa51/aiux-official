@@ -644,7 +644,7 @@ function StartSection() {
         <a href="/start" style={{ textDecoration: "none", color: "inherit" }}>
           <Card variant="pop" padding={0} style={{ overflow: "hidden", height: "100%" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/og/games/start.png" alt="AIのはじめかた" loading="lazy" style={{ width: "100%", aspectRatio: "1200 / 630", objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }} />
+            <img src="/start/hero.webp" alt="AIのはじめかた——？の山を越えて進むキャラクター" loading="lazy" style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)", display: "block" }} />
             <div style={{ padding: "16px 20px 20px" }}>
               <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, marginBottom: 6 }}>🚀 AIのはじめかた</div>
               <p style={{ margin: "0 0 12px", fontSize: 13.5, lineHeight: 1.85, color: "var(--text-body)" }}>
