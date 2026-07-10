@@ -5,7 +5,7 @@ import { Breadcrumb } from "../site-ui";
 import { MANGA_SERIES } from "../manga/data";
 
 export const metadata: Metadata = {
-  title: "AIのはじめかた｜何から学ぶ？歴史とマンガから始める学習コース｜COMIXAI",
+  title: "AIのはじめかた｜誰でも簡単に始められる無料のAI学習コース｜COMIXAI",
   description:
     "「AIを勉強したいけど、何から始めればいいかわからない」人のための学習コース。絵巻で歴史→マンガで全体像→用語を覚えたらすぐ体験ゲーム→診断で腕試し→仕事につなげる。全部無料、順番に進むだけでAIの基礎が身につきます。",
   keywords: ["AI 勉強 何から", "AI 初心者 独学", "生成AI 学び方", "AI 入門", "AI 学習 ロードマップ"],
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "article",
     siteName: "COMIXAI",
-    title: "AIのはじめかた｜歴史とマンガから始める学習コース",
+    title: "AIのはじめかた｜誰でも、今日から始められる。",
     description: "絵巻で歴史→マンガ→用語→体験ゲーム→診断→実践。何から始めるか、もう迷わない。",
     url: "/start",
     locale: "ja_JP",
@@ -232,7 +232,7 @@ export default function StartPage() {
       },
       {
         "@type": "HowTo",
-        name: "AIのはじめかた——歴史とマンガから始める学習コース",
+        name: "AIのはじめかた——誰でも簡単に始められる無料のAI学習コース",
         description: "AI初心者のための学習コース。絵巻で歴史→マンガ→用語と体験ゲーム→診断→実務、の順で無料で学べます。",
         inLanguage: "ja",
         step: CHAPTERS.flatMap((c) =>
@@ -256,7 +256,7 @@ export default function StartPage() {
           START — AIのはじめかた
         </div>
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
-          歴史から始める、AI学習コース。
+          誰でも、今日から始められる。
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
           「勉強しなきゃ」と思うと続きません。このコースは<b>絵巻とマンガで入って、用語で固めて、ゲームで体感する</b>順番に組んであります。
