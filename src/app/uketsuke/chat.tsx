@@ -1,9 +1,11 @@
 "use client";
 /* ============================================================
-   COMIXAI AI受付 — チャット型お問い合わせ。
+   COMIXAI AI受付 — 全画面チャット型お問い合わせ。
    通常時: /api/uketsuke（Claude）が用件をヒアリング → 要約
    API未設定/エラー時: スクリプト受付モード（選択式）に自動切替
    要約確定後: お名前+メールを入力して Formspree で送信
+   レイアウトは一般的なAIチャットアプリ風:
+   中央カラム・下部固定入力・会話前はセンターの空状態
    ============================================================ */
 import React from "react";
 import { Badge, Button, Card, Input } from "../ds";
@@ -38,6 +40,8 @@ function chipToCategory(chip: string): string {
   return "その他";
 }
 
+const COL = "min(760px, 94vw)"; // チャットカラム幅
+
 /* —— スクリプト受付モードの進行 —— */
 type ScriptStep = "category" | "detail" | "timing" | "extra" | "done";
 
@@ -59,6 +63,8 @@ export default function UketsukeChat() {
   const logRef = React.useRef<HTMLDivElement>(null);
   const modeRef = React.useRef(mode);
   modeRef.current = mode;
+
+  const started = messages.some((m) => m.role === "user");
 
   /* 新しい発言が増えたらログ末尾へスクロール */
   React.useEffect(() => {
@@ -172,7 +178,7 @@ export default function UketsukeChat() {
       return [];
     }
     /* AIモードは最初の一言だけチップで補助 */
-    return messages.some((m) => m.role === "user") ? [] : CATEGORY_CHIPS;
+    return started ? [] : CATEGORY_CHIPS;
   }
 
   /* —— Formspree 送信 —— */
@@ -237,171 +243,200 @@ export default function UketsukeChat() {
 
   const chips = currentChips();
 
+  const avatar = (size: number) => (
+    /* eslint-disable-next-line @next/next/no-img-element */
+    <img
+      src="/quiz/grades/minarai.webp"
+      alt=""
+      style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", border: "1.5px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }}
+    />
+  );
+
+  const chipBtn = (c: string, big = false) => (
+    <button
+      key={c}
+      type="button"
+      onClick={() => send(c)}
+      className="uke-chip"
+      style={{
+        fontFamily: "var(--font-heading)",
+        fontWeight: 700,
+        fontSize: big ? 14 : 13,
+        color: "var(--ink-900)",
+        background: "var(--paper-0)",
+        border: "1.5px solid var(--ink-900)",
+        borderRadius: "var(--radius-full)",
+        padding: big ? "10px 18px" : "7px 14px",
+        cursor: "pointer",
+        boxShadow: big ? "2px 2px 0 rgba(20,17,15,0.85)" : "none",
+      }}
+    >
+      {c}
+    </button>
+  );
+
   return (
-    <Card variant="pop" padding={0} style={{ overflow: "hidden" }}>
-      {/* ヘッダー */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 18px", background: "var(--ink-900)", borderBottom: "var(--bw-bold) solid var(--ink-900)" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/quiz/grades/minarai.webp" alt="AI受付のキャラクター" style={{ width: 40, height: 40, borderRadius: "50%", objectFit: "cover", border: "2px solid var(--paper-0)", background: "var(--paper-0)" }} />
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15.5, color: "var(--paper-50)" }}>COMIXAI AI受付</div>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--paper-200)", display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
-            {mode === "ai" ? "AIがヒアリング中" : "かんたん受付モード"}
-          </div>
-        </div>
-      </div>
-
-      {/* 会話ログ */}
-      <div ref={logRef} style={{ padding: "18px 16px", display: "grid", gap: 12, maxHeight: 440, overflowY: "auto", background: "var(--paper-100)" }}>
-        {messages.map((m, i) =>
-          m.role === "assistant" ? (
-            <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-end", maxWidth: "88%" }}>
+    <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
+      {/* ═══ 会話ログ（空状態はセンター表示） ═══ */}
+      <div ref={logRef} style={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
+        {!started && phase === "chat" ? (
+          /* —— 空状態: AIチャットアプリの初期画面風 —— */
+          <div style={{ minHeight: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "30px 0" }}>
+            <div style={{ width: COL, textAlign: "center" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/quiz/grades/minarai.webp" alt="" style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover", border: "1.5px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }} />
-              <div
-                style={{
-                  background: m.localOnly ? "transparent" : "var(--paper-0)",
-                  border: m.localOnly ? "1.5px dashed rgba(20,17,15,0.3)" : "var(--bw-line) solid var(--ink-900)",
-                  borderRadius: "12px 12px 12px 4px",
-                  padding: "10px 14px",
-                  fontSize: 14.5,
-                  lineHeight: 1.85,
-                  color: m.localOnly ? "var(--text-muted)" : "var(--text-body)",
-                  whiteSpace: "pre-wrap",
-                }}
-              >
-                {m.text}
+              <img
+                src="/quiz/grades/minarai.webp"
+                alt="COMIXAI AI受付のキャラクター"
+                style={{ width: 88, height: 88, borderRadius: "50%", objectFit: "cover", border: "3px solid var(--ink-900)", background: "var(--paper-0)", boxShadow: "var(--shadow-pop-sm)", margin: "0 auto 18px", display: "block" }}
+              />
+              <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(24px,4vw,34px)", lineHeight: 1.4, margin: "0 0 10px" }}>
+                ご用件をどうぞ。
+              </h1>
+              <p style={{ fontSize: 14.5, lineHeight: 2, color: "var(--text-body)", margin: "0 0 26px" }}>
+                COMIXAI AI受付です。講演・寄稿・制作・取材などのご相談をチャットでヒアリングして、そのまま吉川本人にお届けします。
+              </p>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+                {CATEGORY_CHIPS.map((c) => chipBtn(c, true))}
               </div>
-            </div>
-          ) : (
-            <div key={i} style={{ justifySelf: "end", maxWidth: "82%" }}>
-              <div style={{ background: "var(--red-500)", color: "#fff", borderRadius: "12px 12px 4px 12px", border: "var(--bw-line) solid var(--ink-900)", padding: "10px 14px", fontSize: 14.5, lineHeight: 1.85, whiteSpace: "pre-wrap" }}>
-                {m.text}
-              </div>
-            </div>
-          )
-        )}
-        {sending && (
-          <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/quiz/grades/minarai.webp" alt="" style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover", border: "1.5px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }} />
-            <div style={{ background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "12px 12px 12px 4px", padding: "10px 14px", fontSize: 14, color: "var(--text-muted)" }}>
-              考え中…
             </div>
           </div>
-        )}
-
-        {/* 確認カード */}
-        {phase === "confirm" && summary && (
-          <Card variant="flat" padding={18} style={{ background: "var(--paper-0)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-              <Badge tone="red">{summary.category}</Badge>
-              <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15 }}>お問い合わせ内容の確認</span>
-            </div>
-            <p style={{ margin: "0 0 8px", fontSize: 14.5, fontWeight: 700, color: "var(--text-strong)", lineHeight: 1.8 }}>{summary.summary}</p>
-            <p style={{ margin: "0 0 14px", fontSize: 13.5, lineHeight: 1.9, color: "var(--text-body)", whiteSpace: "pre-wrap", background: "var(--paper-100)", border: "1px solid rgba(20,17,15,0.12)", borderRadius: "var(--radius-sm)", padding: "10px 12px" }}>
-              {summary.details}
-            </p>
-            <form onSubmit={onConfirmSubmit} style={{ display: "grid", gap: 12 }}>
-              <Input label="お名前" name="name" placeholder="山田 太郎" required />
-              <Input label="メールアドレス" name="email" type="email" placeholder="you@example.com" hint="ご返信先になります" required />
-              {sendState === "error" && (
-                <div style={{ fontSize: 13, color: "var(--red-600)", fontWeight: 700 }}>
-                  <i className="ph-bold ph-warning" /> {sendErr}
+        ) : (
+          /* —— 会話ビュー —— */
+          <div style={{ width: COL, margin: "0 auto", padding: "22px 0 16px", display: "grid", gap: 14 }}>
+            {messages.map((m, i) =>
+              m.role === "assistant" ? (
+                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-end", maxWidth: "88%" }}>
+                  {avatar(30)}
+                  <div
+                    style={{
+                      background: m.localOnly ? "transparent" : "var(--paper-0)",
+                      border: m.localOnly ? "1.5px dashed rgba(20,17,15,0.3)" : "var(--bw-line) solid var(--ink-900)",
+                      borderRadius: "14px 14px 14px 4px",
+                      padding: "11px 15px",
+                      fontSize: 15,
+                      lineHeight: 1.9,
+                      color: m.localOnly ? "var(--text-muted)" : "var(--text-body)",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {m.text}
+                  </div>
                 </div>
-              )}
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <Button type="submit" variant="primary" size="md" disabled={sendState === "sending"} iconRight={<i className="ph-bold ph-paper-plane-tilt" />}>
-                  {sendState === "sending" ? "送信中…" : "この内容で送信する"}
-                </Button>
-                <Button variant="secondary" size="md" onClick={backToChat}>
-                  内容を追加・修正する
-                </Button>
+              ) : (
+                <div key={i} style={{ justifySelf: "end", maxWidth: "82%" }}>
+                  <div style={{ background: "var(--red-500)", color: "#fff", borderRadius: "14px 14px 4px 14px", border: "var(--bw-line) solid var(--ink-900)", padding: "11px 15px", fontSize: 15, lineHeight: 1.9, whiteSpace: "pre-wrap" }}>
+                    {m.text}
+                  </div>
+                </div>
+              )
+            )}
+            {sending && (
+              <div style={{ display: "flex", gap: 10, alignItems: "flex-end" }}>
+                {avatar(30)}
+                <div style={{ background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "14px 14px 14px 4px", padding: "11px 15px", fontSize: 14, color: "var(--text-muted)" }}>
+                  考え中…
+                </div>
               </div>
-            </form>
-          </Card>
-        )}
+            )}
 
-        {/* 送信完了 */}
-        {phase === "done" && (
-          <Card variant="flat" padding={20} style={{ background: "var(--yellow-400)", textAlign: "center" }}>
-            <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 20, marginBottom: 8 }}>送信できました！</div>
-            <p style={{ margin: 0, fontSize: 14, lineHeight: 1.9, color: "var(--ink-900)" }}>
-              お問い合わせありがとうございます。
-              <br />
-              内容を確認のうえ、吉川本人よりメールでご返信します。
-            </p>
-          </Card>
+            {/* 確認カード */}
+            {phase === "confirm" && summary && (
+              <Card variant="pop" padding={20} style={{ marginTop: 4 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                  <Badge tone="red">{summary.category}</Badge>
+                  <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15 }}>お問い合わせ内容の確認</span>
+                </div>
+                <p style={{ margin: "0 0 8px", fontSize: 14.5, fontWeight: 700, color: "var(--text-strong)", lineHeight: 1.8 }}>{summary.summary}</p>
+                <p style={{ margin: "0 0 14px", fontSize: 13.5, lineHeight: 1.9, color: "var(--text-body)", whiteSpace: "pre-wrap", background: "var(--paper-100)", border: "1px solid rgba(20,17,15,0.12)", borderRadius: "var(--radius-sm)", padding: "10px 12px" }}>
+                  {summary.details}
+                </p>
+                <form onSubmit={onConfirmSubmit} style={{ display: "grid", gap: 12 }}>
+                  <Input label="お名前" name="name" placeholder="山田 太郎" required />
+                  <Input label="メールアドレス" name="email" type="email" placeholder="you@example.com" hint="ご返信先になります" required />
+                  {sendState === "error" && (
+                    <div style={{ fontSize: 13, color: "var(--red-600)", fontWeight: 700 }}>
+                      <i className="ph-bold ph-warning" /> {sendErr}
+                    </div>
+                  )}
+                  <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                    <Button type="submit" variant="primary" size="md" disabled={sendState === "sending"} iconRight={<i className="ph-bold ph-paper-plane-tilt" />}>
+                      {sendState === "sending" ? "送信中…" : "この内容で送信する"}
+                    </Button>
+                    <Button variant="secondary" size="md" onClick={backToChat}>
+                      内容を追加・修正する
+                    </Button>
+                  </div>
+                </form>
+              </Card>
+            )}
+
+            {/* 送信完了 */}
+            {phase === "done" && (
+              <Card variant="pop" padding={22} style={{ background: "var(--yellow-400)", textAlign: "center", marginTop: 4 }}>
+                <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 20, marginBottom: 8 }}>送信できました！</div>
+                <p style={{ margin: "0 0 16px", fontSize: 14, lineHeight: 1.9, color: "var(--ink-900)" }}>
+                  お問い合わせありがとうございます。
+                  <br />
+                  内容を確認のうえ、吉川本人よりメールでご返信します。
+                </p>
+                <a href="/" style={{ textDecoration: "none" }}>
+                  <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-house" />}>
+                    トップへ戻る
+                  </Button>
+                </a>
+              </Card>
+            )}
+          </div>
         )}
       </div>
 
-      {/* クイック返信チップ */}
-      {chips.length > 0 && (
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", padding: "12px 16px 0", background: "var(--paper-0)" }}>
-          {chips.map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => send(c)}
-              style={{
-                fontFamily: "var(--font-heading)",
-                fontWeight: 700,
-                fontSize: 13,
-                color: "var(--ink-900)",
-                background: "var(--paper-100)",
-                border: "1.5px solid var(--ink-900)",
-                borderRadius: "var(--radius-full)",
-                padding: "7px 14px",
-                cursor: "pointer",
-              }}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* 入力欄 */}
-      {phase === "chat" && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            send(input);
-          }}
-          style={{ display: "flex", gap: 10, padding: 14, background: "var(--paper-0)", borderTop: "var(--bw-line) solid var(--ink-900)", marginTop: chips.length > 0 ? 12 : 0 }}
-        >
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="メッセージを入力…"
-            maxLength={800}
-            aria-label="メッセージ"
-            style={{
-              flex: 1,
-              minWidth: 0,
-              fontFamily: "var(--font-body)",
-              fontSize: 16,
-              color: "var(--text-strong)",
-              background: "var(--paper-100)",
-              border: "var(--bw-line) solid var(--ink-900)",
-              borderRadius: "var(--radius-full)",
-              padding: "11px 18px",
-              boxSizing: "border-box",
+      {/* ═══ 下部固定の入力バー ═══ */}
+      <div style={{ borderTop: "var(--bw-line) solid var(--ink-900)", background: "var(--paper-50)" }}>
+        <div style={{ width: COL, margin: "0 auto", padding: "12px 0 10px" }}>
+          {/* クイック返信チップ（会話中のみ。空状態はセンターに出す） */}
+          {started && chips.length > 0 && phase === "chat" && (
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>{chips.map((c) => chipBtn(c))}</div>
+          )}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              send(input);
             }}
-          />
-          <Button type="submit" variant="primary" size="md" disabled={sending || !input.trim()} iconRight={<i className="ph-bold ph-paper-plane-tilt" />}>
-            送信
-          </Button>
-        </form>
-      )}
-
-      {/* 注意書き */}
-      <div style={{ padding: "10px 16px 14px", background: "var(--paper-0)", fontFamily: "var(--font-mono)", fontSize: 11, lineHeight: 1.8, color: "var(--text-muted)", borderTop: "1px solid rgba(20,17,15,0.08)" }}>
-        ※ 会話内容はお問い合わせの整理のためAI（Anthropic API）で処理されます。お名前・連絡先などの個人情報は、チャットには書かず最後の確認画面で入力してください。
-        じっくり書きたい方は <a href="/#contact" style={{ color: "var(--red-600)" }}>通常のお問い合わせフォーム</a> もどうぞ。
+            style={{ display: "flex", gap: 10 }}
+          >
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={phase === "chat" ? "メッセージを入力…" : "上のカードから送信できます"}
+              maxLength={800}
+              disabled={phase !== "chat"}
+              aria-label="メッセージ"
+              style={{
+                flex: 1,
+                minWidth: 0,
+                fontFamily: "var(--font-body)",
+                fontSize: 16,
+                color: "var(--text-strong)",
+                background: "var(--paper-0)",
+                border: "var(--bw-line) solid var(--ink-900)",
+                borderRadius: "var(--radius-full)",
+                padding: "12px 18px",
+                boxSizing: "border-box",
+                opacity: phase === "chat" ? 1 : 0.55,
+              }}
+            />
+            <Button type="submit" variant="primary" size="md" disabled={phase !== "chat" || sending || !input.trim()} iconRight={<i className="ph-bold ph-paper-plane-tilt" />}>
+              送信
+            </Button>
+          </form>
+          <p style={{ margin: "8px 2px 0", fontFamily: "var(--font-mono)", fontSize: 10.5, lineHeight: 1.7, color: "var(--text-muted)" }}>
+            AIによる一次受付です。お名前・連絡先は最後の確認画面で入力してください。
+            <a href="/#contact" style={{ color: "var(--red-600)" }}>通常フォーム</a>／
+            <a href="/works/uketsuke" style={{ color: "var(--red-600)" }}>この作品について</a>
+          </p>
+        </div>
       </div>
-    </Card>
+    </div>
   );
 }
