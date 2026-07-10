@@ -49,6 +49,9 @@ export function GET() {
     "- [AIの作業机](https://comixai.dev/tsukue): コンテキストエンジニアリングを体験する資料選びパズル",
     "- [速い脳・遅い脳](https://comixai.dev/nou): 推論モデルの使い分けを体験する仕分けゲーム",
     "- [楽屋の台本](https://comixai.dev/gakuya): システムプロンプト設計を体験する接客シミュレーション",
+    "- [AIのはじめかた](https://comixai.dev/start): 歴史→用語→診断→ゲーム→実践の初心者向け学習ロードマップ",
+    "- [AIのよくある質問](https://comixai.dev/faq): 仕事を奪われる？会社で使っていい？などの不安に一問一答",
+    "- [ChatGPT・Claude・Gemini比較](https://comixai.dev/compare): 3大AIの違いと用途別の使い分け",
     "- [AI歴史絵巻](https://comixai.dev/history): 1950年から2026年まで、AIの75年史をスクロールで読める年表絵巻",
     ...TERMS.map(
       (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`

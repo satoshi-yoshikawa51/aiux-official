@@ -214,6 +214,20 @@ export default async function GlossaryTermPage({ params }: Props) {
               </a>
             )}
 
+            {/* ツール系用語には「どれを使う？」比較への導線を出す */}
+            {["chatgpt", "claude", "gemini", "perplexity", "microsoft-copilot"].includes(t.slug) && (
+              <a href="/compare" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 14, marginTop: 28, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "14px 18px", boxShadow: "var(--shadow-pop-sm)", flexWrap: "wrap" }}>
+                <span style={{ fontSize: 26, flex: "none" }}>⚖️</span>
+                <span style={{ flex: "1 1 220px" }}>
+                  <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15 }}>どれを使うか、迷ってる？</span>
+                  <span style={{ display: "block", fontSize: 12.5, color: "var(--ink-900)", marginTop: 2 }}>ChatGPT・Claude・Gemini の違いと用途別の使い分けを比較表にまとめました</span>
+                </span>
+                <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13, flex: "none" }}>
+                  比較ページへ <i className="ph-bold ph-arrow-right" />
+                </span>
+              </a>
+            )}
+
             {t.links.length > 0 && (
               <div style={{ marginTop: 40 }}>
                 <SectionHead kicker="LEARN MORE — もっと深く" title="マンガ・実践記事で理解する" hand="読むより速い、体感で学ぶ" />

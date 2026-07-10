@@ -634,6 +634,36 @@ function Glossary() {
   );
 }
 
+/* ═══════════════ AIのはじめかた・あそびば ═══════════════ */
+function StartSection() {
+  return (
+    <section id="ai-start" style={{ maxWidth: PAGE, margin: "0 auto", padding: "62px 0 56px" }}>
+      <SectionHead kicker="START — はじめての人へ" title="AI、何から始める？" hand="迷ったら、ここから" />
+      <div style={{ maxWidth: 680, margin: "0 auto" }}>
+        <a href="/start" style={{ textDecoration: "none", color: "inherit" }}>
+          <Card variant="pop" padding={0} style={{ overflow: "hidden", height: "100%" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/og/games/start.png" alt="AIのはじめかた" loading="lazy" style={{ width: "100%", aspectRatio: "1200 / 630", objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }} />
+            <div style={{ padding: "16px 20px 20px" }}>
+              <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, marginBottom: 6 }}>🚀 AIのはじめかた</div>
+              <p style={{ margin: "0 0 12px", fontSize: 13.5, lineHeight: 1.85, color: "var(--text-body)" }}>
+                誰でも今日から始められる無料の学習コース。絵巻→マンガ→用語→体験ゲーム→実践の全3章。順番に進むだけでAIの基礎が身につきます。
+              </p>
+              <Button variant="primary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+                コースを見る
+              </Button>
+            </div>
+          </Card>
+        </a>
+      </div>
+      <p style={{ margin: "16px 0 0", fontSize: 13.5, lineHeight: 1.9, color: "var(--text-muted)" }}>
+        使う前の不安には <a href="/faq" style={{ color: "var(--red-600)", fontWeight: 700 }}>AIのよくある質問</a>、
+        道具選びに迷ったら <a href="/compare" style={{ color: "var(--red-600)", fontWeight: 700 }}>ChatGPT・Claude・Gemini比較</a> を。あそんだ記録は <a href="/zukan" style={{ color: "var(--red-600)", fontWeight: 700 }}>COMIXAI図鑑</a> に刻まれます。
+      </p>
+    </section>
+  );
+}
+
 /* ═══════════════ SNS + YouTube ═══════════════ */
 function Social() {
   return (
@@ -886,6 +916,7 @@ export default function Page() {
       <Magazines />
       <Works />
       <Glossary />
+      <StartSection />
       <Social />
       <Contact />
       <Footer />

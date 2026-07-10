@@ -87,6 +87,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    ...["start", "faq", "compare"].map((slug) => ({
+      url: `${base}/${slug}`,
+      lastModified: new Date("2026-07-09"),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     {
       url: `${base}/history`,
       lastModified: new Date("2026-07-08"),
