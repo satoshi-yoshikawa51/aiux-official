@@ -89,7 +89,7 @@ export function ZukanCollection() {
                 const on = isUnlocked(d, item.category, item.id);
                 return (
                   <div
-                    key={item.id}
+                    key={`${item.category}-${item.id}`}
                     style={{
                       border: "var(--bw-line) solid var(--ink-900)",
                       borderRadius: "var(--radius-md)",

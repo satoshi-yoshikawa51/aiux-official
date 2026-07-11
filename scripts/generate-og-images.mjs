@@ -464,7 +464,7 @@ await shoot(
 await shoot(
   pageHtml({
     kicker: "ZUKAN — コレクション",
-    badge: "全87項目",
+    badge: "全58項目",
     title: "COMIXAI図鑑、<br>集めきれるか。",
     titleSize: 84,
     sub: "隠し部屋18こ・称号・エンディング…",
