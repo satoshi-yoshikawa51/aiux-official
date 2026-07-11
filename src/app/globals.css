@@ -668,8 +668,9 @@ img {
     display: none;
   }
   /* スマホ: 検索ボタンを右端（ハンバーガーの隣）に寄せる */
-  .nav-search-btn {
-    margin-left: auto;
+  a.nav-search-btn-sp {
+    display: flex !important;
+    margin-left: auto !important;
   }
   .hamburger {
     display: inline-flex;
@@ -766,4 +767,9 @@ img {
   .start-hero-img {
     transform: none !important;
   }
+}
+
+/* スマホ用ヘッダー検索ボタンはPCでは出さない（nav内のものを使う） */
+.nav-search-btn-sp {
+  display: none !important;
 }

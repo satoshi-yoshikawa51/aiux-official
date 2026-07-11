@@ -26,6 +26,30 @@ export function Nav({ home = true }: { home?: boolean }) {
   /* #アンカーはトップページ内リンク、/パスはどのページからも共通 */
   const link = (href: string) => (href.startsWith("#") ? (home ? href : "/" + href) : href);
   const [open, setOpen] = React.useState(false);
+  /* AI司書（サイト内検索）の黒丸ボタン。PCはnav内（お問い合わせの左）、
+     スマホはnav外（ハンバーガーの左）に同じものを出し分ける */
+  const searchBtn = (className: string) => (
+    <a
+      href="/search"
+      aria-label="AI司書に聞く（サイト内検索）"
+      title="AI司書に聞く"
+      className={className}
+      style={{
+        width: 38,
+        height: 38,
+        borderRadius: "var(--radius-full)",
+        background: "var(--ink-900)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textDecoration: "none",
+        flex: "none",
+        margin: "0 4px",
+      }}
+    >
+      <i className="ph-bold ph-magnifying-glass" style={{ fontSize: 17, color: "#fff" }} />
+    </a>
+  );
   return (
     <header
       style={{
@@ -77,32 +101,15 @@ export function Nav({ home = true }: { home?: boolean }) {
               {it.label}
             </a>
           ))}
+          {searchBtn("")}
           <a href={link("#contact")} style={{ textDecoration: "none", marginLeft: 2 }}>
             <Button variant="primary" size="sm">
               お問い合わせ
             </Button>
           </a>
         </nav>
-        {/* AI司書（サイト内検索）— PC/スマホ共通でヘッダーに常時表示 */}
-        <a
-          href="/search"
-          aria-label="AI司書に聞く（サイト内検索）"
-          title="AI司書に聞く"
-          className="nav-search-btn"
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: "var(--radius-full)",
-            background: "var(--ink-900)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textDecoration: "none",
-            flex: "none",
-          }}
-        >
-          <i className="ph-bold ph-magnifying-glass" style={{ fontSize: 17, color: "#fff" }} />
-        </a>
+        {/* スマホ用の検索ボタン（nav-linksが消えたとき右端に出る） */}
+        {searchBtn("nav-search-btn-sp")}
         <button
           type="button"
           className="hamburger"
