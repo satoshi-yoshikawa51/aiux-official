@@ -794,8 +794,19 @@ function Social() {
 /* ═══════════════ AI受付フローティング導線 ═══════════════ */
 /* 少しスクロールすると右下にキャラクターが吹き出し付きで登場 →
    5秒後（または✕）にポップな退場アニメーションで右端のタブに格納 */
+/* タブ格納直後に散らすキラキラ（タブ左側に配置） */
+const UKE_SPARKS: { left: number; top: number; size: number; color: string; delay: number }[] = [
+  { left: -18, top: -14, size: 15, color: "var(--yellow-400)", delay: 0 },
+  { left: -30, top: 12, size: 11, color: "var(--red-500)", delay: 0.1 },
+  { left: 4, top: -20, size: 13, color: "var(--yellow-400)", delay: 0.18 },
+  { left: -12, top: 34, size: 10, color: "var(--yellow-400)", delay: 0.26 },
+  { left: 34, top: -16, size: 11, color: "var(--red-500)", delay: 0.34 },
+  { left: -34, top: -6, size: 9, color: "var(--yellow-400)", delay: 0.42 },
+];
+
 function UketsukeFab() {
   const [state, setState] = React.useState<"hidden" | "pop" | "exiting" | "docked">("hidden");
+  const [sparkle, setSparkle] = React.useState(false);
 
   React.useEffect(() => {
     /* 同一セッションで2回目以降は最初からタブ格納状態 */
@@ -823,10 +834,20 @@ function UketsukeFab() {
       return () => window.clearTimeout(t);
     }
     if (state === "exiting") {
-      const t = window.setTimeout(() => setState("docked"), 650);
+      const t = window.setTimeout(() => {
+        setState("docked");
+        setSparkle(true);
+      }, 650);
       return () => window.clearTimeout(t);
     }
   }, [state]);
+
+  /* キラキラは一瞬だけ */
+  React.useEffect(() => {
+    if (!sparkle) return;
+    const t = window.setTimeout(() => setSparkle(false), 1500);
+    return () => window.clearTimeout(t);
+  }, [sparkle]);
 
   if (state === "hidden") return null;
 
@@ -863,6 +884,17 @@ function UketsukeFab() {
         <span className="uke-dock-label" style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 12.5, color: "var(--ink-900)", lineHeight: 1.3 }}>
           AI相談
         </span>
+        {sparkle &&
+          UKE_SPARKS.map((s, i) => (
+            <span
+              key={i}
+              className="uke-spark"
+              aria-hidden="true"
+              style={{ left: s.left, top: s.top, fontSize: s.size, color: s.color, animationDelay: `${s.delay + 0.35}s` }}
+            >
+              ✦
+            </span>
+          ))}
       </a>
     );
   }
