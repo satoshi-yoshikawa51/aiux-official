@@ -643,7 +643,7 @@ function StartSection() {
         <a href="/start" style={{ textDecoration: "none", color: "inherit" }}>
           <Card variant="pop" padding={0} style={{ overflow: "hidden", height: "100%" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/og/games/start.png" alt="AIのはじめかた" loading="lazy" style={{ width: "100%", aspectRatio: "1200 / 630", objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }} />
+            <img src="/start/hero.webp" alt="AIのはじめかた——？の山を越えて進むキャラクター" loading="lazy" style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)", display: "block" }} />
             <div style={{ padding: "16px 20px 20px" }}>
               <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, marginBottom: 6 }}>🚀 AIのはじめかた</div>
               <p style={{ margin: "0 0 12px", fontSize: 13.5, lineHeight: 1.85, color: "var(--text-body)" }}>
@@ -790,6 +790,167 @@ function Social() {
   );
 }
 
+/* ═══════════════ AI受付フローティング導線 ═══════════════ */
+/* 少しスクロールすると右下にキャラクターが吹き出し付きで登場 →
+   5秒後（または✕）にポップな退場アニメーションで右端のタブに格納 */
+/* タブ格納直後に散らすキラキラ（タブ左側に配置） */
+const UKE_SPARKS: { left: number; top: number; size: number; color: string; delay: number }[] = [
+  { left: -18, top: -14, size: 15, color: "var(--yellow-400)", delay: 0 },
+  { left: -30, top: 12, size: 11, color: "var(--red-500)", delay: 0.1 },
+  { left: 4, top: -20, size: 13, color: "var(--yellow-400)", delay: 0.18 },
+  { left: -12, top: 34, size: 10, color: "var(--yellow-400)", delay: 0.26 },
+  { left: 34, top: -16, size: 11, color: "var(--red-500)", delay: 0.34 },
+  { left: -34, top: -6, size: 9, color: "var(--yellow-400)", delay: 0.42 },
+];
+
+function UketsukeFab() {
+  const [state, setState] = React.useState<"hidden" | "pop" | "exiting" | "docked">("hidden");
+  const [sparkle, setSparkle] = React.useState(false);
+
+  React.useEffect(() => {
+    /* 同一セッションで2回目以降は最初からタブ格納状態 */
+    if (window.sessionStorage.getItem("ukeFabSeen")) {
+      setState("docked");
+      return;
+    }
+    /* 少しスクロールしたら登場 */
+    const onScroll = () => {
+      if (window.scrollY > 300) {
+        window.removeEventListener("scroll", onScroll);
+        setState("pop");
+        window.sessionStorage.setItem("ukeFabSeen", "1");
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* 5秒表示したら退場アニメーション→タブ格納 */
+  React.useEffect(() => {
+    if (state === "pop") {
+      const t = window.setTimeout(() => setState("exiting"), 5000);
+      return () => window.clearTimeout(t);
+    }
+    if (state === "exiting") {
+      const t = window.setTimeout(() => {
+        setState("docked");
+        setSparkle(true);
+      }, 650);
+      return () => window.clearTimeout(t);
+    }
+  }, [state]);
+
+  /* キラキラは一瞬だけ */
+  React.useEffect(() => {
+    if (!sparkle) return;
+    const t = window.setTimeout(() => setSparkle(false), 1500);
+    return () => window.clearTimeout(t);
+  }, [sparkle]);
+
+  if (state === "hidden") return null;
+
+  if (state === "docked") {
+    return (
+      <a
+        href="/uketsuke"
+        className="uke-fab-dock"
+        aria-label="AI受付でご相談"
+        style={{
+          position: "fixed",
+          right: 0,
+          bottom: 26,
+          zIndex: 55,
+          display: "flex",
+          alignItems: "center",
+          gap: 7,
+          textDecoration: "none",
+          background: "var(--yellow-400)",
+          border: "2px solid var(--ink-900)",
+          borderRight: "none",
+          borderRadius: "999px 0 0 999px",
+          padding: "6px 10px 6px 7px",
+          boxShadow: "var(--shadow-pop-sm)",
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/uketsuke/char.webp"
+          alt=""
+          className="uke-dock-img"
+          style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", background: "var(--paper-0)", border: "1.5px solid var(--ink-900)", flex: "none" }}
+        />
+        <span className="uke-dock-label" style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 12.5, color: "var(--ink-900)", lineHeight: 1.3 }}>
+          AI相談
+        </span>
+        {sparkle &&
+          UKE_SPARKS.map((s, i) => (
+            <span
+              key={i}
+              className="uke-spark"
+              aria-hidden="true"
+              style={{ left: s.left, top: s.top, fontSize: s.size, color: s.color, animationDelay: `${s.delay + 0.35}s` }}
+            >
+              ✦
+            </span>
+          ))}
+      </a>
+    );
+  }
+
+  return (
+    <div className={"uke-fab-pop" + (state === "exiting" ? " uke-fab-exit" : "")} style={{ position: "fixed", right: 14, bottom: 12, zIndex: 55, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+      <div className={state === "exiting" ? "uke-bubble-out" : undefined} style={{ position: "relative" }}>
+        <div
+          className="uke-fab-bubble"
+          style={{
+            background: "var(--paper-0)",
+            border: "2px solid var(--ink-900)",
+            borderRadius: "14px 14px 4px 14px",
+            boxShadow: "var(--shadow-pop-sm)",
+          }}
+        >
+          <div className="uke-fab-bubble-title" style={{ fontFamily: "var(--font-heading)", fontWeight: 900, color: "var(--ink-900)" }}>ご相談はこちら！</div>
+          <div className="uke-fab-bubble-sub" style={{ lineHeight: 1.7, color: "var(--text-muted)", marginTop: 2 }}>AI受付が用件をまとめます</div>
+        </div>
+        <button
+          type="button"
+          aria-label="閉じる"
+          onClick={() => setState("exiting")}
+          style={{
+            position: "absolute",
+            top: -10,
+            left: -10,
+            width: 24,
+            height: 24,
+            borderRadius: "50%",
+            background: "var(--ink-900)",
+            color: "var(--paper-50)",
+            border: "none",
+            cursor: "pointer",
+            fontSize: 13,
+            lineHeight: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          ✕
+        </button>
+      </div>
+      <a href="/uketsuke" aria-label="AI受付をひらく" style={{ display: "block" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/uketsuke/char.webp"
+          alt="AI受付のキャラクター"
+          className="uke-fab-char"
+          style={{ height: "auto", display: "block", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.25))" }}
+        />
+      </a>
+    </div>
+  );
+}
+
 /* ═══════════════ お問い合わせ ═══════════════ */
 function Contact() {
   const [state, setState] = React.useState<"idle" | "sending" | "done" | "error">("idle");
@@ -839,6 +1000,23 @@ function Contact() {
           <div style={{ marginTop: 26, display: "flex", alignItems: "center", gap: 10, fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--text-muted)" }}>
             <i className="ph-bold ph-envelope-simple" /> {CONTACT_EMAIL}
           </div>
+          {/* AI受付への導線 */}
+          <a href="/uketsuke" style={{ textDecoration: "none", display: "block", marginTop: 20, maxWidth: 380 }}>
+            <Card variant="pop" hover padding={16} style={{ background: "var(--yellow-400)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/uketsuke/char.webp" alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", border: "2px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }} />
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14.5, color: "var(--ink-900)" }}>
+                    文章を考えるのが面倒なら、AI受付へ
+                  </div>
+                  <div style={{ fontSize: 12.5, color: "var(--ink-900)", opacity: 0.75, marginTop: 2 }}>
+                    AIと話すだけでお問い合わせが完成 <i className="ph-bold ph-arrow-right" />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </a>
         </div>
 
         <Card variant="pop" padding={24}>
@@ -920,6 +1098,7 @@ export default function Page() {
       <Social />
       <Contact />
       <Footer />
+      <UketsukeFab />
     </div>
   );
 }

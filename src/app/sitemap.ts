@@ -94,6 +94,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     })),
     {
+      url: `${base}/uketsuke`,
+      lastModified: new Date("2026-07-10"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${base}/history`,
       lastModified: new Date("2026-07-08"),
       changeFrequency: "monthly",
