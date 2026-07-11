@@ -327,7 +327,7 @@ export default function StartPage() {
           <h2 style={{ margin: "0 0 8px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(18px,2.8vw,24px)" }}>🎓 修了したら</h2>
           <p style={{ margin: "0 0 12px", fontSize: 14, lineHeight: 1.95, fontWeight: 500 }}>
             ここまでの冒険の記録は<a href="/zukan" style={{ color: "var(--ink-900)", fontWeight: 900 }}>COMIXAI図鑑</a>に刻まれています。
-            そして——このサイトの隠し部屋は全部で<b>12</b>。まだ見つけていない扉は、<a href="/glossary" style={{ color: "var(--ink-900)", fontWeight: 900 }}>用語集</a>のどこかに。
+            そして——このサイトの隠し部屋は全部で<b>18</b>。まだ見つけていない扉は、<a href="/glossary" style={{ color: "var(--ink-900)", fontWeight: 900 }}>用語集</a>のどこかに。
           </p>
           <a href="/zukan" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-notebook" />}>図鑑をひらく</Button>
