@@ -792,9 +792,10 @@ function Social() {
 }
 
 /* ═══════════════ AI受付フローティング導線 ═══════════════ */
-/* 右下にキャラクターが吹き出し付きで登場 → 数秒後に右端のタブに格納 */
+/* 少しスクロールすると右下にキャラクターが吹き出し付きで登場 →
+   5秒後（または✕）にポップな退場アニメーションで右端のタブに格納 */
 function UketsukeFab() {
-  const [state, setState] = React.useState<"hidden" | "pop" | "docked">("hidden");
+  const [state, setState] = React.useState<"hidden" | "pop" | "exiting" | "docked">("hidden");
 
   React.useEffect(() => {
     /* 同一セッションで2回目以降は最初からタブ格納状態 */
@@ -802,17 +803,29 @@ function UketsukeFab() {
       setState("docked");
       return;
     }
-    const t = window.setTimeout(() => {
-      setState("pop");
-      window.sessionStorage.setItem("ukeFabSeen", "1");
-    }, 1400);
-    return () => window.clearTimeout(t);
+    /* 少しスクロールしたら登場 */
+    const onScroll = () => {
+      if (window.scrollY > 300) {
+        window.removeEventListener("scroll", onScroll);
+        setState("pop");
+        window.sessionStorage.setItem("ukeFabSeen", "1");
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /* 5秒表示したら退場アニメーション→タブ格納 */
   React.useEffect(() => {
-    if (state !== "pop") return;
-    const t = window.setTimeout(() => setState("docked"), 8000);
-    return () => window.clearTimeout(t);
+    if (state === "pop") {
+      const t = window.setTimeout(() => setState("exiting"), 5000);
+      return () => window.clearTimeout(t);
+    }
+    if (state === "exiting") {
+      const t = window.setTimeout(() => setState("docked"), 650);
+      return () => window.clearTimeout(t);
+    }
   }, [state]);
 
   if (state === "hidden") return null;
@@ -844,9 +857,10 @@ function UketsukeFab() {
         <img
           src="/uketsuke/char.webp"
           alt=""
+          className="uke-dock-img"
           style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", background: "var(--paper-0)", border: "1.5px solid var(--ink-900)", flex: "none" }}
         />
-        <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 12.5, color: "var(--ink-900)", lineHeight: 1.3 }}>
+        <span className="uke-dock-label" style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 12.5, color: "var(--ink-900)", lineHeight: 1.3 }}>
           AI相談
         </span>
       </a>
@@ -854,25 +868,24 @@ function UketsukeFab() {
   }
 
   return (
-    <div className="uke-fab-pop" style={{ position: "fixed", right: 14, bottom: 12, zIndex: 55, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
-      <div style={{ position: "relative" }}>
+    <div className={"uke-fab-pop" + (state === "exiting" ? " uke-fab-exit" : "")} style={{ position: "fixed", right: 14, bottom: 12, zIndex: 55, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+      <div className={state === "exiting" ? "uke-bubble-out" : undefined} style={{ position: "relative" }}>
         <div
+          className="uke-fab-bubble"
           style={{
             background: "var(--paper-0)",
             border: "2px solid var(--ink-900)",
             borderRadius: "14px 14px 4px 14px",
             boxShadow: "var(--shadow-pop-sm)",
-            padding: "10px 14px",
-            maxWidth: 220,
           }}
         >
-          <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14.5, color: "var(--ink-900)" }}>ご相談はこちら！</div>
-          <div style={{ fontSize: 12, lineHeight: 1.7, color: "var(--text-muted)", marginTop: 2 }}>AI受付が用件をまとめます</div>
+          <div className="uke-fab-bubble-title" style={{ fontFamily: "var(--font-heading)", fontWeight: 900, color: "var(--ink-900)" }}>ご相談はこちら！</div>
+          <div className="uke-fab-bubble-sub" style={{ lineHeight: 1.7, color: "var(--text-muted)", marginTop: 2 }}>AI受付が用件をまとめます</div>
         </div>
         <button
           type="button"
           aria-label="閉じる"
-          onClick={() => setState("docked")}
+          onClick={() => setState("exiting")}
           style={{
             position: "absolute",
             top: -10,
@@ -899,7 +912,8 @@ function UketsukeFab() {
         <img
           src="/uketsuke/char.webp"
           alt="AI受付のキャラクター"
-          style={{ width: 96, height: "auto", display: "block", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.25))" }}
+          className="uke-fab-char"
+          style={{ height: "auto", display: "block", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.25))" }}
         />
       </a>
     </div>
