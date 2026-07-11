@@ -806,6 +806,14 @@ const UKE_SPARKS: { left: number; top: number; size: number; color: string; dela
 
 function UketsukeFab() {
   const [state, setState] = React.useState<"hidden" | "pop" | "exiting" | "docked">("hidden");
+  /* 透過webm（VP9アルファ）が再生できるブラウザだけ動画にする。
+     SafariはVP9を再生できてもアルファ非対応で黒背景になるため除外 */
+  const [alphaVideo, setAlphaVideo] = React.useState(false);
+  React.useEffect(() => {
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const v = document.createElement("video");
+    if (!isSafari && v.canPlayType('video/webm; codecs="vp9"')) setAlphaVideo(true);
+  }, []);
   const [sparkle, setSparkle] = React.useState(false);
 
   React.useEffect(() => {
@@ -943,10 +951,11 @@ function UketsukeFab() {
         {/* React は muted 属性をSSRで落とすため video は生HTMLで埋め込む */}
         <span
           className="uke-fab-char"
-          style={{ display: "block", aspectRatio: "1", borderRadius: "50%", overflow: "hidden", border: "2.5px solid var(--ink-900)", background: "#fff", boxShadow: "var(--shadow-pop-sm)" }}
+          style={{ display: "block", aspectRatio: "488 / 522", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.25))" }}
           dangerouslySetInnerHTML={{
-            __html:
-              '<video autoplay muted loop playsinline preload="auto" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"><source src="/uketsuke/char.webm" type="video/webm"><source src="/uketsuke/char.mp4" type="video/mp4"></video>',
+            __html: alphaVideo
+              ? '<video src="/uketsuke/char-alpha.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="width:100%;height:100%;object-fit:contain;display:block;"></video>'
+              : '<img src="/uketsuke/char-still.webp" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">',
           }}
         />
       </a>
