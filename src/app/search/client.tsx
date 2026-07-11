@@ -152,7 +152,7 @@ export default function SearchClient() {
       {loading && (
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 30 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/quiz/grades/minarai.webp" alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", border: "2px solid var(--ink-900)", background: "var(--paper-0)" }} />
+          <img src="/search/shisho.webp" alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", border: "2px solid var(--ink-900)", background: "var(--paper-0)" }} />
           <span style={{ fontFamily: "var(--font-hand)", fontSize: 15, color: "var(--text-muted)" }}>書庫を探しています…</span>
         </div>
       )}
@@ -170,7 +170,7 @@ export default function SearchClient() {
           {answer ? (
             <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/quiz/grades/minarai.webp" alt="AI司書" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", border: "2px solid var(--ink-900)", background: "var(--paper-0)", flex: "none", marginTop: 2 }} />
+              <img src="/search/shisho.webp" alt="AI司書" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", border: "2px solid var(--ink-900)", background: "var(--paper-0)", flex: "none", marginTop: 2 }} />
               <Card variant="pop" padding={18} style={{ background: "var(--yellow-400)" }}>
                 <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", marginBottom: 6 }}>
                   AI司書の答え

@@ -440,9 +440,10 @@ function Magazines() {
 }
 
 /* ═══════════════ つくったもの（WORKS） ═══════════════ */
-const WORK_CATS: { key: "ゲーム" | "ニュース"; icon: string }[] = [
+const WORK_CATS: { key: "ゲーム" | "ニュース" | "ツール"; icon: string }[] = [
   { key: "ゲーム", icon: "ph-game-controller" },
   { key: "ニュース", icon: "ph-newspaper" },
+  { key: "ツール", icon: "ph-wrench" },
 ];
 
 function Works() {
@@ -939,12 +940,14 @@ function UketsukeFab() {
         </button>
       </div>
       <a href="/uketsuke" aria-label="AI受付をひらく" style={{ display: "block" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/uketsuke/char.webp"
-          alt="AI受付のキャラクター"
+        {/* React は muted 属性をSSRで落とすため video は生HTMLで埋め込む */}
+        <span
           className="uke-fab-char"
-          style={{ height: "auto", display: "block", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.25))" }}
+          style={{ display: "block", aspectRatio: "1", borderRadius: "50%", overflow: "hidden", border: "2.5px solid var(--ink-900)", background: "#fff", boxShadow: "var(--shadow-pop-sm)" }}
+          dangerouslySetInnerHTML={{
+            __html:
+              '<video autoplay muted loop playsinline preload="auto" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"><source src="/uketsuke/char.webm" type="video/webm"><source src="/uketsuke/char.mp4" type="video/mp4"></video>',
+          }}
         />
       </a>
     </div>
