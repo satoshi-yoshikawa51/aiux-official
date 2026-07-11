@@ -18,6 +18,7 @@ import {
   SOCIALS,
   FORMSPREE_ENDPOINT,
   CONTACT_EMAIL,
+  BANNER,
   type Article,
   type Tone,
 } from "./data";
@@ -93,7 +94,7 @@ function HeroVideo() {
     <section className="hero-video" style={{ borderBottom: "var(--bw-heavy) solid var(--ink-900)" }}>
       <div className="hero-media">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="hero-fallback" src="/hero-poster.jpg" alt="COMIXAI — AIを、面白く。わかりやすく。" />
+        <img className="hero-fallback" src={BANNER} alt="COMIXAI" />
         <video
           ref={videoRef}
           className="hero-bg-video"
