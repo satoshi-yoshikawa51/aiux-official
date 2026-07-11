@@ -955,7 +955,8 @@ function UketsukeFab() {
           dangerouslySetInnerHTML={{
             __html: alphaVideo
               ? '<video src="/uketsuke/char-alpha.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="width:100%;height:100%;object-fit:contain;display:block;"></video>'
-              : '<img src="/uketsuke/char-still.webp" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">',
+              : /* Safari(iPhone含む)は透過webm非対応 → アルファ付きアニメWebPで動かす */
+                '<img src="/uketsuke/char-anim.webp" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">',
           }}
         />
       </a>
