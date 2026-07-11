@@ -88,7 +88,7 @@ export default function FaqPage() {
 
         <div style={{ border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "16px 20px" }}>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 2, fontWeight: 700 }}>
-            解決しなかった疑問は、<a href="/glossary" style={{ color: "var(--ink-900)" }}>全50語のAI用語集</a>か、<a href="/start" style={{ color: "var(--ink-900)" }}>AIのはじめかた</a>へ。
+            解決しなかった疑問は、<a href="/glossary" style={{ color: "var(--ink-900)" }}>全80語のAI用語集</a>か、<a href="/start" style={{ color: "var(--ink-900)" }}>AIのはじめかた</a>へ。
             用語そのものを覚えたい人は<a href="/quiz" style={{ color: "var(--ink-900)" }}>診断</a>が近道です。
           </p>
         </div>

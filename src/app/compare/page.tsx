@@ -126,7 +126,7 @@ export default function ComparePage() {
         </div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           <a href="/glossary" style={{ textDecoration: "none" }}>
-            <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>AI用語集（全50語）</Button>
+            <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>AI用語集（全80語）</Button>
           </a>
           <a href="/faq" style={{ textDecoration: "none" }}>
             <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>AIのよくある質問</Button>
