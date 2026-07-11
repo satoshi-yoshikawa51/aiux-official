@@ -269,6 +269,7 @@ export default function StartPage() {
           <img
             src="/start/hero.webp"
             alt="？の山を越えて、赤い道を進んでいくキャラクター"
+            className="start-hero-img"
             style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-md)", boxShadow: "var(--shadow-pop)", transform: "rotate(1.2deg)", display: "block" }}
           />
         </div>

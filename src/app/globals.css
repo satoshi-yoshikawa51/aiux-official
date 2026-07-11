@@ -756,3 +756,10 @@ img {
 @media (prefers-reduced-motion: reduce) {
   .uke-spark { display: none; }
 }
+
+/* はじめかたヒーロー画像: 縦積みになるスマホでは傾けない */
+@media (max-width: 900px) {
+  .start-hero-img {
+    transform: none !important;
+  }
+}
