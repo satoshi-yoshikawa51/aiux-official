@@ -52,7 +52,7 @@ export default function SearchPage() {
         <Suspense fallback={null}>
           <SearchClient />
         </Suspense>
-        <p style={{ margin: "34px 0 0", fontSize: 12.5, color: "var(--text-muted)" }}>
+        <p style={{ margin: "34px 0 0", fontSize: 12.5, color: "var(--text-muted)", textAlign: "center" }}>
           このAI司書自体もClaude APIで作ったWORKS作品です。<a href="/works/shisho" style={{ color: "var(--red-600)" }}>しくみの紹介はこちら</a>
         </p>
       </section>

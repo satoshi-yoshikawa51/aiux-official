@@ -91,7 +91,7 @@ export default function SearchClient() {
           e.preventDefault();
           void run(input);
         }}
-        style={{ display: "flex", gap: 10, maxWidth: 640 }}
+        style={{ display: "flex", gap: 10, maxWidth: 640, margin: "0 auto" }}
       >
         <input
           type="search"
@@ -121,7 +121,7 @@ export default function SearchClient() {
 
       {/* 例チップ（初期状態のみ） */}
       {!query && !loading && (
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 18, maxWidth: 640 }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center", margin: "18px auto 0", maxWidth: 640 }}>
           {EXAMPLES.map((ex) => (
             <button
               key={ex}
@@ -150,7 +150,7 @@ export default function SearchClient() {
 
       {/* ローディング */}
       {loading && (
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 30 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginTop: 30 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/search/shisho.webp" alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", border: "2px solid var(--ink-900)", background: "var(--paper-0)" }} />
           <span style={{ fontFamily: "var(--font-hand)", fontSize: 15, color: "var(--text-muted)" }}>書庫を探しています…</span>
@@ -159,14 +159,14 @@ export default function SearchClient() {
 
       {/* エラー */}
       {error && !loading && (
-        <p style={{ marginTop: 30, fontSize: 14, color: "var(--red-600)", fontWeight: 700 }}>
+        <p style={{ marginTop: 30, fontSize: 14, color: "var(--red-600)", fontWeight: 700, textAlign: "center" }}>
           <i className="ph-bold ph-warning" /> 検索に失敗しました。少し待ってからもう一度お試しください。
         </p>
       )}
 
       {/* AI回答 */}
       {!loading && !error && query && results && (
-        <div style={{ marginTop: 30, maxWidth: 720 }}>
+        <div style={{ margin: "30px auto 0", maxWidth: 720 }}>
           {answer ? (
             <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
