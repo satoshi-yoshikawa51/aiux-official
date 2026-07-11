@@ -29,6 +29,8 @@ export default function Splash() {
       const wait = Math.max(0, MIN_SHOW - (performance.now() - start));
       minTimer = window.setTimeout(() => {
         setOut(true);
+        /* 幕が開き始めるタイミングでヒーローの登場アニメを解禁 */
+        window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 300);
         exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 680);
       }, wait);
     };
@@ -43,6 +45,7 @@ export default function Splash() {
       window.clearTimeout(exitTimer);
       window.clearTimeout(minTimer);
       window.removeEventListener("load", finish);
+      document.documentElement.classList.remove("splash-hold");
     };
   }, []);
 
@@ -50,11 +53,12 @@ export default function Splash() {
 
   return (
     <div className={"splash" + (out ? " splash-out" : "")} aria-hidden="true">
-      {/* 再訪セッションではハイドレーション前に即座に隠す */}
+      {/* 再訪セッションでは描画前に即座に隠す。
+          初回はヒーローの登場アニメを splash-hold で一時停止しておく */}
       <script
         dangerouslySetInnerHTML={{
           __html:
-            "try{if(sessionStorage.getItem('splashSeen'))document.currentScript.parentElement.style.display='none'}catch(e){}",
+            "try{if(sessionStorage.getItem('splashSeen')){document.currentScript.parentElement.style.display='none'}else{document.documentElement.classList.add('splash-hold')}}catch(e){}",
         }}
       />
       <span className="splash-face">

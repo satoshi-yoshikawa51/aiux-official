@@ -860,3 +860,11 @@ img {
   .splash-out { animation: splash-hide 0.25s ease forwards; }
   .splash-out .splash-face { animation: none; }
 }
+
+/* スプラッシュ表示中はヒーローの登場アニメを待機させる（splash.tsxが解除） */
+html.splash-hold .hero-enter,
+html.splash-hold .hero-enter-badge,
+html.splash-hold .ht-ch,
+html.splash-hold .hero-burst {
+  animation-play-state: paused !important;
+}
