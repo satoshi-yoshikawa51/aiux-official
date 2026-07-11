@@ -71,7 +71,7 @@ export default function QuizPage() {
       </section>
 
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 46px" }}>
-        <SectionHead kicker="GLOSSARY — 先に予習する？" title="出題範囲は、AI用語集の全50語。" hand="カンニングは合法です" />
+        <SectionHead kicker="GLOSSARY — 先に予習する？" title="出題範囲は、AI用語集の主要50語。" hand="カンニングは合法です" />
         <a href="/glossary" style={{ textDecoration: "none" }}>
           <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
             AI用語集を見る
