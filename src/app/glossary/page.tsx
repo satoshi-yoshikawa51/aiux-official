@@ -119,7 +119,7 @@ export default function GlossaryIndexPage() {
                 あなたのAI用語力は、何級？
               </h2>
               <div style={{ fontSize: 13.5, lineHeight: 1.8, color: "rgba(251,247,239,0.75)", marginTop: 4 }}>
-                主要50語から毎回12問・3分で5段階判定。結果はXでシェアできます。
+                全80語から毎回12問・3分で5段階判定。結果はXでシェアできます。
               </div>
               <div style={{ marginTop: 16 }}>
                 <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>

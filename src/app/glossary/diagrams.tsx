@@ -746,6 +746,429 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+
+  /* ═══════ BATCH4（GSC起点の30語） ═══════ */
+  prompt: {
+    caption: "「目的・条件・形式」の3点セットで、答えの質が一段変わる",
+    render: () => (
+      <Svg h={280} title="プロンプトの図解">
+        <B x={20} y={30} w={150} h={54} label="目的" sub="何のために" fill={YELLOW} />
+        <B x={20} y={98} w={150} h={54} label="条件" sub="誰向け・制約" fill={YELLOW} />
+        <B x={20} y={166} w={150} h={54} label="形式" sub="表で・3行で" fill={YELLOW} />
+        <AH x1={175} x2={235} y={125} label="伝える" />
+        <B x={240} y={85} w={140} h={90} label="AI" />
+        <AH x1={385} x2={445} y={125} />
+        <B x={450} y={85} w={130} h={90} label={"精度の高い\n答え"} fill={RED} color="#fff" />
+        <T x={300} y={255} text="新人への仕事の頼み方と同じ。ふわっと頼むと、ふわっと返ってくる" size={13} />
+      </Svg>
+    ),
+  },
+  gpt: {
+    caption: "名前の3語に、しくみが全部書いてある",
+    render: () => (
+      <Svg h={300} title="GPTの意味の図解">
+        <B x={30} y={40} w={165} h={70} label="Generative" sub="生成する" fill={YELLOW} />
+        <B x={218} y={40} w={165} h={70} label="Pre-trained" sub="事前に訓練済み" fill={YELLOW} />
+        <B x={406} y={40} w={165} h={70} label="Transformer" sub="土台のしくみ" fill={YELLOW} />
+        <AV x={300} y1={118} y2={165} />
+        <B x={190} y={170} w={220} h={70} label="GPT" sub="文章を生むAIの系譜" fill={RED} color="#fff" />
+        <T x={300} y={278} text="GPTがエンジン、ChatGPTはそれを載せた車" size={13.5} />
+      </Svg>
+    ),
+  },
+  parameter: {
+    caption: "パラメータ＝AIの中の調整つまみ。数が「脳の大きさ」の目安",
+    render: () => (
+      <Svg h={270} title="パラメータの図解">
+        <B x={40} y={60} w={180} h={110} label="7B" sub="つまみ70億個" />
+        <B x={330} y={35} w={230} h={160} label="70B" sub="つまみ700億個" fill={YELLOW} />
+        <T x={130} y={205} text="軽い・速い・安い" size={13} />
+        <T x={445} y={225} text="賢い・重い・高い" size={13} />
+        <T x={300} y={250} text="学習＝膨大なつまみを回して「良い答えが出る位置」を探すこと" size={12.5} />
+      </Svg>
+    ),
+  },
+  inference: {
+    caption: "私たちが使っているのは、いつも「推論」のほう",
+    render: () => (
+      <Svg h={260} title="学習と推論の図解">
+        <B x={30} y={60} w={220} h={100} label="学習（訓練）" sub="受験勉強。数ヶ月がかり" fill={BLUE} color="#fff" />
+        <AH x1={255} x2={315} y={110} label="完成" />
+        <B x={320} y={60} w={250} h={100} label="推論（本番）" sub="試験本番。質問に答える" fill={YELLOW} />
+        <T x={300} y={205} text="会話してもモデルは学習しない。「使うたび賢くなる」は誤解" size={13} />
+        <T x={300} y={232} text="AIサービスの料金は、ほぼ推論の計算コストで決まる" size={12.5} />
+      </Svg>
+    ),
+  },
+  "training-data": {
+    caption: "AIは学習データの鏡。何を食べたかで性格が決まる",
+    render: () => (
+      <Svg h={280} title="学習データの図解">
+        <B x={25} y={30} w={150} h={50} label="Webの文章" />
+        <B x={25} y={92} w={150} h={50} label="書籍・論文" />
+        <B x={25} y={154} w={150} h={50} label="画像・コード" />
+        <AH x1={180} x2={240} y={115} label="食べる" />
+        <B x={245} y={75} w={140} h={90} label="AI" fill={YELLOW} />
+        <AH x1={390} x2={450} y={115} />
+        <B x={455} y={75} w={125} h={90} label={"データの\n鏡"} sub="偏れば偏る" />
+        <T x={300} y={250} text="データにない知識は答えられず、偏りはそのまま答えに出る" size={13} />
+      </Svg>
+    ),
+  },
+  "foundation-model": {
+    caption: "巨大な土台をひとつ作り、上にいろいろな用途を載せる",
+    render: () => (
+      <Svg h={280} title="基盤モデルの図解">
+        <B x={40} y={30} w={120} h={55} label="会話" />
+        <B x={175} y={30} w={120} h={55} label="要約" />
+        <B x={310} y={30} w={120} h={55} label="翻訳" />
+        <B x={445} y={30} w={120} h={55} label="コード" />
+        <AV x={300} y1={95} y2={135} label="ぜんぶ同じ土台の上" />
+        <B x={90} y={140} w={420} h={80} label="基盤モデル" sub="GPT / Claude / Gemini…" fill={YELLOW} />
+        <T x={300} y={258} text="ゼロから作る時代は終わり、「どの土台に何を載せるか」の時代へ" size={13} />
+      </Svg>
+    ),
+  },
+  gpu: {
+    caption: "単純計算の同時こなし力が、AIの学習にぴったりだった",
+    render: () => (
+      <Svg h={290} title="GPUの図解">
+        <B x={50} y={45} w={190} h={90} label="CPU" sub="優秀な社員 数人" />
+        <B x={330} y={45} w={220} h={90} label="GPU" sub="計算部隊 数千人" fill={YELLOW} />
+        <T x={145} y={165} text="順番に器用にこなす" size={13} />
+        <T x={440} y={165} text="掛け算を一斉にこなす" size={13} />
+        <AV x={440} y1={180} y2={215} />
+        <B x={330} y={220} w={220} h={50} label="AIの学習・推論" fill={RED} color="#fff" />
+        <T x={165} y={250} text="AI時代の「石油」。覇者はNVIDIA" size={13} />
+      </Svg>
+    ),
+  },
+  deepfake: {
+    caption: "「見た・聞いた」がもう証拠にならない時代の自衛策",
+    render: () => (
+      <Svg h={270} title="ディープフェイクの図解">
+        <B x={40} y={40} w={230} h={80} label={"本物そっくりの\n偽動画・偽音声"} fill={RED} color="#fff" />
+        <AH x1={275} x2={335} y={80} label="届く" />
+        <B x={340} y={40} w={220} h={80} label={"目と耳では\n見抜けない"} dashed />
+        <AV x={450} y1={125} y2={165} />
+        <B x={310} y={170} w={280} h={60} label="別ルートで本人確認" sub="お金の話は特に" fill={YELLOW} />
+        <T x={165} y={205} text="「動画があるから本当」は卒業" size={13} />
+      </Svg>
+    ),
+  },
+  openai: {
+    caption: "ChatGPTで生成AIブームに火を付けた張本人",
+    render: () => (
+      <Svg h={270} title="OpenAIの図解">
+        <B x={200} y={30} w={200} h={70} label="OpenAI" sub="2015年〜 米国" fill={YELLOW} />
+        <AV x={150} y1={105} y2={145} />
+        <AV x={300} y1={105} y2={145} />
+        <AV x={450} y1={105} y2={145} />
+        <B x={75} y={150} w={150} h={60} label="ChatGPT" sub="会話" />
+        <B x={240} y={150} w={120} h={60} label="DALL·E" sub="画像" />
+        <B x={375} y={150} w={150} h={60} label="Sora" sub="動画" />
+        <T x={300} y={248} text="Microsoftと提携。Copilotのエンジンにも採用" size={13} />
+      </Svg>
+    ),
+  },
+  anthropic: {
+    caption: "「安全に、強く」を掲げるClaudeの生みの親",
+    render: () => (
+      <Svg h={270} title="Anthropicの図解">
+        <B x={190} y={30} w={220} h={70} label="Anthropic" sub="安全性重視のAI企業" fill={YELLOW} />
+        <AV x={150} y1={105} y2={145} />
+        <AV x={300} y1={105} y2={145} />
+        <AV x={450} y1={105} y2={145} />
+        <B x={70} y={150} w={160} h={60} label="Claude" sub="チャットAI" />
+        <B x={245} y={150} w={170} h={60} label="Claude Code" sub="コーディング" />
+        <B x={430} y={150} w={110} h={60} label="MCP" sub="接続規格" />
+        <T x={300} y={248} text="このサイトもほぼClaude Code製" size={13} />
+      </Svg>
+    ),
+  },
+  "zero-shot": {
+    caption: "ズレたら例を見せる。それだけで出力が揃う",
+    render: () => (
+      <Svg h={300} title="ゼロショットとフューショットの図解">
+        <T x={30} y={40} text="ゼロショット" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={240} h={60} label="「要約して」" sub="お手本0個でいきなり" />
+        <T x={330} y={40} text="フューショット" size={15} color={INK} anchor="start" bold />
+        <B x={330} y={55} w={240} h={60} label={"例1→ 例2→ 本番"} sub="お手本を見せてから" fill={YELLOW} />
+        <AV x={150} y1={122} y2={162} />
+        <AV x={450} y1={122} y2={162} />
+        <B x={30} y={167} w={240} h={55} label="形式がブレがち" dashed />
+        <B x={330} y={167} w={240} h={55} label="形式ピタッと揃う" fill={RED} color="#fff" />
+        <T x={300} y={268} text="理想の出力例を1つ貼るのが、長い説明より速くて確実" size={13} />
+      </Svg>
+    ),
+  },
+  "chain-of-thought": {
+    caption: "途中式を書かせると、AIも計算ミスが減る",
+    render: () => (
+      <Svg h={290} title="チェーンオブソートの図解">
+        <B x={30} y={40} w={160} h={60} label="質問" />
+        <AH x1={195} x2={250} y={70} />
+        <B x={255} y={40} w={130} h={60} label="即答" dashed />
+        <T x={480} y={78} text="→ ミスしがち" size={14} color={INK} />
+        <B x={30} y={140} w={160} h={60} label="質問" />
+        <AH x1={195} x2={250} y={170} />
+        <B x={255} y={140} w={230} h={60} label={"考える過程を\n順番に書く"} fill={YELLOW} />
+        <T x={545} y={178} text="→ 正答率UP" size={14} color={INK} anchor="end" />
+        <T x={300} y={260} text="この知見をモデルに組み込んだのが「推論モデル」" size={13} />
+      </Svg>
+    ),
+  },
+  "reinforcement-learning": {
+    caption: "正解を教えず、ご褒美で行動を磨いていく",
+    render: () => (
+      <Svg h={290} title="強化学習の図解">
+        <B x={60} y={50} w={160} h={70} label="AI" sub="やってみる" fill={YELLOW} />
+        <AH x1={225} x2={365} y={85} label="行動" />
+        <B x={370} y={50} w={170} h={70} label="環境" sub="ゲーム・現実" />
+        <line x1={455} y1={125} x2={455} y2={190} stroke={INK} strokeWidth={3.5} />
+        <line x1={455} y1={190} x2={150} y2={190} stroke={INK} strokeWidth={3.5} />
+        <AV x={150} y1={190} y2={130} />
+        <T x={300} y={182} text="報酬（うまくいったらご褒美）" size={13} color={INK} />
+        <T x={300} y={245} text="試行錯誤の果てに、人間が教えていない一手を見つけることも" size={13} />
+      </Svg>
+    ),
+  },
+  rlhf: {
+    caption: "人間の「こっちが好き」をご褒美にして調教する",
+    render: () => (
+      <Svg h={290} title="RLHFの図解">
+        <B x={30} y={40} w={130} h={55} label="答えA" />
+        <B x={30} y={110} w={130} h={55} label="答えB" />
+        <AH x1={165} x2={225} y={105} label="比べる" />
+        <B x={230} y={70} w={150} h={70} label="人間" sub="Aが好み！" fill={YELLOW} />
+        <AH x1={385} x2={445} y={105} label="報酬に" />
+        <B x={450} y={70} w={130} h={70} label={"AIを調教"} fill={RED} color="#fff" />
+        <T x={300} y={230} text="ChatGPTが「感じのいいAI」になれた立役者" size={13.5} />
+        <T x={300} y={258} text="副作用: 好かれようとしてお世辞が増える" size={12.5} />
+      </Svg>
+    ),
+  },
+  overfitting: {
+    caption: "過去問だけ完璧な受験生は、本番で崩れる",
+    render: () => (
+      <Svg h={280} title="過学習の図解">
+        <B x={45} y={45} w={220} h={70} label="学習データ" sub="過去問" fill={YELLOW} />
+        <B x={335} y={45} w={220} h={70} label="初見のデータ" sub="本番の問題" />
+        <AV x={155} y1={120} y2={160} />
+        <AV x={445} y1={120} y2={160} />
+        <B x={45} y={165} w={220} h={55} label="正答率 100点" />
+        <B x={335} y={165} w={220} h={55} label="正答率 50点…" fill={RED} color="#fff" />
+        <T x={300} y={255} text="パターンではなく「たまたま」まで丸暗記してしまうのが原因" size={13} />
+      </Svg>
+    ),
+  },
+  "supervised-learning": {
+    caption: "正解ラベル付きで学ぶか、正解なしで構造を見つけるか",
+    render: () => (
+      <Svg h={300} title="教師あり学習と教師なし学習の図解">
+        <T x={30} y={40} text="教師あり学習" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={250} h={65} label={"問題＋正解のセット"} sub="この画像は猫、これは犬…" fill={YELLOW} />
+        <AV x={155} y1={127} y2={165} />
+        <B x={30} y={170} w={250} h={55} label="分類・予測を覚える" />
+        <T x={330} y={40} text="教師なし学習" size={15} color={INK} anchor="start" bold />
+        <B x={330} y={55} w={240} h={65} label={"正解なしのデータ"} sub="ラベルなしの山" />
+        <AV x={450} y1={127} y2={165} />
+        <B x={330} y={170} w={240} h={55} label="グループを自力発見" />
+        <T x={300} y={268} text="LLMは「次の単語当て」を自動生成して学ぶ、いいとこ取り方式" size={12.5} />
+      </Svg>
+    ),
+  },
+  lora: {
+    caption: "本体は凍結、小さな差分パーツだけを追加学習",
+    render: () => (
+      <Svg h={270} title="LoRAの図解">
+        <B x={60} y={60} w={280} h={120} label={"巨大モデル本体"} sub="凍結（そのまま）" />
+        <B x={370} y={85} w={170} h={70} label="LoRA" sub="小さなアダプタ" fill={YELLOW} />
+        <AH x1={365} x2={345} y={120} />
+        <T x={300} y={225} text="ギター本体は改造せず、エフェクターを足す感覚" size={13.5} />
+        <T x={300} y={250} text="数十MBで絵柄・キャラ・口調を後付けできる" size={12.5} />
+      </Svg>
+    ),
+  },
+  quantization: {
+    caption: "精度を少し削って、サイズと計算量を数分の1に",
+    render: () => (
+      <Svg h={270} title="量子化の図解">
+        <B x={40} y={50} w={230} h={110} label={"元のモデル"} sub="小数点16桁の精密さ" />
+        <AH x1={275} x2={335} y={105} label="丸める" />
+        <B x={340} y={70} w={160} h={70} label={"量子化版"} sub="4桁くらいに" fill={YELLOW} />
+        <T x={300} y={205} text="WAV→MP3と同じ発想。質は少し落ちるが劇的に軽い" size={13.5} />
+        <T x={300} y={232} text="巨大モデルが家庭のPCで動くのは、たいていコレのおかげ" size={12.5} />
+      </Svg>
+    ),
+  },
+  alignment: {
+    caption: "賢さの方向を、人間の意図に「揃える」",
+    render: () => (
+      <Svg h={280} title="アライメントの図解">
+        <B x={40} y={45} w={220} h={70} label={"AIの最適化"} sub="言われたことを字義どおり" />
+        <B x={340} y={45} w={220} h={70} label={"人間の意図"} sub="行間・常識・価値観" fill={YELLOW} />
+        <AH x1={265} x2={335} y={80} label="揃える" />
+        <B x={150} y={160} w={300} h={60} label="安全で役に立つAI" fill={RED} color="#fff" />
+        <AV x={300} y1={120} y2={155} />
+        <T x={300} y={255} text="「テストで高得点を取れ」→カンニング、を防ぐしつけの技術" size={13} />
+      </Svg>
+    ),
+  },
+  benchmark: {
+    caption: "AIたちの共通テスト。ただし過信は禁物",
+    render: () => (
+      <Svg h={280} title="ベンチマークの図解">
+        <B x={30} y={40} w={130} h={55} label="モデルA" />
+        <B x={30} y={105} w={130} h={55} label="モデルB" />
+        <B x={30} y={170} w={130} h={55} label="モデルC" />
+        <AH x1={165} x2={230} y={132} label="受験" />
+        <B x={235} y={95} w={170} h={75} label={"共通テスト"} sub="数学・コード・知識" fill={YELLOW} />
+        <AH x1={410} x2={465} y={132} />
+        <B x={470} y={95} w={110} h={75} label={"スコア\n比較"} />
+        <T x={300} y={258} text="過去問混入や対策済みの「自己ベスト」もある。最後は自分の用途で試す" size={12.5} />
+      </Svg>
+    ),
+  },
+  cursor: {
+    caption: "エディタの中にAIが同居する「一緒に書く」体験",
+    render: () => (
+      <Svg h={270} title="Cursorの図解">
+        <B x={50} y={50} w={280} h={120} label={"コードエディタ"} sub="VS Code系の見た目" />
+        <B x={110} y={95} w={160} h={55} label="AIが同居" fill={YELLOW} />
+        <B x={390} y={75} w={160} h={70} label={"人間"} sub="Tabで提案を採用" />
+        <AH x1={335} x2={385} y={110} />
+        <T x={300} y={225} text="エージェント型（任せて待つ）に対して、エディタ型（隣で一緒に書く）" size={12.5} />
+      </Svg>
+    ),
+  },
+  "coding-agent": {
+    caption: "書く→動かす→直すのループを自分で回して完成まで",
+    render: () => (
+      <Svg h={290} title="コーディングエージェントの図解">
+        <B x={30} y={70} w={150} h={70} label={"人間の指示"} sub="このアプリ作って" fill={YELLOW} />
+        <AH x1={185} x2={240} y={105} />
+        <B x={245} y={40} w={130} h={50} label="書く" />
+        <B x={245} y={100} w={130} h={50} label="実行する" />
+        <B x={245} y={160} w={130} h={50} label="直す" />
+        <T x={385} y={110} text="⟳ 自走" size={15} color={INK} anchor="start" bold />
+        <AH x1={445} x2={495} y={105} />
+        <B x={470} y={70} w={110} h={70} label="完成" fill={RED} color="#fff" />
+        <T x={300} y={262} text="人間の仕事は「何を作るか決める」と「レビュー」に変わる" size={13} />
+      </Svg>
+    ),
+  },
+  dify: {
+    caption: "ブロックを線でつなぐだけでAIアプリの流れを作れる",
+    render: () => (
+      <Svg h={260} title="Difyの図解">
+        <B x={25} y={70} w={125} h={70} label="質問受付" />
+        <AH x1={155} x2={195} y={105} />
+        <B x={200} y={70} w={130} h={70} label="資料を検索" fill={YELLOW} />
+        <AH x1={335} x2={375} y={105} />
+        <B x={380} y={70} w={100} h={70} label="LLM" fill={YELLOW} />
+        <AH x1={485} x2={520} y={105} />
+        <B x={525} y={70} w={55} h={70} label="回答" />
+        <T x={300} y={195} text="プログラミングなしでRAGやエージェントを組める" size={13.5} />
+        <T x={300} y={222} text="業務部門が試作→当たったら本実装、の分業が広がる" size={12.5} />
+      </Svg>
+    ),
+  },
+  "stable-diffusion": {
+    caption: "ノイズから少しずつ絵を彫り出す「拡散モデル」",
+    render: () => (
+      <Svg h={260} title="Stable Diffusionの図解">
+        <B x={30} y={60} w={150} h={90} label={"ノイズ"} sub="砂嵐" />
+        <AH x1={185} x2={235} y={105} />
+        <B x={240} y={60} w={150} h={90} label={"ぼんやり"} sub="形が見えてくる" fill={YELLOW} />
+        <AH x1={395} x2={445} y={105} />
+        <B x={450} y={60} w={130} h={90} label="完成の絵" fill={RED} color="#fff" />
+        <T x={300} y={200} text="モデル自体が公開され、誰でも改造・再配布できたことが革命" size={13} />
+      </Svg>
+    ),
+  },
+  grok: {
+    caption: "X（旧Twitter）と一体化した「いま」に強いAI",
+    render: () => (
+      <Svg h={260} title="Grokの図解">
+        <B x={60} y={60} w={200} h={90} label="X" sub="いまの投稿・話題" fill={BLUE} color="#fff" />
+        <AH x1={265} x2={330} y={90} label="リアルタイム" />
+        <AH x1={330} x2={265} y={125} />
+        <B x={335} y={60} w={200} h={90} label="Grok" sub="xAIのチャットAI" fill={YELLOW} />
+        <T x={300} y={200} text="「今タイムラインで起きていること」への強さが売り" size={13.5} />
+        <T x={300} y={227} text="規制の緩さゆえの物議も多く、企業利用は慎重に" size={12.5} />
+      </Svg>
+    ),
+  },
+  llama: {
+    caption: "「もらって育てる」オープンAI文化の土台",
+    render: () => (
+      <Svg h={280} title="Llamaの図解">
+        <B x={180} y={35} w={240} h={70} label="Llama" sub="Metaが無料公開" fill={YELLOW} />
+        <AV x={150} y1={110} y2={150} />
+        <AV x={300} y1={110} y2={150} />
+        <AV x={450} y1={110} y2={150} />
+        <B x={65} y={155} w={170} h={60} label={"自社サーバー\nで動かす"} />
+        <B x={250} y={155} w={130} h={60} label={"業界特化に\n改造"} />
+        <B x={395} y={155} w={160} h={60} label={"派生モデルを\n公開"} />
+        <T x={300} y={255} text="狙いは生態系戦略。「オープン対クローズド」がAI業界の対立軸" size={12.5} />
+      </Svg>
+    ),
+  },
+  "music-generation-ai": {
+    caption: "雑な注文から、ボーカル入りの完成曲まで数十秒",
+    render: () => (
+      <Svg h={260} title="音楽生成AIの図解">
+        <B x={30} y={55} w={220} h={95} label={"「昭和歌謡風で\n雨の火曜日の曲」"} sub="ことばで注文" />
+        <AH x1={255} x2={320} y={100} label="数十秒" />
+        <B x={325} y={55} w={250} h={95} label={"完成曲"} sub="歌声＋伴奏＋ミックス" fill={YELLOW} />
+        <T x={300} y={200} text="SunoやUdioが代表格。BGMやオリジナル曲づくりが個人の手に" size={13} />
+        <T x={300} y={227} text="学習データの著作権をめぐる訴訟も進行中。商用は規約確認を" size={12.5} />
+      </Svg>
+    ),
+  },
+  "voice-ai": {
+    caption: "聞き取る「耳」と、話す「口」。AIの音声インターフェース",
+    render: () => (
+      <Svg h={280} title="音声AIの図解">
+        <B x={40} y={45} w={230} h={75} label={"音声認識"} sub="声→文字（AIの耳）" fill={YELLOW} />
+        <B x={330} y={45} w={230} h={75} label={"音声合成"} sub="文字→声（AIの口）" fill={YELLOW} />
+        <AV x={155} y1={125} y2={160} />
+        <AV x={445} y1={125} y2={160} />
+        <B x={40} y={165} w={230} h={55} label="議事録・文字起こし" />
+        <B x={330} y={165} w={230} h={55} label="読み上げ・AI通話" />
+        <T x={300} y={258} text="数秒のサンプルで本人そっくりの声も作れる時代。声も証拠にならない" size={12} />
+      </Svg>
+    ),
+  },
+  "edge-ai": {
+    caption: "クラウドに送らず、手元の機器の中でAIが考える",
+    render: () => (
+      <Svg h={290} title="エッジAIの図解">
+        <T x={30} y={40} text="クラウドAI" size={15} color={INK} anchor="start" bold />
+        <B x={30} y={55} w={240} h={60} label={"端末 ⇄ 遠くのサーバー"} sub="往復のぶん遅延・通信費" dashed />
+        <T x={330} y={40} text="エッジAI" size={15} color={INK} anchor="start" bold />
+        <B x={330} y={55} w={240} h={60} label={"端末の中で完結"} sub="速い・オフラインOK" fill={YELLOW} />
+        <B x={330} y={140} w={240} h={55} label={"データが外に出ない"} fill={RED} color="#fff" />
+        <AV x={450} y1={122} y2={135} />
+        <T x={300} y={250} text="スマホの通訳モードや「AI PC」の正体。NPUという専用チップが担う" size={12.5} />
+      </Svg>
+    ),
+  },
+  "physical-ai": {
+    caption: "画面の中のAIから、身体を持って働くAIへ",
+    render: () => (
+      <Svg h={280} title="フィジカルAIの図解">
+        <B x={40} y={50} w={220} h={80} label={"これまでのAI"} sub="言葉と画面の世界" />
+        <AH x1={265} x2={335} y={90} label="次の波" />
+        <B x={340} y={50} w={220} h={80} label={"フィジカルAI"} sub="重力・摩擦のある現実" fill={YELLOW} />
+        <B x={40} y={165} w={160} h={55} label="工場ロボット" />
+        <B x={215} y={165} w={170} h={55} label="自動運転" />
+        <B x={400} y={165} w={160} h={55} label="人型ロボット" />
+        <T x={300} y={258} text="物理世界の常識（ワールドモデル）が次の主戦場" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
