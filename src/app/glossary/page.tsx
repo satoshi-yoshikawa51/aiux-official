@@ -165,6 +165,9 @@ export default function GlossaryIndexPage() {
             </span>
           </a>
         </div>
+        <p style={{ maxWidth: 680, margin: "14px auto 0", fontSize: 13, color: "var(--text-muted)", textAlign: "center" }}>
+          探している用語が見つからない？ <a href="/search" style={{ color: "var(--red-600)", fontWeight: 700 }}>🔎 AI司書に聞く（サイト内AI検索）</a>
+        </p>
       </section>
 
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0 46px" }}>

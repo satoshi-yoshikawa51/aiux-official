@@ -54,6 +54,7 @@ export function GET() {
     "- [ChatGPT・Claude・Gemini比較](https://comixai.dev/compare): 3大AIの違いと用途別の使い分け",
     "- [AI歴史絵巻](https://comixai.dev/history): 1950年から2026年まで、AIの75年史をスクロールで読める年表絵巻",
     "- [COMIXAI AI受付](https://comixai.dev/uketsuke): AIが用件をヒアリングし、お問い合わせ内容を自動で要約して届けるチャット型の受付窓口",
+    "- [AI司書に聞く](https://comixai.dev/search): サイト内の用語・FAQ・マンガ・ゲームからAIが答えを探して案内するサイト内検索",
     ...TERMS.map(
       (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`
     ),

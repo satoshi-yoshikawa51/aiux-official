@@ -77,7 +77,16 @@ export function Nav({ home = true }: { home?: boolean }) {
               {it.label}
             </a>
           ))}
-          <a href={link("#contact")} style={{ textDecoration: "none", marginLeft: 6 }}>
+          <a
+            href="/search"
+            aria-label="サイト内検索（AI司書）"
+            title="AI司書に聞く"
+            className="nav-link"
+            style={{ color: "var(--text-strong)", textDecoration: "none", padding: "8px 10px", borderRadius: 8, display: "flex", alignItems: "center" }}
+          >
+            <i className="ph-bold ph-magnifying-glass" style={{ fontSize: 19 }} />
+          </a>
+          <a href={link("#contact")} style={{ textDecoration: "none", marginLeft: 2 }}>
             <Button variant="primary" size="sm">
               お問い合わせ
             </Button>
@@ -125,6 +134,24 @@ export function Nav({ home = true }: { home?: boolean }) {
               {it.label}
             </a>
           ))}
+          <a
+            href="/search"
+            onClick={() => setOpen(false)}
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontWeight: 700,
+              fontSize: 16,
+              color: "var(--ink-900)",
+              textDecoration: "none",
+              width: PAGE,
+              margin: "0 auto",
+              padding: "14px 0",
+              borderBottom: "1px solid rgba(20,17,15,0.08)",
+            }}
+          >
+            <i className="ph-bold ph-magnifying-glass" style={{ marginRight: 6 }} />
+            AI司書に聞く
+          </a>
           <a
             href={link("#contact")}
             onClick={() => setOpen(false)}
