@@ -791,6 +791,121 @@ function Social() {
   );
 }
 
+/* ═══════════════ AI受付フローティング導線 ═══════════════ */
+/* 右下にキャラクターが吹き出し付きで登場 → 数秒後に右端のタブに格納 */
+function UketsukeFab() {
+  const [state, setState] = React.useState<"hidden" | "pop" | "docked">("hidden");
+
+  React.useEffect(() => {
+    /* 同一セッションで2回目以降は最初からタブ格納状態 */
+    if (window.sessionStorage.getItem("ukeFabSeen")) {
+      setState("docked");
+      return;
+    }
+    const t = window.setTimeout(() => {
+      setState("pop");
+      window.sessionStorage.setItem("ukeFabSeen", "1");
+    }, 1400);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  React.useEffect(() => {
+    if (state !== "pop") return;
+    const t = window.setTimeout(() => setState("docked"), 8000);
+    return () => window.clearTimeout(t);
+  }, [state]);
+
+  if (state === "hidden") return null;
+
+  if (state === "docked") {
+    return (
+      <a
+        href="/uketsuke"
+        className="uke-fab-dock"
+        aria-label="AI受付でご相談"
+        style={{
+          position: "fixed",
+          right: 0,
+          bottom: 26,
+          zIndex: 55,
+          display: "flex",
+          alignItems: "center",
+          gap: 7,
+          textDecoration: "none",
+          background: "var(--yellow-400)",
+          border: "2px solid var(--ink-900)",
+          borderRight: "none",
+          borderRadius: "999px 0 0 999px",
+          padding: "6px 10px 6px 7px",
+          boxShadow: "var(--shadow-pop-sm)",
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/uketsuke/char.webp"
+          alt=""
+          style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", background: "var(--paper-0)", border: "1.5px solid var(--ink-900)", flex: "none" }}
+        />
+        <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 12.5, color: "var(--ink-900)", lineHeight: 1.3 }}>
+          AI相談
+        </span>
+      </a>
+    );
+  }
+
+  return (
+    <div className="uke-fab-pop" style={{ position: "fixed", right: 14, bottom: 12, zIndex: 55, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+      <div style={{ position: "relative" }}>
+        <div
+          style={{
+            background: "var(--paper-0)",
+            border: "2px solid var(--ink-900)",
+            borderRadius: "14px 14px 4px 14px",
+            boxShadow: "var(--shadow-pop-sm)",
+            padding: "10px 14px",
+            maxWidth: 220,
+          }}
+        >
+          <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14.5, color: "var(--ink-900)" }}>ご相談はこちら！</div>
+          <div style={{ fontSize: 12, lineHeight: 1.7, color: "var(--text-muted)", marginTop: 2 }}>AI受付が用件をまとめます</div>
+        </div>
+        <button
+          type="button"
+          aria-label="閉じる"
+          onClick={() => setState("docked")}
+          style={{
+            position: "absolute",
+            top: -10,
+            left: -10,
+            width: 24,
+            height: 24,
+            borderRadius: "50%",
+            background: "var(--ink-900)",
+            color: "var(--paper-50)",
+            border: "none",
+            cursor: "pointer",
+            fontSize: 13,
+            lineHeight: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          ✕
+        </button>
+      </div>
+      <a href="/uketsuke" aria-label="AI受付をひらく" style={{ display: "block" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/uketsuke/char.webp"
+          alt="AI受付のキャラクター"
+          style={{ width: 96, height: "auto", display: "block", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.25))" }}
+        />
+      </a>
+    </div>
+  );
+}
+
 /* ═══════════════ お問い合わせ ═══════════════ */
 function Contact() {
   const [state, setState] = React.useState<"idle" | "sending" | "done" | "error">("idle");
@@ -845,7 +960,7 @@ function Contact() {
             <Card variant="pop" hover padding={16} style={{ background: "var(--yellow-400)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/quiz/grades/minarai.webp" alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", border: "2px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }} />
+                <img src="/uketsuke/char.webp" alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", border: "2px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }} />
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14.5, color: "var(--ink-900)" }}>
                     文章を考えるのが面倒なら、AI受付へ
@@ -938,6 +1053,7 @@ export default function Page() {
       <Social />
       <Contact />
       <Footer />
+      <UketsukeFab />
     </div>
   );
 }

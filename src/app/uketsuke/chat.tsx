@@ -246,9 +246,9 @@ export default function UketsukeChat() {
   const avatar = (size: number) => (
     /* eslint-disable-next-line @next/next/no-img-element */
     <img
-      src="/quiz/grades/minarai.webp"
+      src="/uketsuke/char.webp"
       alt=""
-      style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", border: "1.5px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }}
+      style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", border: "1.5px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }}
     />
   );
 
@@ -285,9 +285,9 @@ export default function UketsukeChat() {
             <div style={{ width: COL, textAlign: "center" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/quiz/grades/minarai.webp"
+                src="/uketsuke/char.webp"
                 alt="COMIXAI AI受付のキャラクター"
-                style={{ width: 88, height: 88, borderRadius: "50%", objectFit: "cover", border: "3px solid var(--ink-900)", background: "var(--paper-0)", boxShadow: "var(--shadow-pop-sm)", margin: "0 auto 18px", display: "block" }}
+                style={{ width: 110, height: "auto", margin: "0 auto 16px", display: "block", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.22))" }}
               />
               <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(24px,4vw,34px)", lineHeight: 1.4, margin: "0 0 10px" }}>
                 ご用件をどうぞ。
