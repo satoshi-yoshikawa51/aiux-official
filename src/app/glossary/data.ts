@@ -1236,6 +1236,12 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     links: [],
     relatedSlugs: ["prompt-engineering", "prompt", "chain-of-thought"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/otehon",
+      title: "お手本ひとつで、AIは化ける。",
+      desc: "AIに渡すお手本を選べ。良い例は一撃で効き、悪い例は悪癖ごと量産される——ゼロショット／フューショット体験ゲーム。",
+      cta: "お手本を選ぶ",
+    },
   },
   {
     slug: "chain-of-thought",
@@ -1274,6 +1280,12 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     links: [],
     relatedSlugs: ["rlhf", "supervised-learning", "machine-learning"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/gohobi",
+      title: "操作禁止。置けるのは、ご褒美だけ。",
+      desc: "迷路にご褒美🍖を置いて、AIをゴールまで導け。置き方を間違えると食べて昼寝します——強化学習体験ゲーム。",
+      cta: "ご褒美を置く",
+    },
   },
   {
     slug: "rlhf",
@@ -1290,6 +1302,12 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     links: [],
     relatedSlugs: ["reinforcement-learning", "alignment", "chatgpt"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/shitsuke",
+      title: "あなたの「好み」がAIを作る。",
+      desc: "2つの答えから好きな方を10回選ぶと、あなた好みのAIが育つ——硬派AI？それともゴマすりAI？RLHF体験ゲーム。",
+      cta: "AIを調教する",
+    },
   },
   {
     slug: "overfitting",
@@ -1360,6 +1378,12 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     links: [],
     relatedSlugs: ["local-llm", "parameter", "distillation"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/diet",
+      title: "絞れ。ただし、壊すな。",
+      desc: "Q16〜Q2の圧縮レベルを選んで、巨大AIを3つのデバイスに載せる。絞りすぎると「首都はおにぎり」——量子化体験ゲーム。",
+      cta: "AIを圧縮する",
+    },
   },
   {
     slug: "alignment",
@@ -1376,6 +1400,12 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     links: [],
     relatedSlugs: ["rlhf", "ai-governance", "agi"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/majin",
+      title: "願いは、言葉どおりに叶う。",
+      desc: "悪気ゼロで字義どおりに願いを叶える魔神AIに、事故らない願い方ができるか。アライメント体験ゲーム。",
+      cta: "魔神に願う",
+    },
   },
   {
     slug: "benchmark",
@@ -1392,6 +1422,12 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     links: [],
     relatedSlugs: ["reasoning-model", "overfitting", "llm"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/undokai",
+      title: "スコアで、勝者を当てられるか。",
+      desc: "ベンチマークスコアを頼りに全4種目の勝者を予想せよ。最終種目「実務」で順位はひっくり返る——ベンチマーク体験ゲーム。",
+      cta: "予想する",
+    },
   },
 
   /* —— 開発・活用 —— */

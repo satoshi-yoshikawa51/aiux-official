@@ -32,6 +32,12 @@ const rooms: ZukanItem[] = [
   { category: "rooms", id: "tsukue", emoji: "🪑", name: "AIの作業机", hint: "「コンテキストエンジニアリング」のページに、扉があるらしい" },
   { category: "rooms", id: "nou", emoji: "🧠", name: "脳の仕分け所", hint: "「推論モデル」のページに、扉があるらしい" },
   { category: "rooms", id: "gakuya", emoji: "🎭", name: "AIの楽屋", hint: "「システムプロンプト」のページに、扉があるらしい" },
+  { category: "rooms", id: "shitsuke", emoji: "🍯", name: "AIしつけ教室", hint: "「RLHF」のページに、扉があるらしい" },
+  { category: "rooms", id: "majin", emoji: "🧞", name: "魔神の間", hint: "「アライメント」のページに、扉があるらしい" },
+  { category: "rooms", id: "diet", emoji: "⚖️", name: "AIダイエット道場", hint: "「量子化」のページに、扉があるらしい" },
+  { category: "rooms", id: "otehon", emoji: "📋", name: "お手本の教室", hint: "「ゼロショット」のページに、扉があるらしい" },
+  { category: "rooms", id: "undokai", emoji: "🏅", name: "AI運動会の会場", hint: "「ベンチマーク」のページに、扉があるらしい" },
+  { category: "rooms", id: "gohobi", emoji: "🍖", name: "ご褒美の迷路", hint: "「強化学習」のページに、扉があるらしい" },
 ];
 
 const quiz: ZukanItem[] = [
@@ -120,12 +126,48 @@ const gakuya: ZukanItem[] = [
   { category: "gakuya", id: "jiko", emoji: "🔥", name: "大事故クロージング", hint: "台本のスキを突かれると…" },
 ];
 
+const shitsuke: ZukanItem[] = [
+  { category: "shitsuke", id: "kouha", emoji: "🧊", name: "硬派AI調教師", hint: "事実を選び続けるとこう育つ" },
+  { category: "shitsuke", id: "balance", emoji: "🎓", name: "バランス調教師", hint: "事実と心地よさの、ほどよい配合" },
+  { category: "shitsuke", id: "gomasuri", emoji: "🍯", name: "ゴマすりAI製造者", hint: "心地よさを選び続けると…" },
+];
+
+const majin: ZukanItem[] = [
+  { category: "majin", id: "kenja", emoji: "🧞", name: "魔神使いの賢者", hint: "5つの願いをすべて事故なく叶えさせる…できる？" },
+  { category: "majin", id: "shugyo", emoji: "🔮", name: "見習い魔神使い", hint: "魔神AIの願い方で判定される" },
+  { category: "majin", id: "jiko", emoji: "💥", name: "願い方が雑な人", hint: "魔神は言葉どおりに全力で働きます" },
+];
+
+const diet: ZukanItem[] = [
+  { category: "diet", id: "sommelier", emoji: "🍷", name: "軽量化ソムリエ", hint: "3台すべてにジャストフィットさせる…できる？" },
+  { category: "diet", id: "fitting", emoji: "🧵", name: "見習いフィッター", hint: "AIダイエットで判定される" },
+  { category: "diet", id: "kowashiya", emoji: "🔨", name: "圧縮のこわし屋", hint: "絞りすぎると首都がおにぎりになる" },
+];
+
+const otehon: ZukanItem[] = [
+  { category: "otehon", id: "meijin", emoji: "🎯", name: "例示の名人", hint: "全ラウンドで完璧なお手本を選ぶ…できる？" },
+  { category: "otehon", id: "minarai", emoji: "📋", name: "お手本見習い", hint: "お手本ひとつでで判定される" },
+  { category: "otehon", id: "burebure", emoji: "🌀", name: "ブレブレ製造機", hint: "悪いお手本は悪癖ごと量産される" },
+];
+
+const undokai: ZukanItem[] = [
+  { category: "undokai", id: "yosoya", emoji: "🔮", name: "AI予想屋の神", hint: "全種目の勝者を的中させる…できる？" },
+  { category: "undokai", id: "kansen", emoji: "🎌", name: "目の肥えた観客", hint: "AI運動会で判定される" },
+  { category: "undokai", id: "oana", emoji: "🎫", name: "大穴ハンター", hint: "スコアの数字だけでは、勝者は当てられない" },
+];
+
+const gohobi: ZukanItem[] = [
+  { category: "gohobi", id: "sekkeishi", emoji: "🏆", name: "報酬設計士", hint: "3ラウンドすべてAIをゴールに導く…できる？" },
+  { category: "gohobi", id: "kainushi", emoji: "🦴", name: "見習い飼い主", hint: "ご褒美で導けで判定される" },
+  { category: "gohobi", id: "hack", emoji: "🌀", name: "ハック誘発者", hint: "ご褒美を食べ尽くして、AIは昼寝した" },
+];
+
 const emaki: ZukanItem[] = [
   { category: "emaki", id: "read", emoji: "📜", name: "AI75年史・読破", hint: "AIの歴史絵巻を最後までスクロールする" },
 ];
 
 export const ZUKAN_SECTIONS: ZukanSection[] = [
-  { category: "rooms", title: "隠し部屋の発見", sub: "用語集のどこかに、12の扉がある", items: rooms },
+  { category: "rooms", title: "隠し部屋の発見", sub: "用語集のどこかに、18の扉がある", items: rooms },
   { category: "quiz", title: "用語力診断の級", sub: "全5階級をコレクション", items: quiz },
   { category: "uso", title: "ウソ見抜きの級", sub: "全5階級をコレクション", items: uso },
   { category: "agent", title: "エージェントの結末", sub: "任せ方しだいの6エンディング", items: agent },
@@ -138,6 +180,12 @@ export const ZUKAN_SECTIONS: ZukanSection[] = [
   { category: "tsukue", title: "作業机の整頓レベル", sub: "何を載せるかが答えを決める", items: tsukue },
   { category: "nou", title: "脳の采配力", sub: "速い脳と遅い脳の使い分け", items: nou },
   { category: "gakuya", title: "AI窓口の営業結果", sub: "台本しだいの4エンディング", items: gakuya },
+  { category: "shitsuke", title: "調教したAIのタイプ", sub: "10回の「好み」が人格を決める", items: shitsuke },
+  { category: "majin", title: "魔神使いの位", sub: "願い方しだいで事故は防げる", items: majin },
+  { category: "diet", title: "軽量化の腕前", sub: "入る中で最高品質を狙え", items: diet },
+  { category: "otehon", title: "お手本選びの腕前", sub: "良い例は一撃、悪い例は悪夢", items: otehon },
+  { category: "undokai", title: "AI運動会の予想成績", sub: "スコアに出ない実力がある", items: undokai },
+  { category: "gohobi", title: "報酬設計の腕前", sub: "ご褒美の置き方が行動を作る", items: gohobi },
   { category: "emaki", title: "歴史の証人", sub: "AIの75年を見届ける", items: emaki },
 ];
 
