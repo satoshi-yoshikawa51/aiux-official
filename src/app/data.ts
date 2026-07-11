@@ -363,6 +363,3 @@ export const SOCIALS: Social[] = [
 export const FORMSPREE_ENDPOINT = "https://formspree.io/f/mgobakjb";
 export const CONTACT_EMAIL = "comixai@outlook.jp";
 
-/* メインビジュアル */
-export const BANNER =
-  "https://assets.st-note.com/production/uploads/images/116614836/d720e6e55c16e9db7b376cf5c6c7990a.png?width=1200&quality=92";
