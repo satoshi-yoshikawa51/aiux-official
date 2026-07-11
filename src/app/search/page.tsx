@@ -29,7 +29,7 @@ export default function SearchPage() {
       <Nav home={false} />
       <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "AI司書に聞く" }]} />
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 60px", width: "100%", flex: 1, boxSizing: "border-box" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr minmax(0, 460px)", gap: 32, alignItems: "center", marginBottom: 28 }} className="mag-grid">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr minmax(0, 460px)", gap: 32, alignItems: "center", marginBottom: 50 }} className="mag-grid">
           <div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 10 }}>
               SEARCH — AI司書に聞く
