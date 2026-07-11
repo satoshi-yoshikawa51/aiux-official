@@ -23,6 +23,7 @@ import {
   type Tone,
 } from "./data";
 import { WORK_DETAILS } from "./works/data";
+import Splash from "./splash";
 import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
 import { PAGE, Nav, Footer } from "./site-chrome";
@@ -1100,6 +1101,7 @@ function Contact() {
 export default function Page() {
   return (
     <div id="top" style={{ background: "var(--paper-50)", minHeight: "100vh" }}>
+      <Splash />
       <Nav />
       <HeroVideo />
       <Profile />
