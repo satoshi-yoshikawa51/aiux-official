@@ -27,7 +27,10 @@ export default function SearchPage() {
   return (
     <div style={{ background: "var(--paper-50)", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Nav home={false} />
-      <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "AI司書に聞く" }]} />
+      {/* 親がflex列のためautoマージンのnavが中央に縮む。ブロックで包んで全幅に */}
+      <div style={{ width: "100%" }}>
+        <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "AI司書に聞く" }]} />
+      </div>
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 60px", width: "100%", flex: 1, boxSizing: "border-box" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr minmax(0, 460px)", gap: 32, alignItems: "center", marginBottom: 50 }} className="mag-grid">
           <div>
