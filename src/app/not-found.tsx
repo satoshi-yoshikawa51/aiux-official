@@ -24,7 +24,7 @@ export default function NotFound() {
             それっぽいURLを自信満々に案内された場合は——出典の確認、大事です。
           </p>
           <p style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", margin: "0 0 24px" }}>
-            ※「ハルシネーション」の意味が気になった人は、いい機会なので用語集へ
+            ※「ハルシネーション」の意味が気になった人は、いい機会なので<a href="/glossary/hallucination" style={{ color: "var(--red-600)" }}>用語集へ</a>
           </p>
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             <a href="/" style={{ textDecoration: "none" }}>
@@ -32,9 +32,9 @@ export default function NotFound() {
                 トップへ戻る
               </Button>
             </a>
-            <a href="/glossary/hallucination" style={{ textDecoration: "none" }}>
-              <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
-                ハルシネーションとは
+            <a href="/search" style={{ textDecoration: "none" }}>
+              <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-magnifying-glass" />}>
+                AI司書に探してもらう
               </Button>
             </a>
             <a href="/quiz" style={{ textDecoration: "none" }}>

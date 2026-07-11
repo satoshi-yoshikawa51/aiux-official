@@ -64,6 +64,15 @@ export default function UketsukeChat() {
   const modeRef = React.useRef(mode);
   modeRef.current = mode;
 
+  /* 空状態のキャラを透過アニメで動かす。
+     透過webm(VP9)対応ブラウザは動画、Safari等はアニメWebPに切替 */
+  const [alphaVideo, setAlphaVideo] = React.useState(false);
+  React.useEffect(() => {
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const v = document.createElement("video");
+    if (!isSafari && v.canPlayType('video/webm; codecs="vp9"')) setAlphaVideo(true);
+  }, []);
+
   const started = messages.some((m) => m.role === "user");
 
   /* 新しい発言が増えたらログ末尾へスクロール */
@@ -283,11 +292,16 @@ export default function UketsukeChat() {
           /* —— 空状態: AIチャットアプリの初期画面風 —— */
           <div style={{ minHeight: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "30px 0" }}>
             <div style={{ width: COL, textAlign: "center" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/uketsuke/char.webp"
-                alt="COMIXAI AI受付のキャラクター"
-                style={{ width: 110, height: "auto", margin: "0 auto 16px", display: "block", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.22))" }}
+              {/* Reactはmuted属性をSSRで落とすためvideoは生HTMLで埋め込む */}
+              <span
+                role="img"
+                aria-label="COMIXAI AI受付のキャラクター"
+                style={{ display: "block", width: 124, aspectRatio: "488 / 522", margin: "0 auto 16px", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.22))" }}
+                dangerouslySetInnerHTML={{
+                  __html: alphaVideo
+                    ? '<video src="/uketsuke/char-alpha.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="width:100%;height:100%;object-fit:contain;display:block;"></video>'
+                    : '<img src="/uketsuke/char-anim.webp" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">',
+                }}
               />
               <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(24px,4vw,34px)", lineHeight: 1.4, margin: "0 0 10px" }}>
                 ご用件をどうぞ。
@@ -432,7 +446,8 @@ export default function UketsukeChat() {
           </form>
           <p style={{ margin: "8px 2px 0", fontFamily: "var(--font-mono)", fontSize: 10.5, lineHeight: 1.7, color: "var(--text-muted)" }}>
             AIによる一次受付です。お名前・連絡先は最後の確認画面で入力してください。
-            じっくり書きたい方は<a href="/#contact" style={{ color: "var(--red-600)" }}>通常フォーム</a>へ
+            <a href="/#contact" style={{ color: "var(--red-600)" }}>通常フォーム</a>／
+            <a href="/works/uketsuke" style={{ color: "var(--red-600)" }}>この作品について</a>
           </p>
         </div>
       </div>

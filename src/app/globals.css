@@ -667,6 +667,11 @@ img {
   .nav-links {
     display: none;
   }
+  /* スマホ: 検索ボタンを右端（ハンバーガーの隣）に寄せる */
+  a.nav-search-btn-sp {
+    display: flex !important;
+    margin-left: auto !important;
+  }
   .hamburger {
     display: inline-flex;
     align-items: center;
@@ -724,12 +729,12 @@ img {
 .uke-fab-dock { animation: uke-dock-in 0.5s var(--ease-pop) both; }
 
 /* サイズ（スマホは小さめ） */
-.uke-fab-char { width: 96px; }
+.uke-fab-char { width: 106px; }
 .uke-fab-bubble { max-width: 220px; padding: 10px 14px; }
 .uke-fab-bubble-title { font-size: 14.5px; }
 .uke-fab-bubble-sub { font-size: 12px; }
 @media (max-width: 700px) {
-  .uke-fab-char { width: 68px; }
+  .uke-fab-char { width: 74px; }
   .uke-fab-bubble { max-width: 175px; padding: 8px 11px; }
   .uke-fab-bubble-title { font-size: 12.5px; }
   .uke-fab-bubble-sub { font-size: 10.5px; }
@@ -762,4 +767,9 @@ img {
   .start-hero-img {
     transform: none !important;
   }
+}
+
+/* スマホ用ヘッダー検索ボタンはPCでは出さない（nav内のものを使う） */
+.nav-search-btn-sp {
+  display: none !important;
 }

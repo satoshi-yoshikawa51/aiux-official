@@ -14,7 +14,7 @@ export interface WorkFeature {
 
 export interface WorkDetail {
   slug: string;
-  category: "ゲーム" | "ニュース";
+  category: "ゲーム" | "ニュース" | "ツール";
   title: string;
   /** 一覧カードやヒーローで使う短いキャッチ */
   tagline: string;
@@ -38,6 +38,8 @@ export interface WorkDetail {
   tech: string[];
   /** JSON-LD の @type */
   schemaType: "VideoGame" | "WebApplication";
+  /** schemaType が WebApplication のときの applicationCategory（省略時 NewsApplication） */
+  appCategory?: string;
   /** 制作ストーリー（note記事URL。data.ts の記事プールから解決） */
   storyUrls: string[];
 }
@@ -233,6 +235,100 @@ export const WORK_DETAILS: WorkDetail[] = [
     tech: ["Claude Code", "Next.js", "Vercel"],
     schemaType: "WebApplication",
     storyUrls: ["https://note.com/aiux_unite/n/n750de90c0668"],
+  },
+  {
+    slug: "uketsuke",
+    category: "ツール",
+    title: "COMIXAI AI受付",
+    tagline: "AIと話すだけで、お問い合わせが完成する。",
+    appUrl: "/uketsuke",
+    cta: "つかう",
+    image: "/works/uketsuke.jpg",
+    tone: "yellow",
+    badge: "AI",
+    lastUpdated: "2026-07-11",
+    metaTitle: "COMIXAI AI受付｜Claude APIで作ったチャット型お問い合わせ窓口",
+    metaDescription:
+      "フォームの空欄に固まらなくていい、チャット型のお問い合わせ窓口。AI（Claude API）があなたの用件をヒアリングして内容を自動で要約し、整理された状態で本人に届きます。AI活用の実例としても体験できるWORKS作品です。",
+    keywords: [
+      "AI 問い合わせフォーム",
+      "チャットボット 受付",
+      "Claude API 活用事例",
+      "AIヒアリング",
+      "問い合わせ 自動要約",
+    ],
+    intro: [
+      "お問い合わせフォームの「ご相談内容」欄を前に、何をどう書けばいいか固まってしまう——その体験そのものをAIで作り変えた作品です。チャットでAIがあなたの用件をヒアリングし、話し終わるころにはお問い合わせ内容がきれいに要約されています。あとは名前とメールを入れて送信するだけ。",
+      "中身はAnthropicのClaude APIで、このサイト初のサーバー連携機能。AIは受付と要約だけを担当し、判断や返信はすべて本人が行う設計です。「AIに仕事をどう任せるか」の等身大の実例として、ぜひ触ってみてください。",
+    ],
+    features: [
+      {
+        icon: "ph-chats-circle",
+        title: "書く前に、話せる",
+        text: "文章を組み立てるのはAIの仕事。あなたは質問に答えるだけで、伝わる問い合わせ文ができあがる。",
+      },
+      {
+        icon: "ph-list-checks",
+        title: "自動で要約、確認してから送信",
+        text: "会話の内容をAIが要点整理。送信前に確認・修正できるから、言った内容がそのまま正しく届く。",
+      },
+      {
+        icon: "ph-shield-check",
+        title: "AIは受付だけ、判断は人間",
+        text: "日程や条件の約束はAIには任せない設計。個人情報も会話ではなく最後の確認画面でだけ入力。",
+      },
+    ],
+    tech: ["Claude API", "Claude Code", "Next.js", "Vercel"],
+    schemaType: "WebApplication",
+    appCategory: "BusinessApplication",
+    storyUrls: [],
+  },
+  {
+    slug: "shisho",
+    category: "ツール",
+    title: "COMIXAI AI司書",
+    tagline: "探すより、聞くほうが早い。サイト内AI検索。",
+    appUrl: "/search",
+    cta: "つかう",
+    image: "/works/shisho.jpg",
+    tone: "blue",
+    badge: "AI",
+    lastUpdated: "2026-07-11",
+    metaTitle: "COMIXAI AI司書｜Claude APIで作ったサイト内RAG検索",
+    metaDescription:
+      "「ハルシネーションって何？」と質問文のまま聞くと、サイト内の用語集・FAQ・マンガ・ゲーム約200ドキュメントからAIが答えを探して出典つきで案内。ベクトルDBを使わない軽量RAGの実装例として体験できるWORKS作品です。",
+    keywords: [
+      "RAG 実装例",
+      "サイト内検索 AI",
+      "Claude API 活用事例",
+      "AI検索 作り方",
+      "軽量RAG",
+    ],
+    intro: [
+      "サイトが80ページを超えて、「どこに何があるか」を探すのが大変になってきた——そこで作った、質問文のまま聞けるサイト内検索です。AI司書がサイトの中身だけを根拠に2〜4文で答えて、出典ページに案内します。サイトにない情報は「ない」と正直に言うのがポイント。",
+      "しくみは、用語集50語・FAQ・マンガ・絵巻など約200ドキュメントをキーワード検索（BM25）で絞り込み、上位の資料だけをClaudeに渡す軽量RAG。ベクトルDBなし・追加インフラゼロで動く、いちばん身近なRAGの実装例です。",
+    ],
+    features: [
+      {
+        icon: "ph-magnifying-glass",
+        title: "質問文のまま聞ける",
+        text: "キーワードに変換しなくていい。「会社でAI使っていい？」のような聞き方でそのまま探せる。",
+      },
+      {
+        icon: "ph-books",
+        title: "サイトの中身だけが根拠",
+        text: "回答は必ず出典番号つき。資料にないことは答えない設計だから、ハルシネーションが起きにくい。",
+      },
+      {
+        icon: "ph-feather",
+        title: "ベクトルDBなしの軽量RAG",
+        text: "BM25のキーワード検索＋Claudeの要約だけで構成。RAGは大げさな仕組みがなくても作れる、の実例。",
+      },
+    ],
+    tech: ["Claude API", "BM25", "Claude Code", "Next.js", "Vercel"],
+    schemaType: "WebApplication",
+    appCategory: "UtilitiesApplication",
+    storyUrls: [],
   },
 ];
 

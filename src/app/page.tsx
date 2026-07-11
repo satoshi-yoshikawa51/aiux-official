@@ -440,9 +440,10 @@ function Magazines() {
 }
 
 /* ═══════════════ つくったもの（WORKS） ═══════════════ */
-const WORK_CATS: { key: "ゲーム" | "ニュース"; icon: string }[] = [
+const WORK_CATS: { key: "ゲーム" | "ニュース" | "ツール"; icon: string }[] = [
   { key: "ゲーム", icon: "ph-game-controller" },
   { key: "ニュース", icon: "ph-newspaper" },
+  { key: "ツール", icon: "ph-wrench" },
 ];
 
 function Works() {
@@ -805,6 +806,14 @@ const UKE_SPARKS: { left: number; top: number; size: number; color: string; dela
 
 function UketsukeFab() {
   const [state, setState] = React.useState<"hidden" | "pop" | "exiting" | "docked">("hidden");
+  /* 透過webm（VP9アルファ）が再生できるブラウザだけ動画にする。
+     SafariはVP9を再生できてもアルファ非対応で黒背景になるため除外 */
+  const [alphaVideo, setAlphaVideo] = React.useState(false);
+  React.useEffect(() => {
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const v = document.createElement("video");
+    if (!isSafari && v.canPlayType('video/webm; codecs="vp9"')) setAlphaVideo(true);
+  }, []);
   const [sparkle, setSparkle] = React.useState(false);
 
   React.useEffect(() => {
@@ -939,12 +948,16 @@ function UketsukeFab() {
         </button>
       </div>
       <a href="/uketsuke" aria-label="AI受付をひらく" style={{ display: "block" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/uketsuke/char.webp"
-          alt="AI受付のキャラクター"
+        {/* React は muted 属性をSSRで落とすため video は生HTMLで埋め込む */}
+        <span
           className="uke-fab-char"
-          style={{ height: "auto", display: "block", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.25))" }}
+          style={{ display: "block", aspectRatio: "488 / 522", filter: "drop-shadow(3px 4px 0 rgba(20,17,15,0.25))" }}
+          dangerouslySetInnerHTML={{
+            __html: alphaVideo
+              ? '<video src="/uketsuke/char-alpha.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="width:100%;height:100%;object-fit:contain;display:block;"></video>'
+              : /* Safari(iPhone含む)は透過webm非対応 → アルファ付きアニメWebPで動かす */
+                '<img src="/uketsuke/char-anim.webp" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">',
+          }}
         />
       </a>
     </div>
