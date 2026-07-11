@@ -27,9 +27,12 @@ export default function SearchPage() {
   return (
     <div style={{ background: "var(--paper-50)", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Nav home={false} />
-      <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "AI司書に聞く" }]} />
+      {/* 親がflex列のためautoマージンのnavが中央に縮む。ブロックで包んで全幅に */}
+      <div style={{ width: "100%" }}>
+        <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "AI司書に聞く" }]} />
+      </div>
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 60px", width: "100%", flex: 1, boxSizing: "border-box" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr minmax(0, 460px)", gap: 32, alignItems: "center", marginBottom: 28 }} className="mag-grid">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr minmax(0, 460px)", gap: 32, alignItems: "center", marginBottom: 50 }} className="mag-grid">
           <div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 10 }}>
               SEARCH — AI司書に聞く
@@ -52,7 +55,7 @@ export default function SearchPage() {
         <Suspense fallback={null}>
           <SearchClient />
         </Suspense>
-        <p style={{ margin: "34px 0 0", fontSize: 12.5, color: "var(--text-muted)" }}>
+        <p style={{ margin: "34px 0 0", fontSize: 12.5, color: "var(--text-muted)", textAlign: "center" }}>
           このAI司書自体もClaude APIで作ったWORKS作品です。<a href="/works/shisho" style={{ color: "var(--red-600)" }}>しくみの紹介はこちら</a>
         </p>
       </section>

@@ -773,3 +773,98 @@ img {
 .nav-search-btn-sp {
   display: none !important;
 }
+
+/* トップページの初回ローディング演出（splash.tsx） */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: var(--ink-900);
+  background-image: radial-gradient(rgba(251, 247, 239, 0.07) 1.3px, transparent 1.4px);
+  background-size: 12px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.splash-face {
+  position: relative;
+  display: block;
+  width: 128px;
+  aspect-ratio: 530 / 310;
+  transform-origin: 50% 88%;
+  animation: splash-breath 1.15s ease-in-out infinite;
+}
+@keyframes splash-breath {
+  0%, 100% { transform: scale(1, 1); }
+  30% { transform: scale(1.07, 0.92) translateY(4px); }
+  62% { transform: scale(0.95, 1.06) translateY(-5px); }
+}
+.splash-spark {
+  position: absolute;
+  font-size: 19px;
+  color: var(--yellow-400);
+  text-shadow: 0 0 6px rgba(255, 210, 63, 0.7);
+  animation: uke-twinkle 1.6s ease-out infinite;
+  pointer-events: none;
+}
+.splash-logo {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 21px;
+  letter-spacing: 0.04em;
+  color: var(--paper-50);
+}
+.splash-dots {
+  display: flex;
+  gap: 7px;
+}
+.splash-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--paper-50);
+  animation: splash-dot 0.9s ease-in-out infinite;
+}
+@keyframes splash-dot {
+  0%, 100% { transform: translateY(0); opacity: 0.45; }
+  40% { transform: translateY(-7px); opacity: 1; }
+}
+/* 退場: 顔がぐっと沈み込んでから画面へダイブ、オーバーレイはフェード */
+.splash-out {
+  animation: splash-fade 0.68s ease forwards;
+  pointer-events: none;
+}
+.splash-out .splash-face {
+  animation: splash-dive 0.66s cubic-bezier(0.55, -0.3, 0.65, 0.4) forwards;
+}
+.splash-out .splash-logo,
+.splash-out .splash-dots,
+.splash-out .splash-spark {
+  animation: splash-hide 0.18s ease forwards;
+}
+@keyframes splash-dive {
+  28% { transform: scale(0.8, 1.14) translateY(-16px); }
+  100% { transform: scale(26); }
+}
+@keyframes splash-fade {
+  0%, 45% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes splash-hide {
+  to { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .splash-face, .splash-spark, .splash-dots span { animation: none; }
+  .splash-out { animation: splash-hide 0.25s ease forwards; }
+  .splash-out .splash-face { animation: none; }
+}
+
+/* スプラッシュ表示中はヒーローの登場アニメを待機させる（splash.tsxが解除） */
+html.splash-hold .hero-enter,
+html.splash-hold .hero-enter-badge,
+html.splash-hold .ht-ch,
+html.splash-hold .hero-burst {
+  animation-play-state: paused !important;
+}

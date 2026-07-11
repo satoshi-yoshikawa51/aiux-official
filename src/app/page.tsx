@@ -18,11 +18,11 @@ import {
   SOCIALS,
   FORMSPREE_ENDPOINT,
   CONTACT_EMAIL,
-  BANNER,
   type Article,
   type Tone,
 } from "./data";
 import { WORK_DETAILS } from "./works/data";
+import Splash from "./splash";
 import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
 import { PAGE, Nav, Footer } from "./site-chrome";
@@ -93,7 +93,7 @@ function HeroVideo() {
     <section className="hero-video" style={{ borderBottom: "var(--bw-heavy) solid var(--ink-900)" }}>
       <div className="hero-media">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="hero-fallback" src={BANNER} alt="COMIXAI" />
+        <img className="hero-fallback" src="/hero-logo.jpg" alt="COMIXAI — AIを、面白く。わかりやすく。" />
         <video
           ref={videoRef}
           className="hero-bg-video"
@@ -1100,6 +1100,7 @@ function Contact() {
 export default function Page() {
   return (
     <div id="top" style={{ background: "var(--paper-50)", minHeight: "100vh" }}>
+      <Splash />
       <Nav />
       <HeroVideo />
       <Profile />
