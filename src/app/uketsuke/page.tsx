@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: "AIがあなたの用件をヒアリングして、お問い合わせ内容を自動で整理。チャットで話すだけでOK。",
     url: "/uketsuke",
     locale: "ja_JP",
-    images: [{ url: "/works/uketsuke.png", width: 1200, height: 750 }],
+    images: [{ url: "/uketsuke/ogp.png", width: 1200, height: 750 }],
   },
   twitter: { card: "summary_large_image" },
 };
@@ -27,15 +27,14 @@ const JSON_LD = {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "ホーム", item: "https://comixai.dev/" },
-        { "@type": "ListItem", position: 2, name: "つくったもの", item: "https://comixai.dev/works" },
-        { "@type": "ListItem", position: 3, name: "COMIXAI AI受付", item: "https://comixai.dev/uketsuke" },
+        { "@type": "ListItem", position: 2, name: "COMIXAI AI受付", item: "https://comixai.dev/uketsuke" },
       ],
     },
     {
       "@type": "WebApplication",
       name: "COMIXAI AI受付",
       url: "https://comixai.dev/uketsuke",
-      image: "https://comixai.dev/works/uketsuke.png",
+      image: "https://comixai.dev/uketsuke/ogp.png",
       description: "AIが用件をヒアリングして、お問い合わせ内容を自動で整理するチャット型の受付窓口。",
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web browser",

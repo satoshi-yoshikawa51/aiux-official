@@ -432,8 +432,7 @@ export default function UketsukeChat() {
           </form>
           <p style={{ margin: "8px 2px 0", fontFamily: "var(--font-mono)", fontSize: 10.5, lineHeight: 1.7, color: "var(--text-muted)" }}>
             AIによる一次受付です。お名前・連絡先は最後の確認画面で入力してください。
-            <a href="/#contact" style={{ color: "var(--red-600)" }}>通常フォーム</a>／
-            <a href="/works/uketsuke" style={{ color: "var(--red-600)" }}>この作品について</a>
+            じっくり書きたい方は<a href="/#contact" style={{ color: "var(--red-600)" }}>通常フォーム</a>へ
           </p>
         </div>
       </div>

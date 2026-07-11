@@ -58,10 +58,9 @@ const JSON_LD = {
   ],
 };
 
-const CATS: { key: "ゲーム" | "ニュース" | "ツール"; icon: string }[] = [
+const CATS: { key: "ゲーム" | "ニュース"; icon: string }[] = [
   { key: "ゲーム", icon: "ph-game-controller" },
   { key: "ニュース", icon: "ph-newspaper" },
-  { key: "ツール", icon: "ph-wrench" },
 ];
 
 export default function WorksIndexPage() {
