@@ -94,8 +94,6 @@ export function Nav({ home = true }: { home?: boolean }) {
             height: 38,
             borderRadius: "var(--radius-full)",
             background: "var(--red-500)",
-            border: "var(--bw-line) solid var(--ink-900)",
-            boxShadow: "var(--shadow-pop-sm)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
