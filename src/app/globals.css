@@ -667,6 +667,10 @@ img {
   .nav-links {
     display: none;
   }
+  /* スマホ: 検索ボタンを右端（ハンバーガーの隣）に寄せる */
+  .nav-search-btn {
+    margin-left: auto;
+  }
   .hamburger {
     display: inline-flex;
     align-items: center;
