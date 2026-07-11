@@ -1,6 +1,6 @@
 {
   "_comment": "各シリーズの収録エピソード。scripts/fetch-manga-episodes.mjs がnoteから自動生成する（手動で追記してもよい）。desc は note-article-meta.json の excerpt が優先される。",
-  "generatedAt": "2026-07-04",
+  "generatedAt": "2026-07-11",
   "series": {
     "wakaru": {
       "updatedAt": "2026-07-04",
@@ -122,7 +122,7 @@
       ]
     },
     "honshitsu": {
-      "updatedAt": "2026-07-04",
+      "updatedAt": "2026-07-11",
       "episodes": [
         {
           "title": "AI時代の「流行」と「本質」：序章_AI時代にAIを叫ぶ",
@@ -138,6 +138,13 @@
           "date": "2026-01-05",
           "thumb": "https://assets.st-note.com/production/uploads/images/241595402/rectangle_large_type_2_a064de6ee4a40431b78183268d658ed0.png?width=800",
           "likes": 166
+        },
+        {
+          "title": "Gemini使ってトルコ・スペイン一人旅 ②バルセロナ編",
+          "desc": "前回のあらすじ イスタンブールで2日間過ごした。 猫がたくさんいた🐱",
+          "url": "https://note.com/aiux_unite/n/nf2490d037773",
+          "date": "2026-07-09",
+          "thumb": "https://assets.st-note.com/production/uploads/images/292951808/rectangle_large_type_2_9676ea3518d1163931dff69bada2e7aa.png?width=800"
         }
       ]
     }
