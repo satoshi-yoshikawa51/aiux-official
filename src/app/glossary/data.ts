@@ -1046,11 +1046,16 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "上手なプロンプトのコツは、新人さんへの仕事の頼み方と同じ。「目的・条件・形式」を伝えるだけで答えの質が一段変わります。この「頼み方の技術」を体系化したのがプロンプトエンジニアリングです（次の項へどうぞ）。指示の抜けがどんな事故になるかは、ゲームで体験するのが早いです。",
     ],
     links: [
-      { label: "指示の出し方で結果が変わる体験ゲーム「AI新人くんに指示を出せ」", href: "/shinjin" },
       { label: "マンガでわかる！AI活用 第6話「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
     ],
     relatedSlugs: ["prompt-engineering", "system-prompt", "context-window"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/shinjin",
+      title: "AI新人くんに、指示を出せ。",
+      desc: "プロンプトの抜けは「いい感じ」に解釈されます——ラップで納品されても泣かない。頼み方の基本が身につく体験ゲーム。",
+      cta: "指示を出す",
+    },
   },
   {
     slug: "gpt",
@@ -1112,11 +1117,15 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "LLMならWeb上の文章や書籍、画像生成AIなら大量の画像とその説明文。AIは学習データの中のパターンを吸収して賢くなるので、データに偏りがあれば答えも偏り、データにない知識は答えられません。「AIは学習データの鏡」と覚えておくと、AIの失敗の大半が説明できます。",
       "何を学習させたかは著作権問題の主戦場でもあります（AIと著作権の項を参照）。また「良質なデータが枯渇し始めた」ことが業界の大きな課題で、AIが作った文章をAIが学ぶ「共食い」による品質低下も懸念されています（AIスロップの項も参照）。",
     ],
-    links: [
-      { label: "学習データでAIの人格が変わる育成ゲーム「AIを育てよう」", href: "/sodate" },
-    ],
+    links: [],
     relatedSlugs: ["machine-learning", "ai-copyright", "ai-slop"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/sodate",
+      title: "AIを、育てよう。",
+      desc: "学習データ（餌）を3回与えるとAIの人格が決まります。何を食べさせるかで性格が変わる——データの鏡を体感する育成ゲーム。",
+      cta: "育てる",
+    },
   },
   {
     slug: "foundation-model",
@@ -1164,12 +1173,15 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "ディープラーニング＋フェイクの造語。かつては専門技術が必要でしたが、いまや動画生成AIの進化で誰でも作れてしまうのが問題の本質です。有名人の偽広告、家族の声を真似た電話詐欺、選挙前の偽演説など、被害は身近になっています。",
       "対策の第一歩は「動画や音声も、もう証拠にならない」という前提を持つこと。お金の話は別ルートで本人確認する、拡散前に一次ソースを探す——このリテラシーが自衛になります。見抜く目を鍛えたい人は、AIの偽情報を見破るゲームでどうぞ。",
     ],
-    links: [
-      { label: "ハルシネーションを見抜く体験ゲーム「AIのウソを見抜け」", href: "/uso" },
-      { label: "低品質AIコンテンツを鑑定する「スロップ・スワイプ」", href: "/slop" },
-    ],
+    links: [],
     relatedSlugs: ["video-generation-ai", "ai-slop", "ai-literacy"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/slop",
+      title: "その情報、食べる前に嗅げ。",
+      desc: "本物そっくりの偽コンテンツ、見抜けますか？流れてくる情報をスワイプで鑑定して、騙されない目を鍛えるゲーム。",
+      cta: "鑑定する",
+    },
   },
   {
     slug: "openai",
@@ -1240,6 +1252,12 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     links: [],
     relatedSlugs: ["reasoning-model", "prompt-engineering", "zero-shot"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/nou",
+      title: "速い脳と遅い脳、使い分けろ。",
+      desc: "即答すべき仕事と、考えてから答えるべき仕事。反射AI⚡と熟考AI🧠に振り分けるリアルタイム采配ゲーム。",
+      cta: "仕分ける",
+    },
   },
   {
     slug: "reinforcement-learning",
@@ -1285,11 +1303,15 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "学習データへの正答率は上がり続けているのに、新しいデータでの成績はむしろ悪化していく——これが過学習のサインです。データの本質的なパターンではなく、たまたまの偶然やノイズまで律儀に覚えてしまうのが原因。特に学習データが少ない・偏っているときに起きやすくなります。",
       "対策は「データを増やす・多様にする」「覚えすぎる前に学習を止める」など。同じ餌ばかり与えるとどうなるかは、育成ゲームで体験するのが一番早いです。偏食で育ったAIの末路をぜひ見届けてください。",
     ],
-    links: [
-      { label: "過学習を体験できる育成ゲーム「AIを育てよう」", href: "/sodate" },
-    ],
+    links: [],
     relatedSlugs: ["fine-tuning", "training-data", "machine-learning"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/sodate",
+      title: "偏食AI、爆誕。",
+      desc: "同じ餌ばかり与えたAIがどうなるか——過学習の末路を自分の手で見届けられる育成ゲーム。",
+      cta: "育てる",
+    },
   },
   {
     slug: "supervised-learning",
@@ -1407,6 +1429,12 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     relatedSlugs: ["claude-code", "ai-agent", "vibe-coding"],
     lastUpdated: "2026-07-11",
+    secret: {
+      href: "/agent",
+      title: "AIエージェントに、任せてみた。",
+      desc: "口を出しすぎても、放置しすぎても事故る——「任せ方」で結末が6通りに分岐する見守りシミュレーション。",
+      cta: "仕事を任せる",
+    },
   },
   {
     slug: "dify",
