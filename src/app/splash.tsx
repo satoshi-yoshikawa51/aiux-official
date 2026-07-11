@@ -58,16 +58,17 @@ export default function Splash() {
         }}
       />
       <span className="splash-face">
-        <svg width="100%" height="100%" viewBox="-26 0 252 185" style={{ display: "block", overflow: "visible" }}>
+        <svg width="100%" height="100%" viewBox="-32 0 264 190" style={{ display: "block", overflow: "visible" }}>
+          {/* キャラの輪郭: 横に広い頭・ぽってり頬・小さめの三角耳 */}
           <path
-            fill="var(--ink-900)"
-            d="M 42,60 C 34,38 30,20 34,10 C 37,3 44,2 52,7 C 60,12 70,22 76,30 C 84,27 92,25 100,25 C 108,25 116,27 124,30 C 130,22 140,12 148,7 C 156,2 163,3 166,10 C 170,20 166,38 158,60 C 168,74 174,90 174,106 C 174,148 141,178 100,178 C 59,178 26,148 26,106 C 26,90 32,74 42,60 Z"
+            fill="var(--paper-50)"
+            d="M 30,72 C 18,48 12,22 19,11 C 24,3 35,4 43,11 C 52,19 62,31 68,40 C 78,35 88,32 100,32 C 112,32 122,35 132,40 C 138,31 148,19 157,11 C 165,4 176,3 181,11 C 188,22 182,48 170,72 C 184,86 194,104 194,120 C 194,140 180,154 158,163 C 141,170 120,173 100,173 C 80,173 59,170 42,163 C 20,154 6,140 6,120 C 6,104 16,86 30,72 Z"
           />
-          <g stroke="var(--ink-900)" strokeWidth="4.5" strokeLinecap="round">
-            <line x1="8" y1="100" x2="-16" y2="93" />
-            <line x1="8" y1="116" x2="-18" y2="118" />
-            <line x1="192" y1="100" x2="216" y2="93" />
-            <line x1="192" y1="116" x2="218" y2="118" />
+          <g stroke="var(--paper-50)" strokeWidth="4.5" strokeLinecap="round">
+            <line x1="-8" y1="106" x2="-30" y2="99" />
+            <line x1="-8" y1="122" x2="-32" y2="124" />
+            <line x1="208" y1="106" x2="230" y2="99" />
+            <line x1="208" y1="122" x2="232" y2="124" />
           </g>
         </svg>
         <span className="splash-spark" style={{ top: -14, left: -8 }}>✦</span>
