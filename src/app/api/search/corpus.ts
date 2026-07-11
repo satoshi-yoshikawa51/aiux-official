@@ -47,7 +47,7 @@ const PAGES: SearchDoc[] = [
   { id: "page:gakuya", type: "ゲーム", title: "楽屋の台本", url: "/gakuya", text: "システムプロンプト設計を体験する接客シミュレーションゲーム。" },
   { id: "page:shitsuke", type: "ゲーム", title: "AI調教師", url: "/shitsuke", text: "人間の好みでAIを調教するRLHF体験ゲーム。選び方しだいで硬派AIにもゴマすりAIにも育つ。" },
   { id: "page:majin", type: "ゲーム", title: "魔神AIの願い方", url: "/majin", text: "字義どおりに願いを叶える魔神AIで、アライメントの重要性を体験するゲーム。" },
-  { id: "page:diet", type: "ゲーム", title: "AIダイエット", url: "/diet", text: "量子化によるAIモデル圧縮のサイズと品質のトレードオフを体験するゲーム。" },
+  { id: "page:diet", type: "ゲーム", title: "AIダイエット", url: "/diet", text: "量子化によるAIモデル圧縮の容量・品質・速度のトレードオフを体験するゲーム。" },
   { id: "page:otehon", type: "ゲーム", title: "お手本ひとつで", url: "/otehon", text: "ゼロショット・フューショットの例示テクニックを体験するお手本選びゲーム。" },
   { id: "page:undokai", type: "ゲーム", title: "AI運動会", url: "/undokai", text: "ベンチマークスコアと実務の実力のギャップを体験する勝者予想ゲーム。" },
   { id: "page:gohobi", type: "ゲーム", title: "ご褒美で導け", url: "/gohobi", text: "報酬の置き方だけでAIの行動を設計する、強化学習の報酬設計体験ゲーム。" },

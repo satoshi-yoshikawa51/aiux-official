@@ -6,14 +6,14 @@ import { DietGame } from "./game";
 export const metadata: Metadata = {
   title: "AIダイエット｜量子化体験ゲーム｜COMIXAI",
   description:
-    "巨大AIモデルを量子化レベル（Q16〜Q2）で圧縮して、PC・スマホ・スマートウォッチに載せるゲーム。絞るほど軽くなるが、絞りすぎると「日本の首都はおにぎり」に——ローカルLLMを支える量子化のトレードオフが遊ぶだけでわかります。",
+    "巨大AIモデルを量子化レベル（Q16〜Q2）で圧縮して、PC・イヤホン・ゲーム機・病院サーバーなど5つの現場に載せるゲーム。絞るほど軽く速くなるが答えが壊れ、大きいままだと賢いけど遅い——容量・品質・速度のトレードオフが遊ぶだけでわかります。",
   keywords: ["量子化 とは", "LLM 量子化", "ローカルLLM Q4", "モデル 軽量化"],
   alternates: { canonical: "/diet" },
   openGraph: {
     type: "website",
     siteName: "COMIXAI",
     title: "AIダイエット｜絞れ。ただし、壊すな。",
-    description: "Q16〜Q2の圧縮レベルを選んで3つのデバイスにAIを載せろ。絞りすぎると「首都はおにぎり」。",
+    description: "Q16〜Q2の圧縮レベルを選んで5つの現場にAIを載せろ。絞りすぎると答えが「おにぎり」に。",
     url: "/diet",
     locale: "ja_JP",
     images: [{ url: "/og/games/diet.png", width: 1200, height: 630, alt: "AIダイエット" }],
@@ -37,7 +37,7 @@ const JSON_LD = {
       url: "https://comixai.dev/diet",
       applicationCategory: "EducationalApplication",
       operatingSystem: "Web",
-      description: "量子化によるAIモデル圧縮のサイズと品質のトレードオフを体験するゲーム。",
+      description: "量子化によるAIモデル圧縮の容量・品質・速度のトレードオフを体験するゲーム。",
       offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" },
       provider: { "@type": "Person", name: "吉川聡史", url: "https://comixai.dev/profile" },
       inLanguage: "ja",
@@ -59,7 +59,7 @@ export default function DietPage() {
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
           <a href="/glossary/quantization" style={{ color: "var(--red-600)", fontWeight: 700 }}>量子化</a>とは、AIモデルの数値の精度を落としてサイズを数分の1に圧縮する技術。
-          絞るほど軽くなるけど、絞りすぎると「日本の首都はおにぎり」と答え始めます。3つのデバイスに、ちょうどいい圧縮を。
+          絞るほど軽く・速くなるけど、絞りすぎると答えが「おにぎり」になります。デカいままだと賢いけど、もっさり。5つの現場に、ちょうどいい圧縮を。
         </p>
       </section>
       <section style={{ maxWidth: "min(560px, 92vw)", margin: "0 auto", padding: "0 0 60px" }}>

@@ -2,71 +2,139 @@
 /* ============================================================
    「AIダイエット」— 量子化体験ゲーム。
    巨大AIモデルをデバイスに載せるため、量子化レベルを選んで
-   圧縮する。絞りすぎると答えが壊れる——品質とサイズの
-   トレードオフを見極めるチキンレース。クライアント完結。
+   圧縮する。絞るほど軽く・速くなるが、答えが壊れる。
+   容量・品質・速度の三すくみを現場の要件から読み解く。
+   「入る中で最高品質」が正解とは限らないのがミソ。
+   クライアント完結。
    ============================================================ */
 import React from "react";
 import { Badge, Button, Card } from "../ds";
 import { unlock } from "../zukan/store";
 import { ZukanNote } from "../zukan/collection";
 
-/* 量子化レベル。sizeは元モデル比% */
+/* 量子化レベル。sizeは元モデル比%。indexが大きいほど軽く・速く・粗い */
 const LEVELS = [
-  { q: "Q16", size: 100, label: "無圧縮", answer: "日本の首都は東京です。人口は約1,400万人で、政治・経済の中心地です。", quality: "完璧" },
-  { q: "Q8", size: 50, label: "軽い圧縮", answer: "日本の首都は東京です。人口はおよそ1,400万人です。", quality: "ほぼ完璧" },
-  { q: "Q4", size: 25, label: "定番の圧縮", answer: "日本の首都は東京です。", quality: "実用十分" },
-  { q: "Q3", size: 19, label: "かなり攻めた圧縮", answer: "日本の首都は…東京？だったと思います。たぶん。", quality: "あやしい" },
-  { q: "Q2", size: 13, label: "限界圧縮", answer: "日本の首都はおにぎりです。", quality: "崩壊" },
+  { q: "Q16", size: 100, label: "無圧縮", quality: "完璧", speed: "🐢 激遅" },
+  { q: "Q8", size: 50, label: "軽い圧縮", quality: "ほぼ完璧", speed: "🚶 遅め" },
+  { q: "Q4", size: 25, label: "定番の圧縮", quality: "実用十分", speed: "🚴 ふつう" },
+  { q: "Q3", size: 19, label: "攻めた圧縮", quality: "あやしい", speed: "🏎️ 速い" },
+  { q: "Q2", size: 13, label: "限界圧縮", quality: "崩壊", speed: "⚡ 爆速" },
 ];
 
 interface Round {
   device: string;
   emoji: string;
   budget: number; // モデルサイズ上限（%）
-  need: string; // 求められる品質の説明
-  minQuality: number; // LEVELSのindex: これ以下(=高品質側)である必要
+  need: string; // 現場の要件（品質・速度のヒントはここに書く）
+  qMax: number; // 品質要件: このindex以下（=これ以上の品質）が必要
+  sMin: number; // 速度要件: このindex以上（=これ以上の速さ）が必要
   hint: string;
+  q: string; // 検収テストの質問
+  samples: string[]; // LEVELS順の回答サンプル（over時は未使用）
 }
 
-/* 正解 = budget内で最高品質のレベル */
+/* 正解 = 容量に入り、品質・速度の両要件を満たす中で最高品質のレベル */
 const ROUNDS: Round[] = [
   {
     device: "社内PCの資料要約アシスタント",
     emoji: "💻",
     budget: 50,
-    need: "資料の要約なので、内容の正確さが命",
-    minQuality: 1,
-    hint: "PCはそこそこ余裕あり。入る中で一番賢いのを",
-    },
+    need: "夜のうちに要約できればいいので速さは不問。ただし数字の正確さが命",
+    qMax: 1,
+    sMin: 0,
+    hint: "急ぎじゃない仕事なら、入る中で一番賢いのを",
+    q: "この30ページの企画書を3行で",
+    samples: [
+      "要点は3つ。①市場規模120億円 ②3年目に黒字化 ③必要投資2.4億円",
+      "①市場規模120億円 ②3年目に黒字化 ③投資2.4億円",
+      "新規事業の企画書です。市場は大きめで、投資が必要です。",
+      "たぶん新規事業の話です。数字は…どこかに書いてありました。",
+      "企画書はおにぎりです。",
+    ],
+  },
   {
-    device: "スマホの翻訳アプリ",
-    emoji: "📱",
+    device: "同時通訳イヤホン",
+    emoji: "🎧",
     budget: 25,
-    need: "オフラインで動く翻訳。日常会話レベルでOK",
-    minQuality: 2,
-    hint: "スマホの容量はシビア。でも壊れたら翻訳にならない",
+    need: "日常会話レベルの品質でOK。ただし会話のテンポに1秒でも遅れたら使い物にならない",
+    qMax: 3,
+    sMin: 3,
+    hint: "賢さより、会話に食らいつく速さ。でも壊れたら通訳にならない",
+    q: "“Nice to meet you!” を通訳して",
+    samples: [
+      "「はじめまして、お会いできて光栄です」",
+      "「はじめまして、よろしくお願いします」",
+      "「はじめまして！」（…2秒遅れ。会話はもう次の話題へ）",
+      "「はじめまして！」",
+      "「こんにちは、おにぎりです」",
+    ],
   },
   {
     device: "スマートウォッチの音声メモ整理",
     emoji: "⌚",
     budget: 19,
-    need: "メモの整形だけ。多少雑でも動くことが優先",
-    minQuality: 3,
+    need: "メモの整形だけ。多少雑でも、動くことが最優先",
+    qMax: 3,
+    sMin: 0,
     hint: "超小型デバイス。Q4はもう入らない…どこまで攻める？",
+    q: "「あした10時 田中さん 資料」を整理して",
+    samples: [
+      "📝 明日10:00 田中様へ資料をお渡し",
+      "📝 明日10:00 田中さんに資料",
+      "📝 明日10時 田中さん・資料",
+      "📝 明日10:00 田中さんに資料",
+      "📝 おにぎり 10個",
+    ],
+  },
+  {
+    device: "ゲームのNPC会話エンジン",
+    emoji: "🎮",
+    budget: 100,
+    need: "容量はたっぷり。ただし会話のテンポが没入感の命。セリフの品質はそこそこでOK",
+    qMax: 2,
+    sMin: 2,
+    hint: "全部入る…からこそ罠がある。デカいモデルは賢いけど、もっさり",
+    q: "勇者「この村に魔物は出るか？」",
+    samples: [
+      "「夜の森にはウルフが出る。気をつけな」（…返事まで5秒。勇者はもう森の中）",
+      "「夜の森にはウルフが出る」（3秒の沈黙。会話のテンポが死んだ）",
+      "「ああ、夜の森にウルフが出るぞ。気をつけな！」",
+      "「魔物？ああ…この村は宇宙ステーションだからな」",
+      "「いらっしゃいませ、おにぎりです」",
+    ],
+  },
+  {
+    device: "病院の問診票 下書きAI",
+    emoji: "🏥",
+    budget: 100,
+    need: "院内サーバーで容量は無制限。夜間バッチで速さも不問。ただし記載ミスは絶対に許されない",
+    qMax: 0,
+    sMin: 0,
+    hint: "圧縮は手段であって目的じゃない。絞る必要、ある？",
+    q: "患者メモから問診票の下書きを作成",
+    samples: [
+      "主訴: 3日前からの頭痛。随伴症状: 軽度の吐き気。既往歴: なし",
+      "主訴: 頭痛（3日前から）。吐き気あり——随伴症状の詳細が漏れた",
+      "頭が痛いそうです",
+      "どこか痛いみたいです。たぶん頭",
+      "診断: おにぎり",
+    ],
   },
 ];
 
 const GRADES = [
-  { id: "sommelier", min: 3, emoji: "🍾", name: "軽量化ソムリエ", comment: "全デバイスで「ちょうどいい圧縮」を見極めました。入る中で最高品質、壊れる手前で止める——量子化の実務センスが完璧です。" },
-  { id: "fitting", min: 2, emoji: "🧵", name: "見習いフィッター", comment: "だいたい良い塩梅でした。容量と品質のトレードオフ、あと一歩の見極めです。迷ったらQ4が定番、と覚えておきましょう。" },
-  { id: "kowashiya", min: 0, emoji: "🔨", name: "圧縮のこわし屋", comment: "絞りすぎてAIが「おにぎり」と答えるか、大きすぎて入らないかの二択でした。量子化は攻めと守りのバランス。壊れる一歩手前に宝があります。" },
+  { id: "sommelier", min: 5, emoji: "🍾", name: "軽量化ソムリエ", comment: "全5つの現場で「ちょうどいい圧縮」を見極めました。容量・品質・速度の三すくみを要件から読み切る——量子化の実務センスが完璧です。" },
+  { id: "fitting", min: 3, emoji: "🧵", name: "見習いフィッター", comment: "だいたい良い塩梅でした。コツは数字合わせではなく「この現場は何が命か」を読むこと。迷ったらQ4が定番、と覚えておきましょう。" },
+  { id: "kowashiya", min: 0, emoji: "🔨", name: "圧縮のこわし屋", comment: "絞りすぎて「おにぎり」と答えるか、大きすぎてもっさりするか。量子化は容量・品質・速度の綱引きです。壊れる一歩手前に宝があります。" },
 ];
+
+type Verdict = "perfect" | "broken" | "slow" | "over";
 
 export function DietGame() {
   const [phase, setPhase] = React.useState<"start" | "play" | "result">("start");
   const [round, setRound] = React.useState(0);
   const [score, setScore] = React.useState(0);
-  const [picked, setPicked] = React.useState<{ levelIdx: number; verdict: "perfect" | "heavy" | "broken" | "over" } | null>(null);
+  const [picked, setPicked] = React.useState<{ levelIdx: number; verdict: Verdict } | null>(null);
 
   React.useEffect(() => unlock("rooms", "diet"), []);
 
@@ -82,15 +150,11 @@ export function DietGame() {
   const choose = (levelIdx: number) => {
     if (picked) return;
     const lv = LEVELS[levelIdx];
-    let verdict: "perfect" | "heavy" | "broken" | "over";
+    let verdict: Verdict;
     if (lv.size > r.budget) verdict = "over"; // 入らない
-    else if (levelIdx > r.minQuality) verdict = "broken"; // 絞りすぎ
-    else {
-      /* budget内で最高品質(最小index)が perfect、それより絞ったら heavy…ではなく
-         「budget内かつ品質OKの中で最も高品質」なら perfect、それ以外(必要以上に絞った)は heavy扱い */
-      const bestIdx = LEVELS.findIndex((l) => l.size <= r.budget);
-      verdict = levelIdx === bestIdx ? "perfect" : "heavy";
-    }
+    else if (levelIdx > r.qMax) verdict = "broken"; // 品質不足
+    else if (levelIdx < r.sMin) verdict = "slow"; // 速度不足
+    else verdict = "perfect"; // 制約設計上、ここに来るのは正解のみ
     if (verdict === "perfect") setScore((s) => s + 1);
     setPicked({ levelIdx, verdict });
   };
@@ -114,10 +178,11 @@ export function DietGame() {
           <div style={{ fontSize: 52 }}>🐘➡️🐁</div>
           <h2 style={{ margin: "8px 0 10px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.6vw,28px)" }}>そのAI、どこまで絞れる？</h2>
           <p style={{ margin: "0 auto 8px", fontSize: 14, lineHeight: 1.9, color: "var(--text-body)", maxWidth: 460 }}>
-            巨大AIを小さなデバイスに載せる仕事です。<b>量子化レベル（Q16〜Q2）を選んで圧縮</b>してください。
-            絞るほど軽くなるけど、絞りすぎると答えが壊れます。{ROUNDS.length}つのデバイスで「ちょうどいい」を見極めろ。
+            巨大AIを現場のデバイスに載せる仕事です。<b>量子化レベル（Q16〜Q2）を選んで圧縮</b>してください。
+            絞るほど軽く・速くなるけど、答えが壊れます。デカいままだと賢いけど、もっさり。
+            {ROUNDS.length}つの現場の<b>容量・品質・速度</b>の要件を読んで、「ちょうどいい」を見極めろ。
           </p>
-          <p style={{ margin: "0 0 18px", fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)" }}>※Q2まで絞ったAIは「日本の首都はおにぎり」と答えます</p>
+          <p style={{ margin: "0 0 18px", fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)" }}>※Q2まで絞ったAIは、何を聞いても「おにぎり」と答えがちです</p>
           <Button variant="primary" size="lg" onClick={start} iconRight={<i className="ph-bold ph-arrows-in" />}>
             圧縮をはじめる
           </Button>
@@ -127,7 +192,7 @@ export function DietGame() {
   }
 
   if (phase === "result" && grade) {
-    const shareText = `量子化体験ゲーム「AIダイエット」で【${grade.name}】${grade.emoji}でした（${score}/${ROUNDS.length}台にジャストフィット）\n絞りすぎると「首都はおにぎり」になります\n#今さら聞けないAI用語集`;
+    const shareText = `量子化体験ゲーム「AIダイエット」で【${grade.name}】${grade.emoji}でした（${score}/${ROUNDS.length}の現場にジャストフィット）\n絞りすぎると答えが「おにぎり」になります\n#今さら聞けないAI用語集`;
     const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent("https://comixai.dev/diet")}`;
     return (
       <Card variant="pop" padding={0} style={{ overflow: "hidden" }}>
@@ -136,13 +201,13 @@ export function DietGame() {
           <div style={{ fontSize: 44, lineHeight: 1 }}>{grade.emoji}</div>
           <h2 style={{ margin: "6px 0 6px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.6vw,30px)" }}>{grade.name}</h2>
           <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 14, marginBottom: 10 }}>
-            ジャストフィット: {score}/{ROUNDS.length}台
+            ジャストフィット: {score}/{ROUNDS.length}件
           </div>
           <p style={{ margin: "0 auto 14px", fontSize: 14, lineHeight: 1.9, color: "var(--text-body)", maxWidth: 460 }}>{grade.comment}</p>
           <div style={{ textAlign: "left", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "12px 16px", margin: "0 0 18px" }}>
             <Badge tone="ink">まなび</Badge>
             <p style={{ margin: "8px 0 0", fontSize: 13, lineHeight: 1.85, fontWeight: 700 }}>
-              量子化＝数値の精度を落としてAIを圧縮する技術（WAV→MP3のイメージ）。ローカルLLMのファイル名のQ4やQ8はこの度合いで、巨大モデルが家庭のPCやスマホで動くのはこれのおかげ。「用途に足りる品質で、入る最大サイズ」が実務の正解です。
+              量子化＝数値の精度を落としてAIを圧縮する技術（WAV→MP3のイメージ）。ローカルLLMのQ4やQ8はこの度合いで、絞るほど軽く・速く・粗くなります。だから「大きいほど良い」でも「入れば良い」でもなく、正解は用途しだい。「その現場は正確さとテンポ、どっちが命か」を読むのが軽量化の腕の見せどころです。
             </p>
           </div>
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
@@ -164,9 +229,9 @@ export function DietGame() {
   /* —— プレイ画面 —— */
   const verdictView = picked
     ? {
-        perfect: { icon: "🎯", title: "ジャストフィット！", note: "容量に収まり、品質も要件どおり。これが「ちょうどいい量子化」です。" },
-        heavy: { icon: "🐢", title: "動くけど、絞りすぎ", note: "容量には入りましたが、必要以上に品質を落としました。もう1段上の品質でも入りましたよ。" },
+        perfect: { icon: "🎯", title: "ジャストフィット！", note: "容量・品質・速度、すべて要件どおり。これが「ちょうどいい量子化」です。" },
         broken: { icon: "💥", title: "品質が足りません", note: "容量には入りましたが、この用途に必要な品質を下回りました。絞りすぎです。" },
+        slow: { icon: "🐢", title: "遅すぎます", note: "賢さは十分。でもこの用途にはテンポが命でした。大きいモデルは賢いぶん、もっさりなのです。" },
         over: { icon: "🚫", title: "入りません", note: "デバイスの容量オーバー。そもそもインストールできませんでした。" },
       }[picked.verdict]
     : null;
@@ -174,7 +239,7 @@ export function DietGame() {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12, fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 13 }}>
-        <span>{round + 1}/{ROUNDS.length}台目</span>
+        <span>{round + 1}/{ROUNDS.length}件目</span>
         <span>🎯 フィット {score}</span>
       </div>
       <Card variant="pop" padding={0} style={{ overflow: "hidden" }}>
@@ -184,19 +249,19 @@ export function DietGame() {
           <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12.5, marginTop: 6 }}>
             容量上限: 元モデルの{r.budget}%まで
           </div>
-          <div style={{ fontSize: 13, color: "var(--text-body)", marginTop: 4 }}>{r.need}</div>
+          <div style={{ fontSize: 13, color: "var(--text-body)", marginTop: 6, lineHeight: 1.8 }}>📋 {r.need}</div>
           <div style={{ fontFamily: "var(--font-hand)", fontSize: 12.5, color: "var(--text-muted)", marginTop: 6 }}>💡 {r.hint}</div>
         </div>
         {picked && verdictView && (
           <div className="game-in" style={{ borderTop: "var(--bw-line) solid var(--ink-900)", padding: "14px 18px 16px", background: picked.verdict === "perfect" ? "var(--paper-100)" : "#fff2f2" }}>
             <div style={{ fontSize: 14.5, fontWeight: 900 }}>{verdictView.icon} {verdictView.title}</div>
             <p style={{ margin: "6px 0 8px", fontSize: 13, lineHeight: 1.8 }}>{verdictView.note}</p>
-            <div style={{ fontSize: 13, background: "var(--paper-0)", border: "1px solid rgba(20,17,15,0.15)", borderRadius: 8, padding: "8px 12px", marginBottom: 10 }}>
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>Q: 日本の首都は？　A: </span>
-              {picked.verdict === "over" ? "（インストールできませんでした）" : LEVELS[picked.levelIdx].answer}
+            <div style={{ fontSize: 13, background: "var(--paper-0)", border: "1px solid rgba(20,17,15,0.15)", borderRadius: 8, padding: "8px 12px", marginBottom: 10, textAlign: "left" }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>検収テスト「{r.q}」→ </span>
+              {picked.verdict === "over" ? "（インストールできませんでした）" : r.samples[picked.levelIdx]}
             </div>
             <Button variant="primary" size="sm" onClick={next} iconRight={<i className="ph-bold ph-arrow-right" />}>
-              {round + 1 >= ROUNDS.length ? "結果を見る" : "次のデバイスへ"}
+              {round + 1 >= ROUNDS.length ? "結果を見る" : "次の現場へ"}
             </Button>
           </div>
         )}
@@ -213,7 +278,9 @@ export function DietGame() {
             >
               <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 15, flex: "none", width: 44 }}>{lv.q}</span>
               <span style={{ flex: 1 }}>
-                <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5 }}>{lv.label}・品質{lv.quality}</span>
+                <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5 }}>
+                  {lv.label}・品質{lv.quality}・{lv.speed}
+                </span>
                 <span style={{ display: "block", height: 7, background: "rgba(20,17,15,0.1)", borderRadius: 4, marginTop: 5, overflow: "hidden" }}>
                   <span style={{ display: "block", width: `${lv.size}%`, height: "100%", background: lv.size <= ROUNDS[round].budget ? "var(--yellow-400)" : "var(--red-500)" }} />
                 </span>

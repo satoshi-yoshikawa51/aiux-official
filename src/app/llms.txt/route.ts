@@ -51,7 +51,7 @@ export function GET() {
     "- [楽屋の台本](https://comixai.dev/gakuya): システムプロンプト設計を体験する接客シミュレーション",
     "- [AI調教師](https://comixai.dev/shitsuke): 人間の好みでAIを調教するRLHF体験ゲーム",
     "- [魔神AIの願い方](https://comixai.dev/majin): 字義どおりに願いを叶える魔神で学ぶアライメント体験ゲーム",
-    "- [AIダイエット](https://comixai.dev/diet): 量子化のサイズと品質のトレードオフを体験する圧縮ゲーム",
+    "- [AIダイエット](https://comixai.dev/diet): 量子化の容量・品質・速度のトレードオフを体験する圧縮ゲーム",
     "- [お手本ひとつで](https://comixai.dev/otehon): ゼロショット・フューショットの例示を体験するお手本選びゲーム",
     "- [AI運動会](https://comixai.dev/undokai): ベンチマークスコアと実務のギャップを体験する勝者予想ゲーム",
     "- [ご褒美で導け](https://comixai.dev/gohobi): 報酬設計だけでAIを導く強化学習体験ゲーム",

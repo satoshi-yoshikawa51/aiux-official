@@ -55,7 +55,7 @@ const titles: ZukanItem[] = [
   { category: "nou", id: "shirei", emoji: "🎖️", name: "司令塔マスター", hint: "速い脳・遅い脳で、12件すべて正しく振り分ける…できる？" },
   { category: "shitsuke", id: "kouha", emoji: "🧊", name: "硬派AI調教師", hint: "AI調教師で、事実を選び抜いて硬派AIを育てる…できる？" },
   { category: "majin", id: "kenja", emoji: "🧞", name: "魔神使いの賢者", hint: "魔神AIの願い方で、5つの願いをすべて事故なく叶えさせる…できる？" },
-  { category: "diet", id: "sommelier", emoji: "🍾", name: "軽量化ソムリエ", hint: "AIダイエットで、3台すべてにジャストフィットさせる…できる？" },
+  { category: "diet", id: "sommelier", emoji: "🍾", name: "軽量化ソムリエ", hint: "AIダイエットで、5つの現場すべてにジャストフィットさせる…できる？" },
   { category: "otehon", id: "meijin", emoji: "🎯", name: "例示の名人", hint: "お手本ひとつでで、全ラウンド完璧なお手本を選ぶ…できる？" },
   { category: "undokai", id: "yosoya", emoji: "🔮", name: "AI予想屋の神", hint: "AI運動会で、全種目の勝者を的中させる…できる？" },
   { category: "gohobi", id: "sekkeishi", emoji: "🏆", name: "報酬設計士", hint: "ご褒美で導けで、3ラウンドすべてゴールに導く…できる？" },
