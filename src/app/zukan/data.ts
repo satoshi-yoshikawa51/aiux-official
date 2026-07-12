@@ -42,6 +42,7 @@ const rooms: ZukanItem[] = [
   { category: "rooms", id: "otehon", emoji: "📋", name: "お手本の教室", hint: "「ゼロショット」のページに、扉があるらしい" },
   { category: "rooms", id: "undokai", emoji: "🏅", name: "AI運動会の会場", hint: "「ベンチマーク」のページに、扉があるらしい" },
   { category: "rooms", id: "gohobi", emoji: "🍖", name: "ご褒美の迷路", hint: "「強化学習」のページに、扉があるらしい" },
+  { category: "rooms", id: "claude-app", emoji: "🚗", name: "Claudeアプリ教習所", hint: "「Claude Code」のページに、扉があるらしい" },
 ];
 
 /* 各ゲームの「最高位」だけを集める称号コーナー。
@@ -110,8 +111,13 @@ const emaki: ZukanItem[] = [
   { category: "emaki", id: "read", emoji: "📜", name: "AI75年史・読破", hint: "AIの歴史絵巻を最後までスクロールする" },
 ];
 
+const claudeapp: ZukanItem[] = [
+  { category: "claudeapp", id: "sotsugyo", emoji: "🎓", name: "教習所 卒業", hint: "Claudeアプリ教習所で8つのミッションをすべてクリアする" },
+  { category: "claudeapp", id: "honmono", emoji: "🔑", name: "本物と話した", hint: "教習所のAPIモードで、本物のClaudeと会話する" },
+];
+
 export const ZUKAN_SECTIONS: ZukanSection[] = [
-  { category: "rooms", title: "隠し部屋の発見", sub: "用語集のどこかに、18の扉がある", items: rooms },
+  { category: "rooms", title: "隠し部屋の発見", sub: "用語集のどこかに、19の扉がある", items: rooms },
   { category: "titles", title: "最高位の称号", sub: "各ゲームの頂点を獲った証だけが、ここに刻まれる", items: titles },
   { category: "agent", title: "エージェントの結末", sub: "任せ方しだいの6エンディング", items: agent },
   { category: "sodate", title: "育成したAIモデル", sub: "過学習5種＋バランス型", items: sodate },
@@ -120,6 +126,7 @@ export const ZUKAN_SECTIONS: ZukanSection[] = [
   { category: "shacho", title: "AI社長の経営結果", sub: "段取りしだいの6エンディング", items: shacho },
   { category: "gakuya", title: "AI窓口の営業結果", sub: "台本しだいの4エンディング", items: gakuya },
   { category: "emaki", title: "歴史の証人", sub: "AIの75年を見届ける", items: emaki },
+  { category: "claudeapp", title: "教習所の実績", sub: "卒業証書と、本物との対話", items: claudeapp },
 ];
 
 export const ZUKAN_TOTAL = ZUKAN_SECTIONS.reduce((n, s) => n + s.items.length, 0);

@@ -9,6 +9,7 @@
     "og:glossary": "node --experimental-strip-types scripts/generate-og-images.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.111.0",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/yusei-magic": "^5.2.8",
     "@fontsource/zen-kaku-gothic-new": "^5.2.7",

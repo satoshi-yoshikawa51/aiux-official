@@ -467,6 +467,12 @@ const TERMS_BATCH1: GlossaryTerm[] = [
       { label: "Claude Code Quest ライト版（選択式のかんたん版）", href: "/works/claude-code-quest-lite" },
       { label: "スマホのClaude Codeだけでニュースアプリを作った記録", href: "https://note.com/aiux_unite/n/n750de90c0668" },
     ],
+    secret: {
+      href: "/claude-app",
+      title: "こわくない。Claudeは、さわって覚える。",
+      desc: "Claudeアプリの画面（PC・スマホ）を再現した教習所。8つのミッションで基本操作をマスター。APIキーがあれば本物のClaudeとも話せる。",
+      cta: "教習所に入る",
+    },
     relatedSlugs: ["vibe-coding", "ai-agent", "mcp"],
     sections: [
       {
