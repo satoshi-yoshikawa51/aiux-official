@@ -62,7 +62,13 @@ function buildDocs(): SearchDoc[] {
       type: "用語",
       title: t.en && !t.term.includes(t.en) ? `${t.term}（${t.en}）` : t.term,
       url: `/glossary/${t.slug}`,
-      text: [t.yomi, t.short, ...t.body].join(" "),
+      text: [
+        t.yomi,
+        t.short,
+        ...t.body,
+        ...(t.sections?.flatMap((s) => [s.heading, ...s.body]) ?? []),
+        ...(t.faq?.flatMap((f) => [f.q, f.a]) ?? []),
+      ].join(" "),
     });
   }
 
