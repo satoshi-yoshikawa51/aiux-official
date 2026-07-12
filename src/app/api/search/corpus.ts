@@ -51,7 +51,7 @@ const PAGES: SearchDoc[] = [
   { id: "page:otehon", type: "ゲーム", title: "お手本ひとつで", url: "/otehon", text: "ゼロショット・フューショットの例示テクニックを体験するお手本選びゲーム。" },
   { id: "page:undokai", type: "ゲーム", title: "AI運動会", url: "/undokai", text: "ベンチマークスコアと実務の実力のギャップを体験する勝者予想ゲーム。" },
   { id: "page:gohobi", type: "ゲーム", title: "ご褒美で導け", url: "/gohobi", text: "報酬の置き方だけでAIの行動を設計する、強化学習の報酬設計体験ゲーム。" },
-  { id: "page:claude-app", type: "ページ", title: "Claudeアプリ・シミュレーター", url: "/claude-app", text: "Claudeアプリの画面（PC・スマホ）をブラウザ上に再現した体験シミュレーター。新規チャット・モデル切替・履歴・ストリーミング応答を操作でき、Anthropic APIキーを設定すると本物のClaudeとも会話できる。" },
+  { id: "page:claude-app", type: "ページ", title: "Claudeアプリ・シミュレーター", url: "/claude-app", text: "Claudeアプリの画面（PC・スマホ）をブラウザ上に再現した体験シミュレーター。チャット・コワーク・コードの3モード切替、新規チャット・モデル切替・履歴・ストリーミング応答を操作でき、Anthropic APIキーを設定すると本物のClaudeとも会話できる。" },
 ];
 
 function buildDocs(): SearchDoc[] {

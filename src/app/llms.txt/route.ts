@@ -55,7 +55,7 @@ export function GET() {
     "- [お手本ひとつで](https://comixai.dev/otehon): ゼロショット・フューショットの例示を体験するお手本選びゲーム",
     "- [AI運動会](https://comixai.dev/undokai): ベンチマークスコアと実務のギャップを体験する勝者予想ゲーム",
     "- [ご褒美で導け](https://comixai.dev/gohobi): 報酬設計だけでAIを導く強化学習体験ゲーム",
-    "- [Claudeアプリ・シミュレーター](https://comixai.dev/claude-app): PC・スマホのClaudeアプリ画面をブラウザ上に再現した体験シミュレーター（APIキーで本物のClaudeとも会話可能）",
+    "- [Claudeアプリ・シミュレーター](https://comixai.dev/claude-app): PC・スマホのClaudeアプリ画面をブラウザ上に再現した体験シミュレーター（チャット・コワーク・コードの3モード、APIキーで本物のClaudeとも会話可能）",
     "- [AIのはじめかた](https://comixai.dev/start): 歴史→用語→診断→ゲーム→実践の初心者向け学習ロードマップ",
     "- [AIのよくある質問](https://comixai.dev/faq): 仕事を奪われる？会社で使っていい？などの不安に一問一答",
     "- [ChatGPT・Claude・Gemini比較](https://comixai.dev/compare): 3大AIの違いと用途別の使い分け",
