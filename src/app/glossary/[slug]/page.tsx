@@ -135,6 +135,18 @@ export default async function GlossaryTermPage({ params }: Props) {
           url: "https://comixai.dev/profile",
         },
       },
+      ...(t.faq && t.faq.length > 0
+        ? [
+            {
+              "@type": "FAQPage",
+              mainEntity: t.faq.map((f) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+              })),
+            },
+          ]
+        : []),
     ],
   };
 
@@ -182,6 +194,20 @@ export default async function GlossaryTermPage({ params }: Props) {
               ))}
             </div>
 
+            {/* —— 深掘りセクション（sectionsを持つ用語だけ） —— */}
+            {t.sections?.map((sec) => (
+              <section key={sec.heading} style={{ marginTop: 36 }}>
+                <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", lineHeight: 1.5, margin: "0 0 14px", paddingLeft: 14, borderLeft: "6px solid var(--red-600)" }}>
+                  {sec.heading}
+                </h2>
+                {sec.body.map((p) => (
+                  <p key={p.slice(0, 12)} style={{ fontSize: 15.5, lineHeight: 2.1, color: "var(--text-body)", margin: "0 0 16px" }}>
+                    {p}
+                  </p>
+                ))}
+              </section>
+            ))}
+
             {/* —— 隠しコンテンツの扉（secretを持つ用語だけ） —— */}
             {t.secret && (
               <a href={t.secret.href} style={{ textDecoration: "none", color: "inherit", display: "block", marginTop: 34 }}>
@@ -226,6 +252,29 @@ export default async function GlossaryTermPage({ params }: Props) {
                   比較ページへ <i className="ph-bold ph-arrow-right" />
                 </span>
               </a>
+            )}
+
+            {/* —— よくある質問（faqを持つ用語だけ。FAQPage構造化データと対応） —— */}
+            {t.faq && t.faq.length > 0 && (
+              <section style={{ marginTop: 36 }}>
+                <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", lineHeight: 1.5, margin: "0 0 14px", paddingLeft: 14, borderLeft: "6px solid var(--red-600)" }}>
+                  {t.term}のよくある質問
+                </h2>
+                <div style={{ display: "grid", gap: 12 }}>
+                  {t.faq.map((f) => (
+                    <div key={f.q} style={{ border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", boxShadow: "var(--shadow-pop-sm)", padding: "16px 18px" }}>
+                      <div style={{ display: "flex", gap: 10, alignItems: "baseline", marginBottom: 7 }}>
+                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 14, color: "var(--red-600)", flex: "none" }}>Q.</span>
+                        <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, lineHeight: 1.7 }}>{f.q}</span>
+                      </div>
+                      <div style={{ display: "flex", gap: 10, alignItems: "baseline" }}>
+                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 14, color: "var(--text-muted)", flex: "none" }}>A.</span>
+                        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.95, color: "var(--text-body)" }}>{f.a}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
             )}
 
             {t.links.length > 0 && (
