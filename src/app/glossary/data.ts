@@ -614,7 +614,11 @@ const TERMS_BATCH1: GlossaryTerm[] = [
       { label: "連載「マンガで実践！AI活用」シリーズ紹介", href: "/manga/jissen" },
     ],
     relatedSlugs: ["ai-agent", "prompt-engineering", "claude-code"],
-    lastUpdated: "2026-07-04",
+    faq: [
+      { q: "AIワークフローとAIエージェントの違いは？", a: "ワークフローは人間が設計した流れにAIを組み込む方式で、動きが予測しやすいのが利点。エージェントはAI自身が手順を考える方式です。定型業務はワークフロー、探索的な仕事はエージェントが向きます。" },
+      { q: "何から始めればいいですか？", a: "毎週やっている定型作業をひとつ選び、「入力→AI処理→人間の確認」の3ステップに分解するところからです。Difyなどのノーコードツールでも組めます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
 ];
 
@@ -822,7 +826,11 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
     ],
     relatedSlugs: ["agi", "generative-ai"],
-    lastUpdated: "2026-07-05",
+    faq: [
+      { q: "シンギュラリティは2045年に来るのですか？", a: "「2045年」は提唱者レイ・カーツワイルの予測であって、確定した予定ではありません。専門家の見立ては大きく割れています。" },
+      { q: "シンギュラリティとAGIの違いは？", a: "AGIは人間並みの汎用知能という「能力の到達点」、シンギュラリティはAIがAIを改良して進化が予測不能になる「現象」です。順序としてはAGIが先と整理されます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "ai-literacy",
@@ -841,7 +849,11 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       { label: "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
     ],
     relatedSlugs: ["prompt-engineering", "hallucination", "ai-workflow"],
-    lastUpdated: "2026-07-05",
+    faq: [
+      { q: "AIリテラシーには何が含まれますか？", a: "①AIの得意・不得意の理解、②適切な使い方（機密情報・著作権への配慮）、③結果を鵜呑みにしない検証姿勢、の3本柱です。操作スキルより判断力が本体です。" },
+      { q: "どうやって身につければいいですか？", a: "座学より「使いながら失敗パターンを知る」のが早道です。当サイトの体験ゲーム群は、ハルシネーションや過学習などの失敗を安全に体験するために作られています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "neural-network",
@@ -1181,7 +1193,11 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       { label: "Claude Code Quest（遊びながら学べるRPG）", href: "/works/claude-code-quest" },
     ],
     relatedSlugs: ["claude-code", "chatgpt", "llm"],
-    lastUpdated: "2026-07-05",
+    faq: [
+      { q: "Claudeは無料で使えますか？", a: "無料プランがあります。回数に制限はありますが、日常的な文章作成や相談なら無料でも十分試せます。" },
+      { q: "ChatGPTとどちらがいいですか？", a: "一長一短です。長文読解・自然な日本語・コーディングでClaudeを推す声が多い一方、機能の幅はChatGPTが広い。当サイトの比較ページで用途別に整理しています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "gemini",
@@ -1200,7 +1216,11 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       { label: "企画(施策)の「承認フロー」を通すAI活用術", href: "https://note.com/aiux_unite/n/ndae7f58601fc" },
     ],
     relatedSlugs: ["notebooklm", "chatgpt", "ai-workflow"],
-    lastUpdated: "2026-07-05",
+    faq: [
+      { q: "Geminiは無料で使えますか？", a: "無料で使えます。上位モデルや大容量の機能を使うには有料プランが必要です。" },
+      { q: "Googleサービスとどう連携できますか？", a: "GmailやドキュメントなどWorkspaceに組み込まれており、メールの下書きや資料の要約をアプリ内で頼めます。検索との連動も強みです。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "notebooklm",
@@ -1218,7 +1238,11 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       { label: "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）", href: "https://note.com/aiux_unite/n/n24dc19c0ff2d" },
     ],
     relatedSlugs: ["gemini", "rag", "ai-workflow"],
-    lastUpdated: "2026-07-05",
+    faq: [
+      { q: "NotebookLMは無料ですか？", a: "基本無料で使えます（上位版あり）。Googleアカウントがあればブラウザからすぐ試せます。" },
+      { q: "ChatGPTとの違いは何ですか？", a: "「アップロードした資料の中だけ」から答えるのが最大の違いです。一般知識で勝手に補完しないぶん、社内文書や論文の読み込みでは出典が明確で安心です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "midjourney",
@@ -1237,7 +1261,11 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       { label: "漫画風の動画を生成する！（RunwayGen-3×Midjourney×DomoAI）", href: "https://note.com/aiux_unite/n/ndc6365524f2a" },
     ],
     relatedSlugs: ["image-generation-ai", "video-generation-ai", "prompt-engineering"],
-    lastUpdated: "2026-07-05",
+    faq: [
+      { q: "Midjourneyは無料で使えますか？", a: "基本的に有料プランでの利用が中心です。まず雰囲気を試したいなら、ChatGPTなどの無料画像生成から入るのがおすすめです。" },
+      { q: "商用利用はできますか？", a: "有料プラン加入者は原則商用利用可能です。ただし規約の詳細と、既存作品に似た生成物を使うリスクは別途確認が必要です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "video-generation-ai",
@@ -1256,7 +1284,11 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       { label: "【AIで作る】動くストーリーボード", href: "https://note.com/aiux_unite/n/n759b5bbfe9e2" },
     ],
     relatedSlugs: ["image-generation-ai", "midjourney", "generative-ai"],
-    lastUpdated: "2026-07-05",
+    faq: [
+      { q: "代表的な動画生成AIは？", a: "Sora、Runway、Google Veo、Pikaなどが有名です。数秒〜数十秒の短尺動画が主戦場で、AIの中でも進化が最も速い分野のひとつです。" },
+      { q: "無料で試せますか？", a: "多くのサービスに無料枠やトライアルがあります。動画は生成に計算資源がかかるため、回数制限は画像生成より厳しめです。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
 ];
 
@@ -1276,7 +1308,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["llmo", "ai-browser", "deep-research"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "Perplexityは無料で使えますか？", a: "無料で使えます。上位モデルや回数を増やせる有料プランもあります。" },
+      { q: "Google検索と何が違いますか？", a: "リンク一覧ではなく「出典つきの答え」が返ってくる点です。答えに対してそのまま追加質問して深掘りできるのも、従来の検索にない体験です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "github-copilot",
@@ -1294,7 +1330,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       { label: "スマホのClaude Codeだけでニュースアプリを作った記録", href: "https://note.com/aiux_unite/n/n750de90c0668" },
     ],
     relatedSlugs: ["claude-code", "vibe-coding", "microsoft-copilot"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "GitHub Copilotは無料ですか？", a: "個人向けに無料枠があり、本格利用は有料プランです。学生や活発なOSSメンテナーには無料提供があります。" },
+      { q: "Claude Codeとの違いは？", a: "Copilotはエディタ内でコードの続きを提案する補完型が出発点、Claude Codeは実装からテストまで自走するエージェント型です。最近はCopilotもエージェント機能を広げており、境界は近づいています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "microsoft-copilot",
@@ -1312,7 +1352,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       { label: "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）", href: "https://note.com/aiux_unite/n/n24dc19c0ff2d" },
     ],
     relatedSlugs: ["github-copilot", "chatgpt", "shadow-ai"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "Microsoft CopilotとChatGPTの関係は？", a: "CopilotはOpenAIのモデルなどを核にマイクロソフトが提供するアシスタント群です。頭脳は近縁で、WordやExcelなど仕事道具に組み込まれている点が違います。" },
+      { q: "無料で使えますか？", a: "Web版・Windows版は無料で使えます。WordやExcelの中で使うCopilotは、別途有料ライセンスが必要です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "genspark",
@@ -1330,7 +1374,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       { label: "Claude Coworkで業務改善を半自動化してみた", href: "https://note.com/aiux_unite/n/n169ba6bd6c1e" },
     ],
     relatedSlugs: ["ai-agent", "deep-research", "multi-agent"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "Gensparkは何ができますか？", a: "調査レポート作成、スライド生成、画像・動画づくり、電話代行など、複数のAIエージェントがタスクを丸ごと請け負います。「お願い」から「納品」までの距離が短いのが特徴です。" },
+      { q: "無料で使えますか？", a: "無料クレジット制で試せます。継続的に使う場合は有料プランという構成です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "deepseek",
@@ -1348,7 +1396,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       { label: "AI時代の「流行」と「本質」：AIの先にあるべきもの", href: "https://note.com/aiux_unite/n/na87618c2923d" },
     ],
     relatedSlugs: ["distillation", "local-llm", "reasoning-model"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "DeepSeekは無料で使えますか？", a: "チャット版は無料で使えます。モデル自体もオープンに公開されており、自分のマシンで動かすこともできます。" },
+      { q: "安全性は大丈夫ですか？", a: "公式アプリはデータの扱いへの懸念から、企業や政府機関で利用制限される例があります。一方、オープンモデルを自社環境で動かせばデータは外部に出ません。用途で切り分けるのが現実的です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "sora",
@@ -1367,7 +1419,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       { label: "【AIで作る】動くストーリーボード", href: "https://note.com/aiux_unite/n/n759b5bbfe9e2" },
     ],
     relatedSlugs: ["video-generation-ai", "ai-copyright", "image-generation-ai"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "Soraは誰でも使えますか？", a: "ChatGPTの有料プラン加入者向けを中心に提供されています。提供範囲や生成回数は変わりやすいので、最新は公式サイトで確認してください。" },
+      { q: "どんな動画が作れますか？", a: "テキストから数秒〜十数秒の高品質な動画を生成できます。実写風からアニメ調まで幅広く、SNS向けの短尺コンテンツと相性抜群です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "deep-research",
@@ -1434,7 +1490,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       cta: "仕分ける",
     },
     relatedSlugs: ["llm", "deepseek", "context-window"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "推論モデルにはどんなものがありますか？", a: "主要各社が「考えてから答えるモード」を提供しています。個別名は入れ替わりが速いので、モデル名より「即答型と熟考型の2系統がある」というカテゴリ理解が実用的です。" },
+      { q: "いつ使えばいいですか？", a: "数学・コード・込み入った分析など「途中の論理が大事な仕事」で真価を発揮します。メールの下書きのような即答仕事には過剰です。使い分けの感覚は当ページの扉のゲームで掴めます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "ai-browser",
@@ -1450,7 +1510,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["perplexity", "prompt-injection", "ai-agent"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "代表的なAIブラウザは？", a: "AI企業製のブラウザが相次いで登場し、既存ブラウザへのAI統合も進んでいます。顔ぶれは流動的なので、「AIが同乗しているブラウザ」というカテゴリで押さえるのが実用的です。" },
+      { q: "普通のブラウザ＋AIサイトと何が違いますか？", a: "いま見ているページの文脈をAIが共有している点です。タブを切り替えてコピペする必要がなく、「このページを要約して」「ここから申し込んで」を直接頼めます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "world-model",
@@ -1466,7 +1530,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["video-generation-ai", "agi", "sora"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "LLMとワールドモデルの違いは？", a: "LLMは言葉のパターンを学びますが、ワールドモデルは「世界がどう動くか」という物理や因果のシミュレーションを内部に持ちます。ロボットや自動運転、動画生成の品質向上に不可欠とされます。" },
+      { q: "なぜいま注目されているのですか？", a: "言葉だけの学習では「コップを倒せば水がこぼれる」といった身体的な常識に限界があるためです。言語の次のブレイクスルー候補として研究投資が集中しています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "context-engineering",
@@ -1491,7 +1559,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       cta: "片づける",
     },
     relatedSlugs: ["prompt-engineering", "context-window", "rag"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "プロンプトエンジニアリングとの違いは？", a: "プロンプトが「聞き方の工夫」なら、コンテキストエンジニアリングは「机に何を載せるかの設計」です。指示文だけでなく、資料・会話履歴・ツールまで含めてAIの作業環境を整えます。" },
+      { q: "具体的には何をするのですか？", a: "必要な資料だけを渡す、古い履歴を整理する、ツールの説明を厳選する——「入れれば入れるほど良い」という直感を捨てるのが第一歩です。当ページの扉のパズルで体験できます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "ai-slop",
@@ -1515,7 +1587,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       cta: "鑑定する",
     },
     relatedSlugs: ["generative-ai", "hallucination", "llmo"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "スロップの見分け方は？", a: "出典のない数字、具体性のない一般論、不自然な画像（指・文字）、書き手が不明——このあたりが典型的なサインです。当ページの扉の鑑定ゲームで目を鍛えられます。" },
+      { q: "AIで作ったらスロップなのですか？", a: "いいえ。分かれ目はAI製かどうかではなく、事実確認と責任を人間が持ったかどうかです。AIで作って人間が磨いたコンテンツはスロップではありません。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "system-prompt",
@@ -1539,7 +1615,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       cta: "開店する",
     },
     relatedSlugs: ["prompt-engineering", "prompt-injection", "context-engineering"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "システムプロンプトは見られますか？", a: "通常は非公開ですが、Anthropicのように公開している企業もあります。外部から抜き取ろうとする攻撃も存在し、防御側の設計テーマのひとつです。" },
+      { q: "自分で書くときのコツは？", a: "役割・目的・口調・禁止事項・迷ったときの振る舞いを具体的に書くことです。新人に渡す業務マニュアルと同じ要領で、当ページの扉のゲームで設計を体験できます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "prompt-injection",
@@ -1561,7 +1641,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       cta: "検問する",
     },
     relatedSlugs: ["system-prompt", "ai-agent", "ai-browser"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "一般ユーザーにも関係ありますか？", a: "あります。AIにWebページやメールを読ませて作業させる時代なので、読ませた先に罠が仕込まれている可能性は誰にでも関係します。重要な操作の承認は人間が握るのが基本です。" },
+      { q: "ジェイルブレイクとの違いは？", a: "ジェイルブレイクは利用者自身がAIの制限を破ろうとする行為、プロンプトインジェクションは第三者がデータの中に指示を仕込んでAIを乗っ取る攻撃です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "shadow-ai",
@@ -1577,7 +1661,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["ai-governance", "ai-literacy", "chatgpt"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "シャドーAIの何が問題なのですか？", a: "会社が把握していない経路で機密情報がAIに入力されたり、検証されていない出力が業務に使われたりすることです。事故が起きても発見が遅れます。" },
+      { q: "対策は禁止することですか？", a: "全面禁止は隠れ利用を増やして逆効果になりがちです。公式に使えるAIと簡単なルールを用意して「隠れて使う理由」をなくすのが実効的とされています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "ai-governance",
@@ -1593,7 +1681,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["shadow-ai", "ai-literacy", "ai-copyright"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "中小企業にもAIガバナンスは必要ですか？", a: "大掛かりな体制は不要ですが、「入力してよい情報」「出力の確認手順」「使ってよいツール」の3点を決めるだけでも立派なガバナンスです。" },
+      { q: "日本にAIの法律はありますか？", a: "2025年に日本初のAI関連法（AI推進法）が成立し、ガイドライン整備が進んでいます。EUのAI法など、国・地域ごとの規制も並行して動いています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "ai-copyright",
@@ -1609,7 +1701,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["image-generation-ai", "sora", "ai-governance"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "AIが作ったものに著作権はありますか？", a: "日本では、人間の創作的寄与があれば認められうるという整理です。指示を出しただけの完全自動生成は保護されない可能性が高いとされています。" },
+      { q: "AIに作品を学習されるのは合法ですか？", a: "日本の著作権法30条の4は情報解析目的の学習を原則適法としていますが、例外もあり、生成段階で既存作品に似る問題は別の論点です。世界的に係争が続いています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "llmo",
@@ -1625,7 +1721,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["perplexity", "ai-slop", "generative-ai"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "SEOとLLMOの違いは？", a: "SEOは検索結果での順位を、LLMOはAIの回答に引用・言及されることを狙います。手法は重なりますが、LLMOでは一文定義・Q&A構造・出典の明確さが特に効きます。" },
+      { q: "具体的に何をすればいいですか？", a: "引用しやすい一文定義を書く、Q&A形式を用意する、llms.txtを設置する、構造化データを整える、が基本セットです。このサイト自体が実践例になっています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "multi-agent",
@@ -1649,7 +1749,11 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       cta: "経営する",
     },
     relatedSlugs: ["ai-agent", "mcp", "context-engineering"],
-    lastUpdated: "2026-07-09",
+    faq: [
+      { q: "1体のエージェントと、どちらがいいのですか？", a: "大きく複雑な仕事は分業が有利ですが、連携ミスやコスト増というデメリットもあります。「分けるほど強いが、分けるほど事故る」ので、小さい仕事は1体で十分です。" },
+      { q: "具体例はありますか？", a: "調査係・執筆係・チェック係で記事を作る、複数のAIが分担して開発するなどです。分業の采配は、当ページの扉の経営ゲームで体験できます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "distillation",
@@ -1716,7 +1820,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       { label: "マンガでわかる！AI活用 第6話「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
     ],
     relatedSlugs: ["prompt-engineering", "system-prompt", "context-window"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "プロンプトとプロンプトエンジニアリングの違いは？", a: "プロンプトはAIへの入力文そのもの、プロンプトエンジニアリングはそれを上手に書く技術です。" },
+      { q: "良いプロンプトの最低条件は？", a: "「誰向けに・何のために・どんな形式で」の3点が入っていることです。これだけで出力の質が目に見えて変わります。指示の抜けがどう事故るかは、当ページの扉のゲームでどうぞ。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/shinjin",
       title: "AI新人くんに、指示を出せ。",
@@ -1738,7 +1846,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["chatgpt", "transformer", "llm"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "GPTとChatGPTは違うのですか？", a: "GPTはAIモデル（エンジン）の系譜名、ChatGPTはそのエンジンを搭載した対話サービスです。" },
+      { q: "GPTは何の略ですか？", a: "Generative Pre-trained Transformerの略。「事前に大量の文章で訓練された、生成型のトランスフォーマー」という技術構成がそのまま名前になっています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "parameter",
@@ -1754,7 +1866,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["llm", "distillation", "quantization"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "パラメータが多いほど賢いのですか？", a: "傾向としては賢くなりますが、データの質や訓練方法しだいで逆転も起きます。近年は小型で高性能なモデルの進化が著しく、「大きさ＝賢さ」の等式は崩れつつあります。" },
+      { q: "7Bや70Bの読み方は？", a: "BはBillion（10億）です。7Bなら70億個のパラメータ（モデル内の調整つまみ）を持つ、という意味になります。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "inference",
@@ -1770,7 +1886,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["reasoning-model", "token", "machine-learning"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "学習と推論の違いは？", a: "学習はAIを作る工程（大量データで内部の数値を調整）、推論は出来上がったAIを使う工程です。私たちがチャットAIに質問するのは、常に推論のほうです。" },
+      { q: "推論モデルの「推論」と同じ意味ですか？", a: "紛らわしいですが別物です。ここでの推論（inference）は「AIの実行」のこと。推論モデル（reasoning model）の推論は「考えて論理を積み上げる」ことを指します。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "training-data",
@@ -1786,7 +1906,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["machine-learning", "ai-copyright", "ai-slop"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "学習データはどこから来ているのですか？", a: "公開されたWebテキスト、書籍、コードなどが中心で、近年はライセンス契約したデータや、AIが作った合成データの比率が増えています。" },
+      { q: "データに偏りがあるとどうなりますか？", a: "データの偏りはそのままAIの偏りになります。同じ餌ばかり与えて育てるとどうなるかは、当ページの扉の育成ゲームで体験できます。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/sodate",
       title: "AIを、育てよう。",
@@ -1808,7 +1932,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["llm", "transformer", "fine-tuning"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "LLMと基盤モデルは同じですか？", a: "LLMは「言語の」基盤モデルです。基盤モデルはより広い概念で、画像・音声・動画のモデルも含みます。" },
+      { q: "なぜ「基盤」と呼ぶのですか？", a: "1つのモデルが要約・翻訳・チャットなど無数の用途の土台になるからです。土台の上にRAGやファインチューニングでアプリを建てる、という建築のイメージです。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "gpu",
@@ -1826,7 +1954,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       { label: "AIの75年史をスクロールで読む「AI歴史絵巻」", href: "/history" },
     ],
     relatedSlugs: ["deep-learning", "parameter", "edge-ai"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "なぜAIにGPUが必要なのですか？", a: "AIの計算は「単純な掛け算と足し算の膨大な繰り返し」で、数千の計算を同時にこなせるGPUの構造と相性が抜群だからです。" },
+      { q: "CPUとの違いは？", a: "CPUは少数精鋭の万能選手、GPUは単純作業を数千人で同時にこなす大部隊です。AIの学習は後者の独壇場で、これがGPUメーカーの躍進の理由です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "deepfake",
@@ -1842,7 +1974,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["video-generation-ai", "ai-slop", "ai-literacy"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "ディープフェイクを見分ける方法は？", a: "不自然なまばたきや輪郭、光の矛盾がヒントですが、品質向上で目視の限界は近づいています。「衝撃的な映像ほど、出どころを確認する」習慣のほうが実効的です。" },
+      { q: "作ること自体は違法ですか？", a: "技術自体は合法ですが、他人の顔や声を無断利用した詐欺・名誉毀損などは犯罪です。各国で規制強化が進んでいます。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/slop",
       title: "その情報、食べる前に嗅げ。",
@@ -1866,7 +2002,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       { label: "ChatGPT・Claude・Gemini比較", href: "/compare" },
     ],
     relatedSlugs: ["chatgpt", "sora", "anthropic"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "OpenAIの主なサービスは？", a: "ChatGPT、動画生成のSora、開発者向けAPIなどです。2022年のChatGPT公開で生成AIブームの起点となった企業です。" },
+      { q: "なぜOpenという名前なのですか？", a: "非営利研究所として「人類全体の利益のためにAIをオープンに」という理念で始まったためです。商業化が進んだ現在、名前と実態の関係はたびたび議論になります。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "anthropic",
@@ -1884,7 +2024,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       { label: "Claude Codeを遊びながら学べるRPG「Claude Code Quest」", href: "/works/claude-code-quest" },
     ],
     relatedSlugs: ["claude", "claude-code", "mcp"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "Anthropicの主なサービスは？", a: "対話AIのClaude、開発エージェントのClaude Code、開発者向けAPIです。憲法AIなど安全性研究の発信でも知られます。" },
+      { q: "社名にはどんな意味がありますか？", a: "「人間の・人類の」を意味する英語anthropicからで、人間に有益なAIを作るという設立思想が込められています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
 
   /* —— しくみ・技術 —— */
@@ -1902,7 +2046,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["prompt-engineering", "prompt", "chain-of-thought"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "ゼロショットとフューショット、どちらを使うべきですか？", a: "まずゼロショットで1回試し、出力の形式や文体がズレていたら例を1〜3個見せる（フューショット）のが効率的です。" },
+      { q: "例は多いほど良いのですか？", a: "3個程度で効果は頭打ちになることが多く、悪い例を混ぜると悪癖ごと真似されます。質の良い例を少数、が鉄則です。当ページの扉のゲームで体感できます。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/otehon",
       title: "お手本ひとつで、AIは化ける。",
@@ -1924,7 +2072,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["reasoning-model", "prompt-engineering", "zero-shot"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "今でも「ステップバイステップで考えて」は必要ですか？", a: "推論モデルの登場で、明示的に指示する必要性は下がりました。ただ、複雑な依頼で途中の考えを見せてほしいときには今も有効です。" },
+      { q: "なぜ書かせると正答率が上がるのですか？", a: "人間の筆算と同じで、途中経過を出力させると論理の飛躍が減るためです。この知見が、のちの推論モデルの設計思想になりました。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/nou",
       title: "速い脳と遅い脳、使い分けろ。",
@@ -1946,7 +2098,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["rlhf", "supervised-learning", "machine-learning"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "教師あり学習との違いは？", a: "教師ありは「正解を教わる」、強化学習は「報酬を頼りに自分で見つける」学び方です。正解が定義しにくいゲームやロボット制御で強みを発揮します。" },
+      { q: "報酬ハッキングとは何ですか？", a: "報酬の設計ミスをAIが突いて、意図しない方法で点数を稼いでしまう現象です。当ページの扉の迷路ゲームで、実際に起こして体験できます。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/gohobi",
       title: "操作禁止。置けるのは、ご褒美だけ。",
@@ -1968,7 +2124,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["reinforcement-learning", "alignment", "chatgpt"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "RLHFは何と読みますか？", a: "アールエルエイチエフと読みます。Reinforcement Learning from Human Feedback（人間のフィードバックによる強化学習）の略です。" },
+      { q: "副作用があるというのは本当ですか？", a: "本当です。人間に好かれる回答に寄るため、お世辞が増えたり自信満々に間違えたりする傾向（追従性）が研究で指摘されています。当ページの扉で調教する側を体験できます。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/shitsuke",
       title: "あなたの「好み」がAIを作る。",
@@ -1990,7 +2150,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["fine-tuning", "training-data", "machine-learning"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "過学習はなぜ問題なのですか？", a: "学習データでは満点なのに、本番の初見データでは使い物にならない「見かけ倒し」になるからです。テスト成績と実力の乖離は、AI開発の永遠のテーマです。" },
+      { q: "人間にも過学習はありますか？", a: "過去問の丸暗記で応用が利かない状態は、まさに過学習です。比喩としてビジネス会話でもそのまま通じます。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/sodate",
       title: "偏食AI、爆誕。",
@@ -2012,7 +2176,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["machine-learning", "training-data", "reinforcement-learning"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "教師あり学習の「教師」とは誰ですか？", a: "人間の先生ではなく「正解ラベル付きのデータ」のことです。問題と模範解答のセットが教師役を務めます。" },
+      { q: "教師なし学習は何に使うのですか？", a: "正解が定義できないデータから構造を見つける用途です。顧客のグループ分けや異常検知が代表例です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "lora",
@@ -2028,7 +2196,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["fine-tuning", "stable-diffusion", "parameter"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "LoRAは何の略ですか？", a: "Low-Rank Adaptation（低ランク適応）の略です。モデル本体は凍結し、小さな差分だけを学習する数学的な工夫がそのまま名前になっています。" },
+      { q: "なぜ画像生成で人気なのですか？", a: "数十枚の画像から特定の絵柄やキャラクターを数MBのファイルで再現でき、配布や組み合わせが簡単だからです。絵柄カスタマイズの共有文化を生みました。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "quantization",
@@ -2044,7 +2216,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["local-llm", "parameter", "distillation"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "Q4とQ8、どちらを選べばいいですか？", a: "まずQ4が定番です。品質が物足りなければ上げていきましょう。「用途に足りる品質で、入る最大サイズ」が正解です。感覚は当ページの扉のゲームで掴めます。" },
+      { q: "量子コンピュータと関係ありますか？", a: "ありません。数値の段階を量子（quantum）と呼ぶ数学用語が由来で、名前が似ているだけの他人です。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/diet",
       title: "絞れ。ただし、壊すな。",
@@ -2066,7 +2242,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["rlhf", "ai-governance", "agi"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "アライメントとRLHFの関係は？", a: "アライメントが目的（AIの振る舞いを人間の意図に揃える）、RLHFはその代表的な手段のひとつ、という関係です。" },
+      { q: "なぜそこまで重要視されるのですか？", a: "AIが強力になるほど「ズレたまま賢い」ことの被害が大きくなるからです。字義どおりに願いを叶える魔神に事故らない願い方ができるか、当ページの扉で試せます。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/majin",
       title: "願いは、言葉どおりに叶う。",
@@ -2088,7 +2268,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["reasoning-model", "overfitting", "llm"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "ベンチマークのスコアは信用できますか？", a: "参考にはなりますが、テスト問題の学習データ混入（汚染）や対策特化の問題があり、鵜呑みは禁物です。最後は自分の用途で試すのが正解です。" },
+      { q: "有名なベンチマークにはどんなものがありますか？", a: "知識・数学・実務コーディングなど分野別に多数あり、顔ぶれは頻繁に更新されます。個別名より「種目別の共通テスト」という構造の理解が実用的です。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/undokai",
       title: "スコアで、勝者を当てられるか。",
@@ -2112,7 +2296,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["claude-code", "github-copilot", "vibe-coding"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "CursorとClaude Code、Copilotの違いは？", a: "Cursorはエディタ自体をAI化した製品で、書きながらの共同編集が得意です。Claude Codeは任せて自走するエージェント型、Copilotは補完型が出発点。併用する開発者も多いです。" },
+      { q: "Cursorは無料で使えますか？", a: "無料プランがあります。本格利用は月額課金で、内部で使うAIモデルを選べるのも特徴です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "coding-agent",
@@ -2131,7 +2319,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       { label: "スマホのClaude Codeだけでニュースアプリを作った記録", href: "https://note.com/aiux_unite/n/n750de90c0668" },
     ],
     relatedSlugs: ["claude-code", "ai-agent", "vibe-coding"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "代表的なコーディングエージェントは？", a: "Claude Code、OpenAIのCodex、GitHub Copilotのエージェント機能などが代表格です。" },
+      { q: "エンジニアは不要になりますか？", a: "実装の手作業は減りますが、要件を決め、出来を確かめ、責任を持つ人は不要になりません。「書く人」から「任せて確かめる人」への役割シフトが実態です。" },
+    ],
+    lastUpdated: "2026-07-12",
     secret: {
       href: "/agent",
       title: "AIエージェントに、任せてみた。",
@@ -2153,7 +2345,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["ai-workflow", "rag", "ai-agent"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "Difyは無料で使えますか？", a: "オープンソース版を自分でホスティングすれば無料です。クラウド版は無料枠と有料プランがあります。" },
+      { q: "プログラミング知識は必要ですか？", a: "基本操作はノーコードで、ブロックをつなぐ感覚でチャットボットやワークフローを組めます。細かい拡張をしたくなったときにコードの知識が活きます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "stable-diffusion",
@@ -2169,7 +2365,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["image-generation-ai", "midjourney", "lora"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "Stable Diffusionは無料で使えますか？", a: "モデルはオープンで、自分のPCで動かせば無料・無制限です（相応のGPUが必要）。Web版サービスの料金は各社によります。" },
+      { q: "Midjourneyとの違いは？", a: "Midjourneyは完成度の高い有料サービス、Stable Diffusionは自由に改造できるオープンな素材です。手軽さのMidjourney、自由度のStable Diffusion、という住み分けです。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "grok",
@@ -2187,7 +2387,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       { label: "ChatGPT・Claude・Gemini比較", href: "/compare" },
     ],
     relatedSlugs: ["chatgpt", "deepseek", "claude"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "Grokは無料で使えますか？", a: "X（旧Twitter）上で制限付きの無料利用が可能で、本格利用はXの有料プランなどに紐づきます。" },
+      { q: "Grokという名前の意味は？", a: "SF小説「異星の客」の造語grok（深く完全に理解する）が由来です。遠慮のない型破りな語り口がブランドになっています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "llama",
@@ -2203,7 +2407,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["local-llm", "deepseek", "quantization"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "Llamaは無料で商用利用できますか？", a: "独自ライセンスの条件内で無料の商用利用が可能です（超大規模サービスには制限あり）。利用前にライセンス原文の確認をおすすめします。" },
+      { q: "ChatGPTとの違いは？", a: "ChatGPTは完成品のサービス、Llamaは自分で動かし改造するための素材（モデル）です。ローカルLLMや自社AI構築の土台として使われます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "music-generation-ai",
@@ -2219,7 +2427,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["ai-copyright", "video-generation-ai", "voice-ai"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "代表的な音楽生成AIは？", a: "SunoとUdioが二大巨頭です。歌詞やスタイルを指定すると、ボーカル入りの完成曲を数十秒で生成します。" },
+      { q: "作った曲は商用利用できますか？", a: "多くのサービスで有料プランなら商用可能ですが、規約の確認と、既存曲に似るリスクへの注意は必須です。音楽業界との係争も続いている領域です。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "voice-ai",
@@ -2235,7 +2447,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["deepfake", "multimodal-ai", "music-generation-ai"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "音声AIで何ができますか？", a: "会議の文字起こしと要約、多言語ナレーションの生成、自分の声のクローン、AIとの音声会話などです。「議事録を取る係」はほぼAIの仕事になりました。" },
+      { q: "声のクローンは危なくないですか？", a: "本人になりすます詐欺への悪用が実際に起きており、家族間で合言葉を決めるなどの自衛が推奨されています。無断の声の複製への規制も各国で進んでいます。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "edge-ai",
@@ -2251,7 +2467,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["local-llm", "quantization", "gpu"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "エッジAIの「エッジ」とは何ですか？", a: "ネットワークの端（edge）＝手元の機器のことです。クラウド（中心）に対して、スマホやカメラなど末端側で処理するためこう呼ばれます。" },
+      { q: "エッジAIのメリットは？", a: "通信不要で速い、オフラインでも動く、データが外に出ない、通信コストがかからない、の4点です。AI PCやスマホのAI機能の正体はこれです。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
   {
     slug: "physical-ai",
@@ -2267,7 +2487,11 @@ const TERMS_BATCH4: GlossaryTerm[] = [
     ],
     links: [],
     relatedSlugs: ["world-model", "ai-agent", "agi"],
-    lastUpdated: "2026-07-11",
+    faq: [
+      { q: "フィジカルAIの例は？", a: "自動運転車、ヒト型ロボット、倉庫の搬送ロボット、ドローンなどです。生成AIの頭脳と身体の融合が進んでいます。" },
+      { q: "なぜいま注目されているのですか？", a: "言語や画像で成功したAIの、次の市場が物理世界だからです。半導体大手などが開発基盤に大型投資しており、AIの次の10年の本命とされています。" },
+    ],
+    lastUpdated: "2026-07-12",
   },
 ];
 
