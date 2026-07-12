@@ -1,16 +1,16 @@
 "use client";
 /* ============================================================
-   「Claudeアプリ教習所」— Claudeアプリ（PC/スマホ）の画面を
-   再現した操作トレーニング。ミッションをこなして基本操作を
-   身につける。体験モードは定型応答で完結、APIキーを設定すると
-   本物のClaude（Anthropic API）にブラウザから直接つながる。
+   「Claudeアプリ・シミュレーター」— Claudeアプリの画面
+   （PC版・スマホ版）をブラウザ上に再現した体験UI。
+   体験モードは定型応答で完結、APIキーを設定すると本物の
+   Claude（Anthropic API）にブラウザから直接つながる。
+   ゲーム要素は載せていない素の「側」。学習コンテンツは
+   この上に後から組める構成にしてある。
    ※ COMIXAIによる非公式の再現UI。Anthropic公式とは無関係。
    ============================================================ */
 import React from "react";
 import Anthropic from "@anthropic-ai/sdk";
 import { Badge, Button, Card } from "../ds";
-import { unlock } from "../zukan/store";
-import { ZukanNote } from "../zukan/collection";
 
 /* ———— アプリ再現UIの配色（Claude風・サイトDSとは独立） ———— */
 const C = {
@@ -47,19 +47,6 @@ interface Chat {
   messages: Msg[];
 }
 
-/* ———— ミッション ———— */
-const MISSIONS = [
-  { id: "newchat", icon: "✏️", title: "「新しいチャット」を開く", desc: "サイドバー（スマホは ☰ メニュー）の「新しいチャット」を押そう。" },
-  { id: "send", icon: "📨", title: "メッセージを送る", desc: "入力欄に書いて送信。迷ったら候補ボタンからでOK。" },
-  { id: "reply", icon: "📖", title: "返事を最後まで受け取る", desc: "Claudeの返事は少しずつ流れてくる（ストリーミング）。" },
-  { id: "followup", icon: "🔁", title: "同じチャットで続けて質問する", desc: "前のやりとりは覚えている。「さっきのを短く」が通じる。" },
-  { id: "model", icon: "🎛️", title: "モデルを切り替える", desc: "画面上部のモデル名を押すと選べる。用途で使い分けよう。" },
-  { id: "newchat2", icon: "🆕", title: "新しい話題は新しいチャットで", desc: "もう一度「新しいチャット」。文脈を混ぜないのがコツ。" },
-  { id: "history", icon: "🗂️", title: "履歴から前のチャットに戻る", desc: "サイドバーの一覧から、最初のチャットを開き直そう。" },
-  { id: "device", icon: "📱", title: "PC⇄スマホ表示を切り替える", desc: "枠の上の切替ボタンで。どちらでも同じように使える。" },
-] as const;
-type MissionId = (typeof MISSIONS)[number]["id"] | "real";
-
 /* ———— 体験モードの台本 ———— */
 const SUGGESTIONS = [
   "Claudeには何ができる？",
@@ -72,20 +59,20 @@ const DEMO_REPLIES: Record<string, string> = {
   [SUGGESTIONS[1]]:
     "いいですね。たとえばこんな挨拶はどうでしょう。\n\n「おはようございます。今週も折り返しですね。今日は午後に締め切りがひとつあるので、午前中は集中タイムでいきましょう。困りごとがあれば早めに共有してください。それでは今日も一日、よろしくお願いします！」\n\n「もっとカジュアルに」「半分の長さに」のような注文も、続けてどうぞ。",
   [SUGGESTIONS[2]]:
-    "コツは3つあります。\n\n1. 背景ごと伝える —「誰向けに・何のために」を添えると精度が上がる\n2. 一度で完璧を求めない — 出てきたものに「もっと短く」「例を足して」と注文を重ねる\n3. 新しい話題は新しいチャットで — 文脈が混ざると答えもぶれる\n\nじつはこの教習所のミッション、まさにこの3つの練習になっています。",
+    "コツは3つあります。\n\n1. 背景ごと伝える —「誰向けに・何のために」を添えると精度が上がる\n2. 一度で完璧を求めない — 出てきたものに「もっと短く」「例を足して」と注文を重ねる\n3. 新しい話題は新しいチャットで — 文脈が混ざると答えもぶれる\n\nまずは小さな頼みごとから試してみてください。",
 };
 const DEMO_FALLBACK =
-  "メッセージありがとうございます。いまは体験モードなので返事は定型文ですが、画面の使い方は本物のClaudeアプリと同じです。\n\n・返事はこうして少しずつ流れてきます（ストリーミング）\n・同じチャットなら文脈も引き継がれます\n・⚙️ 設定でAPIキーを入れると、本物のClaudeがここで答えます\n\nまずはミッションを進めてみましょう！";
+  "メッセージありがとうございます。いまは体験モードなので返事は定型文ですが、画面の使い方は本物のClaudeアプリと同じです。\n\n・返事はこうして少しずつ流れてきます（ストリーミング）\n・同じチャットなら文脈も引き継がれます\n・⚙️ 設定でAPIキーを入れると、本物のClaudeがここで答えます";
 const DEMO_FOLLOWUP =
-  "続けての質問、いいですね。同じチャットの中では、Claudeは前のやりとりを覚えたまま答えます。だから「さっきのをもっと短く」「それを英語で」のような指示が通じるんです。\n\n（体験モードのため定型の返事です。⚙️ 設定からAPIキーを入れると、この画面のまま本物のClaudeにつながります）";
+  "続けての質問ですね。同じチャットの中では、Claudeは前のやりとりを覚えたまま答えます。だから「さっきのをもっと短く」「それを英語で」のような指示が通じるんです。\n\n（体験モードのため定型の返事です。⚙️ 設定からAPIキーを入れると、この画面のまま本物のClaudeにつながります）";
 
 const SYSTEM_PROMPT =
-  "あなたはClaudeです。COMIXAI（comixai.dev）の学習ゲーム「Claudeアプリ教習所」の中で、Claudeアプリの操作を練習しているユーザーと会話しています。日本語で、フレンドリーかつ簡潔に（目安300字以内で）答えてください。";
+  "あなたはClaudeです。COMIXAI（comixai.dev）のClaudeアプリ再現UIの中で、ユーザーと会話しています。日本語で、フレンドリーかつ簡潔に（目安300字以内で）答えてください。";
 
 const KEY_STORAGE = "comixai-claude-app-key";
 
 /* ============================================================ */
-export function ClaudeAppGame() {
+export function ClaudeAppSim() {
   /* —— 全体状態 —— */
   const [device, setDevice] = React.useState<"pc" | "sp">("pc");
   const [chats, setChats] = React.useState<Chat[]>([]);
@@ -101,8 +88,6 @@ export function ClaudeAppGame() {
   const [saveKey, setSaveKey] = React.useState(false);
   const [apiMode, setApiMode] = React.useState(false);
   const [toast, setToast] = React.useState<string | null>(null);
-  const [done, setDone] = React.useState<Set<MissionId>>(new Set());
-  const [celebrated, setCelebrated] = React.useState(false);
 
   const idRef = React.useRef(1);
   const genRef = React.useRef(0); // 体験モードのストリーム世代
@@ -111,12 +96,9 @@ export function ClaudeAppGame() {
   const toastTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const active = chats.find((c) => c.id === activeId) ?? null;
-  const coreDone = MISSIONS.filter((m) => done.has(m.id)).length;
-  const graduated = coreDone === MISSIONS.length;
 
-  /* —— 初期化：部屋の解錠・端末判定・保存済みキー —— */
+  /* —— 初期化：端末判定・保存済みキー —— */
   React.useEffect(() => {
-    unlock("rooms", "claude-app");
     if (typeof window !== "undefined" && window.matchMedia("(max-width: 700px)").matches) setDevice("sp");
     try {
       const k = localStorage.getItem(KEY_STORAGE);
@@ -137,64 +119,27 @@ export function ClaudeAppGame() {
     if (el) el.scrollTop = el.scrollHeight;
   }, [active?.messages, busy]);
 
-  /* —— 卒業判定 —— */
-  React.useEffect(() => {
-    if (graduated && !celebrated) {
-      setCelebrated(true);
-      unlock("claudeapp", "sotsugyo");
-    }
-  }, [graduated, celebrated]);
-
   const notify = (msg: string) => {
     setToast(msg);
     if (toastTimer.current) clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(null), 2600);
   };
 
-  const clearMission = React.useCallback(
-    (id: MissionId) => {
-      setDone((prev) => {
-        if (prev.has(id)) return prev;
-        const next = new Set(prev);
-        next.add(id);
-        const m = MISSIONS.find((x) => x.id === id);
-        notify(id === "real" ? "⭐ ボーナス達成：本物のClaudeと話した！" : `✅ ミッション達成：${m?.title ?? id}`);
-        if (id === "real") unlock("claudeapp", "honmono");
-        return next;
-      });
-    },
-    [],
-  );
-
-  /* —— 操作イベント —— */
+  /* —— 操作 —— */
   /* 本物のアプリ同様、応答のストリーミング中でもチャットの移動・新規作成は可能。
      進行中のストリームは chatId 宛てに書き込むので、裏でそのまま完了する。 */
   const newChat = () => {
-    const hadConversation = chats.some((c) => c.messages.length > 0);
     setActiveId(null);
     setDrawer(false);
-    clearMission("newchat");
-    if (hadConversation) clearMission("newchat2");
   };
   const openChat = (id: number) => {
-    if (id === activeId) {
-      setDrawer(false);
-      return;
-    }
     setActiveId(id);
     setDrawer(false);
-    clearMission("history");
-  };
-  const toggleDevice = (d: "pc" | "sp") => {
-    if (d === device) return;
-    setDevice(d);
-    clearMission("device");
   };
   const pickModel = (id: ModelId) => {
     setModelMenu(false);
     if (id === model) return;
     setModel(id);
-    clearMission("model");
     notify(`🎛️ モデルを ${MODELS.find((m) => m.id === id)?.name} に切り替えました`);
   };
 
@@ -225,9 +170,6 @@ export function ClaudeAppGame() {
     const isFollowup = chat.messages.length >= 2;
     const history = chat.messages;
 
-    clearMission("send");
-    if (isFollowup) clearMission("followup");
-
     setChats((prev) =>
       prev.map((c) => (c.id !== chatId ? c : { ...c, messages: [...c.messages, { role: "user", text }, { role: "assistant", text: "" }] })),
     );
@@ -254,7 +196,6 @@ export function ClaudeAppGame() {
     }
     if (genRef.current !== gen) return;
     patchLast(chatId, (m) => ({ ...m, text: reply }));
-    clearMission("reply");
   };
 
   /* —— APIモード：Anthropic APIへブラウザから直接ストリーミング —— */
@@ -288,8 +229,6 @@ export function ClaudeAppGame() {
       }
       const final = await stream.finalMessage();
       patchLast(chatId, (m) => ({ ...m, raw: final.content }));
-      clearMission("reply");
-      clearMission("real");
     } catch (err) {
       if (err instanceof Anthropic.APIUserAbortError) return;
       let msg = "エラーが発生しました。時間をおいて再度お試しください。";
@@ -320,74 +259,18 @@ export function ClaudeAppGame() {
     if (useApi && key) notify("🔑 APIモードをオンにしました。本物のClaudeが応答します");
   };
 
-  const currentMission = MISSIONS.find((m) => !done.has(m.id)) ?? null;
-  const shareText = `Claudeアプリ教習所、全${MISSIONS.length}ミッションクリアで卒業した🎓${done.has("real") ? "（本物のClaudeとの対話つき）" : ""}\nPC/スマホの画面そのままで操作を練習できる。\n#今さら聞けないAI用語集`;
-  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent("https://comixai.dev/claude-app")}`;
-
   /* ============================================================
      描画
      ============================================================ */
   return (
     <div style={{ position: "relative" }}>
-      {/* —— ミッションボード —— */}
-      <Card variant="pop" padding={0} style={{ overflow: "hidden", marginBottom: 18 }}>
-        <div style={{ padding: "14px 18px 12px", borderBottom: "var(--bw-line) solid var(--ink-900)", background: "var(--paper-100)", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-          <Badge tone="red">研修中</Badge>
-          <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15 }}>
-            ミッション {coreDone}/{MISSIONS.length}
-            {done.has("real") && <span style={{ marginLeft: 6 }}>＋⭐</span>}
-          </div>
-          <div style={{ flex: 1, minWidth: 120, height: 10, border: "2px solid var(--ink-900)", borderRadius: 99, overflow: "hidden", background: "var(--paper-0)" }}>
-            <div style={{ width: `${(coreDone / MISSIONS.length) * 100}%`, height: "100%", background: "var(--yellow-400)", transition: "width .4s var(--ease-pop)" }} />
-          </div>
-        </div>
-        <div style={{ padding: "12px 18px 14px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 6 }}>
-            {MISSIONS.map((m, i) => {
-              const ok = done.has(m.id);
-              const now = currentMission?.id === m.id;
-              return (
-                <div
-                  key={m.id}
-                  style={{
-                    display: "flex", alignItems: "center", gap: 6, padding: "7px 9px", borderRadius: 8,
-                    border: now ? "2px solid var(--red-500)" : "2px solid " + (ok ? "var(--ink-900)" : "var(--paper-300)"),
-                    background: ok ? "var(--yellow-100, #FFF7D6)" : now ? "var(--red-50)" : "var(--paper-0)",
-                    opacity: ok || now ? 1 : 0.62, fontSize: 12, fontWeight: 700, lineHeight: 1.35,
-                  }}
-                >
-                  <span style={{ fontSize: 15 }}>{ok ? "✅" : m.icon}</span>
-                  <span>
-                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)", marginRight: 4 }}>{i + 1}</span>
-                    {m.title}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-          {currentMission ? (
-            <p style={{ margin: "10px 2px 0", fontSize: 13.5, lineHeight: 1.7 }}>
-              <b>👉 いまのミッション：{currentMission.title}</b>
-              <span style={{ color: "var(--text-muted)" }}> — {currentMission.desc}</span>
-            </p>
-          ) : (
-            <p style={{ margin: "10px 2px 0", fontSize: 13.5, lineHeight: 1.7 }}>
-              <b>🎓 全ミッションクリア！</b>
-              {!done.has("real") && (
-                <span style={{ color: "var(--text-muted)" }}> ボーナス：⚙️ 設定でAPIキーを入れると、本物のClaudeとこの画面で話せます。</span>
-              )}
-            </p>
-          )}
-        </div>
-      </Card>
-
       {/* —— 操作列：表示切替・モード —— */}
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
         <div style={{ display: "inline-flex", border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 10, overflow: "hidden", background: "var(--paper-0)" }}>
           {(["pc", "sp"] as const).map((d) => (
             <button
               key={d}
-              onClick={() => toggleDevice(d)}
+              onClick={() => setDevice(d)}
               style={{
                 padding: "8px 16px", fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: 13, cursor: "pointer",
                 border: "none", background: device === d ? "var(--ink-900)" : "transparent", color: device === d ? "var(--paper-50)" : "var(--ink-900)",
@@ -476,29 +359,6 @@ export function ClaudeAppGame() {
             )}
           </div>
         </div>
-      )}
-
-      {/* —— 卒業証書 —— */}
-      {graduated && (
-        <Card variant="pop" padding={22} style={{ marginTop: 20, textAlign: "center", background: "var(--yellow-100, #FFF7D6)" }} className="game-in">
-          <div style={{ fontSize: 44 }}>🎓</div>
-          <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 22, margin: "6px 0 4px" }}>
-            Claudeアプリ教習所　卒業！
-          </div>
-          <p style={{ fontSize: 14, lineHeight: 1.9, color: "var(--text-body)", margin: "0 0 6px" }}>
-            新規チャット・送信・文脈の継続・モデル切替・履歴・表示切替——基本操作はぜんぶ体験しました。
-            {done.has("real") ? "しかも本物のClaudeとの対話つき。あとは実物で使うだけ！" : "次は本物のClaudeアプリで、同じ操作を試してみてください。"}
-          </p>
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginTop: 10 }}>
-            <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-              <Button variant="ink" size="sm">🕊️ 結果をシェア</Button>
-            </a>
-            <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-              <Button variant="secondary" size="sm">本物のClaudeを開く ↗</Button>
-            </a>
-          </div>
-          <ZukanNote />
-        </Card>
       )}
 
       {/* —— トースト —— */}
@@ -590,7 +450,7 @@ function Sidebar({
         </span>
         <span style={{ fontSize: 12.5 }}>
           <b>あなた</b>
-          <span style={{ color: C.sub }}>（研修生）</span>
+          <span style={{ color: C.sub }}>（フリープラン）</span>
         </span>
       </div>
     </div>
@@ -698,7 +558,7 @@ function Main({
       <div style={{ padding: device === "sp" ? "8px 10px 14px" : "10px 18px 14px" }}>
         <div style={{ display: "flex", alignItems: "flex-end", gap: 8, border: `1.5px solid ${C.line}`, borderRadius: 18, background: "#FFFFFF", padding: "8px 10px" }}>
           <button
-            onClick={() => notify("📎 添付は本物のアプリの機能。この教習所では省略しています")}
+            onClick={() => notify("📎 添付は本物のアプリの機能。この再現UIでは省略しています")}
             aria-label="添付"
             style={{ border: "none", background: "transparent", fontSize: 17, cursor: "pointer", color: C.sub, padding: "3px 2px" }}
           >

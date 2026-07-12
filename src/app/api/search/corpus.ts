@@ -29,7 +29,7 @@ const PAGES: SearchDoc[] = [
   { id: "page:compare", type: "ページ", title: "ChatGPT・Claude・Gemini比較", url: "/compare", text: "3大AIの違いと用途別の使い分けを比較表で整理。どれを使えばいいか迷ったら。結論は1社に忠誠を誓わない使い分け。" },
   { id: "page:glossary", type: "ページ", title: "AI用語集", url: "/glossary", text: "生成AI・LLM・RAG・AIエージェントなど、いまさら聞けないAI用語80語を図解つき・現場目線で解説する用語集。" },
   { id: "page:history", type: "ページ", title: "AI歴史絵巻", url: "/history", text: "1950年のチューリングテストから2026年のエージェント時代まで、AIの75年史をスクロールで読める年表絵巻。ブームと冬の時代の繰り返しがわかる。" },
-  { id: "page:zukan", type: "ページ", title: "COMIXAI図鑑", url: "/zukan", text: "サイト内のゲームや診断で解放した項目が記録されるコレクション図鑑。全61項目。隠し部屋は全部で19ある。各ゲームの級・称号は最高位だけが図鑑に載る。" },
+  { id: "page:zukan", type: "ページ", title: "COMIXAI図鑑", url: "/zukan", text: "サイト内のゲームや診断で解放した項目が記録されるコレクション図鑑。全58項目。隠し部屋は全部で18ある。各ゲームの級・称号は最高位だけが図鑑に載る。" },
   { id: "page:uketsuke", type: "ページ", title: "COMIXAI AI受付", url: "/uketsuke", text: "AIが用件をヒアリングして、お問い合わせ内容を自動で要約して届けるチャット型の受付窓口。講演・寄稿・制作・取材の相談はここから。" },
   { id: "page:profile", type: "ページ", title: "プロフィール", url: "/profile", text: "吉川聡史のプロフィール。AIクリエイター・漫画家・UXディレクター・映像ディレクター・ゲームプランナー。株式会社ニジボックス室長。週刊少年チャンピオンで漫画連載経験。noteでAI活用マンガを連載中。" },
   { id: "page:quiz", type: "ゲーム", title: "AI用語力診断", url: "/quiz", text: "AI用語の理解度を12問・3分で5段階判定するクイズ。ヒヨコ級から賢者級まで。ひっかけ問題入り、1問ごとに解説つき。" },
@@ -51,7 +51,7 @@ const PAGES: SearchDoc[] = [
   { id: "page:otehon", type: "ゲーム", title: "お手本ひとつで", url: "/otehon", text: "ゼロショット・フューショットの例示テクニックを体験するお手本選びゲーム。" },
   { id: "page:undokai", type: "ゲーム", title: "AI運動会", url: "/undokai", text: "ベンチマークスコアと実務の実力のギャップを体験する勝者予想ゲーム。" },
   { id: "page:gohobi", type: "ゲーム", title: "ご褒美で導け", url: "/gohobi", text: "報酬の置き方だけでAIの行動を設計する、強化学習の報酬設計体験ゲーム。" },
-  { id: "page:claude-app", type: "ゲーム", title: "Claudeアプリ教習所", url: "/claude-app", text: "Claudeアプリの画面（PC・スマホ）を再現したミッション式の操作トレーニング。新規チャット・モデル切替・履歴などを練習でき、Anthropic APIキーを設定すると本物のClaudeとも会話できる。" },
+  { id: "page:claude-app", type: "ページ", title: "Claudeアプリ・シミュレーター", url: "/claude-app", text: "Claudeアプリの画面（PC・スマホ）をブラウザ上に再現した体験シミュレーター。新規チャット・モデル切替・履歴・ストリーミング応答を操作でき、Anthropic APIキーを設定すると本物のClaudeとも会話できる。" },
 ];
 
 function buildDocs(): SearchDoc[] {
