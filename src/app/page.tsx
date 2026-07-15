@@ -25,7 +25,7 @@ import { WORK_DETAILS } from "./works/data";
 import Splash from "./splash";
 import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
-import { FEATURED_RECIPES, RECIPES } from "./prompts/data";
+import { FEATURED_RECIPES } from "./prompts/data";
 import { PAGE, Nav, Footer } from "./site-chrome";
 
 const HERO_INTRO =
@@ -711,7 +711,7 @@ function PromptRecipes() {
         <div style={{ textAlign: "center", marginTop: 34 }}>
           <a href="/prompts" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
-              全{RECIPES.length}レシピを見る
+              プロンプト集を見る
             </Button>
           </a>
         </div>
