@@ -125,9 +125,25 @@ export const RECIPE_CATEGORIES: {
   },
 ];
 
+/* トップページのチップに出す代表レシピ（検索需要と間口の広さで選定） */
+export const FEATURED_RECIPE_SLUGS = [
+  "sales-email",
+  "meeting-minutes",
+  "summary",
+  "plan-draft",
+  "catch-copy",
+  "excel-formula",
+  "resume",
+  "speech",
+];
+
 export function getRecipe(slug: string): Recipe | undefined {
   return RECIPES.find((r) => r.slug === slug);
 }
+
+export const FEATURED_RECIPES: Recipe[] = FEATURED_RECIPE_SLUGS.map(getRecipe).filter(
+  (r): r is Recipe => Boolean(r)
+);
 
 export function recipesByCategory(category: RecipeCategory): Recipe[] {
   return RECIPES.filter((r) => r.category === category);
