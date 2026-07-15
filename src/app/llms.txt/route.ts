@@ -2,6 +2,7 @@ import { MANGA_SERIES } from "../manga/data";
 import { WORK_DETAILS } from "../works/data";
 import { TERMS } from "../glossary/data";
 import { RECIPES } from "../prompts/data";
+import { FAQ_TOTAL } from "../faq/data";
 
 /* llms.txt — AI検索・LLMクローラー向けのサイト案内（llmstxt.org 形式）。
    マンガ連載・作品データから自動生成するので、ページを増やせば追従する。 */
@@ -57,7 +58,7 @@ export function GET() {
     "- [AI運動会](https://comixai.dev/undokai): ベンチマークスコアと実務のギャップを体験する勝者予想ゲーム",
     "- [ご褒美で導け](https://comixai.dev/gohobi): 報酬設計だけでAIを導く強化学習体験ゲーム",
     "- [AIのはじめかた](https://comixai.dev/start): 歴史→用語→診断→ゲーム→実践の初心者向け学習ロードマップ",
-    "- [AIのよくある質問](https://comixai.dev/faq): 仕事を奪われる？会社で使っていい？などの不安に一問一答",
+    `- [AIのよくある質問](https://comixai.dev/faq): 仕事を奪われる？会社で使っていい？著作権は？——不安・使い方・料金・セキュリティ・法律・教育・開発まで全${FAQ_TOTAL}問に一問一答`,
     "- [ChatGPT・Claude・Gemini比較](https://comixai.dev/compare): 3大AIの違いと用途別の使い分け",
     "- [AI歴史絵巻](https://comixai.dev/history): 1950年から2026年まで、AIの75年史をスクロールで読める年表絵巻",
     "- [COMIXAI AI受付](https://comixai.dev/uketsuke): AIが用件をヒアリングし、お問い合わせ内容を自動で要約して届けるチャット型の受付窓口",

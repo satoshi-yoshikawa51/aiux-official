@@ -3,6 +3,7 @@ import { MANGA_SERIES } from "./manga/data";
 import { WORK_DETAILS } from "./works/data";
 import { TERMS, GLOSSARY_UPDATED } from "./glossary/data";
 import { RECIPES, PROMPTS_UPDATED } from "./prompts/data";
+import { FAQ_UPDATED } from "./faq/data";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -100,7 +101,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    ...["start", "faq", "compare"].map((slug) => ({
+    {
+      url: `${base}/faq`,
+      lastModified: new Date(FAQ_UPDATED),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...["start", "compare"].map((slug) => ({
       url: `${base}/${slug}`,
       lastModified: new Date("2026-07-09"),
       changeFrequency: "monthly" as const,
