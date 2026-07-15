@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { MANGA_SERIES } from "./manga/data";
 import { WORK_DETAILS } from "./works/data";
 import { TERMS, GLOSSARY_UPDATED } from "./glossary/data";
+import { RECIPES, PROMPTS_UPDATED } from "./prompts/data";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -66,6 +67,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...TERMS.map((t) => ({
       url: `${base}/glossary/${t.slug}`,
       lastModified: new Date(t.lastUpdated),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    {
+      url: `${base}/prompts`,
+      lastModified: new Date(PROMPTS_UPDATED),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    ...RECIPES.map((r) => ({
+      url: `${base}/prompts/${r.slug}`,
+      lastModified: new Date(r.lastUpdated),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),

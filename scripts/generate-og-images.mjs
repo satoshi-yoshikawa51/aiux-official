@@ -20,6 +20,12 @@ const OUT_DIR = path.join(ROOT, "public/og/glossary");
 const QUIZ_OUT_DIR = path.join(ROOT, "public/og/quiz");
 
 const { TERMS } = await import(pathToFileURL(path.join(ROOT, "src/app/glossary/data.ts")).href);
+/* prompts/data.ts は拡張子なしimportを含みnodeから直接読めないため、バッチを直接読む */
+const RECIPES = [
+  ...(await import(pathToFileURL(path.join(ROOT, "src/app/prompts/recipes-basics.ts")).href)).RECIPES_BASICS,
+  ...(await import(pathToFileURL(path.join(ROOT, "src/app/prompts/recipes-biz.ts")).href)).RECIPES_BIZ,
+  ...(await import(pathToFileURL(path.join(ROOT, "src/app/prompts/recipes-work.ts")).href)).RECIPES_WORK,
+];
 const { GRADES, QUIZ_SIZE } = await import(pathToFileURL(path.join(ROOT, "src/app/quiz/data.ts")).href);
 const { USO_GRADES, USO_ROUNDS } = await import(pathToFileURL(path.join(ROOT, "src/app/uso/data.ts")).href);
 
@@ -490,5 +496,39 @@ await shoot(
   path.join(ROOT, "public/og")
 );
 
+/* —— 仕事で使えるAIプロンプト集（/prompts）用 —— */
+const PROMPTS_OUT_DIR = path.join(ROOT, "public/og/prompts");
+await mkdir(PROMPTS_OUT_DIR, { recursive: true });
+
+for (const r of RECIPES) {
+  await shoot(
+    pageHtml({
+      kicker: "PROMPT RECIPES — 仕事で使えるプロンプト集",
+      badge: r.category,
+      title: `${r.emoji} ${esc(r.title)}`,
+      titleSize: termSize(r.title) - 8,
+      sub: "コピペOK・失敗例の実演つき",
+      short: esc(r.catch),
+      site: "comixai.dev/prompts",
+    }),
+    `${r.slug}.png`,
+    PROMPTS_OUT_DIR
+  );
+}
+
+await shoot(
+  pageHtml({
+    kicker: "PROMPT RECIPES — 仕事で使えるプロンプト集",
+    badge: `全${RECIPES.length}レシピ`,
+    title: "コピペで終わらせない、<br>プロンプトの「レシピ」集。",
+    titleSize: 72,
+    sub: "営業メール / 議事録 / 企画書 / Excel関数…",
+    short: "全レシピに「ダメな指示→事故る出力→直した指示」の実演つき。AIへの頼み方そのものが身につく。",
+    site: "comixai.dev/prompts",
+  }),
+  "index.png",
+  PROMPTS_OUT_DIR
+);
+
 await browser.close();
-console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 + ラボ1枚 を生成しました`);
+console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 + ラボ1枚 + プロンプト集${RECIPES.length + 1}枚 を生成しました`);

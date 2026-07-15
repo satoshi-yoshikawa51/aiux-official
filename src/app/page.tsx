@@ -25,6 +25,7 @@ import { WORK_DETAILS } from "./works/data";
 import Splash from "./splash";
 import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
+import { FEATURED_RECIPES } from "./prompts/data";
 import { PAGE, Nav, Footer } from "./site-chrome";
 
 const HERO_INTRO =
@@ -665,6 +666,60 @@ function StartSection() {
   );
 }
 
+/* ═══════════════ プロンプト集 ═══════════════ */
+function PromptRecipes() {
+  return (
+    <section
+      id="prompts"
+      style={{
+        background: "var(--paper-100)",
+        borderTop: "var(--bw-line) solid var(--ink-900)",
+        borderBottom: "var(--bw-line) solid var(--ink-900)",
+        backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)",
+        backgroundSize: "11px 11px",
+      }}
+    >
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 60px" }}>
+        <SectionHead kicker="PROMPT RECIPES — プロンプト集" title="コピペで使える、仕事のプロンプト。" hand="失敗例の実演つき・全レシピ現場仕込み" />
+        <p style={{ margin: "-8px 0 22px", fontSize: 14, lineHeight: 1.9, color: "var(--text-muted)", maxWidth: 680 }}>
+          営業メール、議事録、Excel関数、職務経歴書——「ダメな指示→事故る出力→直した指示」の実演つきで、AIへの頼み方そのものが身につくレシピ集です。
+        </p>
+        <div className="rv-stagger" style={{ display: "flex", gap: 10, flexWrap: "wrap", maxWidth: 880 }}>
+          {FEATURED_RECIPES.map((r) => (
+            <a
+              key={r.slug}
+              href={`/prompts/${r.slug}`}
+              style={{
+                textDecoration: "none",
+                fontFamily: "var(--font-heading)",
+                fontWeight: 700,
+                fontSize: 14,
+                color: "var(--ink-900)",
+                background: "var(--paper-0)",
+                border: "var(--bw-line) solid var(--ink-900)",
+                borderRadius: "var(--radius-full)",
+                padding: "10px 18px",
+                boxShadow: "var(--shadow-pop-sm)",
+              }}
+            >
+              {r.emoji} {r.title}
+              <span style={{ color: "var(--text-muted)", fontWeight: 500 }}>のプロンプト</span>
+              <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
+            </a>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: 34 }}>
+          <a href="/prompts" style={{ textDecoration: "none" }}>
+            <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              プロンプト集を見る
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ═══════════════ SNS + YouTube ═══════════════ */
 function Social() {
   return (
@@ -1109,6 +1164,7 @@ export default function Page() {
       <Works />
       <Glossary />
       <StartSection />
+      <PromptRecipes />
       <Social />
       <Contact />
       <Footer />
