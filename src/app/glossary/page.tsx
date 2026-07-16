@@ -154,7 +154,7 @@ export default function GlossaryIndexPage() {
             <span style={{ fontSize: 24, flex: "none" }}>💬</span>
             <span>
               <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14 }}>AIのよくある質問</span>
-              <span style={{ display: "block", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>仕事を奪われる？会社で使っていい？→ 一問一答20選</span>
+              <span style={{ display: "block", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>仕事を奪われる？会社で使っていい？→ 一問一答100選</span>
             </span>
           </a>
           <a href="/compare" style={{ flex: "1 1 260px", textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 10, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", padding: "12px 16px", boxShadow: "var(--shadow-pop-sm)" }}>

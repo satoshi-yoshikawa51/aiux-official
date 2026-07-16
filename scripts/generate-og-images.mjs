@@ -282,11 +282,11 @@ const GAME_OGS = [
   {
     file: "faq.png",
     kicker: "FAQ — AIのよくある質問",
-    badge: "20問",
+    badge: "100問",
     title: "その不安、<br>一問一答で。",
     titleSize: 88,
     sub: "仕事を奪われる？会社で使っていい？",
-    short: "AIを使う前の不安から実務の疑問まで、よくある質問20個に現場目線で答えます。",
+    short: "AIを使う前の不安から、料金・セキュリティ・法律・教育まで、よくある質問100個に現場目線で一問一答。",
     site: "comixai.dev/faq",
   },
   {
