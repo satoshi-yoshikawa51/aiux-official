@@ -50,7 +50,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-07-12";
+export const GLOSSARY_UPDATED = "2026-07-16";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
@@ -2495,7 +2495,19 @@ const TERMS_BATCH4: GlossaryTerm[] = [
   },
 ];
 
-export const TERMS: GlossaryTerm[] = [...TERMS_BATCH1, ...TERMS_BATCH2, ...TERMS_BATCH3, ...TERMS_BATCH4];
+import { TERMS_WAVE2A } from "./terms-wave2a.ts";
+import { TERMS_WAVE2B } from "./terms-wave2b.ts";
+import { TERMS_WAVE2C } from "./terms-wave2c.ts";
+
+export const TERMS: GlossaryTerm[] = [
+  ...TERMS_BATCH1,
+  ...TERMS_BATCH2,
+  ...TERMS_BATCH3,
+  ...TERMS_BATCH4,
+  ...TERMS_WAVE2A,
+  ...TERMS_WAVE2B,
+  ...TERMS_WAVE2C,
+];
 
 export const FEATURED_TERMS = FEATURED_SLUGS.map((sl) => TERMS.find((t) => t.slug === sl)!).filter(Boolean);
 

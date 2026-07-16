@@ -7,6 +7,7 @@ import { ARTICLES, ARTICLES_POPULAR, type Tone } from "../../data";
 import { MANGA_SERIES } from "../../manga/data";
 import { WORK_DETAILS } from "../../works/data";
 import { TERMS, getTerm, type TermLink } from "../data";
+import { RECIPES } from "../../prompts/data";
 import { TermDiagram, hasDiagram } from "../diagrams";
 import ARTICLE_META from "../article-meta.json";
 
@@ -46,6 +47,10 @@ function resolveLink(l: TermLink): RichLink {
   if (l.href.startsWith("/glossary/")) {
     const t = TERMS.find((x) => `/glossary/${x.slug}` === l.href);
     if (t) return { href: l.href, title: `${t.term}とは？（用語解説）`, desc: t.short, badge: "AI用語集", tone: "yellow", external: false };
+  }
+  if (l.href.startsWith("/prompts/")) {
+    const r = RECIPES.find((x) => `/prompts/${x.slug}` === l.href);
+    if (r) return { href: l.href, title: `${r.emoji} ${r.title}のプロンプト`, desc: r.catch, badge: "プロンプト集", tone: "blue", external: false };
   }
   const a = ARTICLE_POOL.get(l.href);
   if (a) return { href: l.href, title: a.title, desc: a.excerpt, thumb: a.thumb, badge: a.badge, tone: a.tone, likes: a.likes, external: true };
