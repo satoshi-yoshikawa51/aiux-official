@@ -1,5 +1,85 @@
 {
   "_comment": "用語集ページのLEARN MOREカード用のnote記事メタ（自動生成）。scripts/fetch-glossary-articles.mjs が更新します。badge/tone/excerpt を調整したい場合は note-article-meta.json に同じURLのエントリを書いてください。",
+  "https://note.com/aiux_unite/n/n169ba6bd6c1e": {
+    "title": "Claude Coworkで業務改善を半自動化してみた～毎朝のAIニュース収集から改善提案まで～",
+    "excerpt": "毎朝のAIニュース収集から、自分の業務をどう改善できるかの提案までを自動でCoworkにやってもらう試み。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/268115959/rectangle_large_type_2_248be67915a76bf17d40201d5d7563b5.png?fit=bounds&quality=85&width=1280",
+    "likes": 119,
+    "badge": "AI実践",
+    "tone": "blue"
+  },
+  "https://note.com/aiux_unite/n/ndfbcb2825479": {
+    "title": "【非エンジニア向け】Claude Codeの「Agent Teams」を、Claude Opus 4.6に学習ガイドを作らせ、ゼロから実践してみた",
+    "excerpt": "複数のClaudeがチームで協力して実装する「Agent Teams」を、非エンジニア目線でゼロから試した。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/250039831/rectangle_large_type_2_61e3df240b684fa7895b994ce5d0e4d7.png?fit=bounds&quality=85&width=1280",
+    "likes": 118,
+    "badge": "Claude Code",
+    "tone": "paper"
+  },
+  "https://note.com/aiux_unite/n/naac3d48a3258": {
+    "title": "【Figma × Claude】MCPでつなぐ、デザインシステムに沿ったワイヤーフレーム自動生成＆編集フロー！",
+    "excerpt": "FigmaとClaudeをMCPでつなぎ、デザインシステムに沿ったワイヤー〜実装を自動生成するフロー。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/193686050/rectangle_large_type_2_539e9f4779406da36984937b9a62e6a6.png?fit=bounds&quality=85&width=1280",
+    "likes": 215,
+    "badge": "デザイン",
+    "tone": "ink"
+  },
+  "https://note.com/aiux_unite/n/n750de90c0668": {
+    "title": "【Fable 5】ClaudeCodeのスマホアプリ版で、通勤時間にニュースアプリをつくってみた",
+    "excerpt": "Claude Codeのスマホアプリ版（Fable 5）で、通勤時間だけでニュースアプリを作ってみた記録。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/285110954/rectangle_large_type_2_8ea63c5cd0ad0bb88d1a118d1ad659a4.png?fit=bounds&quality=85&width=1280",
+    "likes": 58,
+    "badge": "ClaudeCode",
+    "tone": "blue"
+  },
+  "https://note.com/aiux_unite/n/ndd10e1acf1b1": {
+    "title": "手書きイラストを3Dゲームに！Claudeで作った一部始終",
+    "excerpt": "手描きのイラストから、Claudeを使って3Dゲームを作り上げるまでの一部始終を公開。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/287386173/rectangle_large_type_2_1f7bc7d23bb8871d27d4bc8f23a638c5.png?fit=bounds&quality=85&width=1280",
+    "likes": 82,
+    "badge": "3Dゲーム",
+    "tone": "yellow"
+  },
+  "https://note.com/aiux_unite/n/ndc6365524f2a": {
+    "title": "漫画風の動画を生成する！（RunwayGen-3×Midjourney×DomoAI）",
+    "excerpt": "RunwayGen-3 × Midjourney × DomoAIで、漫画風の動画を生成する手順。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/146738276/rectangle_large_type_2_7296ad9c583019f9670ed96ce80dd901.png?fit=bounds&quality=85&width=1280",
+    "likes": 207,
+    "badge": "動画生成",
+    "tone": "blue"
+  },
+  "https://note.com/aiux_unite/n/n759b5bbfe9e2": {
+    "title": "【AIで作る】動くストーリーボード",
+    "excerpt": "AIを使って“動く”ストーリーボードを作る方法を解説。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/129770368/rectangle_large_type_2_e4804db5a363bd8b9fb57de196bdee68.png?fit=bounds&quality=85&width=1280",
+    "likes": 211,
+    "badge": "動画生成",
+    "tone": "yellow"
+  },
+  "https://note.com/aiux_unite/n/n3d980b7ca111": {
+    "title": "ノンエンジニアが挑むChatGPT APIを使ったPythonアプリ構築",
+    "excerpt": "非エンジニアがChatGPT APIを使って、Pythonアプリの構築に挑戦した実践録。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/116603351/rectangle_large_type_2_5a84333e9f8a76f02c9253187b97d687.png?fit=bounds&quality=85&width=1280",
+    "likes": 225,
+    "badge": "AI実践",
+    "tone": "blue"
+  },
+  "https://note.com/aiux_unite/n/n24dc19c0ff2d": {
+    "title": "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）",
+    "excerpt": "「Gemini」×「NotebookLM」で出来る業務フロー改善（DX）。AIでの業務改善について。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/240496348/rectangle_large_type_2_19012b56a59ec7acb4afd7bf47dd6330.png?fit=bounds&quality=85&width=1280",
+    "likes": 339,
+    "badge": "業務DX",
+    "tone": "blue"
+  },
+  "https://note.com/aiux_unite/n/ndae7f58601fc": {
+    "title": "企画(施策)の「承認フロー」を通すAI活用術｜Gemini × NotebookLM",
+    "excerpt": "企画・施策の承認フローをスムーズに通すためのAI活用術を、Gemini × NotebookLMの組み合わせで。",
+    "thumb": "https://assets.st-note.com/production/uploads/images/243019553/rectangle_large_type_2_0bea8a3fa731421fb2a817982eb7e19f.png?fit=bounds&quality=85&width=1280",
+    "likes": 135,
+    "badge": "業務DX",
+    "tone": "red"
+  },
   "https://note.com/aiux_unite/n/nc925996d0652": {
     "title": "【完全解説！】Midjourneyで作るアニメーションPV",
     "excerpt": "Midjourneyで生成したイラストを動かして、アニメーションPVに仕上げるまでの手順を完全解説。",
