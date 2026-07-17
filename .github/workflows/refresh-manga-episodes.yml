@@ -13,10 +13,11 @@ on:
   # 開発ブランチではスクリプト/ワークフロー変更のpushでも起動する
   push:
     branches:
-      - "claude/comix-ai-seo-expansion-pliej2"
+      - "claude/fable-content-strategy-ho65di"
     paths:
       - "scripts/fetch-manga-episodes.mjs"
       - "scripts/fetch-glossary-articles.mjs"
+      - "scripts/fetch-note-articles.mjs"
       - "src/app/glossary/data.ts"
       - ".github/workflows/refresh-manga-episodes.yml"
 
@@ -35,6 +36,8 @@ jobs:
         run: node scripts/fetch-manga-episodes.mjs
       - name: Fetch glossary article meta from note
         run: node scripts/fetch-glossary-articles.mjs
+      - name: Fetch all note articles (top page 新着/人気)
+        run: node scripts/fetch-note-articles.mjs
       - name: Commit & push if changed
         run: |
           if git diff --quiet; then
@@ -43,6 +46,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/app/manga/episodes.json src/app/glossary/article-meta.json
+          git add src/app/manga/episodes.json src/app/glossary/article-meta.json src/app/note-articles.json
           git commit -m "chore: refresh note article data"
           git push
