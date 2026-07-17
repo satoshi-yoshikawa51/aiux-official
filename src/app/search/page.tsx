@@ -41,7 +41,7 @@ export default function SearchPage() {
               探すより、聞くほうが早い。
             </h1>
             <p style={{ fontSize: 15, lineHeight: 2, color: "var(--text-body)", maxWidth: 620, margin: 0 }}>
-              用語集80語・FAQ・マンガ・ゲーム・絵巻——このサイトの中身だけを根拠に、AI司書が答えを探して案内します。キーワードじゃなくて、質問文のままでOK。
+              用語集150語・FAQ100問・マンガ・ゲーム・絵巻——このサイトの中身だけを根拠に、AI司書が答えを探して案内します。キーワードじゃなくて、質問文のままでOK。
             </p>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}

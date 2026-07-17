@@ -115,7 +115,7 @@ export default function FaqPage() {
 
         <div style={{ border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "16px 20px" }}>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 2, fontWeight: 700 }}>
-            解決しなかった疑問は、<a href="/search" style={{ color: "var(--ink-900)" }}>AI司書（サイト内AI検索）</a>か<a href="/glossary" style={{ color: "var(--ink-900)" }}>全80語のAI用語集</a>へ。
+            解決しなかった疑問は、<a href="/search" style={{ color: "var(--ink-900)" }}>AI司書（サイト内AI検索）</a>か<a href="/glossary" style={{ color: "var(--ink-900)" }}>全150語のAI用語集</a>へ。
             「で、実際どう頼めばいいの？」には<a href="/prompts" style={{ color: "var(--ink-900)" }}>仕事で使えるプロンプト集</a>、ゼロから学ぶなら<a href="/start" style={{ color: "var(--ink-900)" }}>AIのはじめかた</a>が近道です。
           </p>
         </div>
