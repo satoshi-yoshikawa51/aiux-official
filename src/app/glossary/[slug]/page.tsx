@@ -29,6 +29,27 @@ const ARTICLE_POOL = new Map(
   [...ARTICLES, ...ARTICLES_POPULAR].map((a) => [a.url, a])
 );
 
+/* 体験ゲームへのリンクをリッチカードにするための説明（llms.txtの紹介文と揃える） */
+const GAME_CARDS: Record<string, { title: string; desc: string }> = {
+  "/uso": { title: "AIのウソを、見抜け。", desc: "2つのAI回答、片方にウソが混ざっています。実際のAIがやらかす「ウソの型」を遊んで学べる全8問。" },
+  "/vibe": { title: "3分バイブコーディング", desc: "雑な一言でミニアプリが変形していくバイブコーディング体験。" },
+  "/agent": { title: "AIエージェントに任せてみた", desc: "任せ方で結末が分岐する、エージェント見守りシミュレーション。" },
+  "/shinjin": { title: "AI新人くんに指示を出せ", desc: "指示の抜けが「いい感じの事故」になるプロンプトエンジニアリング体験。" },
+  "/sodate": { title: "AIを育てよう", desc: "学習データでAIの人格が変わる、過学習体験の育成ゲーム。" },
+  "/slop": { title: "スロップ・スワイプ", desc: "低品質AIコンテンツを見抜くスワイプ鑑定ゲーム。" },
+  "/keibi": { title: "インジェクション・ディフェンス", desc: "プロンプトインジェクションの手口を体験する防衛ゲーム。" },
+  "/shacho": { title: "AI社長", desc: "マルチエージェントの分業設計を体験する経営ゲーム。段取りが、成果物を決める。" },
+  "/tsukue": { title: "AIの作業机", desc: "コンテキストエンジニアリングを体験する資料選びパズル。" },
+  "/nou": { title: "速い脳・遅い脳", desc: "推論モデルの使い分けを体験する仕分けゲーム。" },
+  "/gakuya": { title: "楽屋の台本", desc: "システムプロンプト設計を体験する接客シミュレーション。" },
+  "/shitsuke": { title: "AI調教師", desc: "人間の好みでAIを調教するRLHF体験ゲーム。" },
+  "/majin": { title: "魔神AIの願い方", desc: "字義どおりに願いを叶える魔神で学ぶアライメント体験ゲーム。" },
+  "/diet": { title: "AIダイエット", desc: "量子化の容量・品質・速度のトレードオフを体験する圧縮ゲーム。" },
+  "/otehon": { title: "お手本ひとつで", desc: "ゼロショット・フューショットの例示を体験するお手本選びゲーム。" },
+  "/undokai": { title: "AI運動会", desc: "ベンチマークスコアと実務のギャップを体験する勝者予想ゲーム。" },
+  "/gohobi": { title: "ご褒美で導け", desc: "報酬設計だけでAIを導く強化学習体験ゲーム。" },
+};
+
 function resolveLink(l: TermLink): RichLink {
   if (l.href.startsWith("/manga/")) {
     const s = MANGA_SERIES.find((x) => `/manga/${x.slug}` === l.href);
@@ -38,11 +59,15 @@ function resolveLink(l: TermLink): RichLink {
     const w = WORK_DETAILS.find((x) => `/works/${x.slug}` === l.href);
     if (w) return { href: l.href, title: w.title, desc: w.tagline, thumb: w.image, badge: w.badge ?? w.category, tone: w.tone, external: false };
   }
-  if (l.href === "/uso") {
-    return { href: l.href, title: "【ゲーム】AIのウソを、見抜け。", desc: "2つのAI回答、片方にウソが混ざっています。実際のAIがやらかす「ウソの型」を遊んで学べる全8問。", badge: "GAME", tone: "red", external: false };
-  }
   if (l.href === "/tokenizer") {
     return { href: l.href, title: "【体験】AIは、文章をこう読む。", desc: "文章を打つと、その場でトークンに刻まれるのが見えるラボ。料金の目安や「作業机」の使用量も体験できます。", badge: "LAB", tone: "blue", external: false };
+  }
+  {
+    const g = GAME_CARDS[l.href];
+    if (g) return { href: l.href, title: `【ゲーム】${g.title}`, desc: g.desc, badge: "GAME", tone: "red", external: false };
+  }
+  if (l.href === "/history") {
+    return { href: l.href, title: "AI歴史絵巻｜AIの75年を、ひと巻きに。", desc: "1950年のチューリングからエージェント時代まで、AIの歴史をスクロールで読める年表絵巻。", badge: "絵巻", tone: "ink", external: false };
   }
   if (l.href.startsWith("/glossary/")) {
     const t = TERMS.find((x) => `/glossary/${x.slug}` === l.href);
