@@ -1,90 +1,113 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T05:25:27.202Z",
+  "updatedAt": "2026-07-18T06:03:21.918Z",
   "items": [
     {
       "title": "Neil Rimer thinks the AI money is coming back out",
       "url": "https://techcrunch.com/2026/07/17/neil-rimer-thinks-the-ai-money-is-coming-back-out/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-18T04:47:25.000Z"
+      "date": "2026-07-18T04:47:25.000Z",
+      "titleJa": "ニール・ライマーはAIマネーが戻ってくると考えている"
     },
     {
       "title": "「Claude Fable 5」サブスクに統合 Max・Team Premiumプラン対象",
       "url": "https://www.itmedia.co.jp/news/articles/2607/18/news019.html",
-      "source": "ITmedia AI＋",
+      "source": "話題（はてブ）",
       "lang": "ja",
-      "date": "2026-07-18T03:50:00.000Z"
+      "kind": "buzz",
+      "date": "2026-07-18T04:37:12.000Z"
+    },
+    {
+      "title": "最近の AI コーディングで実践している、設計を中心とした開発の進め方",
+      "url": "https://azukiazusa.dev/blog/recent-ai-coding-development-process-centered-on-design/",
+      "source": "話題（はてブ）",
+      "lang": "ja",
+      "kind": "buzz",
+      "date": "2026-07-18T04:23:35.000Z"
+    },
+    {
+      "title": "AppleがiPhoneを突如値上げ 17eは10万円から…Pro Maxは21万円超え WatchもAirPodsも打撃 中古スマホ特需が加速（ITmedia Mobile） - Yahoo!ニュース",
+      "url": "https://news.yahoo.co.jp/articles/cf2cdca7a793ef97d1ac10e39e74288759fbd0e2",
+      "source": "話題（はてブ）",
+      "lang": "ja",
+      "kind": "buzz",
+      "date": "2026-07-18T01:08:48.000Z"
+    },
+    {
+      "title": "【13900円ゲット】Teclast新発売タブレット『P30T』を期間限定の低価格でお得に購入可能！ 120Hz 画面、Netflix対応、AIアプリ対応、6000mAh！",
+      "url": "https://ascii.jp/elem/000/004/420/4420695/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-18T00:00:00.000Z"
+    },
+    {
+      "title": "6.4万人の熱狂をAIが導く FIFA W杯全スタジアム「デジタルツイン」化が変えた観戦体験",
+      "url": "https://ascii.jp/elem/000/004/420/4420679/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-18T00:00:00.000Z"
     },
     {
       "title": "Vertu wants executives to pay $6,880 for an AI agent — here’s how it actually performs",
       "url": "https://techcrunch.com/2026/07/17/vertu-wants-executives-to-pay-6880-for-an-ai-agent-heres-how-it-actually-performs/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-17T22:55:09.000Z"
+      "date": "2026-07-17T22:55:09.000Z",
+      "titleJa": "Vertu は、幹部が AI エージェントに 6,880 ドルを支払うことを望んでいます - 実際のパフォーマンスは次のとおりです"
     },
     {
       "title": "Databricks hits $188B valuation, extending its run as AI’s favorite second act",
       "url": "https://techcrunch.com/2026/07/17/databricks-hits-188b-valuation-extending-its-run-as-ais-favorite-second-act/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-17T22:12:56.000Z"
+      "date": "2026-07-17T22:12:56.000Z",
+      "titleJa": "Databricks の評価額は 1,880 億ドルに達し、AI のお気に入りの第 2 幕としての地位を拡大"
+    },
+    {
+      "title": "【アマゾン30％OFFタイムセール】Android 16搭載「A9 10インチ タブレット」が5日間限定！Gemini AI・10インチ大画面を13,900円で提供",
+      "url": "https://ascii.jp/elem/000/004/420/4420696/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-17T22:00:00.000Z"
     },
     {
       "title": "The Zoom hack that says, ‘Don’t record me’",
       "url": "https://techcrunch.com/2026/07/17/the-zoom-hack-that-says-dont-record-me/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-17T21:20:47.000Z"
+      "date": "2026-07-17T21:20:47.000Z",
+      "titleJa": "「録画しないでください」というZoomハック"
     },
     {
       "title": "TikTok is testing an AI likeness detection tool",
       "url": "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-07-17T19:34:30.000Z"
+      "date": "2026-07-17T19:34:30.000Z",
+      "titleJa": "TikTokはAI類似度検出ツールをテスト中"
     },
     {
       "title": "Apple’s plot to crush OpenAI",
       "url": "https://www.theverge.com/podcast/967244/apple-openai-lawsuit-vergecast",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-07-17T17:41:32.000Z"
+      "date": "2026-07-17T17:41:32.000Z",
+      "titleJa": "OpenAIを潰そうとするAppleの陰謀"
     },
     {
-      "title": "「AIエージェントの約半数が\"戦力外\"になる」 なぜ企業は使いこなせない？",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2607/17/news053.html",
-      "source": "ITmedia AI＋",
+      "title": "若年層ほど「AI不信」。でも一番AIを使っているのも若者たちという矛盾",
+      "url": "https://www.gizmodo.jp/article/just-16-of-americans-believe-ai-will-positively-impact-society-pew-poll-finds/",
+      "source": "GIZMODO JAPAN",
       "lang": "ja",
-      "date": "2026-07-17T04:00:00.000Z"
+      "date": "2026-07-17T12:00:00.000Z"
     },
     {
-      "title": "「スマホで動く」270億パラメーターLLM「Bonsai 27B」登場",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/17/2000000202/",
-      "source": "ITmedia AI＋",
+      "title": "AIエージェント、「生成AIの136.5倍」も電力を爆食いしていた",
+      "url": "https://www.gizmodo.jp/article/when-it-comes-to-energy-use-ai-agents-could-make-chatbots-look-like-pocket-calculators/",
+      "source": "GIZMODO JAPAN",
       "lang": "ja",
-      "date": "2026-07-17T01:59:41.000Z"
-    },
-    {
-      "title": "Google、「NotebookLM」を「Gemini Notebook」に改称 Geminiエコシステムへの統合を強化",
-      "url": "https://www.itmedia.co.jp/news/articles/2607/17/news062.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-16T23:21:00.000Z"
-    },
-    {
-      "title": "New York governor says she’s using AI to analyze ‘every single rule’ in the state",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/966647/new-york-governor-kathy-hochul-ai-policies",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-16T17:58:37.000Z"
-    },
-    {
-      "title": "Google is renaming NotebookLM to Gemini Notebook",
-      "url": "https://www.theverge.com/tech/966112/google-gemini-notebook-notebooklm",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-16T16:00:00.000Z"
+      "date": "2026-07-17T09:00:00.000Z"
     }
   ]
 }
