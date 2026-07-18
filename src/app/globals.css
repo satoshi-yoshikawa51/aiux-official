@@ -135,6 +135,18 @@ img {
   gap: 4px;
   align-items: center;
 }
+/* メニュー項目・お問い合わせボタンの2行折り返しを禁止 */
+.nav-links a,
+.nav-links button {
+  white-space: nowrap;
+}
+/* 中間幅（ノートPC・小さめウィンドウ）ではナビを詰めて1行維持 */
+@media (max-width: 1280px) {
+  .nav-links .nav-link {
+    font-size: 13.5px !important;
+    padding: 8px 7px !important;
+  }
+}
 .hamburger {
   display: none;
 }
@@ -662,8 +674,9 @@ img {
   }
 }
 
-/* モバイル：ナビをハンバーガーに切り替え */
-@media (max-width: 900px) {
+/* モバイル・狭いウィンドウ：ナビをハンバーガーに切り替え
+   （メニュー9項目がnowrapで収まる下限が約1020px） */
+@media (max-width: 1020px) {
   .nav-links {
     display: none;
   }
