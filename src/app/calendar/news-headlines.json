@@ -1,14 +1,22 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T12:52:31.721Z",
+  "updatedAt": "2026-07-18T18:05:52.188Z",
   "items": [
+    {
+      "title": "The apps, gadgets, and tools every reader needs",
+      "url": "https://www.theverge.com/tech/967544/best-apps-gadgets-reading-installer",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-18T12:00:00.000Z",
+      "titleJa": "すべての読者が必要とするアプリ、ガジェット、ツール"
+    },
     {
       "title": "キース・エマーソンみたいに弾けないので、無限にシンセソロを弾き続けるアプリをClaude Fable 5に作ってもらった。（CloseBox） | テクノエッジ TechnoEdge",
       "url": "https://www.techno-edge.net/article/2026/07/18/5311.html",
       "source": "テクノエッジ",
       "lang": "ja",
       "kind": "buzz",
-      "count": 17,
+      "count": 68,
       "date": "2026-07-18T10:13:25.000Z"
     },
     {
@@ -32,7 +40,7 @@
       "source": "ITmedia",
       "lang": "ja",
       "kind": "buzz",
-      "count": 62,
+      "count": 80,
       "date": "2026-07-18T04:37:12.000Z"
     },
     {
@@ -41,15 +49,8 @@
       "source": "azukiazusa.dev",
       "lang": "ja",
       "kind": "buzz",
-      "count": 327,
+      "count": 480,
       "date": "2026-07-18T04:23:35.000Z"
-    },
-    {
-      "title": "6.4万人の熱狂をAIが導く FIFA W杯全スタジアム「デジタルツイン」化が変えた観戦体験",
-      "url": "https://ascii.jp/elem/000/004/420/4420679/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-18T00:00:00.000Z"
     },
     {
       "title": "Vertu wants executives to pay $6,880 for an AI agent — here’s how it actually performs",
@@ -84,14 +85,6 @@
       "titleJa": "TikTokはAI類似度検出ツールをテスト中"
     },
     {
-      "title": "Apple’s plot to crush OpenAI",
-      "url": "https://www.theverge.com/podcast/967244/apple-openai-lawsuit-vergecast",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-17T17:41:32.000Z",
-      "titleJa": "OpenAIを潰そうとするAppleの陰謀"
-    },
-    {
       "title": "若年層ほど「AI不信」。でも一番AIを使っているのも若者たちという矛盾",
       "url": "https://www.gizmodo.jp/article/just-16-of-americans-believe-ai-will-positively-impact-society-pew-poll-finds/",
       "source": "GIZMODO JAPAN",
@@ -111,6 +104,13 @@
       "source": "CNET Japan",
       "lang": "ja",
       "date": "2026-07-17T06:50:00.000Z"
+    },
+    {
+      "title": "ChatGPTに「敬語で話す」人の割合は？ ドコモ調査",
+      "url": "https://japan.cnet.com/article/35250733/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-17T06:25:00.000Z"
     }
   ]
 }
