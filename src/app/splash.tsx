@@ -35,7 +35,8 @@ const PARTICLES = Array.from({ length: 38 }, (_, i) => {
     rot: `${((prand(i, 6) - 0.5) * 520).toFixed(0)}deg`,
     sz: (0.7 + prand(i, 7) * 1.3).toFixed(2),
     dli: `${(prand(i, 8) * 0.22).toFixed(2)}s`,
-    dlo: `${(prand(i, 9) * 0.14).toFixed(2)}s`,
+    dlo: `${(prand(i, 9) * 0.25).toFixed(2)}s`,
+    dur: `${(0.85 + prand(i, 11) * 0.6).toFixed(2)}s`,
     fs: 11 + Math.round(prand(i, 10) * 9),
   };
 });
@@ -64,7 +65,7 @@ export default function Splash() {
         setOut(true);
         /* 幕が開き始めるタイミングでヒーローの登場アニメを解禁 */
         window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 420);
-        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 1100);
+        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 2050);
       }, wait);
     };
     if (document.readyState === "complete") {
@@ -143,6 +144,7 @@ export default function Splash() {
               ["--sz" as string]: p.sz,
               ["--dli" as string]: p.dli,
               ["--dlo" as string]: p.dlo,
+              ["--dur" as string]: p.dur,
             }}
           >
             {p.char}

@@ -792,14 +792,22 @@ img {
   position: fixed;
   inset: 0;
   z-index: 300;
-  background: var(--ink-900);
-  background-image: radial-gradient(rgba(251, 247, 239, 0.07) 1.3px, transparent 1.4px);
-  background-size: 12px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
+}
+/* 背景は別レイヤーに分離。退場時は背景だけ先にフェードし、
+   粒子は本編の上に余韻として残って瞬く */
+.splash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ink-900);
+  background-image: radial-gradient(rgba(251, 247, 239, 0.07) 1.3px, transparent 1.4px);
+  background-size: 12px 12px;
 }
 .splash-face {
   position: relative;
@@ -935,8 +943,10 @@ img {
 /* 退場: ぐっと沈む「溜め」→ 伸び上がり → 画面へダイブ。
    着弾でマンガ的バーストが爆ぜ、オーバーレイはフェード */
 .splash-out {
-  animation: splash-fade 1.05s ease forwards;
   pointer-events: none;
+}
+.splash-out::before {
+  animation: splash-fade 1.05s ease forwards;
 }
 .splash-out .splash-face {
   /* 顔自身の中心を基準に拡大する（位置は下のkeyframesで画面中央へ寄せる） */
@@ -980,11 +990,16 @@ img {
   100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2) rotate(0deg); }
 }
 .splash-out .splash-p {
-  animation: splash-pfly 0.72s cubic-bezier(0.16, 1, 0.3, 1) calc(0.3s + var(--dlo)) both;
+  animation: splash-pfly var(--dur, 1.1s) cubic-bezier(0.22, 0.8, 0.3, 1) calc(0.3s + var(--dlo)) both;
 }
 @keyframes splash-pfly {
   0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(0deg); }
-  12% { opacity: 1; }
+  8% { opacity: 1; }
+  22% { opacity: 0.4; }
+  36% { opacity: 1; }
+  52% { opacity: 0.35; }
+  68% { opacity: 0.95; }
+  84% { opacity: 0.4; }
   100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(var(--sz)) rotate(var(--rot)); }
 }
 /* 着弾バースト（通常時は不可視。splash-outで一発だけ爆ぜる） */
