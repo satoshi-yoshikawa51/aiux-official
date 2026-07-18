@@ -14,7 +14,7 @@ const prand = (i: number, salt: number) => {
   return x - Math.floor(x);
 };
 
-const P_CHARS = ["✦", "✧", "●", "✦"];
+const P_CHARS = ["✦", "✧", "✦", "✧"];
 const P_COLORS = ["var(--yellow-400)", "var(--paper-50)", "var(--red-500)", "var(--yellow-200)"];
 
 /* 粒子は登場（画面の外周から中心へ集まる）と
