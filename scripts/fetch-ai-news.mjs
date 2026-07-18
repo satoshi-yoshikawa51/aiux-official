@@ -106,13 +106,13 @@ const HOWTO =
 /* 海外枠：コラム・ポッドキャスト・レビュー・リスト記事を除外し、
    「事実の動き」を伝える見出しだけ採用する（機械翻訳しても意味が通る） */
 const EN_NOISE =
-  /\?|podcast|vergecast|installer|newsletter|op-ed|opinion|review:|hands-?on|we tried|i tried|here['’]?s (how|what|why)|how to|what to|the best|worth|explained|everything you need|recap|roundup|plot to/i;
+  /\?|podcast|vergecast|installer|newsletter|op-ed|opinion|review:|hands-?on|we tried|i tried|here['’]?s (how|what|why)|^how\b|how to|what to|the best|worth|explained|everything you need|recap|roundup|plot to|case study|customer story/i;
 const EN_HARD =
   /launch|unveil|release|announce|introduc|debut|roll(s|ed|ing)? out|raise|funding|valuation|acquir|acquisition|merger|partner|invest|ban|law|regulat|court|sue|lawsuit|settle|fine[ds]?|appoint|resign|layoff|cuts?|outage|leak|breach|record (profit|revenue|high)|billion|\$[0-9]|GPT-|Claude|Gemini|Llama|OpenAI|Anthropic|DeepMind|Nvidia|new model|update|expand|deal|report[s:]|study|pilot|test(s|ing) /i;
 
 /* 「キャッチアップすべき動き」を示す語。並び順のスコアに使う */
 const IMPORTANT =
-  /発表|リリース|公開|提供開始|開始|開設|参入|買収|統合|提携|出資|調達|上場|値上げ|値下げ|無償|無料化|規制|法案|法制|裁判|提訴|判決|障害|停止|流出|漏えい|脆弱性|新モデル|新機能|新サービス|最上位|過去最高|首位|シェア|決算|黒字|赤字|実証実験|導入|搭載|対応へ|対象に|方針|計画|戦略/;
+  /発表|リリース|公開|提供開始|開始|開設|参入|買収|統合|提携|出資|調達|上場|値上げ|値下げ|無償|無料化|規制|法案|法制|裁判|提訴|判決|障害|停止|流出|漏えい|脆弱性|新モデル|新機能|新サービス|新型|次世代|最上位|過去最高|過去最大|世界初|初の|首位|上回る|超え|抜く|パラメーター|シェア|決算|黒字|赤字|実証実験|導入|搭載|対応へ|対象に|方針|計画|戦略/;
 
 const MAX_PER_FEED = 4;
 const MAX_BUZZ = 2;
@@ -167,8 +167,9 @@ function parseFeed(xml, feed) {
     if (NOISE.test(title)) continue;
     /* 話題枠：ハウツー・個人ログを除外（ニュース欄に体験記は載せない） */
     if (feed.kind === "buzz" && HOWTO.test(title)) continue;
-    /* 海外枠：コラム・レビュー系を除外し、事実ニュースだけ通す */
-    if (feed.lang === "en" && (EN_NOISE.test(title) || !EN_HARD.test(title))) continue;
+    /* 海外枠：コラム・レビュー系を除外し、事実ニュースだけ通す。
+       90字を超える見出しは長文コラムの可能性が高く、翻訳も崩れるので除外 */
+    if (feed.lang === "en" && (EN_NOISE.test(title) || !EN_HARD.test(title) || title.length > 90)) continue;
     /* はてブのブックマーク数（＝その日の話題度）。閾値未満は不採用。
        トップページの「今日イチの話題」の選定にも使う */
     const countRaw = pick(b, "hatena:bookmarkcount");
