@@ -280,6 +280,16 @@ const GAME_OGS = [
     site: "comixai.dev/start",
   },
   {
+    file: "calendar.png",
+    kicker: "COMIXAI NEWS — AIイベント＆ニュース",
+    badge: "毎朝自動更新",
+    title: "AIの「今」と<br>「次の予定」を、一枚で。",
+    titleSize: 72,
+    sub: "OpenAI DevDay / GTC / AI EXPO…",
+    short: "世界と日本のAI主要イベントをカレンダーで一望。毎朝更新の「今日のAIニュース」見出しつき。",
+    site: "comixai.dev/calendar",
+  },
+  {
     file: "faq.png",
     kicker: "FAQ — AIのよくある質問",
     badge: "100問",
