@@ -1,6 +1,6 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T06:03:21.918Z",
+  "updatedAt": "2026-07-18T06:04:45.025Z",
   "items": [
     {
       "title": "Neil Rimer thinks the AI money is coming back out",
@@ -35,13 +35,6 @@
       "date": "2026-07-18T01:08:48.000Z"
     },
     {
-      "title": "【13900円ゲット】Teclast新発売タブレット『P30T』を期間限定の低価格でお得に購入可能！ 120Hz 画面、Netflix対応、AIアプリ対応、6000mAh！",
-      "url": "https://ascii.jp/elem/000/004/420/4420695/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-18T00:00:00.000Z"
-    },
-    {
       "title": "6.4万人の熱狂をAIが導く FIFA W杯全スタジアム「デジタルツイン」化が変えた観戦体験",
       "url": "https://ascii.jp/elem/000/004/420/4420679/?rss",
       "source": "ASCII.jp",
@@ -63,13 +56,6 @@
       "lang": "en",
       "date": "2026-07-17T22:12:56.000Z",
       "titleJa": "Databricks の評価額は 1,880 億ドルに達し、AI のお気に入りの第 2 幕としての地位を拡大"
-    },
-    {
-      "title": "【アマゾン30％OFFタイムセール】Android 16搭載「A9 10インチ タブレット」が5日間限定！Gemini AI・10インチ大画面を13,900円で提供",
-      "url": "https://ascii.jp/elem/000/004/420/4420696/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-17T22:00:00.000Z"
     },
     {
       "title": "The Zoom hack that says, ‘Don’t record me’",
@@ -108,6 +94,20 @@
       "source": "GIZMODO JAPAN",
       "lang": "ja",
       "date": "2026-07-17T09:00:00.000Z"
+    },
+    {
+      "title": "AIコスト高すぎ。あのMicrosoftがChatGPTやClaudeの利用を減らす事態に",
+      "url": "https://www.gizmodo.jp/article/claude-and-chatgpt-are-getting-too-expensive-even-for-microsoft/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-17T08:00:00.000Z"
+    },
+    {
+      "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
+      "url": "https://japan.cnet.com/article/35250736/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-17T07:35:00.000Z"
     }
   ]
 }
