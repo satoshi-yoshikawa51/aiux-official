@@ -1,8 +1,9 @@
 "use client";
 /* ============================================================
    トップページの初回ローディング演出。
-   キャラの顔シルエットが呼吸しながら待機 → 読み込み完了で
-   画面にダイブして消える。同一セッション2回目以降は出さない。
+   粒子が画面中から集まり、顔が縦軸でくるくる回りながら実体化
+   → 呼吸しながら待機 → 退場は拡大しながら粒子に弾けて
+   全画面に散って消える。同一セッション2回目以降は出さない。
    prefers-reduced-motion では短いフェードのみ。
    ============================================================ */
 import React from "react";
@@ -16,31 +17,26 @@ const prand = (i: number, salt: number) => {
 const P_CHARS = ["✦", "✧", "●", "✦"];
 const P_COLORS = ["var(--yellow-400)", "var(--paper-50)", "var(--red-500)", "var(--yellow-200)"];
 
-/* 退場時に弾け飛ぶキラキラ粒子 */
-const EXIT_PARTICLES = Array.from({ length: 26 }, (_, i) => {
-  const angle = (i / 26) * Math.PI * 2 + (prand(i, 1) - 0.5) * 0.5;
-  const dist = 110 + prand(i, 2) * 190;
+/* 粒子は登場（画面の外周から中心へ集まる）と
+   退場（中心から全画面へ弾け飛ぶ）の両方を同じ要素で担う */
+const PARTICLES = Array.from({ length: 38 }, (_, i) => {
+  const aIn = prand(i, 1) * Math.PI * 2;
+  const dIn = 26 + prand(i, 2) * 28; /* 登場の出発点（vw基準で画面外周寄り） */
+  const aOut = (i / 38) * Math.PI * 2 + (prand(i, 3) - 0.5) * 0.5;
+  const dOutX = 18 + prand(i, 4) * 42; /* 退場の到達点（vw） */
+  const dOutY = 16 + prand(i, 5) * 38; /* 退場の到達点（vh） */
   return {
     char: P_CHARS[i % P_CHARS.length],
     color: P_COLORS[i % P_COLORS.length],
-    dx: Math.cos(angle) * dist,
-    dy: Math.sin(angle) * dist * 0.82,
-    rot: (prand(i, 3) - 0.5) * 440,
-    sz: 0.7 + prand(i, 4) * 1.1,
-    dl: prand(i, 5) * 0.16,
-    fs: 11 + Math.round(prand(i, 6) * 9),
-  };
-});
-
-/* 登場の着地で散る小さな火花 */
-const ENTER_SPARKS = Array.from({ length: 8 }, (_, i) => {
-  const angle = Math.PI + (i / 7) * Math.PI; /* 上半分に扇状 */
-  const dist = 46 + prand(i, 7) * 52;
-  return {
-    color: P_COLORS[i % P_COLORS.length],
-    dx: Math.cos(angle) * dist,
-    dy: -Math.abs(Math.sin(angle)) * dist - 8,
-    dl: prand(i, 8) * 0.08,
+    ex: `${(Math.cos(aIn) * dIn).toFixed(1)}vw`,
+    ey: `${(Math.sin(aIn) * dIn * 0.85).toFixed(1)}vh`,
+    dx: `${(Math.cos(aOut) * dOutX).toFixed(1)}vw`,
+    dy: `${(Math.sin(aOut) * dOutY).toFixed(1)}vh`,
+    rot: `${((prand(i, 6) - 0.5) * 520).toFixed(0)}deg`,
+    sz: (0.7 + prand(i, 7) * 1.3).toFixed(2),
+    dli: `${(prand(i, 8) * 0.22).toFixed(2)}s`,
+    dlo: `${(prand(i, 9) * 0.14).toFixed(2)}s`,
+    fs: 11 + Math.round(prand(i, 10) * 9),
   };
 });
 
@@ -55,7 +51,7 @@ export default function Splash() {
     }
     window.sessionStorage.setItem("splashSeen", "1");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const MIN_SHOW = reduced ? 200 : 1150; // 最低表示時間（一瞬で消えるとチラつくため）
+    const MIN_SHOW = reduced ? 200 : 1250; // 最低表示時間（登場の粒子集合＋回転が見える長さ）
     const start = performance.now();
     let done = false;
     let exitTimer = 0;
@@ -67,8 +63,8 @@ export default function Splash() {
       minTimer = window.setTimeout(() => {
         setOut(true);
         /* 幕が開き始めるタイミングでヒーローの登場アニメを解禁 */
-        window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 460);
-        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 1060);
+        window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 500);
+        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 1220);
       }, wait);
     };
     if (document.readyState === "complete") {
@@ -117,54 +113,43 @@ export default function Splash() {
         <span className="splash-spark" style={{ top: -4, right: -16, animationDelay: "0.8s", fontSize: 15 }}>✦</span>
         {/* たまに走る流れ星 */}
         <span className="splash-shoot" aria-hidden="true" />
-        {/* 着地の衝撃波リングと火花 */}
+        {/* 実体化の瞬間に広がるロックインリング */}
         <span className="splash-ring" aria-hidden="true" />
-        {ENTER_SPARKS.map((p, i) => (
-          <span
-            key={i}
-            className="splash-ep"
-            style={{
-              color: p.color,
-              animationDelay: `${(0.46 + p.dl).toFixed(2)}s`,
-              ["--dx" as string]: `${p.dx.toFixed(0)}px`,
-              ["--dy" as string]: `${p.dy.toFixed(0)}px`,
-            }}
-          >
-            ✦
-          </span>
-        ))}
       </span>
       <div className="splash-logo">
         <span className="splash-ch">CO</span>
-        <span className="splash-ch splash-mix" style={{ color: "var(--red-500)", animationDelay: "0.42s" }}>MIX</span>
-        <span className="splash-ch" style={{ animationDelay: "0.54s" }}>AI</span>
+        <span className="splash-ch splash-mix" style={{ color: "var(--red-500)", animationDelay: "0.86s" }}>MIX</span>
+        <span className="splash-ch" style={{ animationDelay: "0.98s" }}>AI</span>
       </div>
       <div className="splash-dots">
         <span />
         <span style={{ animationDelay: "0.15s" }} />
         <span style={{ animationDelay: "0.3s" }} />
       </div>
-      {/* 退場：拡大の途中で弾け飛ぶキラキラ粒子（splash-out時のみ動く） */}
+      {/* 粒子：登場では中心に集まって顔になり、退場では全画面に弾け飛ぶ */}
       <span className="splash-pwrap" aria-hidden="true">
-        {EXIT_PARTICLES.map((p, i) => (
+        {PARTICLES.map((p, i) => (
           <span
             key={i}
             className="splash-p"
             style={{
               color: p.color,
               fontSize: p.fs,
-              ["--dx" as string]: `${p.dx.toFixed(0)}px`,
-              ["--dy" as string]: `${p.dy.toFixed(0)}px`,
-              ["--rot" as string]: `${p.rot.toFixed(0)}deg`,
-              ["--sz" as string]: p.sz.toFixed(2),
-              ["--dl" as string]: `${p.dl.toFixed(2)}s`,
+              ["--ex" as string]: p.ex,
+              ["--ey" as string]: p.ey,
+              ["--dx" as string]: p.dx,
+              ["--dy" as string]: p.dy,
+              ["--rot" as string]: p.rot,
+              ["--sz" as string]: p.sz,
+              ["--dli" as string]: p.dli,
+              ["--dlo" as string]: p.dlo,
             }}
           >
             {p.char}
           </span>
         ))}
       </span>
-      {/* 退場ダイブの着弾で爆ぜるマンガ的バースト（splash-out時のみ動く） */}
+      {/* 退場ダイブの爆発で爆ぜるマンガ的バースト（splash-out時のみ動く） */}
       <svg className="splash-burst" viewBox="-100 -100 200 200" aria-hidden="true">
         <g stroke="var(--yellow-400)" strokeWidth="7" strokeLinecap="round">
           {Array.from({ length: 12 }, (_, i) => {
