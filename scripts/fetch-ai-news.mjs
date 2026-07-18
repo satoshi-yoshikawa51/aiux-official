@@ -94,12 +94,17 @@ function parseFeed(xml, feed) {
     if (!title || !link || Number.isNaN(d.getTime())) continue;
     if (feed.filter && !AI_KEYWORDS.test(title)) continue;
     if (NOISE.test(title)) continue;
+    /* はてブのブックマーク数（＝その日の話題度）。トップページの
+       「今日イチの話題」の選定に使う */
+    const countRaw = pick(b, "hatena:bookmarkcount");
+    const count = countRaw ? Number(stripHtml(countRaw)) : undefined;
     items.push({
       title,
       url: link.split("?utm")[0],
       source: feed.source,
       lang: feed.lang,
       ...(feed.kind ? { kind: feed.kind } : {}),
+      ...(Number.isFinite(count) ? { count } : {}),
       date: d.toISOString(),
     });
   }
