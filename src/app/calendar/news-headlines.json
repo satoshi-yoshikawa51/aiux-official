@@ -1,14 +1,30 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T18:05:52.188Z",
+  "updatedAt": "2026-07-18T22:54:50.510Z",
   "items": [
     {
-      "title": "The apps, gadgets, and tools every reader needs",
-      "url": "https://www.theverge.com/tech/967544/best-apps-gadgets-reading-installer",
-      "source": "The Verge",
+      "title": "国連事務総長、AI「キラーロボット」禁止を世界へ呼びかけ",
+      "url": "https://www.gizmodo.jp/article/un-secretary-general-calls-for-global-ban-on-ai-killer-robots/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-18T22:00:00.000Z"
+    },
+    {
+      "title": "Kimi: Threat or menace?",
+      "url": "https://techcrunch.com/2026/07/18/kimi-threat-or-menace/",
+      "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-18T12:00:00.000Z",
-      "titleJa": "すべての読者が必要とするアプリ、ガジェット、ツール"
+      "date": "2026-07-18T18:51:07.000Z",
+      "titleJa": "キミ: 脅威ですか、脅威ですか?"
+    },
+    {
+      "title": "中国のAIエージェントQwen Codeで、Ryzen AI MaxのローカルLLM環境を構築する 【ニコ技深圳フィールドノート】｜TAKASU Masakazu",
+      "url": "https://note.com/takasu/n/n572992ce17a8",
+      "source": "note",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 6,
+      "date": "2026-07-18T14:54:36.000Z"
     },
     {
       "title": "キース・エマーソンみたいに弾けないので、無限にシンセソロを弾き続けるアプリをClaude Fable 5に作ってもらった。（CloseBox） | テクノエッジ TechnoEdge",
@@ -16,7 +32,7 @@
       "source": "テクノエッジ",
       "lang": "ja",
       "kind": "buzz",
-      "count": 68,
+      "count": 87,
       "date": "2026-07-18T10:13:25.000Z"
     },
     {
@@ -40,17 +56,8 @@
       "source": "ITmedia",
       "lang": "ja",
       "kind": "buzz",
-      "count": 80,
+      "count": 83,
       "date": "2026-07-18T04:37:12.000Z"
-    },
-    {
-      "title": "最近の AI コーディングで実践している、設計を中心とした開発の進め方",
-      "url": "https://azukiazusa.dev/blog/recent-ai-coding-development-process-centered-on-design/",
-      "source": "azukiazusa.dev",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 480,
-      "date": "2026-07-18T04:23:35.000Z"
     },
     {
       "title": "Vertu wants executives to pay $6,880 for an AI agent — here’s how it actually performs",
@@ -69,14 +76,6 @@
       "titleJa": "Databricks の評価額は 1,880 億ドルに達し、AI のお気に入りの第 2 幕としての地位を拡大"
     },
     {
-      "title": "The Zoom hack that says, ‘Don’t record me’",
-      "url": "https://techcrunch.com/2026/07/17/the-zoom-hack-that-says-dont-record-me/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-17T21:20:47.000Z",
-      "titleJa": "「録画しないでください」というZoomハック"
-    },
-    {
       "title": "TikTok is testing an AI likeness detection tool",
       "url": "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool",
       "source": "The Verge",
@@ -85,11 +84,12 @@
       "titleJa": "TikTokはAI類似度検出ツールをテスト中"
     },
     {
-      "title": "若年層ほど「AI不信」。でも一番AIを使っているのも若者たちという矛盾",
-      "url": "https://www.gizmodo.jp/article/just-16-of-americans-believe-ai-will-positively-impact-society-pew-poll-finds/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-07-17T12:00:00.000Z"
+      "title": "Apple’s plot to crush OpenAI",
+      "url": "https://www.theverge.com/podcast/967244/apple-openai-lawsuit-vergecast",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-17T17:41:32.000Z",
+      "titleJa": "OpenAIを潰そうとするAppleの陰謀"
     },
     {
       "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
