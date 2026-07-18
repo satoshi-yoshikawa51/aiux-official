@@ -696,7 +696,7 @@ function NewsStrip() {
     <span
       style={{
         flex: "none",
-        width: 122,
+        width: 92,
         textAlign: "center",
         fontFamily: "var(--font-mono)",
         fontWeight: 700,
@@ -715,7 +715,7 @@ function NewsStrip() {
   const rowStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
-    gap: 12,
+    gap: 10,
     textDecoration: "none",
     minWidth: 0,
   };
@@ -750,13 +750,13 @@ function NewsStrip() {
           <div style={{ flex: "1 1 auto", minWidth: 0, display: "grid", gap: 8 }}>
             {topNews && (
               <a href={topNews.url} target="_blank" rel="noopener noreferrer" style={rowStyle}>
-                {label("📰 今日イチの話題")}
+                {label("📰 今日の話題")}
                 <span style={textStyle}>{topNews.titleJa ?? topNews.title}</span>
               </a>
             )}
             {nextEvent && (
               <a href="/calendar" style={rowStyle}>
-                {label("📅 次のイベント")}
+                {label("📅 イベント")}
                 <span style={textStyle}>
                   {nextEvent.title}
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--yellow-400)", marginLeft: 10 }}>{dateLabel(nextEvent)}</span>
