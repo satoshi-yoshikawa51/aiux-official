@@ -26,6 +26,8 @@ import Splash from "./splash";
 import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
 import { FEATURED_RECIPES } from "./prompts/data";
+import { EVENTS, dateLabel, isPast } from "./calendar/events";
+import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
 
 const HERO_INTRO =
@@ -666,6 +668,60 @@ function StartSection() {
   );
 }
 
+/* ═══════════════ COMIXAI NEWS ストリップ（ヒーロー直下） ═══════════════ */
+function NewsStrip() {
+  const items = (newsJson as { items: { title: string; titleJa?: string; url: string; lang: string }[] }).items.slice(0, 3);
+  const nextEvent = EVENTS
+    .filter((e) => e.start && !e.tba && !isPast(e))
+    .sort((a, b) => (a.start! < b.start! ? -1 : 1))[0];
+  if (items.length === 0 && !nextEvent) return null;
+  return (
+    <section style={{ background: "var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)" }}>
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "18px 0 20px", display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap" }}>
+        {/* 見出し3本 */}
+        <div style={{ flex: "1 1 420px", minWidth: 0 }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 8 }}>
+            📰 COMIXAI NEWS — 今日のAIニュース（毎朝更新）
+          </div>
+          <div style={{ display: "grid", gap: 5 }}>
+            {items.map((n) => (
+              <a
+                key={n.url}
+                href={n.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: "block", textDecoration: "none", color: "var(--paper-50)", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, lineHeight: 1.6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+              >
+                {n.lang === "en" && <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--blue-500)", marginRight: 6 }}>🌏</span>}
+                {n.titleJa ?? n.title}
+              </a>
+            ))}
+          </div>
+        </div>
+        {/* 次のイベント＋ボタン */}
+        <div style={{ flex: "none", display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
+          {nextEvent && (
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 10.5, letterSpacing: "0.12em", color: "rgba(251,247,239,0.6)", fontWeight: 700, marginBottom: 3 }}>
+                📅 次のイベント
+              </div>
+              <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, color: "var(--paper-50)" }}>
+                {nextEvent.title}
+              </div>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--yellow-400)" }}>{dateLabel(nextEvent)}</div>
+            </div>
+          )}
+          <a href="/calendar" style={{ textDecoration: "none" }}>
+            <Button variant="yellow" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              NEWSを見る
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ═══════════════ プロンプト集 ═══════════════ */
 function PromptRecipes() {
   return (
@@ -1158,6 +1214,7 @@ export default function Page() {
       <Splash />
       <Nav />
       <HeroVideo />
+      <NewsStrip />
       <Profile />
       <Articles />
       <Magazines />
