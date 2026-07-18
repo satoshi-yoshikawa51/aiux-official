@@ -755,7 +755,7 @@ function NewsStrip() {
               </a>
             )}
             {nextEvent && (
-              <a href="/calendar" style={rowStyle}>
+              <a href="/calendar#calendar" style={rowStyle}>
                 {label("📅 イベント")}
                 <span style={textStyle}>
                   {nextEvent.title}
