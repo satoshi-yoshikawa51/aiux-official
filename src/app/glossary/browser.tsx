@@ -69,12 +69,15 @@ export function GlossaryBrowser({ terms }: { terms: BrowserTerm[] }) {
       {/* 検索ボックス＋カテゴリタブ。150語を延々スクロールしても
           いつでも絞り込めるよう、ヘッダー下に吸着させる */}
       <div
+        className="glossary-filterbar"
         style={{
           position: "sticky",
           top: 66,
           zIndex: 40,
           background: "var(--paper-50)",
-          padding: "12px 0 10px",
+          /* 左右paddingは.glossary-filterbar（画面幅いっぱいに敷く）が持つ */
+          paddingTop: 12,
+          paddingBottom: 10,
           boxShadow: stuck ? "0 12px 14px -12px rgba(26, 26, 26, 0.4)" : "none",
           transition: "box-shadow 0.25s ease",
         }}
@@ -125,7 +128,7 @@ export function GlossaryBrowser({ terms }: { terms: BrowserTerm[] }) {
       </div>
 
       {/* カテゴリタブ（モバイルでは横スクロール1行に収める） */}
-      <div className="glossary-cats" style={{ margin: "12px 0 0" }}>
+      <div className="glossary-cats" style={{ marginTop: 12 }}>
         {CATS.map((c) => {
           const on = c === cat;
           return (
