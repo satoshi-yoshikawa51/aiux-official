@@ -807,12 +807,57 @@ img {
   width: 128px;
   aspect-ratio: 530 / 310;
   transform-origin: 50% 88%;
-  animation: splash-breath 1.15s ease-in-out infinite;
+  /* 登場：下からポンと跳ねて着地 → その後は呼吸ループ */
+  animation:
+    splash-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    splash-breath 1.15s ease-in-out 0.6s infinite;
+}
+@keyframes splash-enter {
+  0% { opacity: 0; transform: translateY(48px) scale(0.62, 1.28); }
+  55% { opacity: 1; transform: translateY(-9px) scale(1.08, 0.92); }
+  78% { transform: translateY(2px) scale(0.97, 1.04); }
+  100% { transform: translateY(0) scale(1); }
 }
 @keyframes splash-breath {
   0%, 100% { transform: scale(1, 1); }
   30% { transform: scale(1.07, 0.92) translateY(4px); }
   62% { transform: scale(0.95, 1.06) translateY(-5px); }
+}
+/* ヒゲが数秒に一度ピクッと動く（左右で周期をずらす） */
+.splash-whisk {
+  transform-box: fill-box;
+}
+.splash-whisk-l {
+  transform-origin: 100% 50%;
+  animation: splash-twitch 3.6s ease-in-out 1.4s infinite;
+}
+.splash-whisk-r {
+  transform-origin: 0% 50%;
+  animation: splash-twitch 3.6s ease-in-out 2.6s infinite;
+}
+@keyframes splash-twitch {
+  0%, 90%, 100% { transform: rotate(0deg); }
+  93% { transform: rotate(-7deg); }
+  96% { transform: rotate(5deg); }
+}
+/* たまに走る流れ星 */
+.splash-shoot {
+  position: absolute;
+  top: -30px;
+  left: -64px;
+  width: 46px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, var(--yellow-400));
+  box-shadow: 0 0 8px rgba(255, 210, 63, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  animation: splash-shootrun 3.4s ease-in 1.7s infinite;
+}
+@keyframes splash-shootrun {
+  0%, 76% { opacity: 0; transform: translate(0, 0) rotate(-13deg); }
+  79% { opacity: 1; }
+  90%, 100% { opacity: 0; transform: translate(250px, -40px) rotate(-13deg); }
 }
 .splash-spark {
   position: absolute;
@@ -829,9 +874,33 @@ img {
   letter-spacing: 0.04em;
   color: var(--paper-50);
 }
+/* ロゴはCO→MIX→AIの順に跳ね上がって組み上がる */
+.splash-ch {
+  display: inline-block;
+  animation: splash-rise 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+@keyframes splash-rise {
+  0% { opacity: 0; transform: translateY(16px) rotate(5deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+/* MIXは組み上がった後、時々赤くグローする */
+.splash-mix {
+  animation:
+    splash-rise 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    splash-mixglow 2.9s ease-in-out infinite;
+}
+@keyframes splash-mixglow {
+  0%, 58%, 100% { text-shadow: none; }
+  70% { text-shadow: 0 0 14px rgba(230, 0, 18, 0.85), 0 0 3px rgba(230, 0, 18, 0.6); }
+}
 .splash-dots {
   display: flex;
   gap: 7px;
+  animation: splash-fadein 0.4s ease 0.66s both;
+}
+@keyframes splash-fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .splash-dots span {
   width: 8px;
@@ -844,32 +913,57 @@ img {
   0%, 100% { transform: translateY(0); opacity: 0.45; }
   40% { transform: translateY(-7px); opacity: 1; }
 }
-/* 退場: 顔がぐっと沈み込んでから画面へダイブ、オーバーレイはフェード */
+/* 退場: ぐっと沈む「溜め」→ 伸び上がり → 画面へダイブ。
+   着弾でマンガ的バーストが爆ぜ、オーバーレイはフェード */
 .splash-out {
-  animation: splash-fade 0.68s ease forwards;
+  animation: splash-fade 0.82s ease forwards;
   pointer-events: none;
 }
 .splash-out .splash-face {
-  animation: splash-dive 0.66s cubic-bezier(0.55, -0.3, 0.65, 0.4) forwards;
+  animation: splash-dive 0.78s cubic-bezier(0.5, -0.25, 0.68, 0.4) forwards;
 }
 .splash-out .splash-logo,
 .splash-out .splash-dots,
-.splash-out .splash-spark {
+.splash-out .splash-spark,
+.splash-out .splash-shoot {
   animation: splash-hide 0.18s ease forwards;
 }
 @keyframes splash-dive {
-  28% { transform: scale(0.8, 1.14) translateY(-16px); }
-  100% { transform: scale(26); }
+  26% { transform: scale(1.12, 0.82) translateY(11px); }  /* 溜め */
+  44% { transform: scale(0.84, 1.18) translateY(-24px); } /* 伸び上がり */
+  100% { transform: scale(27) translateY(0); }
+}
+/* 着弾バースト（通常時は不可視。splash-outで一発だけ爆ぜる） */
+.splash-burst {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -60%) scale(0.35);
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px rgba(20, 17, 15, 0.35));
+}
+.splash-out .splash-burst {
+  animation: splash-burstpop 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.34s forwards;
+}
+@keyframes splash-burstpop {
+  0% { opacity: 0; transform: translate(-50%, -60%) scale(0.35); }
+  22% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -60%) scale(1.55); }
 }
 @keyframes splash-fade {
-  0%, 45% { opacity: 1; }
+  0%, 50% { opacity: 1; }
   100% { opacity: 0; }
 }
 @keyframes splash-hide {
   to { opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .splash-face, .splash-spark, .splash-dots span { animation: none; }
+  .splash-face, .splash-spark, .splash-dots span, .splash-dots,
+  .splash-ch, .splash-mix, .splash-whisk-l, .splash-whisk-r { animation: none; }
+  .splash-shoot, .splash-burst { display: none; }
   .splash-out { animation: splash-hide 0.25s ease forwards; }
   .splash-out .splash-face { animation: none; }
 }

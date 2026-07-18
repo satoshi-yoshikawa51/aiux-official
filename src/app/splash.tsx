@@ -30,8 +30,8 @@ export default function Splash() {
       minTimer = window.setTimeout(() => {
         setOut(true);
         /* 幕が開き始めるタイミングでヒーローの登場アニメを解禁 */
-        window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 300);
-        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 680);
+        window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 340);
+        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 820);
       }, wait);
     };
     if (document.readyState === "complete") {
@@ -67,24 +67,49 @@ export default function Splash() {
           <g transform="translate(0,500) scale(0.1,-0.1)" fill="var(--paper-50)" stroke="none">
             <path d="M1258 4925 c-82 -46 -123 -406 -84 -734 l13 -113 -40 -67 c-92 -151 -147 -294 -212 -551 -40 -160 -51 -191 -87 -244 -253 -370 -91 -780 383 -967 422 -166 1811 -186 2315 -34 485 147 707 594 474 954 -41 63 -60 119 -110 324 -53 220 -117 381 -207 529 l-36 57 14 83 c29 185 9 616 -32 704 -68 144 -300 57 -590 -222 l-77 -74 -43 16 c-211 74 -666 81 -947 14 -112 -27 -104 -29 -190 50 -230 215 -452 327 -544 275z" />
           </g>
-          <g stroke="var(--paper-50)" strokeWidth="9" strokeLinecap="round">
+          <g className="splash-whisk splash-whisk-l" stroke="var(--paper-50)" strokeWidth="9" strokeLinecap="round">
             <line x1="42" y1="185" x2="-4" y2="172" />
             <line x1="44" y1="215" x2="-8" y2="220" />
+          </g>
+          <g className="splash-whisk splash-whisk-r" stroke="var(--paper-50)" strokeWidth="9" strokeLinecap="round">
             <line x1="458" y1="185" x2="504" y2="172" />
             <line x1="456" y1="215" x2="508" y2="220" />
           </g>
         </svg>
         <span className="splash-spark" style={{ top: -14, left: -8 }}>✦</span>
         <span className="splash-spark" style={{ top: -4, right: -16, animationDelay: "0.8s", fontSize: 15 }}>✦</span>
+        {/* たまに走る流れ星 */}
+        <span className="splash-shoot" aria-hidden="true" />
       </span>
       <div className="splash-logo">
-        CO<span style={{ color: "var(--red-500)" }}>MIX</span>AI
+        <span className="splash-ch">CO</span>
+        <span className="splash-ch splash-mix" style={{ color: "var(--red-500)", animationDelay: "0.42s" }}>MIX</span>
+        <span className="splash-ch" style={{ animationDelay: "0.54s" }}>AI</span>
       </div>
       <div className="splash-dots">
         <span />
         <span style={{ animationDelay: "0.15s" }} />
         <span style={{ animationDelay: "0.3s" }} />
       </div>
+      {/* 退場ダイブの着弾で爆ぜるマンガ的バースト（splash-out時のみ動く） */}
+      <svg className="splash-burst" viewBox="-100 -100 200 200" aria-hidden="true">
+        <g stroke="var(--yellow-400)" strokeWidth="7" strokeLinecap="round">
+          {Array.from({ length: 12 }, (_, i) => {
+            const a = (i * Math.PI * 2) / 12 + 0.26;
+            const r1 = i % 2 === 0 ? 34 : 46;
+            const r2 = i % 2 === 0 ? 88 : 72;
+            return (
+              <line
+                key={i}
+                x1={(Math.cos(a) * r1).toFixed(1)}
+                y1={(Math.sin(a) * r1).toFixed(1)}
+                x2={(Math.cos(a) * r2).toFixed(1)}
+                y2={(Math.sin(a) * r2).toFixed(1)}
+              />
+            );
+          })}
+        </g>
+      </svg>
     </div>
   );
 }
