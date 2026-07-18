@@ -1,7 +1,14 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T22:55:27.363Z",
+  "updatedAt": "2026-07-18T23:01:47.519Z",
   "items": [
+    {
+      "title": "国連事務総長、AI「キラーロボット」禁止を世界へ呼びかけ",
+      "url": "https://www.gizmodo.jp/article/un-secretary-general-calls-for-global-ban-on-ai-killer-robots/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-18T22:00:00.000Z"
+    },
     {
       "title": "Dave Eggers told OpenAI staff that ChatGPT was ‘silencing an entire generation’",
       "url": "https://www.theverge.com/ai-artificial-intelligence/967630/dave-eggers-openai-chatgpt-silencing-an-entire-generation",
@@ -41,7 +48,7 @@
       "source": "テクノエッジ",
       "lang": "ja",
       "kind": "buzz",
-      "count": 87,
+      "count": 88,
       "date": "2026-07-18T10:13:25.000Z"
     },
     {
@@ -83,13 +90,6 @@
       "lang": "en",
       "date": "2026-07-17T22:12:56.000Z",
       "titleJa": "Databricks の評価額は 1,880 億ドルに達し、AI のお気に入りの第 2 幕としての地位を拡大"
-    },
-    {
-      "title": "若年層ほど「AI不信」。でも一番AIを使っているのも若者たちという矛盾",
-      "url": "https://www.gizmodo.jp/article/just-16-of-americans-believe-ai-will-positively-impact-society-pew-poll-finds/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-07-17T12:00:00.000Z"
     },
     {
       "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
