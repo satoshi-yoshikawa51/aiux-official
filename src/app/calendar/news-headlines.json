@@ -1,87 +1,13 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T23:01:47.519Z",
+  "updatedAt": "2026-07-18T23:13:19.272Z",
   "items": [
-    {
-      "title": "国連事務総長、AI「キラーロボット」禁止を世界へ呼びかけ",
-      "url": "https://www.gizmodo.jp/article/un-secretary-general-calls-for-global-ban-on-ai-killer-robots/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-07-18T22:00:00.000Z"
-    },
-    {
-      "title": "Dave Eggers told OpenAI staff that ChatGPT was ‘silencing an entire generation’",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/967630/dave-eggers-openai-chatgpt-silencing-an-entire-generation",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-18T20:54:42.000Z",
-      "titleJa": "Dave Eggers 氏は、ChatGPT が「全世代を沈黙させている」と OpenAI スタッフに語った"
-    },
-    {
-      "title": "Kimi: Threat or menace?",
-      "url": "https://techcrunch.com/2026/07/18/kimi-threat-or-menace/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-18T18:51:07.000Z",
-      "titleJa": "キミ: 脅威ですか、脅威ですか?"
-    },
-    {
-      "title": "中国のAIエージェントQwen Codeで、Ryzen AI MaxのローカルLLM環境を構築する 【ニコ技深圳フィールドノート】｜TAKASU Masakazu",
-      "url": "https://note.com/takasu/n/n572992ce17a8",
-      "source": "note",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 6,
-      "date": "2026-07-18T14:54:36.000Z"
-    },
-    {
-      "title": "The apps, gadgets, and tools every reader needs",
-      "url": "https://www.theverge.com/tech/967544/best-apps-gadgets-reading-installer",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-18T12:00:00.000Z",
-      "titleJa": "すべての読者が必要とするアプリ、ガジェット、ツール"
-    },
-    {
-      "title": "キース・エマーソンみたいに弾けないので、無限にシンセソロを弾き続けるアプリをClaude Fable 5に作ってもらった。（CloseBox） | テクノエッジ TechnoEdge",
-      "url": "https://www.techno-edge.net/article/2026/07/18/5311.html",
-      "source": "テクノエッジ",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 88,
-      "date": "2026-07-18T10:13:25.000Z"
-    },
     {
       "title": "OpenAIが初のハードウェア製品を発表。AIエージェントを自在に操るキーボード",
       "url": "https://www.gizmodo.jp/article/openai-just-launched-its-first-hardware-product-and-its-a-tiny-keyboard-for-bossing-around-ai-agents/",
       "source": "GIZMODO JAPAN",
       "lang": "ja",
       "date": "2026-07-18T10:00:00.000Z"
-    },
-    {
-      "title": "Neil Rimer thinks the AI money is coming back out",
-      "url": "https://techcrunch.com/2026/07/17/neil-rimer-thinks-the-ai-money-is-coming-back-out/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-18T04:47:25.000Z",
-      "titleJa": "ニール・ライマーはAIマネーが戻ってくると考えている"
-    },
-    {
-      "title": "「Claude Fable 5」サブスクに統合 Max・Team Premiumプラン対象",
-      "url": "https://www.itmedia.co.jp/news/articles/2607/18/news019.html",
-      "source": "ITmedia",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 83,
-      "date": "2026-07-18T04:37:12.000Z"
-    },
-    {
-      "title": "Vertu wants executives to pay $6,880 for an AI agent — here’s how it actually performs",
-      "url": "https://techcrunch.com/2026/07/17/vertu-wants-executives-to-pay-6880-for-an-ai-agent-heres-how-it-actually-performs/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-17T22:55:09.000Z",
-      "titleJa": "Vertu は、幹部が AI エージェントに 6,880 ドルを支払うことを望んでいます - 実際のパフォーマンスは次のとおりです"
     },
     {
       "title": "Databricks hits $188B valuation, extending its run as AI’s favorite second act",
@@ -92,6 +18,30 @@
       "titleJa": "Databricks の評価額は 1,880 億ドルに達し、AI のお気に入りの第 2 幕としての地位を拡大"
     },
     {
+      "title": "How Apple’s big lawsuit could disrupt OpenAI’s IPO plans",
+      "url": "https://techcrunch.com/video/how-apples-big-lawsuit-could-disrupt-openais-ipo-plans/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-17T17:45:46.000Z",
+      "titleJa": "Appleの大規模訴訟がOpenAIのIPO計画をどのように混乱させるか"
+    },
+    {
+      "title": "Apple’s lawsuit couldn’t come at a worse time for OpenAI",
+      "url": "https://techcrunch.com/podcast/apples-lawsuit-couldnt-come-at-a-worse-time-for-openai/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-17T14:00:00.000Z",
+      "titleJa": "Appleの訴訟はOpenAIにとってこれ以上に悪い時期に起きた"
+    },
+    {
+      "title": "Why the first GPU financiers are turning to inference chips in a $400 million deal",
+      "url": "https://techcrunch.com/2026/07/17/why-the-first-gpu-financiers-are-turning-to-inference-chips-in-a-400-million-deal/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-17T12:00:00.000Z",
+      "titleJa": "最初の GPU 投資家が 4 億ドルの取引で推論チップに目を向ける理由"
+    },
+    {
       "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
       "url": "https://japan.cnet.com/article/35250736/",
       "source": "CNET Japan",
@@ -99,18 +49,62 @@
       "date": "2026-07-17T07:35:00.000Z"
     },
     {
-      "title": "中国の最新AIモデル「Kimi K3」、部分的にClaude Fable 5を上回る 2.8兆パラメーター",
-      "url": "https://japan.cnet.com/article/35250737/",
+      "title": "グーグルのAI動画ツール「Vids」にGemini Omni導入、「自分が登場する動画」も簡単に",
+      "url": "https://japan.cnet.com/article/35250727/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-07-17T06:50:00.000Z"
+      "date": "2026-07-17T06:04:00.000Z"
     },
     {
-      "title": "ChatGPTに「敬語で話す」人の割合は？ ドコモ調査",
-      "url": "https://japan.cnet.com/article/35250733/",
-      "source": "CNET Japan",
+      "title": "NECがTNFD対応のAIサービスを26年9月に提供開始、調査の作業時間を9割削減",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03682/071500009/",
+      "source": "日経クロステック",
       "lang": "ja",
-      "date": "2026-07-17T06:25:00.000Z"
+      "date": "2026-07-17T02:30:00.000Z"
+    },
+    {
+      "title": "富士通がファナックなどとフィジカルAIで提携、NVIDIA協力 長期成長へ足場",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11902/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-07-17T02:00:00.000Z"
+    },
+    {
+      "title": "Anthropic、AIを活用する若手人材とNPOを結ぶ支援プログラム開始",
+      "url": "https://japan.zdnet.com/article/35250710/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-17T01:10:00.000Z"
+    },
+    {
+      "title": "パナソニック オートモーティブシステムズ、品質保証にAIプラットフォーム「CADDi」を導入",
+      "url": "https://japan.zdnet.com/article/35250697/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-17T00:57:00.000Z"
+    },
+    {
+      "title": "TikTok is testing an AI likeness detection tool",
+      "url": "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-17T19:34:30.000Z",
+      "titleJa": "TikTokはAI類似度検出ツールをテスト中"
+    },
+    {
+      "title": "Google、「NotebookLM」を「Gemini Notebook」に改称 Geminiエコシステムへの統合を強化",
+      "url": "https://www.itmedia.co.jp/news/articles/2607/17/news062.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-16T23:21:00.000Z"
+    },
+    {
+      "title": "Google is renaming NotebookLM to Gemini Notebook",
+      "url": "https://www.theverge.com/tech/966112/google-gemini-notebook-notebooklm",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-16T16:00:00.000Z",
+      "titleJa": "GoogleはNotebookLMの名前をGemini Notebookに変更します"
     }
   ]
 }
