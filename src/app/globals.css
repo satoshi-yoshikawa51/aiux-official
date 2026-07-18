@@ -935,13 +935,13 @@ img {
 /* 退場: ぐっと沈む「溜め」→ 伸び上がり → 画面へダイブ。
    着弾でマンガ的バーストが爆ぜ、オーバーレイはフェード */
 .splash-out {
-  animation: splash-fade 1.2s ease forwards;
+  animation: splash-fade 1.05s ease forwards;
   pointer-events: none;
 }
 .splash-out .splash-face {
   /* 顔自身の中心を基準に拡大する（位置は下のkeyframesで画面中央へ寄せる） */
   transform-origin: 50% 50%;
-  animation: splash-dive 1.05s cubic-bezier(0.5, -0.25, 0.68, 0.4) forwards;
+  animation: splash-dive 0.9s cubic-bezier(0.45, 0.05, 0.6, 0.3) forwards;
 }
 .splash-out .splash-logo,
 .splash-out .splash-dots,
@@ -950,12 +950,11 @@ img {
   animation: splash-hide 0.18s ease forwards;
 }
 @keyframes splash-dive {
-  0% { opacity: 1; }
-  22% { transform: translateY(11px) scale(1.12, 0.82); opacity: 1; }  /* 溜め */
-  36% { transform: translateY(-26px) scale(0.84, 1.18); opacity: 1; } /* 伸び上がり */
-  46% { transform: translateY(12px) scale(1.5); opacity: 1; }         /* 画面中央へ寄せながら */
-  56% { transform: translateY(38px) scale(4.5); opacity: 1; }         /* 顔の中心＝画面中央で拡大 */
-  74%, 100% { transform: translateY(38px) scale(15); opacity: 0; }    /* 全画面へ弾けて消える */
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  16% { transform: translateY(5px) scale(0.93); opacity: 1; }        /* ほんの一呼吸だけ縮む */
+  30% { transform: translateY(16px) scale(1.5); opacity: 1; }        /* 画面中央へ寄りながら加速 */
+  44% { transform: translateY(38px) scale(3.6); opacity: 0.85; }     /* 拡大しながら粒子化開始 */
+  60%, 100% { transform: translateY(38px) scale(10); opacity: 0; }   /* 全画面へ溶けて消える */
 }
 /* 弾け飛ぶキラキラ粒子（顔の中心から放射状に） */
 .splash-pwrap {
@@ -981,7 +980,7 @@ img {
   100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2) rotate(0deg); }
 }
 .splash-out .splash-p {
-  animation: splash-pfly 0.72s cubic-bezier(0.16, 1, 0.3, 1) calc(0.5s + var(--dlo)) both;
+  animation: splash-pfly 0.72s cubic-bezier(0.16, 1, 0.3, 1) calc(0.3s + var(--dlo)) both;
 }
 @keyframes splash-pfly {
   0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(0deg); }
@@ -1001,7 +1000,7 @@ img {
   filter: drop-shadow(0 0 2px rgba(20, 17, 15, 0.35));
 }
 .splash-out .splash-burst {
-  animation: splash-burstpop 0.46s cubic-bezier(0.22, 1, 0.36, 1) 0.52s forwards;
+  animation: splash-burstpop 0.46s cubic-bezier(0.22, 1, 0.36, 1) 0.34s forwards;
 }
 @keyframes splash-burstpop {
   0% { opacity: 0; transform: translate(-50%, -60%) scale(0.35); }
@@ -1009,7 +1008,7 @@ img {
   100% { opacity: 0; transform: translate(-50%, -60%) scale(1.55); }
 }
 @keyframes splash-fade {
-  0%, 55% { opacity: 1; }
+  0%, 48% { opacity: 1; }
   100% { opacity: 0; }
 }
 @keyframes splash-hide {

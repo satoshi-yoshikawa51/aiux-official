@@ -63,8 +63,8 @@ export default function Splash() {
       minTimer = window.setTimeout(() => {
         setOut(true);
         /* 幕が開き始めるタイミングでヒーローの登場アニメを解禁 */
-        window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 500);
-        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 1220);
+        window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 420);
+        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 1100);
       }, wait);
     };
     if (document.readyState === "complete") {
