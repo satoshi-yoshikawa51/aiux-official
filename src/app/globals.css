@@ -109,6 +109,10 @@
 }
 html {
   scroll-behavior: smooth;
+  /* 100vwはスクロールバー幅を含むため、画面幅いっぱいに敷く要素
+     （.glossary-filterbar等）が数px右にはみ出しても横スクロールを出さない。
+     clipはスクロールコンテナを作らないのでposition:stickyと干渉しない */
+  overflow-x: clip;
 }
 html,
 body {
@@ -455,6 +459,35 @@ img {
       opacity: 1;
       transform: none;
     }
+  }
+}
+
+/* ═══ 用語集：ヘッダー下に吸着する検索バー ═══ */
+/* 背景はコンテナ幅ではなく画面幅いっぱいに敷く。コンテナ幅のままだと
+   左右の余白をカードの枠・影が通り抜けて「切れて」見える */
+.glossary-filterbar {
+  margin-inline: calc(50% - 50vw);
+  padding-inline: calc(50vw - 50%);
+}
+.glossary-cats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+@media (max-width: 720px) {
+  /* モバイルでは折り返さず横スクロール1行（吸着バーを低く保つ）。
+     チップは画面端まで走らせて「続きがある」ことを見せる */
+  .glossary-cats {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: calc(50vw - 50%);
+  }
+  .glossary-cats::-webkit-scrollbar {
+    display: none;
   }
 }
 
