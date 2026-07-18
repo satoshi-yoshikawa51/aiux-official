@@ -40,6 +40,10 @@ const FEEDS = [
 const AI_KEYWORDS =
   /AI|人工知能|生成|LLM|ChatGPT|Claude|Gemini|OpenAI|Anthropic|Copilot|エージェント|Sora|Midjourney|機械学習|ディープラーニング|NVIDIA/i;
 
+/* セール・広告系のノイズ見出しを除外する */
+const NOISE =
+  /セール|SALE|[0-9０-９]+[%％]\s*(OFF|オフ)|割引|クーポン|お得|ポイント還元|タイムセール|福袋|プレゼントキャンペーン/i;
+
 const MAX_PER_FEED = 4;
 const MAX_BUZZ = 3;
 const MAX_JA = 8;
@@ -89,6 +93,7 @@ function parseFeed(xml, feed) {
     const d = new Date(dateRaw);
     if (!title || !link || Number.isNaN(d.getTime())) continue;
     if (feed.filter && !AI_KEYWORDS.test(title)) continue;
+    if (NOISE.test(title)) continue;
     items.push({
       title,
       url: link.split("?utm")[0],
@@ -180,7 +185,7 @@ const en = select(deduped.filter((a) => a.lang === "en"), MAX_EN);
 /* 海外見出しを翻訳（1本ずつ・失敗しても続行） */
 for (const a of en) {
   const t = await translateToJa(a.title);
-  if (t) a.titleJa = t;
+  if (t) a.titleJa = t.replace(/\s*[-–—:：]\s*$/, "").replace(/\s+/g, " ").trim();
   await new Promise((r) => setTimeout(r, 300));
 }
 console.log(`  翻訳: ${en.filter((a) => a.titleJa).length}/${en.length}本 成功`);
