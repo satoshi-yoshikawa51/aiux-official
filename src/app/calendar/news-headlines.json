@@ -1,6 +1,6 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T06:46:19.647Z",
+  "updatedAt": "2026-07-18T08:37:36.759Z",
   "items": [
     {
       "title": "Neil Rimer thinks the AI money is coming back out",
@@ -16,7 +16,7 @@
       "source": "話題（はてブ）",
       "lang": "ja",
       "kind": "buzz",
-      "count": 16,
+      "count": 28,
       "date": "2026-07-18T04:37:12.000Z"
     },
     {
@@ -25,17 +25,17 @@
       "source": "話題（はてブ）",
       "lang": "ja",
       "kind": "buzz",
-      "count": 58,
+      "count": 146,
       "date": "2026-07-18T04:23:35.000Z"
     },
     {
-      "title": "AppleがiPhoneを突如値上げ 17eは10万円から…Pro Maxは21万円超え WatchもAirPodsも打撃 中古スマホ特需が加速（ITmedia Mobile） - Yahoo!ニュース",
-      "url": "https://news.yahoo.co.jp/articles/cf2cdca7a793ef97d1ac10e39e74288759fbd0e2",
+      "title": "最近はAIで参考を作ってデザイナーに渡すが、デザイナーが「ここからどうデザインしろと？」となってしまい、結果的に相当細かく指示してあげないといけなくなる→デザイナー側の引っ掛かりポイントはどこにあるのか",
+      "url": "https://togetter.com/li/2721800",
       "source": "話題（はてブ）",
       "lang": "ja",
       "kind": "buzz",
-      "count": 4,
-      "date": "2026-07-18T01:08:48.000Z"
+      "count": 29,
+      "date": "2026-07-18T02:31:11.000Z"
     },
     {
       "title": "6.4万人の熱狂をAIが導く FIFA W杯全スタジアム「デジタルツイン」化が変えた観戦体験",
@@ -99,18 +99,18 @@
       "date": "2026-07-17T09:00:00.000Z"
     },
     {
-      "title": "AIコスト高すぎ。あのMicrosoftがChatGPTやClaudeの利用を減らす事態に",
-      "url": "https://www.gizmodo.jp/article/claude-and-chatgpt-are-getting-too-expensive-even-for-microsoft/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-07-17T08:00:00.000Z"
-    },
-    {
       "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
       "url": "https://japan.cnet.com/article/35250736/",
       "source": "CNET Japan",
       "lang": "ja",
       "date": "2026-07-17T07:35:00.000Z"
+    },
+    {
+      "title": "中国の最新AIモデル「Kimi K3」、部分的にClaude Fable 5を上回る 2.8兆パラメーター",
+      "url": "https://japan.cnet.com/article/35250737/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-17T06:50:00.000Z"
     }
   ]
 }
