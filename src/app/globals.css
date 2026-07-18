@@ -949,7 +949,7 @@ img {
   animation: splash-fade 1.05s ease forwards;
 }
 .splash-out .splash-face {
-  /* 顔自身の中心を基準に拡大する（位置は下のkeyframesで画面中央へ寄せる） */
+  /* 顔自身の中心を基準に、その場で拡大する（縦移動なし＝沈まない） */
   transform-origin: 50% 50%;
   animation: splash-dive 0.9s cubic-bezier(0.45, 0.05, 0.6, 0.3) forwards;
 }
@@ -960,11 +960,11 @@ img {
   animation: splash-hide 0.18s ease forwards;
 }
 @keyframes splash-dive {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  16% { transform: translateY(5px) scale(0.93); opacity: 1; }        /* ほんの一呼吸だけ縮む */
-  30% { transform: translateY(16px) scale(1.5); opacity: 1; }        /* 画面中央へ寄りながら加速 */
-  44% { transform: translateY(38px) scale(3.6); opacity: 0.85; }     /* 拡大しながら粒子化開始 */
-  60%, 100% { transform: translateY(38px) scale(10); opacity: 0; }   /* 全画面へ溶けて消える */
+  0% { transform: scale(1); opacity: 1; }
+  16% { transform: scale(0.93); opacity: 1; }      /* ほんの一呼吸だけ縮む */
+  30% { transform: scale(1.5); opacity: 1; }       /* 顔の中心を基準に、その場で加速拡大 */
+  44% { transform: scale(3.6); opacity: 0.85; }    /* 拡大しながら粒子化開始 */
+  60%, 100% { transform: scale(10); opacity: 0; }  /* 全画面へ溶けて消える */
 }
 /* 弾け飛ぶキラキラ粒子（顔の中心から放射状に） */
 .splash-pwrap {
