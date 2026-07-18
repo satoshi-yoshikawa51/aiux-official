@@ -1,19 +1,11 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T12:51:39.962Z",
+  "updatedAt": "2026-07-18T12:52:31.721Z",
   "items": [
-    {
-      "title": "The apps, gadgets, and tools every reader needs",
-      "url": "https://www.theverge.com/tech/967544/best-apps-gadgets-reading-installer",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-18T12:00:00.000Z",
-      "titleJa": "すべての読者が必要とするアプリ、ガジェット、ツール"
-    },
     {
       "title": "キース・エマーソンみたいに弾けないので、無限にシンセソロを弾き続けるアプリをClaude Fable 5に作ってもらった。（CloseBox） | テクノエッジ TechnoEdge",
       "url": "https://www.techno-edge.net/article/2026/07/18/5311.html",
-      "source": "techno-edge.net",
+      "source": "テクノエッジ",
       "lang": "ja",
       "kind": "buzz",
       "count": 17,
@@ -90,6 +82,14 @@
       "lang": "en",
       "date": "2026-07-17T19:34:30.000Z",
       "titleJa": "TikTokはAI類似度検出ツールをテスト中"
+    },
+    {
+      "title": "Apple’s plot to crush OpenAI",
+      "url": "https://www.theverge.com/podcast/967244/apple-openai-lawsuit-vergecast",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-17T17:41:32.000Z",
+      "titleJa": "OpenAIを潰そうとするAppleの陰謀"
     },
     {
       "title": "若年層ほど「AI不信」。でも一番AIを使っているのも若者たちという矛盾",
