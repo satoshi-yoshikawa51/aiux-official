@@ -7,6 +7,43 @@
    ============================================================ */
 import React from "react";
 
+/* SSRとCSRで一致する決定的な疑似乱数（粒子の散らばりに使う） */
+const prand = (i: number, salt: number) => {
+  const x = Math.sin(i * 127.1 + salt * 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};
+
+const P_CHARS = ["✦", "✧", "●", "✦"];
+const P_COLORS = ["var(--yellow-400)", "var(--paper-50)", "var(--red-500)", "var(--yellow-200)"];
+
+/* 退場時に弾け飛ぶキラキラ粒子 */
+const EXIT_PARTICLES = Array.from({ length: 26 }, (_, i) => {
+  const angle = (i / 26) * Math.PI * 2 + (prand(i, 1) - 0.5) * 0.5;
+  const dist = 110 + prand(i, 2) * 190;
+  return {
+    char: P_CHARS[i % P_CHARS.length],
+    color: P_COLORS[i % P_COLORS.length],
+    dx: Math.cos(angle) * dist,
+    dy: Math.sin(angle) * dist * 0.82,
+    rot: (prand(i, 3) - 0.5) * 440,
+    sz: 0.7 + prand(i, 4) * 1.1,
+    dl: prand(i, 5) * 0.16,
+    fs: 11 + Math.round(prand(i, 6) * 9),
+  };
+});
+
+/* 登場の着地で散る小さな火花 */
+const ENTER_SPARKS = Array.from({ length: 8 }, (_, i) => {
+  const angle = Math.PI + (i / 7) * Math.PI; /* 上半分に扇状 */
+  const dist = 46 + prand(i, 7) * 52;
+  return {
+    color: P_COLORS[i % P_COLORS.length],
+    dx: Math.cos(angle) * dist,
+    dy: -Math.abs(Math.sin(angle)) * dist - 8,
+    dl: prand(i, 8) * 0.08,
+  };
+});
+
 export default function Splash() {
   const [gone, setGone] = React.useState(false);
   const [out, setOut] = React.useState(false);
@@ -30,8 +67,8 @@ export default function Splash() {
       minTimer = window.setTimeout(() => {
         setOut(true);
         /* 幕が開き始めるタイミングでヒーローの登場アニメを解禁 */
-        window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 340);
-        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 820);
+        window.setTimeout(() => document.documentElement.classList.remove("splash-hold"), reduced ? 0 : 460);
+        exitTimer = window.setTimeout(() => setGone(true), reduced ? 260 : 1060);
       }, wait);
     };
     if (document.readyState === "complete") {
@@ -80,6 +117,22 @@ export default function Splash() {
         <span className="splash-spark" style={{ top: -4, right: -16, animationDelay: "0.8s", fontSize: 15 }}>✦</span>
         {/* たまに走る流れ星 */}
         <span className="splash-shoot" aria-hidden="true" />
+        {/* 着地の衝撃波リングと火花 */}
+        <span className="splash-ring" aria-hidden="true" />
+        {ENTER_SPARKS.map((p, i) => (
+          <span
+            key={i}
+            className="splash-ep"
+            style={{
+              color: p.color,
+              animationDelay: `${(0.46 + p.dl).toFixed(2)}s`,
+              ["--dx" as string]: `${p.dx.toFixed(0)}px`,
+              ["--dy" as string]: `${p.dy.toFixed(0)}px`,
+            }}
+          >
+            ✦
+          </span>
+        ))}
       </span>
       <div className="splash-logo">
         <span className="splash-ch">CO</span>
@@ -91,6 +144,26 @@ export default function Splash() {
         <span style={{ animationDelay: "0.15s" }} />
         <span style={{ animationDelay: "0.3s" }} />
       </div>
+      {/* 退場：拡大の途中で弾け飛ぶキラキラ粒子（splash-out時のみ動く） */}
+      <span className="splash-pwrap" aria-hidden="true">
+        {EXIT_PARTICLES.map((p, i) => (
+          <span
+            key={i}
+            className="splash-p"
+            style={{
+              color: p.color,
+              fontSize: p.fs,
+              ["--dx" as string]: `${p.dx.toFixed(0)}px`,
+              ["--dy" as string]: `${p.dy.toFixed(0)}px`,
+              ["--rot" as string]: `${p.rot.toFixed(0)}deg`,
+              ["--sz" as string]: p.sz.toFixed(2),
+              ["--dl" as string]: `${p.dl.toFixed(2)}s`,
+            }}
+          >
+            {p.char}
+          </span>
+        ))}
+      </span>
       {/* 退場ダイブの着弾で爆ぜるマンガ的バースト（splash-out時のみ動く） */}
       <svg className="splash-burst" viewBox="-100 -100 200 200" aria-hidden="true">
         <g stroke="var(--yellow-400)" strokeWidth="7" strokeLinecap="round">
