@@ -190,7 +190,7 @@ export default function CalendarPage() {
       </section>
 
       {/* ═══ カレンダー ═══ */}
-      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "50px 0 20px" }}>
+      <section id="calendar" style={{ maxWidth: PAGE, margin: "0 auto", padding: "50px 0 20px", scrollMarginTop: 76 }}>
         <SectionHead kicker="📅 CALENDAR — イベントカレンダー" title="世界と日本の、AIイベント。" hand="クリックで公式サイトへ" />
         <div style={{ maxWidth: 680, margin: "0 auto" }}>
           <CalendarView events={calEvents} />
