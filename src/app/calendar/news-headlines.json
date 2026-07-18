@@ -1,6 +1,6 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T23:13:19.272Z",
+  "updatedAt": "2026-07-18T23:57:36.270Z",
   "items": [
     {
       "title": "OpenAIが初のハードウェア製品を発表。AIエージェントを自在に操るキーボード",
@@ -18,28 +18,20 @@
       "titleJa": "Databricks の評価額は 1,880 億ドルに達し、AI のお気に入りの第 2 幕としての地位を拡大"
     },
     {
+      "title": "Google-backed satellites for wildfire detection launch as smoke chokes US, Canada",
+      "url": "https://arstechnica.com/space/2026/07/google-backed-satellites-for-wildfire-detection-launch-as-smoke-chokes-us-canada/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-07-17T19:50:18.000Z",
+      "titleJa": "グーグルが支援する山火事探知衛星が打ち上げ、煙が詰まる米国、カナダ"
+    },
+    {
       "title": "How Apple’s big lawsuit could disrupt OpenAI’s IPO plans",
       "url": "https://techcrunch.com/video/how-apples-big-lawsuit-could-disrupt-openais-ipo-plans/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-07-17T17:45:46.000Z",
       "titleJa": "Appleの大規模訴訟がOpenAIのIPO計画をどのように混乱させるか"
-    },
-    {
-      "title": "Apple’s lawsuit couldn’t come at a worse time for OpenAI",
-      "url": "https://techcrunch.com/podcast/apples-lawsuit-couldnt-come-at-a-worse-time-for-openai/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-17T14:00:00.000Z",
-      "titleJa": "Appleの訴訟はOpenAIにとってこれ以上に悪い時期に起きた"
-    },
-    {
-      "title": "Why the first GPU financiers are turning to inference chips in a $400 million deal",
-      "url": "https://techcrunch.com/2026/07/17/why-the-first-gpu-financiers-are-turning-to-inference-chips-in-a-400-million-deal/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-17T12:00:00.000Z",
-      "titleJa": "最初の GPU 投資家が 4 億ドルの取引で推論チップに目を向ける理由"
     },
     {
       "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
@@ -84,12 +76,20 @@
       "date": "2026-07-17T00:57:00.000Z"
     },
     {
-      "title": "TikTok is testing an AI likeness detection tool",
-      "url": "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool",
-      "source": "The Verge",
+      "title": "Create, edit and star in videos with two Google Vids updates",
+      "url": "https://blog.google/products-and-platforms/products/workspace/gemini-omni-personal-avatars/",
+      "source": "Google AI（公式）",
       "lang": "en",
-      "date": "2026-07-17T19:34:30.000Z",
-      "titleJa": "TikTokはAI類似度検出ツールをテスト中"
+      "date": "2026-07-16T16:00:00.000Z",
+      "titleJa": "2 つの Google Vids アップデートにより、動画の作成、編集、主演を行うことができます"
+    },
+    {
+      "title": "How Cars24 scales conversations and builds faster with OpenAI",
+      "url": "https://openai.com/index/cars24",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-07-16T00:00:00.000Z",
+      "titleJa": "Cars24 が OpenAI を使用して会話を拡張し、より迅速に構築する方法"
     },
     {
       "title": "Google、「NotebookLM」を「Gemini Notebook」に改称 Geminiエコシステムへの統合を強化",
@@ -99,12 +99,12 @@
       "date": "2026-07-16T23:21:00.000Z"
     },
     {
-      "title": "Google is renaming NotebookLM to Gemini Notebook",
-      "url": "https://www.theverge.com/tech/966112/google-gemini-notebook-notebooklm",
-      "source": "The Verge",
+      "title": "The agent evaluation gap: Enterprise AI organizations have a reality-alignment problem, not a coverage problem — and most are shipping to production anyway",
+      "url": "https://venturebeat.com/ai/the-agent-evaluation-gap-enterprise-ai-organizations-have-a-reality-alignment-problem-not-a-coverage-problem-and-most-are-shipping-to-production-anyway",
+      "source": "VentureBeat",
       "lang": "en",
-      "date": "2026-07-16T16:00:00.000Z",
-      "titleJa": "GoogleはNotebookLMの名前をGemini Notebookに変更します"
+      "date": "2026-07-16T16:40:48.000Z",
+      "titleJa": "エージェント評価のギャップ: エンタープライズ AI 組織は、カバレッジの問題ではなく、現実との整合性の問題を抱えています。"
     }
   ]
 }
