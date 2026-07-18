@@ -1,7 +1,22 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T23:57:36.270Z",
+  "updatedAt": "2026-07-18T23:58:57.579Z",
   "items": [
+    {
+      "title": "「スマホで動く」270億パラメーターLLM「Bonsai 27B」登場",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/17/2000000202/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-18T23:40:43.000Z"
+    },
+    {
+      "title": "Dave Eggers told OpenAI staff that ChatGPT was ‘silencing an entire generation’",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/967630/dave-eggers-openai-chatgpt-silencing-an-entire-generation",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-18T20:54:42.000Z",
+      "titleJa": "Dave Eggers 氏は、ChatGPT が「全世代を沈黙させている」と OpenAI スタッフに語った"
+    },
     {
       "title": "OpenAIが初のハードウェア製品を発表。AIエージェントを自在に操るキーボード",
       "url": "https://www.gizmodo.jp/article/openai-just-launched-its-first-hardware-product-and-its-a-tiny-keyboard-for-bossing-around-ai-agents/",
@@ -23,15 +38,23 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-07-17T19:50:18.000Z",
-      "titleJa": "グーグルが支援する山火事探知衛星が打ち上げ、煙が詰まる米国、カナダ"
+      "titleJa": "グーグルが支援する山火事探知衛星打ち上げ、煙で窒息 米国、カナダ"
     },
     {
-      "title": "How Apple’s big lawsuit could disrupt OpenAI’s IPO plans",
-      "url": "https://techcrunch.com/video/how-apples-big-lawsuit-could-disrupt-openais-ipo-plans/",
+      "title": "Apple’s lawsuit couldn’t come at a worse time for OpenAI",
+      "url": "https://techcrunch.com/podcast/apples-lawsuit-couldnt-come-at-a-worse-time-for-openai/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-17T17:45:46.000Z",
-      "titleJa": "Appleの大規模訴訟がOpenAIのIPO計画をどのように混乱させるか"
+      "date": "2026-07-17T14:00:00.000Z",
+      "titleJa": "Appleの訴訟はOpenAIにとってこれ以上に悪い時期に起きた"
+    },
+    {
+      "title": "Why the first GPU financiers are turning to inference chips in a $400 million deal",
+      "url": "https://techcrunch.com/2026/07/17/why-the-first-gpu-financiers-are-turning-to-inference-chips-in-a-400-million-deal/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-17T12:00:00.000Z",
+      "titleJa": "最初の GPU 投資家が 4 億ドルの取引で推論チップに目を向ける理由"
     },
     {
       "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
@@ -39,6 +62,13 @@
       "source": "CNET Japan",
       "lang": "ja",
       "date": "2026-07-17T07:35:00.000Z"
+    },
+    {
+      "title": "中国の最新AIモデル「Kimi K3」、部分的にClaude Fable 5を上回る 2.8兆パラメーター",
+      "url": "https://japan.cnet.com/article/35250737/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-17T06:50:00.000Z"
     },
     {
       "title": "グーグルのAI動画ツール「Vids」にGemini Omni導入、「自分が登場する動画」も簡単に",
@@ -55,25 +85,18 @@
       "date": "2026-07-17T02:30:00.000Z"
     },
     {
+      "title": "Sakana AI、1兆パラメーター級AI開発基盤にさくらインターネットの「高火力 PHY」を採用",
+      "url": "https://japan.zdnet.com/article/35250722/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-17T02:11:00.000Z"
+    },
+    {
       "title": "富士通がファナックなどとフィジカルAIで提携、NVIDIA協力 長期成長へ足場",
       "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11902/",
       "source": "日経クロステック",
       "lang": "ja",
       "date": "2026-07-17T02:00:00.000Z"
-    },
-    {
-      "title": "Anthropic、AIを活用する若手人材とNPOを結ぶ支援プログラム開始",
-      "url": "https://japan.zdnet.com/article/35250710/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-17T01:10:00.000Z"
-    },
-    {
-      "title": "パナソニック オートモーティブシステムズ、品質保証にAIプラットフォーム「CADDi」を導入",
-      "url": "https://japan.zdnet.com/article/35250697/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-17T00:57:00.000Z"
     },
     {
       "title": "Create, edit and star in videos with two Google Vids updates",
@@ -82,29 +105,6 @@
       "lang": "en",
       "date": "2026-07-16T16:00:00.000Z",
       "titleJa": "2 つの Google Vids アップデートにより、動画の作成、編集、主演を行うことができます"
-    },
-    {
-      "title": "How Cars24 scales conversations and builds faster with OpenAI",
-      "url": "https://openai.com/index/cars24",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-07-16T00:00:00.000Z",
-      "titleJa": "Cars24 が OpenAI を使用して会話を拡張し、より迅速に構築する方法"
-    },
-    {
-      "title": "Google、「NotebookLM」を「Gemini Notebook」に改称 Geminiエコシステムへの統合を強化",
-      "url": "https://www.itmedia.co.jp/news/articles/2607/17/news062.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-16T23:21:00.000Z"
-    },
-    {
-      "title": "The agent evaluation gap: Enterprise AI organizations have a reality-alignment problem, not a coverage problem — and most are shipping to production anyway",
-      "url": "https://venturebeat.com/ai/the-agent-evaluation-gap-enterprise-ai-organizations-have-a-reality-alignment-problem-not-a-coverage-problem-and-most-are-shipping-to-production-anyway",
-      "source": "VentureBeat",
-      "lang": "en",
-      "date": "2026-07-16T16:40:48.000Z",
-      "titleJa": "エージェント評価のギャップ: エンタープライズ AI 組織は、カバレッジの問題ではなく、現実との整合性の問題を抱えています。"
     }
   ]
 }
