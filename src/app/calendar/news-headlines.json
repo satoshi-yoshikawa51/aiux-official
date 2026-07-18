@@ -1,13 +1,14 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T22:54:50.510Z",
+  "updatedAt": "2026-07-18T22:55:27.363Z",
   "items": [
     {
-      "title": "国連事務総長、AI「キラーロボット」禁止を世界へ呼びかけ",
-      "url": "https://www.gizmodo.jp/article/un-secretary-general-calls-for-global-ban-on-ai-killer-robots/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-07-18T22:00:00.000Z"
+      "title": "Dave Eggers told OpenAI staff that ChatGPT was ‘silencing an entire generation’",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/967630/dave-eggers-openai-chatgpt-silencing-an-entire-generation",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-18T20:54:42.000Z",
+      "titleJa": "Dave Eggers 氏は、ChatGPT が「全世代を沈黙させている」と OpenAI スタッフに語った"
     },
     {
       "title": "Kimi: Threat or menace?",
@@ -25,6 +26,14 @@
       "kind": "buzz",
       "count": 6,
       "date": "2026-07-18T14:54:36.000Z"
+    },
+    {
+      "title": "The apps, gadgets, and tools every reader needs",
+      "url": "https://www.theverge.com/tech/967544/best-apps-gadgets-reading-installer",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-18T12:00:00.000Z",
+      "titleJa": "すべての読者が必要とするアプリ、ガジェット、ツール"
     },
     {
       "title": "キース・エマーソンみたいに弾けないので、無限にシンセソロを弾き続けるアプリをClaude Fable 5に作ってもらった。（CloseBox） | テクノエッジ TechnoEdge",
@@ -76,20 +85,11 @@
       "titleJa": "Databricks の評価額は 1,880 億ドルに達し、AI のお気に入りの第 2 幕としての地位を拡大"
     },
     {
-      "title": "TikTok is testing an AI likeness detection tool",
-      "url": "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-17T19:34:30.000Z",
-      "titleJa": "TikTokはAI類似度検出ツールをテスト中"
-    },
-    {
-      "title": "Apple’s plot to crush OpenAI",
-      "url": "https://www.theverge.com/podcast/967244/apple-openai-lawsuit-vergecast",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-17T17:41:32.000Z",
-      "titleJa": "OpenAIを潰そうとするAppleの陰謀"
+      "title": "若年層ほど「AI不信」。でも一番AIを使っているのも若者たちという矛盾",
+      "url": "https://www.gizmodo.jp/article/just-16-of-americans-believe-ai-will-positively-impact-society-pew-poll-finds/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-17T12:00:00.000Z"
     },
     {
       "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
