@@ -26,9 +26,11 @@ export const metadata: Metadata = {
 
 interface NewsItem {
   title: string;
+  titleJa?: string;
   url: string;
   source: string;
   lang: string;
+  kind?: string;
   date: string;
 }
 
@@ -160,7 +162,17 @@ export default function CalendarPage() {
                 >
                   <span style={{ flex: "none", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color: "var(--red-600)" }}>{fmtNewsDate(n.date)}</span>
                   <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14.5, lineHeight: 1.6 }}>
-                    {n.title}
+                    {n.lang === "en" && (
+                      <span style={{ display: "inline-block", verticalAlign: "1px", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 10, color: "var(--blue-600)", border: "1.5px solid var(--blue-500)", borderRadius: "var(--radius-full)", padding: "1px 8px", marginRight: 8, whiteSpace: "nowrap" }}>
+                        🌏 海外
+                      </span>
+                    )}
+                    {n.kind === "buzz" && (
+                      <span style={{ display: "inline-block", verticalAlign: "1px", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 10, color: "var(--red-600)", border: "1.5px solid var(--red-500)", borderRadius: "var(--radius-full)", padding: "1px 8px", marginRight: 8, whiteSpace: "nowrap" }}>
+                        🔥 話題
+                      </span>
+                    )}
+                    <span title={n.titleJa ? n.title : undefined}>{n.titleJa ?? n.title}</span>
                     <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: 11, color: "var(--text-muted)", marginLeft: 8, whiteSpace: "nowrap" }}>
                       {n.source} <i className="ph-bold ph-arrow-up-right" />
                     </span>
@@ -171,7 +183,7 @@ export default function CalendarPage() {
           )}
           {NEWS.updatedAt && (
             <p style={{ margin: "14px 0 0", fontSize: 12, color: "var(--text-muted)" }}>
-              最終取得：{new Date(new Date(NEWS.updatedAt).getTime() + 9 * 3600 * 1000).toISOString().slice(0, 16).replace("T", " ")}（JST）／見出しの著作権は各媒体に帰属します
+              最終取得：{new Date(new Date(NEWS.updatedAt).getTime() + 9 * 3600 * 1000).toISOString().slice(0, 16).replace("T", " ")}（JST）／見出しの著作権は各媒体に帰属します／🌏海外の見出しは自動翻訳（クリックで原文へ）
             </p>
           )}
         </div>
