@@ -37,6 +37,48 @@ const FEEDS = [
   { source: "The Verge", lang: "en", url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml" },
 ];
 
+/* 話題（はてブ）枠の出典表示：リンク先URLのドメインから元媒体名を引く。
+   未知のドメインはドメイン名そのままを出典として出す */
+const HOST_NAMES = {
+  "www.itmedia.co.jp": "ITmedia",
+  "atmarkit.itmedia.co.jp": "＠IT",
+  "togetter.com": "Togetter",
+  "gigazine.net": "GIGAZINE",
+  "www.publickey1.jp": "Publickey",
+  "zenn.dev": "Zenn",
+  "qiita.com": "Qiita",
+  "note.com": "note",
+  "anond.hatelabo.jp": "はてな匿名ダイアリー",
+  "www.nikkei.com": "日本経済新聞",
+  "www3.nhk.or.jp": "NHK",
+  "ascii.jp": "ASCII.jp",
+  "www.gizmodo.jp": "GIZMODO JAPAN",
+  "japan.cnet.com": "CNET Japan",
+  "japan.zdnet.com": "ZDNET Japan",
+  "www.watch.impress.co.jp": "Impress Watch",
+  "internet.watch.impress.co.jp": "INTERNET Watch",
+  "pc.watch.impress.co.jp": "PC Watch",
+  "forest.watch.impress.co.jp": "窓の杜",
+  "xtech.nikkei.com": "日経クロステック",
+  "businessinsider.jp": "Business Insider Japan",
+  "wired.jp": "WIRED.jp",
+  "ledge.ai": "Ledge.ai",
+  "speakerdeck.com": "Speaker Deck",
+  "www.docswell.com": "Docswell",
+  "www.youtube.com": "YouTube",
+  "github.com": "GitHub",
+  "openai.com": "OpenAI",
+  "www.anthropic.com": "Anthropic",
+};
+function sourceFromUrl(url, fallback) {
+  try {
+    const host = new URL(url).hostname;
+    return HOST_NAMES[host] ?? host.replace(/^www\./, "");
+  } catch {
+    return fallback;
+  }
+}
+
 const AI_KEYWORDS =
   /AI|人工知能|生成|LLM|ChatGPT|Claude|Gemini|OpenAI|Anthropic|Copilot|エージェント|Sora|Midjourney|機械学習|ディープラーニング|NVIDIA/i;
 
@@ -98,10 +140,12 @@ function parseFeed(xml, feed) {
        「今日イチの話題」の選定に使う */
     const countRaw = pick(b, "hatena:bookmarkcount");
     const count = countRaw ? Number(stripHtml(countRaw)) : undefined;
+    const url = link.split("?utm")[0];
     items.push({
       title,
-      url: link.split("?utm")[0],
-      source: feed.source,
+      url,
+      /* 話題枠はアグリゲータ名ではなく、リンク先の元媒体を出典として載せる */
+      source: feed.kind === "buzz" ? sourceFromUrl(url, feed.source) : feed.source,
       lang: feed.lang,
       ...(feed.kind ? { kind: feed.kind } : {}),
       ...(Number.isFinite(count) ? { count } : {}),
@@ -172,12 +216,17 @@ for (const a of fresh) {
 /* 日本語枠・海外枠それぞれで、媒体ごとの上限を守りながら採用 */
 function select(items, maxTotal) {
   const perFeed = new Map();
+  let buzzUsed = 0; /* 話題枠は出典がバラバラなので媒体別ではなく合計で数える */
   const out = [];
   for (const a of items) {
-    const cap = a.kind === "buzz" ? MAX_BUZZ : MAX_PER_FEED;
-    const n = perFeed.get(a.source) ?? 0;
-    if (n >= cap) continue;
-    perFeed.set(a.source, n + 1);
+    if (a.kind === "buzz") {
+      if (buzzUsed >= MAX_BUZZ) continue;
+      buzzUsed += 1;
+    } else {
+      const n = perFeed.get(a.source) ?? 0;
+      if (n >= MAX_PER_FEED) continue;
+      perFeed.set(a.source, n + 1);
+    }
     out.push(a);
     if (out.length >= maxTotal) break;
   }
