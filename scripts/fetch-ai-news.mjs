@@ -35,9 +35,15 @@ const FEEDS = [
   { source: "ZDNET Japan", lang: "ja", url: "https://feeds.japan.zdnet.com/rss/zdnet/all.rdf", filter: true },
   { source: "日経クロステック", lang: "ja", url: "https://xtech.nikkei.com/rss/xtech-it.rdf", filter: true },
   { source: "話題（はてブ）", lang: "ja", url: "https://b.hatena.ne.jp/hotentry/it.rss", filter: true, kind: "buzz" },
-  { source: "TechCrunch", lang: "en", url: "https://techcrunch.com/category/artificial-intelligence/feed/" },
-  { source: "The Verge", lang: "en", url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml" },
+  /* 海外：公式ブログ（発表の一次情報）＋報道媒体。capは媒体ごとの採用上限 */
+  { source: "OpenAI（公式）", lang: "en", url: "https://openai.com/news/rss.xml", cap: 2 },
+  { source: "Google AI（公式）", lang: "en", url: "https://blog.google/technology/ai/rss/", cap: 2 },
+  { source: "TechCrunch", lang: "en", url: "https://techcrunch.com/category/artificial-intelligence/feed/", cap: 3 },
+  { source: "The Verge", lang: "en", url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", cap: 3 },
+  { source: "VentureBeat", lang: "en", url: "https://venturebeat.com/category/ai/feed/", cap: 3 },
+  { source: "Ars Technica", lang: "en", url: "https://arstechnica.com/ai/feed/", cap: 3 },
 ];
+const CAP_BY_SOURCE = Object.fromEntries(FEEDS.map((f) => [f.source, f.cap]));
 
 /* 話題（はてブ）枠の出典表示：リンク先URLのドメインから元媒体名を引く。
    未知のドメインはドメイン名そのままを出典として出す */
@@ -241,13 +247,40 @@ for (const a of fresh) {
   deduped.push(a);
 }
 
+/* 「大きなニュース」の指標：巨額・主要プレイヤー・主要モデル・規制/IPO */
+const MEGA =
+  /billion|\$\d+(\.\d+)?\s?(B|bn|billion)|OpenAI|Anthropic|Google|DeepMind|Meta|Microsoft|Nvidia|Apple|Amazon|xAI|GPT-\d|Claude|Gemini|Llama|Grok|EU\b|antitrust|White House|IPO|frontier model/i;
+
 /* 見出しの「キャッチアップ価値」スコア。採用順・表示順に使う */
 function score(a) {
   let s = a.kind === "buzz" ? 1 : 2; /* 報道媒体を話題枠より優先 */
   if (a.lang === "ja" && IMPORTANT.test(a.title)) s += 2;
   if (a.lang === "en" && /launch|unveil|announce|release|acquir|raise|valuation|billion|\$[0-9]|ban|lawsuit|outage|breach/i.test(a.title)) s += 2;
+  if (a.lang === "en" && MEGA.test(a.title)) s += 2; /* 海外は「大きさ」を最重視 */
+  if (a.source.includes("公式")) s += 1; /* 一次情報（公式発表）を格上げ */
   if (a.kind === "buzz" && (a.count ?? 0) >= 100) s += 1; /* 大バズは格上げ */
   return s;
+}
+
+/* 同じ出来事の重複報道を除く（社名・製品名などの英字トークンが3語以上一致）。
+   先に来たものが勝つ＝日本語版があるときは海外版を落とす */
+const sigWords = (t) =>
+  new Set((t.toLowerCase().match(/[a-z][a-z0-9'’-]{3,}/g) ?? []).map((w) => w.replace(/['’]s?$/, "")));
+function dropNearDup(items) {
+  const seen = [];
+  const out = [];
+  for (const a of items) {
+    const s = sigWords(a.title);
+    const dup = seen.some((p) => {
+      let n = 0;
+      for (const w of s) if (p.has(w)) n += 1;
+      return n >= 3;
+    });
+    if (dup) continue;
+    seen.push(s);
+    out.push(a);
+  }
+  return out;
 }
 
 /* 日本語枠・海外枠それぞれで、媒体ごとの上限を守りながら採用 */
@@ -260,8 +293,9 @@ function select(items, maxTotal) {
       if (buzzUsed >= MAX_BUZZ) continue;
       buzzUsed += 1;
     } else {
+      const cap = CAP_BY_SOURCE[a.source] ?? MAX_PER_FEED;
       const n = perFeed.get(a.source) ?? 0;
-      if (n >= MAX_PER_FEED) continue;
+      if (n >= cap) continue;
       perFeed.set(a.source, n + 1);
     }
     out.push(a);
@@ -273,7 +307,10 @@ function select(items, maxTotal) {
 /* 価値スコア順（同点なら新しい順）で採用枠を埋める */
 const ranked = [...deduped].sort((x, y) => score(y) - score(x) || (x.date < y.date ? 1 : -1));
 const ja = select(ranked.filter((a) => a.lang === "ja"), MAX_JA);
-const en = select(ranked.filter((a) => a.lang === "en"), MAX_EN);
+/* 海外枠は、日本語枠で既に報じられている出来事を除いてから採用 */
+const en = dropNearDup([...ja, ...select(ranked.filter((a) => a.lang === "en"), MAX_EN + 4)])
+  .filter((a) => a.lang === "en")
+  .slice(0, MAX_EN);
 
 /* 海外見出しを翻訳（1本ずつ・失敗しても続行）。
    「— here's how ...」のような飾り節は翻訳が崩れる元なので先に落とす */
