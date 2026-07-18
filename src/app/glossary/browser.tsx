@@ -30,6 +30,29 @@ const CATS: ("すべて" | TermCategory)[] = ["すべて", "基礎知識", "し�
 export function GlossaryBrowser({ terms }: { terms: BrowserTerm[] }) {
   const [q, setQ] = React.useState("");
   const [cat, setCat] = React.useState<(typeof CATS)[number]>("すべて");
+  /* 検索バーがヘッダー下に吸着中かどうか（吸着中だけ影を出す）。
+     バー直前の番兵要素が視界から消えたら「吸着中」と判定する */
+  const [stuck, setStuck] = React.useState(false);
+  const sentinelRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setStuck(!e.isIntersecting), {
+      rootMargin: "-67px 0px 0px 0px", // ヘッダー(66px)の分だけ上端を下げて判定
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  /* 一覧の深い位置で絞り込むと結果がずっと上に行ってしまうので、
+     バー吸着中に条件が変わったら結果の先頭まで戻す */
+  React.useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top;
+    if (top < 66) window.scrollTo({ top: window.scrollY + top - 66 });
+  }, [q, cat]);
 
   const nq = norm(q.trim());
   const hits = terms.filter((t) => {
@@ -40,6 +63,22 @@ export function GlossaryBrowser({ terms }: { terms: BrowserTerm[] }) {
 
   return (
     <div>
+      {/* 吸着判定用の番兵（高さ0） */}
+      <div ref={sentinelRef} aria-hidden="true" />
+
+      {/* 検索ボックス＋カテゴリタブ。150語を延々スクロールしても
+          いつでも絞り込めるよう、ヘッダー下に吸着させる */}
+      <div
+        style={{
+          position: "sticky",
+          top: 66,
+          zIndex: 40,
+          background: "var(--paper-50)",
+          padding: "12px 0 10px",
+          boxShadow: stuck ? "0 12px 14px -12px rgba(26, 26, 26, 0.4)" : "none",
+          transition: "box-shadow 0.25s ease",
+        }}
+      >
       {/* 検索ボックス */}
       <div
         style={{
@@ -68,7 +107,7 @@ export function GlossaryBrowser({ terms }: { terms: BrowserTerm[] }) {
             outline: "none",
             background: "transparent",
             fontFamily: "var(--font-body)",
-            fontSize: 15.5,
+            fontSize: 16, // 16px未満だとiOSがフォーカス時に自動ズームしてしまう
             color: "var(--text-strong)",
             padding: "13px 0",
           }}
@@ -85,8 +124,8 @@ export function GlossaryBrowser({ terms }: { terms: BrowserTerm[] }) {
         )}
       </div>
 
-      {/* カテゴリタブ */}
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "16px 0 6px" }}>
+      {/* カテゴリタブ（モバイルでは横スクロール1行に収める） */}
+      <div className="glossary-cats" style={{ margin: "12px 0 0" }}>
         {CATS.map((c) => {
           const on = c === cat;
           return (
@@ -105,16 +144,19 @@ export function GlossaryBrowser({ terms }: { terms: BrowserTerm[] }) {
                 color: on ? "var(--paper-50)" : "var(--ink-900)",
                 cursor: "pointer",
                 boxShadow: on ? "none" : "var(--shadow-pop-sm)",
+                whiteSpace: "nowrap",
+                flex: "none",
               }}
             >
               {c}
             </button>
           );
         })}
-        <span style={{ alignSelf: "center", fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)", marginLeft: 4 }}>
+        <span style={{ alignSelf: "center", fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)", marginLeft: 4, whiteSpace: "nowrap", flex: "none" }}>
           {hits.length}語
         </span>
       </div>
+      </div>{/* /sticky */}
 
       {/* 結果 */}
       {hits.length === 0 ? (
