@@ -1,0 +1,116 @@
+{
+  "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
+  "updatedAt": "2026-07-18T06:46:19.647Z",
+  "items": [
+    {
+      "title": "Neil Rimer thinks the AI money is coming back out",
+      "url": "https://techcrunch.com/2026/07/17/neil-rimer-thinks-the-ai-money-is-coming-back-out/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-18T04:47:25.000Z",
+      "titleJa": "ニール・ライマーはAIマネーが戻ってくると考えている"
+    },
+    {
+      "title": "「Claude Fable 5」サブスクに統合 Max・Team Premiumプラン対象",
+      "url": "https://www.itmedia.co.jp/news/articles/2607/18/news019.html",
+      "source": "話題（はてブ）",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 16,
+      "date": "2026-07-18T04:37:12.000Z"
+    },
+    {
+      "title": "最近の AI コーディングで実践している、設計を中心とした開発の進め方",
+      "url": "https://azukiazusa.dev/blog/recent-ai-coding-development-process-centered-on-design/",
+      "source": "話題（はてブ）",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 58,
+      "date": "2026-07-18T04:23:35.000Z"
+    },
+    {
+      "title": "AppleがiPhoneを突如値上げ 17eは10万円から…Pro Maxは21万円超え WatchもAirPodsも打撃 中古スマホ特需が加速（ITmedia Mobile） - Yahoo!ニュース",
+      "url": "https://news.yahoo.co.jp/articles/cf2cdca7a793ef97d1ac10e39e74288759fbd0e2",
+      "source": "話題（はてブ）",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 4,
+      "date": "2026-07-18T01:08:48.000Z"
+    },
+    {
+      "title": "6.4万人の熱狂をAIが導く FIFA W杯全スタジアム「デジタルツイン」化が変えた観戦体験",
+      "url": "https://ascii.jp/elem/000/004/420/4420679/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-18T00:00:00.000Z"
+    },
+    {
+      "title": "Vertu wants executives to pay $6,880 for an AI agent — here’s how it actually performs",
+      "url": "https://techcrunch.com/2026/07/17/vertu-wants-executives-to-pay-6880-for-an-ai-agent-heres-how-it-actually-performs/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-17T22:55:09.000Z",
+      "titleJa": "Vertu は、幹部が AI エージェントに 6,880 ドルを支払うことを望んでいます - 実際のパフォーマンスは次のとおりです"
+    },
+    {
+      "title": "Databricks hits $188B valuation, extending its run as AI’s favorite second act",
+      "url": "https://techcrunch.com/2026/07/17/databricks-hits-188b-valuation-extending-its-run-as-ais-favorite-second-act/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-17T22:12:56.000Z",
+      "titleJa": "Databricks の評価額は 1,880 億ドルに達し、AI のお気に入りの第 2 幕としての地位を拡大"
+    },
+    {
+      "title": "The Zoom hack that says, ‘Don’t record me’",
+      "url": "https://techcrunch.com/2026/07/17/the-zoom-hack-that-says-dont-record-me/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-17T21:20:47.000Z",
+      "titleJa": "「録画しないでください」というZoomハック"
+    },
+    {
+      "title": "TikTok is testing an AI likeness detection tool",
+      "url": "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-17T19:34:30.000Z",
+      "titleJa": "TikTokはAI類似度検出ツールをテスト中"
+    },
+    {
+      "title": "Apple’s plot to crush OpenAI",
+      "url": "https://www.theverge.com/podcast/967244/apple-openai-lawsuit-vergecast",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-17T17:41:32.000Z",
+      "titleJa": "OpenAIを潰そうとするAppleの陰謀"
+    },
+    {
+      "title": "若年層ほど「AI不信」。でも一番AIを使っているのも若者たちという矛盾",
+      "url": "https://www.gizmodo.jp/article/just-16-of-americans-believe-ai-will-positively-impact-society-pew-poll-finds/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-17T12:00:00.000Z"
+    },
+    {
+      "title": "AIエージェント、「生成AIの136.5倍」も電力を爆食いしていた",
+      "url": "https://www.gizmodo.jp/article/when-it-comes-to-energy-use-ai-agents-could-make-chatbots-look-like-pocket-calculators/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-17T09:00:00.000Z"
+    },
+    {
+      "title": "AIコスト高すぎ。あのMicrosoftがChatGPTやClaudeの利用を減らす事態に",
+      "url": "https://www.gizmodo.jp/article/claude-and-chatgpt-are-getting-too-expensive-even-for-microsoft/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-17T08:00:00.000Z"
+    },
+    {
+      "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
+      "url": "https://japan.cnet.com/article/35250736/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-17T07:35:00.000Z"
+    }
+  ]
+}

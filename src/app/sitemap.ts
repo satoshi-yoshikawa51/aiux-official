@@ -4,6 +4,7 @@ import { WORK_DETAILS } from "./works/data";
 import { TERMS, GLOSSARY_UPDATED } from "./glossary/data";
 import { RECIPES, PROMPTS_UPDATED } from "./prompts/data";
 import { FAQ_UPDATED } from "./faq/data";
+import { EVENTS_UPDATED } from "./calendar/events";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -100,6 +101,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(GLOSSARY_UPDATED),
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+    {
+      url: `${base}/calendar`,
+      lastModified: new Date(EVENTS_UPDATED),
+      changeFrequency: "daily",
+      priority: 0.8,
     },
     {
       url: `${base}/faq`,

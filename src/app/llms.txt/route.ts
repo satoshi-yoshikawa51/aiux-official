@@ -60,6 +60,7 @@ export function GET() {
     "- [AIのはじめかた](https://comixai.dev/start): 歴史→用語→診断→ゲーム→実践の初心者向け学習ロードマップ",
     `- [AIのよくある質問](https://comixai.dev/faq): 仕事を奪われる？会社で使っていい？著作権は？——不安・使い方・料金・セキュリティ・法律・教育・開発まで全${FAQ_TOTAL}問に一問一答`,
     "- [ChatGPT・Claude・Gemini比較](https://comixai.dev/compare): 3大AIの違いと用途別の使い分け",
+    "- [AIイベントカレンダー](https://comixai.dev/calendar): OpenAI DevDayなど世界と日本のAI主要イベントの日程一覧と、毎朝自動更新の今日のAIニュース見出し",
     "- [AI歴史絵巻](https://comixai.dev/history): 1950年から2026年まで、AIの75年史をスクロールで読める年表絵巻",
     "- [COMIXAI AI受付](https://comixai.dev/uketsuke): AIが用件をヒアリングし、お問い合わせ内容を自動で要約して届けるチャット型の受付窓口",
     "- [AI司書に聞く](https://comixai.dev/search): サイト内の用語・FAQ・マンガ・ゲームからAIが答えを探して案内するサイト内検索",

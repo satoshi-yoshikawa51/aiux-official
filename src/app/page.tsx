@@ -26,6 +26,8 @@ import Splash from "./splash";
 import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
 import { FEATURED_RECIPES } from "./prompts/data";
+import { EVENTS, dateLabel, isPast } from "./calendar/events";
+import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
 
 const HERO_INTRO =
@@ -666,6 +668,113 @@ function StartSection() {
   );
 }
 
+/* ═══════════════ COMIXAI NEWS ストリップ（ヒーロー直下） ═══════════════
+   「今日イチの話題」1行＋「次のイベント」1行の、そろえた2段構成。
+   話題はブックマーク数（はてブ人気）が最大の記事を選ぶ。 */
+interface StripNewsItem {
+  title: string;
+  titleJa?: string;
+  url: string;
+  lang: string;
+  kind?: string;
+  count?: number;
+}
+
+function NewsStrip() {
+  const items = (newsJson as { items: StripNewsItem[] }).items;
+  const buzz = items.filter((n) => n.kind === "buzz");
+  const topNews =
+    buzz.sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0] ??
+    items.find((n) => n.lang === "ja") ??
+    items[0];
+  const nextEvent = EVENTS
+    .filter((e) => e.start && !e.tba && !isPast(e))
+    .sort((a, b) => (a.start! < b.start! ? -1 : 1))[0];
+  if (!topNews && !nextEvent) return null;
+
+  const label = (text: string) => (
+    <span
+      style={{
+        flex: "none",
+        width: 122,
+        textAlign: "center",
+        fontFamily: "var(--font-mono)",
+        fontWeight: 700,
+        fontSize: 10.5,
+        letterSpacing: "0.08em",
+        color: "var(--ink-900)",
+        background: "var(--yellow-400)",
+        border: "var(--bw-line) solid var(--ink-900)",
+        borderRadius: "var(--radius-full)",
+        padding: "3px 0",
+      }}
+    >
+      {text}
+    </span>
+  );
+  const rowStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    textDecoration: "none",
+    minWidth: 0,
+  };
+  const textStyle: React.CSSProperties = {
+    fontFamily: "var(--font-heading)",
+    fontWeight: 700,
+    fontSize: 14,
+    lineHeight: 1.6,
+    color: "var(--paper-50)",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    minWidth: 0,
+  };
+
+  return (
+    <section style={{ background: "var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)" }}>
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "14px 0 16px" }}>
+        {/* グルーピング用の薄いグレー角丸ボックス */}
+        <div
+          className="news-strip"
+          style={{
+            display: "flex",
+            gap: 20,
+            alignItems: "center",
+            background: "rgba(251,247,239,0.06)",
+            border: "1px solid rgba(251,247,239,0.22)",
+            borderRadius: "var(--radius-lg)",
+            padding: "13px 18px",
+          }}
+        >
+          <div style={{ flex: "1 1 auto", minWidth: 0, display: "grid", gap: 8 }}>
+            {topNews && (
+              <a href={topNews.url} target="_blank" rel="noopener noreferrer" style={rowStyle}>
+                {label("📰 今日イチの話題")}
+                <span style={textStyle}>{topNews.titleJa ?? topNews.title}</span>
+              </a>
+            )}
+            {nextEvent && (
+              <a href="/calendar" style={rowStyle}>
+                {label("📅 次のイベント")}
+                <span style={textStyle}>
+                  {nextEvent.title}
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--yellow-400)", marginLeft: 10 }}>{dateLabel(nextEvent)}</span>
+                </span>
+              </a>
+            )}
+          </div>
+          <a href="/calendar" style={{ textDecoration: "none", flex: "none" }}>
+            <Button variant="yellow" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              NEWS
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ═══════════════ プロンプト集 ═══════════════ */
 function PromptRecipes() {
   return (
@@ -1158,6 +1267,7 @@ export default function Page() {
       <Splash />
       <Nav />
       <HeroVideo />
+      <NewsStrip />
       <Profile />
       <Articles />
       <Magazines />
