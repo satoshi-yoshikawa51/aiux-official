@@ -733,29 +733,43 @@ function NewsStrip() {
 
   return (
     <section style={{ background: "var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)" }}>
-      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "16px 0 18px", display: "flex", gap: 20, alignItems: "center" }} className="news-strip">
-        <div style={{ flex: "1 1 auto", minWidth: 0, display: "grid", gap: 8 }}>
-          {topNews && (
-            <a href={topNews.url} target="_blank" rel="noopener noreferrer" style={rowStyle}>
-              {label("📰 今日イチの話題")}
-              <span style={textStyle}>{topNews.titleJa ?? topNews.title}</span>
-            </a>
-          )}
-          {nextEvent && (
-            <a href="/calendar" style={rowStyle}>
-              {label("📅 次のイベント")}
-              <span style={textStyle}>
-                {nextEvent.title}
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--yellow-400)", marginLeft: 10 }}>{dateLabel(nextEvent)}</span>
-              </span>
-            </a>
-          )}
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "14px 0 16px" }}>
+        {/* グルーピング用の薄いグレー角丸ボックス */}
+        <div
+          className="news-strip"
+          style={{
+            display: "flex",
+            gap: 20,
+            alignItems: "center",
+            background: "rgba(251,247,239,0.06)",
+            border: "1px solid rgba(251,247,239,0.22)",
+            borderRadius: "var(--radius-lg)",
+            padding: "13px 18px",
+          }}
+        >
+          <div style={{ flex: "1 1 auto", minWidth: 0, display: "grid", gap: 8 }}>
+            {topNews && (
+              <a href={topNews.url} target="_blank" rel="noopener noreferrer" style={rowStyle}>
+                {label("📰 今日イチの話題")}
+                <span style={textStyle}>{topNews.titleJa ?? topNews.title}</span>
+              </a>
+            )}
+            {nextEvent && (
+              <a href="/calendar" style={rowStyle}>
+                {label("📅 次のイベント")}
+                <span style={textStyle}>
+                  {nextEvent.title}
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--yellow-400)", marginLeft: 10 }}>{dateLabel(nextEvent)}</span>
+                </span>
+              </a>
+            )}
+          </div>
+          <a href="/calendar" style={{ textDecoration: "none", flex: "none" }}>
+            <Button variant="yellow" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              NEWS
+            </Button>
+          </a>
         </div>
-        <a href="/calendar" style={{ textDecoration: "none", flex: "none" }}>
-          <Button variant="yellow" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>
-            NEWS
-          </Button>
-        </a>
       </div>
     </section>
   );
