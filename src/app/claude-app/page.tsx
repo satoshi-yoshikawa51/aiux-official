@@ -6,7 +6,7 @@ import { ClaudeAppSim } from "./game";
 export const metadata: Metadata = {
   title: "Claudeアプリ・シミュレーター｜PC・スマホ画面をブラウザで擬似体験｜COMIXAI",
   description:
-    "Claudeアプリの画面（PC版・スマホ版）をブラウザ上に再現した体験シミュレーター。チャット・コワーク・コードの3モード切替、新規チャット・モデル切替・履歴・ストリーミング応答をそのまま操作でき、Anthropic APIキーを設定すれば本物のClaudeとも会話できる。",
+    "Claudeアプリの画面（PC版・スマホ版）をブラウザ上に再現した体験シミュレーター。チャット・コワーク・コードの3モード切替に加え、フォルダのアクセス許可・diff/コマンド承認・成果物プレビューまで、実際の仕事の流れをそのまま操作できる。Anthropic APIキーを設定すれば本物のClaudeとも会話できる。",
   keywords: ["Claude 使い方", "Claude アプリ", "Claude 初心者", "Anthropic Claude 入門", "Claude チャット 体験"],
   alternates: { canonical: "/claude-app" },
   openGraph: {
@@ -60,7 +60,8 @@ export default function ClaudeAppPage() {
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
           Claudeのアプリ画面（PC版・スマホ版）を再現しました。<b>チャット／コワーク／コード</b>の3モード切替、モデル切替、履歴、流れるように届く返事——
-          本物と同じ操作感を、登録なしでさわれます。お手持ちのAnthropic APIキーを設定すれば、この画面のまま<b>本物のClaude</b>と会話することも。
+          さらに<b>フォルダを渡して許可する・変更やコマンドを承認する・できあがった成果物をプレビューする</b>、という実際の仕事の流れまで、登録なしでさわれます。
+          お手持ちのAnthropic APIキーを設定すれば、この画面のまま<b>本物のClaude</b>と会話することも。
         </p>
       </section>
       <section style={{ maxWidth: "min(880px, 94vw)", margin: "0 auto", padding: "0 0 60px" }}>

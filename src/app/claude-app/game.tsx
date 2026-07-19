@@ -18,10 +18,27 @@
    体験モードは定型応答で完結、APIキーを設定すると本物の
    Claude（Anthropic API）にブラウザから直接つながる。
    ※ COMIXAIによる非公式の再現UI。Anthropic公式とは無関係。
+
+   学習コンテンツの土台となるベース機能（CONTENT_PLAN.md参照）：
+   - 体験モードの応答はシナリオ（Step列）でデータ駆動
+     （scenarios.ts。`scenarios` propでコース用台本に差し替え可能）
+   - 成果物カード＋プレビュー（Webは実際に動くiframe、docは紙面）
+   - ファイル編集のdiff承認に加え、コマンド実行の承認カード
+   - フォルダ選択メニュー＋アクセス許可（信頼）ダイアログ
+   - 主要操作を通知する `onEvent` フック（ミッション達成判定用）
    ============================================================ */
 import React from "react";
 import Anthropic from "@anthropic-ai/sdk";
 import { Badge, Button, Card } from "../ds";
+import {
+  DEFAULT_SCENARIOS,
+  type ArtifactSpec,
+  type DiffSpec,
+  type PermMode,
+  type ScenarioSet,
+  type Step,
+  type Tab,
+} from "./scenarios";
 
 /* ———— アプリ再現UIの配色（Claude風・サイトDSとは独立） ———— */
 const C = {
@@ -51,7 +68,6 @@ const MODELS: { id: ModelId; name: string; desc: string }[] = [
 ];
 
 /* ———— 権限モード（コードタブ） ———— */
-type PermMode = "manual" | "acceptEdits" | "plan" | "auto";
 const PERM_MODES: { id: PermMode; name: string; desc: string }[] = [
   { id: "manual", name: "Manual", desc: "編集やコマンドの前に毎回確認（初心者向け）" },
   { id: "acceptEdits", name: "Accept edits", desc: "ファイル編集は自動承認、コマンドは確認" },
@@ -67,8 +83,14 @@ const ENVS: { id: EnvId; name: string; desc: string }[] = [
   { id: "ssh", name: "SSH", desc: "自分のサーバーに接続して作業" },
 ];
 
+/* ———— フォルダ候補（フォルダ選択メニュー） ———— */
+const FOLDERS: { id: string; name: string; desc: string }[] = [
+  { id: "~/デスクトップ/営業資料", name: "営業資料", desc: "~/デスクトップ/営業資料" },
+  { id: "~/書類/経費精算", name: "経費精算", desc: "~/書類/経費精算" },
+  { id: "~/projects/my-app", name: "my-app", desc: "~/projects/my-app" },
+];
+
 /* ———— タブ（上部中央） ———— */
-type Tab = "chat" | "cowork" | "code";
 interface TabDef {
   id: Tab;
   icon: string;
@@ -122,22 +144,19 @@ const TABS: TabDef[] = [
 const tabDef = (t: Tab) => TABS.find((x) => x.id === t)!;
 
 /* ———— メッセージ ———— */
-interface DiffLine {
-  t: "+" | "-" | " ";
-  s: string;
-}
-interface Diff {
-  file: string;
-  add: number;
-  del: number;
-  lines: DiffLine[];
-  state: "pending" | "accepted" | "rejected" | "auto";
+type Diff = DiffSpec & { state: "pending" | "accepted" | "rejected" | "auto" };
+interface Approval {
+  command: string;
+  note?: string;
+  state: "pending" | "allowed" | "denied" | "auto";
 }
 interface Msg {
   role: "user" | "assistant";
   text: string;
   thinking?: string; // APIモード：思考の要約
   diff?: Diff; // コードタブ：変更提案
+  approval?: Approval; // コマンド実行の承認カード
+  artifact?: ArtifactSpec; // 成果物カード（プレビュー可能）
   error?: boolean;
   raw?: unknown; // APIモード：返答のcontentブロック（再送用にそのまま保持）
 }
@@ -148,51 +167,22 @@ interface Chat {
   messages: Msg[];
 }
 
-/* ———— 体験モードの台本 ———— */
-const CHAT_REPLIES: Record<string, string> = {
-  "Claudeには何ができる？":
-    "こんにちは！Claudeは、文章の作成・要約・翻訳、アイデア出し、表の整理、プログラムを書くことまで、「言葉で頼める仕事」ならたいてい手伝えます。\n\nたとえば——\n・長いメールを3行に要約\n・企画のたたき台を10案\n・ExcelのVLOOKUPの使い方を解説\n\n「こういうことできる？」と気軽に聞いてみるのがいちばんの近道です。",
-  "明日の朝礼の挨拶を考えて":
-    "いいですね。たとえばこんな挨拶はどうでしょう。\n\n「おはようございます。今週も折り返しですね。今日は午後に締め切りがひとつあるので、午前中は集中タイムでいきましょう。困りごとがあれば早めに共有してください。それでは今日も一日、よろしくお願いします！」\n\n「もっとカジュアルに」「半分の長さに」のような注文も、続けてどうぞ。",
-  "AIを使いこなすコツを3つ教えて":
-    "コツは3つあります。\n\n1. 背景ごと伝える —「誰向けに・何のために」を添えると精度が上がる\n2. 一度で完璧を求めない — 出てきたものに「もっと短く」「例を足して」と注文を重ねる\n3. 新しい話題は新しいチャットで — 文脈が混ざると答えもぶれる\n\nまずは小さな頼みごとから試してみてください。",
-};
-const CHAT_FALLBACK =
-  "メッセージありがとうございます。いまは体験モードなので返事は定型文ですが、画面の使い方は本物のClaudeアプリと同じです。\n\n・返事はこうして少しずつ流れてきます（ストリーミング）\n・同じチャットなら文脈も引き継がれます\n・⚙️ 設定でAPIキーを入れると、本物のClaudeがここで答えます";
-const CHAT_FOLLOWUP =
-  "続けての質問ですね。同じチャットの中では、Claudeは前のやりとりを覚えたまま答えます。だから「さっきのをもっと短く」「それを英語で」のような指示が通じるんです。\n\n（体験モードのため定型の返事です。⚙️ 設定からAPIキーを入れると、この画面のまま本物のClaudeにつながります）";
-
-const coworkReply = (task: string) =>
-  `かしこまりました。「${task}」ですね。☁️ クラウド上の専用マシンで作業を始めます。アプリを閉じても作業は続きます。\n\n📋 計画\n ① 関連する資料・情報を収集\n ② たたき台を作成\n ③ 体裁を整えて仕上げ\n\n▸ ① 資料を収集中…\n   関連情報を3件チェックしました\n▸ ② たたき台を作成中…\n   構成（背景 → 本題 → まとめ → 次のアクション）で作成\n▸ ③ 体裁を整えています…\n\n✅ タスク完了！\n📄 成果物：${task.slice(0, 10)}….docx\n\n（体験モードのため、作業と成果物はシミュレーションです。⚙️ 設定でAPIキーを入れると、本物のClaudeが実際の中身まで書きます）`;
-const COWORK_FOLLOWUP =
-  "追加のご注文ですね。同じタスクの続きとして、クラウド側で反映します。\n\n▸ 修正箇所を確認中…\n▸ 反映しています…\n\n✅ 更新しました。Coworkでは、こうして同じタスクに注文を重ねながら仕上げていけます。\n\n（体験モードのため定型の応答です）";
-
-/* コードタブ：計画（前半）→ diff承認 → 完了（後半）の3段構成 */
-const codePlan = (task: string) =>
-  `「${task}」ですね。まずプロジェクトを確認します。\n\n● Read(プロジェクトフォルダ)\n  └ 構成を確認しました\n\n計画：\n 1. index.html にUIを追加\n 2. 動作を確認\n\nそれでは変更を提案します。`;
-const CODE_DIFF: Omit<Diff, "state"> = {
-  file: "index.html",
-  add: 5,
-  del: 1,
-  lines: [
-    { t: " ", s: "<body>" },
-    { t: "-", s: "  <p>準備中</p>" },
-    { t: "+", s: "  <button id=\"go\">おみくじを引く</button>" },
-    { t: "+", s: "  <p id=\"result\"></p>" },
-    { t: "+", s: "  <script>" },
-    { t: "+", s: "    const R = [\"大吉\",\"中吉\",\"小吉\",\"凶\"];" },
-    { t: "+", s: "    go.onclick = () => result.textContent = R[Math.floor(Math.random()*4)];" },
-    { t: " ", s: "</body>" },
-  ],
-};
-const CODE_DONE_ACCEPT =
-  "✅ 変更を適用しました。\n\n● Bash(npx serve .)\n  └ プレビューを起動、表示OK\n\nできあがりです。ブラウザペインで動作を確認できます。\n\n（体験モードのため実行はシミュレーションです。⚙️ 設定でAPIキーを入れると、本物のClaudeがコードまで書きます）";
-const CODE_DONE_REJECT =
-  "了解しました。この変更は破棄します。\n\nどのように進めましょう？ 気になった点を伝えてもらえれば、別のやり方で提案し直します。";
-const CODE_PLAN_ONLY = (task: string) =>
-  `Planモードなので、まず計画だけ提案します（ファイルは変更しません）。\n\n📋 「${task}」の計画\n 1. index.html にUIを追加\n 2. スタイルを調整\n 3. 動作確認して微修正\n\nこの方針でよければ、権限モードを Manual か Accept edits に切り替えて送信してください。実装に進みます。`;
-const CODE_FOLLOWUP =
-  "続きの指示ですね。同じセッションの文脈で対応します。\n\n● Edit(index.html)\n  └ ご指示を反映して6行を変更\n\n✅ 更新しました。\n\n（体験モードのため定型の応答です）";
+/* ———— 学習レイヤー向けイベント（onEventで通知） ———— */
+export type SimEvent =
+  | { type: "deviceChange"; device: "pc" | "sp" }
+  | { type: "tabChange"; tab: Tab }
+  | { type: "newChat"; tab: Tab }
+  | { type: "openChat"; tab: Tab; chatId: number }
+  | { type: "send"; tab: Tab; chatId: number; text: string; api: boolean }
+  | { type: "modelChange"; model: ModelId }
+  | { type: "permChange"; permMode: PermMode }
+  | { type: "envChange"; env: EnvId }
+  | { type: "folderChange"; folder: string }
+  | { type: "diffResolved"; chatId: number; accepted: boolean }
+  | { type: "approvalResolved"; chatId: number; allowed: boolean }
+  | { type: "artifactOpen"; title: string }
+  | { type: "scenarioDone"; tab: Tab; chatId: number }
+  | { type: "apiMode"; on: boolean };
 
 /* ———— APIモードのシステムプロンプト（タブ別） ———— */
 const SYSTEM_PROMPTS: Record<Tab, string> = {
@@ -207,7 +197,15 @@ const SYSTEM_PROMPTS: Record<Tab, string> = {
 const KEY_STORAGE = "comixai-claude-app-key";
 
 /* ============================================================ */
-export function ClaudeAppSim() {
+export function ClaudeAppSim({
+  scenarios,
+  onEvent,
+}: {
+  /** 体験モードの台本を差し替える（学習コンテンツ側が使う） */
+  scenarios?: Partial<ScenarioSet>;
+  /** 主要操作の通知（ミッション達成判定などに使う） */
+  onEvent?: (e: SimEvent) => void;
+} = {}) {
   /* —— 全体状態 —— */
   const [device, setDevice] = React.useState<"pc" | "sp">("pc");
   const [tab, setTab] = React.useState<Tab>("chat");
@@ -221,18 +219,26 @@ export function ClaudeAppSim() {
   const [busyChat, setBusyChat] = React.useState<number | null>(null);
   const busy = busyChat !== null;
   const [drawer, setDrawer] = React.useState(false);
-  const [menu, setMenu] = React.useState<"model" | "perm" | "env" | null>(null);
+  const [menu, setMenu] = React.useState<"model" | "perm" | "env" | "folder" | null>(null);
   const [settings, setSettings] = React.useState(false);
   const [apiKey, setApiKey] = React.useState("");
   const [saveKey, setSaveKey] = React.useState(false);
   const [apiMode, setApiMode] = React.useState(false);
   const [toast, setToast] = React.useState<string | null>(null);
+  const [trustAsk, setTrustAsk] = React.useState<string | null>(null); // フォルダ許可ダイアログ
+  const [viewArtifact, setViewArtifact] = React.useState<ArtifactSpec | null>(null); // 成果物プレビュー
 
   const idRef = React.useRef(1);
   const genRef = React.useRef(0); // 体験モードのストリーム世代
   const streamRef = React.useRef<{ abort: () => void } | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const toastTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingRef = React.useRef(new Map<number, { yes: Step[]; no: Step[] }>()); // 承認待ちの続き
+  const trustedRef = React.useRef(new Set<string>()); // アクセス許可済みフォルダ
+  const onEventRef = React.useRef(onEvent);
+  onEventRef.current = onEvent;
+  const emit = (e: SimEvent) => onEventRef.current?.(e);
+  const scen: ScenarioSet = { ...DEFAULT_SCENARIOS, ...scenarios };
 
   const activeId = activeByTab[tab];
   const active = chats.find((c) => c.id === activeId) ?? null;
@@ -273,35 +279,57 @@ export function ClaudeAppSim() {
     setTab(t);
     setMenu(null);
     setDrawer(false);
+    emit({ type: "tabChange", tab: t });
   };
   const newChat = () => {
     setActiveByTab((prev) => ({ ...prev, [tab]: null }));
     setDrawer(false);
+    emit({ type: "newChat", tab });
   };
   const openChat = (id: number) => {
     setActiveByTab((prev) => ({ ...prev, [tab]: id }));
     setDrawer(false);
+    emit({ type: "openChat", tab, chatId: id });
   };
   const pickModel = (id: ModelId) => {
     setMenu(null);
     if (id === model) return;
     setModel(id);
     notify(`🎛️ モデルを ${MODELS.find((m) => m.id === id)?.name} に切り替えました`);
+    emit({ type: "modelChange", model: id });
   };
   const pickPerm = (id: PermMode) => {
     setMenu(null);
     if (id === permMode) return;
     setPermMode(id);
     notify(`🛡️ 権限モード：${PERM_MODES.find((m) => m.id === id)?.name}`);
+    emit({ type: "permChange", permMode: id });
   };
   const pickEnv = (id: EnvId) => {
     setMenu(null);
     if (id === env) return;
     setEnv(id);
     notify(`🖥️ 実行環境：${ENVS.find((m) => m.id === id)?.name}`);
+    emit({ type: "envChange", env: id });
   };
-  const pickFolder = () => {
-    setFolder((prev) => (prev ? null : "~/projects/my-app"));
+  /* フォルダ選択 → 未許可なら「アクセス許可」ダイアログを挟む（本物の初回体験を再現） */
+  const pickFolder = (path: string) => {
+    setMenu(null);
+    if (trustedRef.current.has(path)) {
+      setFolder(path);
+      emit({ type: "folderChange", folder: path });
+      return;
+    }
+    setTrustAsk(path);
+  };
+  const grantFolder = (ok: boolean) => {
+    const path = trustAsk;
+    setTrustAsk(null);
+    if (!ok || !path) return;
+    trustedRef.current.add(path);
+    setFolder(path);
+    notify(`📁 「${path}」へのアクセスを許可しました`);
+    emit({ type: "folderChange", folder: path });
   };
 
   /* —— メッセージ更新ヘルパ —— */
@@ -352,80 +380,107 @@ export function ClaudeAppSim() {
       prev.map((c) => (c.id !== chatId ? c : { ...c, messages: [...c.messages, { role: "user", text }, { role: "assistant", text: "" }] })),
     );
     setBusyChat(chatId);
+    emit({ type: "send", tab: kind, chatId, text, api: apiMode && !!apiKey });
 
     if (apiMode && apiKey) {
       await sendApi(chatId, kind, [...history, { role: "user", text }]);
       setBusyChat(null);
-    } else if (kind === "code") {
-      await sendDemoCode(chatId, text, isFollowup);
-      /* Manual時はdiff承認待ちのままbusy解除される（sendDemoCode内で制御） */
     } else {
+      /* 体験モード：シナリオ（Step列）を再生。承認待ちのときは
+         runSteps内でbusyが解除され、続きはresolvePendingが再開する */
       const gen = ++genRef.current;
-      const reply =
-        kind === "cowork"
-          ? isFollowup ? COWORK_FOLLOWUP : coworkReply(text)
-          : isFollowup ? CHAT_FOLLOWUP : CHAT_REPLIES[text] ?? CHAT_FALLBACK;
-      await new Promise((r) => setTimeout(r, 550));
-      await streamText(chatId, reply, gen);
-      setBusyChat(null);
+      const steps = scen[kind]({ text, isFollowup, permMode, folder });
+      await new Promise((r) => setTimeout(r, 500));
+      await runSteps(chatId, kind, steps, gen, true);
     }
   };
 
-  /* —— コードタブ（体験モード）：計画 → diff承認 → 完了 —— */
-  const sendDemoCode = async (chatId: number, text: string, isFollowup: boolean) => {
-    const gen = ++genRef.current;
-    await new Promise((r) => setTimeout(r, 550));
-
-    if (isFollowup) {
-      await streamText(chatId, CODE_FOLLOWUP, gen);
-      setBusyChat(null);
-      return;
+  /* —— シナリオ実行エンジン：Step列を順に再生 —— */
+  const runSteps = async (chatId: number, kind: Tab, steps: Step[], gen: number, seeded = false) => {
+    let useSeed = seeded; // send()が積んだ空のassistantメッセージを最初のステップが使い回す
+    const place = (msg: Msg) => {
+      if (useSeed) {
+        useSeed = false;
+        patchLast(chatId, () => msg);
+      } else {
+        pushMsg(chatId, msg);
+      }
+    };
+    for (const step of steps) {
+      if (genRef.current !== gen) return;
+      if (step.type === "text") {
+        place({ role: "assistant", text: "" });
+        await new Promise((r) => setTimeout(r, 400));
+        if (!(await streamText(chatId, step.text, gen))) return;
+      } else if (step.type === "artifact") {
+        await new Promise((r) => setTimeout(r, 350));
+        place({ role: "assistant", text: "", artifact: step.artifact });
+      } else if (step.type === "diff") {
+        /* Manual / Plan は承認待ち。Accept edits / Auto は自動承認して続行 */
+        const wait = permMode === "manual" || permMode === "plan";
+        place({ role: "assistant", text: "", diff: { ...step.diff, state: wait ? "pending" : "auto" } });
+        if (wait) {
+          pendingRef.current.set(chatId, { yes: step.accept, no: step.reject });
+          setBusyChat(null);
+          return;
+        }
+        await new Promise((r) => setTimeout(r, 400));
+        await runSteps(chatId, kind, step.accept, gen);
+        return;
+      } else if (step.type === "approval") {
+        /* コマンド実行は Auto のみ自動承認（Accept editsでも確認する＝本物と同じ） */
+        const wait = permMode !== "auto";
+        place({ role: "assistant", text: "", approval: { command: step.command, note: step.note, state: wait ? "pending" : "auto" } });
+        if (wait) {
+          pendingRef.current.set(chatId, { yes: step.allow, no: step.deny });
+          setBusyChat(null);
+          return;
+        }
+        await new Promise((r) => setTimeout(r, 400));
+        await runSteps(chatId, kind, step.allow, gen);
+        return;
+      }
     }
-    if (permMode === "plan") {
-      await streamText(chatId, CODE_PLAN_ONLY(text), gen);
-      setBusyChat(null);
-      return;
-    }
-
-    /* 前半：計画とツールログ */
-    const ok = await streamText(chatId, codePlan(text), gen);
-    if (!ok) return;
-
-    if (permMode === "manual") {
-      /* diff提案 → Accept/Reject待ち（ここでいったん手を止める） */
-      pushMsg(chatId, { role: "assistant", text: "", diff: { ...CODE_DIFF, state: "pending" } });
-      setBusyChat(null);
-      return;
-    }
-    /* Accept edits / Auto：自動適用して続行 */
-    pushMsg(chatId, { role: "assistant", text: "", diff: { ...CODE_DIFF, state: "auto" } });
-    pushMsg(chatId, { role: "assistant", text: "" });
-    await new Promise((r) => setTimeout(r, 400));
-    await streamText(chatId, CODE_DONE_ACCEPT, gen);
     setBusyChat(null);
+    emit({ type: "scenarioDone", tab: kind, chatId });
   };
 
-  /* —— diffのAccept/Reject —— */
-  const resolveDiff = async (chatId: number, accept: boolean) => {
+  /* —— 承認（diff / コマンド実行）のはい・いいえ —— */
+  const resolvePending = async (chatId: number, yes: boolean, kind: "diff" | "approval") => {
     if (busy) return;
+    const cont = pendingRef.current.get(chatId);
+    if (!cont) return;
+    pendingRef.current.delete(chatId);
     setChats((prev) =>
       prev.map((c) =>
         c.id !== chatId
           ? c
           : {
               ...c,
-              messages: c.messages.map((m) =>
-                m.diff?.state === "pending" ? { ...m, diff: { ...m.diff, state: accept ? "accepted" : "rejected" } } : m,
-              ),
+              messages: c.messages.map((m) => {
+                if (kind === "diff" && m.diff?.state === "pending")
+                  return { ...m, diff: { ...m.diff, state: yes ? "accepted" : "rejected" } };
+                if (kind === "approval" && m.approval?.state === "pending")
+                  return { ...m, approval: { ...m.approval, state: yes ? "allowed" : "denied" } };
+                return m;
+              }),
             },
       ),
     );
+    const tabKind = chats.find((c) => c.id === chatId)?.kind ?? tab;
     setBusyChat(chatId);
+    emit(kind === "diff" ? { type: "diffResolved", chatId, accepted: yes } : { type: "approvalResolved", chatId, allowed: yes });
     const gen = ++genRef.current;
-    pushMsg(chatId, { role: "assistant", text: "" });
     await new Promise((r) => setTimeout(r, 400));
-    await streamText(chatId, accept ? CODE_DONE_ACCEPT : CODE_DONE_REJECT, gen);
-    setBusyChat(null);
+    await runSteps(chatId, tabKind, yes ? cont.yes : cont.no, gen);
+  };
+  const resolveDiff = (chatId: number, accept: boolean) => resolvePending(chatId, accept, "diff");
+  const resolveApproval = (chatId: number, allow: boolean) => resolvePending(chatId, allow, "approval");
+
+  /* —— 成果物プレビュー —— */
+  const openArtifact = (a: ArtifactSpec) => {
+    setViewArtifact(a);
+    emit({ type: "artifactOpen", title: a.title });
   };
 
   /* —— APIモード：Anthropic APIへブラウザから直接ストリーミング —— */
@@ -489,6 +544,7 @@ export function ClaudeAppSim() {
     }
     setSettings(false);
     if (useApi && key) notify("🔑 APIモードをオンにしました。本物のClaudeが応答します");
+    emit({ type: "apiMode", on: useApi && key.length > 0 });
   };
 
   /* ============================================================
@@ -514,6 +570,8 @@ export function ClaudeAppSim() {
     setInput,
     send,
     resolveDiff,
+    resolveApproval,
+    openArtifact,
     scrollRef,
     notify,
     openDrawer: () => setDrawer(true),
@@ -535,7 +593,10 @@ export function ClaudeAppSim() {
           {(["pc", "sp"] as const).map((d) => (
             <button
               key={d}
-              onClick={() => setDevice(d)}
+              onClick={() => {
+                setDevice(d);
+                emit({ type: "deviceChange", device: d });
+              }}
               style={{
                 padding: "8px 16px", fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: 13, cursor: "pointer",
                 border: "none", background: device === d ? "var(--ink-900)" : "transparent", color: device === d ? "var(--paper-50)" : "var(--ink-900)",
@@ -645,6 +706,12 @@ export function ClaudeAppSim() {
         </div>
       )}
 
+      {/* —— フォルダのアクセス許可ダイアログ —— */}
+      {trustAsk && <TrustDialog folder={trustAsk} onResolve={grantFolder} />}
+
+      {/* —— 成果物プレビュー —— */}
+      {viewArtifact && <ArtifactModal artifact={viewArtifact} onClose={() => setViewArtifact(null)} />}
+
       {/* —— 設定モーダル —— */}
       {settings && (
         <SettingsModal
@@ -655,6 +722,98 @@ export function ClaudeAppSim() {
           onApply={applySettings}
         />
       )}
+    </div>
+  );
+}
+
+/* ============================================================
+   フォルダのアクセス許可（信頼）ダイアログ
+   本物のアプリで初めてフォルダを渡すときの確認を再現
+   ============================================================ */
+function TrustDialog({ folder, onResolve }: { folder: string; onResolve: (ok: boolean) => void }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+      <div onClick={() => onResolve(false)} style={{ position: "absolute", inset: 0, background: "rgba(30,26,18,.5)" }} />
+      <div
+        className="game-in"
+        style={{ position: "relative", width: "min(400px, 100%)", background: C.bg, color: C.ink, border: `1px solid ${C.line}`, borderRadius: 16, boxShadow: "0 18px 50px rgba(0,0,0,.3)", padding: 22 }}
+      >
+        <div style={{ fontSize: 30, marginBottom: 8 }}>📁</div>
+        <div style={{ fontWeight: 800, fontSize: 15.5, marginBottom: 8 }}>このフォルダへのアクセスを許可しますか？</div>
+        <div style={{ fontFamily: MONO, fontSize: 12.5, background: C.panel, borderRadius: 8, padding: "7px 10px", marginBottom: 10 }}>{folder}</div>
+        <p style={{ fontSize: 12, lineHeight: 1.8, color: C.sub, margin: "0 0 16px" }}>
+          許可すると、Claudeがこのフォルダの中のファイルを読み取り・作成・編集できるようになります。フォルダの外には触れません。
+        </p>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button
+            onClick={() => onResolve(true)}
+            style={{ flex: 1, padding: "10px 0", borderRadius: 10, border: "none", cursor: "pointer", background: C.accent, color: "#fff", fontWeight: 800, fontSize: 13, fontFamily: "inherit" }}
+          >
+            許可する
+          </button>
+          <button
+            onClick={() => onResolve(false)}
+            style={{ flex: 1, padding: "10px 0", borderRadius: 10, border: `1.5px solid ${C.line}`, cursor: "pointer", background: "transparent", color: C.ink, fontWeight: 800, fontSize: 13, fontFamily: "inherit" }}
+          >
+            キャンセル
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   成果物プレビュー — webは実際に動くiframe、doc/sheetは紙面風
+   ============================================================ */
+function ArtifactModal({ artifact, onClose }: { artifact: ArtifactSpec; onClose: () => void }) {
+  const icon = artifact.kind === "web" ? "🌐" : artifact.kind === "sheet" ? "📊" : "📄";
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(30,26,18,.55)" }} />
+      <div
+        className="game-in"
+        style={{
+          position: "relative", width: "min(560px, 100%)", maxHeight: "86vh", display: "flex", flexDirection: "column",
+          background: C.bg, border: `1px solid ${C.line}`, borderRadius: 16, boxShadow: "0 18px 50px rgba(0,0,0,.35)", overflow: "hidden",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "12px 16px", borderBottom: `1px solid ${C.line}`, background: C.panel }}>
+          <span style={{ fontSize: 17 }}>{icon}</span>
+          <span style={{ fontWeight: 800, fontSize: 13.5, color: C.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{artifact.title}</span>
+          {artifact.kind === "web" && <span style={{ fontSize: 10.5, color: C.sub, fontWeight: 700, flexShrink: 0 }}>実際に動きます</span>}
+          <button onClick={onClose} aria-label="閉じる" style={{ marginLeft: "auto", border: "none", background: "transparent", fontSize: 20, cursor: "pointer", color: C.sub }}>
+            ×
+          </button>
+        </div>
+        {artifact.kind === "web" ? (
+          <iframe
+            title={artifact.title}
+            sandbox="allow-scripts"
+            srcDoc={artifact.html ?? ""}
+            style={{ border: "none", width: "100%", height: "min(460px, 64vh)", background: "#fff" }}
+          />
+        ) : (
+          <div style={{ overflowY: "auto", padding: "26px 30px", background: "#FFFFFF" }}>
+            {(artifact.body ?? "").split("\n").map((line, i) =>
+              line.startsWith("# ") ? (
+                <h3 key={i} style={{ fontFamily: SERIF, fontSize: 19, margin: "0 0 14px", color: C.ink }}>{line.slice(2)}</h3>
+              ) : line.startsWith("## ") ? (
+                <h4 key={i} style={{ fontSize: 14, margin: "18px 0 6px", color: C.ink }}>{line.slice(3)}</h4>
+              ) : line === "" ? (
+                <div key={i} style={{ height: 8 }} />
+              ) : (
+                <p
+                  key={i}
+                  style={{ fontSize: 13, lineHeight: 1.9, margin: 0, color: C.ink, fontFamily: artifact.kind === "sheet" ? MONO : "inherit", whiteSpace: "pre-wrap" }}
+                >
+                  {line}
+                </p>
+              ),
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -795,7 +954,7 @@ function Dropdown<T extends string>({
    ============================================================ */
 function Main({
   device, tab, chat, busy, streaming, model, permMode, env, folder, menu, setMenu,
-  pickModel, pickPerm, pickEnv, pickFolder, input, setInput, send, resolveDiff, scrollRef, notify, openDrawer,
+  pickModel, pickPerm, pickEnv, pickFolder, input, setInput, send, resolveDiff, resolveApproval, openArtifact, scrollRef, notify, openDrawer,
 }: {
   device: "pc" | "sp";
   tab: Tab;
@@ -806,16 +965,18 @@ function Main({
   permMode: PermMode;
   env: EnvId;
   folder: string | null;
-  menu: "model" | "perm" | "env" | null;
-  setMenu: (v: "model" | "perm" | "env" | null) => void;
+  menu: "model" | "perm" | "env" | "folder" | null;
+  setMenu: (v: "model" | "perm" | "env" | "folder" | null) => void;
   pickModel: (m: ModelId) => void;
   pickPerm: (m: PermMode) => void;
   pickEnv: (m: EnvId) => void;
-  pickFolder: () => void;
+  pickFolder: (path: string) => void;
   input: string;
   setInput: (v: string) => void;
   send: (t?: string) => void;
   resolveDiff: (chatId: number, accept: boolean) => void;
+  resolveApproval: (chatId: number, allow: boolean) => void;
+  openArtifact: (a: ArtifactSpec) => void;
   scrollRef: React.RefObject<HTMLDivElement | null>;
   notify: (m: string) => void;
   openDrawer: () => void;
@@ -847,7 +1008,7 @@ function Main({
         </div>
         {isCode && chat && (
           <span style={{ fontFamily: MONO, fontSize: 10.5, color: C.sub, border: `1px solid ${C.line}`, borderRadius: 6, padding: "3px 7px" }}>
-            {envInfo.name} · {folder ?? "~/projects/my-app"}
+            {envInfo.name} · {folder ?? "フォルダ未選択"}
           </span>
         )}
       </div>
@@ -885,6 +1046,8 @@ function Main({
               sp={device === "sp"}
               kind={chat!.kind}
               onResolve={(accept) => resolveDiff(chat!.id, accept)}
+              onResolveApproval={(allow) => resolveApproval(chat!.id, allow)}
+              onOpenArtifact={openArtifact}
             />
           ))
         )}
@@ -892,23 +1055,34 @@ function Main({
 
       {/* 入力欄 */}
       <div style={{ padding: device === "sp" ? "8px 10px 14px" : "10px 18px 14px" }}>
-        {/* コードタブ：環境・フォルダの設定チップ（本物は入力欄まわりで設定） */}
-        {isCode && (
+        {/* Cowork / コード：環境・フォルダの設定チップ（本物は入力欄まわりで設定）。
+            フォルダは候補メニューから選び、初回はアクセス許可ダイアログを挟む */}
+        {tab !== "chat" && (
           <div style={{ display: "flex", gap: 6, marginBottom: 7, flexWrap: "wrap" }}>
+            {isCode && (
+              <div style={{ position: "relative" }}>
+                <button style={chipStyle} onClick={() => setMenu(menu === "env" ? null : "env")}>
+                  🖥 {envInfo.name} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
+                </button>
+                {menu === "env" && (
+                  <>
+                    <div onClick={() => setMenu(null)} style={{ position: "fixed", inset: 0, zIndex: 8 }} />
+                    <Dropdown items={ENVS} current={env} onPick={pickEnv} label="実行環境" align="left" />
+                  </>
+                )}
+              </div>
+            )}
             <div style={{ position: "relative" }}>
-              <button style={chipStyle} onClick={() => setMenu(menu === "env" ? null : "env")}>
-                🖥 {envInfo.name} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
+              <button style={chipStyle} onClick={() => setMenu(menu === "folder" ? null : "folder")}>
+                📁 {folder ?? "フォルダを選択"} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
               </button>
-              {menu === "env" && (
+              {menu === "folder" && (
                 <>
                   <div onClick={() => setMenu(null)} style={{ position: "fixed", inset: 0, zIndex: 8 }} />
-                  <Dropdown items={ENVS} current={env} onPick={pickEnv} label="実行環境" align="left" />
+                  <Dropdown items={FOLDERS} current={folder ?? ""} onPick={pickFolder} label="フォルダを選択" align="left" />
                 </>
               )}
             </div>
-            <button style={chipStyle} onClick={pickFolder}>
-              📁 {folder ?? "フォルダを選択"}
-            </button>
           </div>
         )}
         <div style={{ display: "flex", alignItems: "flex-end", gap: 7, border: `1.5px solid ${C.line}`, borderRadius: 18, background: C.input, padding: "8px 10px" }}>
@@ -993,7 +1167,7 @@ function Main({
    吹き出し（チャット）／作業ログ（Cowork/コード）／diffカード
    ============================================================ */
 function Bubble({
-  msg, last, busy, sp, kind, onResolve,
+  msg, last, busy, sp, kind, onResolve, onResolveApproval, onOpenArtifact,
 }: {
   msg: Msg;
   last: boolean;
@@ -1001,6 +1175,8 @@ function Bubble({
   sp: boolean;
   kind: Tab;
   onResolve: (accept: boolean) => void;
+  onResolveApproval: (allow: boolean) => void;
+  onOpenArtifact: (a: ArtifactSpec) => void;
 }) {
   if (msg.role === "user") {
     return (
@@ -1068,6 +1244,84 @@ function Bubble({
               Manualモード：変更は承認するまでファイルに書き込まれません
             </p>
           )}
+        </div>
+      </div>
+    );
+  }
+
+  /* —— コマンド実行の承認カード —— */
+  if (msg.approval) {
+    const a = msg.approval;
+    return (
+      <div style={{ display: "flex", gap: 9, marginBottom: 18 }}>
+        <span style={{ width: 24, height: 24, borderRadius: "50%", background: C.accent, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0, marginTop: 2 }}>
+          ✳
+        </span>
+        <div style={{ minWidth: 0, flex: 1, maxWidth: sp ? "88%" : "84%" }}>
+          <div style={{ border: `1px solid ${C.line}`, borderRadius: 12, overflow: "hidden", background: "#FFFFFF" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderBottom: `1px solid ${C.line}`, background: C.panel }}>
+              <span style={{ fontSize: 12, fontWeight: 800 }}>⚡ コマンドの実行</span>
+              <span style={{ marginLeft: "auto", fontSize: 10.5, fontWeight: 700, color: a.state === "denied" ? C.red : a.state === "pending" ? C.sub : C.green }}>
+                {a.state === "pending" ? "許可を待っています" : a.state === "denied" ? "✕ 実行しませんでした" : a.state === "auto" ? "✓ 自動承認（Auto）" : "✓ 実行しました"}
+              </span>
+            </div>
+            <div style={{ padding: "10px 12px" }}>
+              <div style={{ fontFamily: MONO, fontSize: 12.5, background: "#2A2620", color: "#E8E4D8", borderRadius: 8, padding: "8px 12px", overflowX: "auto", whiteSpace: "pre" }}>
+                $ {a.command}
+              </div>
+              {a.note && <p style={{ margin: "8px 0 0", fontSize: 11.5, color: C.sub }}>{a.note}</p>}
+            </div>
+            {a.state === "pending" && (
+              <div style={{ display: "flex", gap: 8, padding: "10px 12px", borderTop: `1px solid ${C.line}` }}>
+                <button
+                  onClick={() => onResolveApproval(true)}
+                  style={{ flex: 1, padding: "8px 0", borderRadius: 9, border: "none", cursor: "pointer", background: C.ink, color: "#fff", fontWeight: 800, fontSize: 12.5, fontFamily: "inherit" }}
+                >
+                  ✓ 許可する
+                </button>
+                <button
+                  onClick={() => onResolveApproval(false)}
+                  style={{ flex: 1, padding: "8px 0", borderRadius: 9, border: `1.5px solid ${C.line}`, cursor: "pointer", background: "transparent", color: C.ink, fontWeight: 800, fontSize: 12.5, fontFamily: "inherit" }}
+                >
+                  ✕ 拒否
+                </button>
+              </div>
+            )}
+          </div>
+          {a.state === "pending" && (
+            <p style={{ margin: "6px 2px 0", fontSize: 10.5, color: C.sub }}>
+              コマンドは許可するまで実行されません
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  /* —— 成果物カード（プレビュー可能） —— */
+  if (msg.artifact) {
+    const a = msg.artifact;
+    const icon = a.kind === "web" ? "🌐" : a.kind === "sheet" ? "📊" : "📄";
+    return (
+      <div style={{ display: "flex", gap: 9, marginBottom: 18 }}>
+        <span style={{ width: 24, height: 24, borderRadius: "50%", background: C.accent, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0, marginTop: 2 }}>
+          ✳
+        </span>
+        <div style={{ minWidth: 0, maxWidth: sp ? "88%" : "84%" }}>
+          <button
+            onClick={() => onOpenArtifact(a)}
+            style={{
+              display: "flex", alignItems: "center", gap: 11, textAlign: "left", cursor: "pointer", fontFamily: "inherit",
+              border: `1.5px solid ${C.line}`, borderRadius: 12, background: "#FFFFFF", padding: "11px 14px", minWidth: 230,
+            }}
+          >
+            <span style={{ fontSize: 24 }}>{icon}</span>
+            <span style={{ minWidth: 0 }}>
+              <span style={{ display: "block", fontSize: 13, fontWeight: 800, color: C.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.title}</span>
+              <span style={{ display: "block", fontSize: 11, color: C.sub, marginTop: 2 }}>{a.note ?? "成果物"} · クリックでプレビュー</span>
+            </span>
+            <span style={{ marginLeft: "auto", fontSize: 11.5, fontWeight: 800, color: C.accentInk, flexShrink: 0 }}>プレビュー ↗</span>
+          </button>
         </div>
       </div>
     );
