@@ -1,7 +1,21 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-18T23:58:57.579Z",
+  "updatedAt": "2026-07-19T22:30:19.628Z",
   "items": [
+    {
+      "title": "Anthropicが公開したClaudeの広告に賛否の声。不気味で悲観的？真摯さと希望？",
+      "url": "https://www.gizmodo.jp/article/anthropic_claude_new_movie/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-19T01:00:00.000Z"
+    },
+    {
+      "title": "AI検索時代のブランド可視化ツール「Optyino.ai」、AIエージェントからダッシュボードデータを直接参照できる「MCP接続」機能を一般公開",
+      "url": "https://ascii.jp/elem/000/004/420/4420721/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-19T00:45:05.000Z"
+    },
     {
       "title": "「スマホで動く」270億パラメーターLLM「Bonsai 27B」登場",
       "url": "https://www.itmedia.co.jp/aiplus/article/2607/17/2000000202/",
@@ -18,11 +32,11 @@
       "titleJa": "Dave Eggers 氏は、ChatGPT が「全世代を沈黙させている」と OpenAI スタッフに語った"
     },
     {
-      "title": "OpenAIが初のハードウェア製品を発表。AIエージェントを自在に操るキーボード",
-      "url": "https://www.gizmodo.jp/article/openai-just-launched-its-first-hardware-product-and-its-a-tiny-keyboard-for-bossing-around-ai-agents/",
-      "source": "GIZMODO JAPAN",
+      "title": "「Claude Fable 5」サブスクに統合 Max・Team Premiumプラン対象",
+      "url": "https://www.itmedia.co.jp/news/articles/2607/18/news019.html",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-07-18T10:00:00.000Z"
+      "date": "2026-07-18T03:50:00.000Z"
     },
     {
       "title": "Databricks hits $188B valuation, extending its run as AI’s favorite second act",
@@ -38,7 +52,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-07-17T19:50:18.000Z",
-      "titleJa": "グーグルが支援する山火事探知衛星打ち上げ、煙で窒息 米国、カナダ"
+      "titleJa": "グーグルが支援する山火事探知衛星が打ち上げ、煙が詰まる米国、カナダ"
     },
     {
       "title": "Apple’s lawsuit couldn’t come at a worse time for OpenAI",
@@ -46,7 +60,7 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-07-17T14:00:00.000Z",
-      "titleJa": "Appleの訴訟はOpenAIにとってこれ以上に悪い時期に起きた"
+      "titleJa": "Apple の訴訟は OpenAI にとってこれ以上に悪い時期に起きた"
     },
     {
       "title": "Why the first GPU financiers are turning to inference chips in a $400 million deal",
@@ -85,26 +99,12 @@
       "date": "2026-07-17T02:30:00.000Z"
     },
     {
-      "title": "Sakana AI、1兆パラメーター級AI開発基盤にさくらインターネットの「高火力 PHY」を採用",
-      "url": "https://japan.zdnet.com/article/35250722/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-17T02:11:00.000Z"
-    },
-    {
-      "title": "富士通がファナックなどとフィジカルAIで提携、NVIDIA協力 長期成長へ足場",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11902/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-07-17T02:00:00.000Z"
-    },
-    {
-      "title": "Create, edit and star in videos with two Google Vids updates",
-      "url": "https://blog.google/products-and-platforms/products/workspace/gemini-omni-personal-avatars/",
-      "source": "Google AI（公式）",
+      "title": "TikTok is testing an AI likeness detection tool",
+      "url": "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-07-16T16:00:00.000Z",
-      "titleJa": "2 つの Google Vids アップデートにより、動画の作成、編集、主演を行うことができます"
+      "date": "2026-07-17T19:34:30.000Z",
+      "titleJa": "TikTokはAI類似度検出ツールをテスト中"
     }
   ]
 }
