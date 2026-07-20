@@ -1,20 +1,72 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-19T22:30:19.628Z",
+  "updatedAt": "2026-07-20T22:33:14.387Z",
   "items": [
     {
-      "title": "Anthropicが公開したClaudeの広告に賛否の声。不気味で悲観的？真摯さと希望？",
-      "url": "https://www.gizmodo.jp/article/anthropic_claude_new_movie/",
-      "source": "GIZMODO JAPAN",
+      "title": "AI駆動開発基盤で費用7割減 効率化の鍵はデータ統合",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600004/071300213/",
+      "source": "日経クロステック",
       "lang": "ja",
-      "date": "2026-07-19T01:00:00.000Z"
+      "date": "2026-07-20T22:00:00.000Z"
     },
     {
-      "title": "AI検索時代のブランド可視化ツール「Optyino.ai」、AIエージェントからダッシュボードデータを直接参照できる「MCP接続」機能を一般公開",
-      "url": "https://ascii.jp/elem/000/004/420/4420721/?rss",
+      "title": "AI導入で減る仕事と増える仕事1--開発現場で始まる役割転換",
+      "url": "https://japan.zdnet.com/article/35250653/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-20T22:00:00.000Z"
+    },
+    {
+      "title": "動画生成AIのAPIに新機能、「自動生成×手動仕上げ」でシームレス化",
+      "url": "https://ascii.jp/elem/000/004/419/4419262/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-07-19T00:45:05.000Z"
+      "date": "2026-07-20T22:00:00.000Z"
+    },
+    {
+      "title": "採用LLMO戦略を自動設計する「AI検索採用ジャーニーマップ」",
+      "url": "https://ascii.jp/elem/000/004/420/4420475/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-20T22:00:00.000Z"
+    },
+    {
+      "title": "Google is working on a new AI chip designed to make Gemini more efficient",
+      "url": "https://techcrunch.com/2026/07/20/google-is-working-on-a-new-ai-chip-designed-to-make-gemini-more-efficient/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-20T21:21:15.000Z",
+      "titleJa": "Googleは、Geminiをより効率的にするために設計された新しいAIチップの開発に取り組んでいます"
+    },
+    {
+      "title": "X relaunches a rebuilt Android app after year-long effort",
+      "url": "https://techcrunch.com/2026/07/20/x-relaunches-a-rebuilt-android-app-after-year-long-effort/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-20T19:37:39.000Z",
+      "titleJa": "X が 1 年間の努力の末、再構築した Android アプリを再起動"
+    },
+    {
+      "title": "生成AIは調査レポートを引用する？Optyino.aiがAI回答9,715件を分析、導入判断では引用率21.8%",
+      "url": "https://ascii.jp/elem/000/004/420/4420761/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-20T03:37:38.000Z"
+    },
+    {
+      "title": "富士ソフトがエンジニア1万人超を「AIネイティブ」化 実装力を武器にフィジカルAIなど3本柱に注力",
+      "url": "https://ascii.jp/elem/000/004/420/4420734/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-20T22:30:00.000Z"
+    },
+    {
+      "title": "Trump’s latest AI czar has already resigned",
+      "url": "https://techcrunch.com/2026/07/20/trumps-latest-ai-czar-has-already-resigned/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-20T22:21:04.000Z",
+      "titleJa": "トランプ大統領の最新のAI皇帝はすでに辞任した"
     },
     {
       "title": "「スマホで動く」270億パラメーターLLM「Bonsai 27B」登場",
@@ -37,74 +89,6 @@
       "source": "ITmedia AI＋",
       "lang": "ja",
       "date": "2026-07-18T03:50:00.000Z"
-    },
-    {
-      "title": "Databricks hits $188B valuation, extending its run as AI’s favorite second act",
-      "url": "https://techcrunch.com/2026/07/17/databricks-hits-188b-valuation-extending-its-run-as-ais-favorite-second-act/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-17T22:12:56.000Z",
-      "titleJa": "Databricks の評価額は 1,880 億ドルに達し、AI のお気に入りの第 2 幕としての地位を拡大"
-    },
-    {
-      "title": "Google-backed satellites for wildfire detection launch as smoke chokes US, Canada",
-      "url": "https://arstechnica.com/space/2026/07/google-backed-satellites-for-wildfire-detection-launch-as-smoke-chokes-us-canada/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-07-17T19:50:18.000Z",
-      "titleJa": "グーグルが支援する山火事探知衛星が打ち上げ、煙が詰まる米国、カナダ"
-    },
-    {
-      "title": "Apple’s lawsuit couldn’t come at a worse time for OpenAI",
-      "url": "https://techcrunch.com/podcast/apples-lawsuit-couldnt-come-at-a-worse-time-for-openai/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-17T14:00:00.000Z",
-      "titleJa": "Apple の訴訟は OpenAI にとってこれ以上に悪い時期に起きた"
-    },
-    {
-      "title": "Why the first GPU financiers are turning to inference chips in a $400 million deal",
-      "url": "https://techcrunch.com/2026/07/17/why-the-first-gpu-financiers-are-turning-to-inference-chips-in-a-400-million-deal/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-17T12:00:00.000Z",
-      "titleJa": "最初の GPU 投資家が 4 億ドルの取引で推論チップに目を向ける理由"
-    },
-    {
-      "title": "「東京から新潟まで」もAI対応へ--JR東日本が「みどりの窓口」でAIサービスの実証実験",
-      "url": "https://japan.cnet.com/article/35250736/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-07-17T07:35:00.000Z"
-    },
-    {
-      "title": "中国の最新AIモデル「Kimi K3」、部分的にClaude Fable 5を上回る 2.8兆パラメーター",
-      "url": "https://japan.cnet.com/article/35250737/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-07-17T06:50:00.000Z"
-    },
-    {
-      "title": "グーグルのAI動画ツール「Vids」にGemini Omni導入、「自分が登場する動画」も簡単に",
-      "url": "https://japan.cnet.com/article/35250727/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-07-17T06:04:00.000Z"
-    },
-    {
-      "title": "NECがTNFD対応のAIサービスを26年9月に提供開始、調査の作業時間を9割削減",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03682/071500009/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-07-17T02:30:00.000Z"
-    },
-    {
-      "title": "TikTok is testing an AI likeness detection tool",
-      "url": "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-17T19:34:30.000Z",
-      "titleJa": "TikTokはAI類似度検出ツールをテスト中"
     }
   ]
 }
