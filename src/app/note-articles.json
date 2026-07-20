@@ -1,12 +1,12 @@
 {
   "_comment": "noteの記事一覧（自動生成）。scripts/fetch-note-articles.mjs が毎週更新する。手で編集しないこと。badge/tone/tags/excerptの手書きは note-article-meta.json 側へ。",
-  "updatedAt": "2026-07-17",
+  "updatedAt": "2026-07-20",
   "articles": [
     {
       "url": "https://note.com/aiux_unite/n/n0a9924b1f747",
       "title": "【Claude Fable 5】AIの75年の歴史を振り返る「AI歴史絵巻」を超リッチにつくってみた",
       "date": "2026-07-09",
-      "likes": 66,
+      "likes": 72,
       "thumb": "https://assets.st-note.com/production/uploads/images/292887228/rectangle_large_type_2_ebe9c60589ff3923f885953cb65aa568.png?fit=bounds&quality=85&width=1280",
       "excerpt": "そこから始まったAIの歴史 今回は2026年現在までの歴史を、3Dアニメーション動画と、それぞれの歴史を感じられるパーティクルなどの豪華演出で"
     },
@@ -14,7 +14,7 @@
       "url": "https://note.com/aiux_unite/n/ndd10e1acf1b1",
       "title": "手書きイラストを3Dゲームに！Claudeで作った一部始終",
       "date": "2026-06-22",
-      "likes": 82,
+      "likes": 87,
       "thumb": "https://assets.st-note.com/production/uploads/images/287386173/rectangle_large_type_2_1f7bc7d23bb8871d27d4bc8f23a638c5.png?fit=bounds&quality=85&width=1280",
       "excerpt": "いやー！Claude最高に面白い！！ 今回は手書きのイラストをハイクオリティの3Dゲームにするまでの一部始終をお送りします！ 早速ですが出来たゲームがこちら …"
     },
@@ -22,7 +22,7 @@
       "url": "https://note.com/aiux_unite/n/n750de90c0668",
       "title": "【Fable 5】ClaudeCodeのスマホアプリ版で、通勤時間にニュースアプリをつくってみた",
       "date": "2026-06-13",
-      "likes": 58,
+      "likes": 61,
       "thumb": "https://assets.st-note.com/production/uploads/images/285110954/rectangle_large_type_2_8ea63c5cd0ad0bb88d1a118d1ad659a4.png?fit=bounds&quality=85&width=1280",
       "excerpt": "Fable 5が使えなくなったという衝撃のニュースから数時間。。！ ちょうど今朝、電車で移動中の1時間くらいでFable 5でニュースアプリを作ってみて、とて…"
     },
@@ -46,7 +46,7 @@
       "url": "https://note.com/aiux_unite/n/n169ba6bd6c1e",
       "title": "Claude Coworkで業務改善を半自動化してみた～毎朝のAIニュース収集から改善提案まで～",
       "date": "2026-04-17",
-      "likes": 119,
+      "likes": 120,
       "thumb": "https://assets.st-note.com/production/uploads/images/268115959/rectangle_large_type_2_248be67915a76bf17d40201d5d7563b5.png?fit=bounds&quality=85&width=1280",
       "excerpt": "ということで、今回は「業務改善」の半自動化をテーマに 1.毎朝のAIニュース収集 2.そのAIニュースから自分の業務をどう改善できるかの手法の提案 を自動でC…"
     },
@@ -85,7 +85,7 @@
     {
       "url": "https://note.com/aiux_unite/n/n24dc19c0ff2d",
       "title": "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）",
-      "likes": 339,
+      "likes": 340,
       "thumb": "https://assets.st-note.com/production/uploads/images/240496348/rectangle_large_type_2_19012b56a59ec7acb4afd7bf47dd6330.png?fit=bounds&quality=85&width=1280",
       "excerpt": "あけましておめでとうございます！本年もよろしくお願いします！ 正月に書く2026年1発目の記事は「Gemini」×「NotebookLM」で出来るDX（業務フ…",
       "date": "2026-01-01"
@@ -147,14 +147,6 @@
       "excerpt": ""
     },
     {
-      "url": "https://note.com/aiux_unite/n/nc4adf7f5acb0",
-      "title": "6/27（金）19:00から行う高松さんとの無料イベント https://n…",
-      "date": "2025-06-14",
-      "likes": 16,
-      "thumb": "https://assets.st-note.com/production/uploads/images/196018244/aa749401284c6fea365aa247a13749a3.png",
-      "excerpt": "6/27（金）19:00から行う高松さんとの無料イベント https://nijibox.connpass.com/event/355632/ ご登録者400…"
-    },
-    {
       "url": "https://note.com/aiux_unite/n/nbd39b2f9a740",
       "title": "マンガで実践！AI活用 第4話：「ペルソナ」",
       "date": "2025-06-14",
@@ -163,9 +155,17 @@
       "excerpt": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせたい。 前回はKPIシートを作り、目標達成までの道筋を設定が完了…"
     },
     {
+      "url": "https://note.com/aiux_unite/n/nc4adf7f5acb0",
+      "title": "6/27（金）19:00から行う高松さんとの無料イベント https://n…",
+      "date": "2025-06-14",
+      "likes": 16,
+      "thumb": "https://assets.st-note.com/production/uploads/images/196018244/aa749401284c6fea365aa247a13749a3.png",
+      "excerpt": "6/27（金）19:00から行う高松さんとの無料イベント https://nijibox.connpass.com/event/355632/ ご登録者400…"
+    },
+    {
       "url": "https://note.com/aiux_unite/n/naac3d48a3258",
       "title": "【Figma × Claude】MCPでつなぐ、デザインシステムに沿ったワイヤーフレーム自動生成＆編集フロー！",
-      "likes": 215,
+      "likes": 216,
       "thumb": "https://assets.st-note.com/production/uploads/images/193686050/rectangle_large_type_2_539e9f4779406da36984937b9a62e6a6.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は「【Figma × Claude】MCPでつなぐ、自動ワイヤーフレーム生成＆編集フロー！」というタイトルでご紹介していきますが、何をしたかというと 1.…",
       "date": "2025-06-02"
@@ -195,20 +195,20 @@
       "excerpt": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせる。 その為にnoteの読者数5万UU/月を目指すことになった吉…"
     },
     {
+      "url": "https://note.com/aiux_unite/n/n2744fb1ebdfa",
+      "title": "「絵心ゼロでもOK！」手描きイラストから3DモデルをAIで自動生成してみた（ChatGPT×Tripo AI）",
+      "date": "2025-05-02",
+      "likes": 191,
+      "thumb": "https://assets.st-note.com/production/uploads/images/187630665/rectangle_large_type_2_454c8d283a0110454a566932c6c35d04.png?fit=bounds&quality=85&width=1280",
+      "excerpt": "今回は誰でも簡単に自分の手描きイラストから3DモデルをAIで作成する方法を試してみました！ この方法なら落書きレベルのイラストでも、立派な3Dモデルにすること…"
+    },
+    {
       "url": "https://note.com/aiux_unite/n/ncb35e2f72a48",
       "title": "マンガで実践！AI活用のマガジン作りました！ https://note.co…",
       "date": "2025-05-02",
       "likes": 37,
       "thumb": "https://assets.st-note.com/production/uploads/images/187520921/1f965590bfec8beb08b7cc837690146a.png",
       "excerpt": "マンガで実践！AI活用のマガジン作りました！ https://note.com/aiux_unite/m/m0b7bcbd79d18 「マンガでわかる！AI活…"
-    },
-    {
-      "url": "https://note.com/aiux_unite/n/n2744fb1ebdfa",
-      "title": "「絵心ゼロでもOK！」手描きイラストから3DモデルをAIで自動生成してみた（ChatGPT×Tripo AI）",
-      "date": "2025-05-02",
-      "likes": 190,
-      "thumb": "https://assets.st-note.com/production/uploads/images/187630665/rectangle_large_type_2_454c8d283a0110454a566932c6c35d04.png?fit=bounds&quality=85&width=1280",
-      "excerpt": "今回は誰でも簡単に自分の手描きイラストから3DモデルをAIで作成する方法を試してみました！ この方法なら落書きレベルのイラストでも、立派な3Dモデルにすること…"
     },
     {
       "url": "https://note.com/aiux_unite/n/nba0bd5d5c1c5",
@@ -404,7 +404,7 @@
     {
       "url": "https://note.com/aiux_unite/n/n759b5bbfe9e2",
       "title": "【AIで作る】動くストーリーボード",
-      "likes": 211,
+      "likes": 212,
       "thumb": "https://assets.st-note.com/production/uploads/images/129770368/rectangle_large_type_2_e4804db5a363bd8b9fb57de196bdee68.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は「動くストーリーボード」をAIで作ってみました！ なぜ動くストーリーボードを作ろうと思ったか？ そもそもストーリーボードとは、プロダクトやサービスのユー…",
       "date": "2024-02-05"

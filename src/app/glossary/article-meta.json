@@ -4,7 +4,7 @@
     "title": "Claude Coworkで業務改善を半自動化してみた～毎朝のAIニュース収集から改善提案まで～",
     "excerpt": "毎朝のAIニュース収集から、自分の業務をどう改善できるかの提案までを自動でCoworkにやってもらう試み。",
     "thumb": "https://assets.st-note.com/production/uploads/images/268115959/rectangle_large_type_2_248be67915a76bf17d40201d5d7563b5.png?fit=bounds&quality=85&width=1280",
-    "likes": 119,
+    "likes": 120,
     "badge": "AI実践",
     "tone": "blue"
   },
@@ -20,7 +20,7 @@
     "title": "【Figma × Claude】MCPでつなぐ、デザインシステムに沿ったワイヤーフレーム自動生成＆編集フロー！",
     "excerpt": "FigmaとClaudeをMCPでつなぎ、デザインシステムに沿ったワイヤー〜実装を自動生成するフロー。",
     "thumb": "https://assets.st-note.com/production/uploads/images/193686050/rectangle_large_type_2_539e9f4779406da36984937b9a62e6a6.png?fit=bounds&quality=85&width=1280",
-    "likes": 215,
+    "likes": 216,
     "badge": "デザイン",
     "tone": "ink"
   },
@@ -28,7 +28,7 @@
     "title": "【Fable 5】ClaudeCodeのスマホアプリ版で、通勤時間にニュースアプリをつくってみた",
     "excerpt": "Claude Codeのスマホアプリ版（Fable 5）で、通勤時間だけでニュースアプリを作ってみた記録。",
     "thumb": "https://assets.st-note.com/production/uploads/images/285110954/rectangle_large_type_2_8ea63c5cd0ad0bb88d1a118d1ad659a4.png?fit=bounds&quality=85&width=1280",
-    "likes": 58,
+    "likes": 61,
     "badge": "ClaudeCode",
     "tone": "blue"
   },
@@ -36,7 +36,7 @@
     "title": "手書きイラストを3Dゲームに！Claudeで作った一部始終",
     "excerpt": "手描きのイラストから、Claudeを使って3Dゲームを作り上げるまでの一部始終を公開。",
     "thumb": "https://assets.st-note.com/production/uploads/images/287386173/rectangle_large_type_2_1f7bc7d23bb8871d27d4bc8f23a638c5.png?fit=bounds&quality=85&width=1280",
-    "likes": 82,
+    "likes": 87,
     "badge": "3Dゲーム",
     "tone": "yellow"
   },
@@ -52,7 +52,7 @@
     "title": "【AIで作る】動くストーリーボード",
     "excerpt": "AIを使って“動く”ストーリーボードを作る方法を解説。",
     "thumb": "https://assets.st-note.com/production/uploads/images/129770368/rectangle_large_type_2_e4804db5a363bd8b9fb57de196bdee68.png?fit=bounds&quality=85&width=1280",
-    "likes": 211,
+    "likes": 212,
     "badge": "動画生成",
     "tone": "yellow"
   },
@@ -68,7 +68,7 @@
     "title": "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）",
     "excerpt": "「Gemini」×「NotebookLM」で出来る業務フロー改善（DX）。AIでの業務改善について。",
     "thumb": "https://assets.st-note.com/production/uploads/images/240496348/rectangle_large_type_2_19012b56a59ec7acb4afd7bf47dd6330.png?fit=bounds&quality=85&width=1280",
-    "likes": 339,
+    "likes": 340,
     "badge": "業務DX",
     "tone": "blue"
   },
