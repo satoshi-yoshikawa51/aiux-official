@@ -106,9 +106,27 @@ export default function CalendarPage() {
         "@type": "Event",
         name: e.title,
         startDate: e.start,
-        ...(e.end ? { endDate: e.end } : {}),
+        endDate: e.end ?? e.start, // 1日開催は開始日＝終了日（endDate推奨項目対応）
         eventStatus: "https://schema.org/EventScheduled",
+        eventAttendanceMode: e.note?.includes("オンライン")
+          ? "https://schema.org/MixedEventAttendanceMode"
+          : "https://schema.org/OfflineEventAttendanceMode",
         location: { "@type": "Place", name: e.venue, address: e.region === "japan" ? "日本" : "海外" },
+        image: ["https://comixai.dev/og/calendar.png"],
+        organizer: { "@type": "Organization", name: e.organizer, url: e.url },
+        performer: { "@type": "Organization", name: e.organizer },
+        /* 入場無料が明記されているイベントだけofferを出す（不明な料金は書かない） */
+        ...(e.note?.includes("無料")
+          ? {
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "JPY",
+                url: e.url,
+                availability: "https://schema.org/InStock",
+              },
+            }
+          : {}),
         url: e.url,
         description: e.desc,
       })),
