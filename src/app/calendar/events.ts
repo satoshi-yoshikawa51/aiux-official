@@ -12,6 +12,8 @@ export type EventRegion = "world" | "japan";
 export interface AiEvent {
   id: string;
   title: string;
+  /** 主催者（構造化データのorganizer/performerに使う） */
+  organizer: string;
   /** 開始日 YYYY-MM-DD。日程未定なら省略して tba を設定 */
   start?: string;
   /** 終了日（1日開催なら省略） */
@@ -35,6 +37,7 @@ export const EVENTS: AiEvent[] = [
   /* ═══ 開催予定（公式発表済みのみ） ═══ */
   {
     id: "next-tokyo-2026",
+    organizer: "Google Cloud",
     title: "Google Cloud Next Tokyo '26",
     start: "2026-07-30",
     end: "2026-07-31",
@@ -46,6 +49,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "ai-hakurankai-summer-2026",
+    organizer: "アイスマイリー",
     title: "AI博覧会 Summer 2026",
     start: "2026-08-27",
     region: "japan",
@@ -56,6 +60,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "meta-connect-2026",
+    organizer: "Meta",
     title: "Meta Connect 2026",
     start: "2026-09-23",
     end: "2026-09-24",
@@ -67,6 +72,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "openai-devday-2026",
+    organizer: "OpenAI",
     title: "OpenAI DevDay 2026",
     start: "2026-09-29",
     region: "world",
@@ -77,6 +83,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "ceatec-2026",
+    organizer: "JEITA（電子情報技術産業協会）",
     title: "CEATEC 2026",
     start: "2026-10-13",
     end: "2026-10-16",
@@ -88,6 +95,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "github-universe-2026",
+    organizer: "GitHub",
     title: "GitHub Universe 2026",
     start: "2026-10-28",
     end: "2026-10-29",
@@ -99,6 +107,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "nextech-week-2026-autumn",
+    organizer: "RX Japan",
     title: "NexTech Week 2026【秋】（AI・人工知能EXPO）",
     start: "2026-11-11",
     end: "2026-11-13",
@@ -110,6 +119,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "ms-ignite-2026",
+    organizer: "Microsoft",
     title: "Microsoft Ignite 2026",
     start: "2026-11-17",
     end: "2026-11-20",
@@ -121,6 +131,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "aws-reinvent-2026",
+    organizer: "Amazon Web Services",
     title: "AWS re:Invent 2026",
     start: "2026-11-30",
     end: "2026-12-04",
@@ -131,6 +142,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "ces-2027",
+    organizer: "CTA（全米民生技術協会）",
     title: "CES 2027",
     start: "2027-01-06",
     end: "2027-01-09",
@@ -141,6 +153,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "nvidia-gtc-2027",
+    organizer: "NVIDIA",
     title: "NVIDIA GTC 2027",
     start: "2027-03-15",
     end: "2027-03-18",
@@ -152,6 +165,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "openai-devday-exchange-tokyo",
+    organizer: "OpenAI",
     title: "OpenAI DevDay Exchange Tokyo",
     tba: true,
     dateNote: "日程未定（2026年内・東京開催が発表済み）",
@@ -164,6 +178,7 @@ export const EVENTS: AiEvent[] = [
   /* ═══ 開催済み（2026年アーカイブ） ═══ */
   {
     id: "ai-hakurankai-osaka-2026",
+    organizer: "アイスマイリー",
     title: "AI博覧会 Osaka 2026",
     start: "2026-01-21",
     end: "2026-01-22",
@@ -174,6 +189,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "nvidia-gtc-2026",
+    organizer: "NVIDIA",
     title: "NVIDIA GTC 2026",
     start: "2026-03-16",
     end: "2026-03-19",
@@ -184,6 +200,7 @@ export const EVENTS: AiEvent[] = [
   },
   {
     id: "ai-hakurankai-spring-2026",
+    organizer: "アイスマイリー",
     title: "AI博覧会 Spring 2026",
     start: "2026-04-07",
     end: "2026-04-08",
