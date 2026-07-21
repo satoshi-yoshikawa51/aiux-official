@@ -163,13 +163,13 @@ export default function CalendarPage() {
         <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "48px 0 52px" }}>
           <SectionHead kicker="📰 DAILY — 今日のAIニュース" title="今朝までの、話題の見出し。" hand="毎朝7時ごろ自動更新・出典へ直リンク" />
           {NEWS.items.length === 0 ? (
-            <Card variant="flat" padding={22} style={{ maxWidth: 680 }}>
+            <Card variant="flat" padding={22} style={{ maxWidth: 680, margin: "0 auto" }}>
               <p style={{ margin: 0, fontFamily: "var(--font-hand)", fontSize: 15, color: "var(--text-muted)" }}>
                 ニュースの初回取得を待っています。毎朝7時ごろに最新の見出しがここに並びます。
               </p>
             </Card>
           ) : (
-            <div style={{ display: "grid", gap: 10, maxWidth: 760 }}>
+            <div style={{ display: "grid", gap: 10, maxWidth: 760, margin: "0 auto" }}>
               {NEWS.items.map((n) => (
                 <a
                   key={n.url}
