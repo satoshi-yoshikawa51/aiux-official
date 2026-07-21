@@ -491,6 +491,14 @@ img {
   }
 }
 
+/* ニュースのサムネイル：スマホでは少し小さく */
+@media (max-width: 720px) {
+  .news-thumb {
+    width: 84px !important;
+    height: 56px !important;
+  }
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .hero-grid {

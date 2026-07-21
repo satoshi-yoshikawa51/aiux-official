@@ -4,7 +4,12 @@ import { Badge, Button, Card } from "../ds";
 import { Breadcrumb, SectionHead } from "../site-ui";
 import { EVENTS, EVENTS_UPDATED, dateLabel, isPast, todayJst, type AiEvent } from "./events";
 import { CalendarView, type CalEvent } from "./calendar-view";
+import { NewsThumb } from "./news-thumb";
+import { EventBanner } from "./event-banner";
 import newsJson from "./news-headlines.json";
+import eventImagesJson from "./event-images.json";
+
+const EVENT_IMAGES = (eventImagesJson as { images: Record<string, string> }).images ?? {};
 
 export const metadata: Metadata = {
   title: "AIイベントカレンダー2026｜世界と日本の主要イベント＆今日のAIニュース｜COMIXAI",
@@ -32,6 +37,8 @@ interface NewsItem {
   lang: string;
   kind?: string;
   date: string;
+  /** OGP画像（取得できた記事のみ） */
+  image?: string;
 }
 
 const NEWS = newsJson as { updatedAt: string | null; items: NewsItem[] };
@@ -50,7 +57,8 @@ function EventCard({ e }: { e: AiEvent }) {
   const rb = REGION_BADGE[e.region];
   return (
     <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
-      <Card variant="pop" hover padding={18} style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      <Card variant="pop" hover padding={18} style={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        {EVENT_IMAGES[e.id] && <EventBanner src={EVENT_IMAGES[e.id]} />}
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 10 }}>
           <Badge tone={rb.tone}>{rb.label}</Badge>
           <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12.5 }}>{dateLabel(e)}</span>
@@ -179,7 +187,7 @@ export default function CalendarPage() {
                   style={{ display: "flex", alignItems: "baseline", gap: 12, textDecoration: "none", color: "inherit", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", padding: "12px 16px", boxShadow: "var(--shadow-pop-sm)" }}
                 >
                   <span style={{ flex: "none", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color: "var(--red-600)" }}>{fmtNewsDate(n.date)}</span>
-                  <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14.5, lineHeight: 1.6 }}>
+                  <span style={{ flex: "1 1 auto", minWidth: 0, fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14.5, lineHeight: 1.6 }}>
                     {n.lang === "en" && (
                       <span style={{ display: "inline-block", verticalAlign: "1px", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 10, color: "var(--blue-600)", border: "1.5px solid var(--blue-500)", borderRadius: "var(--radius-full)", padding: "1px 8px", marginRight: 8, whiteSpace: "nowrap" }}>
                         🌏 海外
@@ -195,6 +203,7 @@ export default function CalendarPage() {
                       {n.source} <i className="ph-bold ph-arrow-up-right" />
                     </span>
                   </span>
+                  {n.image && <NewsThumb src={n.image} />}
                 </a>
               ))}
             </div>

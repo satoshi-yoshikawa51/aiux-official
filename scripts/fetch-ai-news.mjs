@@ -23,6 +23,8 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_PATH = path.join(ROOT, "src/app/calendar/news-headlines.json");
+const EVENTS_TS_PATH = path.join(ROOT, "src/app/calendar/events.ts");
+const EVENT_IMAGES_PATH = path.join(ROOT, "src/app/calendar/event-images.json");
 
 /* filter=true の総合フィードは、AI関連キーワードに一致した見出しだけ採用する */
 const FEEDS = [
@@ -207,6 +209,33 @@ async function fetchFeed(feed) {
   }
 }
 
+/* 記事ページからOGP画像URLを取り出す（サムネイル用）。
+   失敗・未設定ならnull（サムネなしで表示される） */
+async function fetchOgImage(url) {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const res = await fetch(url, {
+      headers: { "User-Agent": UA, Accept: "text/html" },
+      signal: ctrl.signal,
+      redirect: "follow",
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    /* headにあるmetaだけ欲しいので先頭200KBで打ち切る */
+    const html = (await res.text()).slice(0, 200_000);
+    const m =
+      html.match(/<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["']/i) ||
+      html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["']/i) ||
+      html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
+    if (!m) return null;
+    const img = stripHtml(m[1]);
+    return /^https?:\/\//.test(img) ? img : null;
+  } catch {
+    return null;
+  }
+}
+
 /* 英語見出しの日本語訳（無料の翻訳エンドポイント。失敗したらnull） */
 async function translateToJa(text) {
   try {
@@ -325,6 +354,15 @@ for (const a of en) {
 }
 console.log(`  翻訳: ${en.filter((a) => a.titleJa).length}/${en.length}本 成功`);
 
+/* 採用が決まった記事だけ、サムネイル（OGP画像）を取得 */
+const withImage = [...ja, ...en];
+for (const a of withImage) {
+  const img = await fetchOgImage(a.url);
+  if (img) a.image = img;
+  await new Promise((r) => setTimeout(r, 200));
+}
+console.log(`  サムネ: ${withImage.filter((a) => a.image).length}/${withImage.length}本 取得`);
+
 /* 表示は「日付（新しい日が上）→ 同日内は価値スコア順」 */
 const day = (a) => a.date.slice(0, 10);
 const picked = [...ja, ...en].sort(
@@ -345,3 +383,33 @@ await writeFile(
   ) + "\n"
 );
 console.log(`✔ news-headlines.json を更新しました（日本語${ja.length}本＋海外${en.length}本）`);
+
+/* ── イベントのバナー画像（公式サイトのOGP画像）も取得する ──
+   events.ts から id と公式URLを読み取り、event-images.json に保存。
+   イベント追加時も翌朝の実行で自動的にバナーが付く */
+try {
+  const src = await readFile(EVENTS_TS_PATH, "utf8");
+  const pairs = [...src.matchAll(/id:\s*"([^"]+)"[\s\S]*?url:\s*"([^"]+)"/g)].map((m) => [m[1], m[2]]);
+  const images = {};
+  for (const [id, url] of pairs) {
+    const img = await fetchOgImage(url);
+    if (img) images[id] = img;
+    await new Promise((r) => setTimeout(r, 200));
+  }
+  await writeFile(
+    EVENT_IMAGES_PATH,
+    JSON.stringify(
+      {
+        _comment:
+          "イベント公式サイトのOGP画像（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
+        updatedAt: new Date().toISOString(),
+        images,
+      },
+      null,
+      2
+    ) + "\n"
+  );
+  console.log(`✔ event-images.json を更新しました（${Object.keys(images).length}/${pairs.length}件 取得）`);
+} catch (e) {
+  console.log(`  ✗ イベント画像の取得をスキップ: ${e.message}`);
+}
