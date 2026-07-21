@@ -1,38 +1,98 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-21T10:58:42.379Z",
+  "updatedAt": "2026-07-21T22:30:43.378Z",
   "items": [
     {
-      "title": "Anthropic’s landmark $1.5B copyright settlement is approved",
-      "url": "https://techcrunch.com/2026/07/20/anthropics-landmark-1-5b-copyright-settlement-is-approved/",
+      "title": "OpenAI and Hugging Face partner to address security incident during model evaluation",
+      "url": "https://openai.com/index/hugging-face-model-evaluation-security-incident",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-07-21T07:00:00.000Z",
+      "titleJa": "OpenAI と Hugging Face が提携してモデル評価中のセキュリティ インシデントに対処"
+    },
+    {
+      "title": "Anthropic’s $1.5B copyright settlement approved; only 350 authors opted out",
+      "url": "https://arstechnica.com/tech-policy/2026/07/judge-approves-anthropics-1-5-billion-copyright-settlement-with-authors/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-07-21T17:33:14.000Z",
+      "titleJa": "Anthropic の 15 億ドルの著作権和解案が承認。オプトアウトした著者はわずか 350 人",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-592014704-1152x648.jpg"
+    },
+    {
+      "title": "Google releases three new Gemini models — but no 3.5 Pro",
+      "url": "https://techcrunch.com/2026/07/21/google-releases-three-new-gemini-models-but-no-3-5-pro/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-21T00:12:24.000Z",
-      "titleJa": "Anthropic の画期的な 15 億ドルの著作権和解案が承認される",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/Claude-photo.jpg?w=1024"
+      "date": "2026-07-21T17:11:50.000Z",
+      "titleJa": "Google、3 つの新しい Gemini モデルをリリース",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/01/google-gemini-jagmeet-singh-techcrunch.jpg?resize=1200,800"
     },
     {
-      "title": "AIホストとの対話で企業の\"今\"をひもとく。株式会社PRefully、対話型Podcast番組「PRefullyのPlayful days」配信開始",
-      "url": "https://ascii.jp/elem/000/004/421/4421087/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-21T08:30:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "title": "Google launches a cheaper alternative to large AI security models like Mythos",
+      "url": "https://www.theverge.com/tech/968572/google-gemini-flash-cyber-ai-security-model",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-21T15:00:00.000Z",
+      "titleJa": "Google、Mythos のような大規模な AI セキュリティ モデルに代わる安価な代替手段を発表",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/01/STK255_Google_Gemini_D.jpg?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
-      "title": "株式会社プエンテ、AI配信ワークフローで運営するLoFiボーカリスト「Mellow」が初の3Dデビューライブを7月25日開催 ─ デビュー約1年半でYouTube登録者178万人",
-      "url": "https://ascii.jp/elem/000/004/421/4421088/?rss",
-      "source": "ASCII.jp",
+      "title": "David Vélez and Robin Vince join the boards of the OpenAI Foundation and OpenAI Group PBC",
+      "url": "https://openai.com/index/david-velez-robin-vince-join-openai-boards",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-07-21T00:00:00.000Z",
+      "titleJa": "David Vélez と Robin Vince が OpenAI Foundation と OpenAI Group PBC の取締役に加わりました"
+    },
+    {
+      "title": "Google、「Gemini 3.6 Flash」など3モデルを発表 出力トークンを削減しつつ値下げ、「Gemini 4」も予告",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/22/2000000212/",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-07-21T08:01:33.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "date": "2026-07-21T22:07:13.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/22/2000000212/10001016/2048"
+    },
+    {
+      "title": "AI戦略にも違い 基盤構築とデータ分散",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/071300561/071300003/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-07-21T22:02:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/071300561/071300003/topm.jpg?20220512"
+    },
+    {
+      "title": "矢崎総業がイノベーション拠点を公開、労働集約型モノづくりのスマート化に向け",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2607/22/news054.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-21T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2607/22/cover_news054.jpg"
+    },
+    {
+      "title": "GoogleがAIアプリ「Dreambeans」を発表 「画面を延々とスクロール」の脱却で何を目指すのか",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2607/22/news047.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-21T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2607/22/cover_news047.jpg"
+    },
+    {
+      "title": "企業向けでAIツールで成長率トップはAnthropic、アカウント数が最も多いのはMicrosoft 365。Oktaが調査結果を発表",
+      "url": "https://www.publickey1.jp/blog/26/aianthropicmicrosoft_365okta.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-07-21T13:51:42.000Z",
+      "image": "https://www.publickey1.jp/2026/okta-aitools-ranking2026-01.png"
     },
     {
       "title": "政府、マイナカードをAIエージェントと連携へ 重点計画に明記",
       "url": "https://japan.cnet.com/article/35250805/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-07-21T06:50:00.000Z",
+      "kind": "buzz",
+      "count": 114,
+      "date": "2026-07-21T08:32:46.000Z",
       "image": "https://japan.cnet.com/storage/2026/07/21/10f41f4d5f38c9a7e5233bd7f303760e/large.jpg"
     },
     {
@@ -50,57 +110,6 @@
       "lang": "ja",
       "date": "2026-07-21T02:35:00.000Z",
       "image": "https://japan.cnet.com/storage/2026/07/21/da7db4b4163b7938112a94aaf394d705/sub12.jpg"
-    },
-    {
-      "title": "OpenAI、自律型AIが安全対策を回避する行動を学習する可能性を確認 内部展開を一時停止",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/21/2000000207/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-21T00:33:06.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/21/2000000207/10000996/2048"
-    },
-    {
-      "title": "AMDとMicrosoftが戦略的提携を拡大 新AIラックスケール「Helios」をAzureに大規模導入へ",
-      "url": "https://www.itmedia.co.jp/news/articles/2607/21/news051.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-20T22:33:00.000Z",
-      "image": "https://image.itmedia.co.jp/news/articles/2607/21/cover_news051.jpg"
-    },
-    {
-      "title": "AI導入で減る仕事と増える仕事--開発現場で始まる役割転換",
-      "url": "https://japan.zdnet.com/article/35250653/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-20T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/07/16/1e791c548f22971d0b9c04e6a068e756/thumb_ai_1280.jpg"
-    },
-    {
-      "title": "Google is working on a new AI chip designed to make Gemini more efficient",
-      "url": "https://techcrunch.com/2026/07/20/google-is-working-on-a-new-ai-chip-designed-to-make-gemini-more-efficient/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-20T21:21:15.000Z",
-      "titleJa": "Googleは、Geminiをより効率的にするために設計された新しいAIチップの開発に取り組んでいます",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/Screenshot-2026-07-01-at-10.00.27-AM.jpg?resize=1200,611"
-    },
-    {
-      "title": "X relaunches a rebuilt Android app after year-long effort",
-      "url": "https://techcrunch.com/2026/07/20/x-relaunches-a-rebuilt-android-app-after-year-long-effort/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-20T19:37:39.000Z",
-      "titleJa": "X が 1 年間の努力の末、再構築した Android アプリを再起動",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/07/x-twitter.jpg?resize=1200,550"
-    },
-    {
-      "title": "Dave Eggers told OpenAI staff that ChatGPT was ‘silencing an entire generation’",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/967630/dave-eggers-openai-chatgpt-silencing-an-entire-generation",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-18T20:54:42.000Z",
-      "titleJa": "Dave Eggers 氏は、ChatGPT が「全世代を沈黙させている」と OpenAI スタッフに語った",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/gettyimages-2157758001.jpg?quality=90&strip=all&crop=0%2C2.5961195218394%2C100%2C43.073649479563&w=1200"
     }
   ]
 }
