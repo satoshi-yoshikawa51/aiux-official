@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Breadcrumb } from "../site-ui";
-import { ClaudeAppSim } from "./game";
+import { GuidedClaudeApp } from "./guide";
 
 export const metadata: Metadata = {
   title: "Claudeアプリ・シミュレーター｜PC・スマホ画面をブラウザで擬似体験｜COMIXAI",
@@ -65,7 +65,7 @@ export default function ClaudeAppPage() {
         </p>
       </section>
       <section style={{ maxWidth: "min(880px, 94vw)", margin: "0 auto", padding: "0 0 60px" }}>
-        <ClaudeAppSim />
+        <GuidedClaudeApp />
       </section>
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />

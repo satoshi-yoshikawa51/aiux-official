@@ -15,10 +15,12 @@
     "@fontsource/zen-kaku-gothic-new": "^5.2.7",
     "@next/third-parties": "^16.2.7",
     "@phosphor-icons/web": "^2.1.2",
+    "@types/three": "^0.185.1",
     "gpt-tokenizer": "^3.4.0",
     "next": "16.2.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@types/node": "^20",

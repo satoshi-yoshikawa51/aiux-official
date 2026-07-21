@@ -642,6 +642,7 @@ export function ClaudeAppSim({
                         key={t.id}
                         role="tab"
                         aria-selected={on}
+                        data-guide={`tab-${t.id}`}
                         onClick={() => switchTab(t.id)}
                         style={{
                           display: "flex", alignItems: "center", gap: 6, padding: "6px 18px", borderRadius: 7,
@@ -859,6 +860,7 @@ function Sidebar({
               <button
                 key={t.id}
                 onClick={() => switchTab(t.id)}
+                data-guide={`tab-${t.id}`}
                 aria-current={on ? "page" : undefined}
                 style={{
                   display: "flex", alignItems: "center", gap: 9, width: "100%", textAlign: "left",
@@ -1021,9 +1023,10 @@ function Main({
             <div style={{ fontFamily: SERIF, fontSize: device === "sp" ? 19 : 23, color: C.ink }}>{def.greet}</div>
             {def.sub && <div style={{ fontSize: 11.5, color: C.sub, maxWidth: 300 }}>{def.sub}</div>}
             <div style={{ display: "flex", flexDirection: "column", gap: 7, marginTop: 10, width: "100%", maxWidth: 320 }}>
-              {def.suggestions.map((s) => (
+              {def.suggestions.map((s, si) => (
                 <button
                   key={s}
+                  data-guide={`suggest-${si}`}
                   onClick={() => send(s)}
                   disabled={busy}
                   style={{
@@ -1073,7 +1076,7 @@ function Main({
               </div>
             )}
             <div style={{ position: "relative" }}>
-              <button style={chipStyle} onClick={() => setMenu(menu === "folder" ? null : "folder")}>
+              <button style={chipStyle} data-guide="folder" onClick={() => setMenu(menu === "folder" ? null : "folder")}>
                 📁 {folder ?? "フォルダを選択"} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
               </button>
               {menu === "folder" && (
@@ -1116,6 +1119,7 @@ function Main({
                 onClick={() => setMenu(menu === "perm" ? null : "perm")}
                 style={{ ...chipStyle, padding: "5px 8px" }}
                 title="権限モード"
+                data-guide="perm"
               >
                 🛡 {permInfo.name} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
               </button>
@@ -1133,6 +1137,7 @@ function Main({
               onClick={() => setMenu(menu === "model" ? null : "model")}
               style={{ ...chipStyle, padding: "5px 8px" }}
               title="モデルを選択"
+              data-guide="model"
             >
               {modelInfo.name} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
             </button>
@@ -1147,6 +1152,7 @@ function Main({
             onClick={() => send()}
             disabled={busy || !input.trim()}
             aria-label="送信"
+            data-guide="send"
             style={{
               width: 30, height: 30, borderRadius: "50%", border: "none", cursor: busy || !input.trim() ? "not-allowed" : "pointer",
               background: busy || !input.trim() ? C.line : C.accent, color: "#fff", fontSize: 15, fontWeight: 700, flexShrink: 0,
@@ -1226,6 +1232,7 @@ function Bubble({
               <div style={{ display: "flex", gap: 8, padding: "10px 12px", borderTop: `1px solid ${C.line}` }}>
                 <button
                   onClick={() => onResolve(true)}
+                  data-guide="accept"
                   style={{ flex: 1, padding: "8px 0", borderRadius: 9, border: "none", cursor: "pointer", background: C.ink, color: "#fff", fontWeight: 800, fontSize: 12.5, fontFamily: "inherit" }}
                 >
                   ✓ Accept
@@ -1275,6 +1282,7 @@ function Bubble({
               <div style={{ display: "flex", gap: 8, padding: "10px 12px", borderTop: `1px solid ${C.line}` }}>
                 <button
                   onClick={() => onResolveApproval(true)}
+                  data-guide="approve"
                   style={{ flex: 1, padding: "8px 0", borderRadius: 9, border: "none", cursor: "pointer", background: C.ink, color: "#fff", fontWeight: 800, fontSize: 12.5, fontFamily: "inherit" }}
                 >
                   ✓ 許可する
@@ -1310,6 +1318,7 @@ function Bubble({
         <div style={{ minWidth: 0, maxWidth: sp ? "88%" : "84%" }}>
           <button
             onClick={() => onOpenArtifact(a)}
+            data-guide="artifact"
             style={{
               display: "flex", alignItems: "center", gap: 11, textAlign: "left", cursor: "pointer", fontFamily: "inherit",
               border: `1.5px solid ${C.line}`, borderRadius: 12, background: "#FFFFFF", padding: "11px 14px", minWidth: 230,
