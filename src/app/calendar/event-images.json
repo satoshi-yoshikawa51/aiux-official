@@ -1,5 +1,19 @@
 {
   "_comment": "イベント公式サイトのOGP画像（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": null,
-  "images": {}
+  "updatedAt": "2026-07-21T10:58:51.729Z",
+  "images": {
+    "next-tokyo-2026": "https://assets.swoogo.com/uploads/full/6810224-69d5ae740cab5.png",
+    "ai-hakurankai-summer-2026": "https://aismiley.co.jp/assets/img/ai_hakurankai/common/ogp.png",
+    "openai-devday-2026": "https://devday.openai.com/images/devday/devday-2026-interactive-og.png",
+    "ceatec-2026": "https://www.ceatec.com/app_asset/ogp_en/ogp2026.png",
+    "github-universe-2026": "https://githubuniverse.com/og-image-26-2.png",
+    "nextech-week-2026-autumn": "https://www.nextech-week.jp/content/dam/sitebuilder/rxjp/nextech-week/images/ja/hub/common/home/ntw_jp_hub_a_navi_img.png/_jcr_content/renditions/original",
+    "ms-ignite-2026": "https://eventtools.event.microsoft.com/cdn/Ignite2026/Phase_1_Registration/OpenGraph/FY27_Ignite_Ph1_OpenGraph.png",
+    "ces-2027": "https://www.ces.tech/media/hcdh2f21/ces_2026_website_1500x1000_blue.jpg?width=1200&height=630&bgcolor=white",
+    "nvidia-gtc-2027": "https://www.nvidia.com/content/dam/en-zz/Solutions/gtc/social-image/gtc26-web-homepage-best-of-gtc-og.jpg",
+    "openai-devday-exchange-tokyo": "https://devday.openai.com/images/devday/devday-2026-interactive-og.png",
+    "ai-hakurankai-osaka-2026": "https://aismiley.co.jp/assets/img/ai_hakurankai/common/ogp.png",
+    "nvidia-gtc-2026": "https://www.nvidia.com/content/dam/en-zz/Solutions/gtc/social-image/gtc26-web-homepage-best-of-gtc-og.jpg",
+    "ai-hakurankai-spring-2026": "https://aismiley.co.jp/assets/img/ai_hakurankai/common/ogp.png"
+  }
 }
