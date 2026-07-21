@@ -5,7 +5,11 @@ import { Breadcrumb, SectionHead } from "../site-ui";
 import { EVENTS, EVENTS_UPDATED, dateLabel, isPast, todayJst, type AiEvent } from "./events";
 import { CalendarView, type CalEvent } from "./calendar-view";
 import { NewsThumb } from "./news-thumb";
+import { EventBanner } from "./event-banner";
 import newsJson from "./news-headlines.json";
+import eventImagesJson from "./event-images.json";
+
+const EVENT_IMAGES = (eventImagesJson as { images: Record<string, string> }).images ?? {};
 
 export const metadata: Metadata = {
   title: "AIイベントカレンダー2026｜世界と日本の主要イベント＆今日のAIニュース｜COMIXAI",
@@ -53,7 +57,8 @@ function EventCard({ e }: { e: AiEvent }) {
   const rb = REGION_BADGE[e.region];
   return (
     <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
-      <Card variant="pop" hover padding={18} style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      <Card variant="pop" hover padding={18} style={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        {EVENT_IMAGES[e.id] && <EventBanner src={EVENT_IMAGES[e.id]} />}
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 10 }}>
           <Badge tone={rb.tone}>{rb.label}</Badge>
           <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12.5 }}>{dateLabel(e)}</span>

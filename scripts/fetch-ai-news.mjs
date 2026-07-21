@@ -23,6 +23,8 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_PATH = path.join(ROOT, "src/app/calendar/news-headlines.json");
+const EVENTS_TS_PATH = path.join(ROOT, "src/app/calendar/events.ts");
+const EVENT_IMAGES_PATH = path.join(ROOT, "src/app/calendar/event-images.json");
 
 /* filter=true の総合フィードは、AI関連キーワードに一致した見出しだけ採用する */
 const FEEDS = [
@@ -381,3 +383,33 @@ await writeFile(
   ) + "\n"
 );
 console.log(`✔ news-headlines.json を更新しました（日本語${ja.length}本＋海外${en.length}本）`);
+
+/* ── イベントのバナー画像（公式サイトのOGP画像）も取得する ──
+   events.ts から id と公式URLを読み取り、event-images.json に保存。
+   イベント追加時も翌朝の実行で自動的にバナーが付く */
+try {
+  const src = await readFile(EVENTS_TS_PATH, "utf8");
+  const pairs = [...src.matchAll(/id:\s*"([^"]+)"[\s\S]*?url:\s*"([^"]+)"/g)].map((m) => [m[1], m[2]]);
+  const images = {};
+  for (const [id, url] of pairs) {
+    const img = await fetchOgImage(url);
+    if (img) images[id] = img;
+    await new Promise((r) => setTimeout(r, 200));
+  }
+  await writeFile(
+    EVENT_IMAGES_PATH,
+    JSON.stringify(
+      {
+        _comment:
+          "イベント公式サイトのOGP画像（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
+        updatedAt: new Date().toISOString(),
+        images,
+      },
+      null,
+      2
+    ) + "\n"
+  );
+  console.log(`✔ event-images.json を更新しました（${Object.keys(images).length}/${pairs.length}件 取得）`);
+} catch (e) {
+  console.log(`  ✗ イベント画像の取得をスキップ: ${e.message}`);
+}
