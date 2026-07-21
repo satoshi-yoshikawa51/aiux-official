@@ -1,34 +1,79 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-20T22:33:14.387Z",
+  "updatedAt": "2026-07-21T10:50:54.664Z",
   "items": [
     {
-      "title": "AI駆動開発基盤で費用7割減 効率化の鍵はデータ統合",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600004/071300213/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-07-20T22:00:00.000Z"
+      "title": "Anthropic’s landmark $1.5B copyright settlement is approved",
+      "url": "https://techcrunch.com/2026/07/20/anthropics-landmark-1-5b-copyright-settlement-is-approved/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-21T00:12:24.000Z",
+      "titleJa": "Anthropic の画期的な 15 億ドルの著作権和解案が承認される",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/Claude-photo.jpg?w=1024"
     },
     {
-      "title": "AI導入で減る仕事と増える仕事1--開発現場で始まる役割転換",
+      "title": "AIホストとの対話で企業の\"今\"をひもとく。株式会社PRefully、対話型Podcast番組「PRefullyのPlayful days」配信開始",
+      "url": "https://ascii.jp/elem/000/004/421/4421087/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-21T08:30:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "株式会社プエンテ、AI配信ワークフローで運営するLoFiボーカリスト「Mellow」が初の3Dデビューライブを7月25日開催 ─ デビュー約1年半でYouTube登録者178万人",
+      "url": "https://ascii.jp/elem/000/004/421/4421088/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-21T08:01:33.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "政府、マイナカードをAIエージェントと連携へ 重点計画に明記",
+      "url": "https://japan.cnet.com/article/35250805/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-21T06:50:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/07/21/10f41f4d5f38c9a7e5233bd7f303760e/large.jpg"
+    },
+    {
+      "title": "「取りあえずAI導入」の末路 現場で深まる情報漏えい不安 IPAの意識調査で明らかに",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2607/21/news044.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-21T04:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2607/21/cover_news044.jpg"
+    },
+    {
+      "title": "テスラ車、日本でも「Grok」配信開始 音声AIと会話しながら運転可能に",
+      "url": "https://japan.cnet.com/article/35250790/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-21T02:35:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/07/21/da7db4b4163b7938112a94aaf394d705/sub12.jpg"
+    },
+    {
+      "title": "OpenAI、自律型AIが安全対策を回避する行動を学習する可能性を確認 内部展開を一時停止",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/21/2000000207/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-21T00:33:06.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/21/2000000207/10000996/2048"
+    },
+    {
+      "title": "AMDとMicrosoftが戦略的提携を拡大 新AIラックスケール「Helios」をAzureに大規模導入へ",
+      "url": "https://www.itmedia.co.jp/news/articles/2607/21/news051.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-20T22:33:00.000Z",
+      "image": "https://image.itmedia.co.jp/news/articles/2607/21/cover_news051.jpg"
+    },
+    {
+      "title": "AI導入で減る仕事と増える仕事--開発現場で始まる役割転換",
       "url": "https://japan.zdnet.com/article/35250653/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-07-20T22:00:00.000Z"
-    },
-    {
-      "title": "動画生成AIのAPIに新機能、「自動生成×手動仕上げ」でシームレス化",
-      "url": "https://ascii.jp/elem/000/004/419/4419262/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-20T22:00:00.000Z"
-    },
-    {
-      "title": "採用LLMO戦略を自動設計する「AI検索採用ジャーニーマップ」",
-      "url": "https://ascii.jp/elem/000/004/420/4420475/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-20T22:00:00.000Z"
+      "date": "2026-07-20T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/07/16/1e791c548f22971d0b9c04e6a068e756/thumb_ai_1280.jpg"
     },
     {
       "title": "Google is working on a new AI chip designed to make Gemini more efficient",
@@ -36,7 +81,8 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-07-20T21:21:15.000Z",
-      "titleJa": "Googleは、Geminiをより効率的にするために設計された新しいAIチップの開発に取り組んでいます"
+      "titleJa": "Googleは、Geminiをより効率的にするために設計された新しいAIチップの開発に取り組んでいます",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/Screenshot-2026-07-01-at-10.00.27-AM.jpg?resize=1200,611"
     },
     {
       "title": "X relaunches a rebuilt Android app after year-long effort",
@@ -44,36 +90,8 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-07-20T19:37:39.000Z",
-      "titleJa": "X が 1 年間の努力の末、再構築した Android アプリを再起動"
-    },
-    {
-      "title": "生成AIは調査レポートを引用する？Optyino.aiがAI回答9,715件を分析、導入判断では引用率21.8%",
-      "url": "https://ascii.jp/elem/000/004/420/4420761/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-20T03:37:38.000Z"
-    },
-    {
-      "title": "富士ソフトがエンジニア1万人超を「AIネイティブ」化 実装力を武器にフィジカルAIなど3本柱に注力",
-      "url": "https://ascii.jp/elem/000/004/420/4420734/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-20T22:30:00.000Z"
-    },
-    {
-      "title": "Trump’s latest AI czar has already resigned",
-      "url": "https://techcrunch.com/2026/07/20/trumps-latest-ai-czar-has-already-resigned/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-20T22:21:04.000Z",
-      "titleJa": "トランプ大統領の最新のAI皇帝はすでに辞任した"
-    },
-    {
-      "title": "「スマホで動く」270億パラメーターLLM「Bonsai 27B」登場",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/17/2000000202/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-18T23:40:43.000Z"
+      "titleJa": "X が 1 年間の努力の末、再構築した Android アプリを再起動",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/07/x-twitter.jpg?resize=1200,550"
     },
     {
       "title": "Dave Eggers told OpenAI staff that ChatGPT was ‘silencing an entire generation’",
@@ -81,14 +99,8 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-07-18T20:54:42.000Z",
-      "titleJa": "Dave Eggers 氏は、ChatGPT が「全世代を沈黙させている」と OpenAI スタッフに語った"
-    },
-    {
-      "title": "「Claude Fable 5」サブスクに統合 Max・Team Premiumプラン対象",
-      "url": "https://www.itmedia.co.jp/news/articles/2607/18/news019.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-18T03:50:00.000Z"
+      "titleJa": "Dave Eggers 氏は、ChatGPT が「全世代を沈黙させている」と OpenAI スタッフに語った",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/gettyimages-2157758001.jpg?quality=90&strip=all&crop=0%2C2.5961195218394%2C100%2C43.073649479563&w=1200"
     }
   ]
 }
