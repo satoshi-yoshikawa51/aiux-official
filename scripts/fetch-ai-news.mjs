@@ -207,6 +207,33 @@ async function fetchFeed(feed) {
   }
 }
 
+/* 記事ページからOGP画像URLを取り出す（サムネイル用）。
+   失敗・未設定ならnull（サムネなしで表示される） */
+async function fetchOgImage(url) {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const res = await fetch(url, {
+      headers: { "User-Agent": UA, Accept: "text/html" },
+      signal: ctrl.signal,
+      redirect: "follow",
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    /* headにあるmetaだけ欲しいので先頭200KBで打ち切る */
+    const html = (await res.text()).slice(0, 200_000);
+    const m =
+      html.match(/<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["']/i) ||
+      html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["']/i) ||
+      html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
+    if (!m) return null;
+    const img = stripHtml(m[1]);
+    return /^https?:\/\//.test(img) ? img : null;
+  } catch {
+    return null;
+  }
+}
+
 /* 英語見出しの日本語訳（無料の翻訳エンドポイント。失敗したらnull） */
 async function translateToJa(text) {
   try {
@@ -324,6 +351,15 @@ for (const a of en) {
   await new Promise((r) => setTimeout(r, 300));
 }
 console.log(`  翻訳: ${en.filter((a) => a.titleJa).length}/${en.length}本 成功`);
+
+/* 採用が決まった記事だけ、サムネイル（OGP画像）を取得 */
+const withImage = [...ja, ...en];
+for (const a of withImage) {
+  const img = await fetchOgImage(a.url);
+  if (img) a.image = img;
+  await new Promise((r) => setTimeout(r, 200));
+}
+console.log(`  サムネ: ${withImage.filter((a) => a.image).length}/${withImage.length}本 取得`);
 
 /* 表示は「日付（新しい日が上）→ 同日内は価値スコア順」 */
 const day = (a) => a.date.slice(0, 10);
