@@ -1,9 +1,9 @@
 "use client";
 /* ============================================================
    トップページの初回ローディング演出。
-   粒子が画面中から集まり、顔が縦軸でくるくる回りながら実体化
-   → 呼吸しながら待機 → 退場は拡大しながら粒子に弾けて
-   全画面に散って消える。同一セッション2回目以降は出さない。
+   顔が縦軸でくるくる回りながら実体化 → 呼吸しながら待機 →
+   退場は拡大しながら粒子に弾けて全画面に散って消える。
+   同一セッション2回目以降は出さない。
    prefers-reduced-motion では短いフェードのみ。
    ============================================================ */
 import React from "react";
@@ -17,24 +17,18 @@ const prand = (i: number, salt: number) => {
 const P_CHARS = ["✦", "✧", "✦", "✧"];
 const P_COLORS = ["var(--yellow-400)", "var(--paper-50)", "var(--red-500)", "var(--yellow-200)"];
 
-/* 粒子は登場（画面の外周から中心へ集まる）と
-   退場（中心から全画面へ弾け飛ぶ）の両方を同じ要素で担う */
+/* 粒子は退場（中心から全画面へ弾け飛ぶ）専用。登場時は出さない */
 const PARTICLES = Array.from({ length: 38 }, (_, i) => {
-  const aIn = prand(i, 1) * Math.PI * 2;
-  const dIn = 26 + prand(i, 2) * 28; /* 登場の出発点（vw基準で画面外周寄り） */
   const aOut = (i / 38) * Math.PI * 2 + (prand(i, 3) - 0.5) * 0.5;
   const dOutX = 18 + prand(i, 4) * 42; /* 退場の到達点（vw） */
   const dOutY = 16 + prand(i, 5) * 38; /* 退場の到達点（vh） */
   return {
     char: P_CHARS[i % P_CHARS.length],
     color: P_COLORS[i % P_COLORS.length],
-    ex: `${(Math.cos(aIn) * dIn).toFixed(1)}vw`,
-    ey: `${(Math.sin(aIn) * dIn * 0.85).toFixed(1)}vh`,
     dx: `${(Math.cos(aOut) * dOutX).toFixed(1)}vw`,
     dy: `${(Math.sin(aOut) * dOutY).toFixed(1)}vh`,
     rot: `${((prand(i, 6) - 0.5) * 520).toFixed(0)}deg`,
     sz: (0.7 + prand(i, 7) * 1.3).toFixed(2),
-    dli: `${(prand(i, 8) * 0.22).toFixed(2)}s`,
     dlo: `${(prand(i, 9) * 0.25).toFixed(2)}s`,
     dur: `${(0.85 + prand(i, 11) * 0.6).toFixed(2)}s`,
     fs: 11 + Math.round(prand(i, 10) * 9),
@@ -127,7 +121,7 @@ export default function Splash() {
         <span style={{ animationDelay: "0.15s" }} />
         <span style={{ animationDelay: "0.3s" }} />
       </div>
-      {/* 粒子：登場では中心に集まって顔になり、退場では全画面に弾け飛ぶ */}
+      {/* 粒子：退場で全画面に弾け飛ぶ（登場時は非表示） */}
       <span className="splash-pwrap" aria-hidden="true">
         {PARTICLES.map((p, i) => (
           <span
@@ -136,13 +130,10 @@ export default function Splash() {
             style={{
               color: p.color,
               fontSize: p.fs,
-              ["--ex" as string]: p.ex,
-              ["--ey" as string]: p.ey,
               ["--dx" as string]: p.dx,
               ["--dy" as string]: p.dy,
               ["--rot" as string]: p.rot,
               ["--sz" as string]: p.sz,
-              ["--dli" as string]: p.dli,
               ["--dlo" as string]: p.dlo,
               ["--dur" as string]: p.dur,
             }}
