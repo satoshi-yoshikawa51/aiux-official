@@ -1,7 +1,107 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-21T22:30:43.378Z",
+  "updatedAt": "2026-07-22T22:38:10.800Z",
   "items": [
+    {
+      "title": "Travis Kalanick’s robotics company raises $1.7B, led by a16z",
+      "url": "https://techcrunch.com/2026/07/22/travis-kalanicks-robotics-company-raises-1-7b-led-by-a16z/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-22T18:50:44.000Z",
+      "titleJa": "トラビス・カラニック氏のロボット会社、a16z主導で17億ドルを調達",
+      "image": "https://techcrunch.com/wp-content/uploads/2019/04/GettyImages-1132384785.jpg?resize=1200,799"
+    },
+    {
+      "title": "OpenAI’s AI spending spree has ballooned to $750B",
+      "url": "https://techcrunch.com/2026/07/22/openais-ai-spending-spree-has-ballooned-to-750b/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-22T16:13:30.000Z",
+      "titleJa": "OpenAIのAI支出額は7,500億ドルに膨れ上がった",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-2236544023.jpeg?resize=1200,800"
+    },
+    {
+      "title": "AMD commits up to $5 billion to Anthropic",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/969285/amd-anthropic-ai-infrastructure-deal",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-22T14:44:27.000Z",
+      "titleJa": "AMD、Anthropic に最大 50 億ドルをコミット",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/acastro_STK081_amd_02.jpg.webp?quality=90&strip=all&crop=0,10.654292878952,100,78.691414242097"
+    },
+    {
+      "title": "Glow emerges from stealth at $1.2B valuation to challenge endpoint security in the AI era",
+      "url": "https://techcrunch.com/2026/07/22/glow-emerges-from-stealth-at-1-2b-valuation-to-challenge-endpoint-security-in-the-ai-era/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-22T10:00:00.000Z",
+      "titleJa": "Glow が評価額 12 億ドルでステルスから出現、AI 時代のエンドポイント セキュリティに挑戦",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/glow-founders.jpg?resize=1200,800"
+    },
+    {
+      "title": "Umiosが販売計画をAIで自動化 時系列基盤モデル採用で精度95％",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/071301465/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-07-22T22:05:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/071301465/topm.jpg?20220512"
+    },
+    {
+      "title": "AMDとAnthropicが戦略的提携 「Helios」を最大2GW導入、最大50億ドルの出資も",
+      "url": "https://www.itmedia.co.jp/news/articles/2607/23/news063.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-22T21:55:00.000Z",
+      "image": "https://image.itmedia.co.jp/news/articles/2607/23/cover_news063.jpg"
+    },
+    {
+      "title": "グーグル、脆弱性を「自分で攻撃して」確かめるAIエージェント「CodeMender」 修正パッチも自動生成",
+      "url": "https://japan.cnet.com/article/35250869/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-22T20:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/07/23/8e1e9aabcd493659b8d5aa846216070e/CodeMender_preview_hero.max-2000x2000.jpeg"
+    },
+    {
+      "title": "足りぬAIメモリー、NANDや新型が主役に キオクシア「需要桁違い」",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03640/071100004/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-07-22T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03640/071100004/topm.jpg?20220512"
+    },
+    {
+      "title": "アトラシアン、JiraがAIによる要件定義の自動作成、コンテキストを保持しつつタスクをClaudeやCopilotなどのAIエージェントへアサインなど新機能",
+      "url": "https://www.publickey1.jp/blog/26/jiraaiclaudecopilotai.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-07-22T15:35:19.000Z",
+      "image": "https://www.publickey1.jp/2026/jira-planner01.png"
+    },
+    {
+      "title": "Genspark、AIが仕事の全情報を記憶する「SecondBrain」--初の専用端末も",
+      "url": "https://japan.cnet.com/article/35250816/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-22T05:32:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/07/21/08364e2c053f43678f49527dbbbacf61/t/1280/960/d/c01.jpg"
+    },
+    {
+      "title": "無料で身に付くデータサイエンス 延べ23万人が受講、総務省が募集開始",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2607/22/news024.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-22T04:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2607/22/cover_news024.jpg"
+    },
+    {
+      "title": "MicrosoftとMistralが戦略的提携を拡大 欧州でのAIインフラ拡張とモデル展開を加速",
+      "url": "https://www.itmedia.co.jp/news/articles/2607/22/news066.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-22T01:22:00.000Z",
+      "image": "https://image.itmedia.co.jp/news/articles/2607/22/cover_news066.jpg"
+    },
     {
       "title": "OpenAI and Hugging Face partner to address security incident during model evaluation",
       "url": "https://openai.com/index/hugging-face-model-evaluation-security-incident",
@@ -18,98 +118,6 @@
       "date": "2026-07-21T17:33:14.000Z",
       "titleJa": "Anthropic の 15 億ドルの著作権和解案が承認。オプトアウトした著者はわずか 350 人",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-592014704-1152x648.jpg"
-    },
-    {
-      "title": "Google releases three new Gemini models — but no 3.5 Pro",
-      "url": "https://techcrunch.com/2026/07/21/google-releases-three-new-gemini-models-but-no-3-5-pro/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-21T17:11:50.000Z",
-      "titleJa": "Google、3 つの新しい Gemini モデルをリリース",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/01/google-gemini-jagmeet-singh-techcrunch.jpg?resize=1200,800"
-    },
-    {
-      "title": "Google launches a cheaper alternative to large AI security models like Mythos",
-      "url": "https://www.theverge.com/tech/968572/google-gemini-flash-cyber-ai-security-model",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-21T15:00:00.000Z",
-      "titleJa": "Google、Mythos のような大規模な AI セキュリティ モデルに代わる安価な代替手段を発表",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/01/STK255_Google_Gemini_D.jpg?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
-    },
-    {
-      "title": "David Vélez and Robin Vince join the boards of the OpenAI Foundation and OpenAI Group PBC",
-      "url": "https://openai.com/index/david-velez-robin-vince-join-openai-boards",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-07-21T00:00:00.000Z",
-      "titleJa": "David Vélez と Robin Vince が OpenAI Foundation と OpenAI Group PBC の取締役に加わりました"
-    },
-    {
-      "title": "Google、「Gemini 3.6 Flash」など3モデルを発表 出力トークンを削減しつつ値下げ、「Gemini 4」も予告",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/22/2000000212/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-21T22:07:13.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/22/2000000212/10001016/2048"
-    },
-    {
-      "title": "AI戦略にも違い 基盤構築とデータ分散",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/071300561/071300003/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-07-21T22:02:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/071300561/071300003/topm.jpg?20220512"
-    },
-    {
-      "title": "矢崎総業がイノベーション拠点を公開、労働集約型モノづくりのスマート化に向け",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2607/22/news054.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-21T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2607/22/cover_news054.jpg"
-    },
-    {
-      "title": "GoogleがAIアプリ「Dreambeans」を発表 「画面を延々とスクロール」の脱却で何を目指すのか",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2607/22/news047.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-21T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2607/22/cover_news047.jpg"
-    },
-    {
-      "title": "企業向けでAIツールで成長率トップはAnthropic、アカウント数が最も多いのはMicrosoft 365。Oktaが調査結果を発表",
-      "url": "https://www.publickey1.jp/blog/26/aianthropicmicrosoft_365okta.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-07-21T13:51:42.000Z",
-      "image": "https://www.publickey1.jp/2026/okta-aitools-ranking2026-01.png"
-    },
-    {
-      "title": "政府、マイナカードをAIエージェントと連携へ 重点計画に明記",
-      "url": "https://japan.cnet.com/article/35250805/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 114,
-      "date": "2026-07-21T08:32:46.000Z",
-      "image": "https://japan.cnet.com/storage/2026/07/21/10f41f4d5f38c9a7e5233bd7f303760e/large.jpg"
-    },
-    {
-      "title": "「取りあえずAI導入」の末路 現場で深まる情報漏えい不安 IPAの意識調査で明らかに",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2607/21/news044.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-21T04:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2607/21/cover_news044.jpg"
-    },
-    {
-      "title": "テスラ車、日本でも「Grok」配信開始 音声AIと会話しながら運転可能に",
-      "url": "https://japan.cnet.com/article/35250790/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-07-21T02:35:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/07/21/da7db4b4163b7938112a94aaf394d705/sub12.jpg"
     }
   ]
 }
