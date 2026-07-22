@@ -393,6 +393,9 @@ export default function UketsukeChat() {
                   <br />
                   内容を確認のうえ、吉川本人よりメールでご返信します。
                 </p>
+                <p style={{ margin: "0 0 16px", fontSize: 12.5, lineHeight: 1.8, color: "var(--ink-900)", opacity: 0.75 }}>
+                  ※ 3日たっても返信がない場合は、お手数ですが {CONTACT_EMAIL} へ直接ご連絡ください。
+                </p>
                 <a href="/" style={{ textDecoration: "none" }}>
                   <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-house" />}>
                     トップへ戻る

@@ -1207,6 +1207,9 @@ function Contact() {
                 <br />
                 内容を確認のうえ、ご返信いたします。
               </p>
+              <p style={{ marginTop: 10, fontSize: 12.5, lineHeight: 1.8, color: "var(--text-muted)" }}>
+                ※ 3日たっても返信がない場合は、お手数ですが {CONTACT_EMAIL} へ直接ご連絡ください。
+              </p>
               <div style={{ marginTop: 14 }}>
                 <Button variant="secondary" size="md" onClick={() => setState("idle")}>
                   続けて送信する
