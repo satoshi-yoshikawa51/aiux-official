@@ -2,6 +2,7 @@
    サブページ（/manga, /works 配下）で共有する表示部品。
    デザインはトップページ(page.tsx)のトーンをそのまま踏襲する。
    ============================================================ */
+import type React from "react";
 import { Badge, Card } from "./ds";
 import { PAGE } from "./site-chrome";
 import type { Tone, Article } from "./data";
@@ -121,5 +122,41 @@ export function RelatedArticleCard({ a }: { a: Article }) {
         </div>
       </Card>
     </a>
+  );
+}
+
+/* —— シェア導線（X・はてなブックマーク）。
+   サーバーコンポーネントのままで動く素のリンク。
+   path は先頭スラッシュ付きのサイト内パス —— */
+export function ShareRow({ path, text }: { path: string; text: string }) {
+  const url = `https://comixai.dev${path}`;
+  const xHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${text} | COMIXAI`)}&url=${encodeURIComponent(url)}`;
+  const hbHref = `https://b.hatena.ne.jp/entry/panel/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(text)}`;
+  const btn: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 7,
+    fontFamily: "var(--font-heading)",
+    fontWeight: 700,
+    fontSize: 12.5,
+    textDecoration: "none",
+    border: "var(--bw-line) solid var(--ink-900)",
+    borderRadius: "var(--radius-full)",
+    padding: "7px 14px",
+    background: "var(--paper-0)",
+    color: "var(--ink-900)",
+    boxShadow: "var(--shadow-pop-sm)",
+    whiteSpace: "nowrap",
+  };
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+      <span style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", marginRight: 2 }}>役に立ったらシェア→</span>
+      <a href={xHref} target="_blank" rel="noopener noreferrer" style={btn} aria-label="Xでシェア">
+        <span style={{ fontWeight: 900 }}>𝕏</span> ポスト
+      </a>
+      <a href={hbHref} target="_blank" rel="noopener noreferrer" style={{ ...btn, color: "#00A4DE" }} aria-label="はてなブックマークに追加">
+        <span style={{ fontWeight: 900 }}>B!</span> ブックマーク
+      </a>
+    </div>
   );
 }

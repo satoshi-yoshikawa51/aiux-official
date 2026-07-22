@@ -302,11 +302,11 @@ const GAME_OGS = [
   {
     file: "compare.png",
     kicker: "COMPARE — 3大AIの使い分け",
-    badge: "比較表つき",
+    badge: "2026年7月版",
     title: "ChatGPT・Claude・<br>Gemini、どう違う？",
     titleSize: 76,
-    sub: "答えは「使い分け」",
-    short: "3大AIの出自・得意分野・向いている人を比較表で整理。用途別のおすすめつき。",
+    sub: "料金・最新モデル・使い分け",
+    short: "GPT-5.6 / Claude Fable 5 / Gemini Omni。最新モデルと料金プランを比較表で整理。用途別のおすすめつき。",
     site: "comixai.dev/compare",
   },
   {
@@ -461,6 +461,23 @@ for (const g of GAME_OGS) {
     GAMES_OUT_DIR
   );
 }
+
+/* —— 職種別AI活用ガイド（/guide）用 —— */
+const GUIDE_OUT_DIR = path.join(ROOT, "public/og/guide");
+await mkdir(GUIDE_OUT_DIR, { recursive: true });
+await shoot(
+  pageHtml({
+    kicker: "GUIDE — 職種別AI活用ガイド",
+    badge: "4職種",
+    title: "あなたの仕事の、<br>どこでAIを使う？",
+    titleSize: 80,
+    sub: "営業 / マーケティング / 事務 / クリエイター",
+    short: "職種ごとに、使い始める順番・業務別の実践パターン・注意点を現場目線でまとめました。",
+    site: "comixai.dev/guide",
+  }),
+  "index.png",
+  GUIDE_OUT_DIR
+);
 
 /* —— 絵巻・図鑑用 —— */
 await shoot(

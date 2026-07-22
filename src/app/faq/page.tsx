@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
-import { Breadcrumb } from "../site-ui";
+import { Breadcrumb, ShareRow } from "../site-ui";
 import { SECTIONS, FAQ_TOTAL } from "./data";
 
 export const metadata: Metadata = {
@@ -118,6 +118,9 @@ export default function FaqPage() {
             解決しなかった疑問は、<a href="/search" style={{ color: "var(--ink-900)" }}>AI司書（サイト内AI検索）</a>か<a href="/glossary" style={{ color: "var(--ink-900)" }}>全150語のAI用語集</a>へ。
             「で、実際どう頼めばいいの？」には<a href="/prompts" style={{ color: "var(--ink-900)" }}>仕事で使えるプロンプト集</a>、ゼロから学ぶなら<a href="/start" style={{ color: "var(--ink-900)" }}>AIのはじめかた</a>が近道です。
           </p>
+        </div>
+        <div style={{ marginTop: 22 }}>
+          <ShareRow path="/faq" text="AIのよくある質問100選（一問一答）" />
         </div>
       </section>
 
