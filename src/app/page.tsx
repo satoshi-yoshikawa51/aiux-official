@@ -26,6 +26,7 @@ import Splash from "./splash";
 import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
 import { FEATURED_RECIPES } from "./prompts/data";
+import { GUIDES } from "./guide/data";
 import { EVENTS, dateLabel, isPast } from "./calendar/events";
 import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
@@ -817,10 +818,50 @@ function PromptRecipes() {
             </a>
           ))}
         </div>
-        <div style={{ textAlign: "center", marginTop: 34 }}>
+        {/* 職種別ガイド：同じ「仕事で使う」カテゴリの入口としてここに束ねる */}
+        <p style={{ fontFamily: "var(--font-hand)", fontSize: 14.5, color: "var(--text-muted)", margin: "30px 0 12px" }}>
+          自分の仕事に引きつけて読むなら、職種別ガイドから↓
+        </p>
+        <div className="rv-stagger" style={{ display: "flex", gap: 12, flexWrap: "wrap", maxWidth: 1000 }}>
+          {GUIDES.map((g) => (
+            <a
+              key={g.slug}
+              href={`/guide/${g.slug}`}
+              style={{
+                flex: "1 1 180px",
+                maxWidth: 250,
+                textDecoration: "none",
+                color: "inherit",
+                border: "var(--bw-line) solid var(--ink-900)",
+                borderRadius: "var(--radius-md)",
+                background: "var(--paper-0)",
+                overflow: "hidden",
+                boxShadow: "var(--shadow-pop-sm)",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/guide/${g.slug}.webp`}
+                alt={g.title}
+                loading="lazy"
+                style={{ display: "block", width: "100%", height: 96, objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }}
+              />
+              <span style={{ display: "block", padding: "9px 12px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, whiteSpace: "nowrap" }}>
+                {g.emoji} {g.role.split("・")[0]}のAI活用
+                <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
+              </span>
+            </a>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <a href="/prompts" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               プロンプト集を見る
+            </Button>
+          </a>
+          <a href="/guide" style={{ textDecoration: "none" }}>
+            <Button variant="secondary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              職種別ガイドを見る
             </Button>
           </a>
         </div>
