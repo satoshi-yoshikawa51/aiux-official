@@ -149,7 +149,7 @@ export function ShareRow({ path, text }: { path: string; text: string }) {
     whiteSpace: "nowrap",
   };
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
       <span style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", marginRight: 2 }}>役に立ったらシェア→</span>
       <a href={xHref} target="_blank" rel="noopener noreferrer" style={btn} aria-label="Xでシェア">
         <span style={{ fontWeight: 900 }}>𝕏</span> ポスト
