@@ -67,9 +67,17 @@ export default function GuideIndexPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 18 }} className="articles-grid">
           {GUIDES.map((g) => (
             <a key={g.slug} href={`/guide/${g.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
-              <Card variant="pop" hover padding={22} style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-                <div style={{ fontSize: 34, marginBottom: 8 }}>{g.emoji}</div>
-                <h2 style={{ margin: "0 0 6px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 19, lineHeight: 1.45 }}>{g.title}</h2>
+              <Card variant="pop" hover padding={22} style={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/guide/${g.slug}.webp`}
+                  alt={g.title}
+                  loading="lazy"
+                  style={{ display: "block", width: "calc(100% + 44px)", height: 190, objectFit: "cover", margin: "-22px -22px 16px", borderBottom: "var(--bw-bold) solid var(--ink-900)" }}
+                />
+                <h2 style={{ margin: "0 0 6px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 19, lineHeight: 1.45 }}>
+                  {g.emoji} {g.title}
+                </h2>
                 <p style={{ margin: "0 0 14px", fontFamily: "var(--font-hand)", fontSize: 13.5, color: "var(--red-600)" }}>{g.catch}</p>
                 <p style={{ margin: "0 0 16px", fontSize: 13.5, lineHeight: 1.9, color: "var(--text-muted)" }}>{g.intro[0].slice(0, 80)}…</p>
                 <span style={{ marginTop: "auto", alignSelf: "flex-end", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--red-600)" }}>

@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: g.catch,
       url: `/guide/${g.slug}`,
       locale: "ja_JP",
-      images: [{ url: "/og/guide/index.png", width: 1200, height: 630, alt: g.title }],
+      images: [{ url: `/guide/${g.slug}.webp`, width: 1200, height: 800, alt: g.title }],
     },
     twitter: { card: "summary_large_image" },
   };
@@ -85,6 +85,12 @@ export default async function GuidePage({ params }: Props) {
           {g.emoji} {g.title}
         </h1>
         <p style={{ fontFamily: "var(--font-hand)", fontSize: "clamp(15px,2vw,17px)", color: "var(--red-600)", margin: "0 0 16px" }}>{g.catch}</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/guide/${g.slug}.webp`}
+          alt={g.title}
+          style={{ display: "block", width: "100%", maxWidth: 720, height: "auto", aspectRatio: "3/2", objectFit: "cover", border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-pop)", margin: "0 0 20px" }}
+        />
         {g.intro.map((p, i) => (
           <p key={i} style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 720, margin: "0 0 12px" }}>
             {p}
