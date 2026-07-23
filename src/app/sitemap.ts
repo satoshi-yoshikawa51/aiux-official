@@ -5,6 +5,7 @@ import { TERMS, GLOSSARY_UPDATED } from "./glossary/data";
 import { RECIPES, PROMPTS_UPDATED } from "./prompts/data";
 import { FAQ_UPDATED } from "./faq/data";
 import { EVENTS_UPDATED } from "./calendar/events";
+import { GUIDES, GUIDES_UPDATED } from "./guide/data";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -116,7 +117,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...["start", "compare"].map((slug) => ({
       url: `${base}/${slug}`,
-      lastModified: new Date("2026-07-09"),
+      lastModified: new Date(GUIDES_UPDATED),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    {
+      url: `${base}/guide`,
+      lastModified: new Date(GUIDES_UPDATED),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...GUIDES.map((g) => ({
+      url: `${base}/guide/${g.slug}`,
+      lastModified: new Date(GUIDES_UPDATED),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),

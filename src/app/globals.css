@@ -491,6 +491,14 @@ img {
   }
 }
 
+/* 職種別ガイドのヒーロー画像：2カラムになるPC幅だけ軽く傾ける
+   （スマホの縦積みでは傾きがズレて見えるため水平のまま） */
+@media (min-width: 901px) {
+  .guide-hero-img {
+    transform: rotate(1.5deg);
+  }
+}
+
 /* ニュースのサムネイル：スマホでは少し小さく */
 @media (max-width: 720px) {
   .news-thumb {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Badge, Button, Card } from "../ds";
-import { Breadcrumb, SectionHead } from "../site-ui";
+import { Breadcrumb, SectionHead, ShareRow } from "../site-ui";
 import { EVENTS, EVENTS_UPDATED, dateLabel, isPast, todayJst, type AiEvent } from "./events";
 import { CalendarView, type CalEvent } from "./calendar-view";
 import { NewsThumb } from "./news-thumb";
@@ -281,6 +281,9 @@ export default function CalendarPage() {
               AI歴史絵巻で振り返る
             </Button>
           </a>
+        </div>
+        <div style={{ marginTop: 26 }}>
+          <ShareRow path="/calendar" text="AIイベントカレンダー2026＆今日のAIニュース" />
         </div>
       </section>
 

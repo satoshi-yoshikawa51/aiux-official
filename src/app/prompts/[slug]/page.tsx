@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
-import { Breadcrumb, SectionHead } from "../../site-ui";
+import { Breadcrumb, SectionHead, ShareRow } from "../../site-ui";
 import { TERMS } from "../../glossary/data";
 import { RECIPES, getRecipe } from "../data";
 import { CopyPromptButton } from "../copy-button";
@@ -369,6 +369,9 @@ export default async function PromptRecipePage({ params }: Props) {
               マンガ連載で学ぶ
             </Button>
           </a>
+        </div>
+        <div style={{ marginTop: 26 }}>
+          <ShareRow path={`/prompts/${r.slug}`} text={`${r.title}のプロンプトレシピ（コピペOK）`} />
         </div>
       </section>
 

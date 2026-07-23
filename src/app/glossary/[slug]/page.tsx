@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
-import { Breadcrumb, SectionHead, MediaLinkCard } from "../../site-ui";
+import { Breadcrumb, SectionHead, MediaLinkCard, ShareRow } from "../../site-ui";
 import { ARTICLES, ARTICLES_POPULAR, type Tone } from "../../data";
 import { MANGA_SERIES } from "../../manga/data";
 import { WORK_DETAILS } from "../../works/data";
@@ -391,6 +391,9 @@ export default async function GlossaryTermPage({ params }: Props) {
               用語集にもどる
             </Button>
           </a>
+        </div>
+        <div style={{ marginTop: 26 }}>
+          <ShareRow path={`/glossary/${t.slug}`} text={`${t.term}とは？わかりやすいAI用語解説`} />
         </div>
       </section>
 

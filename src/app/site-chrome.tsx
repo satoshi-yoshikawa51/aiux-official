@@ -221,6 +221,9 @@ export function Footer() {
             <a href="/start" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               🚀 AIのはじめかた
             </a>
+            <a href="/guide" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+              💼 職種別AIガイド
+            </a>
             <a href="/history" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               📜 AI歴史絵巻
             </a>
