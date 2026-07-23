@@ -31,6 +31,7 @@ import React from "react";
 import Anthropic from "@anthropic-ai/sdk";
 import { Badge, Button, Card } from "../ds";
 import {
+  CHAT_SUGGESTIONS,
   DEFAULT_SCENARIOS,
   type ArtifactSpec,
   type DiffSpec,
@@ -114,7 +115,7 @@ const TABS: TabDef[] = [
     greet: "こんにちは。今日は何をしましょう？",
     sub: "",
     placeholder: "Claudeにメッセージを送る…",
-    suggestions: ["Claudeには何ができる？", "明日の朝礼の挨拶を考えて", "AIを使いこなすコツを3つ教えて"],
+    suggestions: CHAT_SUGGESTIONS,
   },
   {
     id: "cowork",
@@ -390,7 +391,7 @@ export function ClaudeAppSim({
       /* 体験モード：シナリオ（Step列）を再生。承認待ちのときは
          runSteps内でbusyが解除され、続きはresolvePendingが再開する */
       const gen = ++genRef.current;
-      const steps = scen[kind]({ text, isFollowup, permMode, folder });
+      const steps = scen[kind]({ text, isFollowup, firstText: history[0]?.text ?? text, permMode, folder });
       await new Promise((r) => setTimeout(r, 500));
       await runSteps(chatId, kind, steps, gen, true);
     }

@@ -154,12 +154,12 @@ const COURSE_1: Course = {
   id: "chat",
   emoji: "💬",
   title: "Chat編 — その場で終わる相談",
-  minutes: 5,
-  desc: "壁打ち・注文の重ねがけ・新しいチャットの使い分け。Chatの強みを体感",
+  minutes: 6,
+  desc: "雑に頼むと質問が返ってくる・その場で図解——ChatGPTとの体感差を味わう",
   steps: [
     {
       motion: "bow",
-      text: "Chat編。Chatの仕事は“その場で終わる相談”。調べ物、壁打ち、文章。さっさと覚えよう。",
+      text: "Chat編。Chatの仕事は“その場で終わる相談”。今日は、他のAIとの違いを2つ、体で覚えてもらう。",
     },
     ensurePc,
     {
@@ -177,44 +177,59 @@ const COURSE_1: Course = {
     },
     {
       motion: "explain",
-      target: "suggest-2",
-      text: "コツでも聞いてみれば。「AIを使いこなすコツを3つ教えて」、押して。",
+      target: "suggest-1",
+      text: "違いその1、いくよ。わざと雑に頼んでみて。「社内イベントの企画を考えて」——丸投げでいい。",
       waitFor: (e) => e.type === "send" && e.tab === "chat",
-      onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
       emote: "💡",
-      text: "いい？一度で完璧を求めない。出てきたものに注文をつける。それがAIと仕事するときの基本。",
+      text: "…ほら、向こうから質問してきた。雑な依頼ほど、Claudeは先に聞いてくる。こっちが完璧な指示を考えなくていいの。",
     },
     {
       motion: "explain",
       target: "input",
-      text: "入力欄に「もっと短く」って打って、送信。…ああ、ここの返事は台本だから。本物は内容に合わせて返してくる。",
+      text: "適当でいいから答えて。入力欄に「親睦、30人くらい、低予算で」とか打って送信。",
       waitFor: (e) => e.type === "send" && e.tab === "chat",
-      onDone: { motion: "laugh", emote: "💮" },
-    },
-    {
-      motion: "explain",
-      text: "同じチャットの中なら、前の話を覚えてる。だから“さっきのを短く”が通じる。",
-    },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "話題を変えるときは新しいチャット。混ぜると答えがぶれる。押して。",
-      waitFor: (e) => e.type === "newChat",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
+      text: "答えただけで、ちゃんと形になったでしょ。雑に投げても、質問に答えていけば答えにたどり着く——これが違いその1。",
+    },
+    {
+      motion: "explain",
+      target: "new-chat",
+      text: "違いその2。話題が変わるから「＋新しいチャット」——混ぜると答えがぶれるからね。",
+      waitFor: (e) => e.type === "newChat",
+    },
+    {
+      motion: "explain",
+      target: "suggest-3",
+      text: "「Claudeの3つの使い方を図解して」、押して。",
+      waitFor: (e) => e.type === "send" && e.tab === "chat",
+    },
+    {
+      motion: "explain",
+      target: "artifact",
+      text: "文章じゃなくて“図”で返してきた。成果物カードを開いて見てみて。",
+      waitFor: (e) => e.type === "artifactOpen",
+      onDone: { motion: "laugh", emote: "🎉" },
+    },
+    {
+      motion: "explain",
+      text: "説明はその場で図解・表にできる。会議資料の下書きがチャットで済むってこと——これが違いその2。",
+    },
+    {
+      motion: "explain",
       target: "model",
-      text: "モデルの使い分け。難しい仕事はOpus、日常はSonnet、軽いのはHaiku。試しに切り替えてみて。",
+      text: "最後にモデルの使い分け。難しい仕事はOpus、日常はSonnet、軽いのはHaiku。試しに切り替えてみて。",
       waitFor: (e) => e.type === "modelChange",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "bow",
-      text: "Chat編、終わり。“背景ごと伝える・注文を重ねる・話題ごとに分ける”。…飲み込み、早いじゃない。",
+      text: "Chat編、終わり。“雑に投げて、質問に答える。図解も頼む。話題ごとにチャットを分ける”。…飲み込み、早いじゃない。",
     },
   ],
 };
