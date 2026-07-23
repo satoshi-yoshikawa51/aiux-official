@@ -312,7 +312,7 @@ export function GuidedClaudeApp() {
         🎓 教習コースで、触りながら覚える
       </h2>
       <p style={{ fontSize: 14, lineHeight: 2, color: "var(--text-body, #444)", margin: "0 0 18px", maxWidth: 640 }}>
-        コースを選ぶと練習画面がひらき、3Dの講師が「どこを押すか」を1つずつ案内します。
+        コースを選ぶと練習画面がひらき、講師が「どこを押すか」を1つずつ案内します。
         全部で20分ほど。修了するころには、本物のClaudeを自分で動かせるようになっています。
         {done.length > 0 && (
           <b style={{ color: "var(--green-700, #3E7B4F)" }}>（{done.length}/{COURSES.length} コース修了）</b>
