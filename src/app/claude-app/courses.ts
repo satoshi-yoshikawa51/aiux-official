@@ -133,7 +133,7 @@ const COURSE_0: Course = {
     },
     {
       motion: "explain",
-      text: "編集も、コマンドの実行も、あなたが承認するまで一切動かない。“勝手にやらない”——それがCodeと他との一番の違い。実際に作るのはCode編で。",
+      text: "なぜ承認制か。Codeは“本物のファイル”を直接書き換えるモードだから。公開中のサイトも、大事な書類も対象になる。面倒に見える？——これが命綱。だから編集も実行も、あなたが承認するまで一切動かない。",
     },
     {
       motion: "explain",
@@ -357,14 +357,14 @@ const COURSE_3: Course = {
     {
       motion: "arms-crossed",
       target: "accept",
-      text: "変更の提案が来た。緑が追加、赤が削除。中身を見て「✓ Accept」。承認するまでファイルは書き換わらない。",
+      text: "変更の提案が来た。緑が追加、赤が削除。相手は本物のファイルだからね——中身を見て「✓ Accept」。承認するまで、1文字も書き換わらない。",
       waitFor: (e) => e.type === "diffResolved",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
       target: "approve",
-      text: "コマンドも許可制。「✓ 許可する」を押す。勝手に実行しないのが、こいつの偉いところ。",
+      text: "コマンドも許可制。間違ったコマンドは、公開中のものだって壊せる。だから中身を確認して「✓ 許可する」。この一手間が、あなたを守る。",
       waitFor: (e) => e.type === "approvalResolved",
     },
     {
