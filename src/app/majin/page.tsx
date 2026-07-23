@@ -57,7 +57,7 @@ export default function MajinPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           願いは、言葉どおりに叶う。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/alignment" style={{ color: "var(--red-600)", fontWeight: 700 }}>アライメント</a>とは、AIの目標を人間の意図と「揃える」こと。
           魔神は悪気ゼロで、あなたの言葉だけを全力で叶えます。行間は読みません。5つの願い、事故らせずに叶えられますか？
         </p>

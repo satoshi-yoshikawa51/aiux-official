@@ -57,7 +57,7 @@ export default function AgentPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           任せる勇気、試されます。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/ai-agent" style={{ color: "var(--red-600)", fontWeight: 700 }}>AIエージェント</a>は、ゴールを伝えると自分で計画して働くAI。
           でも「任せる」のは意外とむずかしい——口を出しすぎても、放置しすぎても、雑に頼んでも事故ります。あなたの任せ方で、結末は6通りに分岐します。
         </p>

@@ -59,7 +59,7 @@ export default function ClaudeAppPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           5分で覚える！Claude教習所
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: "0 0 28px" }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: "0 0 28px" }}>
           解説を読んでも、AIは使えるようになりません。ここは<b>本物そっくりの練習画面</b>を、講師が「どこを押すか」から1つずつ案内する<b>無料の教習所</b>。
           <b>1コースは約5分</b>。すきま時間に、仕事の頼み方からフォルダの渡し方、変更の承認まで、さわって覚えられます。登録は不要。失敗しても何も壊れません。
         </p>

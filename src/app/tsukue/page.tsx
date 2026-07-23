@@ -57,7 +57,7 @@ export default function TsukuePage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           何を載せるかが、答えを決める。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/context-engineering" style={{ color: "var(--red-600)", fontWeight: 700 }}>コンテキストエンジニアリング</a>とは、AIに渡す情報（作業机の上）を設計する技術。
           机の容量は有限です。タスクに必要な資料だけを選んで載せてください。詰め込みすぎも、古い資料も、事故のもと。
         </p>

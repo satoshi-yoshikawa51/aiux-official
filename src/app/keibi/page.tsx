@@ -57,7 +57,7 @@ export default function KeibiPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           エージェントを、守れ。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/prompt-injection" style={{ color: "var(--red-600)", fontWeight: 700 }}>プロンプトインジェクション</a>とは、AIが読む文章の中に悪意ある指示を紛れ込ませる攻撃。
           あなたは警備員として、エージェントが読む文書を検問します。見えない白文字にもご用心。
         </p>

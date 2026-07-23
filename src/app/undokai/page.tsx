@@ -57,7 +57,7 @@ export default function UndokaiPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           スコアで、勝者を当てられるか。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/benchmark" style={{ color: "var(--red-600)", fontWeight: 700 }}>ベンチマーク</a>とは、AIの実力を測る共通テスト。
           スコアを頼りに、AI選手3体が競う全4種目の勝者を予想してください。ただし最終種目は「実務」——テストの点数と仕事ができるかは、別の話かもしれません。
         </p>

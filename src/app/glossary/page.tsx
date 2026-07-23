@@ -62,7 +62,7 @@ export default function GlossaryIndexPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           AIの「わからない」を、なくす。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           生成AI・LLM・RAG・AIエージェント——ニュースで毎日見かけるのに、いまさら聞きづらいAI用語を、Web制作の現場でAIを使い倒している漫画家・AIクリエイターが、現場目線でわかりやすく解説します。もっと深く知りたくなったら、マンガ連載へどうぞ。
         </p>
       </section>

@@ -59,7 +59,7 @@ export default function HistoryPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           AIの75年を、ひと巻きに。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           1950年の「機械は考えられるか？」から、AI冬の時代、ディープラーニング革命、ChatGPT、そしてエージェント時代まで。
           下にスクロールすると、時代が進みます。ぜんぶ読むと、いまのAIブームが「何度目の春」なのかがわかります。
         </p>

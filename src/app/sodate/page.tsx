@@ -57,7 +57,7 @@ export default function SodatePage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           AIの人格は、餌で決まる。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/fine-tuning" style={{ color: "var(--red-600)", fontWeight: 700 }}>ファインチューニング</a>とは、AIに追加のデータを学習させて性格や得意分野を変えること。
           ここでは学習データを「餌」として3回与えて、AIを育てます。偏った食生活にすると……どうなるかは、育ててのお楽しみ。
         </p>

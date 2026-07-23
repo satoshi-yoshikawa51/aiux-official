@@ -311,7 +311,7 @@ export function GuidedClaudeApp() {
       <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.2vw,30px)", margin: "0 0 8px" }}>
         🎓 教習コースで、触りながら覚える
       </h2>
-      <p style={{ fontSize: 14, lineHeight: 2, color: "var(--text-body, #444)", margin: "0 0 20px", maxWidth: 640 }}>
+      <p style={{ fontSize: 14, lineHeight: 2, color: "var(--text-body, #444)", margin: "0 0 20px" }}>
         <b>1コース約5分</b>。コースを選ぶと練習画面がひらき、講師が「どこを押すか」を1つずつ案内します。
         修了するころには、本物のClaudeを自分で動かせるようになっています。
         {done.length > 0 && (

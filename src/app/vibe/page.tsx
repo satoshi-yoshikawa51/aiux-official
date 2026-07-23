@@ -57,7 +57,7 @@ export default function VibePage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           仕様書ゼロで、アプリを作ろう。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/vibe-coding" style={{ color: "var(--red-600)", fontWeight: 700 }}>バイブコーディング</a>とは、細かい実装はAIに任せて、ノリと会話でものを作る開発スタイル。
           ここでは雑な一言を選ぶだけで、目の前のミニアプリが本当に変形していきます。4ターンで完成、組み合わせは81通り。
         </p>

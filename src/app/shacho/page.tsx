@@ -57,7 +57,7 @@ export default function ShachoPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           段取りが、成果物を決める。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/multi-agent" style={{ color: "var(--red-600)", fontWeight: 700 }}>マルチエージェント</a>とは、複数のAIが役割分担して働く仕組み。
           あなたはリーダーAI（社長）です。6つのタスクを3体の部下×3フェーズに配置して、レポート制作の段取りを組んでください。順序と適性、どちらも大事です。
         </p>

@@ -57,7 +57,7 @@ export default function SlopPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           その情報、食べる前に嗅げ。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/ai-slop" style={{ color: "var(--red-600)", fontWeight: 700 }}>AIスロップ</a>とは、大量生産された低品質なAIコンテンツのこと。
           ネットに流れてくる情報を、スワイプで「スロップ🗑️」か「良質✨」に仕分けてください。後半はどんどん速くなります。
         </p>

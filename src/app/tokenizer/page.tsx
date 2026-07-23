@@ -58,7 +58,7 @@ export default function TokenizerPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           AIは、文章をこう読む。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           AIは文章を1文字ずつではなく、<a href="/glossary/token" style={{ color: "var(--red-600)", fontWeight: 700 }}>トークン</a>という単位に刻んで読んでいます。
           下の箱に文章を打つと、GPT系のAIが実際に使っているトークナイザーが、その場であなたの文章を刻みます。
           入力した文章はどこにも送信されません（すべてブラウザ内で完結）。

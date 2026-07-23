@@ -57,7 +57,7 @@ export default function GakuyaPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           AIの性格は、開演前に決まる。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/system-prompt" style={{ color: "var(--red-600)", fontWeight: 700 }}>システムプロンプト</a>とは、サービス提供者が楽屋であらかじめAIに渡している指示のこと。
           あなたは開発者です。4項目の台本を書いて、AI窓口を開店してください。……変なお客さんも来ますよ。
         </p>

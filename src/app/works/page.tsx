@@ -77,7 +77,7 @@ export default function WorksIndexPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           AIでつくった、遊べるもの。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           「AIでこんなものが作れる」は、記事で読むより触ったほうが早い。Claude・Claude Codeで作ったゲームやアプリを、制作の裏側といっしょに紹介します。すべてブラウザですぐ試せて、作り方はnoteで公開中。気になったものから、どうぞ。
         </p>
       </section>

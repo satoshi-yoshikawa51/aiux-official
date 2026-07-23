@@ -57,7 +57,7 @@ export default function DietPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           絞れ。ただし、壊すな。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/quantization" style={{ color: "var(--red-600)", fontWeight: 700 }}>量子化</a>とは、AIモデルの数値の精度を落としてサイズを数分の1に圧縮する技術。
           絞るほど軽く・速くなるけど、絞りすぎると答えが「おにぎり」になります。デカいままだと賢いけど、もっさり。5つの現場に、ちょうどいい圧縮を。
         </p>

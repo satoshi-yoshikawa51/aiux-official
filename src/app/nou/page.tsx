@@ -57,7 +57,7 @@ export default function NouPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           その仕事、どっちの脳に任せる？
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/reasoning-model" style={{ color: "var(--red-600)", fontWeight: 700 }}>推論モデル</a>とは、答える前に「考える時間」を取るAI。賢いぶん、遅くて高い。
           反射AI⚡と熟考AI🧠、どちらに任せるかの采配があなたの仕事です。見た目に騙されないように。
         </p>

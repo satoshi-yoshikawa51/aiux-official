@@ -58,7 +58,7 @@ export default function UsoPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           AIのウソを、見抜け。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           AIは、実在しない判例を作り、出典を捏造し、古い制度を今の話として語ります——しかも自信満々に。
           これは<a href="/glossary/hallucination" style={{ color: "var(--red-600)", fontWeight: 700 }}>ハルシネーション</a>と呼ばれる現象です。
           このゲームの問題は、実際のAIがやらかす「ウソの型」だけで作りました。全{USO_ROUNDS}問、あなたは騙されずにいられるか。

@@ -57,7 +57,7 @@ export default function ShinjinPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           その指示、AIに伝わってますか？
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           AIは、指示されなかったことを「いい感じ」に想像で埋めます。それがときどき、詩やラップになる——。
           <a href="/glossary/prompt-engineering" style={{ color: "var(--red-600)", fontWeight: 700 }}>プロンプトエンジニアリング</a>の基本
           「誰に・形式・トーン・長さ」を、AI新人くんへの発注で体験しましょう。

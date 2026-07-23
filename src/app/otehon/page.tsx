@@ -57,7 +57,7 @@ export default function OtehonPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           お手本ひとつで、AIは化ける。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/zero-shot" style={{ color: "var(--red-600)", fontWeight: 700 }}>ゼロショット</a>はお手本なしでAIに頼むこと、フューショットはお手本を見せてから頼むこと。
           良い例はAIを一撃で賢くし、悪い例は悪癖ごと量産されます。どのお手本を渡すか——あなたの目利きが試されます。
         </p>

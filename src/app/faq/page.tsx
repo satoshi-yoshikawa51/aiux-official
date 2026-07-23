@@ -57,7 +57,7 @@ export default function FaqPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           その不安、一問一答で。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           仕事を奪われる？会社で使っていい？信用できる？——AIを使う前の不安から実務の疑問まで、よくある質問20個に現場目線で答えます。
           気になるところだけ、つまみ食いでどうぞ。
         </p>

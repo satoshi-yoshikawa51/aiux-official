@@ -60,7 +60,7 @@ export default function QuizPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           あなたのAI用語力は、何級？
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           生成AI・LLM・RAG・トークン——ニュースで毎日見かけるAI用語、実はどこまでわかっていますか？
           全{QUIZ_SIZE}問・約3分。1問ごとに現場目線の解説つきなので、遊び終わるころには少し強くなっています。
         </p>

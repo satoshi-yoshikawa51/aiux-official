@@ -57,7 +57,7 @@ export default function ShitsukePage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           「いいね」の積み重ねが、AIを作る。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/rlhf" style={{ color: "var(--red-600)", fontWeight: 700 }}>RLHF</a>とは、人間の「どっちの答えが好き？」を報酬にしてAIを調教する手法。
           ChatGPTが感じよくなったのはこれのおかげ——でも、好みに寄せすぎると「ゴマすりAI」が生まれます。10回の選択で、あなたのAIを育ててください。
         </p>

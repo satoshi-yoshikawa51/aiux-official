@@ -34,7 +34,7 @@ export default function ZukanPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           COMIXAI図鑑
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           このサイトのどこかに、隠し部屋が18こあります。診断の級、ゲームのエンディング、育てたAIモデル——
           遊んだ記録はぜんぶ、この図鑑に刻まれます。全{ZUKAN_TOTAL}項目。コンプした人には、称号を。
         </p>

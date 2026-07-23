@@ -57,7 +57,7 @@ export default function GohobiPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
           操作禁止。置けるのは、ご褒美だけ。
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
           <a href="/glossary/reinforcement-learning" style={{ color: "var(--red-600)", fontWeight: 700 }}>強化学習</a>とは、報酬を頼りに試行錯誤で賢くなる学習方法。
           AIを直接動かすことはできません。迷路にご褒美🍖を置いて、ゴールまで導いてください。置き方を間違えると、AIはご褒美を食べて昼寝します。
         </p>

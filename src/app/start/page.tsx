@@ -260,7 +260,7 @@ export default function StartPage() {
             <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
               誰でも、今日から始められる。
             </h1>
-            <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: 0 }}>
+            <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
               「勉強しなきゃ」と思うと続きません。このコースは<b>絵巻とマンガで入って、用語で固めて、ゲームで体感する</b>順番に組んであります。
               全3章・ぜんぶ無料・登録不要。上から順にどうぞ。
             </p>
