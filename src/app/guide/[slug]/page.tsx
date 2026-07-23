@@ -76,27 +76,29 @@ export default async function GuidePage({ params }: Props) {
       <Nav home={false} />
       <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "職種別AI活用ガイド", href: "/guide" }, { name: g.role }]} />
 
-      {/* ═══ ヒーロー ═══ */}
-      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 30px" }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 10 }}>
-          GUIDE — 職種別AI活用
+      {/* ═══ ヒーロー（PC: テキスト左・キャラ右の2カラム / スマホ: 縦積み） ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 30px", display: "flex", gap: "36px 44px", alignItems: "flex-start", flexWrap: "wrap" }}>
+        <div style={{ flex: "1 1 420px", minWidth: 0 }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 10 }}>
+            GUIDE — 職種別AI活用
+          </div>
+          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(28px,4.6vw,44px)", lineHeight: 1.3, margin: "0 0 12px" }}>
+            {g.emoji} {g.title}
+          </h1>
+          <p style={{ fontFamily: "var(--font-hand)", fontSize: "clamp(15px,2vw,17px)", color: "var(--red-600)", margin: "0 0 16px" }}>{g.catch}</p>
+          {g.intro.map((p, i) => (
+            <p key={i} style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 720, margin: "0 0 12px" }}>
+              {p}
+            </p>
+          ))}
+          <p style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--text-muted)", margin: "6px 0 0" }}>最終更新：{GUIDES_UPDATED}</p>
         </div>
-        <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(28px,4.6vw,44px)", lineHeight: 1.3, margin: "0 0 12px" }}>
-          {g.emoji} {g.title}
-        </h1>
-        <p style={{ fontFamily: "var(--font-hand)", fontSize: "clamp(15px,2vw,17px)", color: "var(--red-600)", margin: "0 0 16px" }}>{g.catch}</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`/guide/${g.slug}.webp`}
           alt={g.title}
-          style={{ display: "block", width: "100%", maxWidth: 720, height: "auto", aspectRatio: "3/2", objectFit: "cover", border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-pop)", margin: "0 0 20px" }}
+          style={{ flex: "0 1 440px", width: "min(440px, 100%)", height: "auto", aspectRatio: "3/2", objectFit: "cover", border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-pop)", transform: "rotate(1.5deg)", marginTop: 18 }}
         />
-        {g.intro.map((p, i) => (
-          <p key={i} style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 720, margin: "0 0 12px" }}>
-            {p}
-          </p>
-        ))}
-        <p style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--text-muted)", margin: "6px 0 0" }}>最終更新：{GUIDES_UPDATED}</p>
       </section>
 
       {/* ═══ はじめの3ステップ ═══ */}
