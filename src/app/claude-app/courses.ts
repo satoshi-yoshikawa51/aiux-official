@@ -184,18 +184,18 @@ const COURSE_1: Course = {
     {
       motion: "explain",
       emote: "💡",
-      text: "…ほら、向こうから質問してきた。雑な依頼ほど、Claudeは先に聞いてくる。こっちが完璧な指示を考えなくていいの。",
+      text: "…ほら、向こうから質問してきた。しかも“選択肢つき”。雑な依頼ほど、Claudeは先に聞いてくる。こっちが完璧な指示を考えなくていいの。",
     },
     {
       motion: "explain",
-      target: "input",
-      text: "適当でいいから答えて。入力欄に「親睦、30人くらい、低予算で」とか打って送信。",
+      target: "choices",
+      text: "選んで「回答を送る」を押すだけ。入力すらしなくていい。",
       waitFor: (e) => e.type === "send" && e.tab === "chat",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
-      text: "答えただけで、ちゃんと形になったでしょ。雑に投げても、質問に答えていけば答えにたどり着く——これが違いその1。",
+      text: "選んだだけで、ちゃんと形になったでしょ。雑に投げても、質問に答えていけば答えにたどり着く——これが違いその1。",
     },
     {
       motion: "explain",

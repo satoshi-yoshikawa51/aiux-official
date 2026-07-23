@@ -31,10 +31,19 @@ export interface ArtifactSpec {
   body?: string; // kind: doc / sheet
 }
 
-/* シナリオの1ステップ。diff / approval は分岐を持つ */
+/* 選択式の質問（本物のClaudeのAskUserQuestion UIを再現） */
+export interface ChoiceGroup {
+  label: string;
+  options: string[];
+}
+
+/* シナリオの1ステップ。diff / approval は分岐を持つ。
+   choices はユーザーが選択肢を選んで「回答を送る」と、
+   その回答が次のユーザー発言として送信される */
 export type Step =
   | { type: "text"; text: string }
   | { type: "artifact"; artifact: ArtifactSpec }
+  | { type: "choices"; text: string; groups: ChoiceGroup[] }
   | { type: "diff"; diff: DiffSpec; accept: Step[]; reject: Step[] }
   | { type: "approval"; command: string; note?: string; allow: Step[]; deny: Step[] };
 
@@ -68,9 +77,14 @@ const CHAT_REPLIES: Record<string, string> = {
     "コツは3つあります。\n\n1. 背景ごと伝える —「誰向けに・何のために」を添えると精度が上がる\n2. 一度で完璧を求めない — 出てきたものに「もっと短く」「例を足して」と注文を重ねる\n3. 新しい話題は新しいチャットで — 文脈が混ざると答えもぶれる\n\nまずは小さな頼みごとから試してみてください。",
 };
 
-/* 逆質問デモ: 雑な依頼 → Claudeから質問 → 答えると具体化 */
-const EVENT_ASK =
-  "いいですね、やりましょう。良い企画にするために、先に3つだけ教えてください。\n\n① 目的はどちら寄りですか？（親睦を深める／成果を祝う）\n② 参加人数と場所は？（例: 30人・オフィス）\n③ 予算感は？（例: 1人1,000円）\n\nざっくりで大丈夫です。分かる範囲で返してください。";
+/* 逆質問デモ: 雑な依頼 → Claudeから選択式の質問 → 選ぶだけで具体化 */
+const EVENT_ASK_INTRO =
+  "いいですね、やりましょう。良い企画にするために、先に3つだけ教えてください。下の選択肢から選ぶだけでOKです。";
+const EVENT_CHOICES: ChoiceGroup[] = [
+  { label: "① 目的はどちら寄り？", options: ["親睦を深める", "成果を祝う"] },
+  { label: "② 規模はどれくらい？", options: ["10人まで", "30人前後", "50人以上"] },
+  { label: "③ 予算感は？", options: ["低予算でおさえたい", "1人1,000円くらい", "しっかりかける"] },
+];
 const EVENT_PLAN =
   "ありがとうございます、それだけ分かれば組めます。\n\n📋 企画案「持ち寄りランチ＆チーム対抗クイズ」\n・ねらい: 部署を越えた親睦\n・構成: 乾杯(5分) → ランチ歓談(30分) → チーム対抗クイズ(20分) → 表彰・記念撮影(5分)\n・準備: 会場おさえ、クイズ10問、ささやかな景品\n・工夫: 席はくじ引きで混ぜる／クイズは社内ネタ多め\n\n——最初の依頼はざっくりでしたよね。でもこちらから質問して要件を埋めたので、ここまで具体化できました。雑に投げてもらって大丈夫です。";
 
@@ -142,9 +156,10 @@ const CODE_FOLLOWUP =
 /* ———— 既定のシナリオセット ———— */
 export const DEFAULT_SCENARIOS: ScenarioSet = {
   chat: ({ text, isFollowup, firstText }) => {
-    /* 逆質問デモ: 雑な依頼→質問が返る→答えると企画が具体化する2往復の台本 */
+    /* 逆質問デモ: 雑な依頼→選択式の質問が返る→選ぶだけで企画が具体化 */
     if (firstText === CHAT_SUGGESTIONS[1]) {
-      return [{ type: "text", text: isFollowup ? EVENT_PLAN : EVENT_ASK }];
+      if (isFollowup) return [{ type: "text", text: EVENT_PLAN }];
+      return [{ type: "choices", text: EVENT_ASK_INTRO, groups: EVENT_CHOICES }];
     }
     /* 図解デモ: 説明文＋成果物カード（実際に動く図解HTML） */
     if (!isFollowup && text === CHAT_SUGGESTIONS[3]) {

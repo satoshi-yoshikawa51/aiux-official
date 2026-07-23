@@ -34,6 +34,7 @@ import {
   CHAT_SUGGESTIONS,
   DEFAULT_SCENARIOS,
   type ArtifactSpec,
+  type ChoiceGroup,
   type DiffSpec,
   type PermMode,
   type ScenarioSet,
@@ -151,6 +152,11 @@ interface Approval {
   note?: string;
   state: "pending" | "allowed" | "denied" | "auto";
 }
+interface Choices {
+  groups: ChoiceGroup[];
+  state: "pending" | "answered";
+  answers?: string[];
+}
 interface Msg {
   role: "user" | "assistant";
   text: string;
@@ -158,6 +164,7 @@ interface Msg {
   diff?: Diff; // コードタブ：変更提案
   approval?: Approval; // コマンド実行の承認カード
   artifact?: ArtifactSpec; // 成果物カード（プレビュー可能）
+  choices?: Choices; // 選択式の質問（AskUserQuestion風）
   error?: boolean;
   raw?: unknown; // APIモード：返答のcontentブロック（再送用にそのまま保持）
 }
@@ -417,6 +424,12 @@ export function ClaudeAppSim({
       } else if (step.type === "artifact") {
         await new Promise((r) => setTimeout(r, 350));
         place({ role: "assistant", text: "", artifact: step.artifact });
+      } else if (step.type === "choices") {
+        /* 選択式の質問: 回答が resolveChoices → send() で次のユーザー発言になる */
+        await new Promise((r) => setTimeout(r, 350));
+        place({ role: "assistant", text: step.text, choices: { groups: step.groups, state: "pending" } });
+        setBusyChat(null);
+        return;
       } else if (step.type === "diff") {
         /* Manual / Plan は承認待ち。Accept edits / Auto は自動承認して続行 */
         const wait = permMode === "manual" || permMode === "plan";
@@ -478,6 +491,24 @@ export function ClaudeAppSim({
   };
   const resolveDiff = (chatId: number, accept: boolean) => resolvePending(chatId, accept, "diff");
   const resolveApproval = (chatId: number, allow: boolean) => resolvePending(chatId, allow, "approval");
+
+  /* —— 選択式質問への回答: 選んだ内容をユーザー発言として送信 —— */
+  const resolveChoices = (chatId: number, answers: string[]) => {
+    if (busy) return;
+    setChats((prev) =>
+      prev.map((c) =>
+        c.id !== chatId
+          ? c
+          : {
+              ...c,
+              messages: c.messages.map((m) =>
+                m.choices?.state === "pending" ? { ...m, choices: { ...m.choices, state: "answered", answers } } : m,
+              ),
+            },
+      ),
+    );
+    send(answers.join("／"));
+  };
 
   /* —— 成果物プレビュー —— */
   const openArtifact = (a: ArtifactSpec) => {
@@ -573,6 +604,7 @@ export function ClaudeAppSim({
     send,
     resolveDiff,
     resolveApproval,
+    resolveChoices,
     openArtifact,
     scrollRef,
     notify,
@@ -960,7 +992,7 @@ function Dropdown<T extends string>({
    ============================================================ */
 function Main({
   device, tab, chat, busy, streaming, model, permMode, env, folder, menu, setMenu,
-  pickModel, pickPerm, pickEnv, pickFolder, input, setInput, send, resolveDiff, resolveApproval, openArtifact, scrollRef, notify, openDrawer,
+  pickModel, pickPerm, pickEnv, pickFolder, input, setInput, send, resolveDiff, resolveApproval, resolveChoices, openArtifact, scrollRef, notify, openDrawer,
 }: {
   device: "pc" | "sp";
   tab: Tab;
@@ -982,6 +1014,7 @@ function Main({
   send: (t?: string) => void;
   resolveDiff: (chatId: number, accept: boolean) => void;
   resolveApproval: (chatId: number, allow: boolean) => void;
+  resolveChoices: (chatId: number, answers: string[]) => void;
   openArtifact: (a: ArtifactSpec) => void;
   scrollRef: React.RefObject<HTMLDivElement | null>;
   notify: (m: string) => void;
@@ -1054,6 +1087,7 @@ function Main({
               kind={chat!.kind}
               onResolve={(accept) => resolveDiff(chat!.id, accept)}
               onResolveApproval={(allow) => resolveApproval(chat!.id, allow)}
+              onResolveChoices={(answers) => resolveChoices(chat!.id, answers)}
               onOpenArtifact={openArtifact}
             />
           ))
@@ -1178,7 +1212,7 @@ function Main({
    吹き出し（チャット）／作業ログ（Cowork/コード）／diffカード
    ============================================================ */
 function Bubble({
-  msg, last, busy, sp, kind, onResolve, onResolveApproval, onOpenArtifact,
+  msg, last, busy, sp, kind, onResolve, onResolveApproval, onResolveChoices, onOpenArtifact,
 }: {
   msg: Msg;
   last: boolean;
@@ -1187,8 +1221,13 @@ function Bubble({
   kind: Tab;
   onResolve: (accept: boolean) => void;
   onResolveApproval: (allow: boolean) => void;
+  onResolveChoices: (answers: string[]) => void;
   onOpenArtifact: (a: ArtifactSpec) => void;
 }) {
+  /* —— 選択式の質問カード（AskUserQuestion風） —— */
+  if (msg.role === "assistant" && msg.choices) {
+    return <ChoicesCard msg={msg} sp={sp} onResolve={onResolveChoices} />;
+  }
   if (msg.role === "user") {
     return (
       <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
@@ -1380,6 +1419,73 @@ function Bubble({
             {streaming && <span style={{ color: C.accent }}>▍</span>}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   選択式の質問カード — 本物のClaudeが要件を聞くときに出す
+   選択肢UI（AskUserQuestion）の再現。全部選ぶと「回答を送る」が
+   有効になり、選んだ内容がユーザー発言として送信される。
+   ============================================================ */
+function ChoicesCard({ msg, sp, onResolve }: { msg: Msg; sp: boolean; onResolve: (answers: string[]) => void }) {
+  const c = msg.choices!;
+  const [picks, setPicks] = React.useState<Record<number, string>>({});
+  const answered = c.state === "answered";
+  const valueOf = (gi: number) => (answered ? c.answers?.[gi] : picks[gi]);
+  const allPicked = c.groups.every((_, gi) => !!valueOf(gi));
+  return (
+    <div style={{ display: "flex", gap: 9, marginBottom: 18 }}>
+      <span style={{ width: 24, height: 24, borderRadius: "50%", background: C.accent, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0, marginTop: 2 }}>
+        ✳
+      </span>
+      <div style={{ minWidth: 0, flex: 1, maxWidth: sp ? "88%" : "84%" }}>
+        {msg.text && (
+          <div style={{ fontSize: 13.5, lineHeight: 1.85, whiteSpace: "pre-wrap", color: C.ink, marginBottom: 8 }}>{msg.text}</div>
+        )}
+        <div data-guide="choices" style={{ border: `1px solid ${C.line}`, borderRadius: 12, background: "#FFFFFF", padding: "12px 14px" }}>
+          {c.groups.map((g, gi) => (
+            <div key={gi} style={{ marginBottom: 10 }}>
+              <div style={{ fontSize: 11.5, fontWeight: 800, color: C.sub, marginBottom: 5 }}>{g.label}</div>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                {g.options.map((o) => {
+                  const on = valueOf(gi) === o;
+                  return (
+                    <button
+                      key={o}
+                      disabled={answered}
+                      onClick={() => setPicks((p) => ({ ...p, [gi]: o }))}
+                      style={{
+                        padding: "6px 12px", borderRadius: 999, fontSize: 12, fontWeight: 700, fontFamily: "inherit",
+                        cursor: answered ? "default" : "pointer",
+                        border: `1.5px solid ${on ? C.accent : C.line}`,
+                        background: on ? "#FBEFE9" : C.bg, color: on ? C.accentInk : C.ink,
+                      }}
+                    >
+                      {o}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+          {!answered ? (
+            <button
+              onClick={() => allPicked && onResolve(c.groups.map((_, gi) => picks[gi]))}
+              disabled={!allPicked}
+              style={{
+                width: "100%", marginTop: 2, padding: "9px 0", borderRadius: 9, border: "none", fontFamily: "inherit",
+                cursor: allPicked ? "pointer" : "not-allowed", background: allPicked ? C.accent : C.line,
+                color: "#fff", fontWeight: 800, fontSize: 12.5,
+              }}
+            >
+              回答を送る
+            </button>
+          ) : (
+            <div style={{ fontSize: 10.5, fontWeight: 700, color: C.green, marginTop: 2 }}>✓ 回答を送りました</div>
+          )}
+        </div>
       </div>
     </div>
   );
