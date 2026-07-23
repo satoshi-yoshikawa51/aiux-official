@@ -20,9 +20,24 @@ const DONE_KEY = "claude-app-courses-done";
 /* ———— ハイライト枠＋矢印 ———— */
 function Highlight({ target }: { target: string }) {
   const [rect, setRect] = React.useState<DOMRect | null>(null);
+  const scrolledRef = React.useRef(false);
   React.useEffect(() => {
+    scrolledRef.current = false;
     const update = () => {
       const el = document.querySelector(`[data-guide="${target}"]`);
+      if (el && !scrolledRef.current) {
+        /* 対象が画面外なら一度だけスクロールして見せる。
+           smoothが動かない環境向けに、少し後に位置を再確認して即時ジャンプ */
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > window.innerHeight - 40) {
+          el.scrollIntoView({ block: "center", behavior: "smooth" });
+          setTimeout(() => {
+            const r2 = el.getBoundingClientRect();
+            if (r2.bottom < 0 || r2.top > window.innerHeight - 40) el.scrollIntoView({ block: "center" });
+          }, 900);
+        }
+        scrolledRef.current = true;
+      }
       setRect(el ? el.getBoundingClientRect() : null);
     };
     update();

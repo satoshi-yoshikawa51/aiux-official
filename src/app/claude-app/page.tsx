@@ -67,6 +67,57 @@ export default function ClaudeAppPage() {
       <section style={{ maxWidth: "min(880px, 94vw)", margin: "0 auto", padding: "0 0 60px" }}>
         <GuidedClaudeApp />
       </section>
+
+      {/* —— 本物への橋渡し（そら先生の総まとめコースからもここを指す） —— */}
+      <section
+        id="start-real"
+        data-guide="start-real"
+        style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 70px" }}
+      >
+        <div
+          style={{
+            border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18, background: "var(--paper-0)",
+            boxShadow: "var(--shadow-pop)", padding: "26px 24px",
+          }}
+        >
+          <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.2vw,30px)", margin: "0 0 6px" }}>
+            🚀 本物のClaudeをはじめる
+          </h2>
+          <p style={{ fontSize: 14, lineHeight: 2, color: "var(--text-body)", margin: "0 0 18px" }}>
+            練習おつかれさまでした。ここから先は本物です。始め方は3ステップ。
+          </p>
+          <ol style={{ margin: "0 0 18px", padding: 0, listStyle: "none", display: "grid", gap: 10 }}>
+            {[
+              ["①", "無料アカウントを作る", <span key="a"><a href="https://claude.ai" target="_blank" rel="noopener noreferrer" style={{ color: "var(--red-600)", fontWeight: 700 }}>claude.ai</a> にアクセスして、メールアドレスかGoogleアカウントで登録。そのままブラウザで「チャット」が使えます。</span>],
+              ["②", "デスクトップアプリを入れる", <span key="b"><a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer" style={{ color: "var(--red-600)", fontWeight: 700 }}>claude.ai/download</a> からPCアプリをインストール。練習した3タブ（チャット／Cowork／コード)の画面に会えます。</span>],
+              ["③", "最初のひとことを送る", <span key="c">下のテンプレをコピーして、自分の仕事に書き換えて送るだけ。あとはClaudeが質問しながら進めてくれます。</span>],
+            ].map(([n, t, d]) => (
+              <li key={n as string} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                <span style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 20, color: "var(--red-600)" }}>{n}</span>
+                <span style={{ fontSize: 13.5, lineHeight: 1.9 }}>
+                  <b>{t}</b>
+                  <br />
+                  {d}
+                </span>
+              </li>
+            ))}
+          </ol>
+          <div
+            style={{
+              fontFamily: "var(--font-mono)", fontSize: 12.5, lineHeight: 1.9, background: "var(--paper-100)",
+              border: "1px solid var(--line, #ddd)", borderRadius: 12, padding: "12px 14px", marginBottom: 18, whiteSpace: "pre-wrap",
+            }}
+          >
+            {"私は◯◯の仕事をしています。\n△△を手伝ってほしいです。\n足りない情報があれば、質問しながら進めてください。"}
+          </div>
+          <div style={{ fontSize: 12.5, lineHeight: 2, color: "var(--text-muted)" }}>
+            <b>プラン早見</b> — 無料プラン: チャットをまず試せる ／ 有料プラン(Pro〜): 利用量が増え、コード(Claude Code)などの開発機能も ／
+            Coworkは上位プランから順次提供。最新の提供状況と料金は{" "}
+            <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" style={{ color: "var(--red-600)" }}>公式サイト</a>
+            で確認してください。
+          </div>
+        </div>
+      </section>
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </div>

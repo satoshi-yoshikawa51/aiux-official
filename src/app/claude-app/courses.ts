@@ -155,7 +155,7 @@ const COURSE_1: Course = {
     {
       motion: "explain",
       target: "input",
-      text: "下の入力欄に「もっと短く」と打って送信してみてください。",
+      text: "下の入力欄に「もっと短く」と打って送信してみてください。※この練習画面の返事は台本です。本物のClaudeは内容に合わせて答えてくれます。",
       waitFor: (e) => e.type === "send" && e.tab === "chat",
       onDone: { motion: "laugh", emote: "💮" },
     },
@@ -238,7 +238,7 @@ const COURSE_2: Course = {
     {
       motion: "explain",
       target: "input",
-      text: "仕上げの注文もできます。「もっと短く」と送ってみましょう。同じタスクの続きとして反映されます。",
+      text: "仕上げの注文もできます。「もっと短く」と送ってみましょう。同じタスクの続きとして反映されます。※練習画面の返事は台本です。本物は注文どおりに直してくれます。",
       waitFor: (e) => e.type === "send" && e.tab === "cowork",
       onDone: { motion: "laugh", emote: "💮" },
     },
@@ -377,6 +377,16 @@ const COURSE_4: Course = {
       motion: "explain",
       emote: "💡",
       text: "そして裏ワザ——一度やった手順は「skill」にすれば、どの入口からでも一言で再現できます。手順を貯めれば貯めるほど、次がラクになる。",
+    },
+    {
+      motion: "explain",
+      emote: "🚀",
+      text: "ここからが本番です。本物のClaudeは claude.ai から無料で始められます（Chatはブラウザですぐ使えます）。CoworkやCodeはデスクトップアプリと有料プランで解放されていきます。",
+    },
+    {
+      motion: "explain",
+      target: "start-real",
+      text: "このページの下に「本物のClaudeをはじめる」コーナーを用意しました。登録リンク・プラン早見・最初のひとことテンプレがあります。修了したら、そのまま踏み出しましょう！",
     },
     {
       motion: "laugh",
