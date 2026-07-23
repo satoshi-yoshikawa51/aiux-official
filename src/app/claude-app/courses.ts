@@ -4,6 +4,10 @@
    - target は game.tsx の data-guide 属性名
    - waitFor はシミュレーターの操作イベントによる達成判定
    - skipIf は状況的に不要なステップの自動スキップ（例: すでにPC表示）
+
+   講師のキャラクター: ちょっとぶっきらぼうで口数少なめ、
+   でも要所ではちゃんと褒めて、最後は優しく送り出す女性上司。
+   短文・言い切り・照れ隠し気味の労いが基本。絵文字は使わない。
    ============================================================ */
 import type { SimEvent } from "./game";
 import type { SenseiMotion } from "./sensei";
@@ -37,7 +41,7 @@ export interface Course {
 const ensurePc: GuideStep = {
   motion: "explain",
   target: "device-pc",
-  text: "ガイドはPC版の画面で進めます。「💻 PC」をクリックして表示を切り替えてください。",
+  text: "先にPC画面にして。「💻 PC」を押す。話はそれから。",
   waitFor: (e) => e.type === "deviceChange" && e.device === "pc",
   skipIf: (ctx) => ctx.device === "pc",
 };
@@ -52,64 +56,64 @@ const COURSE_0: Course = {
   steps: [
     {
       motion: "bow",
-      text: "こんにちは！Claude教習所へようこそ。最初のコースでは、Claudeの3つの働き場所をぐるっと見て回ります。",
+      text: "…来たね。ここはClaude教習所。教えるのは私。最初は、Claudeの3つの働き場所をひと回りする。ついてきて。",
     },
     ensurePc,
     {
       motion: "explain",
       emote: "💡",
-      text: "大事なのはこれだけ——中身は同じClaude、違うのは「どこで働くか」。チャットの中・あなたのPCの中・ターミナルの3つです。",
+      text: "覚えることは1つだけ。中身は同じClaude、違うのは“どこで働くか”。チャットの中、あなたのPCの中、ターミナル。以上。",
     },
     {
       motion: "explain",
       target: "tab-chat",
-      text: "まずは「チャット」タブから。すでに開いていたらそのままクリックでOKです。",
+      text: "まず「チャット」タブ。開いてたら、そのまま押せばいい。",
       waitFor: (e) => e.type === "tabChange" && e.tab === "chat",
       skipIf: (ctx) => ctx.tab === "chat",
     },
     {
       motion: "explain",
       target: "new-chat",
-      text: "「＋新しいチャット」をクリックして、真っさらな画面にしましょう。",
+      text: "「＋新しいチャット」。まっさらから始めるのが基本。",
       waitFor: (e) => e.type === "newChat",
     },
     {
       motion: "explain",
       target: "suggest-0",
-      text: "いま開いているのが「チャット」。まずは気軽にひとこと。最初の提案をクリックして送ってみてください。",
+      text: "挨拶でもしてみたら。最初の提案、押してみて。",
       waitFor: (e) => e.type === "send" && e.tab === "chat",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
-      text: "返事が流れるように届きましたね。これがストリーミング。Chatは「その場で終わる相談」の入口です。",
+      text: "…返ってきたでしょ。これがストリーミング。Chatは“その場で終わる相談”の入口。",
     },
     {
       motion: "explain",
       target: "tab-cowork",
-      text: "次は「Cowork」タブへ。ここはClaudeが“あなたのPCの中”で働くモードです。",
+      text: "次。「Cowork」タブ。",
       waitFor: (e) => e.type === "tabChange" && e.tab === "cowork",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
-      text: "Coworkはフォルダを渡して仕事を丸ごと任せる場所。ファイルの読み書きも、成果物の保存もPCの中で起きます。「プロジェクトとして進める」ならここ。",
+      text: "ここはあなたのPCの中で働くモード。フォルダごと仕事を任せる場所。“プロジェクトとして進める”なら、ここ一択。",
     },
     {
       motion: "explain",
       target: "tab-code",
-      text: "最後は「コード」タブ。“実際に何かを作る”ための入口です。",
+      text: "最後。「コード」タブ。",
       waitFor: (e) => e.type === "tabChange" && e.tab === "code",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
       emote: "💡",
-      text: "よくある誤解をひとつ——CodeにGitHubは必須ではありません！フォルダを1つ選べば始められます。GitHubが要るのは公開・共有したくなってから。",
+      text: "言っとくけど、CodeにGitHubは要らないから。フォルダ1つで始められる。公開したくなってから考えれば十分。",
     },
     {
       motion: "bow",
-      text: "覚えて帰るのはこの1枚だけ。「その場で終わる相談→Chat」「貯めて進める→Cowork」「作る・動かす→Code」。次のコースで、それぞれを実際に使い込みますよ。",
+      text: "今日はここまで。“その場で終わる→Chat、貯めて進める→Cowork、作る→Code”。これだけ覚えて帰って。…最初にしては、悪くなかった。",
     },
   ],
 };
@@ -124,62 +128,62 @@ const COURSE_1: Course = {
   steps: [
     {
       motion: "bow",
-      text: "Chat編へようこそ！Chatの合言葉は「その場で終わる相談」。調べ物、壁打ち、文章づくりの入口です。",
+      text: "Chat編。Chatの仕事は“その場で終わる相談”。調べ物、壁打ち、文章。さっさと覚えよう。",
     },
     ensurePc,
     {
       motion: "explain",
       target: "tab-chat",
-      text: "まず「チャット」タブに切り替えましょう。",
+      text: "「チャット」タブに切り替えて。",
       waitFor: (e) => e.type === "tabChange" && e.tab === "chat",
       skipIf: (ctx) => ctx.tab === "chat",
     },
     {
       motion: "explain",
       target: "new-chat",
-      text: "「＋新しいチャット」で新しい会話を始めます。",
+      text: "まず「＋新しいチャット」。",
       waitFor: (e) => e.type === "newChat",
     },
     {
       motion: "explain",
       target: "suggest-2",
-      text: "コツを聞いてみます。「AIを使いこなすコツを3つ教えて」をクリック。",
+      text: "コツでも聞いてみれば。「AIを使いこなすコツを3つ教えて」、押して。",
       waitFor: (e) => e.type === "send" && e.tab === "chat",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
       emote: "💡",
-      text: "ポイントは“一度で完璧を求めない”こと。出てきた答えに注文を重ねられるのがAIとの会話です。",
+      text: "いい？一度で完璧を求めない。出てきたものに注文をつける。それがAIと仕事するときの基本。",
     },
     {
       motion: "explain",
       target: "input",
-      text: "下の入力欄に「もっと短く」と打って送信してみてください。※この練習画面の返事は台本です。本物のClaudeは内容に合わせて答えてくれます。",
+      text: "入力欄に「もっと短く」って打って、送信。…ああ、ここの返事は台本だから。本物は内容に合わせて返してくる。",
       waitFor: (e) => e.type === "send" && e.tab === "chat",
       onDone: { motion: "laugh", emote: "💮" },
     },
     {
       motion: "explain",
-      text: "同じチャットの中では、Claudeは前のやりとりを覚えています。だから「さっきのを短く」が通じるんです。",
+      text: "同じチャットの中なら、前の話を覚えてる。だから“さっきのを短く”が通じる。",
     },
     {
       motion: "explain",
       target: "new-chat",
-      text: "そして大事な習慣——新しい話題は新しいチャットで。「＋新しいチャット」をクリック。",
+      text: "話題を変えるときは新しいチャット。混ぜると答えがぶれる。押して。",
       waitFor: (e) => e.type === "newChat",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
       target: "model",
-      text: "最後にモデル切替。難しい仕事はOpus、日常はSonnet、軽い作業はHaiku。切り替えてみましょう。",
+      text: "モデルの使い分け。難しい仕事はOpus、日常はSonnet、軽いのはHaiku。試しに切り替えてみて。",
       waitFor: (e) => e.type === "modelChange",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "bow",
-      text: "Chat編、修了です🎉 「背景ごと伝える」「注文を重ねる」「新しい話題は新しいチャットで」——この3つがChatを使いこなすコツです。",
+      text: "Chat編、終わり。“背景ごと伝える・注文を重ねる・話題ごとに分ける”。…飲み込み、早いじゃない。",
     },
   ],
 };
@@ -194,57 +198,57 @@ const COURSE_2: Course = {
   steps: [
     {
       motion: "bow",
-      text: "Cowork編へようこそ！ここは「プロジェクトとして進める」仕事の場所。実は私が一番よく使うモードです。",
+      text: "Cowork編。“貯めて進める”場所。…私が一番使ってるのは、ここ。",
     },
     ensurePc,
     {
       motion: "explain",
       target: "tab-cowork",
-      text: "「Cowork」タブに切り替えましょう。",
+      text: "「Cowork」タブに切り替えて。",
       waitFor: (e) => e.type === "tabChange" && e.tab === "cowork",
       skipIf: (ctx) => ctx.tab === "cowork",
     },
     {
       motion: "explain",
       target: "new-chat",
-      text: "「＋新しいタスク」をクリックして、新しい仕事を始める準備をします。",
+      text: "「＋新しいタスク」から。",
       waitFor: (e) => e.type === "newChat",
     },
     {
       motion: "explain",
       target: "folder",
       emote: "📁",
-      text: "Coworkは案件ごとにフォルダを渡すのが基本。📁チップから好きなフォルダを選んでください。初めてのフォルダは「アクセス許可」の確認が出ます。",
+      text: "Coworkは案件ごとにフォルダを渡す。📁から選んで。初めてのフォルダは許可を聞かれるから、内容を見て許可する。",
       waitFor: (e) => e.type === "folderChange",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
       target: "suggest-1",
-      text: "仕事を丸ごと任せてみます。「企画書のたたき台を作って」をクリック。",
+      text: "仕事を丸ごと任せてみようか。「企画書のたたき台を作って」、押して。",
       waitFor: (e) => e.type === "send" && e.tab === "cowork",
     },
     {
       motion: "arms-crossed",
-      text: "計画 → 作業ログ → 完了、と進んでいくのを見守りましょう。本物のCoworkはクラウドで動くので、この間アプリを閉じてもOKなんです。",
+      text: "計画、作業、完了。見てるだけでいい。本物はクラウドで動くから、この間アプリを閉じてても勝手に進む。",
     },
     {
       motion: "explain",
       target: "artifact",
-      text: "成果物がファイルとして残りました。カードをクリックして中身をプレビューしてみてください。",
+      text: "成果物がファイルで残った。カードを押して、中身を確認して。",
       waitFor: (e) => e.type === "artifactOpen",
       onDone: { motion: "laugh", emote: "🎉" },
     },
     {
       motion: "explain",
       target: "input",
-      text: "仕上げの注文もできます。「もっと短く」と送ってみましょう。同じタスクの続きとして反映されます。※練習画面の返事は台本です。本物は注文どおりに直してくれます。",
+      text: "注文もつけられる。「もっと短く」って送って。…ここの返事は台本ね。本物は注文どおりに直してくる。",
       waitFor: (e) => e.type === "send" && e.tab === "cowork",
       onDone: { motion: "laugh", emote: "💮" },
     },
     {
       motion: "bow",
-      text: "Cowork編、修了です🎉 「フォルダごと渡す」「任せて見守る」「成果物に注文を重ねる」。回を重ねるほど文脈が貯まって、どんどん楽になりますよ。",
+      text: "Cowork編、終わり。フォルダごと渡す、任せる、注文する。回を重ねるほど文脈が貯まって楽になる。…いい調子。",
     },
   ],
 };
@@ -259,26 +263,26 @@ const COURSE_3: Course = {
   steps: [
     {
       motion: "bow",
-      text: "Code編へようこそ！ここは「実際に何かを作る」モード。プログラミング知識ゼロでも大丈夫、進め方を一緒に覚えましょう。",
+      text: "Code編。“実際に作る”モード。プログラミング未経験？関係ない。手順だけ覚えて。",
     },
     ensurePc,
     {
       motion: "explain",
       target: "tab-code",
-      text: "「コード」タブに切り替えましょう。",
+      text: "「コード」タブに切り替えて。",
       waitFor: (e) => e.type === "tabChange" && e.tab === "code",
       skipIf: (ctx) => ctx.tab === "code",
     },
     {
       motion: "explain",
       target: "new-chat",
-      text: "「＋新しいセッション」をクリックして、まっさらな状態から始めます。",
+      text: "「＋新しいセッション」。まっさらから。",
       waitFor: (e) => e.type === "newChat",
     },
     {
       motion: "explain",
       target: "folder",
-      text: "まずフォルダ選び。GitHubは不要です！📁チップからフォルダを選んでください。",
+      text: "フォルダを選ぶ。GitHub？要らないって言ったでしょ。📁から選んで。",
       waitFor: (e) => e.type === "folderChange",
       onDone: { motion: "laugh", emote: "✨" },
     },
@@ -286,62 +290,62 @@ const COURSE_3: Course = {
       motion: "explain",
       target: "perm",
       emote: "🛡️",
-      text: "Codeの安全装置が「権限モード」。まずは慎重派の使い方から——🛡チップから「Plan」を選んでください。計画だけ立てて、ファイルには触らないモードです。",
+      text: "Codeの安全装置、“権限モード”。まず🛡から「Plan」にして。計画だけ立てて、ファイルには触らないモード。",
       waitFor: (e) => e.type === "permChange" && e.permMode === "plan",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
       target: "suggest-1",
-      text: "Planモードのまま「TODOリストのWebアプリを作って」を送ってみましょう。",
+      text: "そのまま「TODOリストのWebアプリを作って」を送ってみて。",
       waitFor: (e) => e.type === "send" && e.tab === "code",
     },
     {
       motion: "explain",
-      text: "ほら、計画だけ提案して止まりましたね。方針を安全に確認したいときはPlanが便利。では実装に進みましょう。",
+      text: "ほら、計画だけ出して止まった。方針を安全に確かめたいときはこれでいい。…じゃ、実装いくよ。",
     },
     {
       motion: "explain",
       target: "perm",
-      text: "🛡チップから「Manual」に戻してください。編集のたびに承認を求める、初心者に安心のモードです。",
+      text: "🛡から「Manual」に戻して。編集のたびに確認してくるモード。最初はこれで十分。",
       waitFor: (e) => e.type === "permChange" && e.permMode === "manual",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
       target: "new-chat",
-      text: "新しいセッションで作り直します。「＋新しいセッション」をクリック。",
+      text: "「＋新しいセッション」。",
       waitFor: (e) => e.type === "newChat",
     },
     {
       motion: "explain",
       target: "suggest-0",
-      text: "今度は「おみくじアプリを作って」を送信！",
+      text: "本命。「おみくじアプリを作って」、送信。",
       waitFor: (e) => e.type === "send" && e.tab === "code",
     },
     {
       motion: "arms-crossed",
       target: "accept",
-      text: "Claudeが変更内容をdiff（差分）で提案してきます。緑が追加・赤が削除。「✓ Accept」で承認しましょう。",
+      text: "変更の提案が来た。緑が追加、赤が削除。中身を見て「✓ Accept」。承認するまでファイルは書き換わらない。",
       waitFor: (e) => e.type === "diffResolved",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
       target: "approve",
-      text: "コマンドの実行にも許可が要ります。「✓ 許可する」をクリック。",
+      text: "コマンドも許可制。「✓ 許可する」を押す。勝手に実行しないのが、こいつの偉いところ。",
       waitFor: (e) => e.type === "approvalResolved",
     },
     {
       motion: "explain",
       target: "artifact",
-      text: "完成です！成果物カードから、実際に動くおみくじを引いてみてください🎋",
+      text: "できた。成果物カードから動かしてみて。",
       waitFor: (e) => e.type === "artifactOpen",
       onDone: { motion: "laugh", emote: "🎉" },
     },
     {
       motion: "bow",
-      text: "Code編、修了です🎉 「自然言語で頼む→diffを承認→コマンドを許可→動くものができる」。この流れさえ覚えれば、アプリもWebサイトも作れます。",
+      text: "Code編、終わり。頼む、承認する、許可する、動く。この流れだけ。…正直、ここまで来られるとは思ってなかった。上出来。",
     },
   ],
 };
@@ -356,41 +360,41 @@ const COURSE_4: Course = {
   steps: [
     {
       motion: "bow",
-      text: "総まとめです。ここまでのコース、おつかれさまでした！最後に「どれを使うか」の判断軸を確認しましょう。",
+      text: "総まとめ。ここまで付き合ったんだから、最後まで聞いていって。",
     },
     {
       motion: "explain",
       emote: "1️⃣",
-      text: "質問その1——「その場で終わる相談？」ならChat。調べ物・壁打ち・文章化。ChatGPTと同じ感覚で、でも逆質問や図解が返ってきます。",
+      text: "質問その1。“その場で終わる相談？”ならChat。ChatGPTと同じ感覚でいい。ただ、向こうから逆質問と図解が返ってくるのはこっちだけ。",
     },
     {
       motion: "explain",
       emote: "2️⃣",
-      text: "質問その2——「続きがある？情報を貯めたい？」ならCowork。案件フォルダを渡して、成果物とやりとりを蓄積。回を重ねるほど賢くなります。",
+      text: "質問その2。“続きがある？情報を貯めたい？”ならCowork。案件フォルダを渡して、成果物とやりとりを積んでいく。",
     },
     {
       motion: "explain",
       emote: "3️⃣",
-      text: "質問その3——「作る？動かす?」ならCode。GitHubなしで始めて、diff承認とコマンド許可で安全に。動くものが手に入ります。",
+      text: "質問その3。“作る？動かす？”ならCode。GitHubなしで始めて、承認制で安全に。動くものが手に入る。",
     },
     {
       motion: "explain",
       emote: "💡",
-      text: "そして裏ワザ——一度やった手順は「skill」にすれば、どの入口からでも一言で再現できます。手順を貯めれば貯めるほど、次がラクになる。",
+      text: "おまけ。一度やった手順は“skill”にしておくと、次から一言で再現できる。手順は資産。貯めなさい。",
     },
     {
       motion: "explain",
       emote: "🚀",
-      text: "ここからが本番です。本物のClaudeは claude.ai から無料で始められます（Chatはブラウザですぐ使えます）。CoworkやCodeはデスクトップアプリと有料プランで解放されていきます。",
+      text: "ここから先は本物。claude.aiから無料で始められる。CoworkとCodeは、デスクトップアプリと有料プランで解放されていく。",
     },
     {
       motion: "explain",
-      text: "この画面を閉じたすぐ下に「本物のClaudeをはじめる」コーナーを用意してあります。登録リンク・プラン早見・最初のひとことテンプレ付き。修了したら、そのまま踏み出しましょう！",
+      text: "この画面を閉じたすぐ下に、“本物のClaudeをはじめる”を置いといた。リンクも最初のひとことテンプレも揃えてある。…ここまでやったんだから、使いなさい。",
     },
     {
       motion: "laugh",
       emote: "🎓",
-      text: "全コース修了、おめでとうございます🎉 あとは本物のClaudeで、今日の仕事をひとつ任せてみるだけ。応援しています！",
+      text: "全コース修了。…よく頑張ったね。あとは今日の仕事をひとつ、Claudeに任せてみるだけ。いってらっしゃい。",
     },
   ],
 };

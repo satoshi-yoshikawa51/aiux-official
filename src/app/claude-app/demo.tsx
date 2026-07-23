@@ -31,7 +31,7 @@ const SCRIPT: DemoStep[] = [
   { caption: "変更は Accept で承認", motion: "arms-crossed", act: (r) => q(r, '[data-guide="accept"]')?.click(), wait: 3600 },
   { caption: "コマンドの実行も許可制で安心", motion: "explain", act: (r) => q(r, '[data-guide="approve"]')?.click(), wait: 6500 },
   { caption: "できあがり！実際に動きます", motion: "laugh", act: (r) => q(r, '[data-guide="artifact"]')?.click(), wait: 3600 },
-  { caption: "あなたも教習コースでどうぞ🎓", motion: "bow", wait: 2600 },
+  { caption: "…続きは、教習コースで", motion: "bow", wait: 2600 },
 ];
 
 export function DemoMovie() {

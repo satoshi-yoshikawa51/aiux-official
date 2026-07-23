@@ -295,7 +295,7 @@ export function GuidedClaudeApp() {
             )}
             {typingDone && awaiting && (
               <div style={{ marginTop: 6, fontSize: 11, color: "#999", fontWeight: 700 }}>
-                ⬆ 画面のオレンジ枠を操作してみよう
+                ⬆ オレンジ枠。操作して
               </div>
             )}
           </div>
