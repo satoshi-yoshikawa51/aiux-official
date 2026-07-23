@@ -3,105 +3,34 @@
    講師ガイドレイヤー — 3D講師キャラ「そら先生」がシミュレーターの
    実UIをハイライト＋矢印で指しながら、セリフで操作を案内する。
 
-   仕組み:
-   - ガイドは GuideStep[] のデータ駆動。target に game.tsx 側の
-     data-guide 属性名を指定するとその要素をハイライトする
-   - waitFor を指定したステップは「次へ」を出さず、ClaudeAppSimの
-     onEvent から流れてくる操作イベントで達成判定する
-   - 達成時は onDone のモーション/エモートで褒めてから次のステップへ
+   - コースは courses.ts のデータ駆動（GuideStep[]）
+   - target: game.tsx側の data-guide 属性名をハイライト
+   - waitFor: ClaudeAppSimのonEventイベントで達成判定
+   - skipIf: 状況的に不要なステップは自動スキップ（例: すでにPC表示）
+   - 修了コースは localStorage に記録して✓表示
    ============================================================ */
 import React from "react";
 import { createPortal } from "react-dom";
 import { ClaudeAppSim, type SimEvent } from "./game";
-import { Sensei, type SenseiHandle, type SenseiMotion } from "./sensei";
+import { Sensei, type SenseiHandle } from "./sensei";
+import { COURSES, type GuideCtx } from "./courses";
 
-export interface GuideStep {
-  text: string;
-  motion?: SenseiMotion;
-  emote?: string;
-  target?: string; // data-guide属性名
-  waitFor?: (e: SimEvent) => boolean;
-  onDone?: { motion?: SenseiMotion; emote?: string };
-}
-
-/* ———— 体験ガイド（コース0のダイジェスト版） ———— */
-const DEMO_GUIDE: GuideStep[] = [
-  {
-    motion: "bow",
-    text: "こんにちは！Claude教習所の講師、そらです。このシミュレーターの使い方を、実際に触りながら案内しますね。",
-  },
-  {
-    motion: "explain",
-    target: "tab-cowork",
-    text: "Claudeは「どこで働かせるか」を上のタブで切り替えます。まずは「Cowork」タブをクリックしてみてください。",
-    waitFor: (e) => e.type === "tabChange" && e.tab === "cowork",
-    onDone: { motion: "laugh", emote: "✨" },
-  },
-  {
-    motion: "explain",
-    target: "tab-code",
-    text: "いいですね！Coworkは“あなたのPCの中”で働くモード。続いて「コード」タブに切り替えましょう。",
-    waitFor: (e) => e.type === "tabChange" && e.tab === "code",
-    onDone: { motion: "laugh", emote: "✨" },
-  },
-  {
-    motion: "explain",
-    target: "folder",
-    emote: "💡",
-    text: "コードは“フォルダを選ぶ”ところから始まります。GitHubは無くてOK！ 📁チップをクリックして、候補からフォルダを選んでください。",
-    waitFor: (e) => e.type === "folderChange",
-    onDone: { motion: "laugh", emote: "💮" },
-  },
-  {
-    motion: "explain",
-    target: "suggest-0",
-    text: "準備完了！最初の提案「おみくじアプリを作って」をクリックして、Claudeに任せてみましょう。",
-    waitFor: (e) => e.type === "send" && e.tab === "code",
-  },
-  {
-    motion: "arms-crossed",
-    target: "accept",
-    text: "Claudeがファイルの変更を提案してきます。内容を確認して「✓ Accept」で承認してください。承認するまでファイルは書き換わりません。",
-    waitFor: (e) => e.type === "diffResolved",
-    onDone: { motion: "laugh", emote: "✨" },
-  },
-  {
-    motion: "explain",
-    target: "approve",
-    text: "コマンドの実行にも許可を求めてきます。「✓ 許可する」を押しましょう。勝手に実行しないのがClaudeの安心ポイントです。",
-    waitFor: (e) => e.type === "approvalResolved",
-  },
-  {
-    motion: "explain",
-    target: "artifact",
-    emote: "🎁",
-    text: "できあがり！成果物カードをクリックして、実際に動くおみくじをプレビューしてみてください。",
-    waitFor: (e) => e.type === "artifactOpen",
-    onDone: { motion: "laugh", emote: "🎉" },
-  },
-  {
-    motion: "bow",
-    text: "初めての開発、完了です🎉 これが「作る・動かす」＝コードモード。ほかのタブも自由に触ってみてくださいね。",
-  },
-];
+const DONE_KEY = "claude-app-courses-done";
 
 /* ———— ハイライト枠＋矢印 ———— */
 function Highlight({ target }: { target: string }) {
   const [rect, setRect] = React.useState<DOMRect | null>(null);
   React.useEffect(() => {
-    let raf = 0;
-    let timer: ReturnType<typeof setInterval> | null = null;
     const update = () => {
       const el = document.querySelector(`[data-guide="${target}"]`);
       setRect(el ? el.getBoundingClientRect() : null);
     };
     update();
-    timer = setInterval(update, 250); // 要素の出現・スクロール・レイアウト変化を追従
+    const timer = setInterval(update, 250); // 要素の出現・スクロールに追従
     window.addEventListener("scroll", update, true);
     window.addEventListener("resize", update);
     return () => {
-      if (timer) clearInterval(timer);
-      cancelAnimationFrame(raf);
+      clearInterval(timer);
       window.removeEventListener("scroll", update, true);
       window.removeEventListener("resize", update);
     };
@@ -140,25 +69,62 @@ function Highlight({ target }: { target: string }) {
   );
 }
 
-/* ———— 本体: シミュレーター＋ガイド ———— */
+/* ———— 本体: シミュレーター＋講師ガイド ———— */
 export function GuidedClaudeApp() {
-  const [running, setRunning] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const [courseId, setCourseId] = React.useState<string | null>(null);
   const [stepIdx, setStepIdx] = React.useState(0);
-  const [typed, setTyped] = React.useState(0); // 表示済み文字数
-  const [awaiting, setAwaiting] = React.useState(false); // 操作待ち中
+  const [typed, setTyped] = React.useState(0);
+  const [done, setDone] = React.useState<string[]>([]);
   const senseiRef = React.useRef<SenseiHandle>(null);
-  const stepRef = React.useRef<GuideStep | null>(null);
   const advanceTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const steps = DEMO_GUIDE;
-  const step = running ? steps[stepIdx] : null;
+  /* シミュレーターの状況（skipIf判定用）。イベントから追従する */
+  const ctxRef = React.useRef<GuideCtx>({ device: "pc", tab: "chat" });
+
+  const course = COURSES.find((c) => c.id === courseId) ?? null;
+  const step = course ? course.steps[stepIdx] : null;
+  const stepRef = React.useRef(step);
   stepRef.current = step;
 
-  /* ステップ開始: モーション・エモート・タイプライターをリセット */
+  /* 修了記録の読み込み */
+  React.useEffect(() => {
+    ctxRef.current.device = window.matchMedia("(max-width: 700px)").matches ? "sp" : "pc";
+    try {
+      const s = localStorage.getItem(DONE_KEY);
+      if (s) setDone(JSON.parse(s));
+    } catch { /* noop */ }
+  }, []);
+
+  const finishCourse = React.useCallback((id: string) => {
+    setDone((prev) => {
+      const next = prev.includes(id) ? prev : [...prev, id];
+      try { localStorage.setItem(DONE_KEY, JSON.stringify(next)); } catch { /* noop */ }
+      return next;
+    });
+    setCourseId(null);
+    setStepIdx(0);
+  }, []);
+
+  const advance = React.useCallback(() => {
+    const c = COURSES.find((x) => x.id === courseId);
+    if (!c) return;
+    setStepIdx((i) => {
+      /* skipIf該当ステップを飛ばしながら次へ */
+      let n = i + 1;
+      while (n < c.steps.length && c.steps[n].skipIf?.(ctxRef.current)) n++;
+      if (n >= c.steps.length) {
+        finishCourse(c.id);
+        return 0;
+      }
+      return n;
+    });
+  }, [courseId, finishCourse]);
+
+  /* ステップ開始: モーション・エモート・タイプライター */
   React.useEffect(() => {
     if (!step) return;
     setTyped(0);
-    setAwaiting(!!step.waitFor);
     if (step.motion) senseiRef.current?.play(step.motion);
     if (step.emote) senseiRef.current?.emote(step.emote);
     const iv = setInterval(() => {
@@ -169,20 +135,12 @@ export function GuidedClaudeApp() {
     }, 26);
     return () => clearInterval(iv);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [running, stepIdx]);
+  }, [courseId, stepIdx]);
 
-  const advance = React.useCallback(() => {
-    setStepIdx((i) => {
-      if (i + 1 >= steps.length) {
-        setRunning(false);
-        return 0;
-      }
-      return i + 1;
-    });
-  }, [steps.length]);
-
-  /* シミュレーター操作イベント → 達成判定 */
+  /* シミュレーター操作イベント → コンテキスト追従＆達成判定 */
   const onEvent = React.useCallback((e: SimEvent) => {
+    if (e.type === "deviceChange") ctxRef.current.device = e.device;
+    if (e.type === "tabChange") ctxRef.current.tab = e.tab;
     const s = stepRef.current;
     if (!s?.waitFor || !s.waitFor(e)) return;
     stepRef.current = null; // 二重判定防止
@@ -192,17 +150,25 @@ export function GuidedClaudeApp() {
     advanceTimer.current = setTimeout(advance, s.onDone ? 1000 : 350);
   }, [advance]);
 
-  const start = () => {
-    setStepIdx(0);
-    setRunning(true);
+  const startCourse = (id: string) => {
+    const c = COURSES.find((x) => x.id === id);
+    if (!c) return;
+    setMenuOpen(false);
+    setCourseId(id);
+    /* 先頭のskipIf該当ステップを飛ばす */
+    let n = 0;
+    while (n < c.steps.length && c.steps[n].skipIf?.(ctxRef.current)) n++;
+    setStepIdx(n);
   };
   const stop = () => {
-    setRunning(false);
+    setCourseId(null);
     setStepIdx(0);
   };
 
+  const running = !!course && !!step;
+  const awaiting = !!step?.waitFor;
   const typingDone = step ? typed >= step.text.length : false;
-  const isLast = running && stepIdx === steps.length - 1;
+  const isLast = course ? stepIdx === course.steps.length - 1 : false;
 
   /* サイト側の親にCSS transformがあると position:fixed が効かないため、
      オーバーレイ類は body 直下にポータルで描画する */
@@ -211,10 +177,9 @@ export function GuidedClaudeApp() {
 
   const overlay = (
     <>
-      {/* —— ハイライト —— */}
       {running && step?.target && <Highlight target={step.target} />}
 
-      {/* —— 右下: 講師キャラ＋吹き出し —— */}
+      {/* —— 右下: 講師キャラ＋吹き出し／コースメニュー —— */}
       <div
         style={{
           position: "fixed", right: 6, bottom: 4, zIndex: 80,
@@ -242,7 +207,9 @@ export function GuidedClaudeApp() {
             >
               ×
             </button>
-            <div style={{ fontSize: 10.5, fontWeight: 800, color: "#D97757", marginBottom: 3 }}>そら先生</div>
+            <div style={{ fontSize: 10.5, fontWeight: 800, color: "#D97757", marginBottom: 3 }}>
+              そら先生 <span style={{ color: "#bbb" }}>｜ {course!.emoji} {course!.title}（{stepIdx + 1}/{course!.steps.length}）</span>
+            </div>
             <div style={{ whiteSpace: "pre-wrap", minHeight: 42 }}>
               {step.text.slice(0, typed)}
               {!typingDone && <span style={{ color: "#D97757" }}>▍</span>}
@@ -267,11 +234,53 @@ export function GuidedClaudeApp() {
             )}
           </div>
         )}
+
+        {!running && menuOpen && (
+          <div
+            style={{
+              pointerEvents: "auto", marginBottom: 4, width: "min(320px, calc(100vw - 24px))",
+              background: "#FFFFFF", border: "2px solid var(--ink-900, #222)", borderRadius: 16,
+              boxShadow: "0 10px 30px rgba(0,0,0,.22)", overflow: "hidden",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", padding: "12px 14px 8px" }}>
+              <span style={{ fontWeight: 900, fontSize: 14 }}>🎓 そら先生の教習コース</span>
+              <button
+                onClick={() => setMenuOpen(false)}
+                aria-label="閉じる"
+                style={{ marginLeft: "auto", border: "none", background: "transparent", fontSize: 17, cursor: "pointer", color: "#999" }}
+              >
+                ×
+              </button>
+            </div>
+            <div style={{ padding: "0 10px 10px" }}>
+              {COURSES.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => startCourse(c.id)}
+                  style={{
+                    display: "block", width: "100%", textAlign: "left", margin: "0 0 6px",
+                    padding: "9px 11px", borderRadius: 11, border: "1.5px solid #e5e2d8",
+                    background: done.includes(c.id) ? "#F4F9F2" : "#FCFBF7", cursor: "pointer", fontFamily: "inherit",
+                  }}
+                >
+                  <span style={{ fontSize: 13, fontWeight: 800 }}>
+                    {c.emoji} {c.title}
+                    <span style={{ color: "#999", fontWeight: 700 }}>（約{c.minutes}分）</span>
+                    {done.includes(c.id) && <span style={{ color: "#3E7B4F" }}> ✓修了</span>}
+                  </span>
+                  <span style={{ display: "block", fontSize: 11, color: "#888", marginTop: 2, lineHeight: 1.6 }}>{c.desc}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {running ? (
           <Sensei ref={senseiRef} width={150} height={200} />
         ) : (
           <button
-            onClick={start}
+            onClick={() => setMenuOpen((v) => !v)}
             style={{
               pointerEvents: "auto", display: "flex", alignItems: "center", gap: 8,
               padding: "11px 18px", borderRadius: 999, cursor: "pointer",
@@ -281,6 +290,11 @@ export function GuidedClaudeApp() {
             }}
           >
             🎓 先生に教わる
+            {done.length > 0 && (
+              <span style={{ fontSize: 11, color: "#3E7B4F", fontWeight: 800 }}>
+                {done.length}/{COURSES.length}
+              </span>
+            )}
           </button>
         )}
       </div>

@@ -593,6 +593,7 @@ export function ClaudeAppSim({
           {(["pc", "sp"] as const).map((d) => (
             <button
               key={d}
+              data-guide={`device-${d}`}
               onClick={() => {
                 setDevice(d);
                 emit({ type: "deviceChange", device: d });
@@ -880,6 +881,7 @@ function Sidebar({
       <div style={{ padding: showNav ? "0 10px 10px" : "4px 10px 10px" }}>
         <button
           onClick={onNew}
+          data-guide="new-chat"
           style={{
             width: "100%", display: "flex", alignItems: "center", gap: 8, padding: "9px 12px", borderRadius: 10,
             border: `1px solid ${C.line}`, background: C.bg, color: C.accentInk, fontWeight: 700, fontSize: 13.5, cursor: "pointer", fontFamily: "inherit",
@@ -1098,6 +1100,7 @@ function Main({
           </button>
           <textarea
             value={input}
+            data-guide="input"
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
