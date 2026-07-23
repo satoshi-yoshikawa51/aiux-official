@@ -21,12 +21,15 @@ import { COURSES, type GuideCtx } from "./courses";
 
 const DONE_KEY = "claude-app-courses-done";
 
-/* ———— ハイライト枠＋矢印 ———— */
-function Highlight({ target }: { target: string }) {
+/* ———— ハイライト枠＋矢印 ————
+   scope: 検索範囲のセレクタ。プレイ映像(DemoMovie)も同じシミュレーターを
+   描画していてdata-guideが重複するため、モーダル内に限定して探す */
+function Highlight({ target, scope }: { target: string; scope?: string }) {
   const [rect, setRect] = React.useState<DOMRect | null>(null);
   React.useEffect(() => {
+    const sel = `${scope ? `${scope} ` : ""}[data-guide="${target}"]`;
     const update = () => {
-      const el = document.querySelector(`[data-guide="${target}"]`);
+      const el = document.querySelector(sel);
       setRect(el ? el.getBoundingClientRect() : null);
     };
     update();
@@ -38,7 +41,7 @@ function Highlight({ target }: { target: string }) {
       window.removeEventListener("scroll", update, true);
       window.removeEventListener("resize", update);
     };
-  }, [target]);
+  }, [target, scope]);
 
   if (!rect || rect.width === 0) return null;
   const pad = 5;
@@ -247,13 +250,13 @@ export function GuidedClaudeApp() {
           </button>
         </div>
         {/* シミュレーター（収まらない環境ではこの内側だけスクロール） */}
-        <div style={{ overflow: "auto", padding: "14px 16px 16px" }}>
+        <div id="guide-sim-root" style={{ overflow: "auto", padding: "14px 16px 16px" }}>
           <ClaudeAppSim onEvent={onEvent} />
         </div>
       </div>
 
-      {/* —— ハイライト —— */}
-      {step?.target && <Highlight target={step.target} />}
+      {/* —— ハイライト（モーダル内のシミュレーターに限定） —— */}
+      {step?.target && <Highlight target={step.target} scope="#guide-sim-root" />}
 
       {/* —— 講師キャラ＋吹き出し（モーダルと一緒に固定） —— */}
       {course && step && (
