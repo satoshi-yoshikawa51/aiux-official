@@ -51,8 +51,8 @@ const COURSE_0: Course = {
   id: "start",
   emoji: "🚪",
   title: "はじめの一歩 — 3つの入口",
-  minutes: 3,
-  desc: "Chat / Cowork / Code の違いは「どこで働かせるか」。判断軸を体で覚える",
+  minutes: 4,
+  desc: "Chat / Cowork / Code の違いは「どこで働かせるか」。3つとも軽くさわって判断軸を体で覚える",
   steps: [
     {
       motion: "bow",
@@ -97,7 +97,19 @@ const COURSE_0: Course = {
     },
     {
       motion: "explain",
-      text: "ここはあなたのPCの中で働くモード。フォルダごと仕事を任せる場所。“プロジェクトとして進める”なら、ここ一択。",
+      emote: "📁",
+      text: "ここはあなたのPCの中で働くモード。案件ごとにフォルダを渡す——それが“プロジェクト”。やりとりも成果物も、ぜんぶそこに貯まっていく。",
+    },
+    {
+      motion: "explain",
+      target: "folder",
+      text: "試しに渡してみて。📁からフォルダを選ぶ。初めてなら許可を聞かれるから、中身を見て、許可。",
+      waitFor: (e) => e.type === "folderChange",
+      onDone: { motion: "laugh", emote: "✨" },
+    },
+    {
+      motion: "explain",
+      text: "これで準備完了。あとは仕事を頼むだけ。ここが“貯めて進める”の入口。…続きはCowork編でやる。",
     },
     {
       motion: "explain",
@@ -110,6 +122,25 @@ const COURSE_0: Course = {
       motion: "explain",
       emote: "💡",
       text: "言っとくけど、CodeにGitHubは要らないから。フォルダ1つで始められる。公開したくなってから考えれば十分。",
+    },
+    {
+      motion: "explain",
+      target: "perm",
+      emote: "🛡️",
+      text: "そしてCodeだけの装備が、これ。“権限モード”。🛡を開いて「Plan」にしてみて。",
+      waitFor: (e) => e.type === "permChange" && e.permMode === "plan",
+      onDone: { motion: "laugh", emote: "✨" },
+    },
+    {
+      motion: "explain",
+      text: "編集も、コマンドの実行も、あなたが承認するまで一切動かない。“勝手にやらない”——それがCodeと他との一番の違い。実際に作るのはCode編で。",
+    },
+    {
+      motion: "explain",
+      target: "perm",
+      text: "見たら「Manual」に戻しておいて。基本はそれで進める。",
+      waitFor: (e) => e.type === "permChange" && e.permMode === "manual",
+      onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "bow",
