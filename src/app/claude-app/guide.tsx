@@ -121,34 +121,56 @@ export function GuidedClaudeApp() {
     });
   }, [courseId, finishCourse]);
 
-  /* ステップ開始: モーション・エモート・タイプライター */
+  /* ステップ開始: モーション・エモート・タイプライター
+     経過時間ベースで表示文字数を計算する（バックグラウンドタブで
+     タイマーが間引かれても、戻った瞬間に追いつく） */
   React.useEffect(() => {
     if (!step) return;
     setTyped(0);
     if (step.motion) senseiRef.current?.play(step.motion);
     if (step.emote) senseiRef.current?.emote(step.emote);
+    const t0 = Date.now();
     const iv = setInterval(() => {
-      setTyped((t) => {
-        if (t >= step.text.length) { clearInterval(iv); return t; }
-        return t + 1;
-      });
-    }, 26);
+      const n = Math.min(step.text.length, Math.floor((Date.now() - t0) / 26));
+      setTyped(n);
+      if (n >= step.text.length) clearInterval(iv);
+    }, 50);
+    /* 前ステップ中に先回りで済ませた操作があれば即時に達成扱いにする */
+    if (step.waitFor) {
+      const hit = evQueue.current.find((e) => step.waitFor!(e));
+      if (hit) achieve(step);
+    }
+    evQueue.current = [];
     return () => clearInterval(iv);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseId, stepIdx]);
 
-  /* シミュレーター操作イベント → コンテキスト追従＆達成判定 */
-  const onEvent = React.useCallback((e: SimEvent) => {
-    if (e.type === "deviceChange") ctxRef.current.device = e.device;
-    if (e.type === "tabChange") ctxRef.current.tab = e.tab;
-    const s = stepRef.current;
-    if (!s?.waitFor || !s.waitFor(e)) return;
+  /* 直近のステップ中に発生した「未消化」イベント。
+     ユーザーが褒め演出の最中などに先回りして次の操作をしても、
+     次ステップ開始時にここから自動消化して詰まらないようにする */
+  const evQueue = React.useRef<SimEvent[]>([]);
+
+  const achieve = React.useCallback((s: NonNullable<typeof step>) => {
     stepRef.current = null; // 二重判定防止
     if (s.onDone?.motion) senseiRef.current?.play(s.onDone.motion);
     if (s.onDone?.emote) senseiRef.current?.emote(s.onDone.emote);
     if (advanceTimer.current) clearTimeout(advanceTimer.current);
     advanceTimer.current = setTimeout(advance, s.onDone ? 1000 : 350);
   }, [advance]);
+
+  /* シミュレーター操作イベント → コンテキスト追従＆達成判定 */
+  const onEvent = React.useCallback((e: SimEvent) => {
+    if (e.type === "deviceChange") ctxRef.current.device = e.device;
+    if (e.type === "tabChange") ctxRef.current.tab = e.tab;
+    const s = stepRef.current;
+    if (s?.waitFor && s.waitFor(e)) {
+      achieve(s);
+      return;
+    }
+    /* 現ステップの対象外イベントは先回り操作の可能性があるので保持 */
+    evQueue.current.push(e);
+    if (evQueue.current.length > 20) evQueue.current.shift();
+  }, [achieve]);
 
   const startCourse = (id: string) => {
     const c = COURSES.find((x) => x.id === id);
@@ -210,7 +232,11 @@ export function GuidedClaudeApp() {
             <div style={{ fontSize: 10.5, fontWeight: 800, color: "#D97757", marginBottom: 3 }}>
               そら先生 <span style={{ color: "#bbb" }}>｜ {course!.emoji} {course!.title}（{stepIdx + 1}/{course!.steps.length}）</span>
             </div>
-            <div style={{ whiteSpace: "pre-wrap", minHeight: 42 }}>
+            {/* クリックでタイプ表示を全文へスキップ（せっかちな人向け） */}
+            <div
+              onClick={() => step && setTyped(step.text.length)}
+              style={{ whiteSpace: "pre-wrap", minHeight: 42, cursor: typingDone ? "default" : "pointer" }}
+            >
               {step.text.slice(0, typed)}
               {!typingDone && <span style={{ color: "#D97757" }}>▍</span>}
             </div>

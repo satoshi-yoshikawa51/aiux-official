@@ -344,17 +344,18 @@ export function ClaudeAppSim({
     setChats((prev) => prev.map((c) => (c.id !== chatId ? c : { ...c, messages: [...c.messages, msg] })));
   };
 
-  /* —— 擬似ストリーミング共通 —— */
+  /* —— 擬似ストリーミング共通 ——
+     経過時間ベースで表示量を決める（バックグラウンドタブでタイマーが
+     間引かれても、戻った瞬間に本来の位置まで追いつく） */
   const streamText = async (chatId: number, reply: string, gen: number) => {
-    for (let i = 0; i < reply.length; i += 2) {
+    const t0 = Date.now();
+    for (;;) {
       if (genRef.current !== gen) return false;
-      const slice = reply.slice(0, i + 2);
-      patchLast(chatId, (m) => ({ ...m, text: slice }));
-      await new Promise((r) => setTimeout(r, 17));
+      const n = Math.min(reply.length, Math.floor(((Date.now() - t0) / 17) * 2));
+      patchLast(chatId, (m) => ({ ...m, text: reply.slice(0, n) }));
+      if (n >= reply.length) return true;
+      await new Promise((r) => setTimeout(r, 30));
     }
-    if (genRef.current !== gen) return false;
-    patchLast(chatId, (m) => ({ ...m, text: reply }));
-    return true;
   };
 
   /* —— 送信 —— */
