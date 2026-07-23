@@ -73,6 +73,7 @@ export function DemoMovie() {
         boxShadow: "var(--shadow-pop, 6px 6px 0 rgba(0,0,0,.85))",
         background: "#EDEAE0", width: "min(700px, 100%)",
         height: 680 * SCALE + 46,
+        margin: "0 auto", textAlign: "left",
       }}
     >
       {/* 再生ラベル */}

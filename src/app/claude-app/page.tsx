@@ -5,16 +5,16 @@ import { GuidedClaudeApp } from "./guide";
 import { DemoMovie } from "./demo";
 
 export const metadata: Metadata = {
-  title: "Claude教習所｜かんたんに、さわって覚えるClaudeアプリ入門｜COMIXAI",
+  title: "5分で覚える！Claude教習所｜さわって覚えるClaudeアプリ入門｜COMIXAI",
   description:
-    "Claudeの使い方は、読むよりさわって覚えるのが早い。本物そっくりの練習画面を講師が「どこを押すか」から1つずつ案内する無料の教習コース。チャット・コワーク・コードの使い分け、フォルダの許可、変更やコマンドの承認、成果物のプレビューまで、20分で一通り体験できる。登録不要。",
+    "Claudeの使い方は、読むよりさわって覚えるのが早い。本物そっくりの練習画面を講師が「どこを押すか」から1つずつ案内する無料の教習コース。1コース約5分で、チャット・コワーク・コードの使い分け、フォルダの許可、変更やコマンドの承認、成果物のプレビューまで体験できる。登録不要。",
   keywords: ["Claude 使い方", "Claude 入門", "Claude 初心者", "Claude アプリ", "Anthropic Claude 練習", "Claude チュートリアル"],
   alternates: { canonical: "/claude-app" },
   openGraph: {
     type: "website",
     siteName: "COMIXAI",
-    title: "Claude教習所｜さわって覚えるClaudeアプリ入門",
-    description: "本物そっくりの練習画面を、講師が1つずつ案内。20分でClaudeの使い方が身につく無料コース。",
+    title: "5分で覚える！Claude教習所",
+    description: "本物そっくりの練習画面を、講師が1つずつ案内。1コース約5分でClaudeの使い方が身につく無料コース。",
     url: "/claude-app",
     locale: "ja_JP",
     images: [{ url: "/ogp.png", width: 1200, height: 630, alt: "Claude教習所" }],
@@ -54,16 +54,14 @@ export default function ClaudeAppPage() {
       <Breadcrumb trail={[{ name: "ホーム", href: "/" }, { name: "Claude教習所" }]} />
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "30px 0 26px" }}>
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 10 }}>
-          LAB — Claude教習所
+          LAB — さわって覚えるClaude入門
         </div>
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(30px,4.8vw,48px)", lineHeight: 1.25, margin: "0 0 18px" }}>
-          Claudeの使い方は、
-          <br />
-          かんたんに、さわって覚える。
+          5分で覚える！Claude教習所
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: "0 0 26px" }}>
+        <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", maxWidth: 680, margin: "0 0 28px" }}>
           解説を読んでも、AIは使えるようになりません。ここは<b>本物そっくりの練習画面</b>を、講師が「どこを押すか」から1つずつ案内する<b>無料の教習所</b>。
-          仕事の頼み方、フォルダの渡し方、変更の承認まで、<b>約20分</b>で一通り体験できます。登録は不要。失敗しても何も壊れません。
+          <b>1コースは約5分</b>。すきま時間に、仕事の頼み方からフォルダの渡し方、変更の承認まで、さわって覚えられます。登録は不要。失敗しても何も壊れません。
         </p>
         <DemoMovie />
       </section>
