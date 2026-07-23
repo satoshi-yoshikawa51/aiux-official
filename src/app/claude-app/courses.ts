@@ -52,7 +52,7 @@ const COURSE_0: Course = {
   steps: [
     {
       motion: "bow",
-      text: "こんにちは！Claude教習所の講師、そらです。最初のコースでは、Claudeの3つの働き場所をぐるっと見て回ります。",
+      text: "こんにちは！Claude教習所へようこそ。最初のコースでは、Claudeの3つの働き場所をぐるっと見て回ります。",
     },
     ensurePc,
     {
@@ -385,8 +385,7 @@ const COURSE_4: Course = {
     },
     {
       motion: "explain",
-      target: "start-real",
-      text: "このページの下に「本物のClaudeをはじめる」コーナーを用意しました。登録リンク・プラン早見・最初のひとことテンプレがあります。修了したら、そのまま踏み出しましょう！",
+      text: "この画面を閉じたすぐ下に「本物のClaudeをはじめる」コーナーを用意してあります。登録リンク・プラン早見・最初のひとことテンプレ付き。修了したら、そのまま踏み出しましょう！",
     },
     {
       motion: "laugh",
