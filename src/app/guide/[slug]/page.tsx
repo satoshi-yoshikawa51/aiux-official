@@ -97,7 +97,8 @@ export default async function GuidePage({ params }: Props) {
         <img
           src={`/guide/${g.slug}.webp`}
           alt={g.title}
-          style={{ flex: "0 1 440px", width: "min(440px, 100%)", height: "auto", aspectRatio: "3/2", objectFit: "cover", border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-pop)", transform: "rotate(1.5deg)", marginTop: 18 }}
+          className="guide-hero-img"
+          style={{ flex: "0 1 440px", width: "min(440px, 100%)", height: "auto", aspectRatio: "3/2", objectFit: "cover", border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-pop)", marginTop: 18 }}
         />
       </section>
 
