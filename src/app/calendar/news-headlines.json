@@ -1,24 +1,89 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-22T22:38:10.800Z",
+  "updatedAt": "2026-07-23T22:34:34.174Z",
   "items": [
     {
-      "title": "Travis Kalanick’s robotics company raises $1.7B, led by a16z",
-      "url": "https://techcrunch.com/2026/07/22/travis-kalanicks-robotics-company-raises-1-7b-led-by-a16z/",
+      "title": "Meta launched a new AI optimism ad set to a song about human extinction",
+      "url": "https://techcrunch.com/2026/07/23/meta-launched-a-new-ai-optimism-ad-set-to-a-song-about-human-extinction/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-22T18:50:44.000Z",
-      "titleJa": "トラビス・カラニック氏のロボット会社、a16z主導で17億ドルを調達",
-      "image": "https://techcrunch.com/wp-content/uploads/2019/04/GettyImages-1132384785.jpg?resize=1200,799"
+      "date": "2026-07-23T16:28:50.000Z",
+      "titleJa": "Meta は人類滅亡についての歌に合わせた新しい AI 楽観主義広告を開始しました"
     },
     {
-      "title": "OpenAI’s AI spending spree has ballooned to $750B",
-      "url": "https://techcrunch.com/2026/07/22/openais-ai-spending-spree-has-ballooned-to-750b/",
+      "title": "AI chip startup Etched defies skeptics, hits $10.3B valuation from big-name investors",
+      "url": "https://techcrunch.com/2026/07/23/ai-chip-startup-etched-defies-skeptics-hits-10-3b-valuation-from-big-name-investors/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-22T16:13:30.000Z",
-      "titleJa": "OpenAIのAI支出額は7,500億ドルに膨れ上がった",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-2236544023.jpeg?resize=1200,800"
+      "date": "2026-07-23T15:00:00.000Z",
+      "titleJa": "AI チップのスタートアップ Etched が懐疑論を無視し、有名投資家からの評価額が 103 億ドルに達する",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/Etched-co-founder-COO-Robert-Wachen.jpg?resize=1200,1200"
+    },
+    {
+      "title": "Google’s Gemini nears billion-user milestone",
+      "url": "https://techcrunch.com/2026/07/23/google-closes-in-on-another-billion-user-product-with-gemini/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-23T14:52:44.000Z",
+      "titleJa": "Google の Gemini が 10 億ユーザーのマイルストーンに近づく",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
+    },
+    {
+      "title": "Apple’s OpenAI lawsuit is about who gets to define the post-smartphone era",
+      "url": "https://www.theverge.com/podcast/968787/apple-openai-trade-secrets-lawsuit-ai-hardware-smartphone-jony-ive",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-23T14:00:00.000Z",
+      "titleJa": "AppleのOpenAI訴訟はポストスマートフォン時代を誰が定義するかについて争っている",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/DCD_0724_OpenAI_suit.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "NECPC、法人向けPCブランドを「LAVIE」に統合--AI PC全7機種を投入",
+      "url": "https://japan.zdnet.com/article/35250911/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-23T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/07/23/15c044d820919ad448a9c023dae4040f/260723_nec_l.jpg"
+    },
+    {
+      "title": "「SaaSの終わり」は誇張？ AI時代のソフトウェア企業の生き残り戦略",
+      "url": "https://japan.zdnet.com/article/35250767/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-23T21:15:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/07/20/37d667b9f9db6b3a7b905c15fb511a78/the-saas-apocalypse-is-overrated-how-workday-and-other-software-provders-plan-to-survive-ai_l.jpg"
+    },
+    {
+      "title": "三井不動産がデータセンターに6000億円超投資、物流の枠超え「産業デベロッパー」へ",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2607/24/news046.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-23T21:15:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2607/24/cover_news046.jpg"
+    },
+    {
+      "title": "次世代AIサーバーの導入に立ちはだかる法規制、DC事業者間で見解に温度差も",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03694/072200004/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-07-23T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03694/072200004/topm.jpg?20220512"
+    },
+    {
+      "title": "PwCコンサルティング、フィジカルAI人材の育成プログラムを開始--年間で1000人規模の育成を目指す",
+      "url": "https://japan.zdnet.com/article/35250881/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-23T05:51:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/03/17/05d4257d2a795da2665b7b6e977934d2/250317_worker_as_1280_8707039.jpeg"
+    },
+    {
+      "title": "WasabiとMegaportが提携--次世代のAIおよびクラウドインフラを推進",
+      "url": "https://japan.zdnet.com/article/35250888/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-23T05:04:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/01/27/879a24eb68e6541c77d199155c96fcf0/250127_handshake_as_1280_1012836319.jpeg"
     },
     {
       "title": "AMD commits up to $5 billion to Anthropic",
@@ -28,15 +93,6 @@
       "date": "2026-07-22T14:44:27.000Z",
       "titleJa": "AMD、Anthropic に最大 50 億ドルをコミット",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/acastro_STK081_amd_02.jpg.webp?quality=90&strip=all&crop=0,10.654292878952,100,78.691414242097"
-    },
-    {
-      "title": "Glow emerges from stealth at $1.2B valuation to challenge endpoint security in the AI era",
-      "url": "https://techcrunch.com/2026/07/22/glow-emerges-from-stealth-at-1-2b-valuation-to-challenge-endpoint-security-in-the-ai-era/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-22T10:00:00.000Z",
-      "titleJa": "Glow が評価額 12 億ドルでステルスから出現、AI 時代のエンドポイント セキュリティに挑戦",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/glow-founders.jpg?resize=1200,800"
     },
     {
       "title": "Umiosが販売計画をAIで自動化 時系列基盤モデル採用で精度95％",
@@ -55,69 +111,12 @@
       "image": "https://image.itmedia.co.jp/news/articles/2607/23/cover_news063.jpg"
     },
     {
-      "title": "グーグル、脆弱性を「自分で攻撃して」確かめるAIエージェント「CodeMender」 修正パッチも自動生成",
-      "url": "https://japan.cnet.com/article/35250869/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-07-22T20:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/07/23/8e1e9aabcd493659b8d5aa846216070e/CodeMender_preview_hero.max-2000x2000.jpeg"
-    },
-    {
-      "title": "足りぬAIメモリー、NANDや新型が主役に キオクシア「需要桁違い」",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03640/071100004/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-07-22T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03640/071100004/topm.jpg?20220512"
-    },
-    {
-      "title": "アトラシアン、JiraがAIによる要件定義の自動作成、コンテキストを保持しつつタスクをClaudeやCopilotなどのAIエージェントへアサインなど新機能",
-      "url": "https://www.publickey1.jp/blog/26/jiraaiclaudecopilotai.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-07-22T15:35:19.000Z",
-      "image": "https://www.publickey1.jp/2026/jira-planner01.png"
-    },
-    {
-      "title": "Genspark、AIが仕事の全情報を記憶する「SecondBrain」--初の専用端末も",
-      "url": "https://japan.cnet.com/article/35250816/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-07-22T05:32:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/07/21/08364e2c053f43678f49527dbbbacf61/t/1280/960/d/c01.jpg"
-    },
-    {
-      "title": "無料で身に付くデータサイエンス 延べ23万人が受講、総務省が募集開始",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2607/22/news024.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-22T04:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2607/22/cover_news024.jpg"
-    },
-    {
-      "title": "MicrosoftとMistralが戦略的提携を拡大 欧州でのAIインフラ拡張とモデル展開を加速",
-      "url": "https://www.itmedia.co.jp/news/articles/2607/22/news066.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-22T01:22:00.000Z",
-      "image": "https://image.itmedia.co.jp/news/articles/2607/22/cover_news066.jpg"
-    },
-    {
       "title": "OpenAI and Hugging Face partner to address security incident during model evaluation",
       "url": "https://openai.com/index/hugging-face-model-evaluation-security-incident",
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-07-21T07:00:00.000Z",
       "titleJa": "OpenAI と Hugging Face が提携してモデル評価中のセキュリティ インシデントに対処"
-    },
-    {
-      "title": "Anthropic’s $1.5B copyright settlement approved; only 350 authors opted out",
-      "url": "https://arstechnica.com/tech-policy/2026/07/judge-approves-anthropics-1-5-billion-copyright-settlement-with-authors/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-07-21T17:33:14.000Z",
-      "titleJa": "Anthropic の 15 億ドルの著作権和解案が承認。オプトアウトした著者はわずか 350 人",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-592014704-1152x648.jpg"
     }
   ]
 }
