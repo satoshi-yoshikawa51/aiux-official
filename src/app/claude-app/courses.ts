@@ -210,15 +210,14 @@ const COURSE_1: Course = {
       waitFor: (e) => e.type === "send" && e.tab === "chat",
     },
     {
-      motion: "explain",
-      target: "artifact",
-      text: "文章じゃなくて“図”で返してきた。成果物カードを開いて見てみて。",
-      waitFor: (e) => e.type === "artifactOpen",
-      onDone: { motion: "laugh", emote: "🎉" },
+      motion: "laugh",
+      emote: "🎉",
+      target: "figure",
+      text: "見て。文章じゃなくて、チャットの中にそのまま“図”で返してきた。",
     },
     {
       motion: "explain",
-      text: "説明はその場で図解・表にできる。会議資料の下書きがチャットで済むってこと——これが違いその2。",
+      text: "説明はその場で図解・表に整形してくれる。会議資料の下書きがチャットで済むってこと——これが違いその2。",
     },
     {
       motion: "explain",

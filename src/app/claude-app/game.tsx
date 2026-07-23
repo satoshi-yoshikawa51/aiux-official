@@ -36,6 +36,7 @@ import {
   type ArtifactSpec,
   type ChoiceGroup,
   type DiffSpec,
+  type FigureSpec,
   type PermMode,
   type ScenarioSet,
   type Step,
@@ -165,6 +166,7 @@ interface Msg {
   approval?: Approval; // コマンド実行の承認カード
   artifact?: ArtifactSpec; // 成果物カード（プレビュー可能）
   choices?: Choices; // 選択式の質問（AskUserQuestion風）
+  figure?: FigureSpec; // チャット内に直接描画する図解ブロック
   error?: boolean;
   raw?: unknown; // APIモード：返答のcontentブロック（再送用にそのまま保持）
 }
@@ -430,6 +432,10 @@ export function ClaudeAppSim({
         place({ role: "assistant", text: step.text, choices: { groups: step.groups, state: "pending" } });
         setBusyChat(null);
         return;
+      } else if (step.type === "figure") {
+        /* チャット内図解: 返信の一部としてそのまま描画される */
+        await new Promise((r) => setTimeout(r, 350));
+        place({ role: "assistant", text: step.text ?? "", figure: step.figure });
       } else if (step.type === "diff") {
         /* Manual / Plan は承認待ち。Accept edits / Auto は自動承認して続行 */
         const wait = permMode === "manual" || permMode === "plan";
@@ -1227,6 +1233,49 @@ function Bubble({
   /* —— 選択式の質問カード（AskUserQuestion風） —— */
   if (msg.role === "assistant" && msg.choices) {
     return <ChoicesCard msg={msg} sp={sp} onResolve={onResolveChoices} />;
+  }
+
+  /* —— チャット内図解ブロック —— */
+  if (msg.role === "assistant" && msg.figure) {
+    const f = msg.figure;
+    return (
+      <div style={{ display: "flex", gap: 9, marginBottom: 18 }}>
+        <span style={{ width: 24, height: 24, borderRadius: "50%", background: C.accent, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0, marginTop: 2 }}>
+          ✳
+        </span>
+        <div style={{ minWidth: 0, flex: 1, maxWidth: sp ? "88%" : "84%" }}>
+          {msg.text && (
+            <div style={{ fontSize: 13.5, lineHeight: 1.85, whiteSpace: "pre-wrap", color: C.ink, marginBottom: 8 }}>{msg.text}</div>
+          )}
+          <div data-guide="figure" style={{ border: `1px solid ${C.line}`, borderRadius: 12, background: "#FFFFFF", padding: "14px 14px 12px" }}>
+            {f.title && (
+              <div style={{ fontSize: 12.5, fontWeight: 800, textAlign: "center", marginBottom: 10 }}>{f.title}</div>
+            )}
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {f.cards.map((card) => (
+                <div
+                  key={card.label}
+                  style={{
+                    flex: "1 1 120px", minWidth: 110, textAlign: "center",
+                    border: `1.5px solid ${C.line}`, borderRadius: 10, background: C.bg, padding: "10px 8px",
+                  }}
+                >
+                  <div style={{ fontSize: 22 }}>{card.icon}</div>
+                  <div style={{ fontSize: 12.5, fontWeight: 800, margin: "3px 0 2px" }}>{card.label}</div>
+                  <div style={{ fontSize: 11.5, fontWeight: 800, color: C.accentInk }}>{card.point}</div>
+                  <div style={{ fontSize: 10.5, color: C.sub, marginTop: 3, lineHeight: 1.6 }}>{card.note}</div>
+                </div>
+              ))}
+            </div>
+            {f.footer && (
+              <div style={{ fontSize: 11, color: C.sub, background: C.panel, borderRadius: 8, padding: "7px 10px", marginTop: 10, textAlign: "center" }}>
+                {f.footer}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
   }
   if (msg.role === "user") {
     return (
