@@ -1,4 +1,5 @@
-/* ルートレイアウト。進捗ストアを配って、オンボーディングの振り分けをする。 */
+/* ルートレイアウト。フォント読み込み・進捗ストア・オンボーディングの振り分け。 */
+import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -7,18 +8,18 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ProgressProvider, useProgress } from '@/store/progress';
-import { T } from '@/theme';
+import { FONT, T } from '@/theme';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
 /** アバターと職種が決まるまでは、オンボーディングから出さない */
-function OnboardingGate({ children }: { children: React.ReactNode }) {
+function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; children: React.ReactNode }) {
   const { state, ready } = useProgress();
   const segments = useSegments() as string[];
   const router = useRouter();
 
   React.useEffect(() => {
-    if (!ready) return;
+    if (!ready || !fontsReady) return;
     SplashScreen.hideAsync().catch(() => {});
 
     const inOnboarding = segments[0] === 'onboarding';
@@ -29,23 +30,34 @@ function OnboardingGate({ children }: { children: React.ReactNode }) {
     } else if (inOnboarding) {
       router.replace('/');
     }
-  }, [ready, state.avatarId, state.roleId, segments, router]);
+  }, [ready, fontsReady, state.avatarId, state.roleId, segments, router]);
 
   return <>{children}</>;
 }
 
 export default function RootLayout() {
+  /* サイトと同じ書体。日本語フォントはサブセット済み（tools/subset-fonts.mjs） */
+  const [fontsReady] = useFonts({
+    [FONT.body]: require('@/assets/fonts/ZenKakuGothicNew-Regular.ttf'),
+    [FONT.heading]: require('@/assets/fonts/ZenKakuGothicNew-Bold.ttf'),
+    [FONT.display]: require('@/assets/fonts/ZenKakuGothicNew-Black.ttf'),
+    [FONT.hand]: require('@/assets/fonts/YuseiMagic-Regular.ttf'),
+    [FONT.mono]: require('@/assets/fonts/JetBrainsMono-Bold.ttf'),
+  });
+
+  if (!fontsReady) return null;
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <ProgressProvider>
-          <OnboardingGate>
+          <OnboardingGate ready={fontsReady}>
             <StatusBar style="dark" />
             <Stack
               screenOptions={{
                 headerStyle: { backgroundColor: T.bg },
                 headerTintColor: T.text,
-                headerTitleStyle: { fontWeight: '800' },
+                headerTitleStyle: { fontFamily: FONT.display, fontSize: 16 },
                 headerShadowVisible: false,
                 contentStyle: { backgroundColor: T.bg },
               }}>

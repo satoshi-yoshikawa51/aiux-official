@@ -1,12 +1,16 @@
 /* タブ。アイコンは絵文字で統一（アイコンフォントを足さない） */
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { T } from '@/theme';
+import { BW, C, FONT, T } from '@/theme';
 
 function Icon({ char, focused }: { char: string; focused: boolean }) {
-  return <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.45 }}>{char}</Text>;
+  return (
+    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Text style={{ fontSize: 21, opacity: focused ? 1 : 0.4 }}>{char}</Text>
+    </View>
+  );
 }
 
 export default function TabsLayout() {
@@ -16,8 +20,13 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarActiveTintColor: T.accent,
         tabBarInactiveTintColor: T.muted,
-        tabBarStyle: { backgroundColor: T.surface, borderTopColor: T.borderSoft },
-        tabBarLabelStyle: { fontSize: 11, fontWeight: '700' },
+        tabBarStyle: {
+          backgroundColor: C.paper0,
+          borderTopWidth: BW.bold,
+          borderTopColor: C.ink900,
+          elevation: 0,
+        },
+        tabBarLabelStyle: { fontFamily: FONT.heading, fontSize: 11 },
       }}>
       <Tabs.Screen
         name="index"

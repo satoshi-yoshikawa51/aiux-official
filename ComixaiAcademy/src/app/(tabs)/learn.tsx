@@ -1,13 +1,13 @@
 /* まなぶ。コースとレッスンの一覧。職種で中身が変わるコースには印を付ける。 */
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { Card, ProgressBar, Row, Screen, SectionTitle, Tag } from '@/components/ui';
+import { Badge, Panel, PressCard, Progress, Row, Screen, SectionHead } from '@/components/ui';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { useProgress } from '@/store/progress';
-import { F, S, T, inkBorder } from '@/theme';
+import { F, FONT, S, T } from '@/theme';
 
 export default function LearnScreen() {
   const router = useRouter();
@@ -16,75 +16,78 @@ export default function LearnScreen() {
 
   return (
     <Screen>
-      <SectionTitle sub={role ? `${role.emoji} ${role.name}向けの内容で表示している` : undefined}>
-        まなぶ
-      </SectionTitle>
+      <SectionHead
+        kicker="COURSES"
+        title="まなぶ"
+        hand={role ? `いまは ${role.name} 向けで表示中` : undefined}
+      />
 
-      {COURSES.map((course) => {
+      {COURSES.map((course, ci) => {
         const doneCount = course.lessons.filter((l) => state.done[l.id]).length;
         const cleared = doneCount === course.lessons.length;
         return (
-          <Card key={course.id} style={{ gap: S.md }}>
+          <Panel
+            key={course.id}
+            number={String(ci + 1)}
+            tone={cleared ? 'lines' : 'none'}
+            contentStyle={{ paddingTop: S.xl + S.sm, gap: S.md }}>
             <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <View style={{ flex: 1, gap: 2 }}>
+              <View style={{ flex: 1, gap: 4 }}>
                 <Row gap={6}>
-                  <Text style={{ fontSize: 18 }}>{course.emoji}</Text>
-                  <Text style={F.h2}>{course.title}</Text>
+                  <Text style={{ fontSize: 19 }}>{course.emoji}</Text>
+                  <Text style={[F.h1, { flex: 1 }]}>{course.title}</Text>
                 </Row>
                 <Text style={F.small}>{course.desc}</Text>
               </View>
-              {cleared ? <Tag tone="ok">修了</Tag> : null}
+              {cleared ? <Badge tone="green">修了</Badge> : null}
             </Row>
 
             {course.kind === 'role' ? (
               <Row gap={6}>
-                <Tag tone="accent">職種別</Tag>
-                <Text style={F.tiny}>
-                  {role ? `${role.name}向けの例と手順が出る` : '職種を選ぶと内容が変わる'}
+                <Badge tone="red">職種別</Badge>
+                <Text style={F.hand}>
+                  {role ? `${role.name}向けの例が出る` : '職種を選ぶと内容が変わる'}
                 </Text>
               </Row>
             ) : null}
 
-            <ProgressBar value={doneCount} total={course.lessons.length} />
-            <Text style={F.tiny}>
-              {doneCount} / {course.lessons.length} 本
-            </Text>
+            <Row gap={S.sm}>
+              <View style={{ flex: 1 }}>
+                <Progress value={doneCount} total={course.lessons.length} />
+              </View>
+              <Text style={{ fontFamily: FONT.mono, fontSize: 12, color: T.muted }}>
+                {doneCount}/{course.lessons.length}
+              </Text>
+            </Row>
 
-            <View style={{ gap: S.sm }}>
+            <View style={{ gap: S.xs }}>
               {course.lessons.map((lesson, i) => {
                 const done = !!state.done[lesson.id];
                 const perfect = !!state.perfect[lesson.id];
                 return (
-                  <Pressable
+                  <PressCard
                     key={lesson.id}
                     onPress={() => router.push(`/lesson/${lesson.id}`)}
-                    style={({ pressed }) => [
-                      {
-                        ...inkBorder,
-                        borderWidth: 1.5,
-                        borderColor: done ? T.borderSoft : T.border,
-                        backgroundColor: done ? T.sunk : T.surface,
-                        padding: S.md,
-                        opacity: pressed ? 0.7 : 1,
-                      },
-                    ]}>
+                    style={{ backgroundColor: done ? T.sunk : T.surface }}>
                     <Row style={{ justifyContent: 'space-between' }}>
-                      <Row gap={S.sm} style={{ flex: 1 }}>
-                        <Text style={[F.label, { width: 20 }]}>{i + 1}</Text>
+                      <Row gap={S.md} style={{ flex: 1 }}>
+                        <Text style={{ fontFamily: FONT.mono, fontSize: 15, color: T.muted, width: 18 }}>
+                          {i + 1}
+                        </Text>
                         <View style={{ flex: 1, gap: 2 }}>
-                          <Text style={[F.body, { fontWeight: '700', color: T.text }]}>{lesson.title}</Text>
-                          <Text style={F.tiny}>
-                            {lesson.minutes}分・クイズ{lesson.quiz.length}問
+                          <Text style={[F.strong, { fontSize: 14.5 }]}>{lesson.title}</Text>
+                          <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
+                            {lesson.minutes}min ・ QUIZ {lesson.quiz.length}
                           </Text>
                         </View>
                       </Row>
-                      <Text style={{ fontSize: 16 }}>{perfect ? '💯' : done ? '✅' : '▶︎'}</Text>
+                      <Text style={{ fontSize: 17 }}>{perfect ? '💯' : done ? '✅' : '▶︎'}</Text>
                     </Row>
-                  </Pressable>
+                  </PressCard>
                 );
               })}
             </View>
-          </Card>
+          </Panel>
         );
       })}
     </Screen>

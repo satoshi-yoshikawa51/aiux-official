@@ -47,10 +47,40 @@ ComixaiAcademy/
 │   ├── badges.ts            バッジと称号のテーブル
 │   ├── types.ts             レッスンの型
 │   └── courses/             レッスン本体（5コース17本）
+├── src/components/ui.tsx    UI部品（サイトの ds.tsx の移植）
 ├── src/store/progress.tsx   進捗・バッジ判定・永続化
 ├── src/theme/               デザイントークン（サイトの globals.css を移植）
 ├── assets/models/           sensei.glb と外出ししたテクスチャ
-└── tools/                   GLB変換・アイコン生成スクリプト
+├── assets/fonts/            サブセット済みの書体（→ assets/fonts/README.md）
+└── tools/                   GLB変換・フォントサブセット・トーン/アイコン生成
+```
+
+## 見た目のルール
+
+サイト（`src/app/globals.css` と `src/app/ds.tsx`）の「マンガのインク＋紙」を移植しています。
+色・線幅・角丸・影のずらし量は `src/theme/index.ts` に集約してあるので、
+サイト側を変えたらこちらも同じ値に揃えてください。
+
+- **書体** — 見出し=Zen Kaku Gothic New 900 / 小見出し・ボタン=700 / 本文=400、
+  ひとこと=Yusei Magic（手書き風）、キッカーと数字=JetBrains Mono。
+  React Native は `fontWeight` で別ファイルの書体を選べないので、
+  太さは必ず `fontFamily`（`FONT.display` など）で指定します。
+- **ポップシャドウ** — サイトの `box-shadow: 5px 5px 0 ink` にあたるもの。
+  RNの `shadow*` はiOS専用でAndroidではぼかし影になってしまうため、
+  `<Pop>` が「同じ形のベタ塗りViewを裏にずらして敷く」方式で描いています。
+  ボタンは押すと影が1pxに縮んで本体が2px沈みます（サイトと同じ挙動）。
+- **スクリーントーン** — `<Panel tone="dots">` / `"lines"` で網点・斜線を敷けます。
+  タイル画像は `npm run tones` で再生成できます。
+  （ネイティブは `resizeMode="repeat"`、Webはrepeatに未対応なのでCSSに落としています）
+- **コマ** — `<Panel number="1" caption="…" tilt={-1}>` でコマ番号・キャプション・傾き。
+
+### フォントを差し替えたら
+
+日本語フォントはサブセット化して積んでいます（10.2MB → 2.1MB）。
+レッスンを増やして「□」が出たら作り直してください。
+
+```bash
+npm run fonts:subset
 ```
 
 ## アバターを追加する

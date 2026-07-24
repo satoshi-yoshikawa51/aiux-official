@@ -10,7 +10,9 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "avatar:convert": "node tools/transcode-avatar.mjs",
-    "icons": "node tools/make-icons.mjs"
+    "icons": "node tools/make-icons.mjs",
+    "fonts:subset": "node tools/subset-fonts.mjs",
+    "tones": "node tools/make-tones.mjs"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~3.1.1",
@@ -49,6 +51,7 @@
     "@types/three": "0.166.0",
     "meshoptimizer": "^1.2.0",
     "sharp": "^0.35.3",
+    "subset-font": "^2.5.0",
     "typescript": "~6.0.3"
   }
 }

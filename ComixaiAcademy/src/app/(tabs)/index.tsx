@@ -1,17 +1,18 @@
 /* ホーム。選んだアバターが常駐して、次にやることを言ってくる画面。 */
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Pressable, Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
-import { Bubble, Button, Card, ProgressBar, Row, Screen, Tag } from '@/components/ui';
+import { Badge, Bubble, Button, Card, Panel, Pop, Progress, Row, Screen, Tone } from '@/components/ui';
+import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
-import { nextTitle } from '@/data/badges';
 import { getRole } from '@/data/roles';
 import { useProgress, useStats } from '@/store/progress';
-import { F, S, T } from '@/theme';
+import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
+
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
 const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: string }[] = [
@@ -33,7 +34,6 @@ export default function HomeScreen() {
   const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
 
-  /* まだ終わっていない最初のレッスン */
   const next = React.useMemo(() => {
     for (const course of COURSES) {
       for (const lesson of course.lessons) {
@@ -43,7 +43,7 @@ export default function HomeScreen() {
     return null;
   }, [state.done]);
 
-  const [talk, setTalk] = React.useState<{ say: string; motion?: AvatarMotion } | null>(null);
+  const [talk, setTalk] = React.useState<{ say: string } | null>(null);
 
   const greeting = React.useMemo(() => {
     if (talk) return talk.say;
@@ -60,89 +60,115 @@ export default function HomeScreen() {
     if (pick.emote) avatarRef.current?.emote(pick.emote);
   };
 
-  const stageW = Math.min(width - S.lg * 2, 380);
-  const stageH = Math.round(stageW * 0.9);
+  const stageW = Math.min(width - S.lg * 2 - POP.md - S.lg * 2, 320);
+  const upcoming = nextTitle(stats.badgeCount);
 
   return (
     <Screen>
-      {/* 称号バー */}
-      <Card tone="sunk" style={{ gap: S.sm }}>
-        <Row style={{ justifyContent: 'space-between' }}>
-          <Row>
-            <Text style={{ fontSize: 22 }}>{stats.title.emoji}</Text>
-            <View>
-              <Text style={F.label}>いまの称号</Text>
-              <Text style={F.h2}>{stats.title.name}</Text>
+      {/* 称号バー：黒ベタ＋網点のヘッダー */}
+      <Pop radius={R.md}>
+        <Tone
+          tone="dots"
+          style={{
+            backgroundColor: C.ink900,
+            borderWidth: BW.bold,
+            borderColor: C.ink900,
+            borderRadius: R.md,
+            padding: S.lg,
+            gap: S.sm,
+            overflow: 'hidden',
+          }}>
+          <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <View style={{ gap: 2 }}>
+              <Text style={[F.kicker, { color: C.red100 }]}>YOUR RANK</Text>
+              <Row gap={6}>
+                <Text style={{ fontSize: 22 }}>{stats.title.emoji}</Text>
+                <Text style={[F.h1, { color: C.paper50 }]}>{stats.title.name}</Text>
+              </Row>
+            </View>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={[F.kicker, { color: C.red100 }]}>BADGE</Text>
+              <Text style={{ fontFamily: FONT.mono, fontSize: 20, color: C.paper50 }}>
+                {stats.badgeCount}
+                <Text style={{ fontFamily: FONT.mono, fontSize: 13, color: C.ink300 }}>
+                  /{stats.badgeTotal}
+                </Text>
+              </Text>
             </View>
           </Row>
-          <View style={{ alignItems: 'flex-end' }}>
-            <Text style={F.label}>バッジ</Text>
-            <Text style={F.h2}>
-              {stats.badgeCount}
-              <Text style={F.small}> / {stats.badgeTotal}</Text>
-            </Text>
-          </View>
-        </Row>
-        <ProgressBar value={stats.badgeCount} total={stats.badgeTotal} />
-        <Text style={F.tiny}>
-          {nextTitle(stats.badgeCount)
-            ? `あと${nextTitle(stats.badgeCount)!.need - stats.badgeCount}個で「${nextTitle(stats.badgeCount)!.name}」`
-            : '最高位に到達している'}
-        </Text>
-      </Card>
+          <Progress value={stats.badgeCount} total={stats.badgeTotal} />
+          <Text style={[F.hand, { color: C.paper100 }]}>
+            {upcoming
+              ? `あと${upcoming.need - stats.badgeCount}個で「${upcoming.name}」`
+              : '最高位に到達している'}
+          </Text>
+        </Tone>
+      </Pop>
 
       {/* アバターのステージ */}
-      <View style={{ alignItems: 'center' }}>
-        <Bubble text={greeting} style={{ alignSelf: 'stretch', marginBottom: S.lg }} />
-        <Pressable onPress={poke} style={styles.stage}>
-          <Avatar3D ref={avatarRef} avatar={avatar} width={stageW} height={stageH} />
-        </Pressable>
-        <Row gap={S.xs} style={{ marginTop: S.xs }}>
-          <Tag>{avatar.name}</Tag>
-          {role ? <Tag tone="accent">{role.emoji} {role.name}</Tag> : null}
-        </Row>
+      <View>
+        <Bubble text={greeting} style={{ marginBottom: S.xl, marginRight: POP.sm }} />
+        <Panel tone="dots" caption={`${avatar.name}（つつくと反応する）`} contentStyle={{ paddingBottom: S.xl }}>
+          <Pressable onPress={poke} style={{ alignItems: 'center' }}>
+            <Avatar3D ref={avatarRef} avatar={avatar} width={stageW} height={Math.round(stageW * 0.92)} />
+          </Pressable>
+          <Row gap={6} style={{ justifyContent: 'center' }}>
+            <Badge tone="paper">{avatar.name}</Badge>
+            {role ? <Badge tone="red">{role.emoji} {role.name}</Badge> : null}
+          </Row>
+        </Panel>
       </View>
 
       {/* 次にやること */}
       {next ? (
-        <Card>
-          <Text style={F.label}>つづきから</Text>
-          <Text style={F.h2}>
+        <Panel number="次" tilt={-0.6} contentStyle={{ paddingTop: S.xl + S.sm, gap: S.md }}>
+          <Text style={F.kicker}>{next.course.title.toUpperCase?.() ?? next.course.title}</Text>
+          <Text style={F.h1}>
             {next.course.emoji} {next.lesson.title}
           </Text>
-          <Text style={F.small}>{next.lesson.summary}</Text>
-          <Button
-            label={`はじめる（${next.lesson.minutes}分）`}
-            onPress={() => router.push(`/lesson/${next.lesson.id}`)}
-            style={{ marginTop: S.sm }}
-          />
-        </Card>
+          <Text style={F.body}>{next.lesson.summary}</Text>
+          <Row gap={6}>
+            <Badge tone="paper">{next.lesson.minutes}分</Badge>
+            <Badge tone="paper">クイズ{next.lesson.quiz.length}問</Badge>
+          </Row>
+          <Button label="つづきから はじめる" onPress={() => router.push(`/lesson/${next.lesson.id}`)} />
+        </Panel>
       ) : (
         <Card tone="ok">
-          <Text style={F.h2}>全課程、修了</Text>
-          <Text style={F.small}>やり直したいレッスンは「まなぶ」から何度でも開ける。</Text>
+          <Text style={F.h1}>全課程、修了</Text>
+          <Text style={F.body}>やり直したいレッスンは「まなぶ」から何度でも開ける。</Text>
         </Card>
       )}
 
       {/* ミニ統計 */}
-      <Row gap={S.sm}>
-        <Stat label="連続" value={`${stats.streak}日`} />
-        <Stat label="修了" value={`${stats.doneCount}/${stats.total}`} />
-        <Stat label="達成率" value={`${stats.percent}%`} />
+      <Row gap={S.sm} style={{ alignItems: 'stretch' }}>
+        <Stat label="STREAK" value={String(stats.streak)} unit="日" />
+        <Stat label="DONE" value={String(stats.doneCount)} unit={`/${stats.total}`} />
+        <Stat label="RATE" value={String(stats.percent)} unit="%" />
       </Row>
     </Screen>
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, value, unit }: { label: string; value: string; unit: string }) {
   return (
-    <Card tone="surface" style={{ flex: 1, alignItems: 'center', gap: 2, padding: S.md }}>
-      <Text style={F.label}>{label}</Text>
-      <Text style={[F.h2, { color: T.text }]}>{value}</Text>
-    </Card>
+    <Pop offset={POP.sm} radius={R.sm} style={{ flex: 1 }}>
+      <View
+        style={{
+          backgroundColor: T.surface,
+          borderWidth: BW.line,
+          borderColor: T.border,
+          borderRadius: R.sm,
+          paddingVertical: S.md,
+          alignItems: 'center',
+          gap: 2,
+        }}>
+        <Text style={F.kicker}>{label}</Text>
+        <Row gap={1} style={{ alignItems: 'baseline' }}>
+          <Text style={{ fontFamily: FONT.display, fontSize: 22, color: T.text }}>{value}</Text>
+          <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>{unit}</Text>
+        </Row>
+      </View>
+    </Pop>
   );
 }
-
-const styles = StyleSheet.create({
-  stage: { alignItems: 'center', justifyContent: 'flex-end' },
-});

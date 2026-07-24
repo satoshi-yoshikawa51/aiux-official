@@ -1,15 +1,15 @@
 /* せってい。アバター・職種の変更と、記録のリセット。 */
-import * as WebBrowser from 'expo-web-browser';
 import { useRouter } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
 
-import { Card, Row, Screen, SectionTitle, Tag } from '@/components/ui';
+import { Badge, Card, PressCard, Row, Screen, SectionHead } from '@/components/ui';
 import { AVATARS, getAvatar, isReady } from '@/data/avatars';
 import { ROLES, getRole } from '@/data/roles';
-import { useProgress, useStats } from '@/store/progress';
 import type { RoleId } from '@/data/types';
-import { F, S, T, inkBorder } from '@/theme';
+import { useProgress, useStats } from '@/store/progress';
+import { F, FONT, S, T } from '@/theme';
 
 const SITE = 'https://comixai.dev';
 
@@ -36,106 +36,81 @@ export default function SettingsScreen() {
 
   return (
     <Screen>
-      <SectionTitle>せってい</SectionTitle>
+      <SectionHead kicker="SETTINGS" title="せってい" />
 
       {/* アバター */}
-      <Card style={{ gap: S.md }}>
-        <Text style={F.h2}>アバター</Text>
-        <Text style={F.small}>いま：{avatar.name}</Text>
-        <View style={{ gap: S.sm }}>
-          {AVATARS.map((a) => {
-            const selected = a.id === state.avatarId;
-            const ready = isReady(a);
-            return (
-              <Pressable
-                key={a.id}
-                disabled={!ready}
-                onPress={() => setAvatar(a.id)}
-                style={({ pressed }) => [
-                  {
-                    ...inkBorder,
-                    borderWidth: selected ? 2 : 1.5,
-                    borderColor: selected ? T.border : T.borderSoft,
-                    backgroundColor: selected ? T.accentSoft : T.surface,
-                    padding: S.md,
-                    opacity: !ready ? 0.5 : pressed ? 0.7 : 1,
-                  },
-                ]}>
-                <Row style={{ justifyContent: 'space-between' }}>
-                  <Row gap={S.sm} style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 20 }}>{a.emoji}</Text>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[F.body, { fontWeight: '700', color: T.text }]}>{a.name}</Text>
-                      <Text style={F.tiny}>{a.tagline}</Text>
-                    </View>
-                  </Row>
-                  {!ready ? <Tag>準備中</Tag> : selected ? <Tag tone="accent">選択中</Tag> : null}
+      <View style={{ gap: S.md }}>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Text style={F.h1}>アバター</Text>
+          <Text style={F.hand}>いま：{avatar.name}</Text>
+        </Row>
+        {AVATARS.map((a) => {
+          const selected = a.id === state.avatarId;
+          const ready = isReady(a);
+          return (
+            <PressCard key={a.id} disabled={!ready} selected={selected} onPress={() => setAvatar(a.id)}>
+              <Row style={{ justifyContent: 'space-between' }}>
+                <Row gap={S.sm} style={{ flex: 1 }}>
+                  <Text style={{ fontSize: 22 }}>{a.emoji}</Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={F.strong}>{a.name}</Text>
+                    <Text style={F.tiny}>{a.tagline}</Text>
+                  </View>
                 </Row>
-              </Pressable>
-            );
-          })}
-        </View>
-      </Card>
+                {!ready ? (
+                  <Badge tone="paper">準備中</Badge>
+                ) : selected ? (
+                  <Badge tone="red">選択中</Badge>
+                ) : null}
+              </Row>
+            </PressCard>
+          );
+        })}
+      </View>
 
       {/* 職種 */}
-      <Card style={{ gap: S.md }}>
-        <Text style={F.h2}>職種</Text>
-        <Text style={F.small}>
-          いま：{role ? `${role.emoji} ${role.name}` : '未選択'}／変えると「職種別」コースの中身が変わる
-        </Text>
-        <View style={{ gap: S.sm }}>
-          {ROLES.map((r) => {
-            const selected = r.id === state.roleId;
-            return (
-              <Pressable
-                key={r.id}
-                onPress={() => setRole(r.id as RoleId)}
-                style={({ pressed }) => [
-                  {
-                    ...inkBorder,
-                    borderWidth: selected ? 2 : 1.5,
-                    borderColor: selected ? T.border : T.borderSoft,
-                    backgroundColor: selected ? T.accentSoft : T.surface,
-                    padding: S.md,
-                    opacity: pressed ? 0.7 : 1,
-                  },
-                ]}>
-                <Row style={{ justifyContent: 'space-between' }}>
-                  <Row gap={S.sm} style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 20 }}>{r.emoji}</Text>
-                    <Text style={[F.body, { fontWeight: '700', color: T.text, flex: 1 }]}>{r.name}</Text>
-                  </Row>
-                  {selected ? <Tag tone="accent">選択中</Tag> : null}
+      <View style={{ gap: S.md }}>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Text style={F.h1}>職種</Text>
+          <Text style={F.hand}>変えると内容が変わる</Text>
+        </Row>
+        {ROLES.map((r) => {
+          const selected = r.id === state.roleId;
+          return (
+            <PressCard key={r.id} selected={selected} onPress={() => setRole(r.id as RoleId)}>
+              <Row style={{ justifyContent: 'space-between' }}>
+                <Row gap={S.sm} style={{ flex: 1 }}>
+                  <Text style={{ fontSize: 22 }}>{r.emoji}</Text>
+                  <Text style={[F.strong, { flex: 1 }]}>{r.name}</Text>
                 </Row>
-              </Pressable>
-            );
-          })}
-        </View>
-      </Card>
+                {selected ? <Badge tone="red">選択中</Badge> : null}
+              </Row>
+            </PressCard>
+          );
+        })}
+      </View>
 
       {/* 記録 */}
-      <Card tone="sunk" style={{ gap: S.sm }}>
-        <Text style={F.h2}>記録</Text>
-        <Text style={F.small}>
-          修了 {stats.doneCount}/{stats.total} 本・バッジ {stats.badgeCount}/{stats.badgeTotal} 個・
-          連続 {stats.streak}日
+      <Card tone="sunk">
+        <Text style={F.h1}>記録</Text>
+        <Text style={{ fontFamily: FONT.mono, fontSize: 12, color: T.body, lineHeight: 20 }}>
+          DONE {stats.doneCount}/{stats.total} ・ BADGE {stats.badgeCount}/{stats.badgeTotal} ・ STREAK{' '}
+          {stats.streak}
         </Text>
-        <Text style={F.tiny}>
-          記録はこの端末の中だけに保存される。アプリを消すと一緒に消える。
-        </Text>
+        <Text style={F.hand}>この端末の中だけに保存される。アプリを消すと一緒に消える。</Text>
         <Pressable onPress={confirmReset} style={{ paddingVertical: S.sm }}>
-          <Text style={[F.body, { color: T.accent, fontWeight: '700' }]}>記録をぜんぶ消す</Text>
+          <Text style={[F.strong, { color: T.accent }]}>記録をぜんぶ消す</Text>
         </Pressable>
       </Card>
 
       {/* リンク */}
-      <Card style={{ gap: S.sm }}>
-        <Text style={F.h2}>このアプリについて</Text>
-        <Text style={F.small}>
+      <Card>
+        <Text style={F.h1}>このアプリについて</Text>
+        <Text style={F.body}>
           COMIXAI（comixai.dev）の用語集・職種別ガイド・プロンプト集をもとにした学習アプリ。
         </Text>
         <Pressable onPress={() => WebBrowser.openBrowserAsync(SITE)} style={{ paddingVertical: S.xs }}>
-          <Text style={[F.body, { color: T.link, fontWeight: '700' }]}>COMIXAI を開く →</Text>
+          <Text style={[F.strong, { color: T.link }]}>COMIXAI を開く →</Text>
         </Pressable>
       </Card>
     </Screen>
