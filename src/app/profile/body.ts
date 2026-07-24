@@ -20,7 +20,7 @@ export const PROFILE_BODY = `<main>
       <div class="portrait">
         <div class="frame">
           <span class="num">PROFILE</span>
-          <img src="/profile/portrait.png" alt="AIクリエイター・漫画家・UXディレクター 吉川聡史のプロフィール写真" width="1500" height="2000">
+          <img src="/profile/portrait.webp" alt="AIクリエイター・漫画家・UXディレクター 吉川聡史のプロフィール写真" width="900" height="1200">
         </div>
         <span class="bubble">AI、こわくない！</span>
       </div>

@@ -52,6 +52,13 @@ const TARGETS = [
     pos: { x: 0.5, y: 0.04 }, // object-position: 50% 4%
   },
   {
+    // /profile のヒーロー写真（PCで約490px幅・高DPIぶんの原寸を維持）。
+    // 元の portrait.png は構造化データ(jsonld.ts)の image で使い続ける。
+    src: "profile/portrait.png",
+    out: "profile/portrait.webp",
+    quality: 0.9,
+  },
+  {
     // トップページの教習所バナー（PCで486px幅・高DPIぶんの原寸を維持）。
     // 元の ogp.png は /claude-app のOGP画像として使い続けるので残す。
     // 線画ロゴと小さい文字が乗っているぶん品質は高めに取る。
