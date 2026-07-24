@@ -13,6 +13,7 @@ import "@fontsource/jetbrains-mono/700.css";
 import "@phosphor-icons/web/bold";
 import "./globals.css";
 import { ScrollReveal } from "./reveal";
+import { GaClicks } from "./ga-clicks";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://comixai.dev"),
@@ -95,6 +96,7 @@ export default function RootLayout({
       </head>
       <body>
         <ScrollReveal />
+        <GaClicks />
         {children}
       </body>
       <GoogleAnalytics gaId="G-2FVS6MP6GQ" />

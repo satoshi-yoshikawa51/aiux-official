@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "og:glossary": "node --experimental-strip-types scripts/generate-og-images.mjs"
+    "og:glossary": "node --experimental-strip-types scripts/generate-og-images.mjs",
+    "img:optimize": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.111.0",
