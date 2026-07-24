@@ -255,7 +255,7 @@ export default function UketsukeChat() {
   const avatar = (size: number) => (
     /* eslint-disable-next-line @next/next/no-img-element */
     <img
-      src="/uketsuke/char.webp"
+      src="/uketsuke/char-icon.webp"
       alt=""
       style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", border: "1.5px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }}
     />
