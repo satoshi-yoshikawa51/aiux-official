@@ -158,7 +158,7 @@ const COURSE_1: Course = {
   id: "chat",
   emoji: "💬",
   title: "Chat編 — その場で終わる相談",
-  minutes: 6,
+  minutes: 5,
   desc: "雑に頼むと選択肢つきの質問が返ってくる・その場で図解——他のAIとの体感差を味わう",
   steps: [
     {
@@ -225,7 +225,7 @@ const COURSE_2: Course = {
   id: "cowork",
   emoji: "🤝",
   title: "Cowork編 — 貯めて進める",
-  minutes: 7,
+  minutes: 5,
   desc: "プロジェクトに貯める・仕事を丸ごと任せる・ブラウザの調べ物ごと投げる",
   steps: [
     {
@@ -305,7 +305,7 @@ const COURSE_3: Course = {
   id: "code",
   emoji: "⌨️",
   title: "Code編 — 作る・動かす",
-  minutes: 7,
+  minutes: 5,
   desc: "TODOアプリをゼロから動くまで作り切る。Plan体験・diff承認・コマンド許可",
   steps: [
     {
@@ -384,7 +384,7 @@ const COURSE_DEPLOY: Course = {
   id: "deploy",
   emoji: "🚀",
   title: "公開編 — 本番につなぐ",
-  minutes: 7,
+  minutes: 5,
   desc: "GitHubと連携→承認→git pushで本番公開。仕上げに手順をスキル化して「/」ひと言で再実行",
   steps: [
     {

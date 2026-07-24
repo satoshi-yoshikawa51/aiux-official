@@ -39,7 +39,7 @@ const JSON_LD = {
       applicationCategory: "EducationalApplication",
       operatingSystem: "Web",
       description:
-        "本物そっくりの練習画面を講師が1つずつ案内する、さわって覚えるClaude入門コース。チャット・コワーク・コードの使い分けを20分で体験できる。",
+        "本物そっくりの練習画面を講師が1つずつ案内する、さわって覚えるClaude入門コース。チャット・コワーク・コードの使い分けを1コース約5分で体験できる。",
       offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" },
       provider: { "@type": "Person", name: "吉川聡史", url: "https://comixai.dev/profile" },
       inLanguage: "ja",
