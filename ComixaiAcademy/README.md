@@ -18,10 +18,38 @@ npx expo start
 ```
 
 - iPhone / Android の **Expo Go** でQRを読むのが一番早い
-- 3D描画に `expo-gl` を使っているので、**Web（`npm run web`）では3Dが動かないことがある**。実機かシミュレータで確認すること
 - 型チェック: `npm run typecheck`
 
 ストアに出す段階になったら EAS Build（`npx eas build`）へ。`app.json` の `ios.bundleIdentifier` / `android.package` は `dev.comixai.academy` を仮置きしてある。
+
+## Vercelでプレビューを公開する
+
+Web版（`expo export --platform web`）を出せるので、**スマホのブラウザで触れるURL**を
+Vercelに置ける。サイト本体とは**別のVercelプロジェクト**にする（同じリポジトリでOK）。
+
+1. Vercel で **Add New… → Project** → このリポジトリ（`aiux-official`）を選ぶ
+2. **Root Directory を `ComixaiAcademy` に変更する**（ここだけ必須。既定の `./` のままだと
+   サイト本体がビルドされてしまう）
+3. Framework Preset は **Other**。ビルドコマンドと出力先は `vercel.json` に書いてあるので、
+   画面上では何も入力しなくていい
+4. **Deploy**
+
+以降、`ComixaiAcademy/` に変更があったpushだけ再ビルドされる（`vercel.json` の `ignoreCommand`）。
+サイト本体のプロジェクトはこの `vercel.json` を読まないので、影響しない。
+
+公開されたURLをiPhoneのSafariで開き、共有 → **「ホーム画面に追加」** すると、
+アドレスバー無しのアプリとして起動する（`public/index.html` でその設定を入れている）。
+
+### Web版でできること・できないこと
+
+| | Web（Vercelプレビュー） | ネイティブ（Expo Go / ストア） |
+| --- | --- | --- |
+| 3Dアバター | ◯ WebGLで動く | ◯ |
+| 進捗の保存 | ◯ ただしブラウザのlocalStorage（シークレットタブでは消える） | ◯ |
+| 触覚フィードバック | ✗（Web では呼ばない） | ◯ |
+| ホーム画面アイコン | △ 「ホーム画面に追加」で近いものになる | ◯ |
+
+**あくまで見た目と流れを確認するためのプレビュー**で、配布物はネイティブアプリのほう。
 
 ## 構成
 

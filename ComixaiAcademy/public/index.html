@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+  Web版のHTMLシェル。output:"single"（SPA）のとき、Expoは既定のテンプレートの
+  代わりにこのファイルを使う。スマホのブラウザで開いたとき、そして
+  「ホーム画面に追加」したときにアプリらしく見えるようにするための設定。
+  ネイティブアプリのビルドでは使われない。
+-->
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover"
+    />
+    <title>COMIXAI アカデミー</title>
+    <meta
+      name="description"
+      content="3Dアバターと一緒に、職種別にAIの使い方を学ぶアプリ。COMIXAI（comixai.dev）の学習コンテンツから。"
+    />
+    <meta name="theme-color" content="#fbf7ef" />
+
+    <!-- ホーム画面に追加したとき、ブラウザUIなしで開く -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="COMIXAI" />
+    <link rel="apple-touch-icon" href="/app-icon.png" />
+
+    <!-- 共有したときのカード -->
+    <meta property="og:title" content="COMIXAI アカデミー" />
+    <meta property="og:description" content="3Dアバターと一緒に、職種別にAIの使い方を学ぶアプリ。" />
+    <meta property="og:image" content="/app-icon.png" />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- react-native-web 推奨のリセット（Expo既定のものと同じ） -->
+    <style id="expo-reset">
+      html,
+      body {
+        height: 100%;
+        background-color: #fbf7ef;
+      }
+      /* ページ全体ではなく、各ScrollViewがスクロールする */
+      body {
+        overflow: hidden;
+        overscroll-behavior-y: none;
+      }
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+      /* タップ時の青いハイライトを消す（アプリらしさのため） */
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+    </style>
+  </head>
+
+  <body>
+    <noscript>このアプリを動かすにはJavaScriptを有効にしてください。</noscript>
+    <div id="root"></div>
+  </body>
+</html>

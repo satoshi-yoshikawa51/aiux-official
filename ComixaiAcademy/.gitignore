@@ -44,3 +44,6 @@ example
 
 # サブセット前のフルセットTTF（10MB超。npm run fonts:subset で取り直せる）
 assets/fonts/_raw/
+
+# Expo web export
+dist/
