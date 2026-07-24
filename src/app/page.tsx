@@ -215,7 +215,7 @@ function SectionHead({ kicker, title, hand }: { kicker: string; title: string; h
 /* ═══════════════ Claude教習所バナー（トップの特設導線） ═══════════════ */
 function KyoshujoBanner() {
   return (
-    <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0 8px" }}>
+    <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0" }}>
       <a href="/claude-app" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
         <div
           className="kyoshujo-banner"
