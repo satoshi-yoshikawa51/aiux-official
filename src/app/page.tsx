@@ -249,7 +249,7 @@ function KyoshujoBanner() {
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/claude-app/ogp.png"
+            src="/claude-app/banner.webp"
             alt="5分で覚える！Claude教習所 — 練習画面を講師が案内"
             style={{ width: "100%", height: "100%", minHeight: 220, objectFit: "cover", display: "block" }}
           />
@@ -1136,7 +1136,7 @@ function UketsukeFab() {
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/uketsuke/char.webp"
+          src="/uketsuke/char-icon.webp"
           alt=""
           className="uke-dock-img"
           style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", background: "var(--paper-0)", border: "1.5px solid var(--ink-900)", flex: "none" }}
@@ -1270,7 +1270,7 @@ function Contact() {
             <Card variant="pop" hover padding={16} style={{ background: "var(--yellow-400)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/uketsuke/char.webp" alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", border: "2px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }} />
+                <img src="/uketsuke/char-icon.webp" alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", objectPosition: "50% 4%", border: "2px solid var(--ink-900)", background: "var(--paper-0)", flex: "none" }} />
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14.5, color: "var(--ink-900)" }}>
                     文章を考えるのが面倒なら、AI受付へ
