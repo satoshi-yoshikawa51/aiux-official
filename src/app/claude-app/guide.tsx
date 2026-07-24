@@ -133,12 +133,6 @@ export function GuidedClaudeApp() {
     setCourseId(null);
     setStepIdx(0);
     setModalOpen(false);
-    /* 総まとめ修了後は「本物をはじめる」コーナーへ案内 */
-    if (id === "matome") {
-      setTimeout(() => {
-        document.getElementById("start-real")?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 300);
-    }
   }, []);
 
   const advance = React.useCallback(() => {
@@ -294,7 +288,8 @@ export function GuidedClaudeApp() {
   /* ———— モーダル本体 ———— */
   const modal = (
     <div style={{ position: "fixed", inset: 0, zIndex: 90, display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 10px 14px" }}>
-      <div onClick={closeModal} style={{ position: "absolute", inset: 0, background: "rgba(25,20,12,.6)" }} />
+      {/* 誤タップでコースが終わらないよう、閉じるのは×ボタンのみ */}
+      <div style={{ position: "absolute", inset: 0, background: "rgba(25,20,12,.6)" }} />
       <div
         style={{
           position: "relative", width: "min(940px, 98vw)", maxHeight: "96vh",

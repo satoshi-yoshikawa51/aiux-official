@@ -1094,8 +1094,31 @@ function Dropdown<T extends string>({
   label: string;
   align?: "left" | "right";
 }) {
+  /* スマホ幅ではチップ基準の配置だと画面や端末枠からはみ出すことがあるため、
+     開いたときに実測して、切り取る祖先（overflow:hidden）の内側へ寄せる */
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [shift, setShift] = React.useState(0);
+  React.useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const pad = 10;
+    let left = pad;
+    let right = window.innerWidth - pad;
+    for (let a = el.parentElement; a; a = a.parentElement) {
+      const cs = getComputedStyle(a);
+      if (cs.overflowX === "hidden" || cs.overflow === "hidden") {
+        const cr = a.getBoundingClientRect();
+        left = Math.max(left, cr.left + pad);
+        right = Math.min(right, cr.right - pad);
+        break;
+      }
+    }
+    if (r.left < left) setShift(left - r.left);
+    else if (r.right > right) setShift(right - r.right);
+  }, []);
   return (
-    <div style={{ position: "absolute", ...(align === "right" ? { right: 0 } : { left: 0 }), bottom: "calc(100% + 6px)", zIndex: 9, width: 250, background: C.bg, border: `1px solid ${C.line}`, borderRadius: 12, boxShadow: "0 8px 24px rgba(40,35,25,.18)", overflow: "hidden" }}>
+    <div ref={ref} style={{ position: "absolute", ...(align === "right" ? { right: 0 } : { left: 0 }), bottom: "calc(100% + 6px)", zIndex: 9, width: 250, maxWidth: "calc(100vw - 52px)", transform: shift ? `translateX(${shift}px)` : undefined, background: C.bg, border: `1px solid ${C.line}`, borderRadius: 12, boxShadow: "0 8px 24px rgba(40,35,25,.18)", overflow: "hidden" }}>
       <div style={{ padding: "8px 12px 4px", fontSize: 10.5, fontWeight: 700, color: C.sub, letterSpacing: ".05em" }}>{label}</div>
       {items.map((m) => (
         <button
