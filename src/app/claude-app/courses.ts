@@ -3,7 +3,11 @@
    - CONTENT_PLAN.md のコース設計をシミュレーターで体験できる形に翻訳
    - target は game.tsx の data-guide 属性名
    - waitFor はシミュレーターの操作イベントによる達成判定
-   - skipIf は状況的に不要なステップの自動スキップ（例: すでにPC表示）
+   - skipIf は状況的に不要なステップの自動スキップ
+
+   PC/スマホ両対応: コースは表示を強制しない。スマホ表示では
+   タブ切替・新規作成がドロワー（☰）内にあるため、gotoTab / newSession
+   ヘルパーが「☰を開く」ステップを自動で挟む（PC表示では自動スキップ）。
 
    講師のキャラクター: ちょっとぶっきらぼうで口数少なめ、
    でも要所ではちゃんと褒めて、最後は優しく送り出す女性上司。
@@ -36,15 +40,39 @@ export interface Course {
   steps: GuideStep[];
 }
 
-/* PC表示への切り替え（スマホ表示だとタブがドロワー内で迷いやすいため、
-   ガイドはPC表示ベースで進める。すでにPCならスキップ） */
-const ensurePc: GuideStep = {
+/* ———— スマホ対応ヘルパー ———— */
+/* スマホ表示ではタブや「＋新規」がドロワー（☰）の中にあるため、
+   必要なときだけ「☰を開く」ステップを挟む。PC表示では自動スキップ */
+const openMenu = (skipExtra?: (ctx: GuideCtx) => boolean): GuideStep => ({
   motion: "explain",
-  target: "device-pc",
-  text: "先にPC画面にして。「💻 PC」を押す。話はそれから。",
-  waitFor: (e) => e.type === "deviceChange" && e.device === "pc",
-  skipIf: (ctx) => ctx.device === "pc",
-};
+  target: "menu",
+  text: "左上の「☰」を押して、メニューを開いて。",
+  waitFor: (e) => e.type === "drawer" && e.open,
+  skipIf: (ctx) => ctx.device === "pc" || (skipExtra?.(ctx) ?? false),
+});
+
+/* タブ切替（スマホは☰→タブ、PCは上部タブ。すでにそのタブならスキップ） */
+const gotoTab = (tab: GuideCtx["tab"], text: string): GuideStep[] => [
+  openMenu((ctx) => ctx.tab === tab),
+  {
+    motion: "explain",
+    target: `tab-${tab}`,
+    text,
+    waitFor: (e) => e.type === "tabChange" && e.tab === tab,
+    skipIf: (ctx) => ctx.tab === tab,
+  },
+];
+
+/* 新しいチャット/タスク/セッション（スマホは☰から） */
+const newSession = (text: string): GuideStep[] => [
+  openMenu(),
+  {
+    motion: "explain",
+    target: "new-chat",
+    text,
+    waitFor: (e) => e.type === "newChat",
+  },
+];
 
 /* ———— コース0: はじめの一歩「3つの入口を開ける」 ———— */
 const COURSE_0: Course = {
@@ -58,25 +86,13 @@ const COURSE_0: Course = {
       motion: "bow",
       text: "…来たね。ここはClaude教習所。教えるのは私。最初は、Claudeの3つの働き場所をひと回りする。ついてきて。",
     },
-    ensurePc,
     {
       motion: "explain",
       emote: "💡",
       text: "覚えることは1つだけ。中身は同じClaude、違うのは“どこで働くか”。チャットの中、あなたのPCの中、ターミナル。以上。",
     },
-    {
-      motion: "explain",
-      target: "tab-chat",
-      text: "まず「チャット」タブ。開いてたら、そのまま押せばいい。",
-      waitFor: (e) => e.type === "tabChange" && e.tab === "chat",
-      skipIf: (ctx) => ctx.tab === "chat",
-    },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "「＋新しいチャット」。まっさらから始めるのが基本。",
-      waitFor: (e) => e.type === "newChat",
-    },
+    ...gotoTab("chat", "まず「チャット」タブ。開いてたら、そのまま押せばいい。"),
+    ...newSession("「＋新しいチャット」。まっさらから始めるのが基本。"),
     {
       motion: "explain",
       target: "suggest-0",
@@ -88,13 +104,7 @@ const COURSE_0: Course = {
       motion: "explain",
       text: "…返ってきたでしょ。これがストリーミング。Chatは“その場で終わる相談”の入口。",
     },
-    {
-      motion: "explain",
-      target: "tab-cowork",
-      text: "次。「Cowork」タブ。",
-      waitFor: (e) => e.type === "tabChange" && e.tab === "cowork",
-      onDone: { motion: "laugh", emote: "✨" },
-    },
+    ...gotoTab("cowork", "次。「Cowork」タブ。"),
     {
       motion: "explain",
       emote: "📁",
@@ -111,13 +121,7 @@ const COURSE_0: Course = {
       motion: "explain",
       text: "これで準備完了。あとは仕事を頼むだけ。ここが“貯めて進める”の入口。…続きはCowork編でやる。",
     },
-    {
-      motion: "explain",
-      target: "tab-code",
-      text: "最後。「コード」タブ。",
-      waitFor: (e) => e.type === "tabChange" && e.tab === "code",
-      onDone: { motion: "laugh", emote: "✨" },
-    },
+    ...gotoTab("code", "最後。「コード」タブ。"),
     {
       motion: "explain",
       emote: "💡",
@@ -161,20 +165,8 @@ const COURSE_1: Course = {
       motion: "bow",
       text: "Chat編。Chatの仕事は“その場で終わる相談”。今日は、他のAIとの違いを2つ、体で覚えてもらう。",
     },
-    ensurePc,
-    {
-      motion: "explain",
-      target: "tab-chat",
-      text: "「チャット」タブに切り替えて。",
-      waitFor: (e) => e.type === "tabChange" && e.tab === "chat",
-      skipIf: (ctx) => ctx.tab === "chat",
-    },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "まず「＋新しいチャット」。",
-      waitFor: (e) => e.type === "newChat",
-    },
+    ...gotoTab("chat", "「チャット」タブに切り替えて。"),
+    ...newSession("まず「＋新しいチャット」。"),
     {
       motion: "explain",
       target: "suggest-1",
@@ -197,12 +189,7 @@ const COURSE_1: Course = {
       motion: "explain",
       text: "選んだだけで、ちゃんと形になったでしょ。雑に投げても、質問に答えていけば答えにたどり着く——これが違いその1。",
     },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "違いその2。話題が変わるから「＋新しいチャット」——混ぜると答えがぶれるからね。",
-      waitFor: (e) => e.type === "newChat",
-    },
+    ...newSession("違いその2。話題が変わるから「＋新しいチャット」——混ぜると答えがぶれるからね。"),
     {
       motion: "explain",
       target: "suggest-3",
@@ -245,25 +232,13 @@ const COURSE_2: Course = {
       motion: "bow",
       text: "Cowork編。“貯めて進める”場所。…私が一番使ってるのは、ここ。",
     },
-    ensurePc,
-    {
-      motion: "explain",
-      target: "tab-cowork",
-      text: "「Cowork」タブに切り替えて。",
-      waitFor: (e) => e.type === "tabChange" && e.tab === "cowork",
-      skipIf: (ctx) => ctx.tab === "cowork",
-    },
+    ...gotoTab("cowork", "「Cowork」タブに切り替えて。"),
     {
       motion: "explain",
       emote: "📁",
       text: "Coworkの単位は“プロジェクト”。案件ごとにフォルダを1つ。やりとりも成果物もそこに貯まって、回すほど文脈が濃くなる——2回目からどんどん楽になる仕組み。",
     },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "「＋新しいタスク」から。",
-      waitFor: (e) => e.type === "newChat",
-    },
+    ...newSession("「＋新しいタスク」から。"),
     {
       motion: "explain",
       target: "folder",
@@ -295,12 +270,7 @@ const COURSE_2: Course = {
       waitFor: (e) => e.type === "send" && e.tab === "cowork",
       onDone: { motion: "laugh", emote: "💮" },
     },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "もうひとつ、Coworkの得意技を見せる。「＋新しいタスク」。",
-      waitFor: (e) => e.type === "newChat",
-    },
+    ...newSession("もうひとつ、Coworkの得意技を見せる。「＋新しいタスク」。"),
     {
       motion: "explain",
       target: "suggest-0",
@@ -310,7 +280,7 @@ const COURSE_2: Course = {
     },
     {
       motion: "arms-crossed",
-      text: "ブラウザを開いて、サイトを回って、値段を拾ってる。あなたがタブを行き来してコピペする作業——あれが丸ごと消えるわけ。",
+      text: "見て。ブラウザが開いて、サイトを回って、値段を拾ってる。あなたがタブを行き来してコピペする作業——あれが丸ごと消えるわけ。",
     },
     {
       motion: "explain",
@@ -336,20 +306,8 @@ const COURSE_3: Course = {
       motion: "bow",
       text: "Code編。“実際に作る”モード。今日はTODOアプリを、ゼロから動くところまで作り切る。プログラミング未経験？関係ない。",
     },
-    ensurePc,
-    {
-      motion: "explain",
-      target: "tab-code",
-      text: "「コード」タブに切り替えて。",
-      waitFor: (e) => e.type === "tabChange" && e.tab === "code",
-      skipIf: (ctx) => ctx.tab === "code",
-    },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "「＋新しいセッション」。まっさらから。",
-      waitFor: (e) => e.type === "newChat",
-    },
+    ...gotoTab("code", "「コード」タブに切り替えて。"),
+    ...newSession("「＋新しいセッション」。まっさらから。"),
     {
       motion: "explain",
       target: "folder",
@@ -427,20 +385,8 @@ const COURSE_DEPLOY: Course = {
       motion: "bow",
       text: "公開編。作ったものを、世界に出すところまでやる。——ここでGitHubの出番。",
     },
-    ensurePc,
-    {
-      motion: "explain",
-      target: "tab-code",
-      text: "「コード」タブに切り替えて。",
-      waitFor: (e) => e.type === "tabChange" && e.tab === "code",
-      skipIf: (ctx) => ctx.tab === "code",
-    },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "「＋新しいセッション」。",
-      waitFor: (e) => e.type === "newChat",
-    },
+    ...gotoTab("code", "「コード」タブに切り替えて。"),
+    ...newSession("「＋新しいセッション」。"),
     {
       motion: "explain",
       emote: "💡",
@@ -504,12 +450,7 @@ const COURSE_DEPLOY: Course = {
       motion: "explain",
       text: "スキルができた。手順書が“実行できる形”で保存された、と思えばいい。",
     },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "威力を試す。「＋新しいセッション」。",
-      waitFor: (e) => e.type === "newChat",
-    },
+    ...newSession("威力を試す。「＋新しいセッション」。"),
     {
       motion: "explain",
       target: "input",
@@ -528,7 +469,7 @@ const COURSE_DEPLOY: Course = {
   ],
 };
 
-/* ———— コース5: 総まとめ「3つの質問と、手順の資産化」 ———— */
+/* ———— コース5: 総まとめ「迷ったら3つの質問」 ———— */
 const COURSE_4: Course = {
   id: "matome",
   emoji: "🧭",

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+  html,body{margin:0;padding:0;background:transparent;}
+  .stage{width:1200px;height:1320px;display:flex;align-items:center;justify-content:center;background:transparent;}
+  .card{
+    background:#ffffff;border:14px solid #14110f;border-radius:56px;
+    padding:80px 80px 64px;display:flex;flex-direction:column;align-items:center;gap:40px;
+    box-shadow:22px 26px 0 rgba(20,17,15,0.20);
+  }
+  .head{
+    font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:72px;color:#fff;
+    background:#e60012;padding:18px 44px;border-radius:999px;letter-spacing:0.04em;
+  }
+  #qr img{display:block;}
+  .url{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:48px;color:#14110f;letter-spacing:0.02em;}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="card">
+      <div class="head">公式サイトはこちら</div>
+      <div id="qr"></div>
+      <div class="url">comixai.dev</div>
+    </div>
+  </div>
+  <script>
+    new QRCode(document.getElementById("qr"), {
+      text: "https://comixai.dev/",
+      width: 760, height: 760,
+      colorDark: "#14110f", colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  </script>
+</body>
+</html>

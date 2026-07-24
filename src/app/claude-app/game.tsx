@@ -198,6 +198,7 @@ export type SimEvent =
   | { type: "modelChange"; model: ModelId }
   | { type: "permChange"; permMode: PermMode }
   | { type: "envChange"; env: EnvId }
+  | { type: "drawer"; open: boolean }
   | { type: "folderChange"; folder: string }
   | { type: "repoChange"; repo: string }
   | { type: "diffResolved"; chatId: number; accepted: boolean }
@@ -222,11 +223,14 @@ const KEY_STORAGE = "comixai-claude-app-key";
 export function ClaudeAppSim({
   scenarios,
   onEvent,
+  initialDevice,
 }: {
   /** 体験モードの台本を差し替える（学習コンテンツ側が使う） */
   scenarios?: Partial<ScenarioSet>;
   /** 主要操作の通知（ミッション達成判定などに使う） */
   onEvent?: (e: SimEvent) => void;
+  /** 表示を固定する（プレイ映像などで使用。省略時は画面幅で自動判定） */
+  initialDevice?: "pc" | "sp";
 } = {}) {
   /* —— 全体状態 —— */
   const [device, setDevice] = React.useState<"pc" | "sp">("pc");
@@ -272,7 +276,8 @@ export function ClaudeAppSim({
 
   /* —— 初期化：端末判定・保存済みキー —— */
   React.useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia("(max-width: 700px)").matches) setDevice("sp");
+    if (initialDevice) setDevice(initialDevice);
+    else if (typeof window !== "undefined" && window.matchMedia("(max-width: 700px)").matches) setDevice("sp");
     try {
       const k = localStorage.getItem(KEY_STORAGE);
       if (k) {
@@ -676,7 +681,10 @@ export function ClaudeAppSim({
     useSkill,
     scrollRef,
     notify,
-    openDrawer: () => setDrawer(true),
+    openDrawer: () => {
+      setDrawer(true);
+      emit({ type: "drawer", open: true });
+    },
   };
   const sideProps = {
     tab,
@@ -1150,7 +1158,7 @@ function Main({
       {/* ヘッダー（会話タイトル） */}
       <div style={{ display: "flex", alignItems: "center", gap: 8, padding: device === "sp" ? "8px 12px" : "10px 16px", borderBottom: `1px solid ${C.line}` }}>
         {device === "sp" && (
-          <button onClick={openDrawer} aria-label="メニュー" style={{ border: "none", background: "transparent", fontSize: 20, cursor: "pointer", color: C.ink, padding: "0 2px" }}>
+          <button onClick={openDrawer} aria-label="メニュー" data-guide="menu" style={{ border: "none", background: "transparent", fontSize: 20, cursor: "pointer", color: C.ink, padding: "0 2px" }}>
             ☰
           </button>
         )}

@@ -34,11 +34,27 @@ const SCRIPT: DemoStep[] = [
   { caption: "…続きは、教習コースで", motion: "bow", wait: 2600 },
 ];
 
+/* PC画面のシミュレーター（変形前の幅） */
+const INNER_W = 700 / 0.62;
+
 export function DemoMovie() {
   const boxRef = React.useRef<HTMLDivElement>(null);
+  const outerRef = React.useRef<HTMLDivElement>(null);
   const senseiRef = React.useRef<SenseiHandle>(null);
   const [caption, setCaption] = React.useState<string>("");
   const [runId, setRunId] = React.useState(0); // シミュレーターを作り直してループ
+  const [scale, setScale] = React.useState(0.62);
+
+  /* スマホでもPC画面が丸ごと収まるよう、容器幅に合わせて縮小率を決める */
+  React.useEffect(() => {
+    const el = outerRef.current;
+    if (!el) return;
+    const fit = () => setScale(Math.min(0.62, el.clientWidth / INNER_W));
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   React.useEffect(() => {
     let stopped = false;
@@ -63,16 +79,16 @@ export function DemoMovie() {
   }, [runId]);
 
   /* PC画面(約680x680)を縮小して映す */
-  const SCALE = 0.62;
   return (
     <div
       aria-hidden
+      ref={outerRef}
       style={{
         position: "relative", borderRadius: 16, overflow: "hidden",
         border: "var(--bw-bold, 3px) solid var(--ink-900, #222)",
         boxShadow: "var(--shadow-pop, 6px 6px 0 rgba(0,0,0,.85))",
         background: "#EDEAE0", width: "min(700px, 100%)",
-        height: 680 * SCALE + 46,
+        height: 680 * scale + 46,
         margin: "0 auto", textAlign: "left",
       }}
     >
@@ -94,11 +110,11 @@ export function DemoMovie() {
         ref={boxRef}
         style={{
           pointerEvents: "none", userSelect: "none",
-          transform: `scale(${SCALE})`, transformOrigin: "top left",
-          width: 700 / SCALE, padding: "46px 10px 0 10px",
+          transform: `scale(${scale})`, transformOrigin: "top left",
+          width: INNER_W, padding: "46px 10px 0 10px",
         }}
       >
-        <ClaudeAppSim key={runId} />
+        <ClaudeAppSim key={runId} initialDevice="pc" />
       </div>
 
       {/* 講師 */}
