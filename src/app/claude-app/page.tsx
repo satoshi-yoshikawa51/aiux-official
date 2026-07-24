@@ -17,9 +17,9 @@ export const metadata: Metadata = {
     description: "本物そっくりの練習画面を、講師が1つずつ案内。1コース約5分でClaudeの使い方が身につく無料コース。",
     url: "/claude-app",
     locale: "ja_JP",
-    images: [{ url: "/ogp.png", width: 1200, height: 630, alt: "Claude教習所" }],
+    images: [{ url: "/claude-app/ogp.png", width: 1280, height: 670, alt: "5分でわかる！Claude教習所" }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: ["/claude-app/ogp.png"] },
 };
 
 const JSON_LD = {
