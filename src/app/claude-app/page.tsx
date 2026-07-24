@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
-import { Breadcrumb } from "../site-ui";
+import { Breadcrumb, ShareRow } from "../site-ui";
 import { GuidedClaudeApp } from "./guide";
 import { DemoMovie } from "./demo";
 
@@ -73,6 +73,9 @@ export default function ClaudeAppPage() {
           <a href="https://claude.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--red-600)" }}>claude.com</a>{" "}
           からご利用ください。APIモードの通信はお使いのブラウザとAnthropic API間で直接行われ、当サイトはAPIキーを収集・保存しません。
         </p>
+        <div style={{ marginTop: 26 }}>
+          <ShareRow path="/claude-app" text="5分で覚える！Claude教習所 — さわって覚えるClaude入門" />
+        </div>
       </section>
 
       <Footer />
