@@ -212,6 +212,53 @@ function SectionHead({ kicker, title, hand }: { kicker: string; title: string; h
   );
 }
 
+/* ═══════════════ Claude教習所バナー（トップの特設導線） ═══════════════ */
+function KyoshujoBanner() {
+  return (
+    <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0 8px" }}>
+      <a href="/claude-app" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+        <div
+          className="kyoshujo-banner"
+          style={{
+            display: "grid", gridTemplateColumns: "minmax(0, 11fr) minmax(0, 9fr)", alignItems: "stretch",
+            border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18, overflow: "hidden",
+            background: "var(--paper-0)", boxShadow: "var(--shadow-pop)",
+          }}
+        >
+          <div style={{ padding: "28px 28px 26px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ background: "var(--red-600)", color: "#fff", borderRadius: 999, padding: "3px 12px", fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 800, letterSpacing: ".08em" }}>
+                NEW
+              </span>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.14em", color: "var(--red-600)", fontWeight: 700 }}>
+                さわって覚えるClaude入門
+              </span>
+            </div>
+            <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(24px,3.2vw,34px)", lineHeight: 1.3 }}>
+              5分で覚える！Claude教習所
+            </div>
+            <p style={{ fontSize: 14, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
+              本物そっくりの練習画面を、講師が「どこを押すか」から1つずつ案内。
+              <b>1コース約5分・登録不要</b>で、Claudeの使い方が体で覚えられる無料コースです。
+            </p>
+            <div style={{ marginTop: 4 }}>
+              <Button variant="primary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+                無料ではじめる
+              </Button>
+            </div>
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/claude-app/ogp.png"
+            alt="5分で覚える！Claude教習所 — 練習画面を講師が案内"
+            style={{ width: "100%", height: "100%", minHeight: 220, objectFit: "cover", display: "block" }}
+          />
+        </div>
+      </a>
+    </section>
+  );
+}
+
 /* ═══════════════ プロフィール ═══════════════ */
 function Profile() {
   return (
@@ -1312,6 +1359,7 @@ export default function Page() {
       <Nav />
       <HeroVideo />
       <NewsStrip />
+      <KyoshujoBanner />
       <Profile />
       <Articles />
       <Magazines />

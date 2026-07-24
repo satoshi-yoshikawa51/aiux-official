@@ -524,8 +524,13 @@ img {
   }
   .articles-grid,
   .mag-grid,
-  .social-grid {
+  .social-grid,
+  .kyoshujo-banner {
     grid-template-columns: 1fr !important;
+  }
+  .kyoshujo-banner img {
+    order: -1;
+    max-height: 220px;
   }
   .article-row {
     grid-template-columns: 120px 1fr !important;
