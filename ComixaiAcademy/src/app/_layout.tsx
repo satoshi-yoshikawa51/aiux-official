@@ -1,0 +1,74 @@
+/* ルートレイアウト。フォント読み込み・進捗ストア・オンボーディングの振り分け。 */
+import { useFonts } from 'expo-font';
+import { Stack, useRouter, useSegments } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { ProgressProvider, useProgress } from '@/store/progress';
+import { FONT, T } from '@/theme';
+
+SplashScreen.preventAutoHideAsync().catch(() => {});
+
+/** アバターと職種が決まるまでは、オンボーディングから出さない */
+function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; children: React.ReactNode }) {
+  const { state, ready } = useProgress();
+  const segments = useSegments() as string[];
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!ready || !fontsReady) return;
+    SplashScreen.hideAsync().catch(() => {});
+
+    const inOnboarding = segments[0] === 'onboarding';
+    if (!state.avatarId) {
+      if (segments[1] !== 'avatar') router.replace('/onboarding/avatar');
+    } else if (!state.roleId) {
+      if (segments[1] !== 'role') router.replace('/onboarding/role');
+    } else if (inOnboarding) {
+      router.replace('/');
+    }
+  }, [ready, fontsReady, state.avatarId, state.roleId, segments, router]);
+
+  return <>{children}</>;
+}
+
+export default function RootLayout() {
+  /* サイトと同じ書体。日本語フォントはサブセット済み（tools/subset-fonts.mjs） */
+  const [fontsReady] = useFonts({
+    [FONT.body]: require('@/assets/fonts/ZenKakuGothicNew-Regular.ttf'),
+    [FONT.heading]: require('@/assets/fonts/ZenKakuGothicNew-Bold.ttf'),
+    [FONT.display]: require('@/assets/fonts/ZenKakuGothicNew-Black.ttf'),
+    [FONT.hand]: require('@/assets/fonts/YuseiMagic-Regular.ttf'),
+    [FONT.mono]: require('@/assets/fonts/JetBrainsMono-Bold.ttf'),
+  });
+
+  if (!fontsReady) return null;
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <ProgressProvider>
+          <OnboardingGate ready={fontsReady}>
+            <StatusBar style="dark" />
+            <Stack
+              screenOptions={{
+                headerStyle: { backgroundColor: T.bg },
+                headerTintColor: T.text,
+                headerTitleStyle: { fontFamily: FONT.display, fontSize: 16 },
+                headerShadowVisible: false,
+                contentStyle: { backgroundColor: T.bg },
+              }}>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="onboarding/avatar" options={{ headerShown: false }} />
+              <Stack.Screen name="onboarding/role" options={{ headerShown: false }} />
+              <Stack.Screen name="lesson/[id]" options={{ title: '', headerBackTitle: '戻る' }} />
+            </Stack>
+          </OnboardingGate>
+        </ProgressProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
+  );
+}
