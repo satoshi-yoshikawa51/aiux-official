@@ -25,6 +25,10 @@ import { WORK_DETAILS } from "./works/data";
 import Splash from "./splash";
 import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
+import { FEATURED_RECIPES } from "./prompts/data";
+import { GUIDES } from "./guide/data";
+import { EVENTS, dateLabel, isPast } from "./calendar/events";
+import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
 
 const HERO_INTRO =
@@ -665,6 +669,207 @@ function StartSection() {
   );
 }
 
+/* ═══════════════ COMIXAI NEWS ストリップ（ヒーロー直下） ═══════════════
+   「今日イチの話題」1行＋「次のイベント」1行の、そろえた2段構成。
+   話題はブックマーク数（はてブ人気）が最大の記事を選ぶ。 */
+interface StripNewsItem {
+  title: string;
+  titleJa?: string;
+  url: string;
+  lang: string;
+  kind?: string;
+  count?: number;
+}
+
+function NewsStrip() {
+  const items = (newsJson as { items: StripNewsItem[] }).items;
+  const buzz = items.filter((n) => n.kind === "buzz");
+  const topNews =
+    buzz.sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0] ??
+    items.find((n) => n.lang === "ja") ??
+    items[0];
+  const nextEvent = EVENTS
+    .filter((e) => e.start && !e.tba && !isPast(e))
+    .sort((a, b) => (a.start! < b.start! ? -1 : 1))[0];
+  if (!topNews && !nextEvent) return null;
+
+  const label = (text: string) => (
+    <span
+      style={{
+        flex: "none",
+        width: 92,
+        textAlign: "center",
+        fontFamily: "var(--font-mono)",
+        fontWeight: 700,
+        fontSize: 10.5,
+        letterSpacing: "0.08em",
+        color: "var(--ink-900)",
+        background: "var(--yellow-400)",
+        border: "var(--bw-line) solid var(--ink-900)",
+        borderRadius: "var(--radius-full)",
+        padding: "3px 0",
+      }}
+    >
+      {text}
+    </span>
+  );
+  const rowStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    textDecoration: "none",
+    minWidth: 0,
+  };
+  const textStyle: React.CSSProperties = {
+    fontFamily: "var(--font-heading)",
+    fontWeight: 700,
+    fontSize: 14,
+    lineHeight: 1.6,
+    color: "var(--paper-50)",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    minWidth: 0,
+  };
+
+  return (
+    <section style={{ background: "var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)" }}>
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "14px 0 16px" }}>
+        {/* グルーピング用の薄いグレー角丸ボックス */}
+        <div
+          className="news-strip"
+          style={{
+            display: "flex",
+            gap: 20,
+            alignItems: "center",
+            background: "rgba(251,247,239,0.06)",
+            border: "1px solid rgba(251,247,239,0.22)",
+            borderRadius: "var(--radius-lg)",
+            padding: "13px 18px",
+          }}
+        >
+          <div style={{ flex: "1 1 auto", minWidth: 0, display: "grid", gap: 8 }}>
+            {topNews && (
+              <a href={topNews.url} target="_blank" rel="noopener noreferrer" style={rowStyle}>
+                {label("📰 今日の話題")}
+                <span style={textStyle}>{topNews.titleJa ?? topNews.title}</span>
+              </a>
+            )}
+            {nextEvent && (
+              <a href="/calendar#calendar" style={rowStyle}>
+                {label("📅 イベント")}
+                <span style={textStyle}>
+                  {nextEvent.title}
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--yellow-400)", marginLeft: 10 }}>{dateLabel(nextEvent)}</span>
+                </span>
+              </a>
+            )}
+          </div>
+          <a href="/calendar" style={{ textDecoration: "none", flex: "none" }}>
+            <Button variant="yellow" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              NEWS
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════ プロンプト集 ═══════════════ */
+function PromptRecipes() {
+  return (
+    <section
+      id="prompts"
+      style={{
+        background: "var(--paper-100)",
+        borderTop: "var(--bw-line) solid var(--ink-900)",
+        borderBottom: "var(--bw-line) solid var(--ink-900)",
+        backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)",
+        backgroundSize: "11px 11px",
+      }}
+    >
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 60px" }}>
+        <SectionHead kicker="PROMPT RECIPES — プロンプト集" title="コピペで使える、仕事のプロンプト。" hand="失敗例の実演つき・全レシピ現場仕込み" />
+        <p style={{ margin: "-8px 0 22px", fontSize: 14, lineHeight: 1.9, color: "var(--text-muted)", maxWidth: 680 }}>
+          営業メール、議事録、Excel関数、職務経歴書——「ダメな指示→事故る出力→直した指示」の実演つきで、AIへの頼み方そのものが身につくレシピ集です。
+        </p>
+        <div className="rv-stagger" style={{ display: "flex", gap: 10, flexWrap: "wrap", maxWidth: 880 }}>
+          {FEATURED_RECIPES.map((r) => (
+            <a
+              key={r.slug}
+              href={`/prompts/${r.slug}`}
+              style={{
+                textDecoration: "none",
+                fontFamily: "var(--font-heading)",
+                fontWeight: 700,
+                fontSize: 14,
+                color: "var(--ink-900)",
+                background: "var(--paper-0)",
+                border: "var(--bw-line) solid var(--ink-900)",
+                borderRadius: "var(--radius-full)",
+                padding: "10px 18px",
+                boxShadow: "var(--shadow-pop-sm)",
+              }}
+            >
+              {r.emoji} {r.title}
+              <span style={{ color: "var(--text-muted)", fontWeight: 500 }}>のプロンプト</span>
+              <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
+            </a>
+          ))}
+        </div>
+        {/* 職種別ガイド：同じ「仕事で使う」カテゴリの入口としてここに束ねる */}
+        <p style={{ fontFamily: "var(--font-hand)", fontSize: 14.5, color: "var(--text-muted)", margin: "30px 0 12px" }}>
+          自分の仕事に引きつけて読むなら、職種別ガイドから↓
+        </p>
+        <div className="rv-stagger" style={{ display: "flex", gap: 12, flexWrap: "wrap", maxWidth: 1000 }}>
+          {GUIDES.map((g) => (
+            <a
+              key={g.slug}
+              href={`/guide/${g.slug}`}
+              style={{
+                flex: "1 1 180px",
+                maxWidth: 250,
+                textDecoration: "none",
+                color: "inherit",
+                border: "var(--bw-line) solid var(--ink-900)",
+                borderRadius: "var(--radius-md)",
+                background: "var(--paper-0)",
+                overflow: "hidden",
+                boxShadow: "var(--shadow-pop-sm)",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/guide/${g.slug}.webp`}
+                alt={g.title}
+                loading="lazy"
+                style={{ display: "block", width: "100%", height: 96, objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }}
+              />
+              <span style={{ display: "block", padding: "9px 12px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, whiteSpace: "nowrap" }}>
+                {g.emoji} {g.role.split("・")[0]}のAI活用
+                <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
+              </span>
+            </a>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          <a href="/prompts" style={{ textDecoration: "none" }}>
+            <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              プロンプト集を見る
+            </Button>
+          </a>
+          <a href="/guide" style={{ textDecoration: "none" }}>
+            <Button variant="secondary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              職種別ガイドを見る
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ═══════════════ SNS + YouTube ═══════════════ */
 function Social() {
   return (
@@ -1043,6 +1248,9 @@ function Contact() {
                 <br />
                 内容を確認のうえ、ご返信いたします。
               </p>
+              <p style={{ marginTop: 10, fontSize: 12.5, lineHeight: 1.8, color: "var(--text-muted)" }}>
+                ※ 3日たっても返信がない場合は、お手数ですが {CONTACT_EMAIL} へ直接ご連絡ください。
+              </p>
               <div style={{ marginTop: 14 }}>
                 <Button variant="secondary" size="md" onClick={() => setState("idle")}>
                   続けて送信する
@@ -1103,12 +1311,14 @@ export default function Page() {
       <Splash />
       <Nav />
       <HeroVideo />
+      <NewsStrip />
       <Profile />
       <Articles />
       <Magazines />
       <Works />
       <Glossary />
       <StartSection />
+      <PromptRecipes />
       <Social />
       <Contact />
       <Footer />

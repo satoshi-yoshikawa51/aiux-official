@@ -333,6 +333,17 @@ export default function StartPage() {
             <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-notebook" />}>図鑑をひらく</Button>
           </a>
         </div>
+
+        {/* 職種別ガイドへの導線 */}
+        <div style={{ marginTop: 18, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-lg)", background: "var(--paper-0)", padding: "20px 22px", boxShadow: "var(--shadow-pop-sm)" }}>
+          <h2 style={{ margin: "0 0 8px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(18px,2.8vw,24px)" }}>💼 自分の仕事で使うには？</h2>
+          <p style={{ margin: "0 0 12px", fontSize: 14, lineHeight: 1.95 }}>
+            基礎の次は実践。<b>営業・マーケティング・事務・クリエイター</b>の職種ごとに、「どの業務で・どう使い始めるか」をまとめたガイドを用意しました。
+          </p>
+          <a href="/guide" style={{ textDecoration: "none" }}>
+            <Button variant="primary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>職種別AI活用ガイドへ</Button>
+          </a>
+        </div>
       </section>
 
       <Footer />

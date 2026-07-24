@@ -20,6 +20,12 @@ const OUT_DIR = path.join(ROOT, "public/og/glossary");
 const QUIZ_OUT_DIR = path.join(ROOT, "public/og/quiz");
 
 const { TERMS } = await import(pathToFileURL(path.join(ROOT, "src/app/glossary/data.ts")).href);
+/* prompts/data.ts は拡張子なしimportを含みnodeから直接読めないため、バッチを直接読む */
+const RECIPES = [
+  ...(await import(pathToFileURL(path.join(ROOT, "src/app/prompts/recipes-basics.ts")).href)).RECIPES_BASICS,
+  ...(await import(pathToFileURL(path.join(ROOT, "src/app/prompts/recipes-biz.ts")).href)).RECIPES_BIZ,
+  ...(await import(pathToFileURL(path.join(ROOT, "src/app/prompts/recipes-work.ts")).href)).RECIPES_WORK,
+];
 const { GRADES, QUIZ_SIZE } = await import(pathToFileURL(path.join(ROOT, "src/app/quiz/data.ts")).href);
 const { USO_GRADES, USO_ROUNDS } = await import(pathToFileURL(path.join(ROOT, "src/app/uso/data.ts")).href);
 
@@ -274,23 +280,33 @@ const GAME_OGS = [
     site: "comixai.dev/start",
   },
   {
+    file: "calendar.png",
+    kicker: "COMIXAI NEWS — AIイベント＆ニュース",
+    badge: "毎朝自動更新",
+    title: "AIの「今」と<br>「次の予定」を、一枚で。",
+    titleSize: 72,
+    sub: "OpenAI DevDay / GTC / AI EXPO…",
+    short: "世界と日本のAI主要イベントをカレンダーで一望。毎朝更新の「今日のAIニュース」見出しつき。",
+    site: "comixai.dev/calendar",
+  },
+  {
     file: "faq.png",
     kicker: "FAQ — AIのよくある質問",
-    badge: "20問",
+    badge: "100問",
     title: "その不安、<br>一問一答で。",
     titleSize: 88,
     sub: "仕事を奪われる？会社で使っていい？",
-    short: "AIを使う前の不安から実務の疑問まで、よくある質問20個に現場目線で答えます。",
+    short: "AIを使う前の不安から、料金・セキュリティ・法律・教育まで、よくある質問100個に現場目線で一問一答。",
     site: "comixai.dev/faq",
   },
   {
     file: "compare.png",
     kicker: "COMPARE — 3大AIの使い分け",
-    badge: "比較表つき",
+    badge: "2026年7月版",
     title: "ChatGPT・Claude・<br>Gemini、どう違う？",
     titleSize: 76,
-    sub: "答えは「使い分け」",
-    short: "3大AIの出自・得意分野・向いている人を比較表で整理。用途別のおすすめつき。",
+    sub: "料金・最新モデル・使い分け",
+    short: "GPT-5.6 / Claude Fable 5 / Gemini Omni。最新モデルと料金プランを比較表で整理。用途別のおすすめつき。",
     site: "comixai.dev/compare",
   },
   {
@@ -446,6 +462,23 @@ for (const g of GAME_OGS) {
   );
 }
 
+/* —— 職種別AI活用ガイド（/guide）用 —— */
+const GUIDE_OUT_DIR = path.join(ROOT, "public/og/guide");
+await mkdir(GUIDE_OUT_DIR, { recursive: true });
+await shoot(
+  pageHtml({
+    kicker: "GUIDE — 職種別AI活用ガイド",
+    badge: "4職種",
+    title: "あなたの仕事の、<br>どこでAIを使う？",
+    titleSize: 80,
+    sub: "営業 / マーケティング / 事務 / クリエイター",
+    short: "職種ごとに、使い始める順番・業務別の実践パターン・注意点を現場目線でまとめました。",
+    site: "comixai.dev/guide",
+  }),
+  "index.png",
+  GUIDE_OUT_DIR
+);
+
 /* —— 絵巻・図鑑用 —— */
 await shoot(
   pageHtml({
@@ -490,5 +523,39 @@ await shoot(
   path.join(ROOT, "public/og")
 );
 
+/* —— 仕事で使えるAIプロンプト集（/prompts）用 —— */
+const PROMPTS_OUT_DIR = path.join(ROOT, "public/og/prompts");
+await mkdir(PROMPTS_OUT_DIR, { recursive: true });
+
+for (const r of RECIPES) {
+  await shoot(
+    pageHtml({
+      kicker: "PROMPT RECIPES — 仕事で使えるプロンプト集",
+      badge: r.category,
+      title: `${r.emoji} ${esc(r.title)}`,
+      titleSize: termSize(r.title) - 8,
+      sub: "コピペOK・失敗例の実演つき",
+      short: esc(r.catch),
+      site: "comixai.dev/prompts",
+    }),
+    `${r.slug}.png`,
+    PROMPTS_OUT_DIR
+  );
+}
+
+await shoot(
+  pageHtml({
+    kicker: "PROMPT RECIPES — 仕事で使えるプロンプト集",
+    badge: `全${RECIPES.length}レシピ`,
+    title: "コピペで終わらせない、<br>プロンプトの「レシピ」集。",
+    titleSize: 72,
+    sub: "営業メール / 議事録 / 企画書 / Excel関数…",
+    short: "全レシピに「ダメな指示→事故る出力→直した指示」の実演つき。AIへの頼み方そのものが身につく。",
+    site: "comixai.dev/prompts",
+  }),
+  "index.png",
+  PROMPTS_OUT_DIR
+);
+
 await browser.close();
-console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 + ラボ1枚 を生成しました`);
+console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 + ラボ1枚 + プロンプト集${RECIPES.length + 1}枚 を生成しました`);

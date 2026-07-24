@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Badge, Button, Card } from "../ds";
-import { Breadcrumb } from "../site-ui";
+import { Breadcrumb, ShareRow } from "../site-ui";
+import { ROWS, USES, PRICING, COMPARE_FAQ, COMPARE_UPDATED } from "./data";
 
-const UPDATED = "2026-07-09";
+const UPDATED = COMPARE_UPDATED;
 
 export const metadata: Metadata = {
-  title: "ChatGPT・Claude・Geminiの違いと使い分け｜どれを使えばいい？｜COMIXAI",
+  title: "ChatGPT・Claude・Gemini比較【2026年7月】料金・違い・使い分け｜COMIXAI",
   description:
-    "ChatGPT・Claude・Gemini、結局どれを使えばいい？3大AIの出自・得意分野・向いている人を比較表で整理し、用途別のおすすめをまとめました。答えは「使い分け」——全部無料で試せます。",
-  keywords: ["ChatGPT Claude 違い", "ChatGPT Gemini どっち", "AI 比較", "生成AI おすすめ", "Claude Gemini 比較"],
+    "ChatGPT・Claude・Gemini、結局どれを使えばいい？最新モデル（GPT-5.6／Claude Fable 5／Gemini Omni）と料金プランを2026年7月時点で比較。得意分野・用途別おすすめ・「どっちがいい？」の一問一答つき。答えは「使い分け」——全部無料で試せます。",
+  keywords: ["ChatGPT Claude 違い", "ChatGPT Gemini どっち", "AI 比較 2026", "生成AI おすすめ", "ChatGPT Claude Gemini 料金"],
   alternates: { canonical: "/compare" },
   openGraph: {
     type: "article",
@@ -22,8 +23,6 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
 };
-
-import { ROWS, USES } from "./data";
 
 const JSON_LD = {
   "@context": "https://schema.org",
@@ -42,6 +41,14 @@ const JSON_LD = {
       inLanguage: "ja",
       dateModified: UPDATED,
       author: { "@type": "Person", name: "吉川 聡史", alternateName: "COMIXAI", url: "https://comixai.dev/profile" },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: COMPARE_FAQ.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 };
@@ -100,6 +107,32 @@ export default function ComparePage() {
         </Card>
       </section>
 
+      {/* 料金プラン比較 */}
+      <section style={{ maxWidth: "min(880px, 92vw)", margin: "0 auto", padding: "0 0 34px" }}>
+        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 6px" }}>💰 料金プラン早見表</h2>
+        <p style={{ fontSize: 13.5, color: "var(--text-muted)", margin: "0 0 16px", lineHeight: 1.9 }}>
+          2026年7月時点・日本円は税込目安（為替とプラン改定で変わります）。結論：<b>まず無料、定番は月3,000円前後</b>。
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }} className="articles-grid">
+          {PRICING.map((s) => (
+            <Card key={s.service} variant="pop" padding={0} style={{ overflow: "hidden" }}>
+              <div style={{ background: s.color, color: "var(--paper-50)", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15.5, padding: "10px 16px" }}>{s.service}</div>
+              <div style={{ padding: "6px 16px 14px" }}>
+                {s.plans.map((p) => (
+                  <div key={p.name} style={{ padding: "10px 0", borderBottom: "1.5px dashed rgba(20,17,15,0.12)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+                      <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5 }}>{p.name}</span>
+                      <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12.5, color: "var(--red-600)", whiteSpace: "nowrap" }}>{p.price}</span>
+                    </div>
+                    <div style={{ fontSize: 12, lineHeight: 1.8, color: "var(--text-muted)", marginTop: 3 }}>{p.note}</div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
       {/* 用途別おすすめ */}
       <section style={{ maxWidth: "min(760px, 92vw)", margin: "0 auto", padding: "0 0 34px" }}>
         <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 16px" }}>🎯 用途別、まずこれ</h2>
@@ -117,6 +150,25 @@ export default function ComparePage() {
         </div>
       </section>
 
+      {/* どっちがいい？FAQ */}
+      <section style={{ maxWidth: "min(760px, 92vw)", margin: "0 auto", padding: "0 0 34px" }}>
+        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 16px" }}>💬 「どっちがいい？」に一問一答</h2>
+        <div style={{ display: "grid", gap: 12 }}>
+          {COMPARE_FAQ.map((f) => (
+            <details key={f.q} style={{ border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", boxShadow: "var(--shadow-pop-sm)", overflow: "hidden" }}>
+              <summary style={{ cursor: "pointer", padding: "14px 18px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, lineHeight: 1.6, listStyle: "none" }}>
+                <span style={{ color: "var(--red-600)", marginRight: 8 }}>Q.</span>
+                {f.q}
+              </summary>
+              <div style={{ padding: "12px 18px 16px", fontSize: 14, lineHeight: 2, color: "var(--text-body)", borderTop: "1.5px dashed rgba(20,17,15,0.15)" }}>
+                <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, color: "var(--red-600)", marginRight: 8 }}>A.</span>
+                {f.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
       {/* まとめ */}
       <section style={{ maxWidth: "min(760px, 92vw)", margin: "0 auto", padding: "0 0 56px" }}>
         <div style={{ border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "16px 20px", marginBottom: 18 }}>
@@ -126,11 +178,17 @@ export default function ComparePage() {
         </div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           <a href="/glossary" style={{ textDecoration: "none" }}>
-            <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>AI用語集（全80語）</Button>
+            <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>AI用語集（全150語）</Button>
           </a>
           <a href="/faq" style={{ textDecoration: "none" }}>
             <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>AIのよくある質問</Button>
           </a>
+          <a href="/guide" style={{ textDecoration: "none" }}>
+            <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>職種別AI活用ガイド</Button>
+          </a>
+        </div>
+        <div style={{ marginTop: 26 }}>
+          <ShareRow path="/compare" text="ChatGPT・Claude・Gemini比較 2026年7月版（料金・使い分け）" />
         </div>
       </section>
 

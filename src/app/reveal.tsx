@@ -32,7 +32,10 @@ export function ScrollReveal() {
           }
         }
       },
-      { rootMargin: "0px 0px -6% 0px", threshold: 0.05 }
+      /* threshold は0にする。割合指定だとビューポートより背の高いセクション
+         （例: モバイル1カラムの用語集150枚グリッド）では「5%が画面内」に
+         一生ならず、永遠にopacity:0のまま残ってしまう */
+      { rootMargin: "0px 0px -6% 0px", threshold: 0 }
     );
     for (const el of sections) {
       if (inView(el)) continue;

@@ -20,7 +20,8 @@ export function Nav({ home = true }: { home?: boolean }) {
     { label: "WORKS", href: "#works" },
     { label: "はじめかた", href: "/start" },
     { label: "用語集", href: "/glossary" },
-    { label: "絵巻", href: "/history" },
+    { label: "プロンプト", href: "/prompts" },
+    { label: "NEWS", href: "/calendar" },
     { label: "プロフィール", href: "/profile" },
   ];
   /* #アンカーはトップページ内リンク、/パスはどのページからも共通 */
@@ -219,6 +220,12 @@ export function Footer() {
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <a href="/start" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               🚀 AIのはじめかた
+            </a>
+            <a href="/guide" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+              💼 職種別AIガイド
+            </a>
+            <a href="/history" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+              📜 AI歴史絵巻
             </a>
             <a href="/faq" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               💬 よくある質問

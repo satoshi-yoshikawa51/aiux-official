@@ -2,6 +2,10 @@ import type { MetadataRoute } from "next";
 import { MANGA_SERIES } from "./manga/data";
 import { WORK_DETAILS } from "./works/data";
 import { TERMS, GLOSSARY_UPDATED } from "./glossary/data";
+import { RECIPES, PROMPTS_UPDATED } from "./prompts/data";
+import { FAQ_UPDATED } from "./faq/data";
+import { EVENTS_UPDATED } from "./calendar/events";
+import { GUIDES, GUIDES_UPDATED } from "./guide/data";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -70,6 +74,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     })),
     {
+      url: `${base}/prompts`,
+      lastModified: new Date(PROMPTS_UPDATED),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    ...RECIPES.map((r) => ({
+      url: `${base}/prompts/${r.slug}`,
+      lastModified: new Date(r.lastUpdated),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    {
       url: `${base}/quiz`,
       lastModified: new Date(GLOSSARY_UPDATED),
       changeFrequency: "monthly",
@@ -87,9 +103,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    ...["start", "faq", "compare"].map((slug) => ({
+    {
+      url: `${base}/calendar`,
+      lastModified: new Date(EVENTS_UPDATED),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: `${base}/faq`,
+      lastModified: new Date(FAQ_UPDATED),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...["start", "compare"].map((slug) => ({
       url: `${base}/${slug}`,
-      lastModified: new Date("2026-07-09"),
+      lastModified: new Date(GUIDES_UPDATED),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    {
+      url: `${base}/guide`,
+      lastModified: new Date(GUIDES_UPDATED),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...GUIDES.map((g) => ({
+      url: `${base}/guide/${g.slug}`,
+      lastModified: new Date(GUIDES_UPDATED),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),

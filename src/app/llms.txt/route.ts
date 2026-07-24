@@ -1,6 +1,8 @@
 import { MANGA_SERIES } from "../manga/data";
 import { WORK_DETAILS } from "../works/data";
 import { TERMS } from "../glossary/data";
+import { RECIPES } from "../prompts/data";
+import { FAQ_TOTAL } from "../faq/data";
 
 /* llms.txt — AI検索・LLMクローラー向けのサイト案内（llmstxt.org 形式）。
    マンガ連載・作品データから自動生成するので、ページを増やせば追従する。 */
@@ -57,13 +59,21 @@ export function GET() {
     "- [ご褒美で導け](https://comixai.dev/gohobi): 報酬設計だけでAIを導く強化学習体験ゲーム",
     "- [Claudeアプリ・シミュレーター](https://comixai.dev/claude-app): PC・スマホのClaudeアプリ画面をブラウザ上に再現した体験シミュレーター（チャット・コワーク・コードの3モード、APIキーで本物のClaudeとも会話可能）",
     "- [AIのはじめかた](https://comixai.dev/start): 歴史→用語→診断→ゲーム→実践の初心者向け学習ロードマップ",
-    "- [AIのよくある質問](https://comixai.dev/faq): 仕事を奪われる？会社で使っていい？などの不安に一問一答",
+    `- [AIのよくある質問](https://comixai.dev/faq): 仕事を奪われる？会社で使っていい？著作権は？——不安・使い方・料金・セキュリティ・法律・教育・開発まで全${FAQ_TOTAL}問に一問一答`,
     "- [ChatGPT・Claude・Gemini比較](https://comixai.dev/compare): 3大AIの違いと用途別の使い分け",
+    "- [AIイベントカレンダー](https://comixai.dev/calendar): OpenAI DevDayなど世界と日本のAI主要イベントの日程一覧と、毎朝自動更新の今日のAIニュース見出し",
     "- [AI歴史絵巻](https://comixai.dev/history): 1950年から2026年まで、AIの75年史をスクロールで読める年表絵巻",
     "- [COMIXAI AI受付](https://comixai.dev/uketsuke): AIが用件をヒアリングし、お問い合わせ内容を自動で要約して届けるチャット型の受付窓口",
     "- [AI司書に聞く](https://comixai.dev/search): サイト内の用語・FAQ・マンガ・ゲームからAIが答えを探して案内するサイト内検索",
     ...TERMS.map(
       (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`
+    ),
+    "",
+    "## 仕事で使えるAIプロンプト集",
+    "",
+    "- [プロンプト集トップ](https://comixai.dev/prompts): 仕事のタスク別プロンプトを「ダメな指示→事故る出力→直した指示」の実演つきで解説するレシピ集",
+    ...RECIPES.map(
+      (r) => `- [${r.title}のプロンプト](https://comixai.dev/prompts/${r.slug}): ${r.short}`
     ),
     "",
     "## 外部リンク",
