@@ -7,6 +7,7 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { Badge, Button, Card } from "../ds";
+import { track } from "../ga";
 
 interface ResultItem {
   id: string;
@@ -50,6 +51,12 @@ export default function SearchClient() {
   const run = React.useCallback(async (q: string) => {
     const t = q.trim();
     if (!t) return;
+    /* 実行時にURLを ?q= 付きに書き換えるため、下の「?q=付きで来たら
+       自動実行」が反応して同じ検索が二重に走っていた。ここで消化済みに
+       しておく（APIを2回叩いていたのと、計測が二重に乗るのを防ぐ） */
+    ranFromUrl.current = true;
+    /* サイト内検索の語句。何を探しに来ているかは記事の企画に直結する */
+    track("site_search", { search_term: t.slice(0, 100) });
     setLoading(true);
     setError(false);
     setQuery(t);

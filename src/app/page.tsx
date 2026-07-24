@@ -239,7 +239,12 @@ function SectionHead({ kicker, title, hand }: { kicker: string; title: string; h
 function KyoshujoBanner() {
   return (
     <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0" }}>
-      <a href="/claude-app" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+      <a
+        href="/claude-app"
+        style={{ textDecoration: "none", color: "inherit", display: "block" }}
+        data-ga="cta_click"
+        data-ga-place="top-kyoshujo-banner"
+      >
         <div
           className="kyoshujo-banner"
           style={{
