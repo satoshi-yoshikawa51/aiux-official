@@ -84,6 +84,7 @@ function Highlight({ target, scope }: { target: string; scope?: string }) {
       <style>{`
         @keyframes guide-pulse { 0%,100% { box-shadow: 0 0 0 3px rgba(255,122,26,.25), 0 0 18px rgba(255,122,26,.45) } 50% { box-shadow: 0 0 0 6px rgba(255,122,26,.12), 0 0 26px rgba(255,122,26,.6) } }
         @keyframes guide-bounce { from { transform: translateY(0) } to { transform: translateY(6px) } }
+        @keyframes guide-q { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-5px) } }
       `}</style>
     </>
   );
@@ -236,6 +237,57 @@ export function GuidedClaudeApp() {
   const typingDone = step ? typed >= step.text.length : false;
   const isLast = course ? stepIdx === course.steps.length - 1 : false;
 
+  /* ———— 吹き出しが操作対象に被るとき（主にスマホ）の退避 ————
+     被りを検知したら吹き出しを自動でしまい、講師の横に「？」バブルを出す。
+     ？で再表示 → ×でまたしまえる。ステップが進んだら元に戻る */
+  const [bubbleHidden, setBubbleHidden] = React.useState(false);
+  const [overlap, setOverlap] = React.useState(false);
+  const bubbleRef = React.useRef<HTMLDivElement>(null);
+  const autoHidRef = React.useRef(false); // 自動格納はステップにつき1回だけ
+  const overlapSinceRef = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    setBubbleHidden(false);
+    setOverlap(false);
+    autoHidRef.current = false;
+    overlapSinceRef.current = null;
+  }, [stepIdx, courseId, modalOpen]);
+
+  React.useEffect(() => {
+    if (!modalOpen || !step?.target || !awaiting) {
+      setOverlap(false);
+      return;
+    }
+    const target = step.target;
+    const textLen = step.text.length;
+    const timer = setInterval(() => {
+      const el = document.querySelector(`#guide-sim-root [data-guide="${target}"]`);
+      const bb = bubbleRef.current?.getBoundingClientRect();
+      if (!el || !bb) {
+        setOverlap(false);
+        overlapSinceRef.current = null;
+        return;
+      }
+      const r = el.getBoundingClientRect();
+      const pad = 10; // オレンジ枠ぶんの余白も被り扱い
+      const hit = !(r.right + pad < bb.left || r.left - pad > bb.right || r.bottom + pad < bb.top || r.top - pad > bb.bottom);
+      setOverlap(hit);
+      if (!hit) {
+        overlapSinceRef.current = null;
+        return;
+      }
+      /* 読む時間を確保してから自動でしまう */
+      if (!autoHidRef.current && typed >= textLen) {
+        if (overlapSinceRef.current === null) overlapSinceRef.current = Date.now();
+        else if (Date.now() - overlapSinceRef.current > 1200) {
+          autoHidRef.current = true;
+          setBubbleHidden(true);
+        }
+      }
+    }, 300);
+    return () => clearInterval(timer);
+  }, [modalOpen, step, awaiting, typed]);
+
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
 
@@ -289,15 +341,48 @@ export function GuidedClaudeApp() {
             display: "flex", alignItems: "flex-end", gap: 4, pointerEvents: "none",
           }}
         >
+          {/* 吹き出しが操作対象に被ってしまわれている間は「？」バブルで呼び戻せる */}
+          {bubbleHidden && (
+            <button
+              onClick={() => setBubbleHidden(false)}
+              aria-label="説明をもう一度見る"
+              style={{
+                pointerEvents: "auto", marginBottom: 128, cursor: "pointer",
+                width: 40, height: 40, borderRadius: "14px 14px 3px 14px",
+                border: "2px solid var(--ink-900, #222)", background: "#FFFFFF",
+                fontSize: 18, fontWeight: 900, color: "#D97757", lineHeight: 1,
+                boxShadow: "0 6px 18px rgba(0,0,0,.25)",
+                animation: "guide-q 1.4s ease-in-out infinite",
+              }}
+            >
+              ？
+            </button>
+          )}
           <div
+            ref={bubbleRef}
             style={{
               pointerEvents: "auto", position: "relative", marginBottom: 42,
               maxWidth: "min(300px, calc(100vw - 175px))", background: "#FFFFFF",
               border: "2px solid var(--ink-900, #222)", borderRadius: 14, borderBottomRightRadius: 3,
               padding: "12px 14px 10px", boxShadow: "0 8px 24px rgba(0,0,0,.25)",
               fontSize: 13.5, lineHeight: 1.8,
+              display: bubbleHidden ? "none" : undefined,
             }}
           >
+            {/* 操作対象に被っているときは、しまうための×を出す */}
+            {overlap && awaiting && typingDone && (
+              <button
+                onClick={() => setBubbleHidden(true)}
+                aria-label="吹き出しをしまう"
+                style={{
+                  position: "absolute", top: -12, right: -8, width: 26, height: 26,
+                  borderRadius: "50%", border: "2px solid var(--ink-900, #222)",
+                  background: "#fff", fontWeight: 800, fontSize: 12, cursor: "pointer", lineHeight: 1,
+                }}
+              >
+                ×
+              </button>
+            )}
             {/* クリックでタイプ表示を全文へスキップ */}
             <div
               onClick={() => step && setTyped(step.text.length)}
