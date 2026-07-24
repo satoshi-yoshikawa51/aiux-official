@@ -1,5 +1,14 @@
 {
   "_comment": "note記事のメタ情報（カテゴリ・色・説明文・タグ）。サイトの data.ts はこのファイル＋note APIから自動生成されます。新しい記事を新着/人気に出したいのにメタが無いと警告されたら、その記事URLのエントリをここに追記してください。tone は yellow|red|ink|blue|paper のいずれか。",
+  "https://note.com/aiux_unite/n/nb5a8bfa2d631": {
+    "badge": "Claude教習所",
+    "tone": "yellow",
+    "excerpt": "Claude・Cowork・Claude Codeを5分で体験できる「Claude教習所」の遊び方と、Claude Fable 5でどう作ったかの制作記。",
+    "tags": [
+      "Claude教習所",
+      "ClaudeCode"
+    ]
+  },
   "https://note.com/aiux_unite/n/n0a9924b1f747": {
     "badge": "AI歴史絵巻",
     "tone": "red",

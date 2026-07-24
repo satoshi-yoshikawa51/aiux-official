@@ -282,7 +282,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     tech: ["Claude Code", "Next.js", "three.js", "Tripo", "Vercel"],
     schemaType: "WebApplication",
     appCategory: "EducationalApplication",
-    storyUrls: [],
+    storyUrls: ["https://note.com/aiux_unite/n/nb5a8bfa2d631"],
   },
   {
     slug: "uketsuke",
