@@ -32,6 +32,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Badge, Button, Card } from "../ds";
 import {
   CHAT_SUGGESTIONS,
+  CODE_SUGGESTIONS,
+  COWORK_SUGGESTIONS,
+  SKILL_NAME,
   DEFAULT_SCENARIOS,
   type ArtifactSpec,
   type ChoiceGroup,
@@ -129,7 +132,7 @@ const TABS: TabDef[] = [
     greet: "どんな仕事をお任せしますか？",
     sub: "クラウド上の専用マシンで自律的に作業します。アプリを閉じてもOK。",
     placeholder: "Claudeにお願いしたい仕事を伝える…",
-    suggestions: ["競合3社の調査レポートを作って", "企画書のたたき台を作って", "レシートを経費一覧に整理して"],
+    suggestions: COWORK_SUGGESTIONS,
   },
   {
     id: "code",
@@ -141,7 +144,7 @@ const TABS: TabDef[] = [
     greet: "今日は何を作りますか？",
     sub: "各セッションが独立したフォルダ・変更履歴を持ちます。",
     placeholder: "作りたいもの・直したいものを伝える…",
-    suggestions: ["おみくじアプリを作って", "TODOリストのWebアプリを作って", "READMEを整備して"],
+    suggestions: CODE_SUGGESTIONS,
   },
 ];
 const tabDef = (t: Tab) => TABS.find((x) => x.id === t)!;
@@ -237,6 +240,7 @@ export function ClaudeAppSim({
   const [toast, setToast] = React.useState<string | null>(null);
   const [trustAsk, setTrustAsk] = React.useState<string | null>(null); // フォルダ許可ダイアログ
   const [viewArtifact, setViewArtifact] = React.useState<ArtifactSpec | null>(null); // 成果物プレビュー
+  const [skills, setSkills] = React.useState<string[]>([]); // 作成済みスキル（/で呼び出し）
 
   const idRef = React.useRef(1);
   const genRef = React.useRef(0); // 体験モードのストリーム世代
@@ -393,6 +397,11 @@ export function ClaudeAppSim({
     setBusyChat(chatId);
     emit({ type: "send", tab: kind, chatId, text, api: apiMode && !!apiKey });
 
+    /* 「スキルにして」でスキルを登録（以後は入力欄の「/」から呼び出せる） */
+    if (kind === "code" && (text.includes("スキルにして") || text.includes("スキル化"))) {
+      setSkills((prev) => (prev.includes(SKILL_NAME) ? prev : [...prev, SKILL_NAME]));
+    }
+
     if (apiMode && apiKey) {
       await sendApi(chatId, kind, [...history, { role: "user", text }]);
       setBusyChat(null);
@@ -522,6 +531,12 @@ export function ClaudeAppSim({
     emit({ type: "artifactOpen", title: a.title });
   };
 
+  /* —— スキル呼び出し（入力欄の「/」ポップアップから） —— */
+  const useSkill = (name: string) => {
+    setInput("");
+    send(`/${name}`);
+  };
+
   /* —— APIモード：Anthropic APIへブラウザから直接ストリーミング —— */
   const sendApi = async (chatId: number, kind: Tab, history: Msg[]) => {
     try {
@@ -612,6 +627,8 @@ export function ClaudeAppSim({
     resolveApproval,
     resolveChoices,
     openArtifact,
+    skills,
+    useSkill,
     scrollRef,
     notify,
     openDrawer: () => setDrawer(true),
@@ -998,7 +1015,7 @@ function Dropdown<T extends string>({
    ============================================================ */
 function Main({
   device, tab, chat, busy, streaming, model, permMode, env, folder, menu, setMenu,
-  pickModel, pickPerm, pickEnv, pickFolder, input, setInput, send, resolveDiff, resolveApproval, resolveChoices, openArtifact, scrollRef, notify, openDrawer,
+  pickModel, pickPerm, pickEnv, pickFolder, input, setInput, send, resolveDiff, resolveApproval, resolveChoices, openArtifact, skills, useSkill, scrollRef, notify, openDrawer,
 }: {
   device: "pc" | "sp";
   tab: Tab;
@@ -1022,6 +1039,8 @@ function Main({
   resolveApproval: (chatId: number, allow: boolean) => void;
   resolveChoices: (chatId: number, answers: string[]) => void;
   openArtifact: (a: ArtifactSpec) => void;
+  skills: string[];
+  useSkill: (name: string) => void;
   scrollRef: React.RefObject<HTMLDivElement | null>;
   notify: (m: string) => void;
   openDrawer: () => void;
@@ -1108,7 +1127,7 @@ function Main({
           <div style={{ display: "flex", gap: 6, marginBottom: 7, flexWrap: "wrap" }}>
             {isCode && (
               <div style={{ position: "relative" }}>
-                <button style={chipStyle} onClick={() => setMenu(menu === "env" ? null : "env")}>
+                <button style={chipStyle} data-guide="env" onClick={() => setMenu(menu === "env" ? null : "env")}>
                   🖥 {envInfo.name} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
                 </button>
                 {menu === "env" && (
@@ -1132,7 +1151,30 @@ function Main({
             </div>
           </div>
         )}
-        <div style={{ display: "flex", alignItems: "flex-end", gap: 7, border: `1.5px solid ${C.line}`, borderRadius: 18, background: C.input, padding: "8px 10px" }}>
+        <div style={{ position: "relative", display: "flex", alignItems: "flex-end", gap: 7, border: `1.5px solid ${C.line}`, borderRadius: 18, background: C.input, padding: "8px 10px" }}>
+          {/* —— スキル呼び出しポップアップ（「/」と打つと表示） —— */}
+          {input.trim() === "/" && skills.length > 0 && (
+            <div
+              data-guide="skill-pop"
+              style={{
+                position: "absolute", left: 8, right: 8, bottom: "calc(100% + 8px)", zIndex: 9,
+                background: C.bg, border: `1px solid ${C.line}`, borderRadius: 12,
+                boxShadow: "0 8px 24px rgba(40,35,25,.18)", overflow: "hidden",
+              }}
+            >
+              <div style={{ padding: "8px 12px 4px", fontSize: 10.5, fontWeight: 700, color: C.sub, letterSpacing: ".05em" }}>スキル</div>
+              {skills.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => useSkill(s)}
+                  style={{ display: "block", width: "100%", textAlign: "left", padding: "9px 12px", border: "none", background: "transparent", cursor: "pointer", fontFamily: "inherit" }}
+                >
+                  <span style={{ fontFamily: MONO, fontSize: 13, fontWeight: 700, color: C.accentInk }}>/{s}</span>
+                  <span style={{ display: "block", fontSize: 11, color: C.sub, marginTop: 1 }}>保存した手順をひと言で実行</span>
+                </button>
+              ))}
+            </div>
+          )}
           <button
             onClick={() => notify("📎 添付・スキル・コネクタのメニュー。この再現UIでは省略しています")}
             aria-label="添付"

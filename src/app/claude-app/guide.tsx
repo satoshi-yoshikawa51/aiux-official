@@ -186,10 +186,19 @@ export function GuidedClaudeApp() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalOpen, courseId, stepIdx]);
 
+  /* モーダルを開くとシミュレーターは初期状態で再マウントされるため、
+     ガイド側のコンテキストも毎回リセットする（前回のタブ等を持ち越さない） */
+  const resetCtx = () => {
+    ctxRef.current = {
+      device: window.matchMedia("(max-width: 700px)").matches ? "sp" : "pc",
+      tab: "chat",
+    };
+  };
   const startCourse = (id: string) => {
     const c = COURSES.find((x) => x.id === id);
     if (!c) return;
     evQueue.current = []; // 前回セッションの先回りイベントを持ち越さない
+    resetCtx();
     let n = 0;
     while (n < c.steps.length && c.steps[n].skipIf?.(ctxRef.current)) n++;
     setCourseId(id);
@@ -198,6 +207,7 @@ export function GuidedClaudeApp() {
   };
   const startFree = () => {
     evQueue.current = [];
+    resetCtx();
     setCourseId(null);
     setStepIdx(0);
     setModalOpen(true);

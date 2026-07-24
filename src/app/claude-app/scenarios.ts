@@ -76,7 +76,9 @@ export interface ScenarioSet {
   code: (ctx: ScenarioCtx) => Step[];
 }
 
-/* ———— チャット ———— */
+/* ============================================================
+   チャット
+   ============================================================ */
 /* 提案チップ（game.tsxと共有。台本の分岐キーにも使う） */
 export const CHAT_SUGGESTIONS = [
   "Claudeには何ができる？",
@@ -115,12 +117,36 @@ const DIAGRAM_FIGURE: FigureSpec = {
 };
 const DIAGRAM_NOTE =
   "こんな感じで、説明はその場で図や表に整形して返せます。\n\n（体験モードのため定型の図です。本物のClaudeは、お題に合わせてその場で作ります）";
+
 const CHAT_FALLBACK =
   "メッセージありがとうございます。いまは体験モードなので返事は定型文ですが、画面の使い方は本物のClaudeアプリと同じです。\n\n・返事はこうして少しずつ流れてきます（ストリーミング）\n・同じチャットなら文脈も引き継がれます\n・⚙️ 設定でAPIキーを入れると、本物のClaudeがここで答えます";
 const CHAT_FOLLOWUP =
   "続けての質問ですね。同じチャットの中では、Claudeは前のやりとりを覚えたまま答えます。だから「さっきのをもっと短く」「それを英語で」のような指示が通じるんです。\n\n（体験モードのため定型の返事です。⚙️ 設定からAPIキーを入れると、この画面のまま本物のClaudeにつながります）";
 
-/* ———— Cowork ———— */
+/* ============================================================
+   Cowork
+   ============================================================ */
+export const COWORK_SUGGESTIONS = [
+  "競合3社の料金をブラウザで調べて表にして",
+  "企画書のたたき台を作って",
+  "レシートを経費一覧に整理して",
+];
+
+/* ブラウザ操作デモ: 調べる→表にまとめる、まで丸ごと任せる */
+const BROWSE_LOG =
+  "かしこまりました。ブラウザで各社のサイトを確認して、表にまとめます。\n\n🌐 ブラウザを操作中…\n ├ a-sha.example を開く → 料金ページを確認\n ├ b-sha.example を開く → プラン表を取得\n └ c-sha.example を開く → 最新価格を確認\n\n✅ 3社分そろいました。";
+const PRICE_FIGURE: FigureSpec = {
+  title: "競合3社 料金比較（月額）",
+  cards: [
+    { icon: "🔵", label: "A社", point: "月980円", note: "個人向け・機能は最小限" },
+    { icon: "🟢", label: "B社", point: "月2,480円", note: "チーム機能が充実" },
+    { icon: "🟠", label: "C社", point: "月1,480円", note: "機能と価格のバランス型" },
+  ],
+  footer: "安さのA、機能のB、バランスのC——用途で選ぶのが正解",
+};
+const BROWSE_DONE =
+  "比較表をフォルダにも保存しました。\n\nブラウザ操作じたいはチャットやコードからも使えますが、“調べる→まとめる→ファイルで残す”まで丸ごと任せるなら、Coworkが一番ラクです。\n\n（体験モードのためサンプルの調査結果です）";
+
 const coworkPlan = (task: string) =>
   `かしこまりました。「${task}」ですね。☁️ クラウド上の専用マシンで作業を始めます。アプリを閉じても作業は続きます。\n\n📋 計画\n ① 関連する資料・情報を収集\n ② たたき台を作成\n ③ 体裁を整えて仕上げ\n\n▸ ① 資料を収集中…\n   関連情報を3件チェックしました\n▸ ② たたき台を作成中…\n   構成（背景 → 本題 → まとめ → 次のアクション）で作成\n▸ ③ 体裁を整えています…`;
 const coworkArtifact = (task: string): ArtifactSpec => ({
@@ -134,44 +160,96 @@ const coworkDone = (task: string) =>
 const COWORK_FOLLOWUP =
   "追加のご注文ですね。同じタスクの続きとして、クラウド側で反映します。\n\n▸ 修正箇所を確認中…\n▸ 反映しています…\n\n✅ 更新しました。Coworkでは、こうして同じタスクに注文を重ねながら仕上げていけます。\n\n（体験モードのため定型の応答です）";
 
-/* ———— コード ———— */
+/* ============================================================
+   コード
+   ============================================================ */
+export const CODE_SUGGESTIONS = [
+  "TODOリストのWebアプリを作って",
+  "本番サイトのおみくじに“大吉演出”を足して",
+  "この手順をスキルにして",
+];
+
+/* —— TODOアプリ（新規作成の題材） —— */
 const codePlan = (task: string) =>
-  `「${task}」ですね。まずプロジェクトを確認します。\n\n● Read(プロジェクトフォルダ)\n  └ 構成を確認しました\n\n計画：\n 1. index.html にUIを追加\n 2. 動作を確認\n\nそれでは変更を提案します。`;
-const CODE_DIFF: DiffSpec = {
-  file: "index.html",
-  add: 5,
+  `「${task}」ですね。まずプロジェクトを確認します。\n\n● Read(プロジェクトフォルダ)\n  └ 構成を確認しました\n\n計画：\n 1. todo.html にUIを追加\n 2. 動作を確認\n\nそれでは変更を提案します。`;
+const TODO_DIFF: DiffSpec = {
+  file: "todo.html",
+  add: 8,
   del: 1,
   lines: [
     { t: " ", s: "<body>" },
     { t: "-", s: "  <p>準備中</p>" },
-    { t: "+", s: "  <button id=\"go\">おみくじを引く</button>" },
-    { t: "+", s: "  <p id=\"result\"></p>" },
+    { t: "+", s: "  <h2>今日やること</h2>" },
+    { t: "+", s: "  <input id=\"box\" placeholder=\"やることを入力\" />" },
+    { t: "+", s: "  <button id=\"add\">追加</button>" },
+    { t: "+", s: "  <ul id=\"list\"></ul>" },
     { t: "+", s: "  <script>" },
-    { t: "+", s: "    const R = [\"大吉\",\"中吉\",\"小吉\",\"凶\"];" },
-    { t: "+", s: "    go.onclick = () => result.textContent = R[Math.floor(Math.random()*4)];" },
+    { t: "+", s: "    add.onclick = () => { /* リストに追加 */ };" },
+    { t: "+", s: "    // 項目をクリックで完了（打ち消し線）" },
+    { t: "+", s: "  </script>" },
     { t: " ", s: "</body>" },
   ],
 };
-const CODE_ARTIFACT: ArtifactSpec = {
-  title: "index.html",
+const TODO_ARTIFACT: ArtifactSpec = {
+  title: "todo.html",
   kind: "web",
   note: "プレビューで実際に動きます",
-  html: `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>おみくじ</title><style>body{font-family:-apple-system,'Hiragino Sans',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:92vh;margin:0;background:#FAF9F5;color:#3D3929}h1{font-size:22px;letter-spacing:.1em}button{font-size:17px;padding:12px 30px;border-radius:12px;border:none;background:#D97757;color:#fff;cursor:pointer;font-weight:700}button:active{transform:scale(.97)}#result{font-size:54px;font-weight:800;min-height:80px;margin-top:22px}</style></head><body><h1>🎋 今日の運勢</h1><button id="go">おみくじを引く</button><p id="result"></p><script>const R=["大吉","中吉","小吉","末吉","凶"];go.onclick=()=>{result.textContent=R[Math.floor(Math.random()*R.length)]};</script></body></html>`,
+  html: `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TODO</title><style>body{font-family:-apple-system,'Hiragino Sans',sans-serif;max-width:420px;margin:0 auto;padding:28px 18px;background:#FAF9F5;color:#3D3929}h2{font-size:18px}form{display:flex;gap:8px}input{flex:1;padding:10px 12px;border:2px solid #3D3929;border-radius:10px;font-size:14px}button{padding:10px 18px;border:none;border-radius:10px;background:#D97757;color:#fff;font-weight:700;cursor:pointer}ul{list-style:none;padding:0}li{padding:10px 12px;background:#fff;border:2px solid #3D3929;border-radius:10px;margin-top:8px;cursor:pointer;font-size:14px}li.done{text-decoration:line-through;opacity:.45}small{color:#87826F}</style></head><body><h2>📝 今日やること</h2><form id="f"><input id="box" placeholder="やることを入力" /><button>追加</button></form><ul id="list"></ul><small>項目をクリックすると完了（もう一度で戻る）</small><script>f.onsubmit=(e)=>{e.preventDefault();const v=box.value.trim();if(!v)return;const li=document.createElement('li');li.textContent=v;li.onclick=()=>li.classList.toggle('done');list.appendChild(li);box.value='';box.focus();};</script></body></html>`,
 };
 const CODE_APPLIED =
   "✅ 変更を適用しました。\n\n動作確認のため、プレビュー用のローカルサーバーを起動します。";
 const CODE_DONE =
-  "● Bash(npx serve .)\n  └ プレビューを起動、表示OK\n\nできあがりです。成果物カードの「プレビュー」で、実際に動くページを確認できます。\n\n（体験モードのためサンプルの実装です。⚙️ 設定でAPIキーを入れると、本物のClaudeがコードまで書きます）";
+  "● Bash(npx serve .)\n  └ プレビューを起動、表示OK\n\nできあがりです。成果物カードの「プレビュー」で、実際に動くTODOリストを試せます。\n\n（体験モードのためサンプルの実装です。⚙️ 設定でAPIキーを入れると、本物のClaudeがコードまで書きます）";
 const CODE_DENY_RUN =
   "了解しました。コマンドは実行せず、変更の適用までで止めておきます。ファイルはできあがっているので、確認したくなったらいつでも実行できます。";
 const CODE_DONE_REJECT =
   "了解しました。この変更は破棄します。\n\nどのように進めましょう？ 気になった点を伝えてもらえれば、別のやり方で提案し直します。";
 const codePlanOnly = (task: string) =>
-  `Planモードなので、まず計画だけ提案します（ファイルは変更しません）。\n\n📋 「${task}」の計画\n 1. index.html にUIを追加\n 2. スタイルを調整\n 3. 動作確認して微修正\n\nこの方針でよければ、権限モードを Manual か Accept edits に切り替えて送信してください。実装に進みます。`;
+  `Planモードなので、まず計画だけ提案します（ファイルは変更しません）。\n\n📋 「${task}」の計画\n 1. todo.html にUIを追加\n 2. スタイルを調整\n 3. 動作確認して微修正\n\nこの方針でよければ、権限モードを Manual か Accept edits に切り替えて送信してください。実装に進みます。`;
 const CODE_FOLLOWUP =
-  "続きの指示ですね。同じセッションの文脈で対応します。\n\n● Edit(index.html)\n  └ ご指示を反映して6行を変更\n\n✅ 更新しました。\n\n（体験モードのため定型の応答です）";
+  "続きの指示ですね。同じセッションの文脈で対応します。\n\n● Edit(todo.html)\n  └ ご指示を反映して6行を変更\n\n✅ 更新しました。\n\n（体験モードのため定型の応答です）";
 
-/* ———— 既定のシナリオセット ———— */
+/* —— 本番公開（GitHub連携の題材） —— */
+const DEPLOY_FETCH =
+  "本番のソースを取得します。\n\n● GitHub(you/omikuji-site)\n  └ mainブランチを取得しました\n\n公開中の index.html に“大吉演出”を追加する変更を提案します。";
+const DEPLOY_DIFF: DiffSpec = {
+  file: "index.html（本番: you/omikuji-site）",
+  add: 6,
+  del: 1,
+  lines: [
+    { t: " ", s: "  <p id=\"result\"></p>" },
+    { t: "+", s: "  <p id=\"fx\"></p>" },
+    { t: " ", s: "  <script>" },
+    { t: "-", s: "    go.onclick = () => result.textContent = R[Math.floor(Math.random()*5)];" },
+    { t: "+", s: "    go.onclick = () => {" },
+    { t: "+", s: "      const r = R[Math.floor(Math.random()*5)];" },
+    { t: "+", s: "      result.textContent = r;" },
+    { t: "+", s: "      fx.textContent = r === \"大吉\" ? \"🎉🎉🎉\" : \"\";" },
+    { t: "+", s: "    };" },
+    { t: " ", s: "  </script>" },
+  ],
+};
+const DEPLOY_DONE =
+  "● Bash(git push origin main)\n  └ 本番へ反映、デプロイ完了\n\n🚀 公開しました → omikuji.example.com\n\n成果物カードから公開後のページを確認できます。大吉が出ると🎉が舞います。";
+const DEPLOY_ARTIFACT: ArtifactSpec = {
+  title: "omikuji.example.com（公開中）",
+  kind: "web",
+  note: "大吉が出ると🎉",
+  html: `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>おみくじ</title><style>body{font-family:-apple-system,'Hiragino Sans',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:92vh;margin:0;background:#FAF9F5;color:#3D3929}h1{font-size:22px;letter-spacing:.1em}button{font-size:17px;padding:12px 30px;border-radius:12px;border:none;background:#D97757;color:#fff;cursor:pointer;font-weight:700}button:active{transform:scale(.97)}#result{font-size:54px;font-weight:800;min-height:80px;margin-top:22px}#fx{font-size:30px;min-height:40px}</style></head><body><h1>🎋 今日の運勢</h1><button id="go">おみくじを引く</button><p id="result"></p><p id="fx"></p><script>const R=["大吉","中吉","小吉","末吉","凶"];go.onclick=()=>{const r=R[Math.floor(Math.random()*R.length)];result.textContent=r;fx.textContent=r==="大吉"?"🎉🎉🎉":"";};</script></body></html>`,
+};
+const DEPLOY_DENY =
+  "了解しました。公開は保留します。変更は手元に置いたままなので、いつでも公開できます。";
+
+/* —— スキル（手順の資産化） —— */
+export const SKILL_NAME = "本番公開";
+const SKILL_CREATE =
+  `今回の“本番公開”の手順をスキルにします。\n\n● Write(.claude/skills/deploy/SKILL.md)\n  └ 手順を書き出しました:\n     ① GitHub(you/omikuji-site) を取得\n     ② 変更を作成 → 承認をもらう\n     ③ git push で本番へ公開\n\n✅ スキル「/${SKILL_NAME}」を作成しました。\n次からは入力欄で「/」と打つだけで、この手順を呼び出せます。`;
+const SKILL_RUN =
+  `● Skill(/${SKILL_NAME})\n  ├ GitHub(you/omikuji-site) を取得\n  ├ 変更を適用（権限モードの設定に従います）\n  └ 本番へ公開\n\n🚀 完了。さっきは4手順かかった作業が、ひと言になりました。\n手順を貯めるほど、あなたの仕事は速くなります。`;
+
+/* ============================================================
+   既定のシナリオセット
+   ============================================================ */
 export const DEFAULT_SCENARIOS: ScenarioSet = {
   chat: ({ text, isFollowup, firstText }) => {
     /* 逆質問デモ: 雑な依頼→選択式の質問が返る→選ぶだけで企画が具体化 */
@@ -188,22 +266,66 @@ export const DEFAULT_SCENARIOS: ScenarioSet = {
     }
     return [{ type: "text", text: isFollowup ? CHAT_FOLLOWUP : CHAT_REPLIES[text] ?? CHAT_FALLBACK }];
   },
-  cowork: ({ text, isFollowup }) =>
-    isFollowup
+  cowork: ({ text, isFollowup, firstText }) => {
+    /* ブラウザ操作デモ: 調べる→その場で比較表 */
+    if (firstText === COWORK_SUGGESTIONS[0]) {
+      if (isFollowup) return [{ type: "text", text: COWORK_FOLLOWUP }];
+      return [
+        { type: "text", text: BROWSE_LOG },
+        { type: "figure", figure: PRICE_FIGURE },
+        { type: "text", text: BROWSE_DONE },
+      ];
+    }
+    return isFollowup
       ? [{ type: "text", text: COWORK_FOLLOWUP }]
       : [
           { type: "text", text: coworkPlan(text) },
           { type: "artifact", artifact: coworkArtifact(text) },
           { type: "text", text: coworkDone(text) },
-        ],
-  code: ({ text, isFollowup, permMode }) => {
+        ];
+  },
+  code: ({ text, isFollowup, firstText, permMode }) => {
+    /* スキル実行（/コマンド） */
+    if (text.startsWith("/")) {
+      return [{ type: "text", text: SKILL_RUN }];
+    }
+    /* スキル化 */
+    if (text.includes("スキルにして") || text.includes("スキル化")) {
+      return [{ type: "text", text: SKILL_CREATE }];
+    }
+    /* 本番公開（GitHub連携） */
+    if (firstText === CODE_SUGGESTIONS[1]) {
+      if (isFollowup) return [{ type: "text", text: CODE_FOLLOWUP }];
+      if (permMode === "plan") return [{ type: "text", text: codePlanOnly(text) }];
+      return [
+        { type: "text", text: DEPLOY_FETCH },
+        {
+          type: "diff",
+          diff: DEPLOY_DIFF,
+          accept: [
+            {
+              type: "approval",
+              command: "git push origin main",
+              note: "本番サイトへ公開します",
+              allow: [
+                { type: "text", text: DEPLOY_DONE },
+                { type: "artifact", artifact: DEPLOY_ARTIFACT },
+              ],
+              deny: [{ type: "text", text: DEPLOY_DENY }],
+            },
+          ],
+          reject: [{ type: "text", text: CODE_DONE_REJECT }],
+        },
+      ];
+    }
+    /* TODOアプリ（新規作成の既定フロー） */
     if (isFollowup) return [{ type: "text", text: CODE_FOLLOWUP }];
     if (permMode === "plan") return [{ type: "text", text: codePlanOnly(text) }];
     return [
       { type: "text", text: codePlan(text) },
       {
         type: "diff",
-        diff: CODE_DIFF,
+        diff: TODO_DIFF,
         accept: [
           { type: "text", text: CODE_APPLIED },
           {
@@ -212,7 +334,7 @@ export const DEFAULT_SCENARIOS: ScenarioSet = {
             note: "プレビュー用のローカルサーバーを起動します",
             allow: [
               { type: "text", text: CODE_DONE },
-              { type: "artifact", artifact: CODE_ARTIFACT },
+              { type: "artifact", artifact: TODO_ARTIFACT },
             ],
             deny: [{ type: "text", text: CODE_DENY_RUN }],
           },

@@ -121,7 +121,7 @@ const COURSE_0: Course = {
     {
       motion: "explain",
       emote: "💡",
-      text: "言っとくけど、CodeにGitHubは要らないから。フォルダ1つで始められる。公開したくなってから考えれば十分。",
+      text: "Codeは“実際に作る”モード。最初はフォルダ1つで始められる。GitHubは“本番に公開するとき”の相棒——それは公開編でやる。",
     },
     {
       motion: "explain",
@@ -155,7 +155,7 @@ const COURSE_1: Course = {
   emoji: "💬",
   title: "Chat編 — その場で終わる相談",
   minutes: 6,
-  desc: "雑に頼むと質問が返ってくる・その場で図解——ChatGPTとの体感差を味わう",
+  desc: "雑に頼むと選択肢つきの質問が返ってくる・その場で図解——他のAIとの体感差を味わう",
   steps: [
     {
       motion: "bow",
@@ -228,7 +228,7 @@ const COURSE_1: Course = {
     },
     {
       motion: "bow",
-      text: "Chat編、終わり。“雑に投げて、質問に答える。図解も頼む。話題ごとにチャットを分ける”。…飲み込み、早いじゃない。",
+      text: "Chat編、終わり。“雑に投げて、選んで答える。図解も頼む。話題ごとにチャットを分ける”。…飲み込み、早いじゃない。",
     },
   ],
 };
@@ -238,8 +238,8 @@ const COURSE_2: Course = {
   id: "cowork",
   emoji: "🤝",
   title: "Cowork編 — 貯めて進める",
-  minutes: 5,
-  desc: "フォルダを渡して仕事を任せ、成果物を受け取り、注文を重ねる",
+  minutes: 7,
+  desc: "プロジェクトに貯める・仕事を丸ごと任せる・ブラウザの調べ物ごと投げる",
   steps: [
     {
       motion: "bow",
@@ -255,6 +255,11 @@ const COURSE_2: Course = {
     },
     {
       motion: "explain",
+      emote: "📁",
+      text: "Coworkの単位は“プロジェクト”。案件ごとにフォルダを1つ。やりとりも成果物もそこに貯まって、回すほど文脈が濃くなる——2回目からどんどん楽になる仕組み。",
+    },
+    {
+      motion: "explain",
       target: "new-chat",
       text: "「＋新しいタスク」から。",
       waitFor: (e) => e.type === "newChat",
@@ -262,8 +267,7 @@ const COURSE_2: Course = {
     {
       motion: "explain",
       target: "folder",
-      emote: "📁",
-      text: "Coworkは案件ごとにフォルダを渡す。📁から選んで。初めてのフォルダは許可を聞かれるから、内容を見て許可する。",
+      text: "案件フォルダを渡す。📁から選んで。初めてのフォルダは許可を聞かれるから、中身を見て許可。",
       waitFor: (e) => e.type === "folderChange",
       onDone: { motion: "laugh", emote: "✨" },
     },
@@ -292,8 +296,30 @@ const COURSE_2: Course = {
       onDone: { motion: "laugh", emote: "💮" },
     },
     {
+      motion: "explain",
+      target: "new-chat",
+      text: "もうひとつ、Coworkの得意技を見せる。「＋新しいタスク」。",
+      waitFor: (e) => e.type === "newChat",
+    },
+    {
+      motion: "explain",
+      target: "suggest-0",
+      emote: "🌐",
+      text: "「競合3社の料金をブラウザで調べて表にして」——調べ物ごと任せる。押して。",
+      waitFor: (e) => e.type === "send" && e.tab === "cowork",
+    },
+    {
+      motion: "arms-crossed",
+      text: "ブラウザを開いて、サイトを回って、値段を拾ってる。あなたがタブを行き来してコピペする作業——あれが丸ごと消えるわけ。",
+    },
+    {
+      motion: "explain",
+      target: "figure",
+      text: "で、その場で比較表。ブラウザ操作はチャットやコードでも使えるけど、“調べて→まとめて→ファイルに残す”まで任せるなら、Coworkが一番ラク。",
+    },
+    {
       motion: "bow",
-      text: "Cowork編、終わり。フォルダごと渡す、任せる、注文する。回を重ねるほど文脈が貯まって楽になる。…いい調子。",
+      text: "Cowork編、終わり。プロジェクトに貯める、丸ごと任せる、調べ物ごと投げる。…いい調子。",
     },
   ],
 };
@@ -304,11 +330,11 @@ const COURSE_3: Course = {
   emoji: "⌨️",
   title: "Code編 — 作る・動かす",
   minutes: 7,
-  desc: "権限モードの使い分け、diff承認、コマンド許可。開発の一連を体験",
+  desc: "TODOアプリをゼロから動くまで作り切る。Plan体験・diff承認・コマンド許可",
   steps: [
     {
       motion: "bow",
-      text: "Code編。“実際に作る”モード。プログラミング未経験？関係ない。手順だけ覚えて。",
+      text: "Code編。“実際に作る”モード。今日はTODOアプリを、ゼロから動くところまで作り切る。プログラミング未経験？関係ない。",
     },
     ensurePc,
     {
@@ -327,7 +353,7 @@ const COURSE_3: Course = {
     {
       motion: "explain",
       target: "folder",
-      text: "フォルダを選ぶ。GitHub？要らないって言ったでしょ。📁から選んで。",
+      text: "フォルダを選ぶ。最初はこれだけでいい。📁から選んで。",
       waitFor: (e) => e.type === "folderChange",
       onDone: { motion: "laugh", emote: "✨" },
     },
@@ -335,19 +361,19 @@ const COURSE_3: Course = {
       motion: "explain",
       target: "perm",
       emote: "🛡️",
-      text: "Codeの安全装置、“権限モード”。まず🛡から「Plan」にして。計画だけ立てて、ファイルには触らないモード。",
+      text: "まずは慎重派の進め方から。🛡から「Plan」にして。計画だけ立てて、ファイルには触らないモード。",
       waitFor: (e) => e.type === "permChange" && e.permMode === "plan",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
-      target: "suggest-1",
+      target: "suggest-0",
       text: "そのまま「TODOリストのWebアプリを作って」を送ってみて。",
       waitFor: (e) => e.type === "send" && e.tab === "code",
     },
     {
       motion: "explain",
-      text: "ほら、計画だけ出して止まった。方針を安全に確かめたいときはこれでいい。…じゃ、実装いくよ。",
+      text: "ほら、計画だけ出して止まった。方針を安全に確かめたいときはこれでいい。…よし、実装いくよ。",
     },
     {
       motion: "explain",
@@ -359,13 +385,13 @@ const COURSE_3: Course = {
     {
       motion: "explain",
       target: "new-chat",
-      text: "「＋新しいセッション」。",
+      text: "「＋新しいセッション」。ここから本番。",
       waitFor: (e) => e.type === "newChat",
     },
     {
       motion: "explain",
       target: "suggest-0",
-      text: "本命。「おみくじアプリを作って」、送信。",
+      text: "もう一度「TODOリストのWebアプリを作って」。今度は作り切る。",
       waitFor: (e) => e.type === "send" && e.tab === "code",
     },
     {
@@ -384,24 +410,96 @@ const COURSE_3: Course = {
     {
       motion: "explain",
       target: "artifact",
-      text: "できた。成果物カードから動かしてみて。",
+      text: "できた。カードを開いて、実際に“やること”を追加してみて。項目クリックで完了線も引ける。",
       waitFor: (e) => e.type === "artifactOpen",
       onDone: { motion: "laugh", emote: "🎉" },
     },
     {
       motion: "bow",
-      text: "Code編、終わり。頼む、承認する、許可する、動く。この流れだけ。…正直、ここまで来られるとは思ってなかった。上出来。",
+      text: "Code編、終わり。頼む、承認する、許可する、動く。…次はこれを“本番に出す”。公開編で待ってる。",
     },
   ],
 };
 
-/* ———— コース4: 総まとめ「迷ったら3つの質問」 ———— */
+/* ———— コース4: 公開編「本番につなぐ」 ———— */
+const COURSE_DEPLOY: Course = {
+  id: "deploy",
+  emoji: "🚀",
+  title: "公開編 — 本番につなぐ",
+  minutes: 5,
+  desc: "GitHubの本番ソースと連携→変更を承認→git pushで本番公開、までの一本道",
+  steps: [
+    {
+      motion: "bow",
+      text: "公開編。作ったものを、世界に出すところまでやる。——ここでGitHubの出番。",
+    },
+    ensurePc,
+    {
+      motion: "explain",
+      target: "tab-code",
+      text: "「コード」タブに切り替えて。",
+      waitFor: (e) => e.type === "tabChange" && e.tab === "code",
+      skipIf: (ctx) => ctx.tab === "code",
+    },
+    {
+      motion: "explain",
+      target: "new-chat",
+      text: "「＋新しいセッション」。",
+      waitFor: (e) => e.type === "newChat",
+    },
+    {
+      motion: "explain",
+      emote: "💡",
+      text: "本番のソース置き場——それがGitHub。Codeはリポジトリと直接つながって、“公開中のファイル”を相手に仕事ができる。",
+    },
+    {
+      motion: "explain",
+      target: "env",
+      text: "実行環境を🖥チップから「リモート」に。本番まわりはクラウド側でやるのが定石。",
+      waitFor: (e) => e.type === "envChange" && e.env === "remote",
+      onDone: { motion: "laugh", emote: "✨" },
+    },
+    {
+      motion: "explain",
+      target: "suggest-1",
+      text: "「本番サイトのおみくじに“大吉演出”を足して」、送信。",
+      waitFor: (e) => e.type === "send" && e.tab === "code",
+    },
+    {
+      motion: "arms-crossed",
+      target: "accept",
+      text: "本番のソースを取得して、差分が来た。相手は“公開中”のファイル。だから必ず中身を見て——よければ「✓ Accept」。",
+      waitFor: (e) => e.type === "diffResolved",
+      onDone: { motion: "laugh", emote: "✨" },
+    },
+    {
+      motion: "explain",
+      target: "approve",
+      text: "`git push`——これが本番公開の瞬間。ここも許可制。「✓ 許可する」。",
+      waitFor: (e) => e.type === "approvalResolved",
+      onDone: { motion: "laugh", emote: "🎉" },
+    },
+    {
+      motion: "explain",
+      target: "artifact",
+      text: "公開された。カードを開いて、大吉が出るまで引いてみて。",
+      waitFor: (e) => e.type === "artifactOpen",
+      onDone: { motion: "laugh", emote: "🎉" },
+    },
+    {
+      motion: "bow",
+      text: "連携、承認、公開。本番までの一本道、通ったね。…この手順、総まとめで“資産”にするよ。",
+    },
+  ],
+};
+
+/* ———— コース5: 総まとめ「3つの質問と、手順の資産化」 ———— */
 const COURSE_4: Course = {
   id: "matome",
   emoji: "🧭",
-  title: "総まとめ — 迷ったら3つの質問",
-  minutes: 2,
-  desc: "どのモードを使うか迷ったときの判断軸を最終確認",
+  title: "総まとめ — 3つの質問とskill",
+  minutes: 4,
+  desc: "判断軸の最終確認と、手順をスキル化して「/」で呼び出す体験",
   steps: [
     {
       motion: "bow",
@@ -410,27 +508,69 @@ const COURSE_4: Course = {
     {
       motion: "explain",
       emote: "1️⃣",
-      text: "質問その1。“その場で終わる相談？”ならChat。ChatGPTと同じ感覚でいい。ただ、向こうから逆質問と図解が返ってくるのはこっちだけ。",
+      text: "質問その1。“その場で終わる相談？”ならChat。——ちなみに逆質問も図解も、Chat専用じゃない。CoworkでもCodeでも返ってくる。Chatは一番身軽な入口ってこと。",
     },
     {
       motion: "explain",
       emote: "2️⃣",
-      text: "質問その2。“続きがある？情報を貯めたい？”ならCowork。案件フォルダを渡して、成果物とやりとりを積んでいく。",
+      text: "質問その2。“続きがある？情報を貯めたい？”ならCowork。案件フォルダに成果物とやりとりを積んで、ブラウザの調べ物ごと任せる。",
     },
     {
       motion: "explain",
       emote: "3️⃣",
-      text: "質問その3。“作る？動かす？”ならCode。GitHubなしで始めて、承認制で安全に。動くものが手に入る。",
+      text: "質問その3。“作る？動かす？”ならCode。フォルダから始めて、本番に出すときはGitHubと連携。承認制だから安全。",
     },
     {
       motion: "explain",
       emote: "💡",
-      text: "おまけ。一度やった手順は“skill”にしておくと、次から一言で再現できる。手順は資産。貯めなさい。",
+      text: "最後に、一番大事なやつ。公開編でやった“本番公開”の手順——あれを資産にする。",
+    },
+    ensurePc,
+    {
+      motion: "explain",
+      target: "tab-code",
+      text: "「コード」タブへ。",
+      waitFor: (e) => e.type === "tabChange" && e.tab === "code",
+      skipIf: (ctx) => ctx.tab === "code",
+    },
+    {
+      motion: "explain",
+      target: "new-chat",
+      text: "「＋新しいセッション」。",
+      waitFor: (e) => e.type === "newChat",
+    },
+    {
+      motion: "explain",
+      target: "suggest-2",
+      text: "「この手順をスキルにして」、送信。",
+      waitFor: (e) => e.type === "send" && e.tab === "code",
+      onDone: { motion: "laugh", emote: "✨" },
+    },
+    {
+      motion: "explain",
+      text: "スキルができた。手順書が“実行できる形”で保存された、と思えばいい。",
+    },
+    {
+      motion: "explain",
+      target: "new-chat",
+      text: "新しいセッションで試す。「＋新しいセッション」。",
+      waitFor: (e) => e.type === "newChat",
+    },
+    {
+      motion: "explain",
+      target: "input",
+      text: "入力欄に「/」とだけ打ってみて。さっき作ったスキルが出てくるから、選んで実行。",
+      waitFor: (e) => e.type === "send" && e.text.startsWith("/"),
+      onDone: { motion: "laugh", emote: "🎉" },
+    },
+    {
+      motion: "explain",
+      text: "4手順が、ひと言になった。手順は貯めるほど、あなたが速くなる。これが“skill”。",
     },
     {
       motion: "explain",
       emote: "🚀",
-      text: "ここから先は本物。claude.aiから無料で始められる。CoworkとCodeは、デスクトップアプリと有料プランで解放されていく。",
+      text: "ここから先は本物。claude.aiから無料で始められる。CoworkやCodeは、デスクトップアプリと有料プランで解放されていく。",
     },
     {
       motion: "explain",
@@ -444,4 +584,4 @@ const COURSE_4: Course = {
   ],
 };
 
-export const COURSES: Course[] = [COURSE_0, COURSE_1, COURSE_2, COURSE_3, COURSE_4];
+export const COURSES: Course[] = [COURSE_0, COURSE_1, COURSE_2, COURSE_3, COURSE_DEPLOY, COURSE_4];
