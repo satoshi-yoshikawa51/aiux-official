@@ -265,6 +265,12 @@ const COURSE_2: Course = {
     },
     {
       motion: "explain",
+      target: "artifact-close",
+      text: "読めた？なら「×」で閉じて。次にいくよ。",
+      waitFor: (e) => e.type === "artifactClose",
+    },
+    {
+      motion: "explain",
       target: "input",
       text: "注文もつけられる。「もっと短く」って送って。…ここの返事は台本ね。本物は注文どおりに直してくる。",
       waitFor: (e) => e.type === "send" && e.tab === "cowork",
@@ -433,6 +439,12 @@ const COURSE_DEPLOY: Course = {
       text: "公開された。カードを開いて、大吉が出るまで引いてみて。",
       waitFor: (e) => e.type === "artifactOpen",
       onDone: { motion: "laugh", emote: "🎉" },
+    },
+    {
+      motion: "explain",
+      target: "artifact-close",
+      text: "遊んだ？なら「×」で閉じて。仕上げがある。",
+      waitFor: (e) => e.type === "artifactClose",
     },
     {
       motion: "explain",

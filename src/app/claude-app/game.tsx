@@ -204,6 +204,7 @@ export type SimEvent =
   | { type: "diffResolved"; chatId: number; accepted: boolean }
   | { type: "approvalResolved"; chatId: number; allowed: boolean }
   | { type: "artifactOpen"; title: string }
+  | { type: "artifactClose" }
   | { type: "scenarioDone"; tab: Tab; chatId: number }
   | { type: "apiMode"; on: boolean };
 
@@ -825,7 +826,15 @@ export function ClaudeAppSim({
       {repoAsk && <RepoDialog repo={repoAsk} onResolve={grantRepo} />}
 
       {/* —— 成果物プレビュー —— */}
-      {viewArtifact && <ArtifactModal artifact={viewArtifact} onClose={() => setViewArtifact(null)} />}
+      {viewArtifact && (
+        <ArtifactModal
+          artifact={viewArtifact}
+          onClose={() => {
+            setViewArtifact(null);
+            emit({ type: "artifactClose" });
+          }}
+        />
+      )}
 
       {/* —— 設定モーダル —— */}
       {settings && (
@@ -935,7 +944,7 @@ function ArtifactModal({ artifact, onClose }: { artifact: ArtifactSpec; onClose:
           <span style={{ fontSize: 17 }}>{icon}</span>
           <span style={{ fontWeight: 800, fontSize: 13.5, color: C.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{artifact.title}</span>
           {artifact.kind === "web" && <span style={{ fontSize: 10.5, color: C.sub, fontWeight: 700, flexShrink: 0 }}>実際に動きます</span>}
-          <button onClick={onClose} aria-label="閉じる" style={{ marginLeft: "auto", border: "none", background: "transparent", fontSize: 20, cursor: "pointer", color: C.sub }}>
+          <button onClick={onClose} aria-label="閉じる" data-guide="artifact-close" style={{ marginLeft: "auto", border: "none", background: "transparent", fontSize: 20, cursor: "pointer", color: C.sub }}>
             ×
           </button>
         </div>
