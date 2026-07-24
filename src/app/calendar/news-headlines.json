@@ -1,14 +1,90 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-23T22:34:34.174Z",
+  "updatedAt": "2026-07-24T22:39:08.201Z",
   "items": [
+    {
+      "title": "Anthropic launches Opus 5",
+      "url": "https://techcrunch.com/2026/07/24/anthropic-launches-opus-5/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-24T17:00:00.000Z",
+      "titleJa": "Anthropic が Opus 5 を発売",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/Screenshot-2026-07-24-at-12.47.38-PM.jpg?w=1166"
+    },
+    {
+      "title": "Anthropic、「Claude Opus 5」発表 Fable 5級の性能を半額で",
+      "url": "https://ascii.jp/elem/000/004/422/4422202/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-24T21:25:00.000Z",
+      "image": "https://ascii.jp/img/2026/07/25/4505242/xl/7a6e6bda3088f32e.jpg?20200122"
+    },
+    {
+      "title": "NVIDIAジェンスン・ファンCEO、X初投稿で「オープンウェイトAI」支持を表明 25社・団体の共同書簡を公開",
+      "url": "https://ascii.jp/elem/000/004/422/4422201/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-24T21:15:00.000Z",
+      "image": "https://ascii.jp/img/2026/07/25/4505241/xl/2a940e65f6d783cc.png?20200122"
+    },
+    {
+      "title": "AIにもサプライチェーン管理が必要？ 中国AI「Kimi K3」を巡る批判でAIの調達リスクが浮き彫りに",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2607/24/news054.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-24T08:30:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2607/24/cover_news054.jpg"
+    },
+    {
+      "title": "メルカリ、「AI活用の最前線」明かす動画公開 「なぜCTOがCHRO兼CAIOになったのか」など13本",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/24/2000000220/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-24T06:23:26.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/24/2000000220/10001070/2048"
+    },
+    {
+      "title": "ChatGPTの助言で命の危機に、米男性がOpenAIを提訴",
+      "url": "https://japan.cnet.com/article/35250944/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-24T03:11:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/07/24/badf79d5e221a501055554d28a6574e0/28161034-f658-4d9b-b722-acaee7617ca0_1280x960.jpg"
+    },
+    {
+      "title": "三菱UFJ、AI活用を軸に顧客対応改革--CTCが次世代コンタクトセンター構想を支援",
+      "url": "https://japan.zdnet.com/article/35250925/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-24T01:26:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/03/14/a25fe1e52d5e49bbc3d9ad2d9d95b0ce/250314_operator_as_1280_353291589.jpeg"
+    },
+    {
+      "title": "「ChatGPT ヘルスケア」が米国で公開、さっそく医療相談してみた感想",
+      "url": "https://japan.cnet.com/article/35250937/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-24T01:18:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/07/24/e1de463f2713bdb5129a1c71a9c2580f/AdobeStock_1222100866_1280x960.jpeg"
+    },
+    {
+      "title": "【Claude Code活用特集】あの会社で一番使われてるSkillsは？Claude Codeの利用Skills Top5を大公開！ | Findy AI+",
+      "url": "https://lp.ai-plus.findy.io/articles/claude-code-skills-top5/",
+      "source": "lp.ai-plus.findy.io",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 128,
+      "date": "2026-07-24T00:05:45.000Z",
+      "image": "https://lp.ai-plus.findy.io/articles/claude-code-skills-top5/hero.png"
+    },
     {
       "title": "Meta launched a new AI optimism ad set to a song about human extinction",
       "url": "https://techcrunch.com/2026/07/23/meta-launched-a-new-ai-optimism-ad-set-to-a-song-about-human-extinction/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-07-23T16:28:50.000Z",
-      "titleJa": "Meta は人類滅亡についての歌に合わせた新しい AI 楽観主義広告を開始しました"
+      "titleJa": "Meta は人類滅亡についての歌に合わせた新しい AI 楽観主義広告を開始しました",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-1353760073.jpg?resize=1200,800"
     },
     {
       "title": "AI chip startup Etched defies skeptics, hits $10.3B valuation from big-name investors",
@@ -20,103 +96,29 @@
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/Etched-co-founder-COO-Robert-Wachen.jpg?resize=1200,1200"
     },
     {
-      "title": "Google’s Gemini nears billion-user milestone",
-      "url": "https://techcrunch.com/2026/07/23/google-closes-in-on-another-billion-user-product-with-gemini/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-23T14:52:44.000Z",
-      "titleJa": "Google の Gemini が 10 億ユーザーのマイルストーンに近づく",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
-    },
-    {
-      "title": "Apple’s OpenAI lawsuit is about who gets to define the post-smartphone era",
-      "url": "https://www.theverge.com/podcast/968787/apple-openai-trade-secrets-lawsuit-ai-hardware-smartphone-jony-ive",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-23T14:00:00.000Z",
-      "titleJa": "AppleのOpenAI訴訟はポストスマートフォン時代を誰が定義するかについて争っている",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/DCD_0724_OpenAI_suit.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "NECPC、法人向けPCブランドを「LAVIE」に統合--AI PC全7機種を投入",
-      "url": "https://japan.zdnet.com/article/35250911/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-23T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/07/23/15c044d820919ad448a9c023dae4040f/260723_nec_l.jpg"
-    },
-    {
-      "title": "「SaaSの終わり」は誇張？ AI時代のソフトウェア企業の生き残り戦略",
-      "url": "https://japan.zdnet.com/article/35250767/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-23T21:15:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/07/20/37d667b9f9db6b3a7b905c15fb511a78/the-saas-apocalypse-is-overrated-how-workday-and-other-software-provders-plan-to-survive-ai_l.jpg"
-    },
-    {
-      "title": "三井不動産がデータセンターに6000億円超投資、物流の枠超え「産業デベロッパー」へ",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2607/24/news046.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-23T21:15:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2607/24/cover_news046.jpg"
-    },
-    {
-      "title": "次世代AIサーバーの導入に立ちはだかる法規制、DC事業者間で見解に温度差も",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03694/072200004/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-07-23T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03694/072200004/topm.jpg?20220512"
-    },
-    {
-      "title": "PwCコンサルティング、フィジカルAI人材の育成プログラムを開始--年間で1000人規模の育成を目指す",
-      "url": "https://japan.zdnet.com/article/35250881/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-23T05:51:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/03/17/05d4257d2a795da2665b7b6e977934d2/250317_worker_as_1280_8707039.jpeg"
-    },
-    {
-      "title": "WasabiとMegaportが提携--次世代のAIおよびクラウドインフラを推進",
-      "url": "https://japan.zdnet.com/article/35250888/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-23T05:04:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/01/27/879a24eb68e6541c77d199155c96fcf0/250127_handshake_as_1280_1012836319.jpeg"
-    },
-    {
-      "title": "AMD commits up to $5 billion to Anthropic",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/969285/amd-anthropic-ai-infrastructure-deal",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-22T14:44:27.000Z",
-      "titleJa": "AMD、Anthropic に最大 50 億ドルをコミット",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/03/acastro_STK081_amd_02.jpg.webp?quality=90&strip=all&crop=0,10.654292878952,100,78.691414242097"
-    },
-    {
-      "title": "Umiosが販売計画をAIで自動化 時系列基盤モデル採用で精度95％",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/071301465/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-07-22T22:05:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/071301465/topm.jpg?20220512"
-    },
-    {
-      "title": "AMDとAnthropicが戦略的提携 「Helios」を最大2GW導入、最大50億ドルの出資も",
-      "url": "https://www.itmedia.co.jp/news/articles/2607/23/news063.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-22T21:55:00.000Z",
-      "image": "https://image.itmedia.co.jp/news/articles/2607/23/cover_news063.jpg"
-    },
-    {
-      "title": "OpenAI and Hugging Face partner to address security incident during model evaluation",
-      "url": "https://openai.com/index/hugging-face-model-evaluation-security-incident",
+      "title": "Launching Health in ChatGPT",
+      "url": "https://openai.com/index/health-in-chatgpt",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-07-21T07:00:00.000Z",
-      "titleJa": "OpenAI と Hugging Face が提携してモデル評価中のセキュリティ インシデントに対処"
+      "date": "2026-07-23T00:00:00.000Z",
+      "titleJa": "ChatGPT でヘルスを起動する"
+    },
+    {
+      "title": "3 Google updates from Galaxy Unpacked 2026",
+      "url": "https://blog.google/products-and-platforms/platforms/android/galaxy-unpacked-2026/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-07-22T13:00:00.000Z",
+      "titleJa": "Galaxy Unpacked 2026 からの 3 つの Google アップデート",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Blog_Header_Social_share_1920x1080_Opt_1.width-1300.png"
+    },
+    {
+      "title": "Introducing OpenAI Presence",
+      "url": "https://openai.com/index/introducing-openai-presence",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-07-22T05:30:00.000Z",
+      "titleJa": "OpenAI プレゼンスの紹介"
     }
   ]
 }
