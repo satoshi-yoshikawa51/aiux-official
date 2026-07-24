@@ -138,14 +138,29 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     let alive = true;
     AsyncStorage.getItem(KEY)
       .then((raw) => {
-        if (!alive) return;
-        if (raw) {
-          try {
-            setState({ ...EMPTY, ...(JSON.parse(raw) as ProgressState) });
-          } catch {
-            /* 壊れていたら初期状態で続行する（遊びには支障がない） */
+        if (!alive || !raw) return;
+        let loaded: ProgressState;
+        try {
+          loaded = { ...EMPTY, ...(JSON.parse(raw) as ProgressState) };
+        } catch {
+          /* 壊れていたら初期状態で続行する（遊びには支障がない） */
+          return;
+        }
+        /* 起動時にもバッジ判定を回す。
+           アップデートでバッジを増やしたとき、条件を満たしている既存ユーザーが
+           「次にレッスンを終えるまで貰えない」状態にならないようにするため。 */
+        const now = Date.now();
+        const badges = { ...loaded.badges };
+        let added = false;
+        for (const id of evaluateBadges(loaded)) {
+          if (!badges[id]) {
+            badges[id] = now;
+            added = true;
           }
         }
+        const next = added ? { ...loaded, badges } : loaded;
+        setState(next);
+        if (added) AsyncStorage.setItem(KEY, JSON.stringify(next)).catch(() => {});
       })
       .finally(() => alive && setReady(true));
     return () => {
