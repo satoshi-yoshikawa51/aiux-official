@@ -384,14 +384,8 @@ const COURSE_3: Course = {
     },
     {
       motion: "explain",
-      target: "new-chat",
-      text: "「＋新しいセッション」。ここから本番。",
-      waitFor: (e) => e.type === "newChat",
-    },
-    {
-      motion: "explain",
-      target: "suggest-0",
-      text: "もう一度「TODOリストのWebアプリを作って」。今度は作り切る。",
+      target: "input",
+      text: "計画はさっきのでOK。同じセッションのまま続きをやる。入力欄に「進めて」と送って。",
       waitFor: (e) => e.type === "send" && e.tab === "code",
     },
     {
@@ -426,8 +420,8 @@ const COURSE_DEPLOY: Course = {
   id: "deploy",
   emoji: "🚀",
   title: "公開編 — 本番につなぐ",
-  minutes: 5,
-  desc: "GitHubの本番ソースと連携→変更を承認→git pushで本番公開、までの一本道",
+  minutes: 7,
+  desc: "GitHubと連携→承認→git pushで本番公開。仕上げに手順をスキル化して「/」ひと言で再実行",
   steps: [
     {
       motion: "bow",
@@ -450,19 +444,27 @@ const COURSE_DEPLOY: Course = {
     {
       motion: "explain",
       emote: "💡",
-      text: "本番のソース置き場——それがGitHub。Codeはリポジトリと直接つながって、“公開中のファイル”を相手に仕事ができる。",
+      text: "本番のソース置き場——それがGitHub。Codeはリポジトリと連携して、“公開中のファイル”を相手に仕事ができる。",
     },
     {
       motion: "explain",
       target: "env",
-      text: "実行環境を🖥チップから「リモート」に。本番まわりはクラウド側でやるのが定石。",
+      text: "まず実行環境を🖥チップから「リモート」に。本番まわりはクラウド側でやるのが定石。",
       waitFor: (e) => e.type === "envChange" && e.env === "remote",
       onDone: { motion: "laugh", emote: "✨" },
     },
     {
       motion: "explain",
+      target: "repo",
+      emote: "🐙",
+      text: "そして肝心の連携。🐙チップから「omikuji-site」を選んで。初回はGitHub連携の確認が出るから、内容を見て連携する。",
+      waitFor: (e) => e.type === "repoChange",
+      onDone: { motion: "laugh", emote: "✨" },
+    },
+    {
+      motion: "explain",
       target: "suggest-1",
-      text: "「本番サイトのおみくじに“大吉演出”を足して」、送信。",
+      text: "繋がった。じゃあ「本番サイトのおみくじに“大吉演出”を足して」、送信。",
       waitFor: (e) => e.type === "send" && e.tab === "code",
     },
     {
@@ -487,8 +489,41 @@ const COURSE_DEPLOY: Course = {
       onDone: { motion: "laugh", emote: "🎉" },
     },
     {
+      motion: "explain",
+      emote: "💡",
+      text: "最後にもうひとつ。いまやった一連——取得、承認、公開。この手順、毎回やるのは面倒でしょ。だから“資産”にする。",
+    },
+    {
+      motion: "explain",
+      target: "input",
+      text: "このセッションのまま、入力欄に「この手順をスキルにして」と送って。いまの作業を見てたClaudeが、手順を書き出してくれる。",
+      waitFor: (e) => e.type === "send" && e.tab === "code" && e.text.includes("スキル"),
+      onDone: { motion: "laugh", emote: "✨" },
+    },
+    {
+      motion: "explain",
+      text: "スキルができた。手順書が“実行できる形”で保存された、と思えばいい。",
+    },
+    {
+      motion: "explain",
+      target: "new-chat",
+      text: "威力を試す。「＋新しいセッション」。",
+      waitFor: (e) => e.type === "newChat",
+    },
+    {
+      motion: "explain",
+      target: "input",
+      text: "入力欄に「/」とだけ打ってみて。さっきのスキルが出てくるから、選んで実行。",
+      waitFor: (e) => e.type === "send" && e.text.startsWith("/"),
+      onDone: { motion: "laugh", emote: "🎉" },
+    },
+    {
+      motion: "explain",
+      text: "4手順が、ひと言になった。手順は貯めるほど、あなたが速くなる——これが“skill”。",
+    },
+    {
       motion: "bow",
-      text: "連携、承認、公開。本番までの一本道、通ったね。…この手順、総まとめで“資産”にするよ。",
+      text: "公開編、終わり。連携、承認、公開、そして資産化。…フルコースだったね。上出来。",
     },
   ],
 };
@@ -497,9 +532,9 @@ const COURSE_DEPLOY: Course = {
 const COURSE_4: Course = {
   id: "matome",
   emoji: "🧭",
-  title: "総まとめ — 3つの質問とskill",
-  minutes: 4,
-  desc: "判断軸の最終確認と、手順をスキル化して「/」で呼び出す体験",
+  title: "総まとめ — 迷ったら3つの質問",
+  minutes: 2,
+  desc: "どのモードを使うか迷ったときの判断軸を最終確認して、本物へ",
   steps: [
     {
       motion: "bow",
@@ -523,49 +558,7 @@ const COURSE_4: Course = {
     {
       motion: "explain",
       emote: "💡",
-      text: "最後に、一番大事なやつ。公開編でやった“本番公開”の手順——あれを資産にする。",
-    },
-    ensurePc,
-    {
-      motion: "explain",
-      target: "tab-code",
-      text: "「コード」タブへ。",
-      waitFor: (e) => e.type === "tabChange" && e.tab === "code",
-      skipIf: (ctx) => ctx.tab === "code",
-    },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "「＋新しいセッション」。",
-      waitFor: (e) => e.type === "newChat",
-    },
-    {
-      motion: "explain",
-      target: "suggest-2",
-      text: "「この手順をスキルにして」、送信。",
-      waitFor: (e) => e.type === "send" && e.tab === "code",
-      onDone: { motion: "laugh", emote: "✨" },
-    },
-    {
-      motion: "explain",
-      text: "スキルができた。手順書が“実行できる形”で保存された、と思えばいい。",
-    },
-    {
-      motion: "explain",
-      target: "new-chat",
-      text: "新しいセッションで試す。「＋新しいセッション」。",
-      waitFor: (e) => e.type === "newChat",
-    },
-    {
-      motion: "explain",
-      target: "input",
-      text: "入力欄に「/」とだけ打ってみて。さっき作ったスキルが出てくるから、選んで実行。",
-      waitFor: (e) => e.type === "send" && e.text.startsWith("/"),
-      onDone: { motion: "laugh", emote: "🎉" },
-    },
-    {
-      motion: "explain",
-      text: "4手順が、ひと言になった。手順は貯めるほど、あなたが速くなる。これが“skill”。",
+      text: "そして忘れちゃいけないのが“skill”。公開編でやったでしょ——手順をスキルにして、次からは「/」ひと言。手順は貯めるほど、あなたが速くなる。",
     },
     {
       motion: "explain",

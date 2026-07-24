@@ -30,7 +30,20 @@ function Highlight({ target, scope }: { target: string; scope?: string }) {
     const sel = `${scope ? `${scope} ` : ""}[data-guide="${target}"]`;
     const update = () => {
       const el = document.querySelector(sel);
-      setRect(el ? el.getBoundingClientRect() : null);
+      if (!el) {
+        setRect(null);
+        return;
+      }
+      const r = el.getBoundingClientRect();
+      /* 対象がドロップダウンやダイアログに覆われている間は枠を隠す
+         （枠がポップアップの上に重なって挙動がおかしく見えるのを防ぐ）。
+         ハイライト自身は pointer-events:none なので elementFromPoint に映らない */
+      const probe = document.elementFromPoint(
+        r.left + r.width / 2,
+        r.top + Math.min(r.height / 2, 24),
+      );
+      const covered = probe !== null && probe !== el && !el.contains(probe) && !probe.contains(el);
+      setRect(covered ? null : r);
     };
     update();
     const timer = setInterval(update, 250); // 要素の出現・内部スクロールに追従

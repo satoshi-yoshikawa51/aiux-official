@@ -37,6 +37,7 @@ import {
   SKILL_NAME,
   DEFAULT_SCENARIOS,
   type ArtifactSpec,
+  type BrowseSite,
   type ChoiceGroup,
   type DiffSpec,
   type FigureSpec,
@@ -94,6 +95,12 @@ const FOLDERS: { id: string; name: string; desc: string }[] = [
   { id: "~/デスクトップ/営業資料", name: "営業資料", desc: "~/デスクトップ/営業資料" },
   { id: "~/書類/経費精算", name: "経費精算", desc: "~/書類/経費精算" },
   { id: "~/projects/my-app", name: "my-app", desc: "~/projects/my-app" },
+];
+
+/* ———— GitHubリポジトリ候補（コードタブの連携メニュー） ———— */
+const REPOS: { id: string; name: string; desc: string }[] = [
+  { id: "you/omikuji-site", name: "omikuji-site", desc: "本番公開中のおみくじサイト" },
+  { id: "you/company-hp", name: "company-hp", desc: "会社ホームページ" },
 ];
 
 /* ———— タブ（上部中央） ———— */
@@ -170,6 +177,7 @@ interface Msg {
   artifact?: ArtifactSpec; // 成果物カード（プレビュー可能）
   choices?: Choices; // 選択式の質問（AskUserQuestion風）
   figure?: FigureSpec; // チャット内に直接描画する図解ブロック
+  browse?: BrowseSite[]; // Coworkのブラウザ操作画面（自動で巡回）
   error?: boolean;
   raw?: unknown; // APIモード：返答のcontentブロック（再送用にそのまま保持）
 }
@@ -191,6 +199,7 @@ export type SimEvent =
   | { type: "permChange"; permMode: PermMode }
   | { type: "envChange"; env: EnvId }
   | { type: "folderChange"; folder: string }
+  | { type: "repoChange"; repo: string }
   | { type: "diffResolved"; chatId: number; accepted: boolean }
   | { type: "approvalResolved"; chatId: number; allowed: boolean }
   | { type: "artifactOpen"; title: string }
@@ -232,13 +241,15 @@ export function ClaudeAppSim({
   const [busyChat, setBusyChat] = React.useState<number | null>(null);
   const busy = busyChat !== null;
   const [drawer, setDrawer] = React.useState(false);
-  const [menu, setMenu] = React.useState<"model" | "perm" | "env" | "folder" | null>(null);
+  const [menu, setMenu] = React.useState<"model" | "perm" | "env" | "folder" | "repo" | null>(null);
   const [settings, setSettings] = React.useState(false);
   const [apiKey, setApiKey] = React.useState("");
   const [saveKey, setSaveKey] = React.useState(false);
   const [apiMode, setApiMode] = React.useState(false);
   const [toast, setToast] = React.useState<string | null>(null);
   const [trustAsk, setTrustAsk] = React.useState<string | null>(null); // フォルダ許可ダイアログ
+  const [repo, setRepo] = React.useState<string | null>(null); // 連携中のGitHubリポジトリ
+  const [repoAsk, setRepoAsk] = React.useState<string | null>(null); // GitHub連携ダイアログ
   const [viewArtifact, setViewArtifact] = React.useState<ArtifactSpec | null>(null); // 成果物プレビュー
   const [skills, setSkills] = React.useState<string[]>([]); // 作成済みスキル（/で呼び出し）
 
@@ -249,6 +260,7 @@ export function ClaudeAppSim({
   const toastTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingRef = React.useRef(new Map<number, { yes: Step[]; no: Step[] }>()); // 承認待ちの続き
   const trustedRef = React.useRef(new Set<string>()); // アクセス許可済みフォルダ
+  const linkedRef = React.useRef(new Set<string>()); // 連携済みGitHubリポジトリ
   const onEventRef = React.useRef(onEvent);
   onEventRef.current = onEvent;
   const emit = (e: SimEvent) => onEventRef.current?.(e);
@@ -345,6 +357,25 @@ export function ClaudeAppSim({
     notify(`📁 「${path}」へのアクセスを許可しました`);
     emit({ type: "folderChange", folder: path });
   };
+  /* GitHubリポジトリ選択 → 初回は「連携」確認ダイアログを挟む */
+  const pickRepo = (id: string) => {
+    setMenu(null);
+    if (linkedRef.current.has(id)) {
+      setRepo(id);
+      emit({ type: "repoChange", repo: id });
+      return;
+    }
+    setRepoAsk(id);
+  };
+  const grantRepo = (ok: boolean) => {
+    const id = repoAsk;
+    setRepoAsk(null);
+    if (!ok || !id) return;
+    linkedRef.current.add(id);
+    setRepo(id);
+    notify(`🐙 GitHub「${id}」と連携しました`);
+    emit({ type: "repoChange", repo: id });
+  };
 
   /* —— メッセージ更新ヘルパ —— */
   const patchLast = (chatId: number, patch: (m: Msg) => Msg) => {
@@ -409,7 +440,14 @@ export function ClaudeAppSim({
       /* 体験モード：シナリオ（Step列）を再生。承認待ちのときは
          runSteps内でbusyが解除され、続きはresolvePendingが再開する */
       const gen = ++genRef.current;
-      const steps = scen[kind]({ text, isFollowup, firstText: history[0]?.text ?? text, permMode, folder });
+      const steps = scen[kind]({
+        text,
+        isFollowup,
+        firstText: history[0]?.text ?? text,
+        userTurns: history.filter((m) => m.role === "user").length,
+        permMode,
+        folder,
+      });
       await new Promise((r) => setTimeout(r, 500));
       await runSteps(chatId, kind, steps, gen, true);
     }
@@ -445,6 +483,11 @@ export function ClaudeAppSim({
         /* チャット内図解: 返信の一部としてそのまま描画される */
         await new Promise((r) => setTimeout(r, 350));
         place({ role: "assistant", text: step.text ?? "", figure: step.figure });
+      } else if (step.type === "browse") {
+        /* ブラウザ操作画面: 巡回アニメーションが終わるのを待ってから次へ */
+        await new Promise((r) => setTimeout(r, 350));
+        place({ role: "assistant", text: "", browse: step.sites });
+        await new Promise((r) => setTimeout(r, step.sites.length * 2000 + 800));
       } else if (step.type === "diff") {
         /* Manual / Plan は承認待ち。Accept edits / Auto は自動承認して続行 */
         const wait = permMode === "manual" || permMode === "plan";
@@ -614,12 +657,14 @@ export function ClaudeAppSim({
     permMode,
     env,
     folder,
+    repo,
     menu,
     setMenu,
     pickModel,
     pickPerm,
     pickEnv,
     pickFolder,
+    pickRepo,
     input,
     setInput,
     send,
@@ -768,6 +813,9 @@ export function ClaudeAppSim({
       {/* —— フォルダのアクセス許可ダイアログ —— */}
       {trustAsk && <TrustDialog folder={trustAsk} onResolve={grantFolder} />}
 
+      {/* —— GitHub連携ダイアログ —— */}
+      {repoAsk && <RepoDialog repo={repoAsk} onResolve={grantRepo} />}
+
       {/* —— 成果物プレビュー —— */}
       {viewArtifact && <ArtifactModal artifact={viewArtifact} onClose={() => setViewArtifact(null)} />}
 
@@ -809,6 +857,44 @@ function TrustDialog({ folder, onResolve }: { folder: string; onResolve: (ok: bo
             style={{ flex: 1, padding: "10px 0", borderRadius: 10, border: "none", cursor: "pointer", background: C.accent, color: "#fff", fontWeight: 800, fontSize: 13, fontFamily: "inherit" }}
           >
             許可する
+          </button>
+          <button
+            onClick={() => onResolve(false)}
+            style={{ flex: 1, padding: "10px 0", borderRadius: 10, border: `1.5px solid ${C.line}`, cursor: "pointer", background: "transparent", color: C.ink, fontWeight: 800, fontSize: 13, fontFamily: "inherit" }}
+          >
+            キャンセル
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   GitHub連携ダイアログ — 本物のアプリで初めてリポジトリと
+   連携するときの確認（GitHub認証→リポジトリ許可）を再現
+   ============================================================ */
+function RepoDialog({ repo, onResolve }: { repo: string; onResolve: (ok: boolean) => void }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+      <div onClick={() => onResolve(false)} style={{ position: "absolute", inset: 0, background: "rgba(30,26,18,.5)" }} />
+      <div
+        className="game-in"
+        style={{ position: "relative", width: "min(400px, 100%)", background: C.bg, color: C.ink, border: `1px solid ${C.line}`, borderRadius: 16, boxShadow: "0 18px 50px rgba(0,0,0,.3)", padding: 22 }}
+      >
+        <div style={{ fontSize: 30, marginBottom: 8 }}>🐙</div>
+        <div style={{ fontWeight: 800, fontSize: 15.5, marginBottom: 8 }}>GitHubリポジトリと連携しますか？</div>
+        <div style={{ fontFamily: MONO, fontSize: 12.5, background: C.panel, borderRadius: 8, padding: "7px 10px", marginBottom: 10 }}>github.com/{repo}</div>
+        <p style={{ fontSize: 12, lineHeight: 1.8, color: C.sub, margin: "0 0 16px" }}>
+          初回はGitHubアカウントの認証が入ります。連携すると、Claudeがこのリポジトリのコードを取得し、
+          変更の提案やpush（あなたの承認つき）ができるようになります。
+        </p>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button
+            onClick={() => onResolve(true)}
+            style={{ flex: 1, padding: "10px 0", borderRadius: 10, border: "none", cursor: "pointer", background: C.accent, color: "#fff", fontWeight: 800, fontSize: 13, fontFamily: "inherit" }}
+          >
+            連携する
           </button>
           <button
             onClick={() => onResolve(false)}
@@ -1014,8 +1100,8 @@ function Dropdown<T extends string>({
    メイン画面（ヘッダー・本文・入力欄）
    ============================================================ */
 function Main({
-  device, tab, chat, busy, streaming, model, permMode, env, folder, menu, setMenu,
-  pickModel, pickPerm, pickEnv, pickFolder, input, setInput, send, resolveDiff, resolveApproval, resolveChoices, openArtifact, skills, useSkill, scrollRef, notify, openDrawer,
+  device, tab, chat, busy, streaming, model, permMode, env, folder, repo, menu, setMenu,
+  pickModel, pickPerm, pickEnv, pickFolder, pickRepo, input, setInput, send, resolveDiff, resolveApproval, resolveChoices, openArtifact, skills, useSkill, scrollRef, notify, openDrawer,
 }: {
   device: "pc" | "sp";
   tab: Tab;
@@ -1026,12 +1112,14 @@ function Main({
   permMode: PermMode;
   env: EnvId;
   folder: string | null;
-  menu: "model" | "perm" | "env" | "folder" | null;
-  setMenu: (v: "model" | "perm" | "env" | "folder" | null) => void;
+  repo: string | null;
+  menu: "model" | "perm" | "env" | "folder" | "repo" | null;
+  setMenu: (v: "model" | "perm" | "env" | "folder" | "repo" | null) => void;
   pickModel: (m: ModelId) => void;
   pickPerm: (m: PermMode) => void;
   pickEnv: (m: EnvId) => void;
   pickFolder: (path: string) => void;
+  pickRepo: (id: string) => void;
   input: string;
   setInput: (v: string) => void;
   send: (t?: string) => void;
@@ -1134,6 +1222,19 @@ function Main({
                   <>
                     <div onClick={() => setMenu(null)} style={{ position: "fixed", inset: 0, zIndex: 8 }} />
                     <Dropdown items={ENVS} current={env} onPick={pickEnv} label="実行環境" align="left" />
+                  </>
+                )}
+              </div>
+            )}
+            {isCode && (
+              <div style={{ position: "relative" }}>
+                <button style={chipStyle} data-guide="repo" onClick={() => setMenu(menu === "repo" ? null : "repo")}>
+                  🐙 {repo ?? "GitHub連携"} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
+                </button>
+                {menu === "repo" && (
+                  <>
+                    <div onClick={() => setMenu(null)} style={{ position: "fixed", inset: 0, zIndex: 8 }} />
+                    <Dropdown items={REPOS} current={repo ?? ""} onPick={pickRepo} label="GitHubリポジトリと連携" align="left" />
                   </>
                 )}
               </div>
@@ -1275,6 +1376,11 @@ function Bubble({
   /* —— 選択式の質問カード（AskUserQuestion風） —— */
   if (msg.role === "assistant" && msg.choices) {
     return <ChoicesCard msg={msg} sp={sp} onResolve={onResolveChoices} />;
+  }
+
+  /* —— Coworkのブラウザ操作画面（自動巡回） —— */
+  if (msg.role === "assistant" && msg.browse) {
+    return <BrowserCard sites={msg.browse} sp={sp} />;
   }
 
   /* —— チャット内図解ブロック —— */
@@ -1510,6 +1616,89 @@ function Bubble({
             {streaming && <span style={{ color: C.accent }}>▍</span>}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   ブラウザ操作画面 — Coworkが実際にブラウザを開いてサイトを
+   巡回している様子をミニブラウザで再現。サイトを自動で
+   切り替えながら「操作中→確認完了」まで進む。
+   ============================================================ */
+function BrowserCard({ sites, sp }: { sites: BrowseSite[]; sp: boolean }) {
+  const [idx, setIdx] = React.useState(0);
+  const [finished, setFinished] = React.useState(false);
+  React.useEffect(() => {
+    const t0 = Date.now();
+    const iv = setInterval(() => {
+      /* 経過時間ベース（バックグラウンドでも追いつく） */
+      const n = Math.floor((Date.now() - t0) / 2000);
+      if (n >= sites.length) {
+        setIdx(sites.length - 1);
+        setFinished(true);
+        clearInterval(iv);
+      } else {
+        setIdx(n);
+      }
+    }, 250);
+    return () => clearInterval(iv);
+  }, [sites.length]);
+  const site = sites[Math.min(idx, sites.length - 1)];
+  return (
+    <div style={{ display: "flex", gap: 9, marginBottom: 18 }}>
+      <span style={{ width: 24, height: 24, borderRadius: "50%", background: C.accent, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0, marginTop: 2 }}>
+        ✳
+      </span>
+      <div style={{ minWidth: 0, flex: 1, maxWidth: sp ? "88%" : "84%" }}>
+        <div style={{ fontSize: 11, fontWeight: 800, color: finished ? C.green : C.accentInk, marginBottom: 5 }}>
+          {finished ? "✅ 3サイトの確認が完了しました" : "🌐 Cowork がブラウザを操作しています…"}
+        </div>
+        {/* ミニブラウザ */}
+        <div style={{ border: `1.5px solid ${C.line}`, borderRadius: 12, overflow: "hidden", background: "#FFFFFF" }}>
+          {/* ブラウザのツールバー */}
+          <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "7px 10px", background: C.panel, borderBottom: `1px solid ${C.line}` }}>
+            <span style={{ display: "flex", gap: 4 }}>
+              {["#EC6A5E", "#F4BF4F", "#61C554"].map((c) => (
+                <span key={c} style={{ width: 8, height: 8, borderRadius: "50%", background: c, display: "inline-block" }} />
+              ))}
+            </span>
+            <span
+              style={{
+                flex: 1, fontFamily: MONO, fontSize: 10.5, background: "#FFFFFF", border: `1px solid ${C.line}`,
+                borderRadius: 999, padding: "3px 10px", color: C.sub, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+              }}
+            >
+              🔒 {site.url}
+            </span>
+            {!finished && <span style={{ fontSize: 10, color: C.accentInk, fontWeight: 800, animation: "browse-blink 1s infinite" }}>●</span>}
+          </div>
+          {/* ページ内容 */}
+          <div style={{ padding: "12px 14px", minHeight: 88 }}>
+            <div style={{ fontSize: 12.5, fontWeight: 800, marginBottom: 7 }}>{site.title}</div>
+            {site.lines.map((l, i) => (
+              <div key={l} style={{ fontSize: 11.5, color: i === 0 ? C.ink : C.sub, lineHeight: 1.9, fontWeight: i === 0 ? 700 : 500 }}>
+                {l}
+              </div>
+            ))}
+          </div>
+          {/* 進捗（何サイト目か） */}
+          <div style={{ display: "flex", gap: 5, alignItems: "center", padding: "6px 12px", borderTop: `1px solid ${C.line}`, background: C.bg }}>
+            {sites.map((s, i) => (
+              <span
+                key={s.url}
+                style={{
+                  width: 7, height: 7, borderRadius: "50%",
+                  background: i < idx || finished ? C.green : i === idx ? C.accent : C.line,
+                }}
+              />
+            ))}
+            <span style={{ fontSize: 10, color: C.sub, marginLeft: 4 }}>
+              {Math.min(idx + 1, sites.length)}/{sites.length} サイト目を確認中
+            </span>
+          </div>
+        </div>
+        <style>{`@keyframes browse-blink { 0%,100% { opacity: 1 } 50% { opacity: .2 } }`}</style>
       </div>
     </div>
   );

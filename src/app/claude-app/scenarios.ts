@@ -51,6 +51,14 @@ export interface FigureSpec {
   footer?: string;
 }
 
+/* Coworkがブラウザを操作している様子（ミニブラウザ画面）。
+   sitesを順に「開いて確認」していくアニメーションで描画される */
+export interface BrowseSite {
+  url: string;
+  title: string;
+  lines: string[];
+}
+
 /* シナリオの1ステップ。diff / approval は分岐を持つ。
    choices はユーザーが選択肢を選んで「回答を送る」と、
    その回答が次のユーザー発言として送信される */
@@ -58,6 +66,7 @@ export type Step =
   | { type: "text"; text: string }
   | { type: "artifact"; artifact: ArtifactSpec }
   | { type: "figure"; text?: string; figure: FigureSpec }
+  | { type: "browse"; sites: BrowseSite[] }
   | { type: "choices"; text: string; groups: ChoiceGroup[] }
   | { type: "diff"; diff: DiffSpec; accept: Step[]; reject: Step[] }
   | { type: "approval"; command: string; note?: string; allow: Step[]; deny: Step[] };
@@ -66,6 +75,7 @@ export interface ScenarioCtx {
   text: string; // ユーザーの入力
   isFollowup: boolean; // 同じ会話の2往復目以降か
   firstText: string; // その会話の最初のユーザー発言（台本分岐用）
+  userTurns: number; // この発言より前のユーザー発言数（0=最初の発言）
   permMode: PermMode; // コードタブの権限モード
   folder: string | null; // 選択中のフォルダ
 }
@@ -133,8 +143,25 @@ export const COWORK_SUGGESTIONS = [
 ];
 
 /* ブラウザ操作デモ: 調べる→表にまとめる、まで丸ごと任せる */
-const BROWSE_LOG =
-  "かしこまりました。ブラウザで各社のサイトを確認して、表にまとめます。\n\n🌐 ブラウザを操作中…\n ├ a-sha.example を開く → 料金ページを確認\n ├ b-sha.example を開く → プラン表を取得\n └ c-sha.example を開く → 最新価格を確認\n\n✅ 3社分そろいました。";
+const BROWSE_INTRO =
+  "かしこまりました。ブラウザで各社のサイトを確認して、表にまとめます。";
+const BROWSE_SITES: BrowseSite[] = [
+  {
+    url: "a-sha.example/pricing",
+    title: "A社 — 料金プラン",
+    lines: ["ベーシック …… 月980円", "個人利用向け・機能は最小限", "無料トライアル14日"],
+  },
+  {
+    url: "b-sha.example/plans",
+    title: "B社 — プラン一覧",
+    lines: ["スタンダード …… 月2,480円", "チーム管理・権限設定が充実", "年払いで2ヶ月分お得"],
+  },
+  {
+    url: "c-sha.example/price",
+    title: "C社 — ご利用料金",
+    lines: ["プロ …… 月1,480円", "機能と価格のバランス型", "サポートはメールのみ"],
+  },
+];
 const PRICE_FIGURE: FigureSpec = {
   title: "競合3社 料金比較（月額）",
   cards: [
@@ -271,7 +298,8 @@ export const DEFAULT_SCENARIOS: ScenarioSet = {
     if (firstText === COWORK_SUGGESTIONS[0]) {
       if (isFollowup) return [{ type: "text", text: COWORK_FOLLOWUP }];
       return [
-        { type: "text", text: BROWSE_LOG },
+        { type: "text", text: BROWSE_INTRO },
+        { type: "browse", sites: BROWSE_SITES },
         { type: "figure", figure: PRICE_FIGURE },
         { type: "text", text: BROWSE_DONE },
       ];
@@ -284,7 +312,7 @@ export const DEFAULT_SCENARIOS: ScenarioSet = {
           { type: "text", text: coworkDone(text) },
         ];
   },
-  code: ({ text, isFollowup, firstText, permMode }) => {
+  code: ({ text, isFollowup, firstText, userTurns, permMode }) => {
     /* スキル実行（/コマンド） */
     if (text.startsWith("/")) {
       return [{ type: "text", text: SKILL_RUN }];
@@ -319,10 +347,7 @@ export const DEFAULT_SCENARIOS: ScenarioSet = {
       ];
     }
     /* TODOアプリ（新規作成の既定フロー） */
-    if (isFollowup) return [{ type: "text", text: CODE_FOLLOWUP }];
-    if (permMode === "plan") return [{ type: "text", text: codePlanOnly(text) }];
-    return [
-      { type: "text", text: codePlan(text) },
+    const TODO_IMPL: Step[] = [
       {
         type: "diff",
         diff: TODO_DIFF,
@@ -342,5 +367,17 @@ export const DEFAULT_SCENARIOS: ScenarioSet = {
         reject: [{ type: "text", text: CODE_DONE_REJECT }],
       },
     ];
+    if (!isFollowup) {
+      if (permMode === "plan") return [{ type: "text", text: codePlanOnly(text) }];
+      return [{ type: "text", text: codePlan(text) }, ...TODO_IMPL];
+    }
+    /* Planで計画→Manualに切り替えて「進めて」→ 同じセッションのまま実装へ */
+    if (userTurns === 1 && permMode !== "plan") {
+      return [
+        { type: "text", text: "了解です。さっきの計画のまま、実装に入ります。" },
+        ...TODO_IMPL,
+      ];
+    }
+    return [{ type: "text", text: CODE_FOLLOWUP }];
   },
 };
