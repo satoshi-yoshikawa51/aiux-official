@@ -5,7 +5,7 @@ import { GuidedClaudeApp } from "./guide";
 import { DemoMovie } from "./demo";
 
 export const metadata: Metadata = {
-  title: "5分で覚える！Claude教習所｜さわって覚えるClaudeアプリ入門｜COMIXAI",
+  title: "5分で覚える！Claude教習所（非公式）｜さわって覚えるClaudeアプリ入門｜COMIXAI",
   description:
     "Claudeの使い方は、読むよりさわって覚えるのが早い。本物そっくりの練習画面を講師が「どこを押すか」から1つずつ案内する無料の教習コース。1コース約5分で、チャット・コワーク・コードの使い分け、フォルダの許可、変更やコマンドの承認、成果物のプレビューまで体験できる。登録不要。",
   keywords: ["Claude 使い方", "Claude 入門", "Claude 初心者", "Claude アプリ", "Anthropic Claude 練習", "Claude チュートリアル"],
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "COMIXAI",
-    title: "5分で覚える！Claude教習所",
+    title: "5分で覚える！Claude教習所（非公式）",
     description: "本物そっくりの練習画面を、講師が1つずつ案内。1コース約5分でClaudeの使い方が身につく無料コース。",
     url: "/claude-app",
     locale: "ja_JP",
@@ -67,6 +67,12 @@ export default function ClaudeAppPage() {
       </section>
       <section style={{ maxWidth: "min(880px, 94vw)", margin: "0 auto", padding: "0 0 60px" }}>
         <GuidedClaudeApp />
+        <p style={{ margin: "18px 0 0", fontFamily: "var(--font-mono)", fontSize: 11, lineHeight: 1.9, color: "var(--text-muted)" }}>
+          ※ 本ページはCOMIXAIが学習用に制作した非公式の再現UIであり、Anthropic社とは一切関係ありません。
+          Claude・Anthropicは Anthropic PBC の商標です。実際のアプリは{" "}
+          <a href="https://claude.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--red-600)" }}>claude.com</a>{" "}
+          からご利用ください。APIモードの通信はお使いのブラウザとAnthropic API間で直接行われ、当サイトはAPIキーを収集・保存しません。
+        </p>
       </section>
 
       {/* —— 本物への橋渡し（そら先生の総まとめコースからもここを指す） —— */}
