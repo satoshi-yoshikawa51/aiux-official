@@ -30,6 +30,7 @@ import { GUIDES } from "./guide/data";
 import { EVENTS, dateLabel, isPast } from "./calendar/events";
 import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
+import { LazyLoopVideo } from "./lazy-video";
 
 const HERO_INTRO =
   "株式会社ニジボックス室長・吉川聡史。マンガとUXの力で、むずかしいAIを「現場で使える武器」に変えていきます。";
@@ -82,16 +83,38 @@ function HeroActionsLight() {
 /* ═══════════════ Hero（背景動画・自前ホスト） ═══════════════ */
 function HeroVideo() {
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  // 背景動画は6MBあるので、初期表示の邪魔にならないよう読み込みを遅らせる。
+  // ページの読み込みが終わって手が空いてからsrcを与える。それまでは
+  // poster画像が出ているので、見た目は最初から埋まっている。
+  const [src, setSrc] = React.useState<string>();
+  React.useEffect(() => {
+    let idleId: number | undefined;
+    const start = () => {
+      idleId = window.requestIdleCallback
+        ? window.requestIdleCallback(() => setSrc("/hero.mp4"), { timeout: 2500 })
+        : window.setTimeout(() => setSrc("/hero.mp4"), 300);
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+    return () => {
+      window.removeEventListener("load", start);
+      if (idleId === undefined) return;
+      if (window.cancelIdleCallback) window.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
+    };
+  }, []);
+
   React.useEffect(() => {
     // 一部ブラウザの自動再生対策として明示的に再生を試みる（失敗時は
     // poster画像のまま）。YouTubeプレイヤーは使わないので、再生/一時停止
     // マークやロゴなどの余計なUIは一切出ない。
+    if (!src) return;
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
     const p = v.play();
     if (p && typeof p.catch === "function") p.catch(() => {});
-  }, []);
+  }, [src]);
 
   return (
     <section className="hero-video" style={{ borderBottom: "var(--bw-heavy) solid var(--ink-900)" }}>
@@ -101,13 +124,13 @@ function HeroVideo() {
         <video
           ref={videoRef}
           className="hero-bg-video"
-          src="/hero.mp4"
+          src={src}
           poster="/hero-poster.jpg"
           autoPlay
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           aria-hidden="true"
         />
         <div
@@ -607,9 +630,9 @@ function Glossary() {
                 </Button>
               </div>
             </div>
-            {/* 表紙動画のワイプ（タイトルの右）。PCでは右端、スマホでは折り返して中央。
-                ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
-            <div
+            {/* 表紙動画のワイプ（タイトルの右）。PCでは右端、スマホでは折り返して中央 */}
+            <LazyLoopVideo
+              src="/quiz/top.mp4"
               style={{
                 width: 148,
                 height: 148,
@@ -620,10 +643,6 @@ function Glossary() {
                 border: "3px solid var(--paper-50)",
                 background: "var(--yellow-400)",
                 transform: "rotate(3deg)",
-              }}
-              dangerouslySetInnerHTML={{
-                __html:
-                  '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
               }}
             />
           </div>
@@ -645,8 +664,10 @@ function Glossary() {
               flexWrap: "wrap",
             }}
           >
-            {/* 表紙動画のワイプ。ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
-            <div
+            {/* 表紙動画のワイプ */}
+            <LazyLoopVideo
+              src="/history/cover.mp4"
+              poster="/history/cover.webp"
               style={{
                 width: 148,
                 height: 148,
@@ -657,10 +678,6 @@ function Glossary() {
                 border: "3px solid var(--ink-900)",
                 transform: "rotate(-3deg)",
                 boxShadow: "5px 5px 0 rgba(20,17,15,0.85)",
-              }}
-              dangerouslySetInnerHTML={{
-                __html:
-                  '<video src="/history/cover.mp4" poster="/history/cover.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
               }}
             />
             <div style={{ flex: "1 1 260px" }}>

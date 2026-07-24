@@ -10,6 +10,7 @@ import { Badge, Button, Card } from "../ds";
 import { GRADES, QUESTIONS, QUIZ_SIZE, gradeFor, type QuizQuestion } from "./data";
 import { unlock } from "../zukan/store";
 import { ZukanNote } from "../zukan/collection";
+import { LazyLoopVideo } from "../lazy-video";
 
 interface DrawnQuestion {
   src: QuizQuestion;
@@ -69,9 +70,9 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
     return (
       <Card variant="pop" padding={0} style={{ overflow: "hidden" }}>
         <div style={{ padding: "34px 30px 30px", textAlign: "center" }}>
-          {/* 表紙動画（テレビのワイプ風の丸窓・ループ再生）
-              ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
-          <div
+          {/* 表紙動画（テレビのワイプ風の丸窓・ループ再生） */}
+          <LazyLoopVideo
+            src="/quiz/top.mp4"
             style={{
               width: 190,
               height: 190,
@@ -82,10 +83,6 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
               boxShadow: "var(--shadow-pop)",
               background: "var(--yellow-400)",
               transform: "rotate(-2deg)",
-            }}
-            dangerouslySetInnerHTML={{
-              __html:
-                '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
             }}
           />
           {/* 5つの級キャラ */}
