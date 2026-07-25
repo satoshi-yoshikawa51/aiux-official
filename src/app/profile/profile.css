@@ -272,7 +272,7 @@
   /* roles grid */
   .roles { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
   .role-card { border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-md); background: var(--paper-0); padding: 18px 14px; box-shadow: var(--shadow-pop-sm); }
-  .role-card i { font-size: 26px; color: var(--red-500); }
+  .role-card i, .role-card svg { font-size: 26px; color: var(--red-500); }
   .role-card .jp { font-family: var(--font-heading); font-weight: 900; font-size: 16px; margin-top: 9px; }
   .role-card .en { font-family: var(--font-mono); font-size: 10px; letter-spacing: .05em; color: var(--text-muted); margin-top: 3px; }
   .role-card .note { font-size: 11px; color: var(--red-600); font-weight: 700; margin-top: 8px; line-height: 1.45; }

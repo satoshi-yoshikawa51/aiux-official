@@ -1,4 +1,6 @@
 /* プロフィール本文HTML（Claude Design）。dangerouslySetInnerHTMLで描画 */
+import { iconSvg } from "../icons";
+
 export const PROFILE_BODY = `<main>
   <!-- HERO -->
   <section class="hero" aria-label="プロフィール概要">
@@ -36,11 +38,11 @@ export const PROFILE_BODY = `<main>
         <p class="sec-sub">漫画・ゲーム・映像・UX——「伝える」現場を渡り歩いてきた経験すべてが、AI活用の発信に活きています。</p>
       </div>
       <div class="roles">
-        <div class="role-card"><i class="ph-bold ph-sparkle"></i><div class="jp">AIクリエイター</div><div class="en">AI Creator</div></div>
-        <div class="role-card"><i class="ph-bold ph-pen-nib"></i><div class="jp">漫画家</div><div class="en">Manga Artist</div><div class="note">週刊少年チャンピオンで連載</div></div>
-        <div class="role-card"><i class="ph-bold ph-compass"></i><div class="jp">UXディレクター</div><div class="en">UX Director</div></div>
-        <div class="role-card"><i class="ph-bold ph-film-slate"></i><div class="jp">映像ディレクター</div><div class="en">Film Director</div></div>
-        <div class="role-card"><i class="ph-bold ph-game-controller"></i><div class="jp">ゲームプランナー</div><div class="en">Game Planner</div></div>
+        <div class="role-card">${iconSvg("sparkle", 26)}<div class="jp">AIクリエイター</div><div class="en">AI Creator</div></div>
+        <div class="role-card">${iconSvg("pennib", 26)}<div class="jp">漫画家</div><div class="en">Manga Artist</div><div class="note">週刊少年チャンピオンで連載</div></div>
+        <div class="role-card">${iconSvg("compass", 26)}<div class="jp">UXディレクター</div><div class="en">UX Director</div></div>
+        <div class="role-card">${iconSvg("clapper", 26)}<div class="jp">映像ディレクター</div><div class="en">Film Director</div></div>
+        <div class="role-card">${iconSvg("gamepad", 26)}<div class="jp">ゲームプランナー</div><div class="en">Game Planner</div></div>
       </div>
     </div>
   </section>

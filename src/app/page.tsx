@@ -6,6 +6,7 @@
    ============================================================ */
 import React from "react";
 import { Button, Badge, Tag, Card, MangaPanel, SpeechBubble, Tabs, Input } from "./ds";
+import { Icon } from "./icons";
 import {
   NOTE,
   NOTE_ALL,
@@ -323,7 +324,9 @@ function Profile() {
                 color: "var(--ink-900)",
               }}
             >
-              <i className={"ph-bold " + r.icon} style={{ fontSize: 24, color: "var(--red-500)" }} />
+              <span style={{ color: "var(--red-500)" }}>
+                <Icon name={r.icon} size={24} />
+              </span>
               <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16, marginTop: 8 }}>{r.jp}</div>
               <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)", letterSpacing: "0.05em", marginTop: 3 }}>{r.en}</div>
               {r.note && <div style={{ fontSize: 11, color: "var(--red-600)", marginTop: 8, fontWeight: 700, lineHeight: 1.4 }}>{r.note}</div>}

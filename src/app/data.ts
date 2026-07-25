@@ -5,6 +5,8 @@
    ・人気記事は ARTICLES_POPULAR を likes 降順で編集。
    ============================================================ */
 
+import type { IconName } from "./icons";
+
 export type Tone = "yellow" | "red" | "ink" | "blue" | "paper";
 
 export interface Article {
@@ -34,7 +36,8 @@ export interface Role {
   jp: string;
   en: string;
   note?: string;
-  icon: string;
+  /** src/app/icons.tsx のアイコン名 */
+  icon: IconName;
 }
 
 export interface Social {
@@ -145,11 +148,11 @@ export const ARTICLES_POPULAR: Article[] = [...ARTICLES]
 
 /* —— 5つの顔 —— */
 export const ROLES: Role[] = [
-  { jp: "AIクリエイター", en: "AI Creator", icon: "ph-sparkle" },
-  { jp: "漫画家", en: "Manga Artist", note: "週刊少年チャンピオン連載", icon: "ph-pen-nib" },
-  { jp: "UXディレクター", en: "UX Director", icon: "ph-compass" },
-  { jp: "映像ディレクター", en: "Film Director", icon: "ph-film-slate" },
-  { jp: "ゲームプランナー", en: "Game Planner", icon: "ph-game-controller" },
+  { jp: "AIクリエイター", en: "AI Creator", icon: "sparkle" },
+  { jp: "漫画家", en: "Manga Artist", note: "週刊少年チャンピオン連載", icon: "pennib" },
+  { jp: "UXディレクター", en: "UX Director", icon: "compass" },
+  { jp: "映像ディレクター", en: "Film Director", icon: "clapper" },
+  { jp: "ゲームプランナー", en: "Game Planner", icon: "gamepad" },
 ];
 
 /* —— 経歴・実績 —— */

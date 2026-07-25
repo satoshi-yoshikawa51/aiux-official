@@ -13,6 +13,7 @@
        -> tools/.icon-preview/realsize.png  22pxで実際に描いて8倍に拡大（端末で見える通り）
        -> tools/.icon-preview/sheet.png     22/44/88px＋白抜き／黒版の一覧
        -> src/components/icon-paths.ts      アプリが読むパスデータ（自動生成）
+       -> ../src/app/icon-paths.ts          サイト本体が読むパスデータ（自動生成）
 
    ※ 必ず realsize.png で判断すること。大きい絵だけで見ると、
      端末では潰れている、ということが起きる。
@@ -285,6 +286,32 @@ export const ICONS = {
 
   /** キラリ（よくできた） */
   sparkle: twinkle({ cx: 10.2, cy: 10.2, r: 10.2 }) + twinkle({ cx: 19.2, cy: 19.2, r: 4.6 }),
+
+  /* ── サイトの「5つの顔」用 ──
+     キラリ(sparkle)とコンパス(compass)は上の定義を流用する */
+
+  /** Gペン先（漫画家）。penは鉛筆寄りなので、こちらは付けペンの先 */
+  pennib:
+    poly([6.0, 2.0], [18.0, 2.0], [18.9, 10.2], [12, 23.4], [5.1, 10.2]) +
+    circle({ cx: 12, cy: 10.2, r: 2.1 }) +
+    poly([11.1, 12.2], [12.9, 12.2], [12, 20.2]),
+
+  /** カチンコ（映像ディレクター）。上の板と本体は重ねない（evenoddで穴が開く） */
+  clapper:
+    'M1.4,5.2L20.4,1.0L22.6,8.2L1.4,11.6Z' +
+    poly([7.0, 3.9], [9.4, 3.4], [7.6, 11.1], [5.2, 11.6]) +
+    poly([14.0, 2.4], [16.4, 1.9], [14.6, 9.6], [12.2, 10.1]) +
+    rect(1.4, 11.9, 21.2, 10.3),
+
+  /** ゲームパッド（ゲームプランナー） */
+  gamepad:
+    'M6.6,6.6C3.2,6.6 1.2,9.8 1.2,13.6C1.2,17.0 2.6,19.2 5.0,19.2C6.7,19.2 7.7,18.1 8.7,16.9L15.3,16.9C16.3,18.1 17.3,19.2 19.0,19.2C21.4,19.2 22.8,17.0 22.8,13.6C22.8,9.8 20.8,6.6 17.4,6.6Z' +
+    poly(
+      [5.0, 11.2], [7.0, 11.2], [7.0, 9.2], [9.0, 9.2], [9.0, 11.2], [11.0, 11.2],
+      [11.0, 13.2], [9.0, 13.2], [9.0, 15.2], [7.0, 15.2], [7.0, 13.2], [5.0, 13.2],
+    ) +
+    circle({ cx: 16.6, cy: 10.8, r: 1.6 }) +
+    circle({ cx: 19.4, cy: 13.6, r: 1.6 }),
 };
 
 /* ———————————————— 確認用の画像 ———————————————— */
@@ -357,5 +384,7 @@ const ts =
   NAMES.map((k) => `  ${k}: '${ICONS[k]}',`).join('\n') +
   `\n} as const;\n\nexport type IconName = keyof typeof ICON_PATHS;\n`;
 fs.writeFileSync(new URL('../src/components/icon-paths.ts', import.meta.url), ts);
+/* サイト本体（Next.js）も同じ形を使う。形の定義はこのファイルが唯一の出どころ */
+fs.writeFileSync(new URL('../../src/app/icon-paths.ts', import.meta.url), ts);
 
 console.log(`-> tools/.icon-preview/（確認用）と src/components/icon-paths.ts（${NAMES.length}個）`);
