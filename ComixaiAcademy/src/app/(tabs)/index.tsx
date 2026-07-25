@@ -1,18 +1,26 @@
-/* ホーム。選んだアバターが常駐して、次にやることを言ってくる画面。 */
+/* ============================================================
+   ホーム。選んだアバターが常駐して、次にやることを言ってくる画面。
+
+   ここだけはスクロールさせない（1画面に収める）。そのため
+   ・上の帯（称号・バッジ・統計）と下のカード（次のレッスン）は高さ固定
+   ・アバターのコマが残りの高さを全部もらう（Panel の fill）
+   ・フキダシはコマの中に置く
+   アバターの3D表示には具体的な数値が要るので、コマの中身を onLayout で
+   実測してから描く（端末の画面サイズに関係なく収まる）。
+   ============================================================ */
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
-import { Badge, Bubble, Button, Card, Panel, Pop, Progress, Row, Screen, Tone } from '@/components/ui';
+import { Bubble, Button, Panel, Pop, Progress, Row, Screen, Tone } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { useProgress, useStats } from '@/store/progress';
-import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
-
+import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
 const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: string }[] = [
@@ -24,15 +32,29 @@ const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: string }[] = [
   { say: 'よし、いい顔になってきた。', motion: 'laugh', emote: '✨' },
 ];
 
+/** アバターの見た目の縦横比（高さ ÷ 幅） */
+const AVATAR_RATIO = 0.92;
+
 export default function HomeScreen() {
   const router = useRouter();
   const { state } = useProgress();
   const stats = useStats();
-  const { width } = useWindowDimensions();
 
   const avatarRef = React.useRef<AvatarHandle>(null);
   const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
+
+  /* コマの中身の高さ。狭い端末ではフキダシを詰めてアバターの取り分を増やす */
+  const [area, setArea] = React.useState(0);
+  const tight = area > 0 && area < 300;
+
+  /* アバターを置ける実寸。onLayoutで測ってから3Dを描く */
+  const [box, setBox] = React.useState({ w: 0, h: 0 });
+  const stage = React.useMemo(() => {
+    if (box.w <= 0 || box.h <= 0) return null;
+    const w = Math.min(box.w, box.h / AVATAR_RATIO);
+    return { w: Math.floor(w), h: Math.floor(w * AVATAR_RATIO) };
+  }, [box]);
 
   const next = React.useMemo(() => {
     for (const course of COURSES) {
@@ -43,29 +65,28 @@ export default function HomeScreen() {
     return null;
   }, [state.done]);
 
-  const [talk, setTalk] = React.useState<{ say: string } | null>(null);
+  const [talk, setTalk] = React.useState<string | null>(null);
 
   const greeting = React.useMemo(() => {
-    if (talk) return talk.say;
+    if (talk) return talk;
     if (!next) return 'ぜんぶ終わったな。……よくやった。あとは現場で使え。';
-    if (stats.doneCount === 0) return `${role?.name ?? ''}か。なら、話が早い。まずは1本だけやってみろ。`;
+    if (stats.doneCount === 0) return `${role?.name ?? ''}か。なら、話が早い。まず1本やってみろ。`;
     if (stats.streak >= 3) return `${stats.streak}日続いてるな。……その調子だ。`;
-    return `次は「${next.lesson.title}」だ。${next.lesson.minutes}分で終わる。`;
+    return `次は「${next.lesson.title}」だ。`;
   }, [talk, next, stats.doneCount, stats.streak, role?.name]);
 
   const poke = () => {
     const pick = SMALL_TALK[Math.floor(Math.random() * SMALL_TALK.length)];
-    setTalk(pick);
+    setTalk(pick.say);
     avatarRef.current?.play(pick.motion);
     if (pick.emote) avatarRef.current?.emote(pick.emote);
   };
 
-  const stageW = Math.min(width - S.lg * 2 - POP.md - S.lg * 2, 320);
   const upcoming = nextTitle(stats.badgeCount);
 
   return (
-    <Screen>
-      {/* 称号バー：黒ベタ＋網点のヘッダー */}
+    <Screen scroll={false} style={{ gap: S.md }}>
+      {/* ———— 称号の帯（黒ベタ＋網点） ———— */}
       <Pop radius={R.md}>
         <Tone
           tone="dots"
@@ -74,101 +95,85 @@ export default function HomeScreen() {
             borderWidth: BW.bold,
             borderColor: C.ink900,
             borderRadius: R.md,
-            padding: S.lg,
-            gap: S.sm,
+            paddingHorizontal: S.lg,
+            paddingVertical: S.md,
+            gap: 6,
             overflow: 'hidden',
           }}>
-          <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <View style={{ gap: 2 }}>
-              <Text style={[F.kicker, { color: C.red100 }]}>YOUR RANK</Text>
-              <Row gap={6}>
-                <Text style={{ fontSize: 22 }}>{stats.title.emoji}</Text>
-                <Text style={[F.h1, { color: C.paper50 }]}>{stats.title.name}</Text>
-              </Row>
-            </View>
-            <View style={{ alignItems: 'flex-end' }}>
-              <Text style={[F.kicker, { color: C.red100 }]}>BADGE</Text>
-              <Text style={{ fontFamily: FONT.mono, fontSize: 20, color: C.paper50 }}>
-                {stats.badgeCount}
-                <Text style={{ fontFamily: FONT.mono, fontSize: 13, color: C.ink300 }}>
-                  /{stats.badgeTotal}
-                </Text>
+          <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+            <Row gap={6} style={{ flex: 1 }}>
+              <Text style={{ fontSize: 20 }}>{stats.title.emoji}</Text>
+              <Text style={[F.h2, { color: C.paper50 }]} numberOfLines={1}>
+                {stats.title.name}
               </Text>
-            </View>
+            </Row>
+            <Text style={{ fontFamily: FONT.mono, fontSize: 16, color: C.paper50 }}>
+              {stats.badgeCount}
+              <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300 }}>
+                /{stats.badgeTotal}
+              </Text>
+            </Text>
           </Row>
           <Progress value={stats.badgeCount} total={stats.badgeTotal} />
-          <Text style={[F.hand, { color: C.paper100 }]}>
-            {upcoming
-              ? `あと${upcoming.need - stats.badgeCount}個で「${upcoming.name}」`
-              : '最高位に到達している'}
-          </Text>
+          <Row style={{ justifyContent: 'space-between' }}>
+            <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.ink300, letterSpacing: 0.6 }}>
+              {stats.streak}日連続 ・ {stats.doneCount}/{stats.total}本 ・ {stats.percent}%
+            </Text>
+            <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.red100, letterSpacing: 0.6 }}>
+              {upcoming ? `NEXT ${upcoming.name}` : 'MAX'}
+            </Text>
+          </Row>
         </Tone>
       </Pop>
 
-      {/* アバターのステージ */}
-      <View>
-        <Bubble text={greeting} style={{ marginBottom: S.xl, marginRight: POP.sm }} />
-        <Panel tone="dots" caption={`${avatar.name}（つつくと反応する）`} contentStyle={{ paddingBottom: S.xl }}>
-          <Pressable onPress={poke} style={{ alignItems: 'center' }}>
-            <Avatar3D ref={avatarRef} avatar={avatar} width={stageW} height={Math.round(stageW * 0.92)} />
+      {/* ———— アバターのコマ（残りの高さを全部使う） ————
+           名前と職種はコマのキャプション（右下に絶対配置）に逃がして、
+           アバターに使える高さを削らないようにしている */}
+      <Panel
+        fill
+        tone="dots"
+        caption={role ? `${avatar.name}・${role.name}` : avatar.name}
+        contentStyle={{ padding: S.sm, gap: S.sm }}>
+        {/* コマの中身の高さを先に測る。この高さはフキダシの大小に左右されないので、
+            「狭ければフキダシを詰める」判定を安定して行える */}
+        <View style={{ flex: 1 }} onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
+          <Bubble
+            text={greeting}
+            compact={tight}
+            numberOfLines={tight ? 3 : undefined}
+            style={{ marginRight: 3, marginLeft: 3, marginTop: 3 }}
+          />
+          <Pressable
+            onPress={poke}
+            onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
+            {stage ? (
+              <Avatar3D ref={avatarRef} avatar={avatar} width={stage.w} height={stage.h} />
+            ) : null}
           </Pressable>
-          <Row gap={6} style={{ justifyContent: 'center' }}>
-            <Badge tone="paper">{avatar.name}</Badge>
-            {role ? <Badge tone="red">{role.emoji} {role.name}</Badge> : null}
-          </Row>
-        </Panel>
-      </View>
+        </View>
+      </Panel>
 
-      {/* 次にやること */}
+      {/* ———— 次にやること ————
+           padding は paddingTop より後に書くと上書きしてしまうので順番に注意
+           （コマ番号の下に文字が潜り込む） */}
       {next ? (
-        <Panel number="次" tilt={-0.6} contentStyle={{ paddingTop: S.xl + S.sm, gap: S.md }}>
-          <Text style={F.kicker}>{next.course.title.toUpperCase?.() ?? next.course.title}</Text>
-          <Text style={F.h1}>
+        <Panel number="次" contentStyle={{ padding: S.md, paddingTop: S.xl + 2, gap: S.sm }}>
+          <Text style={[F.strong, { fontSize: 14.5 }]} numberOfLines={1}>
             {next.course.emoji} {next.lesson.title}
           </Text>
-          <Text style={F.body}>{next.lesson.summary}</Text>
-          <Row gap={6}>
-            <Badge tone="paper">{next.lesson.minutes}分</Badge>
-            <Badge tone="paper">クイズ{next.lesson.quiz.length}問</Badge>
-          </Row>
-          <Button label="つづきから はじめる" onPress={() => router.push(`/lesson/${next.lesson.id}`)} />
+          <Button
+            label={`はじめる（${next.lesson.minutes}分・クイズ${next.lesson.quiz.length}問）`}
+            size="sm"
+            onPress={() => router.push(`/lesson/${next.lesson.id}`)}
+          />
         </Panel>
       ) : (
-        <Card tone="ok">
-          <Text style={F.h1}>全課程、修了</Text>
-          <Text style={F.body}>やり直したいレッスンは「まなぶ」から何度でも開ける。</Text>
-        </Card>
+        <Panel contentStyle={{ padding: S.md, gap: S.xs }}>
+          <Text style={F.h2}>全課程、修了</Text>
+          <Text style={F.small}>やり直したいレッスンは「まなぶ」から開ける。</Text>
+        </Panel>
       )}
-
-      {/* ミニ統計 */}
-      <Row gap={S.sm} style={{ alignItems: 'stretch' }}>
-        <Stat label="STREAK" value={String(stats.streak)} unit="日" />
-        <Stat label="DONE" value={String(stats.doneCount)} unit={`/${stats.total}`} />
-        <Stat label="RATE" value={String(stats.percent)} unit="%" />
-      </Row>
     </Screen>
-  );
-}
-
-function Stat({ label, value, unit }: { label: string; value: string; unit: string }) {
-  return (
-    <Pop offset={POP.sm} radius={R.sm} style={{ flex: 1 }}>
-      <View
-        style={{
-          backgroundColor: T.surface,
-          borderWidth: BW.line,
-          borderColor: T.border,
-          borderRadius: R.sm,
-          paddingVertical: S.md,
-          alignItems: 'center',
-          gap: 2,
-        }}>
-        <Text style={F.kicker}>{label}</Text>
-        <Row gap={1} style={{ alignItems: 'baseline' }}>
-          <Text style={{ fontFamily: FONT.display, fontSize: 22, color: T.text }}>{value}</Text>
-          <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>{unit}</Text>
-        </Row>
-      </View>
-    </Pop>
   );
 }
