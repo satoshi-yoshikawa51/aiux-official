@@ -29,6 +29,10 @@ function Highlight({ target, scope }: { target: string; scope?: string }) {
   const [rect, setRect] = React.useState<DOMRect | null>(null);
   React.useEffect(() => {
     const sel = `${scope ? `${scope} ` : ""}[data-guide="${target}"]`;
+    /* 対象ごとにリセットされるスクロール制御。
+       運べない対象（固定配置のダイアログなど）を延々と追いかけないよう回数で打ち切る */
+    let lastScrollAt = 0;
+    let tries = 0;
     const update = () => {
       const el = document.querySelector(sel);
       if (!el) {
@@ -36,6 +40,23 @@ function Highlight({ target, scope }: { target: string; scope?: string }) {
         return;
       }
       const r = el.getBoundingClientRect();
+      /* ———— 対象が見えていなければ、見える位置まで運んでくる ————
+         枠は fixed で描くだけなので、見えない場所にある対象は
+         「枠が出ない」ようにしか見えない（スマホでは入力欄まわりが常にこれ）。
+         判定はビューポートではなく“モーダル内スクロール領域”で行う。
+         上端はモーダルのヘッダーに隠れるため、ビューポート基準だと
+         「見えている」と誤判定して運ばれないまま詰む */
+      const box = scope ? document.querySelector(scope)?.getBoundingClientRect() : null;
+      const bandTop = Math.max(0, box?.top ?? 0);
+      const bandBottom = Math.min(window.innerHeight, box?.bottom ?? window.innerHeight);
+      const shown = Math.max(0, Math.min(r.bottom, bandBottom) - Math.max(r.top, bandTop));
+      if (r.height > 0 && shown / r.height < 0.9 && tries < 4 && Date.now() - lastScrollAt > 900) {
+        lastScrollAt = Date.now();
+        tries++;
+        el.scrollIntoView({ block: "center", inline: "nearest", behavior: "smooth" });
+        return; // スクロール完了後の位置で描きたいので、この回は描かない
+      }
+      if (shown / r.height >= 0.9) tries = 0;
       /* 対象がドロップダウンやダイアログに覆われている間は枠を隠す
          （枠がポップアップの上に重なって挙動がおかしく見えるのを防ぐ）。
          ハイライト自身は pointer-events:none なので elementFromPoint に映らない */

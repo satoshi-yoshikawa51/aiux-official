@@ -1185,8 +1185,11 @@ function Main({
     borderRadius: 8, padding: "5px 9px", fontSize: 11.5, fontWeight: 700, color: C.ink, cursor: "pointer", fontFamily: "inherit",
   };
 
+  /* minHeight:0 が要。スマホ枠は縦flex＋overflow:hidden なので、
+     これが無いと会話が伸びたぶんだけMainが枠外へ押し出され、
+     入力欄・モデル・送信ボタンが切り取られて操作できなくなる */
   return (
-    <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", position: "relative" }}>
+    <div style={{ flex: 1, minWidth: 0, minHeight: 0, display: "flex", flexDirection: "column", position: "relative" }}>
       {/* ヘッダー（会話タイトル） */}
       <div style={{ display: "flex", alignItems: "center", gap: 8, padding: device === "sp" ? "8px 12px" : "10px 16px", borderBottom: `1px solid ${C.line}` }}>
         {device === "sp" && (
