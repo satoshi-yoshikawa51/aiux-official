@@ -22,9 +22,9 @@ import {
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
+import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
 
-import { BW, C, F, FONT, POP, R, S, T, TAB } from '@/theme';
+import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 const TONE_DOTS = require('@/assets/images/tone-dots.png');
 const TONE_LINES = require('@/assets/images/tone-lines.png');
@@ -116,10 +116,9 @@ export function Screen({
   scroll?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
-  /* 下の固定タブバーに内容が隠れないよう、その高さ＋安全領域を空ける。
-     タブの無い画面（オンボーディング）でも末尾に余白が出るだけで害はない */
-  const insets = useSafeAreaInsets();
-  const bottomPad = TAB.clearance + (edges.includes('bottom') ? 0 : insets.bottom);
+  /* タブバーは内容に覆いかぶさらないので、下は素の余白でよい。
+     スクロールする画面だけ、最後の要素が窮屈に見えないよう少し多めに取る */
+  const bottomPad = scroll ? S.xxl : S.lg;
 
   return (
     <SafeAreaView style={styles.screen} edges={edges}>
@@ -196,6 +195,7 @@ export function Panel({
   number,
   caption,
   tilt = 0,
+  fill = false,
   style,
   contentStyle,
 }: {
@@ -205,6 +205,8 @@ export function Panel({
   caption?: string;
   /** 傾き（度）。±1〜3くらいが効く */
   tilt?: number;
+  /** 縦に余っている分を埋める（1画面に収める画面で使う） */
+  fill?: boolean;
   style?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
 }) {
@@ -216,8 +218,9 @@ export function Panel({
         borderColor: T.border,
         borderRadius: R.sm,
         overflow: 'hidden',
+        ...(fill ? { flex: 1 } : null),
       }}>
-      <Tone tone={tone} style={[{ padding: S.lg, gap: S.sm }, contentStyle]}>
+      <Tone tone={tone} style={[{ padding: S.lg, gap: S.sm }, fill && { flex: 1 }, contentStyle]}>
         {children}
       </Tone>
       {number != null && (
@@ -233,7 +236,9 @@ export function Panel({
     </View>
   );
   return (
-    <Pop radius={R.sm} style={[tilt ? { transform: [{ rotate: `${tilt}deg` }] } : null, style]}>
+    <Pop
+      radius={R.sm}
+      style={[fill && { flex: 1 }, tilt ? { transform: [{ rotate: `${tilt}deg` }] } : null, style]}>
       {inner}
     </Pop>
   );
@@ -404,12 +409,17 @@ export function Bubble({
   variant = 'say',
   style,
   font = 'hand',
+  compact = false,
+  numberOfLines,
 }: {
   text: string;
   /** say=丸 / shout=強調（太枠・傾き） / think=考えごと（しっぽが丸） */
   variant?: 'say' | 'shout' | 'think';
   style?: StyleProp<ViewStyle>;
   font?: 'hand' | 'body';
+  /** 画面の縦が足りないとき、文字と余白を詰めて高さを稼ぐ */
+  compact?: boolean;
+  numberOfLines?: number;
 }) {
   const shout = variant === 'shout';
   const think = variant === 'think';
@@ -422,14 +432,20 @@ export function Bubble({
             borderWidth: shout ? BW.heavy : BW.bold,
             borderColor: T.border,
             borderRadius: shout ? R.md : R.bubble,
-            paddingVertical: S.md,
-            paddingHorizontal: S.lg,
+            paddingVertical: compact ? S.sm : S.md,
+            paddingHorizontal: compact ? S.md : S.lg,
           }}>
           <Text
+            numberOfLines={numberOfLines}
             style={
               font === 'hand'
-                ? { fontFamily: FONT.hand, fontSize: shout ? 19 : 16, lineHeight: shout ? 29 : 27, color: T.text }
-                : { fontFamily: FONT.body, fontSize: 15, lineHeight: 26, color: T.text }
+                ? {
+                    fontFamily: FONT.hand,
+                    fontSize: shout ? 19 : compact ? 13.5 : 16,
+                    lineHeight: shout ? 29 : compact ? 21 : 27,
+                    color: T.text,
+                  }
+                : { fontFamily: FONT.body, fontSize: compact ? 13 : 15, lineHeight: compact ? 21 : 26, color: T.text }
             }>
             {text}
           </Text>
