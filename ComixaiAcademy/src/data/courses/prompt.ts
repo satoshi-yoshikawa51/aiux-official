@@ -7,7 +7,7 @@ import type { Course } from '../types';
 
 export const PROMPT: Course = {
   id: 'prompt',
-  emoji: '✍️',
+  icon: 'pen',
   title: 'プロンプト道場',
   desc: '同じAIから、良い答えを引き出す。手を動かして覚える4本。',
   kind: 'role',
@@ -40,7 +40,7 @@ export const PROMPT: Course = {
         {
           say: '直すとこうなる。長い、と思ったか？ 長いんじゃない、必要なだけ書いてあるんだ。',
           motion: 'explain',
-          emote: '💡',
+          emote: 'bulb',
           heading: '直した例',
           prompt:
             'あなたはプロの編集者です。\n目的：下記の文章を、社内の非専門家に一読で伝わる形に書き直す\n条件：400字前後／専門用語には短い補足を添える／断定を避けない\n出力形式：書き直した本文のみ\n\n【元の文章】',
@@ -96,7 +96,7 @@ export const PROMPT: Course = {
         {
           say: '特に効くのが、AIに自分の答えを批判させるやつだ。素直に穴を教えてくる。',
           motion: 'arms-crossed',
-          emote: '💡',
+          emote: 'bulb',
           heading: '自己批判させる',
           prompt:
             'いま出してくれた案について、提出前に指摘されそうな点を、厳しい立場から5つ挙げてください。そのうえで、指摘に耐えられるように直した版を出してください。',
@@ -171,7 +171,7 @@ export const PROMPT: Course = {
         {
           say: '同じネタでも、役割を変えて3回聞け。3人分の意見がタダで手に入る。',
           motion: 'laugh',
-          emote: '✨',
+          emote: 'sparkle',
         },
       ],
       quiz: [
@@ -232,7 +232,7 @@ export const PROMPT: Course = {
         {
           say: '3枚目。これが一番使う。人に見せる前の最終チェックだ。',
           motion: 'arms-crossed',
-          emote: '❗',
+          emote: 'bang',
           heading: '3枚目：詰める',
           prompt:
             'これから提出する下記の内容について、厳しい立場から指摘を5つ挙げてください。\n条件：褒めない／改善案は不要／事実関係の怪しい箇所を最優先で\n出力形式：重要な順に箇条書き\n\n【内容】',

@@ -47,3 +47,6 @@ assets/fonts/_raw/
 
 # Expo web export
 dist/
+
+# アイコンの確認用画像（node tools/build-icons.mjs で再生成できる）
+tools/.icon-preview/

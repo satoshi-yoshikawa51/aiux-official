@@ -8,7 +8,7 @@ import type { Course } from '../types';
 
 export const BASICS: Course = {
   id: 'basics',
-  emoji: '🌱',
+  icon: 'sprout',
   title: 'AIのきほん',
   desc: '「なんとなく使ってる」を「わかって使ってる」に変える4本。ここから始める。',
   kind: 'common',
@@ -35,7 +35,7 @@ export const BASICS: Course = {
         {
           say: '頭脳にあたるのがLLM。大規模言語モデルだ。名前は覚えなくていい、性格だけ覚えろ。',
           motion: 'explain',
-          emote: '💡',
+          emote: 'bulb',
           heading: 'LLM（大規模言語モデル）',
           body: '膨大なテキストで学習し、人間の言葉を理解・生成できるAIモデル。ChatGPT・Claude・Geminiの中身はどれもこれです。',
           bullets: [
@@ -47,7 +47,7 @@ export const BASICS: Course = {
         {
           say: 'つまりだ。AIは物知りな同僚じゃない。文章がうますぎる新人だと思っておけ。',
           motion: 'laugh',
-          emote: '✨',
+          emote: 'sparkle',
         },
       ],
       quiz: [
@@ -93,7 +93,7 @@ export const BASICS: Course = {
         {
           say: '型は4つ。役割・目的・条件・出力形式。これだけ埋めれば、だいたい形になる。',
           motion: 'explain',
-          emote: '💡',
+          emote: 'bulb',
           heading: '効く指示の4点セット',
           bullets: [
             '役割：「あなたは〇〇の専門家です」',
@@ -144,7 +144,7 @@ export const BASICS: Course = {
         {
           say: 'これだけは、今日覚えて帰れ。AIは知らないことも自信満々に答える。',
           motion: 'angry',
-          emote: '❗',
+          emote: 'bang',
           heading: 'ハルシネーション',
           body: 'AIが事実と異なる内容を、もっともらしく生成してしまう現象。「幻覚」の意。存在しない出典や数字を、まったく同じ口調で答えてきます。',
         },
@@ -215,7 +215,7 @@ export const BASICS: Course = {
         {
           say: '「AIが急にバカになった」の正体は、たいていこれだ。相手のせいにする前に、机を見ろ。',
           motion: 'laugh',
-          emote: '✨',
+          emote: 'sparkle',
         },
       ],
       quiz: [

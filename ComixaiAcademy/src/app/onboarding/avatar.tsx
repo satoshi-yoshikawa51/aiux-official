@@ -4,10 +4,11 @@ import React from 'react';
 import { Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
+import { Icon } from '@/components/icons';
 import { Badge, Button, Panel, PressCard, Row, Screen, SectionHead } from '@/components/ui';
 import { AVATARS, DEFAULT_AVATAR_ID, getAvatar, isReady } from '@/data/avatars';
 import { useProgress } from '@/store/progress';
-import { F, POP, S } from '@/theme';
+import { F, POP, S, T } from '@/theme';
 
 export default function AvatarPickScreen() {
   const router = useRouter();
@@ -39,7 +40,7 @@ export default function AvatarPickScreen() {
             <PressCard key={a.id} disabled={!ready} selected={selected} onPress={() => setPicked(a.id)}>
               <Row style={{ justifyContent: 'space-between' }}>
                 <Row gap={S.sm} style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 24 }}>{a.emoji}</Text>
+                  <Icon name={a.icon} size={24} color={T.text} />
                   <View style={{ flex: 1 }}>
                     <Text style={F.strong}>{a.name}</Text>
                     <Text style={F.tiny}>{ready ? a.tagline : a.personality}</Text>

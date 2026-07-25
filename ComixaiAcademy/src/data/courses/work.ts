@@ -8,7 +8,7 @@ import type { Course } from '../types';
 
 export const WORK: Course = {
   id: 'work',
-  emoji: '💼',
+  icon: 'briefcase',
   title: '最初の一週間',
   desc: 'あなたの職種で、どこから手をつけるか。順番を間違えなければ失敗しにくい。',
   kind: 'role',
@@ -75,7 +75,7 @@ export const WORK: Course = {
         {
           say: 'ひとつ約束しろ。AIが出したものを、そのまま外に出さないこと。今週はまだ、な。',
           motion: 'worried',
-          emote: '❗',
+          emote: 'bang',
         },
       ],
       quiz: [
@@ -167,7 +167,7 @@ export const WORK: Course = {
             creator: '権利のラインを、自分の言葉で説明できるようにしておけ。',
           },
           motion: 'explain',
-          emote: '💡',
+          emote: 'bulb',
           heading: '一段上の使い方',
           bodyByRole: {
             sales:
@@ -198,7 +198,7 @@ export const WORK: Course = {
         {
           say: 'ここまで来たなら、もう十分だ。あとは毎日ちょっとずつ使え。それだけでいい。',
           motion: 'bow',
-          emote: '✨',
+          emote: 'sparkle',
         },
       ],
       quiz: [

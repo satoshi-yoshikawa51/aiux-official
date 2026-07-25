@@ -4,11 +4,12 @@
    src/data/courses/ 各レッスンの byRole にその職種の文章を足すこと
    （byRole に無い職種は共通文が使われるので、足し忘れても壊れはしない）。
    ============================================================ */
+import type { IconName } from '@/components/icons';
 import type { RoleId } from './types';
 
 export interface Role {
   id: RoleId;
-  emoji: string;
+  icon: IconName;
   /** 職種名 */
   name: string;
   /** ホーム画面で先生が呼ぶときの短い呼称 */
@@ -22,7 +23,7 @@ export interface Role {
 export const ROLES: Role[] = [
   {
     id: 'sales',
-    emoji: '🤝',
+    icon: 'chart',
     name: '営業',
     shortName: '営業',
     catch: '「売る時間」を増やすために、書く・調べるをAIに渡す。',
@@ -31,7 +32,7 @@ export const ROLES: Role[] = [
   },
   {
     id: 'marketing',
-    emoji: '📣',
+    icon: 'megaphone',
     name: 'マーケティング',
     shortName: 'マーケ',
     catch: '量産はAI、判断は人間。「AIっぽさ」を出さないのが腕の見せどころ。',
@@ -40,7 +41,7 @@ export const ROLES: Role[] = [
   },
   {
     id: 'office',
-    emoji: '🗂️',
+    icon: 'folder',
     name: '事務・バックオフィス',
     shortName: '事務',
     catch: 'Excelの数式、書類の清書、マニュアル作り。調べながらやる仕事が一番速くなる。',
@@ -49,7 +50,7 @@ export const ROLES: Role[] = [
   },
   {
     id: 'creator',
-    emoji: '🎨',
+    icon: 'palette',
     name: 'クリエイター',
     shortName: '創作',
     catch: 'AIは筆を奪う敵か、最強のアシスタントか。使う側に回った人から答えが出ている。',

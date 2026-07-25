@@ -10,6 +10,7 @@
       model が null のあいだは選択画面に「準備中」として並ぶだけで、
       選べないので、GLBを置く前にエントリだけ先に書いても壊れない。
    ============================================================ */
+import type { IconName } from '@/components/icons';
 
 export interface AvatarView {
   /** 画角。小さいほど望遠＝歪みが減る */
@@ -31,8 +32,8 @@ export interface AvatarModel {
 export interface AvatarDef {
   id: string;
   name: string;
-  /** GLB未配置のときに出す代役の絵文字 */
-  emoji: string;
+  /** GLB未配置のときに出す代役のアイコン */
+  icon: IconName;
   tagline: string;
   /** 口調・性格のメモ（セリフを書き分けるときの指針） */
   personality: string;
@@ -52,7 +53,7 @@ export const AVATARS: AvatarDef[] = [
   {
     id: 'sensei',
     name: '先生',
-    emoji: '🧑‍🏫',
+    icon: 'person',
     tagline: 'ぶっきらぼうだけど、要所ではちゃんと褒める。',
     personality: '口数少なめ・言い切り型。照れ隠し気味に労う。絵文字は使わない',
     accent: '#e60012',
@@ -65,7 +66,7 @@ export const AVATARS: AvatarDef[] = [
   {
     id: 'senpai',
     name: '先輩',
-    emoji: '😎',
+    icon: 'person',
     tagline: '軽いノリで先に失敗しておいてくれる人。',
     personality: 'テンション高め・タメ口寄り。失敗談から入る',
     accent: '#1a6cff',
@@ -74,7 +75,7 @@ export const AVATARS: AvatarDef[] = [
   {
     id: 'kouhai',
     name: '後輩',
-    emoji: '🐣',
+    icon: 'person',
     tagline: '一緒に覚える。教えると自分の理解が深まるタイプ。',
     personality: '敬語・素直・質問が多い。教える側に回らせる相手',
     accent: '#1fa463',
@@ -83,7 +84,7 @@ export const AVATARS: AvatarDef[] = [
   {
     id: 'shishou',
     name: '師匠',
-    emoji: '🧙',
+    icon: 'person',
     tagline: '遠回りに見えて、いちばん深いところを突いてくる。',
     personality: '老練・比喩多め・結論を先に言わない',
     accent: '#6e635b',
@@ -92,7 +93,7 @@ export const AVATARS: AvatarDef[] = [
   {
     id: 'aibou',
     name: '相棒',
-    emoji: '🤖',
+    icon: 'person',
     tagline: 'AIのことはAIに聞け。淡々と、正確に。',
     personality: '無感情・簡潔・数字で語る',
     accent: '#f08c00',

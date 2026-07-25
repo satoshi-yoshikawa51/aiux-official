@@ -9,7 +9,7 @@
    2. テクスチャはGLBの外に出して、ここで material.map に割り当てる
       （GLB埋め込み画像はRNの画像デコーダを通せないため）
 
-   読み込みに失敗しても学習は続けられるよう、失敗時は絵文字の
+   読み込みに失敗しても学習は続けられるよう、失敗時はアイコンの
    立ち絵にフォールバックする。
    ============================================================ */
 import { Asset } from 'expo-asset';
@@ -22,12 +22,13 @@ import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 import { IDLE, LOOPING, type AvatarMotion } from './motions';
+import { Icon, type IconName } from '@/components/icons';
 import type { AvatarDef } from '@/data/avatars';
 import { F, T } from '@/theme';
 
 export interface AvatarHandle {
   play: (motion: AvatarMotion) => void;
-  emote: (emoji: string) => void;
+  emote: (icon: IconName) => void;
 }
 
 interface Props {
@@ -60,7 +61,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
   const emoteTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const disposedRef = React.useRef(false);
 
-  const [emoteChar, setEmoteChar] = React.useState<string | null>(null);
+  const [emoteIcon, setEmoteIcon] = React.useState<IconName | null>(null);
   const [status, setStatus] = React.useState<'loading' | 'ready' | 'failed'>('loading');
 
   const model = avatar.model;
@@ -87,10 +88,10 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
     ref,
     () => ({
       play: playByName,
-      emote: (emoji: string) => {
-        setEmoteChar(emoji);
+      emote: (icon: IconName) => {
+        setEmoteIcon(icon);
         if (emoteTimer.current) clearTimeout(emoteTimer.current);
-        emoteTimer.current = setTimeout(() => setEmoteChar(null), 1800);
+        emoteTimer.current = setTimeout(() => setEmoteIcon(null), 1800);
       },
     }),
     [playByName],
@@ -186,7 +187,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
   if (!model || status === 'failed') {
     return (
       <View style={[styles.host, { width, height }, styles.fallback]}>
-        <Text style={{ fontSize: Math.min(width, height) * 0.42 }}>{avatar.emoji}</Text>
+        <Icon name={avatar.icon} size={Math.min(width, height) * 0.4} color={T.disabled} />
         {status === 'failed' && <Text style={F.tiny}>3D表示に失敗しました</Text>}
       </View>
     );
@@ -201,9 +202,9 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           <Text style={[F.tiny, { marginTop: 6 }]}>{avatar.name}を呼んでいます…</Text>
         </View>
       )}
-      {emoteChar && (
+      {emoteIcon && (
         <View style={styles.emote}>
-          <Text style={styles.emoteText}>{emoteChar}</Text>
+          <Icon name={emoteIcon} size={28} color={T.accent} />
         </View>
       )}
     </View>
@@ -224,5 +225,4 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   emote: { position: 'absolute', top: -4, left: 0, right: 0, alignItems: 'center' },
-  emoteText: { fontSize: 30 },
 });

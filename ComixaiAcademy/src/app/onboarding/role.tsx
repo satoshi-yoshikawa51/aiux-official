@@ -3,12 +3,13 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
 
+import { Icon } from '@/components/icons';
 import { Badge, Bubble, Button, PressCard, Row, Screen, SectionHead } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { ROLES } from '@/data/roles';
 import type { RoleId } from '@/data/types';
 import { useProgress } from '@/store/progress';
-import { F, POP, S } from '@/theme';
+import { F, POP, S, T } from '@/theme';
 
 export default function RolePickScreen() {
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function RolePickScreen() {
               style={{ padding: S.lg, gap: S.sm }}>
               <Row style={{ justifyContent: 'space-between' }}>
                 <Row gap={S.sm} style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 24 }}>{r.emoji}</Text>
+                  <Icon name={r.icon} size={24} color={T.text} />
                   <Text style={[F.h1, { flex: 1 }]}>{r.name}</Text>
                 </Row>
                 {selected ? <Badge tone="red">これ</Badge> : null}

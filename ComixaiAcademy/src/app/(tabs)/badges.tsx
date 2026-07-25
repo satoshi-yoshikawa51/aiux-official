@@ -2,6 +2,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
+import { Icon } from '@/components/icons';
 import { Badge, Panel, Pop, Progress, Row, Screen, SectionHead, Tone } from '@/components/ui';
 import { BADGES, TITLES } from '@/data/badges';
 import { useProgress, useStats } from '@/store/progress';
@@ -34,7 +35,7 @@ export default function BadgesScreen() {
           }}>
           <Text style={[F.kicker, { color: C.red100 }]}>CURRENT RANK</Text>
           <Row gap={S.sm}>
-            <Text style={{ fontSize: 30 }}>{stats.title.emoji}</Text>
+            <Icon name={stats.title.icon} size={30} color={C.paper0} />
             <Text style={[F.title, { color: C.paper50, flex: 1 }]}>{stats.title.name}</Text>
           </Row>
           <Progress value={stats.badgeCount} total={stats.badgeTotal} />
@@ -59,7 +60,7 @@ export default function BadgesScreen() {
               }}>
               <Row style={{ justifyContent: 'space-between' }}>
                 <Row gap={S.sm} style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 19, opacity: reached ? 1 : 0.25 }}>{t.emoji}</Text>
+                  <Icon name={t.icon} size={20} color={T.text} opacity={reached ? 1 : 0.25} />
                   <Text
                     style={[F.strong, { color: reached ? T.text : T.disabled, fontSize: 15.5, flex: 1 }]}>
                     {t.name}
@@ -94,7 +95,7 @@ export default function BadgesScreen() {
             const got = !!state.badges[b.id];
             return got ? (
               <Panel key={b.id} tone="dots" style={{ width: '46%' }} contentStyle={{ gap: 4, padding: S.md }}>
-                <Text style={{ fontSize: 28 }}>{b.emoji}</Text>
+                <Icon name={b.icon} size={28} color={T.text} />
                 <Text style={[F.strong, { fontSize: 14 }]}>{b.name}</Text>
                 <Text style={F.tiny}>{b.desc}</Text>
               </Panel>
@@ -112,7 +113,7 @@ export default function BadgesScreen() {
                   marginRight: POP.md,
                   marginBottom: POP.md,
                 }}>
-                <Text style={{ fontSize: 28, opacity: 0.2 }}>❔</Text>
+                <Icon name="lock" size={26} color={T.disabled} opacity={0.6} />
                 <Text style={[F.strong, { fontSize: 14, color: T.disabled }]}>？？？</Text>
                 <Text style={F.tiny}>{b.hint}</Text>
               </View>
