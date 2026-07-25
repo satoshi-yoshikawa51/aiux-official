@@ -47,6 +47,16 @@ npm run dev
 - **お問い合わせの送信先**: `FORMSPREE_ENDPOINT`（現状 comixai@outlook.jp 宛のFormspree）。
 - **メインビジュアルの動画**: `HERO_VIDEO_ID`（YouTubeの動画ID）。
 
+## 同梱している別プロジェクト
+
+このリポジトリには、サイト本体とは独立して動くアプリも入っています。
+
+- **`ComixaiAcademy/`** — スマホアプリ「COMIXAI アカデミー」（Expo / React Native）。
+  3Dアバターを選び、職種を選ぶと、その職種向けにレッスンが変化する学習アプリ。
+  クリアするとバッジが増え、称号が上がります。サイトの用語集・職種別ガイド・
+  プロンプト集を元ネタにしています。詳細は `ComixaiAcademy/README.md`。
+- **`PrismNews/`** — パーソナライズドニュースの iPhoneアプリ（SwiftUI）。
+
 ## メモ
 
 - お問い合わせは [Formspree](https://formspree.io) 経由で `comixai@outlook.jp` に届きます。初回はFormspreeの確認メール承認が必要です。

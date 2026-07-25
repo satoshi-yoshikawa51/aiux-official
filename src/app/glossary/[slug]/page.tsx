@@ -328,7 +328,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                 <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 10 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/profile/portrait.png"
+                    src="/profile/portrait-icon.webp"
                     alt="吉川聡史のプロフィール写真"
                     loading="lazy"
                     style={{ width: 54, height: 54, borderRadius: "50%", objectFit: "cover", objectPosition: "top", border: "var(--bw-line) solid var(--ink-900)", flex: "none" }}

@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "COMIXAI アカデミー",
+    "slug": "comixai-academy",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "comixaiacademy",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#fbf7ef",
+    "ios": {
+      "bundleIdentifier": "dev.comixai.academy",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "dev.comixai.academy",
+      "adaptiveIcon": {
+        "backgroundColor": "#fbf7ef",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#fbf7ef",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 120
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false,
+      "reactCompiler": true
+    }
+  }
+}

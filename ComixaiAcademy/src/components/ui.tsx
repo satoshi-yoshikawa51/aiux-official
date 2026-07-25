@@ -1,0 +1,614 @@
+/* ============================================================
+   UI部品。サイトのデザインシステム（src/app/ds.tsx）の移植。
+
+   ■ ポップシャドウについて
+   サイトの box-shadow: 5px 5px 0 var(--ink-900) を、RNの shadow* で
+   再現することはできない（iOS専用で、Androidは elevation のぼかし影に
+   なってしまう）。そこで「同じ形のベタ塗りViewを裏にずらして敷く」
+   方式にしている。これなら iOS / Android / Web で同じ絵が出る。
+   ============================================================ */
+import { Asset } from 'expo-asset';
+import * as Haptics from 'expo-haptics';
+import React from 'react';
+import {
+  ImageBackground,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  type StyleProp,
+  type TextStyle,
+  type ViewStyle,
+} from 'react-native';
+import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
+
+import { BW, C, F, FONT, POP, R, S, T, TAB } from '@/theme';
+
+const TONE_DOTS = require('@/assets/images/tone-dots.png');
+const TONE_LINES = require('@/assets/images/tone-lines.png');
+
+/* ———————————————— スクリーントーン ————————————————
+   ネイティブは ImageBackground の resizeMode="repeat" でタイルを敷ける。
+   react-native-web は repeat に対応していないので、Webのときだけ
+   CSSの background-repeat に落とす。 */
+
+export type ToneKind = 'none' | 'dots' | 'lines';
+
+const toneSource = (t: ToneKind) => (t === 'dots' ? TONE_DOTS : TONE_LINES);
+
+export function Tone({
+  tone,
+  style,
+  children,
+}: {
+  tone: ToneKind;
+  style?: StyleProp<ViewStyle>;
+  children?: React.ReactNode;
+}) {
+  if (tone === 'none') return <View style={style}>{children}</View>;
+
+  if (Platform.OS === 'web') {
+    const a = Asset.fromModule(toneSource(tone));
+    const web = {
+      backgroundImage: `url(${a.uri})`,
+      backgroundRepeat: 'repeat',
+      backgroundSize: `${a.width ?? 9}px ${a.height ?? 9}px`,
+    } as unknown as ViewStyle;
+    return <View style={[style, web]}>{children}</View>;
+  }
+
+  return (
+    <ImageBackground source={toneSource(tone)} resizeMode="repeat" style={style}>
+      {children}
+    </ImageBackground>
+  );
+}
+
+/* ———————————————— ベタ塗りの影 ———————————————— */
+
+export function Pop({
+  children,
+  offset = POP.md,
+  radius = R.md,
+  color = T.border,
+  style,
+  /** 影のぶんの余白を確保する（並べたときに次の要素と重ならない） */
+  reserve = true,
+}: {
+  children: React.ReactNode;
+  offset?: number;
+  radius?: number;
+  color?: string;
+  style?: StyleProp<ViewStyle>;
+  reserve?: boolean;
+}) {
+  return (
+    <View style={[reserve && { marginRight: offset, marginBottom: offset }, style]}>
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          left: offset,
+          top: offset,
+          right: -offset,
+          bottom: -offset,
+          backgroundColor: color,
+          borderRadius: radius,
+        }}
+      />
+      {children}
+    </View>
+  );
+}
+
+/* ———————————————— 画面 ———————————————— */
+
+export function Screen({
+  children,
+  edges = ['top'],
+  scroll = true,
+  style,
+}: {
+  children: React.ReactNode;
+  edges?: Edge[];
+  scroll?: boolean;
+  style?: StyleProp<ViewStyle>;
+}) {
+  /* 下の固定タブバーに内容が隠れないよう、その高さ＋安全領域を空ける。
+     タブの無い画面（オンボーディング）でも末尾に余白が出るだけで害はない */
+  const insets = useSafeAreaInsets();
+  const bottomPad = TAB.clearance + (edges.includes('bottom') ? 0 : insets.bottom);
+
+  return (
+    <SafeAreaView style={styles.screen} edges={edges}>
+      {scroll ? (
+        <ScrollView
+          contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
+          showsVerticalScrollIndicator={false}>
+          {children}
+        </ScrollView>
+      ) : (
+        <View style={[{ flex: 1 }, styles.screenPad, { paddingBottom: bottomPad }, style]}>
+          {children}
+        </View>
+      )}
+    </SafeAreaView>
+  );
+}
+
+/* ———————————————— カード / コマ ———————————————— */
+
+type CardTone = 'surface' | 'sunk' | 'accent' | 'ok' | 'warn' | 'ink';
+
+const CARD_BG: Record<CardTone, string> = {
+  surface: T.surface,
+  sunk: T.sunk,
+  accent: T.accentSoft,
+  ok: T.okSoft,
+  warn: T.warnSoft,
+  ink: C.ink900,
+};
+
+export function Card({
+  children,
+  tone = 'surface',
+  variant = 'pop',
+  style,
+  contentStyle,
+}: {
+  children: React.ReactNode;
+  tone?: CardTone;
+  /** pop=太枠＋ベタ影 / flat=太枠のみ / soft=細枠のみ */
+  variant?: 'pop' | 'flat' | 'soft';
+  style?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
+}) {
+  const body = (
+    <View
+      style={[
+        {
+          backgroundColor: CARD_BG[tone],
+          borderWidth: variant === 'soft' ? BW.hair : BW.bold,
+          borderColor: variant === 'soft' ? T.borderSoft : T.border,
+          borderRadius: R.md,
+          padding: S.lg,
+          gap: S.sm,
+        },
+        contentStyle,
+      ]}>
+      {children}
+    </View>
+  );
+  if (variant !== 'pop') return <View style={style}>{body}</View>;
+  return (
+    <Pop radius={R.md} style={style}>
+      {body}
+    </Pop>
+  );
+}
+
+/** マンガのコマ。網点／斜線のトーンを敷ける。number はコマ番号 */
+export function Panel({
+  children,
+  tone = 'none',
+  number,
+  caption,
+  tilt = 0,
+  style,
+  contentStyle,
+}: {
+  children: React.ReactNode;
+  tone?: ToneKind;
+  number?: string;
+  caption?: string;
+  /** 傾き（度）。±1〜3くらいが効く */
+  tilt?: number;
+  style?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
+}) {
+  const inner = (
+    <View
+      style={{
+        backgroundColor: T.surface,
+        borderWidth: BW.bold,
+        borderColor: T.border,
+        borderRadius: R.sm,
+        overflow: 'hidden',
+      }}>
+      <Tone tone={tone} style={[{ padding: S.lg, gap: S.sm }, contentStyle]}>
+        {children}
+      </Tone>
+      {number != null && (
+        <View style={styles.panelNumber}>
+          <Text style={styles.panelNumberText}>{number}</Text>
+        </View>
+      )}
+      {caption ? (
+        <View style={styles.panelCaption}>
+          <Text style={[F.hand, { color: T.text }]}>{caption}</Text>
+        </View>
+      ) : null}
+    </View>
+  );
+  return (
+    <Pop radius={R.sm} style={[tilt ? { transform: [{ rotate: `${tilt}deg` }] } : null, style]}>
+      {inner}
+    </Pop>
+  );
+}
+
+/* ———————————————— ボタン ———————————————— */
+
+type BtnVariant = 'primary' | 'secondary' | 'ink' | 'ghost' | 'yellow';
+
+const BTN: Record<BtnVariant, { bg: string; fg: string; border: string }> = {
+  primary: { bg: T.accent, fg: C.paper0, border: T.border },
+  secondary: { bg: T.surface, fg: C.ink900, border: T.border },
+  ink: { bg: C.ink900, fg: C.paper50, border: T.border },
+  ghost: { bg: 'transparent', fg: C.ink900, border: 'transparent' },
+  yellow: { bg: C.yellow400, fg: C.ink900, border: T.border },
+};
+
+export function Button({
+  label,
+  onPress,
+  variant = 'primary',
+  size = 'md',
+  disabled,
+  style,
+}: {
+  label: string;
+  onPress: () => void;
+  variant?: BtnVariant;
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+}) {
+  const [pressed, setPressed] = React.useState(false);
+  const v = BTN[variant];
+  const dims = {
+    sm: { fontSize: 14, py: 9, px: 14, radius: R.sm },
+    md: { fontSize: 16, py: 13, px: 20, radius: R.sm },
+    lg: { fontSize: 18, py: 16, px: 28, radius: R.md },
+  }[size];
+  const flat = variant === 'ghost';
+  const offset = flat ? 0 : pressed ? 1 : POP.sm;
+
+  const face = (
+    <View
+      style={{
+        backgroundColor: v.bg,
+        borderWidth: BW.bold,
+        borderColor: v.border,
+        borderRadius: dims.radius,
+        paddingVertical: dims.py,
+        paddingHorizontal: dims.px,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Text style={{ fontFamily: FONT.heading, fontSize: dims.fontSize, color: v.fg, letterSpacing: 0.4 }}>
+        {label}
+      </Text>
+    </View>
+  );
+
+  return (
+    <Pressable
+      disabled={disabled}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
+      onPress={() => {
+        if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+        onPress();
+      }}
+      style={[{ opacity: disabled ? 0.45 : 1 }, style]}>
+      {flat ? (
+        face
+      ) : (
+        /* 押している間は影が縮んで、ボタン自体が沈む（サイトと同じ挙動） */
+        <Pop offset={offset} radius={dims.radius} reserve={false} style={{ marginBottom: POP.sm }}>
+          <View style={{ transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }] }}>
+            {face}
+          </View>
+        </Pop>
+      )}
+    </Pressable>
+  );
+}
+
+/* ———————————————— バッジ / チップ ———————————————— */
+
+type BadgeTone = 'ink' | 'red' | 'soft' | 'blue' | 'yellow' | 'green' | 'paper';
+
+const BADGE: Record<BadgeTone, { bg: string; fg: string; bd: string }> = {
+  ink: { bg: C.ink900, fg: C.paper50, bd: C.ink900 },
+  red: { bg: C.red500, fg: '#fff', bd: C.ink900 },
+  soft: { bg: C.red50, fg: C.red700, bd: C.red500 },
+  blue: { bg: C.blue50, fg: C.blue600, bd: C.blue500 },
+  yellow: { bg: C.yellow400, fg: C.ink900, bd: C.ink900 },
+  green: { bg: C.green50, fg: C.green500, bd: C.green500 },
+  paper: { bg: C.paper0, fg: C.ink900, bd: C.ink900 },
+};
+
+export function Badge({
+  children,
+  tone = 'ink',
+  style,
+}: {
+  children: React.ReactNode;
+  tone?: BadgeTone;
+  style?: StyleProp<ViewStyle>;
+}) {
+  const t = BADGE[tone];
+  return (
+    <View
+      style={[
+        {
+          alignSelf: 'flex-start',
+          backgroundColor: t.bg,
+          borderWidth: BW.line,
+          borderColor: t.bd,
+          borderRadius: R.full,
+          paddingHorizontal: 9,
+          paddingVertical: 4,
+        },
+        style,
+      ]}>
+      <Text style={{ fontFamily: FONT.heading, fontSize: 12, color: t.fg, letterSpacing: 0.3 }}>
+        {children}
+      </Text>
+    </View>
+  );
+}
+
+/** サイトの Tag（先頭に # が付く細枠チップ） */
+export function Chip({
+  children,
+  active = false,
+  style,
+}: {
+  children: React.ReactNode;
+  active?: boolean;
+  style?: StyleProp<ViewStyle>;
+}) {
+  return (
+    <View
+      style={[
+        {
+          flexDirection: 'row',
+          alignSelf: 'flex-start',
+          alignItems: 'center',
+          backgroundColor: active ? C.ink900 : C.paper0,
+          borderWidth: BW.hair,
+          borderColor: C.ink900,
+          borderRadius: R.full,
+          paddingHorizontal: 11,
+          paddingVertical: 6,
+        },
+        style,
+      ]}>
+      <Text style={{ fontFamily: FONT.body, fontSize: 13, color: active ? C.red100 : T.muted }}>#</Text>
+      <Text style={{ fontFamily: FONT.body, fontSize: 13, color: active ? C.paper50 : T.body }}>
+        {children}
+      </Text>
+    </View>
+  );
+}
+
+/* ———————————————— フキダシ ———————————————— */
+
+export function Bubble({
+  text,
+  variant = 'say',
+  style,
+  font = 'hand',
+}: {
+  text: string;
+  /** say=丸 / shout=強調（太枠・傾き） / think=考えごと（しっぽが丸） */
+  variant?: 'say' | 'shout' | 'think';
+  style?: StyleProp<ViewStyle>;
+  font?: 'hand' | 'body';
+}) {
+  const shout = variant === 'shout';
+  const think = variant === 'think';
+  return (
+    <View style={style}>
+      <Pop offset={POP.sm} radius={shout ? R.md : R.bubble} reserve={false}>
+        <View
+          style={{
+            backgroundColor: T.surface,
+            borderWidth: shout ? BW.heavy : BW.bold,
+            borderColor: T.border,
+            borderRadius: shout ? R.md : R.bubble,
+            paddingVertical: S.md,
+            paddingHorizontal: S.lg,
+          }}>
+          <Text
+            style={
+              font === 'hand'
+                ? { fontFamily: FONT.hand, fontSize: shout ? 19 : 16, lineHeight: shout ? 29 : 27, color: T.text }
+                : { fontFamily: FONT.body, fontSize: 15, lineHeight: 26, color: T.text }
+            }>
+            {text}
+          </Text>
+        </View>
+      </Pop>
+      {think ? (
+        <>
+          <View style={[styles.thinkDot, { width: 14, height: 14, bottom: -10, left: 30 }]} />
+          <View style={[styles.thinkDot, { width: 8, height: 8, bottom: -22, left: 22 }]} />
+        </>
+      ) : (
+        <>
+          <View style={styles.tailOuter} />
+          <View style={styles.tailInner} />
+        </>
+      )}
+    </View>
+  );
+}
+
+/* ———————————————— 見出し ———————————————— */
+
+export function SectionHead({
+  kicker,
+  title,
+  hand,
+}: {
+  kicker: string;
+  title: string;
+  hand?: string;
+}) {
+  return (
+    <View style={{ gap: 6 }}>
+      <Text style={F.kicker}>{kicker}</Text>
+      <Text style={F.title}>{title}</Text>
+      {hand ? <Text style={F.hand}>{hand}</Text> : null}
+    </View>
+  );
+}
+
+/* ———————————————— その他 ———————————————— */
+
+export function Progress({ value, total }: { value: number; total: number }) {
+  const pct = total > 0 ? Math.min(100, Math.round((value / total) * 100)) : 0;
+  return (
+    <View style={styles.barTrack}>
+      <View style={[styles.barFill, { width: `${pct}%` }]} />
+    </View>
+  );
+}
+
+export function Row({
+  children,
+  style,
+  gap = S.sm,
+}: {
+  children: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
+  gap?: number;
+}) {
+  return <View style={[{ flexDirection: 'row', alignItems: 'center', gap }, style]}>{children}</View>;
+}
+
+/** 押せる行。押すと少し沈む（カード全体がボタンのとき用） */
+export function PressCard({
+  children,
+  onPress,
+  disabled,
+  selected,
+  style,
+}: {
+  children: React.ReactNode;
+  onPress: () => void;
+  disabled?: boolean;
+  selected?: boolean;
+  style?: StyleProp<ViewStyle>;
+}) {
+  const [pressed, setPressed] = React.useState(false);
+  return (
+    <Pressable
+      disabled={disabled}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
+      onPress={onPress}
+      style={{ opacity: disabled ? 0.45 : 1 }}>
+      <Pop offset={pressed ? 1 : POP.sm} radius={R.md} reserve={false} style={{ marginBottom: POP.sm }}>
+        <View
+          style={[
+            {
+              backgroundColor: selected ? T.accentSoft : T.surface,
+              borderWidth: selected ? BW.bold : BW.line,
+              borderColor: T.border,
+              borderRadius: R.md,
+              padding: S.md,
+              transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }],
+            },
+            style,
+          ]}>
+          {children}
+        </View>
+      </Pop>
+    </Pressable>
+  );
+}
+
+export function Muted({ children, style }: { children: React.ReactNode; style?: StyleProp<TextStyle> }) {
+  return <Text style={[F.small, style]}>{children}</Text>;
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: T.bg },
+  screenPad: { padding: S.lg, gap: S.xl },
+
+  panelNumber: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundColor: C.ink900,
+    paddingHorizontal: 11,
+    paddingTop: 6,
+    paddingBottom: 8,
+    borderBottomRightRadius: R.sm,
+  },
+  panelNumberText: { fontFamily: FONT.display, fontSize: 18, lineHeight: 20, color: C.paper50 },
+  panelCaption: {
+    position: 'absolute',
+    right: 8,
+    bottom: 8,
+    maxWidth: '70%',
+    backgroundColor: C.paper0,
+    borderWidth: BW.line,
+    borderColor: C.ink900,
+    borderRadius: R.xs,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+
+  barTrack: {
+    height: 14,
+    borderRadius: R.full,
+    backgroundColor: T.sunk,
+    borderWidth: BW.line,
+    borderColor: T.border,
+    overflow: 'hidden',
+  },
+  barFill: { height: '100%', backgroundColor: T.accent },
+
+  /* フキダシのしっぽ：インク色の三角の上に紙色の三角を重ねて縁取りにする */
+  tailOuter: {
+    position: 'absolute',
+    bottom: -16,
+    left: 28,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 11,
+    borderRightWidth: 11,
+    borderTopWidth: 18,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderTopColor: T.border,
+  },
+  tailInner: {
+    position: 'absolute',
+    bottom: -10,
+    left: 31,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 8,
+    borderRightWidth: 8,
+    borderTopWidth: 13,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderTopColor: T.surface,
+  },
+  thinkDot: {
+    position: 'absolute',
+    backgroundColor: T.surface,
+    borderWidth: BW.line,
+    borderColor: T.border,
+    borderRadius: R.full,
+  },
+});

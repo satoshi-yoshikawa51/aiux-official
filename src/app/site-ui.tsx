@@ -151,10 +151,28 @@ export function ShareRow({ path, text }: { path: string; text: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
       <span style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", marginRight: 2 }}>役に立ったらシェア→</span>
-      <a href={xHref} target="_blank" rel="noopener noreferrer" style={btn} aria-label="Xでシェア">
+      <a
+        href={xHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={btn}
+        aria-label="Xでシェア"
+        data-ga="share_click"
+        data-ga-network="x"
+        data-ga-path={path}
+      >
         <span style={{ fontWeight: 900 }}>𝕏</span> ポスト
       </a>
-      <a href={hbHref} target="_blank" rel="noopener noreferrer" style={{ ...btn, color: "#00A4DE" }} aria-label="はてなブックマークに追加">
+      <a
+        href={hbHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ ...btn, color: "#00A4DE" }}
+        aria-label="はてなブックマークに追加"
+        data-ga="share_click"
+        data-ga-network="hatena"
+        data-ga-path={path}
+      >
         <span style={{ fontWeight: 900 }}>B!</span> ブックマーク
       </a>
     </div>

@@ -18,6 +18,7 @@ import { createPortal } from "react-dom";
 import { ClaudeAppSim, type SimEvent } from "./game";
 import { Sensei, type SenseiHandle } from "./sensei";
 import { COURSES, type GuideCtx } from "./courses";
+import { track } from "../ga";
 
 const DONE_KEY = "claude-app-courses-done";
 
@@ -146,6 +147,7 @@ export function GuidedClaudeApp() {
   }, [modalOpen]);
 
   const finishCourse = React.useCallback((id: string) => {
+    track("course_complete", { course: id });
     setDone((prev) => {
       const next = prev.includes(id) ? prev : [...prev, id];
       try { localStorage.setItem(DONE_KEY, JSON.stringify(next)); } catch { /* noop */ }
@@ -226,6 +228,7 @@ export function GuidedClaudeApp() {
   const startCourse = (id: string) => {
     const c = COURSES.find((x) => x.id === id);
     if (!c) return;
+    track("course_start", { course: id, steps: c.steps.length });
     evQueue.current = []; // 前回セッションの先回りイベントを持ち越さない
     resetCtx();
     let n = 0;
@@ -235,6 +238,7 @@ export function GuidedClaudeApp() {
     setModalOpen(true);
   };
   const startFree = () => {
+    track("course_start", { course: "free" });
     evQueue.current = [];
     resetCtx();
     setCourseId(null);
@@ -242,6 +246,13 @@ export function GuidedClaudeApp() {
     setModalOpen(true);
   };
   const closeModal = () => {
+    /* 完走時は finishCourse 側で閉じるので、ここに来るのは途中離脱。
+       何ステップ目で閉じたかが分かると詰まりの発見に使える。 */
+    track("course_exit", {
+      course: courseId ?? "free",
+      step: course ? stepIdx + 1 : 0,
+      steps: course ? course.steps.length : 0,
+    });
     evQueue.current = [];
     setCourseId(null);
     setStepIdx(0);
