@@ -133,7 +133,7 @@ export default function HistoryPage() {
         {/* 読了エリア */}
         <Card variant="pop" padding={0} style={{ overflow: "hidden", marginTop: 10 }}>
           <div style={{ padding: "28px 26px 24px", textAlign: "center", background: "var(--yellow-400)", borderBottom: "var(--bw-bold) solid var(--ink-900)" }}>
-            <div style={{ fontSize: 40, lineHeight: 1 }}>📜</div>
+            <div style={{ fontSize: 40, lineHeight: 1 }}><i className="ph-bold ph-scroll" /></div>
             <h2 style={{ margin: "8px 0 0", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.8vw,28px)" }}>読破！75年、おつかれさまでした。</h2>
           </div>
           <div style={{ padding: "20px 24px 26px", textAlign: "center" }}>
@@ -162,7 +162,8 @@ export default function HistoryPage() {
               </a>
             </div>
             <p style={{ margin: "16px 0 0", textAlign: "center", fontFamily: "var(--font-hand)", fontSize: 13.5, color: "var(--text-muted)" }}>
-              📖 図鑑に「AI75年史・読破」を記録しました —{" "}
+              <i className="ph-bold ph-book-open" style={{ marginRight: 4 }} />
+              図鑑に「AI75年史・読破」を記録しました —{" "}
               <a href="/zukan" style={{ color: "var(--red-600)", fontWeight: 700 }}>
                 コレクションを見る
               </a>

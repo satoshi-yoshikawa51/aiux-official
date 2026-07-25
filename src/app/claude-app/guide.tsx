@@ -101,7 +101,7 @@ function Highlight({ target, scope }: { target: string; scope?: string }) {
           fontSize: 26, animation: "guide-bounce .7s ease-in-out infinite alternate",
         }}
       >
-        {arrowAbove ? "👇" : "👆"}
+        <i className={arrowAbove ? "ph-bold ph-arrow-fat-down" : "ph-bold ph-arrow-fat-up"} style={{ display: "block" }} />
       </div>
       <style>{`
         @keyframes guide-pulse { 0%,100% { box-shadow: 0 0 0 3px rgba(255,122,26,.25), 0 0 18px rgba(255,122,26,.45) } 50% { box-shadow: 0 0 0 6px rgba(255,122,26,.12), 0 0 26px rgba(255,122,26,.6) } }
@@ -333,7 +333,17 @@ export function GuidedClaudeApp() {
         {/* ヘッダー */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", borderBottom: "1px solid rgba(0,0,0,.12)" }}>
           <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15 }}>
-            {course ? `${course.emoji} ${course.title}` : "🕹️ 自由に触ってみる"}
+            {course ? (
+              <>
+                <i className={"ph-bold " + course.icon} style={{ marginRight: 6 }} />
+                {course.title}
+              </>
+            ) : (
+              <>
+                <i className="ph-bold ph-game-controller" style={{ marginRight: 6 }} />
+                自由に触ってみる
+              </>
+            )}
           </span>
           {course && (
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted, #888)", fontWeight: 700 }}>
@@ -433,7 +443,8 @@ export function GuidedClaudeApp() {
             )}
             {typingDone && awaiting && (
               <div style={{ marginTop: 6, fontSize: 11, color: "#999", fontWeight: 700 }}>
-                ⬆ オレンジ枠。操作して
+                <i className="ph-bold ph-arrow-up" style={{ marginRight: 4 }} />
+                オレンジ枠。操作して
               </div>
             )}
           </div>
@@ -447,7 +458,8 @@ export function GuidedClaudeApp() {
   return (
     <div>
       <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.2vw,30px)", margin: "0 0 8px" }}>
-        🎓 教習コースで、触りながら覚える
+        <i className="ph-bold ph-graduation-cap" style={{ marginRight: 8, color: "#D97757" }} />
+        教習コースで、触りながら覚える
       </h2>
       <p style={{ fontSize: 14, lineHeight: 2, color: "var(--text-body, #444)", margin: "0 0 20px" }}>
         <b>1コース約5分</b>。コースを選ぶと練習画面がひらき、講師が「どこを押すか」を1つずつ案内します。
@@ -469,8 +481,14 @@ export function GuidedClaudeApp() {
             }}
           >
             <span style={{ display: "block", fontSize: 14.5, fontWeight: 900 }}>
-              {c.emoji} {c.title}
-              {done.includes(c.id) && <span style={{ color: "#3E7B4F" }}> ✓</span>}
+              <i className={"ph-bold " + c.icon} style={{ marginRight: 6 }} />
+              {c.title}
+              {done.includes(c.id) && (
+                <span style={{ color: "#3E7B4F" }}>
+                  {" "}
+                  <i className="ph-bold ph-check" />
+                </span>
+              )}
             </span>
             <span style={{ display: "block", fontSize: 12, color: "var(--text-muted, #888)", margin: "4px 0 0", lineHeight: 1.7 }}>
               {c.desc}
@@ -487,7 +505,10 @@ export function GuidedClaudeApp() {
             border: "2px dashed var(--ink-900, #999)", background: "transparent",
           }}
         >
-          <span style={{ display: "block", fontSize: 14.5, fontWeight: 900 }}>🕹️ 自由に触ってみる</span>
+          <span style={{ display: "block", fontSize: 14.5, fontWeight: 900 }}>
+            <i className="ph-bold ph-game-controller" style={{ marginRight: 6 }} />
+            自由に触ってみる
+          </span>
           <span style={{ display: "block", fontSize: 12, color: "var(--text-muted, #888)", margin: "4px 0 0", lineHeight: 1.7 }}>
             ガイドなしでシミュレーターを操作。APIキーがあれば本物のClaudeとも話せます
           </span>

@@ -39,6 +39,47 @@ npm run og:glossary  # OGP画像を一括生成（Playwright/Chromium を使用�
 - `src/app/site-ui.tsx` — `Breadcrumb` / `SectionHead` / `ShareRow` / `RelatedArticleCard` / `toneBg` などページ横断の部品。
 - フォントとPhosphorアイコンは npm からセルフホスト（`layout.tsx` でimport）。**外部CDNを足さない**（LCP対策の意図的な設計）。
 
+### アイコンは Phosphor に統一する
+
+UIのアイコンは **Phosphor（`@phosphor-icons/web`）だけ**を使う。絵文字はUIに置かない。
+端末とOSで字形・色・太さが丸ごと変わってしまい、同じページでも見え方が揃わないため。
+
+```tsx
+<i className="ph-bold ph-rocket-launch" style={{ marginRight: 6 }} />
+```
+
+- **ウェイトは `ph-bold` のみ。** `layout.tsx` が読み込んでいるのはboldだけなので、
+  `ph-fill` や `ph-regular` を書いても**何も表示されない**。増やすときはimportから。
+- 色は親から継承する。`color: "var(--red-500)"` のようにトークンで渡す。サイズは `fontSize`。
+- アイコン名は [phosphoricons.com](https://phosphoricons.com) で確認する。
+  **存在しない名前を書いても型エラーにもビルドエラーにもならず、黙って何も出ない**（幅0になる）。
+- 新規アイコンを足したら、ブラウザで `getBoundingClientRect().width > 0` を見るのが
+  いちばん確実な確認方法。実在しない名前なら幅0、実在すれば font-size 相当の幅になる。
+
+データ側は `emoji:` ではなく **`icon: string`（Phosphorのアイコン名）** で持つ。
+`prompts/data.ts`・`faq/parts.tsx`・`guide/data.tsx`・`compare/data.ts`・`claude-app/courses.ts`
+がその形になっているので、新しいセクションもこれに揃える。
+
+#### 絵文字のままにしてよいもの
+
+「アイコン」ではなく**中身そのもの**になっている絵文字は、置き換えない：
+
+- **`/zukan`（図鑑）** — 収集対象そのものが絵文字
+- **ゲームの登場人物・カード・プレイヤーが仕分ける選択肢** — 反射AI⚡／熟考AI🧠、ご褒美🍖、
+  スロップ🗑️など。**それを説明している本文の絵文字も、画面と食い違わないよう合わせて残す**。
+  ゲームで置き換えてよいのは画面のクローム（正誤マーク・設定・タブなど）だけ
+- **`history/eras.ts` の `scene`** — イラストが入るまでのプレースホルダとして3コマ分の絵で情景を出している
+- **`/tokenizer`** — 絵文字がどうトークンに分割されるかが主題
+- **note記事のタイトル**（🎍など。出典どおりに出したい）と、絵文字そのものを解説している本文
+- **悪い例として引用しているSNS投稿**（絵文字だらけなのが例の主旨）
+- **Xへ流す `share:` 文言** — プレーンテキストなのでアイコンを置けない
+- **`quiz` / `uso` の判定 `emoji`** — ページのmetadataのtitleに入るので文字列である必要がある
+
+#### SNSのロゴ
+
+XやGitHubなどのロゴは**商標なので描き直さない**。Phosphorの `ph-x-logo` `ph-github-logo`
+のような公式形のグリフをそのまま使う。
+
 ### コンテンツはTypeScriptで持つ
 
 セクションごとに `data.ts` があり、型付き配列＋`getX(slug)` ヘルパ＋`X_UPDATED` 日付定数をエクスポートする。`[slug]/page.tsx` はそれを元に静的生成し、`sitemap.ts` が全 `data.ts` から `*_UPDATED` を読んで lastModified を組み立てる。

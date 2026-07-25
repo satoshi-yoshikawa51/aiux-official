@@ -221,7 +221,7 @@ function HeroVideo() {
 }
 
 /* ═══════════════ Section head ═══════════════ */
-function SectionHead({ kicker, title, hand }: { kicker: string; title: string; hand?: string }) {
+function SectionHead({ kicker, title, hand }: { kicker: React.ReactNode; title: string; hand?: string }) {
   return (
     <div style={{ marginBottom: 28 }}>
       <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 8 }}>
@@ -719,7 +719,7 @@ function StartSection() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/start/hero.webp" alt="AIのはじめかた——？の山を越えて進むキャラクター" loading="lazy" style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)", display: "block" }} />
             <div style={{ padding: "16px 20px 20px" }}>
-              <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, marginBottom: 6 }}>🚀 AIのはじめかた</div>
+              <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, marginBottom: 6 }}><i className="ph-bold ph-rocket-launch" style={{ marginRight: 6, color: "var(--red-500)" }} />AIのはじめかた</div>
               <p style={{ margin: "0 0 12px", fontSize: 13.5, lineHeight: 1.85, color: "var(--text-body)" }}>
                 誰でも今日から始められる無料の学習コース。絵巻→マンガ→用語→体験ゲーム→実践の全3章。順番に進むだけでAIの基礎が身につきます。
               </p>
@@ -762,7 +762,7 @@ function NewsStrip() {
     .sort((a, b) => (a.start! < b.start! ? -1 : 1))[0];
   if (!topNews && !nextEvent) return null;
 
-  const label = (text: string) => (
+  const label = (text: React.ReactNode) => (
     <span
       style={{
         flex: "none",
@@ -820,13 +820,13 @@ function NewsStrip() {
           <div style={{ flex: "1 1 auto", minWidth: 0, display: "grid", gap: 8 }}>
             {topNews && (
               <a href={topNews.url} target="_blank" rel="noopener noreferrer" style={rowStyle}>
-                {label("📰 今日の話題")}
+                {label(<><i className="ph-bold ph-newspaper" style={{ marginRight: 4 }} />今日の話題</>)}
                 <span style={textStyle}>{topNews.titleJa ?? topNews.title}</span>
               </a>
             )}
             {nextEvent && (
               <a href="/calendar#calendar" style={rowStyle}>
-                {label("📅 イベント")}
+                {label(<><i className="ph-bold ph-calendar-blank" style={{ marginRight: 4 }} />イベント</>)}
                 <span style={textStyle}>
                   {nextEvent.title}
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--yellow-400)", marginLeft: 10 }}>{dateLabel(nextEvent)}</span>
@@ -881,7 +881,8 @@ function PromptRecipes() {
                 boxShadow: "var(--shadow-pop-sm)",
               }}
             >
-              {r.emoji} {r.title}
+              <i className={"ph-bold " + r.icon} style={{ marginRight: 6, color: "var(--red-500)" }} />
+              {r.title}
               <span style={{ color: "var(--text-muted)", fontWeight: 500 }}>のプロンプト</span>
               <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
             </a>
@@ -916,7 +917,8 @@ function PromptRecipes() {
                 style={{ display: "block", width: "100%", height: 96, objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }}
               />
               <span style={{ display: "block", padding: "9px 12px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, whiteSpace: "nowrap" }}>
-                {g.emoji} {g.role.split("・")[0]}のAI活用
+                <i className={"ph-bold " + g.icon} style={{ marginRight: 6, color: "var(--red-500)" }} />
+                {g.role.split("・")[0]}のAI活用
                 <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
               </span>
             </a>
@@ -1174,7 +1176,7 @@ function UketsukeFab() {
               aria-hidden="true"
               style={{ left: s.left, top: s.top, fontSize: s.size, color: s.color, animationDelay: `${s.delay + 0.35}s` }}
             >
-              ✦
+              <i className="ph-bold ph-star-four" />
             </span>
           ))}
       </a>
@@ -1218,7 +1220,7 @@ function UketsukeFab() {
             justifyContent: "center",
           }}
         >
-          ✕
+          <i className="ph-bold ph-x" />
         </button>
       </div>
       <a href="/uketsuke" aria-label="AI受付をひらく" style={{ display: "block" }}>

@@ -119,7 +119,7 @@ interface TabDef {
 const TABS: TabDef[] = [
   {
     id: "chat",
-    icon: "💬",
+    icon: "ph-chat-circle-dots",
     label: "チャット",
     newLabel: "新しいチャット",
     listLabel: "チャット",
@@ -131,7 +131,7 @@ const TABS: TabDef[] = [
   },
   {
     id: "cowork",
-    icon: "🤝",
+    icon: "ph-handshake",
     label: "Cowork",
     newLabel: "新しいタスク",
     listLabel: "タスク",
@@ -143,7 +143,7 @@ const TABS: TabDef[] = [
   },
   {
     id: "code",
-    icon: "⌨️",
+    icon: "ph-keyboard",
     label: "コード",
     newLabel: "新しいセッション",
     listLabel: "セッション",
@@ -714,19 +714,25 @@ export function ClaudeAppSim({
                 border: "none", background: device === d ? "var(--ink-900)" : "transparent", color: device === d ? "var(--paper-50)" : "var(--ink-900)",
               }}
             >
-              {d === "pc" ? "💻 PC" : "📱 スマホ"}
+              <i className={d === "pc" ? "ph-bold ph-laptop" : "ph-bold ph-device-mobile"} style={{ marginRight: 5 }} />
+              {d === "pc" ? "PC" : "スマホ"}
             </button>
           ))}
         </div>
-        <Badge tone={apiMode ? "green" : "soft"}>{apiMode ? "🔑 APIモード（本物のClaude）" : "🎬 体験モード（定型応答）"}</Badge>
+        <Badge tone={apiMode ? "green" : "soft"}>
+          <i className={apiMode ? "ph-bold ph-key" : "ph-bold ph-film-slate"} style={{ marginRight: 4 }} />
+          {apiMode ? "APIモード（本物のClaude）" : "体験モード（定型応答）"}
+        </Badge>
         <Button variant="secondary" size="sm" onClick={() => setSettings(true)} style={{ marginLeft: "auto" }}>
-          ⚙️ 設定
+          <i className="ph-bold ph-gear" style={{ marginRight: 5 }} />
+          設定
         </Button>
       </div>
 
       {/* —— アプリ再現フレーム —— */}
       <p style={{ margin: "0 0 8px", fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>
-        ⚠️ 学習用にCOMIXAIが再現した非公式の画面です（Anthropic公式アプリではありません）
+        <i className="ph-bold ph-warning" style={{ marginRight: 5 }} />
+        学習用にCOMIXAIが再現した非公式の画面です（Anthropic公式アプリではありません）
       </p>
       {device === "pc" ? (
         <div style={{ overflowX: "auto" }}>
@@ -763,7 +769,7 @@ export function ClaudeAppSim({
                           boxShadow: on ? "0 1px 3px rgba(40,35,25,.15)" : "none",
                         }}
                       >
-                        <span style={{ fontSize: 13 }}>{t.icon}</span> {t.label}
+                        <span style={{ fontSize: 13 }}><i className={"ph-bold " + t.icon} /></span> {t.label}
                       </button>
                     );
                   })}
@@ -929,7 +935,7 @@ function RepoDialog({ repo, onResolve }: { repo: string; onResolve: (ok: boolean
    成果物プレビュー — webは実際に動くiframe、doc/sheetは紙面風
    ============================================================ */
 function ArtifactModal({ artifact, onClose }: { artifact: ArtifactSpec; onClose: () => void }) {
-  const icon = artifact.kind === "web" ? "🌐" : artifact.kind === "sheet" ? "📊" : "📄";
+  const icon = artifact.kind === "web" ? "ph-globe" : artifact.kind === "sheet" ? "ph-chart-bar" : "ph-file-text";
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
       <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(30,26,18,.55)" }} />
@@ -941,7 +947,7 @@ function ArtifactModal({ artifact, onClose }: { artifact: ArtifactSpec; onClose:
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "12px 16px", borderBottom: `1px solid ${C.line}`, background: C.panel }}>
-          <span style={{ fontSize: 17 }}>{icon}</span>
+          <span style={{ fontSize: 17 }}><i className={"ph-bold " + icon} /></span>
           <span style={{ fontWeight: 800, fontSize: 13.5, color: C.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{artifact.title}</span>
           {artifact.kind === "web" && <span style={{ fontSize: 10.5, color: C.sub, fontWeight: 700, flexShrink: 0 }}>実際に動きます</span>}
           <button onClick={onClose} aria-label="閉じる" data-guide="artifact-close" style={{ marginLeft: "auto", border: "none", background: "transparent", fontSize: 20, cursor: "pointer", color: C.sub }}>
@@ -1030,7 +1036,7 @@ function Sidebar({
                   fontSize: 13.5, fontWeight: on ? 800 : 600,
                 }}
               >
-                <span style={{ fontSize: 15 }}>{t.icon}</span> {t.label}
+                <span style={{ fontSize: 15 }}><i className={"ph-bold " + t.icon} /></span> {t.label}
               </button>
             );
           })}
@@ -1065,7 +1071,8 @@ function Sidebar({
               whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginBottom: 2, display: "block",
             }}
           >
-            {tabDef(c.kind).icon} {c.title}
+            <i className={"ph-bold " + tabDef(c.kind).icon} style={{ marginRight: 5 }} />
+            {c.title}
           </button>
         ))}
       </div>
@@ -1194,11 +1201,14 @@ function Main({
       <div style={{ display: "flex", alignItems: "center", gap: 8, padding: device === "sp" ? "8px 12px" : "10px 16px", borderBottom: `1px solid ${C.line}` }}>
         {device === "sp" && (
           <button onClick={openDrawer} aria-label="メニュー" data-guide="menu" style={{ border: "none", background: "transparent", fontSize: 20, cursor: "pointer", color: C.ink, padding: "0 2px" }}>
-            ☰
+            <i className="ph-bold ph-list" />
           </button>
         )}
         <div style={{ flex: 1, minWidth: 0, fontSize: 13.5, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-          <span style={{ color: C.sub, fontWeight: 800, fontSize: 11, marginRight: 8, letterSpacing: ".05em" }}>{def.icon} {def.label}</span>
+          <span style={{ color: C.sub, fontWeight: 800, fontSize: 11, marginRight: 8, letterSpacing: ".05em" }}>
+            <i className={"ph-bold " + def.icon} style={{ marginRight: 4 }} />
+            {def.label}
+          </span>
           {chat ? chat.title : def.newLabel}
         </div>
         {isCode && chat && (
@@ -1227,7 +1237,8 @@ function Main({
                     color: C.ink, fontSize: 12.5, cursor: "pointer", textAlign: "left", fontFamily: "inherit",
                   }}
                 >
-                  💡 {s}
+                  <i className="ph-bold ph-lightbulb" style={{ marginRight: 5 }} />
+                  {s}
                 </button>
               ))}
             </div>
@@ -1259,7 +1270,8 @@ function Main({
             {isCode && (
               <div style={{ position: "relative" }}>
                 <button style={chipStyle} data-guide="env" onClick={() => setMenu(menu === "env" ? null : "env")}>
-                  🖥 {envInfo.name} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
+                  <i className="ph-bold ph-monitor" style={{ marginRight: 4 }} />
+                  {envInfo.name} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
                 </button>
                 {menu === "env" && (
                   <>
@@ -1272,7 +1284,8 @@ function Main({
             {isCode && (
               <div style={{ position: "relative" }}>
                 <button style={chipStyle} data-guide="repo" onClick={() => setMenu(menu === "repo" ? null : "repo")}>
-                  🐙 {repo ?? "GitHub連携"} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
+                  <i className="ph-bold ph-github-logo" style={{ marginRight: 4 }} />
+                  {repo ?? "GitHub連携"} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
                 </button>
                 {menu === "repo" && (
                   <>
@@ -1284,7 +1297,8 @@ function Main({
             )}
             <div style={{ position: "relative" }}>
               <button style={chipStyle} data-guide="folder" onClick={() => setMenu(menu === "folder" ? null : "folder")}>
-                📁 {folder ?? "フォルダを選択"} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
+                <i className="ph-bold ph-folder" style={{ marginRight: 4 }} />
+                {folder ?? "フォルダを選択"} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
               </button>
               {menu === "folder" && (
                 <>
@@ -1320,7 +1334,7 @@ function Main({
             </div>
           )}
           <button
-            onClick={() => notify("📎 添付・スキル・コネクタのメニュー。この再現UIでは省略しています")}
+            onClick={() => notify("添付・スキル・コネクタのメニュー。この再現UIでは省略しています")}
             aria-label="添付"
             style={{ border: "none", background: "transparent", fontSize: 17, cursor: "pointer", color: C.sub, padding: "3px 2px" }}
           >
@@ -1354,7 +1368,8 @@ function Main({
                 title="権限モード"
                 data-guide="perm"
               >
-                🛡 {permInfo.name} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
+                <i className="ph-bold ph-shield-check" style={{ marginRight: 4 }} />
+                {permInfo.name} <span style={{ fontSize: 8, color: C.sub }}>▼</span>
               </button>
               {menu === "perm" && (
                 <>
@@ -1521,13 +1536,15 @@ function Bubble({
                   data-guide="accept"
                   style={{ flex: 1, padding: "8px 0", borderRadius: 9, border: "none", cursor: "pointer", background: C.ink, color: "#fff", fontWeight: 800, fontSize: 12.5, fontFamily: "inherit" }}
                 >
-                  ✓ Accept
+                  <i className="ph-bold ph-check" style={{ marginRight: 4 }} />
+                  Accept
                 </button>
                 <button
                   onClick={() => onResolve(false)}
                   style={{ flex: 1, padding: "8px 0", borderRadius: 9, border: `1.5px solid ${C.line}`, cursor: "pointer", background: "transparent", color: C.ink, fontWeight: 800, fontSize: 12.5, fontFamily: "inherit" }}
                 >
-                  ✕ Reject
+                  <i className="ph-bold ph-x" style={{ marginRight: 4 }} />
+                  Reject
                 </button>
               </div>
             )}
@@ -1571,13 +1588,15 @@ function Bubble({
                   data-guide="approve"
                   style={{ flex: 1, padding: "8px 0", borderRadius: 9, border: "none", cursor: "pointer", background: C.ink, color: "#fff", fontWeight: 800, fontSize: 12.5, fontFamily: "inherit" }}
                 >
-                  ✓ 許可する
+                  <i className="ph-bold ph-check" style={{ marginRight: 4 }} />
+                  許可する
                 </button>
                 <button
                   onClick={() => onResolveApproval(false)}
                   style={{ flex: 1, padding: "8px 0", borderRadius: 9, border: `1.5px solid ${C.line}`, cursor: "pointer", background: "transparent", color: C.ink, fontWeight: 800, fontSize: 12.5, fontFamily: "inherit" }}
                 >
-                  ✕ 拒否
+                  <i className="ph-bold ph-x" style={{ marginRight: 4 }} />
+                  拒否
                 </button>
               </div>
             )}
@@ -1595,7 +1614,7 @@ function Bubble({
   /* —— 成果物カード（プレビュー可能） —— */
   if (msg.artifact) {
     const a = msg.artifact;
-    const icon = a.kind === "web" ? "🌐" : a.kind === "sheet" ? "📊" : "📄";
+    const icon = a.kind === "web" ? "ph-globe" : a.kind === "sheet" ? "ph-chart-bar" : "ph-file-text";
     return (
       <div style={{ display: "flex", gap: 9, marginBottom: 18 }}>
         <span style={{ width: 24, height: 24, borderRadius: "50%", background: C.accent, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0, marginTop: 2 }}>
@@ -1610,7 +1629,7 @@ function Bubble({
               border: `1.5px solid ${C.line}`, borderRadius: 12, background: "#FFFFFF", padding: "11px 14px", minWidth: 230,
             }}
           >
-            <span style={{ fontSize: 24 }}>{icon}</span>
+            <span style={{ fontSize: 24 }}><i className={"ph-bold " + icon} /></span>
             <span style={{ minWidth: 0 }}>
               <span style={{ display: "block", fontSize: 13, fontWeight: 800, color: C.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.title}</span>
               <span style={{ display: "block", fontSize: 11, color: C.sub, marginTop: 2 }}>{a.note ?? "成果物"} · クリックでプレビュー</span>
@@ -1808,7 +1827,10 @@ function ChoicesCard({ msg, sp, onResolve }: { msg: Msg; sp: boolean; onResolve:
               回答を送る
             </button>
           ) : (
-            <div style={{ fontSize: 10.5, fontWeight: 700, color: C.green, marginTop: 2 }}>✓ 回答を送りました</div>
+            <div style={{ fontSize: 10.5, fontWeight: 700, color: C.green, marginTop: 2 }}>
+              <i className="ph-bold ph-check" style={{ marginRight: 4 }} />
+              回答を送りました
+            </div>
           )}
         </div>
       </div>
@@ -1836,7 +1858,10 @@ function SettingsModal({
     <div style={{ position: "fixed", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
       <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(30,26,18,.5)" }} />
       <Card variant="pop" padding={22} style={{ position: "relative", width: "min(460px, 100%)", background: "var(--paper-0)" }} className="game-in">
-        <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, marginBottom: 4 }}>⚙️ APIモード設定</div>
+        <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, marginBottom: 4 }}>
+          <i className="ph-bold ph-gear" style={{ marginRight: 6 }} />
+          APIモード設定
+        </div>
         <p style={{ fontSize: 12.5, lineHeight: 1.8, color: "var(--text-body)", margin: "0 0 12px" }}>
           AnthropicのAPIキー（sk-ant-…）を入れると、チャット・Cowork・コードの3タブすべてで<b>本物のClaude</b>が応答します。
           キーは<b>あなたのブラウザからAnthropicに直接送信</b>され、COMIXAIのサーバーには一切送られません。

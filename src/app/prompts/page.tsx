@@ -79,12 +79,12 @@ export default function PromptsIndexPage() {
         const shaded = i % 2 === 0;
         const inner = (
           <div style={{ maxWidth: PAGE, margin: "0 auto", padding: shaded ? "50px 0 54px" : "44px 0 48px" }}>
-            <SectionHead kicker={`${cat.emoji} ${cat.category}`} title={cat.desc} hand={`${list.length}レシピ`} />
+            <SectionHead kicker={<><i className={"ph-bold " + cat.icon} style={{ marginRight: 6 }} />{cat.category}</>} title={cat.desc} hand={`${list.length}レシピ`} />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 }} className="articles-grid">
               {list.map((r) => (
                 <a key={r.slug} href={`/prompts/${r.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
                   <Card variant="pop" hover padding={18} style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-                    <div style={{ fontSize: 30, lineHeight: 1, marginBottom: 10 }}>{r.emoji}</div>
+                    <i className={"ph-bold " + r.icon} style={{ fontSize: 30, lineHeight: 1, marginBottom: 10, display: "block", color: "var(--red-500)" }} />
                     <h2 style={{ margin: "0 0 6px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, lineHeight: 1.45 }}>{r.title}</h2>
                     <p style={{ margin: "0 0 14px", fontFamily: "var(--font-hand)", fontSize: 13.5, lineHeight: 1.7, color: "var(--text-muted)" }}>{r.catch}</p>
                     <span style={{ marginTop: "auto", alignSelf: "flex-end", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
@@ -129,7 +129,7 @@ export default function PromptsIndexPage() {
               flexWrap: "wrap",
             }}
           >
-            <div style={{ flex: "none", fontSize: 44, lineHeight: 1 }}>🔰</div>
+            <div style={{ flex: "none", fontSize: 44, lineHeight: 1, color: "var(--yellow-400)" }}><i className="ph-bold ph-student" /></div>
             <div style={{ flex: "1 1 260px" }}>
               <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 6 }}>
                 GAME — 読む前に、事故っておく
@@ -154,14 +154,14 @@ export default function PromptsIndexPage() {
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "28px 0 54px" }}>
         <div style={{ maxWidth: 680, margin: "0 auto", display: "flex", gap: 10, flexWrap: "wrap" }}>
           <a href="/glossary" style={{ flex: "1 1 260px", textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 10, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", padding: "12px 16px", boxShadow: "var(--shadow-pop-sm)" }}>
-            <span style={{ fontSize: 24, flex: "none" }}>📖</span>
+            <span style={{ fontSize: 24, flex: "none", color: "var(--red-500)" }}><i className="ph-bold ph-book-open" /></span>
             <span>
               <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14 }}>AI用語集</span>
               <span style={{ display: "block", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>プロンプト・ハルシネーション…用語の意味はこちらで</span>
             </span>
           </a>
           <a href="/manga" style={{ flex: "1 1 260px", textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 10, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", padding: "12px 16px", boxShadow: "var(--shadow-pop-sm)" }}>
-            <span style={{ fontSize: 24, flex: "none" }}>📚</span>
+            <span style={{ fontSize: 24, flex: "none", color: "var(--red-500)" }}><i className="ph-bold ph-books" /></span>
             <span>
               <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14 }}>マンガでわかる！AI活用</span>
               <span style={{ display: "block", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>そもそもの使い方は、マンガ連載でストーリーから</span>

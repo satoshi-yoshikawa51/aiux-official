@@ -249,7 +249,8 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
         {answered && (
           <div style={{ marginTop: 18, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-100)", padding: "14px 16px" }}>
             <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, marginBottom: 6, color: correct ? "var(--ink-900)" : "var(--red-600)" }}>
-              {correct ? "⭕ 正解！" : "❌ ざんねん…"}
+              <i className={correct ? "ph-bold ph-check-circle" : "ph-bold ph-x-circle"} style={{ marginRight: 5 }} />
+              {correct ? "正解！" : "ざんねん…"}
             </div>
             <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "var(--text-body)" }}>{q.src.explanation}</p>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 14, flexWrap: "wrap" }}>

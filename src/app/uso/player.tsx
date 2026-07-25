@@ -66,7 +66,10 @@ export function UsoPlayer() {
     return (
       <Card variant="pop" padding={0} style={{ overflow: "hidden" }}>
         <div style={{ padding: "34px 30px 30px", textAlign: "center" }}>
-          <div style={{ fontSize: 46, marginBottom: 8 }}>🤥🔍</div>
+          <div style={{ fontSize: 46, marginBottom: 8, display: "flex", gap: 10, justifyContent: "center", color: "var(--red-500)" }}>
+            <i className="ph-bold ph-detective" />
+            <i className="ph-bold ph-magnifying-glass" />
+          </div>
           <h2 style={{ margin: "0 0 12px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3.6vw,30px)" }}>
             AIの答え、どっちかがウソ。
           </h2>
@@ -154,7 +157,7 @@ export function UsoPlayer() {
       <div style={{ padding: "22px 22px 26px" }}>
         {/* 質問（AIへのプロンプト風） */}
         <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 16 }}>
-          <span style={{ flex: "none", fontSize: 22 }}>💬</span>
+          <span style={{ flex: "none", fontSize: 22, color: "var(--red-500)" }}><i className="ph-bold ph-chat-circle-dots" /></span>
           <h2 style={{ margin: 0, fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: "clamp(15.5px,2.5vw,18px)", lineHeight: 1.65 }}>
             「{r.src.question}」
           </h2>
@@ -193,8 +196,18 @@ export function UsoPlayer() {
                     {a.label}
                   </span>
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>AIの回答</span>
-                  {showLie && <Badge tone="red">🤥 ウソ入り</Badge>}
-                  {showTruth && <Badge tone="ink">⭕ ホント</Badge>}
+                  {showLie && (
+                    <Badge tone="red">
+                      <i className="ph-bold ph-detective" style={{ marginRight: 4 }} />
+                      ウソ入り
+                    </Badge>
+                  )}
+                  {showTruth && (
+                    <Badge tone="ink">
+                      <i className="ph-bold ph-check-circle" style={{ marginRight: 4 }} />
+                      ホント
+                    </Badge>
+                  )}
                 </div>
                 <span>{showLie ? <LieText text={a.text} liePart={r.src.liePart} /> : a.text}</span>
               </button>
@@ -206,7 +219,8 @@ export function UsoPlayer() {
         {answered && (
           <div style={{ marginTop: 16, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-100)", padding: "14px 16px" }}>
             <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, marginBottom: 6, color: correct ? "var(--ink-900)" : "var(--red-600)" }}>
-              {correct ? "⭕ 見抜いた！" : "❌ 騙された…"}
+              <i className={correct ? "ph-bold ph-check-circle" : "ph-bold ph-x-circle"} style={{ marginRight: 5 }} />
+              {correct ? "見抜いた！" : "騙された…"}
             </div>
             <p style={{ margin: "0 0 10px", fontSize: 13.5, lineHeight: 1.85, color: "var(--text-body)" }}>{r.src.explanation}</p>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>

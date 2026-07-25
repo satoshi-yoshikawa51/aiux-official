@@ -7,7 +7,7 @@ export const FAQ_SECTIONS_1: FaqSection[] = [
   {
     id: "fuan",
     title: "はじめる前の不安",
-    emoji: "😟",
+    icon: "ph-smiley-nervous",
     items: [
       {
         q: "AIに仕事を奪われますか？",
@@ -113,7 +113,7 @@ export const FAQ_SECTIONS_1: FaqSection[] = [
   {
     id: "kihon",
     title: "使い方の基本",
-    emoji: "🤔",
+    icon: "ph-question",
     items: [
       {
         q: "プロンプトって、何を書けばいいですか？",
@@ -228,7 +228,7 @@ export const FAQ_SECTIONS_1: FaqSection[] = [
   {
     id: "price",
     title: "料金・プラン",
-    emoji: "💴",
+    icon: "ph-currency-jpy",
     items: [
       {
         q: "無料版と有料版、どっちを使えばいいですか？",
@@ -325,7 +325,7 @@ export const FAQ_SECTIONS_1: FaqSection[] = [
   {
     id: "work",
     title: "会社・仕事での利用",
-    emoji: "💼",
+    icon: "ph-briefcase",
     items: [
       {
         q: "会社で勝手にChatGPTを使ってもいいですか？",

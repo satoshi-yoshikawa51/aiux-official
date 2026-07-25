@@ -258,7 +258,7 @@ export default function NewsApp() {
               className={activeFeed === "forYou" ? "pn-chip pn-chip-on" : "pn-chip"}
               onClick={() => setFeed("forYou")}
             >
-              ✦ おすすめ
+              <i className="ph-bold ph-star-four" /> おすすめ
             </button>
             {interestCategories.map((c) => (
               <button
@@ -406,7 +406,7 @@ export default function NewsApp() {
                     })
                   }
                 >
-                  {on ? "✓ " : ""}
+                  {on && <i className="ph-bold ph-check" style={{ marginRight: 4 }} />}
                   {c.name}
                 </button>
               );
@@ -490,10 +490,10 @@ export default function NewsApp() {
       <nav className="pn-tabbar">
         {(
           [
-            ["news", "ニュース", "📰"],
-            ["search", "検索", "🔍"],
-            ["saved", "あとで読む", "🔖"],
-            ["settings", "設定", "⚙️"],
+            ["news", "ニュース", "ph-newspaper"],
+            ["search", "検索", "ph-magnifying-glass"],
+            ["saved", "あとで読む", "ph-bookmark-simple"],
+            ["settings", "設定", "ph-gear"],
           ] as [Tab, string, string][]
         ).map(([id, label, icon]) => (
           <button
@@ -501,7 +501,7 @@ export default function NewsApp() {
             className={tab === id ? "pn-tab pn-tab-on" : "pn-tab"}
             onClick={() => setTab(id)}
           >
-            <span className="pn-tab-icon">{icon}</span>
+            <span className="pn-tab-icon"><i className={"ph-bold " + icon} /></span>
             <span>{label}</span>
           </button>
         ))}
@@ -512,14 +512,17 @@ export default function NewsApp() {
           <div className="pn-sheet" onClick={(e) => e.stopPropagation()}>
             <p className="pn-sheet-title">{menuArticle.title}</p>
             <button onClick={() => likeArticle(menuArticle)}>
-              👍 いいね（似た記事を増やす）
+              <i className="ph-bold ph-thumbs-up" /> いいね（似た記事を増やす）
             </button>
             <button onClick={() => toggleBookmark(menuArticle)}>
-              {isBookmarked(menuArticle) ? "🔖 あとで読むから削除" : "🔖 あとで読む"}
+              <i className="ph-bold ph-bookmark-simple" />{" "}
+              {isBookmarked(menuArticle) ? "あとで読むから削除" : "あとで読む"}
             </button>
-            <button onClick={() => void shareArticle(menuArticle)}>↗️ 共有</button>
+            <button onClick={() => void shareArticle(menuArticle)}>
+              <i className="ph-bold ph-share-network" /> 共有
+            </button>
             <button className="pn-danger" onClick={() => hideArticle(menuArticle)}>
-              👎 興味なし（似た記事を減らす）
+              <i className="ph-bold ph-thumbs-down" /> 興味なし（似た記事を減らす）
             </button>
             <button className="pn-cancel" onClick={() => setMenuArticle(null)}>
               キャンセル
@@ -602,7 +605,11 @@ function ArticleRow({
             <span className="pn-cat">{CATEGORY_NAME[article.category]}</span>
             <span>{article.source}</span>
             {article.publishedAt && <span>{timeAgo(article.publishedAt)}</span>}
-            {bookmarked && <span className="pn-bm">🔖</span>}
+            {bookmarked && (
+              <span className="pn-bm">
+                <i className="ph-bold ph-bookmark-simple" />
+              </span>
+            )}
           </div>
         </div>
         <Thumb article={article} />
@@ -629,7 +636,9 @@ function Hero({
         <Thumb article={article} large />
         <div className="pn-hero-overlay" />
         <div className="pn-hero-body">
-          <span className="pn-hero-badge">✦ あなたへのおすすめ</span>
+          <span className="pn-hero-badge">
+            <i className="ph-bold ph-star-four" /> あなたへのおすすめ
+          </span>
           <h2>{article.title}</h2>
           <div className="pn-meta pn-meta-light">
             <span className="pn-cat">{CATEGORY_NAME[article.category]}</span>

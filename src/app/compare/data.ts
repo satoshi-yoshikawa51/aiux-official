@@ -93,11 +93,17 @@ export const COMPARE_FAQ: { q: string; a: string }[] = [
 
 export const COMPARE_UPDATED = "2026-07-22";
 
-export const USES: { emoji: string; use: string; pick: string; why: string }[] = [
-  { emoji: "✍️", use: "メール・記事・企画書などの文章", pick: "Claude", why: "日本語の自然さと文体の安定感。長文の読み込みにも強い" },
-  { emoji: "📊", use: "Gmail・スプレッドシートと連携した作業", pick: "Gemini", why: "Googleのサービス群にそのまま入り込める" },
-  { emoji: "🎨", use: "画像も音声も、ぜんぶ1つで済ませたい", pick: "ChatGPT", why: "機能の幅と情報量。困ったとき事例が見つかりやすい" },
-  { emoji: "🔍", use: "最新情報の調べもの", pick: "Perplexity（番外）", why: "出典つきで答えるAI検索の代表格" },
-  { emoji: "📚", use: "手元の資料だけから正確に答えてほしい", pick: "NotebookLM（番外）", why: "渡した資料の外を見ないからハルシネーションが起きにくい" },
-  { emoji: "💻", use: "コードを書く・アプリを作る", pick: "Claude（Claude Code）", why: "コーディングエージェントの完成度。このサイトもこれ製" },
+export const USES: {
+  /** Phosphorのアイコン名（例: ph-pencil-simple-line） */
+  icon: string;
+  use: string;
+  pick: string;
+  why: string;
+}[] = [
+  { icon: "ph-pencil-simple-line", use: "メール・記事・企画書などの文章", pick: "Claude", why: "日本語の自然さと文体の安定感。長文の読み込みにも強い" },
+  { icon: "ph-chart-bar", use: "Gmail・スプレッドシートと連携した作業", pick: "Gemini", why: "Googleのサービス群にそのまま入り込める" },
+  { icon: "ph-palette", use: "画像も音声も、ぜんぶ1つで済ませたい", pick: "ChatGPT", why: "機能の幅と情報量。困ったとき事例が見つかりやすい" },
+  { icon: "ph-magnifying-glass", use: "最新情報の調べもの", pick: "Perplexity（番外）", why: "出典つきで答えるAI検索の代表格" },
+  { icon: "ph-books", use: "手元の資料だけから正確に答えてほしい", pick: "NotebookLM（番外）", why: "渡した資料の外を見ないからハルシネーションが起きにくい" },
+  { icon: "ph-laptop", use: "コードを書く・アプリを作る", pick: "Claude（Claude Code）", why: "コーディングエージェントの完成度。このサイトもこれ製" },
 ];

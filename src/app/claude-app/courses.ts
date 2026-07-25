@@ -33,7 +33,8 @@ export interface GuideStep {
 
 export interface Course {
   id: string;
-  emoji: string;
+  /** Phosphorのアイコン名（例: ph-door） */
+  icon: string;
   title: string;
   minutes: number;
   desc: string;
@@ -46,7 +47,7 @@ export interface Course {
 const openMenu = (skipExtra?: (ctx: GuideCtx) => boolean): GuideStep => ({
   motion: "explain",
   target: "menu",
-  text: "左上の「☰」を押して、メニューを開いて。",
+  text: "左上のメニューボタンを押して、メニューを開いて。",
   waitFor: (e) => e.type === "drawer" && e.open,
   skipIf: (ctx) => ctx.device === "pc" || (skipExtra?.(ctx) ?? false),
 });
@@ -77,7 +78,7 @@ const newSession = (text: string): GuideStep[] => [
 /* ———— コース0: はじめの一歩「3つの入口を開ける」 ———— */
 const COURSE_0: Course = {
   id: "start",
-  emoji: "🚪",
+  icon: "ph-door",
   title: "はじめの一歩 — 3つの入口",
   minutes: 4,
   desc: "Chat / Cowork / Code の違いは「どこで働かせるか」。3つとも軽くさわって判断軸を体で覚える",
@@ -113,7 +114,7 @@ const COURSE_0: Course = {
     {
       motion: "explain",
       target: "folder",
-      text: "試しに渡してみて。📁からフォルダを選ぶ。初めてなら許可を聞かれるから、中身を見て、許可。",
+      text: "試しに渡してみて。フォルダのボタンから選ぶ。初めてなら許可を聞かれるから、中身を見て、許可。",
       waitFor: (e) => e.type === "folderChange",
       onDone: { motion: "laugh", emote: "✨" },
     },
@@ -131,7 +132,7 @@ const COURSE_0: Course = {
       motion: "explain",
       target: "perm",
       emote: "🛡️",
-      text: "そしてCodeだけの装備が、これ。“権限モード”。🛡を開いて「Plan」にしてみて。",
+      text: "そしてCodeだけの装備が、これ。“権限モード”。盾のボタンを開いて「Plan」にしてみて。",
       waitFor: (e) => e.type === "permChange" && e.permMode === "plan",
       onDone: { motion: "laugh", emote: "✨" },
     },
@@ -156,7 +157,7 @@ const COURSE_0: Course = {
 /* ———— コース1: Chat編「その場で終わる相談」 ———— */
 const COURSE_1: Course = {
   id: "chat",
-  emoji: "💬",
+  icon: "ph-chat-circle-dots",
   title: "Chat編 — その場で終わる相談",
   minutes: 5,
   desc: "雑に頼むと選択肢つきの質問が返ってくる・その場で図解——他のAIとの体感差を味わう",
@@ -223,7 +224,7 @@ const COURSE_1: Course = {
 /* ———— コース2: Cowork編「貯めて進める」 ———— */
 const COURSE_2: Course = {
   id: "cowork",
-  emoji: "🤝",
+  icon: "ph-handshake",
   title: "Cowork編 — 貯めて進める",
   minutes: 5,
   desc: "プロジェクトに貯める・仕事を丸ごと任せる・ブラウザの調べ物ごと投げる",
@@ -242,7 +243,7 @@ const COURSE_2: Course = {
     {
       motion: "explain",
       target: "folder",
-      text: "案件フォルダを渡す。📁から選んで。初めてのフォルダは許可を聞かれるから、中身を見て許可。",
+      text: "案件フォルダを渡す。フォルダのボタンから選んで。初めてのフォルダは許可を聞かれるから、中身を見て許可。",
       waitFor: (e) => e.type === "folderChange",
       onDone: { motion: "laugh", emote: "✨" },
     },
@@ -303,7 +304,7 @@ const COURSE_2: Course = {
 /* ———— コース3: Code編「作る・動かす」 ———— */
 const COURSE_3: Course = {
   id: "code",
-  emoji: "⌨️",
+  icon: "ph-keyboard",
   title: "Code編 — 作る・動かす",
   minutes: 5,
   desc: "TODOアプリをゼロから動くまで作り切る。Plan体験・diff承認・コマンド許可",
@@ -317,7 +318,7 @@ const COURSE_3: Course = {
     {
       motion: "explain",
       target: "folder",
-      text: "フォルダを選ぶ。最初はこれだけでいい。📁から選んで。",
+      text: "フォルダを選ぶ。最初はこれだけでいい。フォルダのボタンから選んで。",
       waitFor: (e) => e.type === "folderChange",
       onDone: { motion: "laugh", emote: "✨" },
     },
@@ -382,7 +383,7 @@ const COURSE_3: Course = {
 /* ———— コース4: 公開編「本番につなぐ」 ———— */
 const COURSE_DEPLOY: Course = {
   id: "deploy",
-  emoji: "🚀",
+  icon: "ph-rocket-launch",
   title: "公開編 — 本番につなぐ",
   minutes: 5,
   desc: "GitHubと連携→承認→git pushで本番公開。仕上げに手順をスキル化して「/」ひと言で再実行",
@@ -484,7 +485,7 @@ const COURSE_DEPLOY: Course = {
 /* ———— コース5: 総まとめ「迷ったら3つの質問」 ———— */
 const COURSE_4: Course = {
   id: "matome",
-  emoji: "🧭",
+  icon: "ph-compass",
   title: "総まとめ — 迷ったら3つの質問",
   minutes: 2,
   desc: "どのモードを使うか迷ったときの判断軸を最終確認して、本物へ",

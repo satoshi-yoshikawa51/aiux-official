@@ -83,7 +83,8 @@ export default async function GuidePage({ params }: Props) {
             GUIDE — 職種別AI活用
           </div>
           <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(28px,4.6vw,44px)", lineHeight: 1.3, margin: "0 0 12px" }}>
-            {g.emoji} {g.title}
+            <i className={"ph-bold " + g.icon} style={{ marginRight: 10 }} />
+            {g.title}
           </h1>
           <p style={{ fontFamily: "var(--font-hand)", fontSize: "clamp(15px,2vw,17px)", color: "var(--red-600)", margin: "0 0 16px" }}>{g.catch}</p>
           {g.intro.map((p, i) => (
@@ -105,7 +106,7 @@ export default async function GuidePage({ params }: Props) {
       {/* ═══ はじめの3ステップ ═══ */}
       <section style={{ background: "var(--paper-100)", borderTop: "var(--bw-line) solid var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)", backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)", backgroundSize: "11px 11px" }}>
         <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "50px 0 54px" }}>
-          <SectionHead kicker="🚀 START — はじめかた" title="最初の3ステップ" hand="順番どおりが最短ルート" />
+          <SectionHead kicker={<><i className="ph-bold ph-rocket-launch" style={{ marginRight: 6 }} />START — はじめかた</>} title="最初の3ステップ" hand="順番どおりが最短ルート" />
           <div style={{ display: "grid", gap: 14, maxWidth: 780 }}>
             {g.steps.map((s, i) => (
               <Card key={s.title} variant="pop" padding={20}>
@@ -126,12 +127,12 @@ export default async function GuidePage({ params }: Props) {
 
       {/* ═══ 業務別ユースケース ═══ */}
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "50px 0 44px" }}>
-        <SectionHead kicker="💼 USE CASES — 業務別" title={`${g.role}の仕事、ここで使える。`} hand="コピペで使えるレシピつき" />
+        <SectionHead kicker={<><i className="ph-bold ph-briefcase" style={{ marginRight: 6 }} />USE CASES — 業務別</>} title={`${g.role}の仕事、ここで使える。`} hand="コピペで使えるレシピつき" />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }} className="articles-grid">
           {g.useCases.map((u) => (
             <Card key={u.task} variant="pop" padding={20} style={{ display: "flex", flexDirection: "column" }}>
               <h2 style={{ margin: "0 0 8px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16.5, lineHeight: 1.5 }}>
-                <span style={{ marginRight: 8 }}>{u.emoji}</span>
+                <i className={"ph-bold " + u.icon} style={{ marginRight: 8, color: "var(--red-500)" }} />
                 {u.task}
               </h2>
               <p style={{ margin: "0 0 14px", fontSize: 13.5, lineHeight: 1.95, color: "var(--text-body)" }}>{u.how}</p>
@@ -142,7 +143,8 @@ export default async function GuidePage({ params }: Props) {
                     href={`/prompts/${p.slug}`}
                     style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 12.5, color: "var(--ink-900)", background: "var(--yellow-400)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "6px 13px", boxShadow: "var(--shadow-pop-sm)" }}
                   >
-                    📋 {p.label}
+                    <i className="ph-bold ph-clipboard-text" style={{ marginRight: 5 }} />
+                    {p.label}
                   </a>
                 ))}
               </div>
@@ -153,7 +155,7 @@ export default async function GuidePage({ params }: Props) {
 
       {/* ═══ 押さえておく用語 ═══ */}
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 44px" }}>
-        <SectionHead kicker="📚 WORDS — 押さえておく用語" title="この5語だけは。" hand="クリックで図解つき解説へ" />
+        <SectionHead kicker={<><i className="ph-bold ph-books" style={{ marginRight: 6 }} />WORDS — 押さえておく用語</>} title="この5語だけは。" hand="クリックで図解つき解説へ" />
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", maxWidth: 880 }}>
           {g.terms.map((t) => (
             <a
@@ -169,7 +171,7 @@ export default async function GuidePage({ params }: Props) {
 
       {/* ═══ FAQ ═══ */}
       <section style={{ maxWidth: "min(760px, 92vw)", margin: "0 auto", padding: "0 0 44px" }}>
-        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 16px" }}>💬 {g.role}のよくある質問</h2>
+        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 16px" }}><i className="ph-bold ph-chat-circle-dots" style={{ marginRight: 8, color: "var(--red-500)" }} />{g.role}のよくある質問</h2>
         <div style={{ display: "grid", gap: 12 }}>
           {g.faq.map((f) => (
             <details key={f.q} style={{ border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", boxShadow: "var(--shadow-pop-sm)", overflow: "hidden" }}>

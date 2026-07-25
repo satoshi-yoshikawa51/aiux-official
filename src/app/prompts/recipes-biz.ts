@@ -11,7 +11,7 @@ export const RECIPES_BIZ: Recipe[] = [
     seoTitle: "企画書をAIで作るプロンプト｜たたき台を30分で量産する方法",
     catch: "白紙とにらめっこする時間を、たたき台を選ぶ時間に変える。",
     category: "企画・マーケティング",
-    emoji: "💡",
+    icon: "ph-lightbulb",
     short:
       "企画書のたたき台をAIに量産させるプロンプト。ふわっとした「それっぽい企画」しか出ない失敗例と、制約条件と評価軸を渡して使える案に絞り込むコツを解説します。",
     keywords: ["企画書 AI 作成", "企画 アイデア出し プロンプト", "ChatGPT 企画書", "たたき台 作り方", "企画立案 AI"],
@@ -116,7 +116,7 @@ export const RECIPES_BIZ: Recipe[] = [
     seoTitle: "キャッチコピーをAIで作るプロンプト｜100案出して3案に絞る方法",
     catch: "AIは100案出す係。人間は「ひっかかり」を見つける係。",
     category: "企画・マーケティング",
-    emoji: "✨",
+    icon: "ph-sparkle",
     short:
       "キャッチコピーをAIに量産させるプロンプト。ありきたりな「うまいこと言った風」コピーばかり出る失敗例と、ターゲットの本音と切り口指定で化けさせるコツを解説します。",
     keywords: ["キャッチコピー AI", "キャッチコピー 作り方 例", "ChatGPT キャッチコピー", "コピーライティング プロンプト", "広告 コピー AI"],
@@ -218,7 +218,7 @@ export const RECIPES_BIZ: Recipe[] = [
     seoTitle: "SNS投稿文をAIで作るプロンプト｜「AIっぽさ」を消す書き方",
     catch: "絵文字てんこ盛りの「AI投稿」を卒業して、自分の声で量産する。",
     category: "企画・マーケティング",
-    emoji: "📱",
+    icon: "ph-device-mobile",
     short:
       "XやInstagramの投稿文をAIに作らせるプロンプト。絵文字だらけの「いかにもAI」な投稿になる失敗例と、自分の過去投稿を教材にして文体を移植するコツを解説します。",
     keywords: ["SNS 投稿文 AI", "X 投稿 プロンプト", "Instagram キャプション AI", "ChatGPT SNS運用", "SNS 文章 作成"],
@@ -323,7 +323,7 @@ export const RECIPES_BIZ: Recipe[] = [
     seoTitle: "ブログ記事をAIで書くプロンプト｜検索意図から構成を作る方法",
     catch: "AIに書かせた記事が読まれないのは、構成を人間が設計していないから。",
     category: "企画・マーケティング",
-    emoji: "✍️",
+    icon: "ph-pencil-simple-line",
     short:
       "ブログ・オウンドメディア記事をAIと作るプロンプト。どこかで読んだような薄い記事になる失敗例と、検索意図の分解→構成→執筆と工程を分けて独自価値を守るコツを解説します。",
     keywords: ["ブログ AI 書き方", "記事作成 プロンプト", "ChatGPT ブログ記事", "SEO記事 AI", "オウンドメディア AI活用"],
@@ -420,7 +420,7 @@ export const RECIPES_BIZ: Recipe[] = [
     seoTitle: "提案書をAIで作るプロンプト｜「刺さる提案」の構成と書き方",
     catch: "提案書の主役は自社の商品ではなく、相手の課題。AIにもそう教える。",
     category: "営業・顧客対応",
-    emoji: "📑",
+    icon: "ph-files",
     short:
       "顧客への提案書をAIと作るプロンプト。自社紹介から始まる「読まれない提案書」になる失敗例と、相手の課題から逆算した構成に組み替えるコツを解説します。",
     keywords: ["提案書 AI 作成", "提案書 書き方 構成", "ChatGPT 提案書", "営業 提案資料", "ソリューション提案 書き方"],
@@ -518,7 +518,7 @@ export const RECIPES_BIZ: Recipe[] = [
     seoTitle: "商談準備をAIでするプロンプト｜想定問答・反論対応の作り方",
     catch: "商談で詰まる質問は、だいたい事前に作れる。AIを「嫌な客」役に。",
     category: "営業・顧客対応",
-    emoji: "🎭",
+    icon: "ph-mask-happy",
     short:
       "商談前の想定問答をAIに作らせるプロンプト。甘い質問しか出ない失敗例と、AIに「一番嫌な客」を演じさせて反論対応を鍛えるロールプレイのコツを解説します。",
     keywords: ["商談 準備 AI", "想定問答 作り方", "営業 ロールプレイ AI", "反論処理 営業", "ChatGPT 営業練習"],
@@ -613,7 +613,7 @@ export const RECIPES_BIZ: Recipe[] = [
     seoTitle: "クレーム対応メールをAIで書くプロンプト｜返信文例と手順",
     catch: "感情で返信を書かない。それだけでクレームの8割は燃え広がらない。",
     category: "営業・顧客対応",
-    emoji: "🧯",
+    icon: "ph-fire-extinguisher",
     short:
       "クレームメールへの返信をAIに下書きさせるプロンプト。定型文で火に油を注ぐ失敗例と、相手の感情と要求を切り分けて対応方針から組み立てるコツを解説します。",
     keywords: ["クレーム対応 メール 例文", "クレーム 返信 書き方", "ChatGPT クレーム対応", "お客様対応 メール", "苦情 返信 文例"],
@@ -717,7 +717,7 @@ export const RECIPES_BIZ: Recipe[] = [
     seoTitle: "商品説明文をAIで書くプロンプト｜売れるECの文章の作り方",
     catch: "スペックの箇条書きは説明であって、販売ではない。",
     category: "営業・顧客対応",
-    emoji: "🛒",
+    icon: "ph-shopping-cart",
     short:
       "ECサイト・ネットショップの商品説明文をAIに書かせるプロンプト。スペック羅列や誇大表現になる失敗例と、買う人の場面から書き起こすコツ、大量商品への展開方法を解説します。",
     keywords: ["商品説明文 AI", "EC 商品説明 書き方", "ネットショップ 説明文 例文", "ChatGPT 商品説明", "商品ページ 文章"],

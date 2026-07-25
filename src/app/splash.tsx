@@ -14,7 +14,8 @@ const prand = (i: number, salt: number) => {
   return x - Math.floor(x);
 };
 
-const P_CHARS = ["✦", "✧", "✦", "✧"];
+/* 弾け飛ぶ粒（Phosphorのアイコン名） */
+const P_CHARS = ["ph-star-four", "ph-sparkle", "ph-star-four", "ph-sparkle"];
 const P_COLORS = ["var(--yellow-400)", "var(--paper-50)", "var(--red-500)", "var(--yellow-200)"];
 
 /* 粒子は退場（中心から全画面へ弾け飛ぶ）専用。登場時は出さない */
@@ -104,8 +105,12 @@ export default function Splash() {
             <line x1="456" y1="215" x2="508" y2="220" />
           </g>
         </svg>
-        <span className="splash-spark" style={{ top: -14, left: -8 }}>✦</span>
-        <span className="splash-spark" style={{ top: -4, right: -16, animationDelay: "0.8s", fontSize: 15 }}>✦</span>
+        <span className="splash-spark" style={{ top: -14, left: -8 }}>
+          <i className="ph-bold ph-star-four" />
+        </span>
+        <span className="splash-spark" style={{ top: -4, right: -16, animationDelay: "0.8s", fontSize: 15 }}>
+          <i className="ph-bold ph-star-four" />
+        </span>
         {/* たまに走る流れ星 */}
         <span className="splash-shoot" aria-hidden="true" />
         {/* 実体化の瞬間に広がるロックインリング */}
@@ -138,7 +143,7 @@ export default function Splash() {
               ["--dur" as string]: p.dur,
             }}
           >
-            {p.char}
+            <i className={"ph-bold " + p.char} />
           </span>
         ))}
       </span>
