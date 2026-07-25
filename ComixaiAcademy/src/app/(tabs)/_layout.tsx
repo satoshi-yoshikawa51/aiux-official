@@ -1,31 +1,22 @@
-/* タブ。アイコンは絵文字で統一（アイコンフォントを足さない）
+/* タブ。黒地に白抜きのオリジナルアイコン（src/components/icons.tsx）。
+   選択中は赤の丸ベタを敷く。
 
-   絵文字を大きめに出すため、アイコンは高さを固定した箱に入れている。
-   これをやらないと、絵文字の行高がタブバーの既定の高さを押し広げて
-   下のラベルがはみ出し、切れて見える。
-   バーの高さもホームインジケーター（下の安全領域）の分を足して確保する。 */
+   アイコンとラベルの高さを固定し、バーの高さをその合計から決めている。
+   ここが噛み合っていないとラベルの箱が潰れ、overflow:hidden で文字が切れる。
+   バーの高さと下の内余白には安全領域（ホームインジケーター）も足す。 */
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { BW, C, FONT, T, TAB } from '@/theme';
+import { TabIcon, type IconName } from '@/components/icons';
+import { C, FONT, TAB } from '@/theme';
 
-function Icon({ char, focused }: { char: string; focused: boolean }) {
-  return (
-    <View style={{ height: TAB.icon, alignItems: 'center', justifyContent: 'center' }}>
-      <Text
-        style={{
-          fontSize: 18,
-          lineHeight: TAB.icon,
-          textAlign: 'center',
-          opacity: focused ? 1 : 0.4,
-        }}>
-        {char}
-      </Text>
-    </View>
-  );
-}
+const SCREENS: { name: string; title: string; icon: IconName }[] = [
+  { name: 'index', title: 'ホーム', icon: 'home' },
+  { name: 'learn', title: 'まなぶ', icon: 'learn' },
+  { name: 'badges', title: 'バッジ', icon: 'badges' },
+  { name: 'settings', title: 'せってい', icon: 'settings' },
+];
 
 export default function TabsLayout() {
   const insets = useSafeAreaInsets();
@@ -34,12 +25,12 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: T.accent,
-        tabBarInactiveTintColor: T.muted,
+        /* 黒地なので、選択中は白・非選択は灰にする（赤は黒の上で沈む） */
+        tabBarActiveTintColor: C.paper0,
+        tabBarInactiveTintColor: C.ink300,
         tabBarStyle: {
-          backgroundColor: C.paper0,
-          borderTopWidth: BW.bold,
-          borderTopColor: C.ink900,
+          backgroundColor: C.ink900,
+          borderTopWidth: 0,
           elevation: 0,
           height: TAB.height + insets.bottom,
           paddingTop: TAB.pad,
@@ -50,22 +41,18 @@ export default function TabsLayout() {
         tabBarIconStyle: { height: TAB.icon },
         tabBarLabelStyle: { fontFamily: FONT.heading, fontSize: 10.5, lineHeight: TAB.label },
       }}>
-      <Tabs.Screen
-        name="index"
-        options={{ title: 'ホーム', tabBarIcon: ({ focused }) => <Icon char="🏠" focused={focused} /> }}
-      />
-      <Tabs.Screen
-        name="learn"
-        options={{ title: 'まなぶ', tabBarIcon: ({ focused }) => <Icon char="📚" focused={focused} /> }}
-      />
-      <Tabs.Screen
-        name="badges"
-        options={{ title: 'バッジ', tabBarIcon: ({ focused }) => <Icon char="🏅" focused={focused} /> }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{ title: 'せってい', tabBarIcon: ({ focused }) => <Icon char="⚙️" focused={focused} /> }}
-      />
+      {SCREENS.map((s) => (
+        <Tabs.Screen
+          key={s.name}
+          name={s.name}
+          options={{
+            title: s.title,
+            tabBarIcon: ({ focused }) => (
+              <TabIcon name={s.icon} focused={focused} box={TAB.icon} glyph={TAB.glyph} />
+            ),
+          }}
+        />
+      ))}
     </Tabs>
   );
 }
