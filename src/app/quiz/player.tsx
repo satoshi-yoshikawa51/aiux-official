@@ -146,7 +146,7 @@ export function QuizPlayer({ termNames }: { termNames: Record<string, string> })
           <div style={{ padding: "22px 28px 26px", textAlign: "center" }}>
             <p style={{ margin: "0 auto 20px", fontSize: 14.5, lineHeight: 1.9, color: "var(--text-body)", maxWidth: 460 }}>{grade.comment}</p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+              <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} data-ga="share_click" data-ga-network="x" data-ga-place="result" data-ga-path="/quiz">
                 <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
                   結果をXでシェア
                 </Button>

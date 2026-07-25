@@ -421,7 +421,7 @@ export function TokenizerLab() {
       {/* ═══ シェア ═══ */}
       {tokenCount > 0 && (
         <div style={{ textAlign: "center", marginTop: 30 }}>
-          <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+          <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} data-ga="share_click" data-ga-network="x" data-ga-place="result" data-ga-path="/tokenizer">
             <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
               「{tokenCount.toLocaleString()}トークンだった」とXでシェア
             </Button>

@@ -277,6 +277,10 @@ export function GakuyaGame() {
                   href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`システムプロンプトを書いてAI窓口を開店したら【${ending.name}】${ending.emoji}だった（評価${stars}/9★）\nあなたの台本は店を守れる？\n#今さら聞けないAI用語集`)}&url=${encodeURIComponent("https://comixai.dev/gakuya")}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-ga="share_click"
+                  data-ga-network="x"
+                  data-ga-place="result"
+                  data-ga-path="/gakuya"
                   style={{ textDecoration: "none" }}
                 >
                   <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>

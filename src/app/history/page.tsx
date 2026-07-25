@@ -145,6 +145,10 @@ export default function HistoryPage() {
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("AIの75年史、1本の絵巻で読めるページが面白かった。いまが「何度目の春」か知ってる？\n#今さら聞けないAI用語集")}&url=${encodeURIComponent("https://comixai.dev/history")}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-ga="share_click"
+                data-ga-network="x"
+                data-ga-place="result"
+                data-ga-path="/history"
                 style={{ textDecoration: "none" }}
               >
                 <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
