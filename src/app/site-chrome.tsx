@@ -219,19 +219,19 @@ export function Footer() {
           {/* サイト内サブリンク（静かに置いておく） */}
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <a href="/start" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
-              🚀 AIのはじめかた
+              <i className="ph-bold ph-rocket-launch" style={{ marginRight: 5 }} />AIのはじめかた
             </a>
             <a href="/guide" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
-              💼 職種別AIガイド
+              <i className="ph-bold ph-briefcase" style={{ marginRight: 5 }} />職種別AIガイド
             </a>
             <a href="/history" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
-              📜 AI歴史絵巻
+              <i className="ph-bold ph-scroll" style={{ marginRight: 5 }} />AI歴史絵巻
             </a>
             <a href="/faq" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
-              💬 よくある質問
+              <i className="ph-bold ph-chat-circle-dots" style={{ marginRight: 5 }} />よくある質問
             </a>
             <a href="/zukan" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
-              🐾 COMIXAI図鑑
+              <i className="ph-bold ph-paw-print" style={{ marginRight: 5 }} />COMIXAI図鑑
             </a>
           </div>
         </div>

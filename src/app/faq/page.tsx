@@ -81,7 +81,8 @@ export default function FaqPage() {
                 boxShadow: "var(--shadow-pop-sm)",
               }}
             >
-              {sec.emoji} {sec.title}
+              <i className={"ph-bold " + sec.icon} style={{ marginRight: 6 }} />
+              {sec.title}
               <span style={{ color: "var(--text-muted)", fontWeight: 500, marginLeft: 6, fontFamily: "var(--font-mono)", fontSize: 11 }}>
                 {sec.items.length}
               </span>
@@ -94,7 +95,7 @@ export default function FaqPage() {
         {SECTIONS.map((sec) => (
           <div key={sec.title} id={sec.id} style={{ marginBottom: 34, scrollMarginTop: 80 }}>
             <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 16px" }}>
-              {sec.emoji} {sec.title}
+              <i className={"ph-bold " + sec.icon} style={{ marginRight: 6 }} /> {sec.title}
             </h2>
             <div style={{ display: "grid", gap: 12 }}>
               {sec.items.map((qa) => (

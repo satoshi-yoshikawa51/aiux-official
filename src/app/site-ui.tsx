@@ -38,7 +38,7 @@ export function Breadcrumb({ trail }: { trail: { name: string; href?: string }[]
   );
 }
 
-export function SectionHead({ kicker, title, hand }: { kicker: string; title: string; hand?: string }) {
+export function SectionHead({ kicker, title, hand }: { kicker: React.ReactNode; title: string; hand?: string }) {
   return (
     <div style={{ marginBottom: 28 }}>
       <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 8 }}>

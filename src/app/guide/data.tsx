@@ -12,7 +12,8 @@ export interface GuidePrompt {
 }
 
 export interface GuideUseCase {
-  emoji: string;
+  /** Phosphorのアイコン名（例: ph-rocket-launch） */
+  icon: string;
   task: string;
   how: string;
   prompts: GuidePrompt[];
@@ -35,7 +36,8 @@ export interface GuideFaq {
 
 export interface Guide {
   slug: string;
-  emoji: string;
+  /** Phosphorのアイコン名（例: ph-rocket-launch） */
+  icon: string;
   /** 職種名（例：営業） */
   role: string;
   title: string;
@@ -53,7 +55,7 @@ export const GUIDES: Guide[] = [
   /* ═══════════════ 営業 ═══════════════ */
   {
     slug: "sales",
-    emoji: "🤝",
+    icon: "ph-handshake",
     role: "営業",
     title: "営業のためのAI活用ガイド",
     catch: "「売る時間」を増やすために、書く時間・調べる時間をAIに渡す。",
@@ -80,7 +82,7 @@ export const GUIDES: Guide[] = [
     ],
     useCases: [
       {
-        emoji: "✉️",
+        icon: "ph-envelope-simple",
         task: "提案・フォローのメールを書く",
         how: "相手の業種・前回の接点・伝えたい要点を箇条書きで渡すと、営業トーンの整った下書きが数秒で出ます。そのまま送らず「自分の言葉に3割直す」のがコツ。",
         prompts: [
@@ -89,7 +91,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "🎤",
+        icon: "ph-microphone",
         task: "商談の想定問答を準備する",
         how: "商材の説明文を渡して「厳しい顧客になりきって想定質問を10個出して、模範回答もつけて」と頼むと、一人で壁打ちができます。価格交渉・競合比較の切り返しの練習に効きます。",
         prompts: [
@@ -98,7 +100,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "📝",
+        icon: "ph-note-pencil",
         task: "商談メモ→議事録→社内報告",
         how: "走り書きのメモを渡すだけで、決定事項・宿題・次アクションに整理された議事録になります。そのまま週報にも展開できるので、報告業務が一気に軽くなります。",
         prompts: [
@@ -107,7 +109,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "📄",
+        icon: "ph-file-text",
         task: "提案書のたたき台を作る",
         how: "課題・提供価値・導入効果の材料を渡して構成から作らせる。「構成→各章→推敲」と3回に分けて頼むと、一発出しより質が大きく上がります。",
         prompts: [
@@ -146,7 +148,7 @@ export const GUIDES: Guide[] = [
   /* ═══════════════ マーケティング ═══════════════ */
   {
     slug: "marketing",
-    emoji: "📣",
+    icon: "ph-megaphone",
     role: "マーケティング",
     title: "マーケターのためのAI活用ガイド",
     catch: "量産はAI、判断は人間。「AIっぽさ」を出さないのが腕の見せどころ。",
@@ -173,7 +175,7 @@ export const GUIDES: Guide[] = [
     ],
     useCases: [
       {
-        emoji: "💡",
+        icon: "ph-lightbulb",
         task: "キャッチコピー・広告文の量産",
         how: "商品の特徴とターゲットを渡して大量に案出し→人間が選んで磨く。「20代向け/40代向け」「不安訴求/期待訴求」など軸を変えて出させると幅が出ます。",
         prompts: [
@@ -182,7 +184,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "📱",
+        icon: "ph-device-mobile",
         task: "SNS投稿の企画と量産",
         how: "1本のネタから「X用・Instagram用・note用」に展開させると、チャネル別の書き分けが一瞬で終わります。投稿カレンダー1か月分の企画出しも得意分野。",
         prompts: [
@@ -191,7 +193,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "📊",
+        icon: "ph-chart-bar",
         task: "施策の企画書・レポート",
         how: "調査データや過去実績を渡して、企画の骨子や振り返りレポートのたたき台に。「懐疑的な上司として突っ込みを入れて」と頼むと提出前の穴埋めができます。",
         prompts: [
@@ -200,7 +202,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "🎨",
+        icon: "ph-palette",
         task: "バナー・アイキャッチのラフ作成",
         how: "画像生成AIでデザインの方向性ラフを複数作り、デザイナーとの認識合わせに使う。完成品ではなく「イメージ共有の道具」と割り切るのが現状の正解です。",
         prompts: [
@@ -238,7 +240,7 @@ export const GUIDES: Guide[] = [
   /* ═══════════════ 事務・バックオフィス ═══════════════ */
   {
     slug: "office",
-    emoji: "🗂️",
+    icon: "ph-folders",
     role: "事務・バックオフィス",
     title: "事務職のためのAI活用ガイド",
     catch: "Excelの数式、書類の清書、マニュアル作り。「調べながらやる仕事」が一番速くなる。",
@@ -265,7 +267,7 @@ export const GUIDES: Guide[] = [
     ],
     useCases: [
       {
-        emoji: "📈",
+        icon: "ph-trend-up",
         task: "Excel・スプレッドシートの数式",
         how: "やりたいことを日本語で説明するだけで数式が出ます。エラー修正・数式の意味の解説・マクロ（VBA/GAS）まで対応。「なぜこの数式で動くのか」も聞けば教えてくれるので、使いながら覚えられます。",
         prompts: [
@@ -274,7 +276,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "📖",
+        icon: "ph-book-open",
         task: "業務マニュアル・手順書づくり",
         how: "頭の中の手順を箇条書きで吐き出して渡すと、新人でも読める手順書に整えてくれます。「つまずきやすいポイントの注記も足して」と頼むと完成度が上がります。",
         prompts: [
@@ -283,7 +285,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "✉️",
+        icon: "ph-envelope-simple",
         task: "社内文書・ビジネスメールの清書",
         how: "「失礼のない断り方」「お詫びの文面」など、気を遣う文章ほどAIの型が役立ちます。要点だけ渡して敬語・構成を整えてもらい、最後に自分の言葉へ微調整。",
         prompts: [
@@ -292,7 +294,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "🗓️",
+        icon: "ph-calendar",
         task: "議事録・報告書のスピード作成",
         how: "会議の走り書きメモから議事録、月次の数字から報告書コメントの下書きまで。「決定事項と宿題を分けて」と頼むのが読みやすさのコツです。",
         prompts: [
@@ -331,7 +333,7 @@ export const GUIDES: Guide[] = [
   /* ═══════════════ クリエイター ═══════════════ */
   {
     slug: "creator",
-    emoji: "🎨",
+    icon: "ph-palette",
     role: "クリエイター",
     title: "クリエイターのためのAI活用ガイド",
     catch: "AIは筆を奪う敵か、最強のアシスタントか。使う側に回った人から答えが出ている。",
@@ -358,7 +360,7 @@ export const GUIDES: Guide[] = [
     ],
     useCases: [
       {
-        emoji: "💭",
+        icon: "ph-chat-teardrop-dots",
         task: "アイデア出し・設定の壁打ち",
         how: "「案を出させる」より「自分の案に突っ込ませる」のがおすすめ。矛盾探し、別視点の提示、タイトル案の大量出しなど、発想の準備運動に使えます。",
         prompts: [
@@ -367,7 +369,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "📣",
+        icon: "ph-megaphone",
         task: "SNS告知・ファンへの発信",
         how: "新作の告知文、依頼募集の文面、ポートフォリオの自己紹介。「作品の魅力を言葉にする」のが苦手でも、要素を渡せば読ませる文章になります。",
         prompts: [
@@ -376,7 +378,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "📚",
+        icon: "ph-books",
         task: "資料調べ・技術の独学",
         how: "時代考証、専門知識の確認、新しいツールの使い方。「小学生にもわかるように」「例え話で」と頼めるので、独学のスピードが大きく変わります。",
         prompts: [
@@ -385,7 +387,7 @@ export const GUIDES: Guide[] = [
         ],
       },
       {
-        emoji: "💼",
+        icon: "ph-briefcase",
         task: "依頼対応・事務まわり",
         how: "見積もり返信、条件交渉のメール、請求書の文面。フリーランスの「創作以外の全部」こそAIの出番。言いにくいことほど型を借りると楽になります。",
         prompts: [

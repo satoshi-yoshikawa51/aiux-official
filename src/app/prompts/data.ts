@@ -45,7 +45,8 @@ export interface Recipe {
   /** 一覧カード・OGP用の一言キャッチ */
   catch: string;
   category: RecipeCategory;
-  emoji: string;
+  /** Phosphorのアイコン名（例: ph-rocket-launch） */
+  icon: string;
   /** meta description（80〜120字目安） */
   short: string;
   keywords: string[];
@@ -90,37 +91,38 @@ export const PROMPTS_UPDATED = "2026-07-15";
 /** カテゴリの表示順と説明（一覧ページで使う） */
 export const RECIPE_CATEGORIES: {
   category: RecipeCategory;
-  emoji: string;
+  /** Phosphorのアイコン名（例: ph-rocket-launch） */
+  icon: string;
   desc: string;
 }[] = [
   {
     category: "メール・ビジネス文書",
-    emoji: "✉️",
+    icon: "ph-envelope-simple",
     desc: "毎日書くものこそ、AIの出番。書き出しで固まる時間をゼロにする。",
   },
   {
     category: "会議・報告",
-    emoji: "📝",
+    icon: "ph-note-pencil",
     desc: "議事録・要約・週報。「まとめる仕事」はAIがいちばん得意な領域。",
   },
   {
     category: "企画・マーケティング",
-    emoji: "💡",
+    icon: "ph-lightbulb",
     desc: "たたき台とコピー案は数が命。AIに量を出させて、人間が目利きする。",
   },
   {
     category: "営業・顧客対応",
-    emoji: "🤝",
+    icon: "ph-handshake",
     desc: "提案・想定問答・お客様対応。相手がいる文章は、準備の質で決まる。",
   },
   {
     category: "事務・効率化",
-    emoji: "🗂️",
+    icon: "ph-folders",
     desc: "Excel関数・データ整形・マニュアル化。手作業の反復をAIに引き取らせる。",
   },
   {
     category: "伝える・キャリア",
-    emoji: "🎤",
+    icon: "ph-microphone",
     desc: "職務経歴書・自己PR・スピーチ。自分のことを言葉にする作業を手伝わせる。",
   },
 ];

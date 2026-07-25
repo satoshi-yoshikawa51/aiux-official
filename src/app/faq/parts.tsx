@@ -13,7 +13,8 @@ export interface FaqSection {
   /** ページ内アンカー用ID（目次から飛ぶ） */
   id: string;
   title: string;
-  emoji: string;
+  /** Phosphorのアイコン名（例: ph-rocket-launch） */
+  icon: string;
   items: QA[];
 }
 

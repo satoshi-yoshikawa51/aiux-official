@@ -43,9 +43,9 @@ interface NewsItem {
 
 const NEWS = newsJson as { updatedAt: string | null; items: NewsItem[] };
 
-const REGION_BADGE: Record<AiEvent["region"], { label: string; tone: "blue" | "red" }> = {
-  world: { label: "🌏 世界", tone: "blue" },
-  japan: { label: "🗾 日本", tone: "red" },
+const REGION_BADGE: Record<AiEvent["region"], { label: string; icon: string; tone: "blue" | "red" }> = {
+  world: { label: "世界", icon: "ph-globe-hemisphere-east", tone: "blue" },
+  japan: { label: "日本", icon: "ph-map-trifold", tone: "red" },
 };
 
 function fmtNewsDate(iso: string): string {
@@ -60,7 +60,10 @@ function EventCard({ e }: { e: AiEvent }) {
       <Card variant="pop" hover padding={18} style={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
         {EVENT_IMAGES[e.id] && <EventBanner src={EVENT_IMAGES[e.id]} />}
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 10 }}>
-          <Badge tone={rb.tone}>{rb.label}</Badge>
+          <Badge tone={rb.tone}>
+            <i className={"ph-bold " + rb.icon} style={{ marginRight: 4 }} />
+            {rb.label}
+          </Badge>
           <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12.5 }}>{dateLabel(e)}</span>
         </div>
         <h3 style={{ margin: "0 0 4px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16.5, lineHeight: 1.45 }}>{e.title}</h3>
@@ -169,7 +172,7 @@ export default function CalendarPage() {
         }}
       >
         <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "48px 0 52px" }}>
-          <SectionHead kicker="📰 DAILY — 今日のAIニュース" title="今朝までの、話題の見出し。" hand="毎朝7時ごろ自動更新・出典へ直リンク" />
+          <SectionHead kicker={<><i className="ph-bold ph-newspaper" style={{ marginRight: 6 }} />DAILY — 今日のAIニュース</>} title="今朝までの、話題の見出し。" hand="毎朝7時ごろ自動更新・出典へ直リンク" />
           {NEWS.items.length === 0 ? (
             <Card variant="flat" padding={22} style={{ maxWidth: 680, margin: "0 auto" }}>
               <p style={{ margin: 0, fontFamily: "var(--font-hand)", fontSize: 15, color: "var(--text-muted)" }}>
@@ -190,12 +193,12 @@ export default function CalendarPage() {
                   <span style={{ flex: "1 1 auto", minWidth: 0, fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14.5, lineHeight: 1.6 }}>
                     {n.lang === "en" && (
                       <span style={{ display: "inline-block", verticalAlign: "1px", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 10, color: "var(--blue-600)", border: "1.5px solid var(--blue-500)", borderRadius: "var(--radius-full)", padding: "1px 8px", marginRight: 8, whiteSpace: "nowrap" }}>
-                        🌏 海外
+                        <i className="ph-bold ph-globe-hemisphere-east" style={{ marginRight: 4 }} />海外
                       </span>
                     )}
                     {n.kind === "buzz" && (
                       <span style={{ display: "inline-block", verticalAlign: "1px", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 10, color: "var(--red-600)", border: "1.5px solid var(--red-500)", borderRadius: "var(--radius-full)", padding: "1px 8px", marginRight: 8, whiteSpace: "nowrap" }}>
-                        🔥 話題
+                        <i className="ph-bold ph-fire" style={{ marginRight: 4 }} />話題
                       </span>
                     )}
                     <span title={n.titleJa ? n.title : undefined}>{n.titleJa ?? n.title}</span>
@@ -210,7 +213,9 @@ export default function CalendarPage() {
           )}
           {NEWS.updatedAt && (
             <p style={{ margin: "14px 0 0", fontSize: 12, color: "var(--text-muted)" }}>
-              最終取得：{new Date(new Date(NEWS.updatedAt).getTime() + 9 * 3600 * 1000).toISOString().slice(0, 16).replace("T", " ")}（JST）／見出しの著作権は各媒体に帰属します／🌏海外の見出しは自動翻訳（クリックで原文へ）
+              最終取得：{new Date(new Date(NEWS.updatedAt).getTime() + 9 * 3600 * 1000).toISOString().slice(0, 16).replace("T", " ")}（JST）／見出しの著作権は各媒体に帰属します／
+              <i className="ph-bold ph-globe-hemisphere-east" style={{ marginRight: 3 }} />
+              海外の見出しは自動翻訳（クリックで原文へ）
             </p>
           )}
         </div>
@@ -218,7 +223,7 @@ export default function CalendarPage() {
 
       {/* ═══ カレンダー ═══ */}
       <section id="calendar" style={{ maxWidth: PAGE, margin: "0 auto", padding: "50px 0 20px", scrollMarginTop: 76 }}>
-        <SectionHead kicker="📅 CALENDAR — イベントカレンダー" title="世界と日本の、AIイベント。" hand="クリックで公式サイトへ" />
+        <SectionHead kicker={<><i className="ph-bold ph-calendar-blank" style={{ marginRight: 6 }} />CALENDAR — イベントカレンダー</>} title="世界と日本の、AIイベント。" hand="クリックで公式サイトへ" />
         <div style={{ maxWidth: 680, margin: "0 auto" }}>
           <CalendarView events={calEvents} />
         </div>

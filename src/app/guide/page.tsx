@@ -76,7 +76,8 @@ export default function GuideIndexPage() {
                   style={{ display: "block", width: "calc(100% + 44px)", height: 190, objectFit: "cover", margin: "-22px -22px 16px", borderBottom: "var(--bw-bold) solid var(--ink-900)" }}
                 />
                 <h2 style={{ margin: "0 0 6px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 19, lineHeight: 1.45 }}>
-                  {g.emoji} {g.title}
+                  <i className={"ph-bold " + g.icon} style={{ marginRight: 8, color: "var(--red-500)" }} />
+                  {g.title}
                 </h2>
                 <p style={{ margin: "0 0 14px", fontFamily: "var(--font-hand)", fontSize: 13.5, color: "var(--red-600)" }}>{g.catch}</p>
                 <p style={{ margin: "0 0 16px", fontSize: 13.5, lineHeight: 1.9, color: "var(--text-muted)" }}>{g.intro[0].slice(0, 80)}…</p>

@@ -118,7 +118,7 @@ export default async function PromptRecipePage({ params }: Props) {
           <div>
             <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
               <Badge tone="red">{r.category}</Badge>
-              <span style={{ fontSize: 22, lineHeight: 1 }}>{r.emoji}</span>
+              <i className={"ph-bold " + r.icon} style={{ fontSize: 22, lineHeight: 1, color: "var(--red-500)" }} />
             </div>
             <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(27px,4.2vw,42px)", lineHeight: 1.35, margin: "0 0 10px" }}>
               {r.title}のプロンプト
@@ -262,7 +262,7 @@ export default async function PromptRecipePage({ params }: Props) {
             {r.game && (
               <a href={r.game.href} style={{ textDecoration: "none", color: "inherit", display: "block", marginTop: 36 }}>
                 <div style={{ background: "var(--ink-900)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-pop)", padding: "22px 28px", display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
-                  <div style={{ flex: "none", fontSize: 38, lineHeight: 1 }}>🎮</div>
+                  <div style={{ flex: "none", fontSize: 38, lineHeight: 1, color: "var(--yellow-400)" }}><i className="ph-bold ph-game-controller" /></div>
                   <div style={{ flex: "1 1 240px" }}>
                     <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 6 }}>
                       GAME — 遊んで身につける
@@ -317,7 +317,8 @@ export default async function PromptRecipePage({ params }: Props) {
                     {related.map((x) => (
                       <a key={x.slug} href={`/prompts/${x.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--ink-900)", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "9px 14px", boxShadow: "var(--shadow-pop-sm)" }}>
                         <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                          {x.emoji} {x.title}
+                          <i className={"ph-bold " + x.icon} style={{ marginRight: 6, color: "var(--red-600)" }} />
+                          {x.title}
                         </span>
                         <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", flex: "none" }} />
                       </a>

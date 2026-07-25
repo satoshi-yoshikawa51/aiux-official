@@ -75,7 +75,7 @@ function resolveLink(l: TermLink): RichLink {
   }
   if (l.href.startsWith("/prompts/")) {
     const r = RECIPES.find((x) => `/prompts/${x.slug}` === l.href);
-    if (r) return { href: l.href, title: `${r.emoji} ${r.title}のプロンプト`, desc: r.catch, badge: "プロンプト集", tone: "blue", external: false };
+    if (r) return { href: l.href, title: `${r.title}のプロンプト`, desc: r.catch, badge: "プロンプト集", tone: "blue", external: false };
   }
   const a = ARTICLE_POOL.get(l.href);
   if (a) return { href: l.href, title: a.title, desc: a.excerpt, thumb: a.thumb, badge: a.badge, tone: a.tone, likes: a.likes, external: true };

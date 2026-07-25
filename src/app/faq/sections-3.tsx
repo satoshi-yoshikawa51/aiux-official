@@ -7,7 +7,7 @@ export const FAQ_SECTIONS_3: FaqSection[] = [
   {
     id: "learn",
     title: "教育・子ども・学び",
-    emoji: "🎓",
+    icon: "ph-graduation-cap",
     items: [
       {
         q: "子どもにAIを使わせても大丈夫ですか？",
@@ -86,7 +86,7 @@ export const FAQ_SECTIONS_3: FaqSection[] = [
   {
     id: "create",
     title: "作る・開発",
-    emoji: "🧑‍💻",
+    icon: "ph-code",
     items: [
       {
         q: "コードが書けなくても、アプリやゲームを作れますか？",
@@ -156,7 +156,7 @@ export const FAQ_SECTIONS_3: FaqSection[] = [
   {
     id: "future",
     title: "ちょっと先の話",
-    emoji: "🔭",
+    icon: "ph-binoculars",
     items: [
       {
         q: "AIの進化は、これからも続きますか？",

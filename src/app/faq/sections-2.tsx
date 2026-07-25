@@ -7,7 +7,7 @@ export const FAQ_SECTIONS_2: FaqSection[] = [
   {
     id: "security",
     title: "セキュリティ・個人情報",
-    emoji: "🔒",
+    icon: "ph-lock",
     items: [
       {
         q: "入力した内容がAIの学習に使われるのを防げますか？",
@@ -95,7 +95,7 @@ export const FAQ_SECTIONS_2: FaqSection[] = [
   {
     id: "law",
     title: "著作権・法律",
-    emoji: "⚖️",
+    icon: "ph-scales",
     items: [
       {
         q: "AIで作った文章や画像は、仕事で使っていいですか？",
@@ -174,7 +174,7 @@ export const FAQ_SECTIONS_2: FaqSection[] = [
   {
     id: "uso",
     title: "AIのウソ・限界",
-    emoji: "🤥",
+    icon: "ph-detective",
     items: [
       {
         q: "AIの答えは信用できますか？",
@@ -262,7 +262,7 @@ export const FAQ_SECTIONS_2: FaqSection[] = [
   {
     id: "tools",
     title: "ツール選び",
-    emoji: "🛠️",
+    icon: "ph-wrench",
     items: [
       {
         q: "ChatGPT・Claude・Gemini、どれを使えばいいですか？",
