@@ -22,9 +22,9 @@ import {
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
-import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
 
-import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
+import { BW, C, F, FONT, POP, R, S, T, TAB } from '@/theme';
 
 const TONE_DOTS = require('@/assets/images/tone-dots.png');
 const TONE_LINES = require('@/assets/images/tone-lines.png');
@@ -116,16 +116,23 @@ export function Screen({
   scroll?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
+  /* 下の固定タブバーに内容が隠れないよう、その高さ＋安全領域を空ける。
+     タブの無い画面（オンボーディング）でも末尾に余白が出るだけで害はない */
+  const insets = useSafeAreaInsets();
+  const bottomPad = TAB.clearance + (edges.includes('bottom') ? 0 : insets.bottom);
+
   return (
     <SafeAreaView style={styles.screen} edges={edges}>
       {scroll ? (
         <ScrollView
-          contentContainerStyle={[styles.screenPad, style]}
+          contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
           showsVerticalScrollIndicator={false}>
           {children}
         </ScrollView>
       ) : (
-        <View style={[{ flex: 1 }, styles.screenPad, style]}>{children}</View>
+        <View style={[{ flex: 1 }, styles.screenPad, { paddingBottom: bottomPad }, style]}>
+          {children}
+        </View>
       )}
     </SafeAreaView>
   );
@@ -534,7 +541,7 @@ export function Muted({ children, style }: { children: React.ReactNode; style?: 
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: T.bg },
-  screenPad: { padding: S.lg, paddingBottom: S.xxl * 2, gap: S.xl },
+  screenPad: { padding: S.lg, gap: S.xl },
 
   panelNumber: {
     position: 'absolute',
