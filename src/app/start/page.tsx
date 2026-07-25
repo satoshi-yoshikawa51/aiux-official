@@ -324,7 +324,7 @@ export default function StartPage() {
 
         {/* 修了 */}
         <div style={{ border: "var(--bw-bold) solid var(--ink-900)", borderRadius: "var(--radius-lg)", background: "var(--yellow-400)", padding: "20px 22px", boxShadow: "var(--shadow-pop)" }}>
-          <h2 style={{ margin: "0 0 8px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(18px,2.8vw,24px)" }}>🎓 修了したら</h2>
+          <h2 style={{ margin: "0 0 8px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(18px,2.8vw,24px)" }}><i className="ph-bold ph-graduation-cap" style={{ marginRight: 8, color: "var(--red-500)" }} />修了したら</h2>
           <p style={{ margin: "0 0 12px", fontSize: 14, lineHeight: 1.95, fontWeight: 500 }}>
             ここまでの冒険の記録は<a href="/zukan" style={{ color: "var(--ink-900)", fontWeight: 900 }}>COMIXAI図鑑</a>に刻まれています。
             そして——このサイトの隠し部屋は全部で<b>18</b>。まだ見つけていない扉は、<a href="/glossary" style={{ color: "var(--ink-900)", fontWeight: 900 }}>用語集</a>のどこかに。
@@ -336,7 +336,7 @@ export default function StartPage() {
 
         {/* 職種別ガイドへの導線 */}
         <div style={{ marginTop: 18, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-lg)", background: "var(--paper-0)", padding: "20px 22px", boxShadow: "var(--shadow-pop-sm)" }}>
-          <h2 style={{ margin: "0 0 8px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(18px,2.8vw,24px)" }}>💼 自分の仕事で使うには？</h2>
+          <h2 style={{ margin: "0 0 8px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(18px,2.8vw,24px)" }}><i className="ph-bold ph-briefcase" style={{ marginRight: 8, color: "var(--red-500)" }} />自分の仕事で使うには？</h2>
           <p style={{ margin: "0 0 12px", fontSize: 14, lineHeight: 1.95 }}>
             基礎の次は実践。<b>営業・マーケティング・事務・クリエイター</b>の職種ごとに、「どの業務で・どう使い始めるか」をまとめたガイドを用意しました。
           </p>

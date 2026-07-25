@@ -347,7 +347,7 @@ export function KeibiGame() {
       {/* 判定結果 */}
       {verdict && (
         <div className="game-in" style={{ marginTop: 14, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: verdict.ok ? "var(--paper-0)" : "#2a1114", color: verdict.ok ? "var(--ink-900)" : "#ffd9dc", padding: "14px 16px" }}>
-          <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, marginBottom: 6 }}>{verdict.ok ? "⭕ 正しい判断！" : "❌ 見逃した…"}</div>
+          <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, marginBottom: 6 }}><i className={verdict.ok ? "ph-bold ph-check-circle" : "ph-bold ph-x-circle"} style={{ marginRight: 5 }} />{verdict.ok ? "正しい判断！" : "見逃した…"}</div>
           <p style={{ margin: "0 0 12px", fontSize: 13, lineHeight: 1.8 }}>{verdict.text}</p>
           <Button variant={verdict.ok ? "primary" : "yellow"} size="sm" onClick={nextDoc} iconRight={<i className="ph-bold ph-arrow-right" />}>
             {idx + 1 >= docs.length ? "勤務を終える" : "次の文書へ"}

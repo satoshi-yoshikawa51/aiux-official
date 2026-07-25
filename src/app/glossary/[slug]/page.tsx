@@ -253,7 +253,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                     flexWrap: "wrap",
                   }}
                 >
-                  <div style={{ flex: "none", fontSize: 40, lineHeight: 1 }}>🚪</div>
+                  <div style={{ flex: "none", fontSize: 40, lineHeight: 1, color: "var(--yellow-400)" }}><i className="ph-bold ph-door" /></div>
                   <div style={{ flex: "1 1 240px" }}>
                     <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 6 }}>
                       SECRET — 隠しコンテンツ
@@ -273,7 +273,7 @@ export default async function GlossaryTermPage({ params }: Props) {
             {/* ツール系用語には「どれを使う？」比較への導線を出す */}
             {["chatgpt", "claude", "gemini", "perplexity", "microsoft-copilot"].includes(t.slug) && (
               <a href="/compare" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 14, marginTop: 28, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "14px 18px", boxShadow: "var(--shadow-pop-sm)", flexWrap: "wrap" }}>
-                <span style={{ fontSize: 26, flex: "none" }}>⚖️</span>
+                <span style={{ fontSize: 26, flex: "none" }}><i className="ph-bold ph-scales" /></span>
                 <span style={{ flex: "1 1 220px" }}>
                   <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15 }}>どれを使うか、迷ってる？</span>
                   <span style={{ display: "block", fontSize: 12.5, color: "var(--ink-900)", marginTop: 2 }}>ChatGPT・Claude・Gemini の違いと用途別の使い分けを比較表にまとめました</span>

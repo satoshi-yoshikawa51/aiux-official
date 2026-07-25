@@ -307,7 +307,9 @@ export function SlopGame() {
             }}
           >
             <div style={{ textAlign: "center", color: "var(--paper-50)", maxWidth: 420 }}>
-              <div style={{ fontSize: 40 }}>{feedback.ok ? "⭕" : feedback.timeout ? "⏰" : "❌"}</div>
+              <div style={{ fontSize: 40 }}>
+                <i className={feedback.ok ? "ph-bold ph-check-circle" : feedback.timeout ? "ph-bold ph-alarm" : "ph-bold ph-x-circle"} />
+              </div>
               <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, margin: "4px 0 8px" }}>
                 {feedback.ok ? "ナイス鑑定！" : feedback.timeout ? "時間切れ！" : `ざんねん…これは${post?.slop ? "スロップ" : "良質"}`}
               </div>

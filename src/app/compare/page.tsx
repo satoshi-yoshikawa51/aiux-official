@@ -109,7 +109,7 @@ export default function ComparePage() {
 
       {/* 料金プラン比較 */}
       <section style={{ maxWidth: "min(880px, 92vw)", margin: "0 auto", padding: "0 0 34px" }}>
-        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 6px" }}>💰 料金プラン早見表</h2>
+        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 6px" }}><i className="ph-bold ph-currency-jpy" style={{ marginRight: 8, color: "var(--red-500)" }} />料金プラン早見表</h2>
         <p style={{ fontSize: 13.5, color: "var(--text-muted)", margin: "0 0 16px", lineHeight: 1.9 }}>
           2026年7月時点・日本円は税込目安（為替とプラン改定で変わります）。結論：<b>まず無料、定番は月3,000円前後</b>。
         </p>
@@ -135,11 +135,11 @@ export default function ComparePage() {
 
       {/* 用途別おすすめ */}
       <section style={{ maxWidth: "min(760px, 92vw)", margin: "0 auto", padding: "0 0 34px" }}>
-        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 16px" }}>🎯 用途別、まずこれ</h2>
+        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 16px" }}><i className="ph-bold ph-target" style={{ marginRight: 8, color: "var(--red-500)" }} />用途別、まずこれ</h2>
         <div style={{ display: "grid", gap: 10 }}>
           {USES.map((u) => (
             <div key={u.use} style={{ display: "flex", gap: 12, alignItems: "flex-start", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", padding: "13px 16px", boxShadow: "var(--shadow-pop-sm)", flexWrap: "wrap" }}>
-              <span style={{ fontSize: 22, flex: "none" }}>{u.emoji}</span>
+              <span style={{ fontSize: 22, flex: "none", color: "var(--red-500)" }}><i className={"ph-bold " + u.icon} /></span>
               <div style={{ flex: "1 1 240px" }}>
                 <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14.5 }}>{u.use}</div>
                 <div style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.8, marginTop: 2 }}>{u.why}</div>
@@ -152,7 +152,7 @@ export default function ComparePage() {
 
       {/* どっちがいい？FAQ */}
       <section style={{ maxWidth: "min(760px, 92vw)", margin: "0 auto", padding: "0 0 34px" }}>
-        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 16px" }}>💬 「どっちがいい？」に一問一答</h2>
+        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 16px" }}><i className="ph-bold ph-chat-circle-dots" style={{ marginRight: 8, color: "var(--red-500)" }} />「どっちがいい？」に一問一答</h2>
         <div style={{ display: "grid", gap: 12 }}>
           {COMPARE_FAQ.map((f) => (
             <details key={f.q} style={{ border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--paper-0)", boxShadow: "var(--shadow-pop-sm)", overflow: "hidden" }}>
