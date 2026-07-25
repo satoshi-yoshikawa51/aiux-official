@@ -253,7 +253,8 @@ body:has(.pn-root) {
   border: 1px solid var(--pn-divider);
   background: var(--pn-surface);
   color: var(--pn-text);
-  font-size: 15px;
+  /* 16px未満だとiOSがフォーカス時に勝手にズームして戻らないため下げない */
+  font-size: 16px;
   font-family: inherit;
   outline: none;
 }
