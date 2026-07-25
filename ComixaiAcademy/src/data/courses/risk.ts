@@ -7,7 +7,7 @@ import type { Course } from '../types';
 
 export const RISK: Course = {
   id: 'risk',
-  emoji: '🛡️',
+  icon: 'shield',
   title: '事故らないAI',
   desc: '便利さより先に、これを知っておく。3本だけ、真面目な話をする。',
   kind: 'common',
@@ -22,7 +22,7 @@ export const RISK: Course = {
         {
           say: '最初に線を引く。ここを曖昧にしたまま使い始めるやつが、いちばん危ない。',
           motion: 'angry',
-          emote: '❗',
+          emote: 'bang',
           heading: '原則',
           body: '会社のAI利用ルールが最優先です。ルールが無い場合も、「これが外部に残っても平気か？」を毎回自分に聞いてください。判断に迷うものは、入れない。',
         },
@@ -88,7 +88,7 @@ export const RISK: Course = {
         {
           say: '実務で効くのは後者だ。似てたらアウト。AIを使ったかどうかは関係ない。',
           motion: 'angry',
-          emote: '❗',
+          emote: 'bang',
           heading: '納品前の必須チェック',
           bullets: [
             '生成物が特定の作品・作風に酷似していないか',

@@ -10,6 +10,7 @@ import React from 'react';
 import { Platform, Pressable, ScrollView, Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
+import { Icon } from '@/components/icons';
 import { Badge, Bubble, Button, Card, Panel, Pop, Row } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { getBadge, type Title } from '@/data/badges';
@@ -59,7 +60,7 @@ export default function LessonScreen() {
     const r = completeLesson(found.lesson.id, misses === 0);
     setResult(r);
     avatarRef.current?.play(misses === 0 ? 'laugh' : 'bow');
-    avatarRef.current?.emote(misses === 0 ? '✨' : '💡');
+    avatarRef.current?.emote(misses === 0 ? 'sparkle' : 'bulb');
   }, [phase, found, misses, completeLesson]);
 
   if (!found) {
@@ -96,7 +97,7 @@ export default function LessonScreen() {
       ).catch(() => {});
     }
     avatarRef.current?.play(ok ? 'laugh' : 'worried');
-    avatarRef.current?.emote(ok ? '✨' : '❗');
+    avatarRef.current?.emote(ok ? 'sparkle' : 'bang');
   };
 
   const goNextQuiz = () => {
@@ -173,9 +174,9 @@ export default function LessonScreen() {
               <View style={{ gap: 8 }}>
                 {view.bullets.map((b, i) => (
                   <Row key={i} gap={8} style={{ alignItems: 'flex-start' }}>
-                    <Text style={{ fontFamily: FONT.display, fontSize: 13, color: T.accent, lineHeight: 26 }}>
-                      ▪︎
-                    </Text>
+                    <View style={{ paddingTop: 9 }}>
+                      <Icon name="play" size={9} color={T.accent} />
+                    </View>
                     <Text style={[F.body, { flex: 1 }]}>{b}</Text>
                   </Row>
                 ))}
@@ -284,10 +285,16 @@ export default function LessonScreen() {
         {phase === 'result' ? (
           <View style={{ gap: S.lg }}>
             <Panel tone="dots" tilt={-1} contentStyle={{ gap: S.sm, alignItems: 'center', paddingVertical: S.xl }}>
-              <Text style={F.kicker}>{course.emoji} {course.title}</Text>
-              <Text style={{ fontFamily: FONT.display, fontSize: 30, lineHeight: 40, color: T.text }}>
-                {misses === 0 ? '💯 ノーミス修了' : '✅ 修了'}
-              </Text>
+              <Row gap={6}>
+                <Icon name={course.icon} size={15} color={T.accent} />
+                <Text style={F.kicker}>{course.title}</Text>
+              </Row>
+              <Row gap={8}>
+                <Icon name={misses === 0 ? 'perfect' : 'check'} size={28} color={T.ok} />
+                <Text style={{ fontFamily: FONT.display, fontSize: 26, lineHeight: 36, color: T.text }}>
+                  {misses === 0 ? 'ノーミス修了' : '修了'}
+                </Text>
+              </Row>
               <Text style={[F.hand, { textAlign: 'center' }]}>
                 {lesson.title}
               </Text>
@@ -304,7 +311,7 @@ export default function LessonScreen() {
                   if (!b) return null;
                   return (
                     <Row key={bid} gap={S.sm} style={{ marginTop: S.xs }}>
-                      <Text style={{ fontSize: 30 }}>{b.emoji}</Text>
+                      <Icon name={b.icon} size={30} color={T.text} />
                       <View style={{ flex: 1 }}>
                         <Text style={F.h2}>{b.name}</Text>
                         <Text style={F.tiny}>{b.desc}</Text>
@@ -319,7 +326,7 @@ export default function LessonScreen() {
               <Card tone="ink">
                 <Text style={[F.kicker, { color: C.red100 }]}>RANK UP</Text>
                 <Row gap={S.sm}>
-                  <Text style={{ fontSize: 32 }}>{result.newTitle.emoji}</Text>
+                  <Icon name={result.newTitle.icon} size={32} color={C.paper0} />
                   <Text style={[F.title, { color: C.paper50, flex: 1 }]}>{result.newTitle.name}</Text>
                 </Row>
                 <Text style={[F.hand, { color: C.paper100 }]}>「{result.newTitle.say}」</Text>

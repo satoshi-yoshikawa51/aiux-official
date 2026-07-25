@@ -7,7 +7,7 @@ import type { Course } from '../types';
 
 export const NEXT: Course = {
   id: 'next',
-  emoji: '🚀',
+  icon: 'rocket',
   title: 'これからのAI',
   desc: '一問一答の次に来る話。ここまで来たら、もう詳しい人の側だ。',
   kind: 'common',
@@ -38,7 +38,7 @@ export const NEXT: Course = {
         {
           say: '任せるなら、権限は絞れ。前のレッスンで言ったとおりだ。',
           motion: 'worried',
-          emote: '❗',
+          emote: 'bang',
           heading: '任せ方の原則',
           bullets: [
             '取り返しのつく作業から任せる（下書き・調査・整理）',
@@ -77,7 +77,7 @@ export const NEXT: Course = {
         {
           say: 'ここを勘違いするやつが多い。資料を読ませるのと、AIを鍛え直すのは別だ。',
           motion: 'arms-crossed',
-          emote: '💡',
+          emote: 'bulb',
           heading: 'ファインチューニングとの違い',
           bullets: [
             'RAG：知識を「その場で渡す」。資料を差し替えれば内容も変わる',
@@ -132,7 +132,7 @@ export const NEXT: Course = {
         {
           say: 'それと、読者はもう検索エンジンだけじゃない。AIも読者だ。',
           motion: 'arms-crossed',
-          emote: '✨',
+          emote: 'sparkle',
           heading: 'LLMO（AI検索最適化）',
           body: 'ChatGPTやPerplexityなどのAIに「引用・言及されやすくする」ためのコンテンツ最適化。引用されやすいのは、一次情報・具体的な数字・明確な結論を持つコンテンツです。従来のSEOに加えてこの視点を持つと、先行者になれます。',
         },

@@ -4,6 +4,7 @@ import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
 
+import { Icon } from '@/components/icons';
 import { Badge, Card, PressCard, Row, Screen, SectionHead } from '@/components/ui';
 import { AVATARS, getAvatar, isReady } from '@/data/avatars';
 import { ROLES, getRole } from '@/data/roles';
@@ -51,7 +52,7 @@ export default function SettingsScreen() {
             <PressCard key={a.id} disabled={!ready} selected={selected} onPress={() => setAvatar(a.id)}>
               <Row style={{ justifyContent: 'space-between' }}>
                 <Row gap={S.sm} style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 22 }}>{a.emoji}</Text>
+                  <Icon name={a.icon} size={22} color={T.text} />
                   <View style={{ flex: 1 }}>
                     <Text style={F.strong}>{a.name}</Text>
                     <Text style={F.tiny}>{a.tagline}</Text>
@@ -80,7 +81,7 @@ export default function SettingsScreen() {
             <PressCard key={r.id} selected={selected} onPress={() => setRole(r.id as RoleId)}>
               <Row style={{ justifyContent: 'space-between' }}>
                 <Row gap={S.sm} style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 22 }}>{r.emoji}</Text>
+                  <Icon name={r.icon} size={22} color={T.text} />
                   <Text style={[F.strong, { flex: 1 }]}>{r.name}</Text>
                 </Row>
                 {selected ? <Badge tone="red">選択中</Badge> : null}

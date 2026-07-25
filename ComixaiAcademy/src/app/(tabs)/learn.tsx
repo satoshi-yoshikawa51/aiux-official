@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
 
+import { Icon } from '@/components/icons';
 import { Badge, Panel, PressCard, Progress, Row, Screen, SectionHead } from '@/components/ui';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
@@ -34,7 +35,7 @@ export default function LearnScreen() {
             <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <View style={{ flex: 1, gap: 4 }}>
                 <Row gap={6}>
-                  <Text style={{ fontSize: 19 }}>{course.emoji}</Text>
+                  <Icon name={course.icon} size={20} color={T.text} />
                   <Text style={[F.h1, { flex: 1 }]}>{course.title}</Text>
                 </Row>
                 <Text style={F.small}>{course.desc}</Text>
@@ -81,7 +82,11 @@ export default function LearnScreen() {
                           </Text>
                         </View>
                       </Row>
-                      <Text style={{ fontSize: 17 }}>{perfect ? '💯' : done ? '✅' : '▶︎'}</Text>
+                      <Icon
+                        name={perfect ? 'perfect' : done ? 'check' : 'play'}
+                        size={17}
+                        color={done ? T.ok : T.muted}
+                      />
                     </Row>
                   </PressCard>
                 );

@@ -14,6 +14,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
+import { Icon, type IconName } from '@/components/icons';
 import { Bubble, Button, Panel, Pop, Progress, Row, Screen, Tone } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
@@ -23,13 +24,13 @@ import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
-const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: string }[] = [
+const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
   { say: '……なんだ。用が無いなら、手を動かせ。', motion: 'arms-crossed' },
   { say: '休憩か。まあ、詰め込みすぎても入らないからな。', motion: 'idle-b' },
   { say: '1日1本で十分だ。続けるほうが難しい。', motion: 'explain' },
   { say: 'わからんところは、飛ばしていい。あとで戻れ。', motion: 'wave' },
-  { say: '……そんなに見るな。', motion: 'worried', emote: '❗' },
-  { say: 'よし、いい顔になってきた。', motion: 'laugh', emote: '✨' },
+  { say: '……そんなに見るな。', motion: 'worried', emote: 'bang' },
+  { say: 'よし、いい顔になってきた。', motion: 'laugh', emote: 'sparkle' },
 ];
 
 /** アバターの見た目の縦横比（高さ ÷ 幅） */
@@ -102,7 +103,7 @@ export default function HomeScreen() {
           }}>
           <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <Row gap={6} style={{ flex: 1 }}>
-              <Text style={{ fontSize: 20 }}>{stats.title.emoji}</Text>
+              <Icon name={stats.title.icon} size={21} color={C.paper0} />
               <Text style={[F.h2, { color: C.paper50 }]} numberOfLines={1}>
                 {stats.title.name}
               </Text>
@@ -159,9 +160,12 @@ export default function HomeScreen() {
            （コマ番号の下に文字が潜り込む） */}
       {next ? (
         <Panel number="次" contentStyle={{ padding: S.md, paddingTop: S.xl + 2, gap: S.sm }}>
-          <Text style={[F.strong, { fontSize: 14.5 }]} numberOfLines={1}>
-            {next.course.emoji} {next.lesson.title}
-          </Text>
+          <Row gap={7}>
+            <Icon name={next.course.icon} size={18} color={T.accent} />
+            <Text style={[F.strong, { fontSize: 14.5, flex: 1 }]} numberOfLines={1}>
+              {next.lesson.title}
+            </Text>
+          </Row>
           <Button
             label={`はじめる（${next.lesson.minutes}分・クイズ${next.lesson.quiz.length}問）`}
             size="sm"

@@ -4,6 +4,7 @@
    共通のテキスト（body）と職種別のテキスト（byRole）を両方持てるようにし、
    画面側で「選ばれている職種のものがあればそちらを使う」ようにしている。
    ============================================================ */
+import type { IconName } from '@/components/icons';
 import type { AvatarMotion } from '@/avatar/motions';
 
 export type RoleId = 'sales' | 'marketing' | 'office' | 'creator';
@@ -16,8 +17,8 @@ export interface LessonCard {
   sayByRole?: ByRole<string>;
   /** 再生するモーション（省略時は説明モーション） */
   motion?: AvatarMotion;
-  /** 頭上に出す絵文字エモート */
-  emote?: string;
+  /** 頭上に出すエモート */
+  emote?: IconName;
   /** カード見出し */
   heading?: string;
   /** 本文。職種別に差し替えたいときは bodyByRole */
@@ -51,7 +52,7 @@ export interface Lesson {
 
 export interface Course {
   id: string;
-  emoji: string;
+  icon: IconName;
   title: string;
   desc: string;
   /** role = 職種によって中身が変化するコース */
