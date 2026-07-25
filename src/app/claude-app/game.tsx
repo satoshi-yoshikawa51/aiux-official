@@ -1329,6 +1329,8 @@ function Main({
           <textarea
             value={input}
             data-guide="input"
+            /* tap-input: iOSで入力欄に触ると勝手に拡大して戻らないのを防ぐ（globals.css） */
+            className="tap-input"
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -1842,6 +1844,7 @@ function SettingsModal({
         <input
           type="password"
           value={key}
+          className="tap-input"
           onChange={(e) => {
             const v = e.target.value.trim();
             if (v && !key) setUse(true); // キーを入れた＝使いたい、とみなして自動ON

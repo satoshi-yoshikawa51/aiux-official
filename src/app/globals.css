@@ -1093,3 +1093,18 @@ html.splash-hold .ht-ch,
 html.splash-hold .hero-burst {
   animation-play-state: paused !important;
 }
+
+/* —— iOS Safari の「入力欄に触ると勝手に拡大して戻らない」対策 ——
+   フォントサイズが16px未満の input / textarea にフォーカスすると、iOSは
+   読ませるために自動でズームインする。しかも離れても倍率が戻らないため、
+   ユーザーがピンチで戻す羽目になる。
+   見た目を小さく保ちたい入力欄には .tap-input を付け、タッチ端末のときだけ
+   16pxまで引き上げてズームの発動条件を外す（インラインstyleより後勝ちに
+   したいので !important）。マウス環境では指定どおりの小さいサイズのまま。
+   ※ viewportに maximum-scale を足す手もあるが、ピンチズーム自体を殺して
+     しまうのでアクセシビリティ上採らない */
+@media (pointer: coarse) {
+  .tap-input {
+    font-size: 16px !important;
+  }
+}
