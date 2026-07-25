@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
-import { Breadcrumb } from "../site-ui";
+import { Breadcrumb, ShareRow } from "../site-ui";
 import { VibeGame } from "./game";
 
 export const metadata: Metadata = {
@@ -65,6 +65,11 @@ export default function VibePage() {
       <section style={{ maxWidth: "min(680px, 92vw)", margin: "0 auto", padding: "0 0 60px" }}>
         <VibeGame />
       </section>
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path="/vibe" text="3分バイブコーディング｜雑な一言でアプリが完成" label="面白かったらシェア→" />
+      </section>
+
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </div>

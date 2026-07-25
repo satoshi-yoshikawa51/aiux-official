@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Button } from "../ds";
-import { Breadcrumb, SectionHead } from "../site-ui";
+import { Breadcrumb, SectionHead, ShareRow } from "../site-ui";
 import { USO_QUESTIONS, USO_ROUNDS } from "./data";
 import { UsoPlayer } from "./player";
 
@@ -84,6 +84,11 @@ export default function UsoPage() {
           </a>
         </div>
       </div>
+
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path="/uso" text="AIのウソを見抜け｜どっちの回答にウソが混ざってる？" label="面白かったらシェア→" />
+      </section>
 
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />

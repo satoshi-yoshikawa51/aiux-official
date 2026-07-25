@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
-import { Breadcrumb } from "../site-ui";
+import { Breadcrumb, ShareRow } from "../site-ui";
 import { OtehonGame } from "./game";
 
 export const metadata: Metadata = {
@@ -65,6 +65,11 @@ export default function OtehonPage() {
       <section style={{ maxWidth: "min(560px, 92vw)", margin: "0 auto", padding: "0 0 60px" }}>
         <OtehonGame />
       </section>
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path="/otehon" text="お手本ひとつで｜お手本ひとつで、AIは化ける。" label="面白かったらシェア→" />
+      </section>
+
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </div>

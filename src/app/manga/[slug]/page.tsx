@@ -4,7 +4,7 @@ import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
 import { ARTICLES, ARTICLES_POPULAR, NOTE, type Article } from "../../data";
 import { MANGA_SERIES, getSeries } from "../data";
-import { Breadcrumb, SectionHead, SeriesCard, RelatedArticleCard, toneBg } from "../ui";
+import { Breadcrumb, SectionHead, ShareRow, SeriesCard, RelatedArticleCard, toneBg } from "../ui";
 
 export const dynamicParams = false;
 
@@ -246,6 +246,11 @@ export default async function MangaSeriesPage({ params }: Props) {
             </Button>
           </a>
         </div>
+      </section>
+
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path={`/manga/${s.slug}`} text={`${s.title}（${s.label}）— マンガで学ぶAI活用`} label="面白かったらシェア→" />
       </section>
 
       <Footer />

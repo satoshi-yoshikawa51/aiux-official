@@ -128,7 +128,17 @@ export function RelatedArticleCard({ a }: { a: Article }) {
 /* —— シェア導線（X・はてなブックマーク）。
    サーバーコンポーネントのままで動く素のリンク。
    path は先頭スラッシュ付きのサイト内パス —— */
-export function ShareRow({ path, text }: { path: string; text: string }) {
+/* label: 誘い文句。記事は「役に立ったら」で合うが、ゲームやマンガは
+   「面白かったら」のほうが実態に近いので差し替えられるようにしている */
+export function ShareRow({
+  path,
+  text,
+  label = "役に立ったらシェア→",
+}: {
+  path: string;
+  text: string;
+  label?: string;
+}) {
   const url = `https://comixai.dev${path}`;
   const xHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${text} | COMIXAI`)}&url=${encodeURIComponent(url)}`;
   const hbHref = `https://b.hatena.ne.jp/entry/panel/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(text)}`;
@@ -150,7 +160,7 @@ export function ShareRow({ path, text }: { path: string; text: string }) {
   };
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
-      <span style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", marginRight: 2 }}>役に立ったらシェア→</span>
+      <span style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", marginRight: 2 }}>{label}</span>
       <a
         href={xHref}
         target="_blank"

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
-import { Breadcrumb } from "../site-ui";
+import { Breadcrumb, ShareRow } from "../site-ui";
 import { KeibiGame } from "./game";
 
 export const metadata: Metadata = {
@@ -65,6 +65,11 @@ export default function KeibiPage() {
       <section style={{ maxWidth: "min(600px, 92vw)", margin: "0 auto", padding: "0 0 60px" }}>
         <KeibiGame />
       </section>
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path="/keibi" text="インジェクション・ディフェンス｜エージェントを、守れ。" label="面白かったらシェア→" />
+      </section>
+
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </div>

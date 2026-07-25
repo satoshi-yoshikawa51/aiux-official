@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
-import { Breadcrumb } from "../site-ui";
+import { Breadcrumb, ShareRow } from "../site-ui";
 import { ShitsukeGame } from "./game";
 
 export const metadata: Metadata = {
@@ -65,6 +65,11 @@ export default function ShitsukePage() {
       <section style={{ maxWidth: "min(560px, 92vw)", margin: "0 auto", padding: "0 0 60px" }}>
         <ShitsukeGame />
       </section>
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path="/shitsuke" text="AI調教師｜あなたの「好み」がAIを作る。" label="面白かったらシェア→" />
+      </section>
+
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </div>

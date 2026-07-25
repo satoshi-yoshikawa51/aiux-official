@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
-import { Breadcrumb } from "../site-ui";
+import { Breadcrumb, ShareRow } from "../site-ui";
 import { MajinGame } from "./game";
 
 export const metadata: Metadata = {
@@ -65,6 +65,11 @@ export default function MajinPage() {
       <section style={{ maxWidth: "min(560px, 92vw)", margin: "0 auto", padding: "0 0 60px" }}>
         <MajinGame />
       </section>
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path="/majin" text="魔神AIの願い方｜願いは、言葉どおりに叶う。" label="面白かったらシェア→" />
+      </section>
+
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </div>

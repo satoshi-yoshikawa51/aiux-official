@@ -3,7 +3,7 @@ import { Nav, Footer, PAGE } from "../site-chrome";
 import { Button } from "../ds";
 import { NOTE } from "../data";
 import { MANGA_SERIES } from "./data";
-import { Breadcrumb, SectionHead, SeriesCard } from "./ui";
+import { Breadcrumb, SectionHead, ShareRow, SeriesCard } from "./ui";
 
 export const metadata: Metadata = {
   title: "AI活用マンガ・連載シリーズ一覧｜マンガでわかる生成AI｜COMIXAI",
@@ -92,6 +92,11 @@ export default function MangaIndexPage() {
             </a>
           </div>
         </div>
+      </section>
+
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path="/manga" text="AI活用マンガ・連載シリーズ一覧" label="面白かったらシェア→" />
       </section>
 
       <Footer />
