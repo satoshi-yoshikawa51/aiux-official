@@ -361,7 +361,7 @@ export function VibeGame() {
               </div>
               <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(17px,2.8vw,21px)", marginBottom: 12 }}>「{appName}」</div>
               <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-                <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+                <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} data-ga="share_click" data-ga-network="x" data-ga-place="result" data-ga-path="/vibe">
                   <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
                     完成品をXで自慢する
                   </Button>

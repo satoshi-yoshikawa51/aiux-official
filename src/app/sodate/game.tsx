@@ -230,7 +230,7 @@ export function SodateGame() {
                 <p style={{ margin: "8px 0 0", fontSize: 13, lineHeight: 1.85, fontWeight: 700 }}>{result.lesson}</p>
               </div>
               <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-                <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+                <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} data-ga="share_click" data-ga-network="x" data-ga-place="result" data-ga-path="/sodate">
                   <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
                     育成結果をXでシェア
                   </Button>

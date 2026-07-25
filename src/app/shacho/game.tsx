@@ -355,6 +355,10 @@ export function ShachoGame() {
                   href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`AI社長をやったら【${result.ending.name}】${result.ending.emoji}になった（品質${result.quality}点）\nあなたの段取り力は？\n#今さら聞けないAI用語集`)}&url=${encodeURIComponent("https://comixai.dev/shacho")}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-ga="share_click"
+                  data-ga-network="x"
+                  data-ga-place="result"
+                  data-ga-path="/shacho"
                   style={{ textDecoration: "none" }}
                 >
                   <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>

@@ -236,7 +236,7 @@ export function ShinjinGame() {
             <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 24, marginBottom: 8 }}>{v.title}</div>
             <p style={{ margin: "0 auto 16px", fontSize: 13.5, lineHeight: 1.9, color: "var(--text-body)", maxWidth: 480 }}>{v.comment}</p>
             <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+              <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} data-ga="share_click" data-ga-network="x" data-ga-place="result" data-ga-path="/shinjin">
                 <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
                   結果をXでシェア
                 </Button>

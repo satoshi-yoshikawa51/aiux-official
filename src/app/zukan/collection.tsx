@@ -58,7 +58,7 @@ export function ZukanCollection() {
           )}
         </div>
         <div style={{ padding: "12px 16px", textAlign: "center", display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+          <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} data-ga="share_click" data-ga-network="x" data-ga-place="result" data-ga-path="/zukan">
             <Button variant="ink" size="sm" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
               進捗をXでシェア
             </Button>

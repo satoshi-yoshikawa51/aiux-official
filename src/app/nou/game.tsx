@@ -174,7 +174,7 @@ export function NouGame() {
             </p>
           </div>
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+            <a href={intent} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} data-ga="share_click" data-ga-network="x" data-ga-place="result" data-ga-path="/nou">
               <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
                 采配結果をXでシェア
               </Button>
