@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Button } from "../ds";
-import { Breadcrumb, SectionHead } from "../site-ui";
+import { Breadcrumb, SectionHead, ShareRow } from "../site-ui";
 import { TERMS } from "../glossary/data";
 import { QUESTIONS, QUIZ_SIZE } from "./data";
 import { QuizPlayer } from "./player";
@@ -78,6 +78,11 @@ export default function QuizPage() {
           </Button>
         </a>
       </div>
+
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path="/quiz" text="AI用語力診断｜あなたのAI用語力は何級？【全12問・3分】" label="面白かったらシェア→" />
+      </section>
 
       <Footer />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />

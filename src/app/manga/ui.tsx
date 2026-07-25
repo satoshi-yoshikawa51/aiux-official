@@ -6,7 +6,7 @@ import { Badge, Card } from "../ds";
 import { toneBg } from "../site-ui";
 import type { MangaSeries } from "./data";
 
-export { toneBg, Breadcrumb, SectionHead, RelatedArticleCard } from "../site-ui";
+export { toneBg, Breadcrumb, SectionHead, ShareRow, RelatedArticleCard } from "../site-ui";
 
 /* —— シリーズ紹介カード（/manga 一覧・「ほかのシリーズ」で使用） —— */
 export function SeriesCard({ series }: { series: MangaSeries }) {
