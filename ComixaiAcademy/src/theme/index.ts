@@ -79,6 +79,24 @@ export const BW = { hair: 1, line: 2, bold: 3, heavy: 4 } as const;
 /** --shadow-pop-* ずらし量（ベタ塗りの影） */
 export const POP = { sm: 3, md: 5, lg: 8 } as const;
 
+/* 下の固定タブバー。
+   アイコンとラベルの高さを固定し、バーの高さをその合計から決める。
+   ここが噛み合っていないとラベルの箱が潰れ、overflow:hidden で文字が切れる。
+   （項目自体が上下5pxの内余白を持つので、その分と余裕を足してある）
+   画面側は、コンテンツがバーに隠れないよう TAB.clearance を下に空ける。 */
+export const TAB = {
+  icon: 22,
+  label: 14,
+  pad: 6,
+  get height() {
+    return this.icon + this.label + this.pad * 2 + 16;
+  },
+  /** スクロール内容の下に空ける余白（安全領域は画面側で足す） */
+  get clearance() {
+    return this.height + 20;
+  },
+} as const;
+
 /* ———————————————— 文字 ————————————————
    fontFamily は expo-font に登録した名前（_layout.tsx を参照）。 */
 export const FONT = {
