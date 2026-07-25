@@ -3,7 +3,7 @@ import { Nav, Footer, PAGE } from "../site-chrome";
 import { Button } from "../ds";
 import { NOTE } from "../data";
 import { WORK_DETAILS } from "./data";
-import { Breadcrumb, SectionHead, WorkCard } from "./ui";
+import { Breadcrumb, SectionHead, ShareRow, WorkCard } from "./ui";
 
 export const metadata: Metadata = {
   title: "つくったもの一覧｜AIで作ったゲーム・アプリ｜COMIXAI",
@@ -110,6 +110,10 @@ export default function WorksIndexPage() {
           </div>
         </div>
       </section>
+
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "36px 0 0" }}>
+        <ShareRow path="/works" text="COMIXAIのつくったもの（ゲーム・ツール・アプリ）" />
+      </div>
 
       <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0 46px" }}>
         <SectionHead kicker="MANGA — マンガ連載" title="マンガで学ぶなら" hand="連載シリーズもどうぞ" />

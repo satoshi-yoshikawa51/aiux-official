@@ -4,7 +4,7 @@ import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
 import { ARTICLES, ARTICLES_POPULAR, type Article } from "../../data";
 import { WORK_DETAILS, getWork } from "../data";
-import { Breadcrumb, SectionHead, WorkCard, RelatedArticleCard, toneBg } from "../ui";
+import { Breadcrumb, SectionHead, ShareRow, WorkCard, RelatedArticleCard, toneBg } from "../ui";
 
 export const dynamicParams = false;
 
@@ -171,6 +171,11 @@ export default async function WorkDetailPage({ params }: Props) {
           </div>
         </section>
       )}
+
+      {/* ═══ シェア ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+        <ShareRow path={`/works/${w.slug}`} text={`${w.title} — ${w.tagline}`} />
+      </section>
 
       {/* ═══ ほかの作品 ═══ */}
       <section style={{ background: "var(--paper-100)", borderTop: "var(--bw-line) solid var(--ink-900)" }}>

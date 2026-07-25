@@ -6,7 +6,7 @@ import { Badge, Card } from "../ds";
 import { toneBg } from "../site-ui";
 import type { WorkDetail } from "./data";
 
-export { toneBg, Breadcrumb, SectionHead, RelatedArticleCard } from "../site-ui";
+export { toneBg, Breadcrumb, SectionHead, ShareRow, RelatedArticleCard } from "../site-ui";
 
 /* —— 作品紹介カード（/works 一覧・「ほかの作品」で使用） —— */
 export function WorkCard({ work }: { work: WorkDetail }) {
