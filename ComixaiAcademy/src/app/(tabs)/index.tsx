@@ -186,7 +186,7 @@ export default function HomeScreen() {
                 NEXT
               </Text>
             </View>
-            <Icon name={next.course.icon} size={18} color={C.red100} />
+            <Icon name={next.course.icon} size={18} color={C.paper50} />
             <Text
               style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
               numberOfLines={1}>
