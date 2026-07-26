@@ -15,14 +15,14 @@ import { Pressable, Text, View } from 'react-native';
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
-import { Bubble, Button, Panel, Pop, Progress, Row, Screen, Tone } from '@/components/ui';
+import { Bubble, Button, Panel, Progress, Row, Screen } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
 import { useProgress, useStats } from '@/store/progress';
-import { BW, C, F, FONT, R, S, T } from '@/theme';
+import { C, F, FONT, S, T } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
 const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
@@ -86,48 +86,39 @@ export default function HomeScreen() {
 
   const upcoming = nextTitle(stats.badgeCount);
 
-  return (
-    <Screen scroll={false} style={{ gap: S.md }}>
-      {/* ———— 称号の帯（黒ベタ＋網点） ———— */}
-      <Pop radius={R.md}>
-        <Tone
-          tone="dots"
-          style={{
-            backgroundColor: C.ink900,
-            borderWidth: BW.bold,
-            borderColor: C.ink900,
-            borderRadius: R.md,
-            paddingHorizontal: S.lg,
-            paddingVertical: S.md,
-            gap: 6,
-            overflow: 'hidden',
-          }}>
-          <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <Row gap={6} style={{ flex: 1 }}>
-              <Icon name={stats.title.icon} size={21} color={C.paper0} />
-              <Text style={[F.h2, { color: C.paper50 }]} numberOfLines={1}>
-                {stats.title.name}
-              </Text>
-            </Row>
-            <Text style={{ fontFamily: FONT.mono, fontSize: 16, color: C.paper50 }}>
-              {stats.badgeCount}
-              <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300 }}>
-                /{stats.badgeTotal}
-              </Text>
-            </Text>
-          </Row>
-          <Progress value={stats.badgeCount} total={stats.badgeTotal} />
-          <Row style={{ justifyContent: 'space-between' }}>
-            <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.ink300, letterSpacing: 0.6 }}>
-              {stats.streak}日連続 ・ {stats.doneCount}/{stats.total}本 ・ {stats.percent}%
-            </Text>
-            <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.red100, letterSpacing: 0.6 }}>
-              {upcoming ? `NEXT ${upcoming.name}` : 'MAX'}
-            </Text>
-          </Row>
-        </Tone>
-      </Pop>
+  /* ———— 称号の帯 ————
+     画面の端まで届く黒ベタ。枠もベタ影も付けない。
+     下のタブバーと同じ黒で挟むことで、あいだが「紙」として立つ */
+  const header = (
+    <View style={{ paddingHorizontal: S.lg, paddingTop: S.sm, paddingBottom: S.md, gap: 6 }}>
+      <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        <Row gap={6} style={{ flex: 1 }}>
+          <Icon name={stats.title.icon} size={21} color={C.paper0} />
+          <Text style={[F.h2, { color: C.paper50 }]} numberOfLines={1}>
+            {stats.title.name}
+          </Text>
+        </Row>
+        <Text style={{ fontFamily: FONT.mono, fontSize: 16, color: C.paper50 }}>
+          {stats.badgeCount}
+          <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300 }}>
+            /{stats.badgeTotal}
+          </Text>
+        </Text>
+      </Row>
+      <Progress value={stats.badgeCount} total={stats.badgeTotal} />
+      <Row style={{ justifyContent: 'space-between' }}>
+        <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.ink300, letterSpacing: 0.6 }}>
+          {stats.streak}日連続 ・ {stats.doneCount}/{stats.total}本 ・ {stats.percent}%
+        </Text>
+        <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.red100, letterSpacing: 0.6 }}>
+          {upcoming ? `NEXT ${upcoming.name}` : 'MAX'}
+        </Text>
+      </Row>
+    </View>
+  );
 
+  return (
+    <Screen scroll={false} header={header} tone="dots" style={{ gap: S.md }}>
       {/* ———— アバターのコマ（残りの高さを全部使う） ————
            名前と職種はコマのキャプション（右下に絶対配置）に逃がして、
            アバターに使える高さを削らないようにしている。

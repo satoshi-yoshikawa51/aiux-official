@@ -24,7 +24,7 @@ import {
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
-import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
 
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
@@ -107,36 +107,59 @@ export function Pop({
 
 /* ———————————————— 画面 ———————————————— */
 
-/* 画面の地は無地の紙のまま。網点はコマ（Panel tone）の中だけで使う。
-   画面全体に敷くと、コマの絵も網点も同じ強さで目に入って散らかる */
 export function Screen({
   children,
+  /** 画面上部に端まで敷く黒ベタの帯。ステータスバーの裏まで伸ばす */
+  header,
   edges = ['top'],
   scroll = true,
+  /** 紙（本文の地）に敷くスクリーントーン */
+  tone = 'none',
+  /** 網点の濃さ。薄くしたいときだけ 0.5 くらいを渡す */
+  toneOpacity = 1,
   style,
 }: {
   children: React.ReactNode;
+  header?: React.ReactNode;
   edges?: Edge[];
   scroll?: boolean;
+  tone?: ToneKind;
+  toneOpacity?: number;
   style?: StyleProp<ViewStyle>;
 }) {
+  const insets = useSafeAreaInsets();
   /* タブバーは内容に覆いかぶさらないので、下は素の余白でよい。
      スクロールする画面だけ、最後の要素が窮屈に見えないよう少し多めに取る */
   const bottomPad = scroll ? S.xxl : S.lg;
 
+  /* 帯があるときは、帯自身がステータスバーぶんを飲み込むので
+     SafeAreaView に上を任せない（任せると帯の上に紙の余白が出る） */
+  const safeEdges = header ? edges.filter((e) => e !== 'top') : edges;
+
+  const body = scroll ? (
+    <ScrollView
+      contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
+      showsVerticalScrollIndicator={false}>
+      {children}
+    </ScrollView>
+  ) : (
+    <View style={[{ flex: 1 }, styles.screenPad, { paddingBottom: bottomPad }, style]}>
+      {children}
+    </View>
+  );
+
   return (
-    <SafeAreaView style={styles.screen} edges={edges}>
-      {scroll ? (
-        <ScrollView
-          contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
-          showsVerticalScrollIndicator={false}>
-          {children}
-        </ScrollView>
-      ) : (
-        <View style={[{ flex: 1 }, styles.screenPad, { paddingBottom: bottomPad }, style]}>
-          {children}
-        </View>
-      )}
+    <SafeAreaView style={styles.screen} edges={safeEdges}>
+      {header ? (
+        <View style={{ backgroundColor: C.ink900, paddingTop: insets.top }}>{header}</View>
+      ) : null}
+      {/* 紙。網点はここだけに敷く（黒ベタの帯とタブバーには掛からない） */}
+      <View style={{ flex: 1 }}>
+        {tone !== 'none' && (
+          <Tone tone={tone} style={[StyleSheet.absoluteFill, { opacity: toneOpacity }]} />
+        )}
+        {body}
+      </View>
     </SafeAreaView>
   );
 }
