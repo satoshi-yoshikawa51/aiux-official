@@ -83,54 +83,43 @@ function HeroActionsLight() {
 /* ═══════════════ Hero（背景動画・自前ホスト） ═══════════════ */
 function HeroVideo() {
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  // 背景動画は6MBあるので、初期表示の邪魔にならないよう読み込みを遅らせる。
-  // ページの読み込みが終わって手が空いてからsrcを与える。それまでは
-  // poster画像が出ているので、見た目は最初から埋まっている。
-  const [src, setSrc] = React.useState<string>();
-  React.useEffect(() => {
-    let idleId: number | undefined;
-    const start = () => {
-      idleId = window.requestIdleCallback
-        ? window.requestIdleCallback(() => setSrc("/hero.mp4"), { timeout: 2500 })
-        : window.setTimeout(() => setSrc("/hero.mp4"), 300);
-    };
-    if (document.readyState === "complete") start();
-    else window.addEventListener("load", start, { once: true });
-    return () => {
-      window.removeEventListener("load", start);
-      if (idleId === undefined) return;
-      if (window.cancelIdleCallback) window.cancelIdleCallback(idleId);
-      else window.clearTimeout(idleId);
-    };
-  }, []);
-
   React.useEffect(() => {
     // 一部ブラウザの自動再生対策として明示的に再生を試みる（失敗時は
     // poster画像のまま）。YouTubeプレイヤーは使わないので、再生/一時停止
     // マークやロゴなどの余計なUIは一切出ない。
-    if (!src) return;
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
     const p = v.play();
     if (p && typeof p.catch === "function") p.catch(() => {});
-  }, [src]);
+  }, []);
 
   return (
     <section className="hero-video" style={{ borderBottom: "var(--bw-heavy) solid var(--ink-900)" }}>
       <div className="hero-media">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="hero-fallback" src="/hero-logo.jpg" alt="COMIXAI — AIを、面白く。わかりやすく。" />
+        {/* ———— 背景動画は「最初から」読む ————
+            6MBあるので一度 preload="none" にして load後のアイドルまで
+            遅らせたことがあるが、逆効果だったので戻した。理由は2つ:
+            ・load イベントは全リソースの完了後なので、回線が細いと
+              動画の取得開始そのものが何秒も後ろにずれる。結果、
+              「再生されないまま離脱」が増えた。
+            ・このサイトは開幕にローディング演出(splash.tsx)が最大2.6秒
+              かぶるので、その間に読み込むぶんには誰も待たされない。
+            測定でも、動画の有無で FCP/LCP は変わらなかった。
+            遅延させるのは折りたたみより下のサムネ動画だけでよい
+            （lazy-video.tsx を参照）。 */}
         <video
           ref={videoRef}
           className="hero-bg-video"
-          src={src}
+          src="/hero.mp4"
           poster="/hero-poster.jpg"
           autoPlay
           muted
           loop
           playsInline
-          preload="none"
+          preload="auto"
           aria-hidden="true"
         />
         <div
