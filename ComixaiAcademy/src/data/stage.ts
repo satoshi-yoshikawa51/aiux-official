@@ -18,4 +18,4 @@ export const STAGE = require('@/assets/images/stage-classroom.jpg');
 export const STAGE_RATIO = 0.637;
 
 /** 絵のいちばん上の色。コマが縦に余ったぶんをこれで埋めて、継ぎ目を消す */
-export const STAGE_WALL = '#7f6b3e';
+export const STAGE_WALL = '#736340';

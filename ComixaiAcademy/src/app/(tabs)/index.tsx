@@ -37,6 +37,16 @@ const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
 /** アバターの見た目の縦横比（高さ ÷ 幅） */
 const AVATAR_RATIO = 0.92;
 
+/* ホームだけアバターを大きく描く。
+   3Dのカメラ（src/data/avatars.ts の STANDING）は全身に余白を取った画角で、
+   選択画面と共用なので触らない。代わりにキャンバスを置き場より大きくして、
+   足元を揃えたまま上へはみ出させる（コマが overflow:'hidden' で切る）。
+
+   1.0 のままだと、背景の部屋の窓や床とくらべてキャラが小さく見える
+   （＝小人に見える）。実測した地平線はキャラの顎を通っており、本来は
+   目の高さに来るべきなので、そのぶん持ち上げている */
+const AVATAR_ZOOM = 1.18;
+
 export default function HomeScreen() {
   const router = useRouter();
   const { state } = useProgress();
@@ -54,7 +64,7 @@ export default function HomeScreen() {
   const [box, setBox] = React.useState({ w: 0, h: 0 });
   const stage = React.useMemo(() => {
     if (box.w <= 0 || box.h <= 0) return null;
-    const w = Math.min(box.w, box.h / AVATAR_RATIO);
+    const w = Math.min(box.w, box.h / AVATAR_RATIO) * AVATAR_ZOOM;
     return { w: Math.floor(w), h: Math.floor(w * AVATAR_RATIO) };
   }, [box]);
 
