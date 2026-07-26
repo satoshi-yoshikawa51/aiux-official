@@ -166,11 +166,11 @@ export default function HomeScreen() {
       </Panel>
 
       {/* ———— 次にやること ————
-           コマ番号（左上の黒い角）はやめて、行の頭に黄色いピルを置く。
-           角に重ねるとコースのアイコンとぶつかるうえ、この画面で
-           黄色がどこにも出ていなかったので、ここをワンポイントにする */}
+           地をほぼ黒に沈めて、白い網点を薄く敷く。黄と赤がいちばん強く
+           出るのはこの上。コマ番号（左上の黒い角）はやめて、行の頭に
+           黄色いピルを置く（角に重ねるとコースのアイコンとぶつかる） */}
       {next ? (
-        <Panel surface={T.sunkTone} tone="dots" contentStyle={{ padding: S.md, gap: S.sm }}>
+        <Panel surface={C.ink800} tone="dots-light" contentStyle={{ padding: S.md, gap: S.sm }}>
           <Row gap={8}>
             <View
               style={{
@@ -186,8 +186,10 @@ export default function HomeScreen() {
                 NEXT
               </Text>
             </View>
-            <Icon name={next.course.icon} size={18} color={T.accent} />
-            <Text style={[F.strong, { fontSize: 14.5, flex: 1 }]} numberOfLines={1}>
+            <Icon name={next.course.icon} size={18} color={C.red100} />
+            <Text
+              style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
+              numberOfLines={1}>
               {next.lesson.title}
             </Text>
           </Row>

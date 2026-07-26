@@ -29,6 +29,7 @@ import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-ar
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 const TONE_DOTS = require('@/assets/images/tone-dots.png');
+const TONE_DOTS_LIGHT = require('@/assets/images/tone-dots-light.png');
 const TONE_LINES = require('@/assets/images/tone-lines.png');
 
 /* ———————————————— スクリーントーン ————————————————
@@ -36,9 +37,11 @@ const TONE_LINES = require('@/assets/images/tone-lines.png');
    react-native-web は repeat に対応していないので、Webのときだけ
    CSSの background-repeat に落とす。 */
 
-export type ToneKind = 'none' | 'dots' | 'lines';
+/** dots=黒い点（紙の上） / dots-light=白い点（黒地の上） */
+export type ToneKind = 'none' | 'dots' | 'dots-light' | 'lines';
 
-const toneSource = (t: ToneKind) => (t === 'dots' ? TONE_DOTS : TONE_LINES);
+const toneSource = (t: ToneKind) =>
+  t === 'dots' ? TONE_DOTS : t === 'dots-light' ? TONE_DOTS_LIGHT : TONE_LINES;
 
 export function Tone({
   tone,
@@ -232,8 +235,8 @@ export function Panel({
 }: {
   children: React.ReactNode;
   tone?: ToneKind;
-  /** コマの地の色。既定は白。沈めたいコマは T.sunk を渡して、
-      その上に tone="dots" を敷くと、黄と赤が浮いて見える */
+  /** コマの地の色。既定は白。C.ink800 のようにベタで沈めて
+      tone="dots-light" を敷くと、黄と赤がいちばん強く出る */
   surface?: string;
   /** コマの地に敷く絵。中身はこの上に重なる */
   bg?: ImageSourcePropType;

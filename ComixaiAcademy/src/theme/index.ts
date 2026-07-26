@@ -19,11 +19,6 @@ export const C = {
   paper100: '#f4ecdd',
   paper200: '#e9dfc9',
 
-  /* 網点を敷いて沈めるコマの地。paper系より彩度を落としてあり、
-     この上だと黄と赤が浮いて見える。**アプリ独自**で、サイトの
-     globals.css には対応する値が無い（揃える必要はない） */
-  gray100: '#e5e1d9',
-
   red50: '#ffe9ea',
   red100: '#ffc9cc',
   red500: '#e60012',
@@ -47,8 +42,6 @@ export const T = {
   bg: C.paper50,
   surface: C.paper0,
   sunk: C.paper100,
-  /** 網点とセットで使う、沈めたコマの地 */
-  sunkTone: C.gray100,
   text: C.ink900,
   body: C.ink800,
   muted: C.ink500,
