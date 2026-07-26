@@ -11,6 +11,7 @@ import { Asset } from 'expo-asset';
 import * as Haptics from 'expo-haptics';
 import React from 'react';
 import {
+  Image,
   ImageBackground,
   Platform,
   Pressable,
@@ -18,6 +19,7 @@ import {
   StyleSheet,
   Text,
   View,
+  type ImageSourcePropType,
   type StyleProp,
   type TextStyle,
   type ViewStyle,
@@ -109,11 +111,14 @@ export function Screen({
   children,
   edges = ['top'],
   scroll = true,
+  /** 画面の地に敷くスクリーントーン。マンガの「紙」にあたる */
+  tone = 'none',
   style,
 }: {
   children: React.ReactNode;
   edges?: Edge[];
   scroll?: boolean;
+  tone?: ToneKind;
   style?: StyleProp<ViewStyle>;
 }) {
   /* タブバーは内容に覆いかぶさらないので、下は素の余白でよい。
@@ -122,6 +127,9 @@ export function Screen({
 
   return (
     <SafeAreaView style={styles.screen} edges={edges}>
+      {/* 網点は SafeAreaView いっぱいに敷く。中身より先に置いて、
+          セーフエリアの余白まで紙が続いて見えるようにする */}
+      {tone !== 'none' && <Tone tone={tone} style={StyleSheet.absoluteFill} />}
       {scroll ? (
         <ScrollView
           contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
@@ -192,6 +200,9 @@ export function Card({
 export function Panel({
   children,
   tone = 'none',
+  bg,
+  bgRatio,
+  bgColor,
   number,
   caption,
   tilt = 0,
@@ -201,6 +212,13 @@ export function Panel({
 }: {
   children: React.ReactNode;
   tone?: ToneKind;
+  /** コマの地に敷く絵。中身はこの上に重なる */
+  bg?: ImageSourcePropType;
+  /** bg の縦横比（幅÷高さ）。渡すと**下端に揃えて**敷き、上のはみ出しは切る。
+      コマの高さは端末で大きくぶれるので、床を残したい絵はこれを使う */
+  bgRatio?: number;
+  /** bg が届かない上側を埋める色。絵のいちばん上と同じ色にする */
+  bgColor?: string;
   number?: string;
   caption?: string;
   /** 傾き（度）。±1〜3くらいが効く */
@@ -220,6 +238,26 @@ export function Panel({
         overflow: 'hidden',
         ...(fill ? { flex: 1 } : null),
       }}>
+      {bg ? (
+        <>
+          {bgColor ? <View style={[StyleSheet.absoluteFill, { backgroundColor: bgColor }]} /> : null}
+          {bgRatio ? (
+            /* 縦横比は**外側のView**に持たせる。Image に直接 aspectRatio を
+               書いても react-native-web は画像の自然サイズで高さを決めてしまい、
+               効かない。上のはみ出しはコマの overflow:'hidden' が切る */
+            <View
+              style={{ position: 'absolute', left: 0, right: 0, bottom: 0, aspectRatio: bgRatio }}>
+              <Image source={bg} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
+            </View>
+          ) : (
+            <Image
+              source={bg}
+              resizeMode="cover"
+              style={[StyleSheet.absoluteFill, { width: '100%', height: '100%' }]}
+            />
+          )}
+        </>
+      ) : null}
       <Tone tone={tone} style={[{ padding: S.lg, gap: S.sm }, fill && { flex: 1 }, contentStyle]}>
         {children}
       </Tone>

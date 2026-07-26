@@ -12,6 +12,7 @@
     "avatar:convert": "node tools/transcode-avatar.mjs",
     "icons:app": "node tools/build-app-icon.mjs",
     "icons:ui": "node tools/build-icons.mjs",
+    "stage": "node tools/build-stage.mjs",
     "fonts:subset": "node tools/subset-fonts.mjs",
     "tones": "node tools/make-tones.mjs",
     "build:web": "expo export --platform web"

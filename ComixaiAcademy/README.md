@@ -78,6 +78,7 @@ ComixaiAcademy/
 ├── src/components/ui.tsx    UI部品（サイトの ds.tsx の移植）
 ├── src/store/progress.tsx   進捗・バッジ判定・永続化
 ├── src/theme/               デザイントークン（サイトの globals.css を移植）
+├── assets/images/           アプリアイコン・スクリーントーン・舞台の絵
 ├── assets/models/           sensei.glb と外出ししたテクスチャ
 ├── assets/fonts/            サブセット済みの書体（→ assets/fonts/README.md）
 └── tools/                   GLB変換・フォントサブセット・トーン／アイコン生成
@@ -105,6 +106,8 @@ ComixaiAcademy/
 - **アイコン** — アプリ内の絵文字はすべて `src/components/icons.tsx` のオリジナル（33種）に
   置き換えてある。単色なので、置く場所にあわせて色を渡す（黒地では白抜き、紙の上ではインク）。
   タブは選択中に赤の丸ベタが入る。
+- **紙（画面の地）** — `<Screen tone="dots">` で画面いっぱいに網点を敷ける。
+  ホームがこれ。コマやカードは、その紙の上に置かれたものとして白く抜く。
 
 ### アプリ内のアイコンを描き直すとき
 
@@ -167,6 +170,100 @@ npm run icons:app     # = node tools/build-app-icon.mjs
 **判断は `app-icon.png` の実寸のコマで行う。** ホーム画面では60pt＝120px程度に
 しかならない。この工程で「房が板から切り離された棒に見える」「房とアタマが
 くっついて潰れる」「Androidのマスクで帽子のフチが欠ける」を見つけて直している。
+
+### アバターが立つ背景（舞台）
+
+ホームのコマには、アバターがそこに立って見えるよう絵を敷いている。
+いまは `npm run stage` が描いた**つなぎ**（教室）で、Midjourneyで描いたものに
+差し替える前提。差し替え点は `src/data/stage.ts` の3つだけ。
+
+```ts
+export const STAGE = require('@/assets/images/stage-placeholder.png'); // ← 差し替える
+export const STAGE_RATIO = 9 / 16;   // 絵の 幅÷高さ
+export const STAGE_WALL = '#f7efe0'; // 絵のいちばん上の色
+```
+
+#### なぜ下端に揃えて敷くのか
+
+コマの高さは端末で大きくぶれる。実測すると**縦横比が 0.67〜1.10**で、
+iPhone SEでは**横長**になる。`cover` の中央切りだと、狭い端末で床が
+丸ごと消えてキャラが宙に浮く。
+
+そこで `<Panel bg bgRatio bgColor>` は「**下端に揃えて敷き、上のはみ出しを切る**」。
+絵をコマより確実に縦長（9:16）にしておけば、どの端末でも床が残る。
+縦に余ったぶんは `bgColor` で埋まるので、絵のいちばん上は平らな壁色にしておく。
+
+#### 構図の決まりごと
+
+差し替える絵もこれに合わせる。合っていないと、狭い端末で破綻する。
+
+| 帯 | 置くもの |
+| --- | --- |
+| 上 0〜30% | **切られる。かつフキダシが重なる**。何も置かない |
+| 30〜50% | 端末によっては切られる。壁だけ |
+| 50〜80% | 黒板・窓など「ここがどこか」を語るもの |
+| 80〜100% | 床。手前ほど広がる遠近で |
+| 中央の下 | キャラの立ち位置。**影の楕円だけ**置いて、他は空ける |
+
+キャラは黒フチのない3Dで、背景が濃いと溶ける。**彩度も明度差も抑える**こと。
+
+#### Midjourneyのプロンプト
+
+`--ar 9:16` は `STAGE_RATIO` に合わせてある（そのまま入れれば切らずに済む）。
+
+**教室（いまのつなぎと同じ画）**
+
+```
+empty modern classroom interior, 3D anime style, stylised Pixar-like render,
+warm cream and soft beige palette, large window on the left casting a soft light
+beam across a pale wooden floor, dark green chalkboard on the right wall,
+camera at standing eye level, low horizon with the floor filling the bottom fifth,
+wide empty foreground, soft diffused lighting, gentle depth of field,
+muted low-contrast colours
+--ar 9:16 --style raw --stylize 150 --no people, characters, text, watermark, logo
+```
+
+**職員室・オフィス（社会人向けの雰囲気にしたいとき）**
+
+```
+empty tidy office corner, 3D anime style, stylised Pixar-like render,
+warm cream and light oak palette, tall window with sheer curtains on the left,
+low bookshelf and a whiteboard along the back wall, camera at standing eye level,
+low horizon with the floor filling the bottom fifth, wide empty foreground,
+soft morning light, gentle depth of field, muted low-contrast colours
+--ar 9:16 --style raw --stylize 150 --no people, characters, text, watermark, logo
+```
+
+**図書室（落ち着いた画にしたいとき）**
+
+```
+empty library reading room, 3D anime style, stylised Pixar-like render,
+warm paper-cream and walnut palette, tall bookshelves softly out of focus along
+the back wall, arched window on the left, camera at standing eye level,
+low horizon with the floor filling the bottom fifth, wide empty foreground,
+warm diffused light, shallow depth of field, muted low-contrast colours
+--ar 9:16 --style raw --stylize 150 --no people, characters, text, watermark, logo
+```
+
+効かせどころは決まっていて、外すと使えない絵になる：
+
+- **`--no people, characters`** — 入れないと必ず人が立つ。立ち位置が埋まる
+- **`camera at standing eye level` / `low horizon`** — これが無いと俯瞰になり、
+  キャラが床にめり込んで見える
+- **`wide empty foreground`** — 机や椅子が手前に来ると、キャラが物の中に立つ
+- **`muted low-contrast`** — 背景が強いとキャラが背景に溶ける
+
+#### 差し替えたあと
+
+1. 画像を `assets/images/` に置いて、`STAGE` の require を書き換える
+2. 比率が 9:16 でなければ `STAGE_RATIO` を実際の 幅÷高さ に直す
+3. 絵のいちばん上の色を `STAGE_WALL` に入れる（縦に余ったときの継ぎ目が消える）
+4. `npm run stage` は**つなぎを作り直すだけ**。本番の絵とはファイル名が
+   別なので上書きはされないが、走らせる必要も無い
+
+確認は `tools/.icon-preview/stage.png`。実測した3端末のコマの比率で切って、
+フキダシとキャラの位置を重ねてある。**いちばん横長の iPhone SE で
+床と黒板が残っていれば合格**。
 
 ### フォントを差し替えたら
 

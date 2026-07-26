@@ -20,6 +20,7 @@ import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
+import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
@@ -86,7 +87,7 @@ export default function HomeScreen() {
   const upcoming = nextTitle(stats.badgeCount);
 
   return (
-    <Screen scroll={false} style={{ gap: S.md }}>
+    <Screen scroll={false} tone="dots" style={{ gap: S.md }}>
       {/* ———— 称号の帯（黒ベタ＋網点） ———— */}
       <Pop radius={R.md}>
         <Tone
@@ -129,10 +130,13 @@ export default function HomeScreen() {
 
       {/* ———— アバターのコマ（残りの高さを全部使う） ————
            名前と職種はコマのキャプション（右下に絶対配置）に逃がして、
-           アバターに使える高さを削らないようにしている */}
+           アバターに使える高さを削らないようにしている。
+           地は網点ではなく舞台の絵（→ src/data/stage.ts） */}
       <Panel
         fill
-        tone="dots"
+        bg={STAGE}
+        bgRatio={STAGE_RATIO}
+        bgColor={STAGE_WALL}
         caption={role ? `${avatar.name}・${role.name}` : avatar.name}
         contentStyle={{ padding: S.sm, gap: S.sm }}>
         {/* コマの中身の高さを先に測る。この高さはフキダシの大小に左右されないので、
