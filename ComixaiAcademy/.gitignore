@@ -50,3 +50,6 @@ dist/
 
 # アイコンの確認用画像（node tools/build-icons.mjs で再生成できる）
 tools/.icon-preview/
+
+# 確認用のスクリーンショット置き場（作業中に混ざりやすい）
+shots/
