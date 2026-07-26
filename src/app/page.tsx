@@ -83,14 +83,42 @@ function HeroActionsLight() {
 function HeroVideo() {
   const videoRef = React.useRef<HTMLVideoElement>(null);
   React.useEffect(() => {
-    // 一部ブラウザの自動再生対策として明示的に再生を試みる（失敗時は
-    // poster画像のまま）。YouTubeプレイヤーは使わないので、再生/一時停止
-    // マークやロゴなどの余計なUIは一切出ない。
+    // 自動再生は「1回試して終わり」にしない。iOSは画面に見えていない
+    // 動画の再生を拒むことがあり、開幕のローディング演出で覆われている
+    // 間に弾かれると、そのままフォールバック画像のまま固まってしまう。
+    // 状況が変わるたび（データが届いた・画面に入った・タブに戻った）に
+    // 試し直す。再生中に呼んでも何も起きないので、重ねて安全。
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
-    const p = v.play();
-    if (p && typeof p.catch === "function") p.catch(() => {});
+
+    const tryPlay = () => {
+      const p = v.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+    tryPlay();
+
+    v.addEventListener("loadeddata", tryPlay);
+    v.addEventListener("canplay", tryPlay);
+    document.addEventListener("visibilitychange", tryPlay);
+    /* ローディング演出が明けるころにもう一度 */
+    const timer = window.setTimeout(tryPlay, 3000);
+
+    let io: IntersectionObserver | undefined;
+    if (typeof IntersectionObserver !== "undefined") {
+      io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) tryPlay();
+      });
+      io.observe(v);
+    }
+
+    return () => {
+      v.removeEventListener("loadeddata", tryPlay);
+      v.removeEventListener("canplay", tryPlay);
+      document.removeEventListener("visibilitychange", tryPlay);
+      window.clearTimeout(timer);
+      io?.disconnect();
+    };
   }, []);
 
   return (
@@ -640,7 +668,7 @@ function Glossary() {
               }}
               dangerouslySetInnerHTML={{
                 __html:
-                  '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
+                  '<video src="/quiz/top.mp4" poster="/quiz/top.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
               }}
             />
           </div>

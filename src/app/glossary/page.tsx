@@ -142,7 +142,7 @@ export default function GlossaryIndexPage() {
               }}
               dangerouslySetInnerHTML={{
                 __html:
-                  '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
+                  '<video src="/quiz/top.mp4" poster="/quiz/top.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
               }}
             />
           </div>
