@@ -22,7 +22,7 @@ import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
 import { useProgress, useStats } from '@/store/progress';
-import { C, F, FONT, S, T } from '@/theme';
+import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
 const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
@@ -110,8 +110,10 @@ export default function HomeScreen() {
         <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.ink300, letterSpacing: 0.6 }}>
           {stats.streak}日連続 ・ {stats.doneCount}/{stats.total}本 ・ {stats.percent}%
         </Text>
+        {/* 「NEXT」は下のカードの黄色いピルが持っているので、こちらは使わない
+            （同じ画面に別の意味のNEXTが2つ出る）。あと何個で上がるかを出す */}
         <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.red100, letterSpacing: 0.6 }}>
-          {upcoming ? `NEXT ${upcoming.name}` : 'MAX'}
+          {upcoming ? `あと${upcoming.need - stats.badgeCount}で ${upcoming.name}` : 'MAX'}
         </Text>
       </Row>
     </View>
@@ -164,11 +166,26 @@ export default function HomeScreen() {
       </Panel>
 
       {/* ———— 次にやること ————
-           padding は paddingTop より後に書くと上書きしてしまうので順番に注意
-           （コマ番号の下に文字が潜り込む） */}
+           コマ番号（左上の黒い角）はやめて、行の頭に黄色いピルを置く。
+           角に重ねるとコースのアイコンとぶつかるうえ、この画面で
+           黄色がどこにも出ていなかったので、ここをワンポイントにする */}
       {next ? (
-        <Panel number="次" contentStyle={{ padding: S.md, paddingTop: S.xl + 2, gap: S.sm }}>
-          <Row gap={7}>
+        <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+          <Row gap={8}>
+            <View
+              style={{
+                backgroundColor: C.yellow400,
+                borderWidth: BW.bold,
+                borderColor: T.border,
+                borderRadius: R.full,
+                paddingHorizontal: 9,
+                paddingVertical: 2,
+              }}>
+              <Text
+                style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 1, color: C.ink900 }}>
+                NEXT
+              </Text>
+            </View>
             <Icon name={next.course.icon} size={18} color={T.accent} />
             <Text style={[F.strong, { fontSize: 14.5, flex: 1 }]} numberOfLines={1}>
               {next.lesson.title}
