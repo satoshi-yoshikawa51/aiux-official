@@ -80,7 +80,8 @@ ComixaiAcademy/
 ├── src/theme/               デザイントークン（サイトの globals.css を移植）
 ├── assets/models/           sensei.glb と外出ししたテクスチャ
 ├── assets/fonts/            サブセット済みの書体（→ assets/fonts/README.md）
-└── tools/                   GLB変換・フォントサブセット・トーン/アイコン生成
+└── tools/                   GLB変換・フォントサブセット・トーン／アイコン生成
+                             （アプリ内アイコン＝build-icons / アプリアイコン＝build-app-icon）
 ```
 
 ## 見た目のルール
@@ -105,7 +106,7 @@ ComixaiAcademy/
   置き換えてある。単色なので、置く場所にあわせて色を渡す（黒地では白抜き、紙の上ではインク）。
   タブは選択中に赤の丸ベタが入る。
 
-### アイコンを描き直すとき
+### アプリ内のアイコンを描き直すとき
 
 タブでの表示は22px前後しかないので、**PNGにせずSVG（ベクター）で持つ**こと。
 この小ささではPNGは@3xでも輪郭が甘くなるうえ、色ごとに書き出しが要る。
@@ -122,7 +123,7 @@ ComixaiAcademy/
 `tools/build-icons.mjs` に集約してある:
 
 ```bash
-node tools/build-icons.mjs
+npm run icons:ui     # = node tools/build-icons.mjs
 #  -> realsize.png  22pxで実際にラスタライズして8倍に拡大（端末で見える通り）
 #  -> sheet.png     22/44/88px＋白抜き／黒版の一覧
 #  -> src/components/icon-paths.ts  アプリが読むパスデータ（自動生成）
@@ -137,6 +138,35 @@ node tools/build-icons.mjs
 
 アイコンを増やすときは `tools/build-icons.mjs` の `ICONS` に足して再実行すれば、
 型（`IconName`）まで通る。
+
+### アプリアイコンと起動画面
+
+ホーム画面に出るアイコンは別のツール。**PNGを手で触らず、ここから全サイズ焼く。**
+
+```bash
+npm run icons:app     # = node tools/build-app-icon.mjs
+#  -> assets/images/ の6枚 ＋ public/app-icon.png
+#  -> tools/.icon-preview/app-icon.png        120px（iPhoneの60pt）で焼いて5倍
+#  -> tools/.icon-preview/app-icon-masks.png  Androidの3種のマスク＋起動画面
+```
+
+絵は「黄色の地に網点、黒ベタの角帽、赤いキラリ」。形は `tools/build-app-icon.mjs`
+の `CAP_BOARD` / `CAP_TASSEL` / `M`（配置の比率）にまとまっている。
+
+書き出し先ごとに約束ごとが違うので、ツール側で吸収してある：
+
+| 出力 | 約束ごと |
+| --- | --- |
+| `icon.png` (1024) | iOS・ストア用。**透過なし・角丸なし**（iOSが自分で丸める） |
+| `android-icon-foreground.png` (512) | 見えるのは**中央66%（72dp/108dp）の円**だけ。`markFitted()` がそこに収まる倍率を計算している |
+| `android-icon-background.png` (512) | 黄色＋網点のベタ |
+| `android-icon-monochrome.png` (432) | テーマアイコン。システムが色を塗るので**白の形だけ**。キラリは団子に見えるので入れない |
+| `splash-icon.png` (512) | 紙色の上に置くので、**タイルごと角丸**で出す。大きさは `app.json` の `imageWidth` |
+| `public/app-icon.png` (512) | 「ホーム画面に追加」で出るもの。iOSは透過を黒で合成するので**透過なし** |
+
+**判断は `app-icon.png` の実寸のコマで行う。** ホーム画面では60pt＝120px程度に
+しかならない。この工程で「房が板から切り離された棒に見える」「房とアタマが
+くっついて潰れる」「Androidのマスクで帽子のフチが欠ける」を見つけて直している。
 
 ### フォントを差し替えたら
 
