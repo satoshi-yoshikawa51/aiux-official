@@ -170,7 +170,7 @@ export default function HomeScreen() {
            角に重ねるとコースのアイコンとぶつかるうえ、この画面で
            黄色がどこにも出ていなかったので、ここをワンポイントにする */}
       {next ? (
-        <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+        <Panel surface={T.sunkTone} tone="dots" contentStyle={{ padding: S.md, gap: S.sm }}>
           <Row gap={8}>
             <View
               style={{

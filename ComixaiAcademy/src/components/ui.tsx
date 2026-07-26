@@ -219,6 +219,7 @@ export function Card({
 export function Panel({
   children,
   tone = 'none',
+  surface = T.surface,
   bg,
   bgRatio,
   bgColor,
@@ -231,6 +232,9 @@ export function Panel({
 }: {
   children: React.ReactNode;
   tone?: ToneKind;
+  /** コマの地の色。既定は白。沈めたいコマは T.sunk を渡して、
+      その上に tone="dots" を敷くと、黄と赤が浮いて見える */
+  surface?: string;
   /** コマの地に敷く絵。中身はこの上に重なる */
   bg?: ImageSourcePropType;
   /** bg の縦横比（幅÷高さ）。渡すと**下端に揃えて**敷き、上のはみ出しは切る。
@@ -250,7 +254,7 @@ export function Panel({
   const inner = (
     <View
       style={{
-        backgroundColor: T.surface,
+        backgroundColor: surface,
         borderWidth: BW.bold,
         borderColor: T.border,
         borderRadius: R.sm,
