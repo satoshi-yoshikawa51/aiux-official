@@ -1,37 +1,38 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-25T22:32:24.527Z",
+  "updatedAt": "2026-07-26T22:36:39.898Z",
   "items": [
     {
-      "title": "MicrosoftやNVIDIAなど、AIのオープンウェイト規制に反対する書簡を公開――Anthropicは署名せず",
-      "url": "https://www.itmedia.co.jp/news/articles/2607/26/news014.html",
-      "source": "ITmedia AI＋",
+      "title": "日立、SI全工程をAIエージェントが担う「Agentic AI Integration Platform」を発表",
+      "url": "https://japan.zdnet.com/article/35250968/",
+      "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-07-25T21:51:00.000Z",
-      "image": "https://image.itmedia.co.jp/news/articles/2607/26/cover_news014.jpg"
+      "date": "2026-07-26T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/04/17/b764822ee253b2a83221729f1b4b6f77/260417_engineer_as_1280_273110835.jpg"
     },
     {
-      "title": "株式会社Saix、社内マニュアルの作成・検索・教育・更新を一体化する「Saix AIマニュアル Studio」を発表",
-      "url": "https://ascii.jp/elem/000/004/422/4422237/?rss",
+      "title": "自作PCトーク『ジサトラKTU』生放送～Arc G3 Extreme搭載ポータブルゲーミングPCの性能を検証、MSI「Arc G3 Extreme搭載ポータブルゲーミングPCの性能を検証、MSI「Claw 8 EX Ai+」はマジでスゴかった!!」はマジでスゴかった!!～",
+      "url": "https://ascii.jp/elem/000/004/422/4422042/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-07-25T07:07:09.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "date": "2026-07-26T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2025/09/19/4324489/xl/4111cde7c86cf0b4.jpg?20200122"
     },
     {
-      "title": "ChatGPT Healthが米国で公開。その裏でOpenAIは訴訟に直面",
-      "url": "https://www.gizmodo.jp/article/chatgpt-health-rolls-out-to-everyone/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-07-25T06:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/07/24/32dbca9d-8a43-43e9-be0b-03778984502a/original.jpg?w=1200&h=630"
+      "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
+      "url": "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-26T16:33:13.000Z",
+      "titleJa": "ハグフェイスCEO、「前例のない」OpenAIハッキングを受けて「抜本的な透明性」を求める",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/hugging-face-openai-logos-split-screen.jpg?resize=1200,799"
     },
     {
-      "title": "せお丸、AI合宿全国ツアーを発表。ClaudeCodeを1泊2日で習得するスパルタ合宿。非エンジニアでもAIがマスターできるように！",
-      "url": "https://ascii.jp/elem/000/004/422/4422235/?rss",
+      "title": "一度教えたら忘れない。民泊のゲスト対応AI、「AssistBnB メッセージAI」提供開始。全言語のゲストメッセージに15分以内で返信",
+      "url": "https://ascii.jp/elem/000/004/422/4422261/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-07-25T02:49:38.000Z",
+      "date": "2026-07-26T06:39:54.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
@@ -44,12 +45,31 @@
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/Screenshot-2026-07-24-at-12.47.38-PM.jpg?w=1166"
     },
     {
+      "title": "「AI暴走なら政府が停止」法案にNVIDIAら25社が反発、OpenAI・Anthropicは署名せず",
+      "url": "https://pc.watch.impress.co.jp/docs/news/2127831.html",
+      "source": "PC Watch",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 107,
+      "date": "2026-07-24T22:46:02.000Z",
+      "image": "https://pc.watch.impress.co.jp/img/pcw/list/2127/831/01.png"
+    },
+    {
       "title": "Anthropic、「Claude Opus 5」公開 Fable 5に迫る性能を半額で――サイバー安全策は緩和、拒否時は自動フォールバックも",
       "url": "https://www.itmedia.co.jp/news/articles/2607/25/news016.html",
       "source": "ITmedia AI＋",
       "lang": "ja",
       "date": "2026-07-24T22:28:00.000Z",
       "image": "https://image.itmedia.co.jp/news/articles/2607/25/cover_news016.jpg"
+    },
+    {
+      "title": "Prentis, new AI lab co-founded by Reid Hoffman, Mark Pincus in talks to raise $100M",
+      "url": "https://techcrunch.com/2026/07/24/prentis-new-ai-lab-co-founded-by-reid-hoffman-mark-pincus-in-talks-to-raise-100m/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-24T22:25:58.000Z",
+      "titleJa": "プレンティス、リード・ホフマンとマーク・ピンカスが共同設立した新しいAIラボが1億ドル調達交渉中",
+      "image": "https://techcrunch.com/wp-content/uploads/2024/11/GettyImages-1258942056.jpg?resize=1200,799"
     },
     {
       "title": "Anthropic's Opus 5 is about token efficiency, not a capability leap",
@@ -83,41 +103,6 @@
       "lang": "ja",
       "date": "2026-07-24T03:11:00.000Z",
       "image": "https://japan.cnet.com/storage/2026/07/24/badf79d5e221a501055554d28a6574e0/28161034-f658-4d9b-b722-acaee7617ca0_1280x960.jpg"
-    },
-    {
-      "title": "Meta launched a new AI optimism ad set to a song about human extinction",
-      "url": "https://techcrunch.com/2026/07/23/meta-launched-a-new-ai-optimism-ad-set-to-a-song-about-human-extinction/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-23T16:28:50.000Z",
-      "titleJa": "Meta は人類滅亡についての歌に合わせた新しい AI 楽観主義広告を発表",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-1353760073.jpg?resize=1200,800"
-    },
-    {
-      "title": "AI chip startup Etched defies skeptics, hits $10.3B valuation from big-name investors",
-      "url": "https://techcrunch.com/2026/07/23/ai-chip-startup-etched-defies-skeptics-hits-10-3b-valuation-from-big-name-investors/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-23T15:00:00.000Z",
-      "titleJa": "AI チップのスタートアップ Etched が懐疑論を無視し、著名投資家からの評価額が 103 億ドルに達",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/Etched-co-founder-COO-Robert-Wachen.jpg?resize=1200,1200"
-    },
-    {
-      "title": "Launching Health in ChatGPT",
-      "url": "https://openai.com/index/health-in-chatgpt",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-07-23T00:00:00.000Z",
-      "titleJa": "ChatGPT でヘルスを起動する"
-    },
-    {
-      "title": "Claude’s voice mode is now available for Opus and Sonnet",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/970065/anthropic-voice-mode-claude-opus-sonnet-haiku-ai",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-07-23T19:00:00.000Z",
-      "titleJa": "クロードの音声モードが Opus と Sonnet で利用可能になりました",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/Claude-Voice-2-3-up.png?quality=90&strip=all&crop=0%2C3.4613147178592%2C100%2C93.077370564282&w=1200"
     }
   ]
 }
