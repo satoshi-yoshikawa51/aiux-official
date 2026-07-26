@@ -4,7 +4,6 @@ import { Button, Card } from "../ds";
 import { Breadcrumb, SectionHead } from "../site-ui";
 import { TERMS, FEATURED_TERMS } from "./data";
 import { GlossaryBrowser } from "./browser";
-import { LazyLoopVideo } from "../lazy-video";
 
 export const metadata: Metadata = {
   title: "AI用語集｜生成AI・LLM・RAGをわかりやすく解説｜COMIXAI",
@@ -128,9 +127,8 @@ export default function GlossaryIndexPage() {
                 </Button>
               </div>
             </div>
-            {/* 表紙動画のワイプ */}
-            <LazyLoopVideo
-              src="/quiz/top.mp4"
+            {/* 表紙動画のワイプ。ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
+            <div
               style={{
                 width: 148,
                 height: 148,
@@ -141,6 +139,10 @@ export default function GlossaryIndexPage() {
                 border: "3px solid var(--paper-50)",
                 background: "var(--yellow-400)",
                 transform: "rotate(3deg)",
+              }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
               }}
             />
           </div>

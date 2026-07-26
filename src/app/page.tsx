@@ -30,7 +30,6 @@ import { GUIDES } from "./guide/data";
 import { EVENTS, dateLabel, isPast } from "./calendar/events";
 import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
-import { LazyLoopVideo } from "./lazy-video";
 
 const HERO_INTRO =
   "株式会社ニジボックス室長・吉川聡史。マンガとUXの力で、むずかしいAIを「現場で使える武器」に変えていきます。";
@@ -108,8 +107,8 @@ function HeroVideo() {
             ・このサイトは開幕にローディング演出(splash.tsx)が最大2.6秒
               かぶるので、その間に読み込むぶんには誰も待たされない。
             測定でも、動画の有無で FCP/LCP は変わらなかった。
-            遅延させるのは折りたたみより下のサムネ動画だけでよい
-            （lazy-video.tsx を参照）。 */}
+            折りたたみより下のサムネ動画も同じ理由で遅延をやめている
+            （下の「サムネ動画は遅延させない」の注記を参照）。 */}
         <video
           ref={videoRef}
           className="hero-bg-video"
@@ -624,9 +623,10 @@ function Glossary() {
                 </Button>
               </div>
             </div>
-            {/* 表紙動画のワイプ（タイトルの右）。PCでは右端、スマホでは折り返して中央 */}
-            <LazyLoopVideo
-              src="/quiz/top.mp4"
+            {/* 表紙動画のワイプ（タイトルの右）。PCでは右端、スマホでは折り返して中央。
+                ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む。
+                srcはHTMLに直接書く（JS実行を待たせない。理由は下の注記） */}
+            <div
               style={{
                 width: 148,
                 height: 148,
@@ -637,6 +637,10 @@ function Glossary() {
                 border: "3px solid var(--paper-50)",
                 background: "var(--yellow-400)",
                 transform: "rotate(3deg)",
+              }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  '<video src="/quiz/top.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
               }}
             />
           </div>
@@ -658,10 +662,16 @@ function Glossary() {
               flexWrap: "wrap",
             }}
           >
-            {/* 表紙動画のワイプ */}
-            <LazyLoopVideo
-              src="/history/cover.mp4"
-              poster="/history/cover.webp"
+            {/* ———— サムネ動画は遅延させない ————
+                一度 IntersectionObserver で「近づいたら読む」に変えたが、
+                勢いよくスクロールされると間に合わず、素通りされる間ずっと
+                空のままだった。時間差で読む保険も足したが、タイマーが
+                動き出すのはJSのハイドレーション後。回線が細いとそれ自体が
+                遅く、実測（1.6Mbps）では取得開始が8.5秒になっていた。
+                srcをHTMLに直接書けばJSを待たずに済むので、こちらに戻す。
+                2本あわせて1.35MBで、ヒーローの背景動画6MBに比べれば軽い。
+                ReactはSSRでmuted属性を出力しないため、rawタグで埋め込む */}
+            <div
               style={{
                 width: 148,
                 height: 148,
@@ -672,6 +682,10 @@ function Glossary() {
                 border: "3px solid var(--ink-900)",
                 transform: "rotate(-3deg)",
                 boxShadow: "5px 5px 0 rgba(20,17,15,0.85)",
+              }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  '<video src="/history/cover.mp4" poster="/history/cover.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block;"></video>',
               }}
             />
             <div style={{ flex: "1 1 260px" }}>
