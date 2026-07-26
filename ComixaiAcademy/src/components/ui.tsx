@@ -107,18 +107,17 @@ export function Pop({
 
 /* ———————————————— 画面 ———————————————— */
 
+/* 画面の地は無地の紙のまま。網点はコマ（Panel tone）の中だけで使う。
+   画面全体に敷くと、コマの絵も網点も同じ強さで目に入って散らかる */
 export function Screen({
   children,
   edges = ['top'],
   scroll = true,
-  /** 画面の地に敷くスクリーントーン。マンガの「紙」にあたる */
-  tone = 'none',
   style,
 }: {
   children: React.ReactNode;
   edges?: Edge[];
   scroll?: boolean;
-  tone?: ToneKind;
   style?: StyleProp<ViewStyle>;
 }) {
   /* タブバーは内容に覆いかぶさらないので、下は素の余白でよい。
@@ -127,9 +126,6 @@ export function Screen({
 
   return (
     <SafeAreaView style={styles.screen} edges={edges}>
-      {/* 網点は SafeAreaView いっぱいに敷く。中身より先に置いて、
-          セーフエリアの余白まで紙が続いて見えるようにする */}
-      {tone !== 'none' && <Tone tone={tone} style={StyleSheet.absoluteFill} />}
       {scroll ? (
         <ScrollView
           contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}

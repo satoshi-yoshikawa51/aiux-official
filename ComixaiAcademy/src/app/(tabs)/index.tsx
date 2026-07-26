@@ -87,7 +87,7 @@ export default function HomeScreen() {
   const upcoming = nextTitle(stats.badgeCount);
 
   return (
-    <Screen scroll={false} tone="dots" style={{ gap: S.md }}>
+    <Screen scroll={false} style={{ gap: S.md }}>
       {/* ———— 称号の帯（黒ベタ＋網点） ———— */}
       <Pop radius={R.md}>
         <Tone
@@ -140,18 +140,31 @@ export default function HomeScreen() {
         caption={role ? `${avatar.name}・${role.name}` : avatar.name}
         contentStyle={{ padding: S.sm, gap: S.sm }}>
         {/* コマの中身の高さを先に測る。この高さはフキダシの大小に左右されないので、
-            「狭ければフキダシを詰める」判定を安定して行える */}
-        <View style={{ flex: 1 }} onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
+            「狭ければフキダシを詰める」判定を安定して行える。
+            フキダシとアバターは**下に寄せる**。上に寄せると尻尾が床を指してしまい、
+            誰がしゃべっているのか分からなくなる */}
+        <View
+          style={{ flex: 1, justifyContent: 'flex-end', gap: S.sm }}
+          onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
           <Bubble
             text={greeting}
             compact={tight}
             numberOfLines={tight ? 3 : undefined}
-            style={{ marginRight: 3, marginLeft: 3, marginTop: 3 }}
+            style={{ marginRight: 3, marginLeft: 3 }}
           />
+          {/* アバターの置き場は縦横比で決める（flex:1 だと余った高さを全部
+              取ってしまい、フキダシがキャラから離れる）。狭い端末では
+              maxHeight が効いて、そのぶん小さく描かれる */}
           <Pressable
             onPress={poke}
             onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
+            style={{
+              width: '100%',
+              aspectRatio: 1 / AVATAR_RATIO,
+              maxHeight: '76%',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+            }}>
             {stage ? (
               <Avatar3D ref={avatarRef} avatar={avatar} width={stage.w} height={stage.h} />
             ) : null}
