@@ -42,7 +42,7 @@ const MAX_RATIO = 0.672;
 
 const OUT = new URL('./.icon-preview/', import.meta.url);
 fs.mkdirSync(OUT, { recursive: true });
-const dst = new URL('../assets/images/stage-classroom.png', import.meta.url).pathname;
+const dst = new URL('../assets/images/stage-classroom.jpg', import.meta.url).pathname;
 
 const src = sharp(SRC);
 const meta = await src.metadata();
@@ -55,39 +55,30 @@ console.log(`下を ${Math.round(CROP_BOTTOM * 100)}% 削る -> ${W}x${H}`);
 
 /* ———— 立ち位置の影 ————
    キャラはコマの下端・中央に立つ。その足元に楕円の影を敷く。
-   ぼかしはガウシアンで作る（sharpに放射グラデーションが無いため、
-   ベタの楕円をぼかして代用する） */
-const shW = Math.round(W * 0.54);
-const shH = Math.round(H * 0.035);
-const blur = Math.max(4, Math.round(shH * 0.6));
-const shadow = await sharp({
-  create: { width: shW + blur * 4, height: shH + blur * 4, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
-})
-  .composite([
-    {
-      input: Buffer.from(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="${shW + blur * 4}" height="${shH + blur * 4}">` +
-          `<ellipse cx="${(shW + blur * 4) / 2}" cy="${(shH + blur * 4) / 2}" rx="${shW / 2}" ry="${shH / 2}"` +
-          ` fill="#3a2f22" fill-opacity="0.34"/></svg>`,
-      ),
-    },
-  ])
-  .blur(blur)
+
+   ぼかしは**別の工程で**掛ける。sharp は composite をパイプラインの
+   最後に適用するので、`create().composite().blur()` と書いても
+   ぼかしは空のキャンバスに掛かるだけで、楕円には効かない。
+   絵と同じ寸法のオーバーレイを1枚ラスタライズしてから blur する。 */
+const SHADOW_OPACITY = Number(process.env.SHADOW ?? 0.3);
+const shadow = await sharp(
+  Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">` +
+      `<ellipse cx="${W / 2}" cy="${Math.round(H * 0.965)}"` +
+      ` rx="${Math.round(W * 0.27)}" ry="${Math.round(H * 0.018)}"` +
+      ` fill="#3a2f22" fill-opacity="${SHADOW_OPACITY}"/></svg>`,
+  ),
+)
+  .blur(Math.max(6, Math.round(H * 0.012)))
   .png()
   .toBuffer();
 
-const shadowMeta = await sharp(shadow).metadata();
+/* JPEGで出す。透過が要らないぶんPNGより一桁小さくなる
+   （この絵で 2.4MB -> 250KB 程度）。アプリに積む画像なので効く */
 await sharp(SRC)
   .extract({ left: 0, top: 0, width: W, height: H })
-  .composite([
-    {
-      input: shadow,
-      left: Math.round((W - shadowMeta.width) / 2),
-      /* 足元は下端より少しだけ上。ぴったり下端だと影が切れて見える */
-      top: Math.round(H - shadowMeta.height / 2 - H * 0.025),
-    },
-  ])
-  .png({ compressionLevel: 9 })
+  .composite([{ input: shadow, left: 0, top: 0 }])
+  .jpeg({ quality: 84, mozjpeg: true })
   .toFile(dst);
 
 const ratio = W / H;

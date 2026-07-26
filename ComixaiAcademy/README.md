@@ -79,10 +79,12 @@ ComixaiAcademy/
 ├── src/store/progress.tsx   進捗・バッジ判定・永続化
 ├── src/theme/               デザイントークン（サイトの globals.css を移植）
 ├── assets/images/           アプリアイコン・スクリーントーン・舞台の絵
+│   └── _raw/                Midjourneyの元画像（加工前。削る量を変えられるよう残す）
 ├── assets/models/           sensei.glb と外出ししたテクスチャ
 ├── assets/fonts/            サブセット済みの書体（→ assets/fonts/README.md）
-└── tools/                   GLB変換・フォントサブセット・トーン／アイコン生成
-                             （アプリ内アイコン＝build-icons / アプリアイコン＝build-app-icon）
+└── tools/                   GLB変換・フォントサブセット・トーン／アイコン／背景の下ごしらえ
+                             （アプリ内アイコン＝build-icons / アプリアイコン＝build-app-icon
+                              / 背景＝prepare-stage）
 ```
 
 ## 見た目のルール
@@ -172,13 +174,20 @@ npm run icons:app     # = node tools/build-app-icon.mjs
 ### アバターが立つ背景（舞台）
 
 ホームのコマには、アバターがそこに立って見えるよう絵を敷いている。
-いまは `npm run stage` が描いた**つなぎ**（教室）で、Midjourneyで描いたものに
-差し替える前提。差し替え点は `src/data/stage.ts` の3つだけ。
+Midjourneyで描いた元画像を `tools/prepare-stage.mjs` で整えたもの。
+
+```
+assets/images/_raw/classroom.png   元画像（MJの出力そのまま）
+        ↓  npm run stage:prepare
+assets/images/stage-classroom.jpg  コマに敷くもの
+```
+
+差し替え点は `src/data/stage.ts` の3つだけで、値はツールが出してくれる。
 
 ```ts
-export const STAGE = require('@/assets/images/stage-placeholder.png'); // ← 差し替える
-export const STAGE_RATIO = 9 / 16;   // 絵の 幅÷高さ
-export const STAGE_WALL = '#f7efe0'; // 絵のいちばん上の色
+export const STAGE = require('@/assets/images/stage-classroom.jpg');
+export const STAGE_RATIO = 0.637;    // 絵の 幅÷高さ
+export const STAGE_WALL = '#7f6b3e'; // 絵のいちばん上の色
 ```
 
 #### なぜ下端に揃えて敷くのか
@@ -188,12 +197,39 @@ iPhone SEでは**横長**になる。`cover` の中央切りだと、狭い端�
 丸ごと消えてキャラが宙に浮く。
 
 そこで `<Panel bg bgRatio bgColor>` は「**下端に揃えて敷き、上のはみ出しを切る**」。
-絵をコマより確実に縦長（9:16）にしておけば、どの端末でも床が残る。
-縦に余ったぶんは `bgColor` で埋まるので、絵のいちばん上は平らな壁色にしておく。
+絵をコマより確実に縦長にしておけば、どの端末でも床が残る。
+**`STAGE_RATIO` は実測の最小 0.672 より小さくすること。**
+超えると縦長のコマで上に隙間が出る（`bgColor` で埋まるが、絵の
+いちばん上が単色でないかぎり継ぎ目に見える）。ツールが警告を出す。
+
+#### MJの出力はそのままでは使えない
+
+`low horizon` と書いても、**MJは地平線を絵の真ん中あたりに置く**。
+実際に上がってきた絵も地平線58%・床42%だった。上は端末によって
+切られるので、このまま敷くと横長のコマで床だけの絵になる。
+
+`prepare-stage.mjs` が**下（床）を削って地平線を下げる**のはそのため。
+削るほど良いわけではなく、削ると比率が横長に寄って上記の上限に
+ぶつかる。いまは12%削って 0.560 → 0.637（地平線58% → 66%）。
+
+あわせて、立ち位置に**やわらかい楕円の影を焼き込む**。3Dのキャラは
+影を持たないので、これが無いと床に貼りついて見える。
+
+```bash
+npm run stage:prepare -- assets/images/_raw/classroom.png
+CROP_BOTTOM=0.16 npm run stage:prepare -- 元.png   # 削る量を変える
+SHADOW=0.45      npm run stage:prepare -- 元.png   # 影を濃くする
+```
+
+確認は `tools/.icon-preview/stage.png`。実測した3端末のコマの比率で
+切って、フキダシとキャラの位置を重ねてある。**いちばん横長の
+iPhone SE で床と窓と黒板が残っていれば合格**。
+
+出力はJPEG。透過が要らないので、PNGだと2.4MBのところが130KBで済む。
 
 #### 構図の決まりごと
 
-差し替える絵もこれに合わせる。合っていないと、狭い端末で破綻する。
+描き直すときは、切られる前提で組む。
 
 | 帯 | 置くもの |
 | --- | --- |
@@ -201,67 +237,35 @@ iPhone SEでは**横長**になる。`cover` の中央切りだと、狭い端�
 | 30〜50% | 端末によっては切られる。壁だけ |
 | 50〜80% | 黒板・窓など「ここがどこか」を語るもの |
 | 80〜100% | 床。手前ほど広がる遠近で |
-| 中央の下 | キャラの立ち位置。**影の楕円だけ**置いて、他は空ける |
+| 中央の下 | キャラの立ち位置。何も置かない |
 
 キャラは黒フチのない3Dで、背景が濃いと溶ける。**彩度も明度差も抑える**こと。
 
 #### Midjourneyのプロンプト
 
-`--ar 9:16` は `STAGE_RATIO` に合わせてある（そのまま入れれば切らずに済む）。
-
-**教室（いまのつなぎと同じ画）**
+`--ar 9:16` で出す（削ったあとに 0.637 前後になる）。
 
 ```
 empty modern classroom interior, 3D anime style, stylised Pixar-like render,
 warm cream and soft beige palette, large window on the left casting a soft light
 beam across a pale wooden floor, dark green chalkboard on the right wall,
-camera at standing eye level, low horizon with the floor filling the bottom fifth,
-wide empty foreground, soft diffused lighting, gentle depth of field,
-muted low-contrast colours
+camera at standing eye level, extremely low horizon, wall filling the top four
+fifths of the frame, wide empty foreground, soft diffused lighting,
+gentle depth of field, muted low-contrast colours
 --ar 9:16 --style raw --stylize 150 --no people, characters, text, watermark, logo
 ```
 
-**職員室・オフィス（社会人向けの雰囲気にしたいとき）**
+外すと使えない絵になる指定：
 
-```
-empty tidy office corner, 3D anime style, stylised Pixar-like render,
-warm cream and light oak palette, tall window with sheer curtains on the left,
-low bookshelf and a whiteboard along the back wall, camera at standing eye level,
-low horizon with the floor filling the bottom fifth, wide empty foreground,
-soft morning light, gentle depth of field, muted low-contrast colours
---ar 9:16 --style raw --stylize 150 --no people, characters, text, watermark, logo
-```
-
-**図書室（落ち着いた画にしたいとき）**
-
-```
-empty library reading room, 3D anime style, stylised Pixar-like render,
-warm paper-cream and walnut palette, tall bookshelves softly out of focus along
-the back wall, arched window on the left, camera at standing eye level,
-low horizon with the floor filling the bottom fifth, wide empty foreground,
-warm diffused light, shallow depth of field, muted low-contrast colours
---ar 9:16 --style raw --stylize 150 --no people, characters, text, watermark, logo
-```
-
-効かせどころは決まっていて、外すと使えない絵になる：
-
-- **`--no people, characters`** — 入れないと必ず人が立つ。立ち位置が埋まる
-- **`camera at standing eye level` / `low horizon`** — これが無いと俯瞰になり、
-  キャラが床にめり込んで見える
+- **`--no people, characters`** — 入れないと必ず人が立ち、立ち位置が埋まる
+- **`camera at standing eye level`** — 無いと俯瞰になり、キャラが床にめり込む
 - **`wide empty foreground`** — 机や椅子が手前に来ると、キャラが物の中に立つ
-- **`muted low-contrast`** — 背景が強いとキャラが背景に溶ける
+- **`muted low-contrast`** — 背景が強いとキャラが溶ける
 
-#### 差し替えたあと
+なお `extremely low horizon` を入れても効きは弱い。**削る前提で頼むほうが早い。**
 
-1. 画像を `assets/images/` に置いて、`STAGE` の require を書き換える
-2. 比率が 9:16 でなければ `STAGE_RATIO` を実際の 幅÷高さ に直す
-3. 絵のいちばん上の色を `STAGE_WALL` に入れる（縦に余ったときの継ぎ目が消える）
-4. `npm run stage` は**つなぎを作り直すだけ**。本番の絵とはファイル名が
-   別なので上書きはされないが、走らせる必要も無い
-
-確認は `tools/.icon-preview/stage.png`。実測した3端末のコマの比率で切って、
-フキダシとキャラの位置を重ねてある。**いちばん横長の iPhone SE で
-床と黒板が残っていれば合格**。
+つなぎの絵が要るとき（元画像がまだ無いなど）は `npm run stage` で
+`tools/build-stage.mjs` がベクターの教室を描く。
 
 ### フォントを差し替えたら
 

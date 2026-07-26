@@ -1,21 +1,21 @@
 /* ============================================================
    ホームのコマに敷く「舞台」。アバターがここに立って見えるようにする。
 
-   いまは tools/build-stage.mjs が描いたつなぎの絵。
-   Midjourneyで描いた3Dアニメ調のものに差し替える前提で、
-   **画像を置き換えるだけ**で済むようにここ1箇所にまとめてある。
-   構図の決まりごととプロンプトは README を見ること。
+   Midjourneyで描いた元画像（assets/images/_raw/classroom.png）を
+   tools/prepare-stage.mjs で整えたもの。差し替えるときは
+   README の「アバターが立つ背景（舞台）」を見ること。
    ============================================================ */
 
 /** アバターが立つ背景。Panel の bg に渡す */
-export const STAGE = require('@/assets/images/stage-placeholder.png');
+export const STAGE = require('@/assets/images/stage-classroom.jpg');
 
 /* コマの比率は端末で 0.67〜1.10 とぶれる（iPhone SEでは横長になる）。
    中央に合わせて切ると狭い端末で床が消えるので、**下端に揃えて敷き、
    はみ出た上を切る**。そのために絵の縦横比をここで持つ。
-   9/16 は Midjourney の --ar 9:16 に合わせた値。差し替える絵の比率が
-   違うならここを変える（幅÷高さ） */
-export const STAGE_RATIO = 9 / 16;
+   この値より横長なコマでは上に隙間が出るので、実測の最小 0.672 より
+   小さくしてある（816/1281 = 0.637）。
+   数値は npm run stage:prepare が出してくれる */
+export const STAGE_RATIO = 0.637;
 
 /** 絵のいちばん上の色。コマが縦に余ったぶんをこれで埋めて、継ぎ目を消す */
-export const STAGE_WALL = '#f7efe0';
+export const STAGE_WALL = '#7f6b3e';
