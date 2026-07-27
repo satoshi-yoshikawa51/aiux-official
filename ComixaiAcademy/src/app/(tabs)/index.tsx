@@ -76,13 +76,27 @@ export default function HomeScreen() {
   const [bubbleH, setBubbleH] = React.useState(0);
   const avatarMax = area > 0 && bubbleH > 0 ? Math.max(0, area - bubbleH - S.sm) : undefined;
 
-  /* アバターを置ける実寸。onLayoutで測ってから3Dを描く */
+  /* アバターを置ける実寸。onLayoutで測ってから3Dを描く。
+
+     ▍寸法が落ち着くまで描き始めない
+     Avatar3D は寸法が変わるとGLコンテキストを作り直す＝**1.9MBのGLBを
+     読み直す**。起動時のレイアウトは一度で決まらず、書体が読み込まれた
+     あとにフキダシが折り返し直すので、素直に繋ぐと寸法が2〜3回変わる。
+     実測すると 320x568 と 375x667 でGLBを3回読んでいた（狭いほど
+     フキダシの行数が変わりやすいぶん、遅い端末ほど余計に読む）。
+     少し待って、変化が止まった寸法だけを渡す。 */
   const [box, setBox] = React.useState({ w: 0, h: 0 });
+  const [settled, setSettled] = React.useState({ w: 0, h: 0 });
+  React.useEffect(() => {
+    const t = setTimeout(() => setSettled(box), 180);
+    return () => clearTimeout(t);
+  }, [box.w, box.h]);
+
   const stage = React.useMemo(() => {
-    if (box.w <= 0 || box.h <= 0) return null;
-    const w = Math.min(box.w, box.h / AVATAR_RATIO);
+    if (settled.w <= 0 || settled.h <= 0) return null;
+    const w = Math.min(settled.w, settled.h / AVATAR_RATIO);
     return { w: Math.floor(w), h: Math.floor(w * AVATAR_RATIO) };
-  }, [box]);
+  }, [settled]);
 
   const next = React.useMemo(() => {
     for (const course of COURSES) {
