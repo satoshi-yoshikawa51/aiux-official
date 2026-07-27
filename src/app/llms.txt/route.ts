@@ -79,7 +79,7 @@ export function GET() {
     "## 外部リンク",
     "",
     "- [note「AI-UX UNITE」](https://note.com/aiux_unite): AI活用マンガ・記事の本体はこちらで連載中",
-    "- [YouTube @aiux-unite](https://www.youtube.com/@aiux-unite): 動画での発信",
+    "- [YouTube @comixai-dev](https://www.youtube.com/@comixai-dev): 動画での発信",
     "- [X @yoshikawa5116](https://x.com/yoshikawa5116): 日々の発信",
     "",
   ];

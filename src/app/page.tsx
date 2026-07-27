@@ -1069,7 +1069,7 @@ function Social() {
             <div style={{ minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <h3 style={{ margin: 0, fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 19 }}>YouTube</h3>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--paper-200)" }}>@aiux-unite</span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--paper-200)" }}>@comixai-dev</span>
               </div>
               <p style={{ margin: "6px 0 0", fontSize: 13.5, lineHeight: 1.7, color: "var(--paper-200)" }}>
                 動画でもAI活用を発信中。チャンネルを見る <i className="ph-bold ph-arrow-up-right" />

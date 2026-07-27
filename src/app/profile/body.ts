@@ -93,7 +93,7 @@ export const PROFILE_BODY = `<main>
         <div><dt>氏名</dt><dd>吉川 聡史（よしかわ さとし）／ Satoshi Yoshikawa</dd></div>
         <div><dt>所属</dt><dd>株式会社ニジボックス（NIJIBOX）室長</dd></div>
         <div><dt>連載</dt><dd>週刊少年チャンピオンで漫画を連載</dd></div>
-        <div><dt>発信</dt><dd>note「AI-UX UNITE」でAI活用マンガ・記事を発信・YouTube @aiux-unite</dd></div>
+        <div><dt>発信</dt><dd>note「AI-UX UNITE」でAI活用マンガ・記事を発信・YouTube @comixai-dev</dd></div>
       </dl>
     </div>
   </section>
@@ -143,7 +143,7 @@ export const PROFILE_BODY = `<main>
         </details>
         <details>
           <summary><span class="q">Q</span>AI活用マンガはどこで読めますか？<i class="ph-bold ph-caret-down chev"></i></summary>
-          <div class="a">note「AI-UX UNITE」（<a href="https://note.com/aiux_unite" target="_blank" rel="noopener">note.com/aiux_unite</a>）で読めます。「マンガでわかる！AI活用」「マンガで実践！AI活用」「AI時代の流行と本質」の3マガジンを連載中。動画は YouTube（<a href="https://www.youtube.com/@aiux-unite" target="_blank" rel="noopener">@aiux-unite</a>）でも発信しています。</div>
+          <div class="a">note「AI-UX UNITE」（<a href="https://note.com/aiux_unite" target="_blank" rel="noopener">note.com/aiux_unite</a>）で読めます。「マンガでわかる！AI活用」「マンガで実践！AI活用」「AI時代の流行と本質」の3マガジンを連載中。動画は YouTube（<a href="https://www.youtube.com/@comixai-dev" target="_blank" rel="noopener">@comixai-dev</a>）でも発信しています。</div>
         </details>
         <details>
           <summary><span class="q">Q</span>どんな分野が専門ですか？<i class="ph-bold ph-caret-down chev"></i></summary>
@@ -174,7 +174,7 @@ export const PROFILE_BODY = `<main>
           <a href="https://www.threads.com/@ai_baystars" target="_blank" rel="noopener" aria-label="Threads"><i class="ph-bold ph-threads-logo"></i></a>
           <a href="https://mixi.social/@yoshikawa5116" target="_blank" rel="noopener" aria-label="mixi2"><i class="ph-bold ph-chats-circle"></i></a>
           <a href="https://youtrust.jp/users/yoshikawa51" target="_blank" rel="noopener" aria-label="YOUTRUST"><i class="ph-bold ph-handshake"></i></a>
-          <a href="https://www.youtube.com/@aiux-unite" target="_blank" rel="noopener" aria-label="YouTube"><i class="ph-bold ph-youtube-logo"></i></a>
+          <a href="https://www.youtube.com/@comixai-dev" target="_blank" rel="noopener" aria-label="YouTube"><i class="ph-bold ph-youtube-logo"></i></a>
         </div>
       </div>
     </div>

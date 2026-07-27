@@ -47,7 +47,7 @@ export interface Social {
 
 export const NOTE = "https://note.com/aiux_unite";
 export const NOTE_ALL = "https://note.com/aiux_unite/all";
-export const YOUTUBE = "https://www.youtube.com/@aiux-unite";
+export const YOUTUBE = "https://www.youtube.com/@comixai-dev";
 
 /* —— note マガジン（実データ・カバー画像つき） —— */
 export const MAGAZINES: Magazine[] = [

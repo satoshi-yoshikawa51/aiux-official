@@ -64,7 +64,7 @@ const JSON_LD = {
       worksFor: { "@type": "Organization", name: "株式会社ニジボックス" },
       sameAs: [
         "https://note.com/aiux_unite",
-        "https://www.youtube.com/@aiux-unite",
+        "https://www.youtube.com/@comixai-dev",
         "https://x.com/yoshikawa5116",
         "https://www.facebook.com/profile.php?id=100008552592871",
         "https://jp.linkedin.com/in/%E8%81%A1%E5%8F%B2-%E5%90%89%E5%B7%9D-7b121a255",
