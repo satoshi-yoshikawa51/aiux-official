@@ -1,108 +1,126 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-26T22:36:39.898Z",
+  "updatedAt": "2026-07-27T22:38:12.982Z",
   "items": [
     {
-      "title": "日立、SI全工程をAIエージェントが担う「Agentic AI Integration Platform」を発表",
-      "url": "https://japan.zdnet.com/article/35250968/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-26T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/04/17/b764822ee253b2a83221729f1b4b6f77/260417_engineer_as_1280_273110835.jpg"
+      "title": "Microsoft unveils AI security tools it says outperform competing platforms",
+      "url": "https://arstechnica.com/security/2026/07/microsoft-unveils-ai-security-tools-it-says-outperform-competing-platforms/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-07-27T21:56:14.000Z",
+      "titleJa": "Microsoft、競合プラットフォームを上回る性能を誇るAIセキュリティツールを発表",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/09/microsoft-logo-1024x648.jpg"
     },
     {
-      "title": "自作PCトーク『ジサトラKTU』生放送～Arc G3 Extreme搭載ポータブルゲーミングPCの性能を検証、MSI「Arc G3 Extreme搭載ポータブルゲーミングPCの性能を検証、MSI「Claw 8 EX Ai+」はマジでスゴかった!!」はマジでスゴかった!!～",
-      "url": "https://ascii.jp/elem/000/004/422/4422042/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-26T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2025/09/19/4324489/xl/4111cde7c86cf0b4.jpg?20200122"
+      "title": "Verizon touts $1B dark fiber deal for Google data centers as first of many",
+      "url": "https://arstechnica.com/ai/2026/07/verizon-seeks-ai-profits-with-mini-data-centers-1b-dark-fiber-deal-with-google/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-07-27T18:48:41.000Z",
+      "titleJa": "Verizon、Google データセンター向けの 10 億ドルのダークファイバー契約を数ある契約の第一弾として宣伝",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/Verizon-Times-Square-Store-2560x1440.jpg"
     },
     {
-      "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
-      "url": "https://techcrunch.com/2026/07/26/hugging-face-ceo-calls-for-radical-transparency-after-unprecedented-openai-hack/",
+      "title": "Microsoft launches its first cybersecurity model, plus a new agentic cybersecurity system",
+      "url": "https://techcrunch.com/2026/07/27/microsoft-launches-its-first-cyber-model-and-a-new-agentic-cybersecurity-system/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-26T16:33:13.000Z",
-      "titleJa": "ハグフェイスCEO、「前例のない」OpenAIハッキングを受けて「抜本的な透明性」を求める",
+      "date": "2026-07-27T18:32:11.000Z",
+      "titleJa": "Microsoft が初のサイバーセキュリティ モデルと新しいエージェント サイバーセキュリティ システムを発表",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/IMG_4458.jpeg?resize=1200,900"
+    },
+    {
+      "title": "OpenAI’s Hugging Face breach has reignited the debate over alignment and control",
+      "url": "https://techcrunch.com/2026/07/27/openais-hugging-face-breach-has-reignited-the-debate-over-alignment-and-control/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-27T17:28:42.000Z",
+      "titleJa": "OpenAI の Hugging Face 侵害により、連携と制御に関する議論が再燃",
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/hugging-face-openai-logos-split-screen.jpg?resize=1200,799"
     },
     {
-      "title": "一度教えたら忘れない。民泊のゲスト対応AI、「AssistBnB メッセージAI」提供開始。全言語のゲストメッセージに15分以内で返信",
-      "url": "https://ascii.jp/elem/000/004/422/4422261/?rss",
+      "title": "Nvidia, Microsoft launch open AI security alliance — without OpenAI, Google, or Anthropic",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/971281/nvidia-open-secure-ai-alliance-cybersecurity",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-07-27T12:06:22.000Z",
+      "titleJa": "Nvidia と Microsoft がオープン AI セキュリティ アライアンスを開始",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/STKP210_JENSEN_HUANG_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Microsoft、ミュトス超えの新セキュリティAI「MAI-Cyber-1-Flash」発表",
+      "url": "https://japan.cnet.com/article/35251000/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-27T21:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/07/28/5bb52c994392146c41046ed6b9a23230/GettyImages-1452542412-1.jpeg"
+    },
+    {
+      "title": "PSA: Your Claude shared chats and Artifacts may have ended up on Google",
+      "url": "https://techcrunch.com/2026/07/27/psa-your-claude-shared-chats-and-artifacts-may-have-ended-up-on-google/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-27T20:19:42.000Z",
+      "titleJa": "PSA: クロードが共有したチャットとアーティファクトが Google にアップロードされた可能性があります",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/facepalm-statue.jpg?resize=1200,688"
+    },
+    {
+      "title": "OpenAIが競技プログラミングで人間圧倒、想定超えたAIの「勝ち方」",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11922/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-07-27T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11922/topm.jpg?20220512"
+    },
+    {
+      "title": "今週木曜まで15万9800円。16型・Core i5・メモリ16GB搭載、3年保証付き「VAIO F16」",
+      "url": "https://ascii.jp/elem/000/004/422/4422249/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-07-26T06:39:54.000Z",
+      "date": "2026-07-27T11:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/07/21/4503203/xl/4f415e2cf02d5d00.jpg?20200122"
+    },
+    {
+      "title": "パラメータ数は2.8兆!? 中国のスタートアップが超高性能なAIモデルを発表",
+      "url": "https://www.gizmodo.jp/article/china-just-dropped-another-bomb-on-americas-frontier-ai-companies/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-27T10:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/07/27/2882dcd1-0569-47c9-aaf6-ba75b1841c2d/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "「生成AIなんでも展示会 Vol.6」ビジネス出展・協賛プランの募集を開始！来場3,000人規模・意思決定層も集うAIイベントでPR・採用を",
+      "url": "https://ascii.jp/elem/000/004/422/4422557/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-27T09:55:16.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "Anthropic launches Opus 5",
-      "url": "https://techcrunch.com/2026/07/24/anthropic-launches-opus-5/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-24T17:00:00.000Z",
-      "titleJa": "Anthropic が Opus 5 を発売",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/Screenshot-2026-07-24-at-12.47.38-PM.jpg?w=1166"
-    },
-    {
-      "title": "「AI暴走なら政府が停止」法案にNVIDIAら25社が反発、OpenAI・Anthropicは署名せず",
-      "url": "https://pc.watch.impress.co.jp/docs/news/2127831.html",
-      "source": "PC Watch",
+      "title": "MIXI、新卒エンジニア向け研修資料＆動画を無料公開 「実践的なAI活用術」を12科目で紹介",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/27/2000000223/",
+      "source": "ITmedia",
       "lang": "ja",
       "kind": "buzz",
-      "count": 107,
-      "date": "2026-07-24T22:46:02.000Z",
-      "image": "https://pc.watch.impress.co.jp/img/pcw/list/2127/831/01.png"
+      "count": 209,
+      "date": "2026-07-27T06:47:19.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/27/2000000223/10001089/2048"
     },
     {
-      "title": "Anthropic、「Claude Opus 5」公開 Fable 5に迫る性能を半額で――サイバー安全策は緩和、拒否時は自動フォールバックも",
-      "url": "https://www.itmedia.co.jp/news/articles/2607/25/news016.html",
-      "source": "ITmedia AI＋",
+      "title": "NTTデータ、SAPのERPクラウドとAIを導入--新構想のコンサルティングも開始",
+      "url": "https://japan.zdnet.com/article/35250990/",
+      "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-07-24T22:28:00.000Z",
-      "image": "https://image.itmedia.co.jp/news/articles/2607/25/cover_news016.jpg"
+      "date": "2026-07-27T06:25:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/12/04/302a954ac3d7632777fad3066cc5952e/thumb_erp_1280.jpg"
     },
     {
-      "title": "Prentis, new AI lab co-founded by Reid Hoffman, Mark Pincus in talks to raise $100M",
-      "url": "https://techcrunch.com/2026/07/24/prentis-new-ai-lab-co-founded-by-reid-hoffman-mark-pincus-in-talks-to-raise-100m/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-24T22:25:58.000Z",
-      "titleJa": "プレンティス、リード・ホフマンとマーク・ピンカスが共同設立した新しいAIラボが1億ドル調達交渉中",
-      "image": "https://techcrunch.com/wp-content/uploads/2024/11/GettyImages-1258942056.jpg?resize=1200,799"
-    },
-    {
-      "title": "Anthropic's Opus 5 is about token efficiency, not a capability leap",
-      "url": "https://arstechnica.com/ai/2026/07/anthropics-opus-5-is-about-token-efficiency-not-a-capability-leap/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-07-24T21:05:51.000Z",
-      "titleJa": "Anthropic の Opus 5 は機能の飛躍ではなく、トークンの効率性を重視しています",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/opus-5-1152x648.jpg"
-    },
-    {
-      "title": "AIにもサプライチェーン管理が必要？ 中国AI「Kimi K3」を巡る批判でAIの調達リスクが浮き彫りに",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2607/24/news054.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-24T08:30:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2607/24/cover_news054.jpg"
-    },
-    {
-      "title": "メルカリ、「AI活用の最前線」明かす動画公開 「なぜCTOがCHRO兼CAIOになったのか」など13本",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/24/2000000220/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-24T06:23:26.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/24/2000000220/10001070/2048"
-    },
-    {
-      "title": "ChatGPTの助言で命の危機に、米男性がOpenAIを提訴",
-      "url": "https://japan.cnet.com/article/35250944/",
+      "title": "OpenAI、「ChatGPT」のウェアラブル搭載に意欲",
+      "url": "https://japan.cnet.com/article/35250982/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-07-24T03:11:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/07/24/badf79d5e221a501055554d28a6574e0/28161034-f658-4d9b-b722-acaee7617ca0_1280x960.jpg"
+      "date": "2026-07-27T04:48:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/07/27/fd7ddf678703c623d7786dea52331d1a/Meta.glasses.2026-1__1_.jpeg"
     }
   ]
 }
