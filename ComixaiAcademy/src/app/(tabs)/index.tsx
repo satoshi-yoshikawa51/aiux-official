@@ -10,7 +10,7 @@
    ============================================================ */
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
@@ -60,12 +60,20 @@ export default function HomeScreen() {
   const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
 
+  /* ———— 背の低い画面 ————
+     3Dカメラの縦画角は固定なので、**キャラの大きさはキャンバスの高さだけで
+     決まる**（幅を広げても変わらない）。320x568 ではコマが248しか無く、
+     フキダシを引くとアバターに154しか回らずキャラが小さく見えていた。
+     ので、余白・カード・フキダシから高さを削ってアバターに回す。
+     しきい値はiPhone SE(667)を含める値にしてある */
+  const short = useWindowDimensions().height < 700;
+
   /* コマの中身の高さ。狭い端末ではフキダシを詰めてアバターの取り分を増やす。
      しきい値はSE（コマの中身が約330）が入るように取ってある。ここを
      下回る端末でアバターを大きいままにすると、フキダシが上にはみ出て
      1行目が読めなくなる */
   const [area, setArea] = React.useState(0);
-  const tight = area > 0 && area < 380;
+  const tight = short || (area > 0 && area < 380);
 
   /* アバターに回せる高さ。フキダシの実測値から引いて出す。
 
@@ -130,7 +138,15 @@ export default function HomeScreen() {
      画面の端まで届く黒ベタ。枠もベタ影も付けない。
      下のタブバーと同じ黒で挟むことで、あいだが「紙」として立つ */
   const header = (
-    <View style={{ paddingHorizontal: S.lg, paddingTop: S.sm, paddingBottom: S.md, gap: 6 }}>
+    /* 背の低い画面では帯も詰める。568の画面で85は取りすぎで、
+       そのぶんがまるごとアバターの取り分から引かれていた */
+    <View
+      style={{
+        paddingHorizontal: S.lg,
+        paddingTop: short ? 4 : S.sm,
+        paddingBottom: short ? S.sm : S.md,
+        gap: short ? 4 : 6,
+      }}>
       <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <Row gap={6} style={{ flex: 1 }}>
           <Icon name={stats.title.icon} size={21} color={C.paper0} />
@@ -160,7 +176,12 @@ export default function HomeScreen() {
   );
 
   return (
-    <Screen scroll={false} header={header} tone="dots" style={{ gap: S.md }}>
+    <Screen
+      scroll={false}
+      header={header}
+      tone="dots"
+      /* padding は styles.screenPad より後に効くので、ここで上書きできる */
+      style={{ gap: short ? S.sm : S.md, padding: short ? S.sm : S.lg }}>
       {/* ———— アバターのコマ（残りの高さを全部使う） ————
            名前と職種はコマのキャプション（右下に絶対配置）に逃がして、
            アバターに使える高さを削らないようにしている。
@@ -211,7 +232,10 @@ export default function HomeScreen() {
            出るのはこの上。コマ番号（左上の黒い角）はやめて、行の頭に
            黄色いピルを置く（角に重ねるとコースのアイコンとぶつかる） */}
       {next ? (
-        <Panel surface={C.ink800} tone="dots-light" contentStyle={{ padding: S.md, gap: S.sm }}>
+        <Panel
+          surface={C.ink800}
+          tone="dots-light"
+          contentStyle={{ padding: short ? S.sm : S.md, gap: short ? 6 : S.sm }}>
           <Row gap={8}>
             <View
               style={{
