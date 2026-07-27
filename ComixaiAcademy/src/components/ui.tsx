@@ -167,6 +167,79 @@ export function Screen({
   );
 }
 
+/* ———————————————— 黒帯の中身 ————————————————
+   Screen の header に渡すもの。全画面でこの形に揃える。
+
+   ・キッカー（赤）と黄色いピルを1行目に
+   ・見出しは白。左にアイコン、右に数字を置ける
+   ・ゲージと、10pxのモノスペース1行まで
+
+   帯そのものは枠もベタ影も付けない。下のタブバーと同じ黒で挟むことで、
+   あいだが「紙」として立つ（浮いたカードにすると、この効きが消える）。 */
+
+export function ScreenHead({
+  kicker,
+  title,
+  icon,
+  right,
+  pill,
+  progress,
+  note,
+  noteRight,
+  size = 'lg',
+  compact = false,
+}: {
+  kicker?: string;
+  title: string;
+  /** 見出しの左に置くアイコン */
+  icon?: React.ReactNode;
+  /** 見出しの右に置く数字など */
+  right?: React.ReactNode;
+  /** 黄色いピル。「次にやること」の印なので**1画面に1つだけ** */
+  pill?: string;
+  progress?: { value: number; total: number };
+  note?: string;
+  noteRight?: string;
+  /** lg=ページの見出し / md=ホームの称号のように行が続くとき */
+  size?: 'md' | 'lg';
+  /** 背の低い画面。余白を詰めて本文に高さを回す */
+  compact?: boolean;
+}) {
+  const noteFont = { fontFamily: FONT.mono, fontSize: 10, letterSpacing: 0.6 } as const;
+  return (
+    <View
+      style={{
+        paddingHorizontal: S.lg,
+        paddingTop: compact ? 4 : S.sm,
+        paddingBottom: compact ? S.sm : S.md,
+        gap: compact ? 4 : 6,
+      }}>
+      {kicker || pill ? (
+        <Row gap={8}>
+          {pill ? <Pill label={pill} /> : null}
+          {kicker ? <Text style={[F.kicker, { color: C.red100 }]}>{kicker}</Text> : null}
+        </Row>
+      ) : null}
+      <Row gap={6}>
+        {icon}
+        <Text
+          style={[size === 'lg' ? F.title : F.h2, { color: C.paper50, flex: 1 }]}
+          numberOfLines={1}>
+          {title}
+        </Text>
+        {right}
+      </Row>
+      {progress ? <Progress value={progress.value} total={progress.total} /> : null}
+      {note || noteRight ? (
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Text style={[noteFont, { color: C.ink300 }]}>{note}</Text>
+          {noteRight ? <Text style={[noteFont, { color: C.red100 }]}>{noteRight}</Text> : null}
+        </Row>
+      ) : null}
+    </View>
+  );
+}
+
 /* ———————————————— カード / コマ ———————————————— */
 
 type CardTone = 'surface' | 'sunk' | 'accent' | 'ok' | 'warn' | 'ink';
@@ -308,6 +381,61 @@ export function Panel({
   );
 }
 
+/* ———————————————— 次にやること ————————————————
+   色の役割を画面ごとにブレさせないための2つ。
+
+   赤 ＝ 押せるもの／黄 ＝ 次にやること／黒 ＝ 枠まわり／
+   紙と網点 ＝ 地／白 ＝ キャラのコマとフキダシだけ
+
+   黄色は**1画面に1つだけ**使う。2つ出た時点で「次」の意味が消える。 */
+
+/** 黄色いピル。「次にやること」の印 */
+export function Pill({ label, style }: { label: string; style?: StyleProp<ViewStyle> }) {
+  return (
+    <View
+      style={[
+        {
+          backgroundColor: C.yellow400,
+          borderWidth: BW.bold,
+          borderColor: T.border,
+          borderRadius: R.full,
+          paddingHorizontal: 9,
+          paddingVertical: 2,
+        },
+        style,
+      ]}>
+      <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 1, color: C.ink900 }}>
+        {label}
+      </Text>
+    </View>
+  );
+}
+
+/** ほぼ黒に沈めたコマ。白い網点が薄く乗る。
+    黄と赤がいちばん強く出る地なので、その画面でいちばん押してほしいものを入れる。
+    **中の文字とアイコンは白（C.paper50）にすること**（既定では黒のまま） */
+export function Cassette({
+  children,
+  compact = false,
+  style,
+  contentStyle,
+}: {
+  children: React.ReactNode;
+  compact?: boolean;
+  style?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
+}) {
+  return (
+    <Panel
+      surface={C.ink800}
+      tone="dots-light"
+      style={style}
+      contentStyle={[{ padding: compact ? S.sm : S.md, gap: compact ? 6 : S.sm }, contentStyle]}>
+      {children}
+    </Panel>
+  );
+}
+
 /* ———————————————— ボタン ———————————————— */
 
 type BtnVariant = 'primary' | 'secondary' | 'ink' | 'ghost' | 'yellow';
@@ -336,14 +464,18 @@ export function Button({
   style?: StyleProp<ViewStyle>;
 }) {
   const [pressed, setPressed] = React.useState(false);
-  const v = BTN[variant];
+  /* 押せないボタンは**薄くせず、色を落とす**。全体を半透明にすると、
+     紙に敷いた網点がボタンを透けて出てきて汚れて見える */
+  const v = disabled
+    ? { bg: T.sunk, fg: T.disabled, border: T.borderSoft }
+    : BTN[variant];
   const dims = {
     sm: { fontSize: 14, py: 9, px: 14, radius: R.sm },
     md: { fontSize: 16, py: 13, px: 20, radius: R.sm },
     lg: { fontSize: 18, py: 16, px: 28, radius: R.md },
   }[size];
   const flat = variant === 'ghost';
-  const offset = flat ? 0 : pressed ? 1 : POP.sm;
+  const offset = flat || disabled ? 0 : pressed ? 1 : POP.sm;
 
   const face = (
     <View
@@ -372,7 +504,7 @@ export function Button({
         if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
         onPress();
       }}
-      style={[{ opacity: disabled ? 0.45 : 1 }, style]}>
+      style={style}>
       {flat ? (
         face
       ) : (
@@ -530,25 +662,10 @@ export function Bubble({
   );
 }
 
-/* ———————————————— 見出し ———————————————— */
-
-export function SectionHead({
-  kicker,
-  title,
-  hand,
-}: {
-  kicker: string;
-  title: string;
-  hand?: string;
-}) {
-  return (
-    <View style={{ gap: 6 }}>
-      <Text style={F.kicker}>{kicker}</Text>
-      <Text style={F.title}>{title}</Text>
-      {hand ? <Text style={F.hand}>{hand}</Text> : null}
-    </View>
-  );
-}
+/* ▍かつてここに SectionHead（紙の上に置く「キッカー＋見出し＋ひとこと」）が
+   あった。画面の見出しは黒帯（ScreenHead）に移したので、紙の上に同じものを
+   置くと見出しが2つになる。**戻さないこと**。
+   コマの中の小見出しは F.h1 をそのまま使えばいい。 */
 
 /* ———————————————— その他 ———————————————— */
 
@@ -593,22 +710,29 @@ export function PressCard({
       disabled={disabled}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
-      onPress={onPress}
-      style={{ opacity: disabled ? 0.45 : 1 }}>
-      <Pop offset={pressed ? 1 : POP.sm} radius={R.md} reserve={false} style={{ marginBottom: POP.sm }}>
+      onPress={onPress}>
+      <Pop
+        offset={pressed ? 1 : POP.sm}
+        radius={R.md}
+        color={disabled ? T.borderSoft : T.border}
+        reserve={false}
+        style={{ marginBottom: POP.sm }}>
         <View
           style={[
             {
-              backgroundColor: selected ? T.accentSoft : T.surface,
+              /* 使えないカードも**地は不透明のまま**にする。
+                 Pressable 全体を薄くすると、紙に敷いた網点がカードを
+                 透けて出てきて汚れて見える。薄くするのは中身だけ */
+              backgroundColor: disabled ? T.sunk : selected ? T.accentSoft : T.surface,
               borderWidth: selected ? BW.bold : BW.line,
-              borderColor: T.border,
+              borderColor: disabled ? T.borderSoft : T.border,
               borderRadius: R.md,
               padding: S.md,
               transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }],
             },
             style,
           ]}>
-          {children}
+          <View style={{ opacity: disabled ? 0.45 : 1 }}>{children}</View>
         </View>
       </Pop>
     </Pressable>

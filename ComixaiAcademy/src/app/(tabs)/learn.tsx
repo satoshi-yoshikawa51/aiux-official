@@ -1,27 +1,94 @@
-/* まなぶ。コースとレッスンの一覧。職種で中身が変わるコースには印を付ける。 */
+/* まなぶ。コースとレッスンの一覧。職種で中身が変わるコースには印を付ける。
+
+   見た目の作法はホームに揃えてある（黒帯・網点の紙・黒いカセット）。
+   ここでの「次にやること」＝まだ終わっていない最初のレッスン。
+   黄色いピルはそのカセットにだけ置く（1画面に1つ）。 */
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { Badge, Panel, PressCard, Progress, Row, Screen, SectionHead } from '@/components/ui';
+import {
+  Badge,
+  Button,
+  Cassette,
+  Panel,
+  Pill,
+  PressCard,
+  Progress,
+  Row,
+  Screen,
+  ScreenHead,
+} from '@/components/ui';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { useProgress } from '@/store/progress';
-import { F, FONT, S, T } from '@/theme';
+import { C, F, FONT, S, T } from '@/theme';
 
 export default function LearnScreen() {
   const router = useRouter();
   const { state } = useProgress();
   const role = getRole(state.roleId);
 
+  const lessons = React.useMemo(() => COURSES.flatMap((c) => c.lessons), []);
+  const doneTotal = lessons.filter((l) => state.done[l.id]).length;
+
+  const next = React.useMemo(() => {
+    for (const course of COURSES) {
+      for (const lesson of course.lessons) {
+        if (!state.done[lesson.id]) return { course, lesson };
+      }
+    }
+    return null;
+  }, [state.done]);
+
+  const header = (
+    <ScreenHead
+      kicker="COURSES"
+      title="まなぶ"
+      right={
+        <Text style={{ fontFamily: FONT.mono, fontSize: 16, color: C.paper50 }}>
+          {doneTotal}
+          <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300 }}>
+            /{lessons.length}
+          </Text>
+        </Text>
+      }
+      progress={{ value: doneTotal, total: lessons.length }}
+      note={role ? `${role.name} 向けで表示中` : '職種を選ぶと内容が変わる'}
+      noteRight={`${COURSES.length}コース`}
+    />
+  );
+
   return (
-    <Screen>
-      <SectionHead
-        kicker="COURSES"
-        title="まなぶ"
-        hand={role ? `いまは ${role.name} 向けで表示中` : undefined}
-      />
+    <Screen header={header} tone="dots">
+      {/* ———— つづき ————
+           いちばん押してほしいものを、ほぼ黒に沈めたコマに入れる（ホームと同じ） */}
+      {next ? (
+        <Cassette>
+          <Row gap={8}>
+            <Pill label="NEXT" />
+            <Icon name={next.course.icon} size={18} color={C.paper50} />
+            <Text style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]} numberOfLines={1}>
+              {next.lesson.title}
+            </Text>
+          </Row>
+          <Button
+            label={`つづきから（${next.lesson.minutes}分）`}
+            size="sm"
+            onPress={() => router.push(`/lesson/${next.lesson.id}`)}
+          />
+        </Cassette>
+      ) : (
+        <Cassette>
+          <Row gap={8}>
+            <Icon name="trophy" size={18} color={C.paper50} />
+            <Text style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}>
+              全課程、修了
+            </Text>
+          </Row>
+        </Cassette>
+      )}
 
       {COURSES.map((course, ci) => {
         const doneCount = course.lessons.filter((l) => state.done[l.id]).length;
@@ -65,11 +132,15 @@ export default function LearnScreen() {
               {course.lessons.map((lesson, i) => {
                 const done = !!state.done[lesson.id];
                 const perfect = !!state.perfect[lesson.id];
+                /* 上のカセットと同じレッスンには印を付ける。
+                   黄色は使わない（1画面に1つ）ので、赤の枠で示す */
+                const isNext = next?.lesson.id === lesson.id;
                 return (
                   <PressCard
                     key={lesson.id}
+                    selected={isNext}
                     onPress={() => router.push(`/lesson/${lesson.id}`)}
-                    style={{ backgroundColor: done ? T.sunk : T.surface }}>
+                    style={isNext ? undefined : { backgroundColor: done ? T.sunk : T.surface }}>
                     <Row style={{ justifyContent: 'space-between' }}>
                       <Row gap={S.md} style={{ flex: 1 }}>
                         <Text style={{ fontFamily: FONT.mono, fontSize: 15, color: T.muted, width: 18 }}>
@@ -85,7 +156,7 @@ export default function LearnScreen() {
                       <Icon
                         name={perfect ? 'perfect' : done ? 'check' : 'play'}
                         size={17}
-                        color={done ? T.ok : T.muted}
+                        color={isNext ? T.accent : done ? T.ok : T.muted}
                       />
                     </Row>
                   </PressCard>

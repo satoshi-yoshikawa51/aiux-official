@@ -8,7 +8,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ProgressProvider, useProgress } from '@/store/progress';
-import { FONT, T } from '@/theme';
+import { C, FONT, T } from '@/theme';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -52,12 +52,16 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <ProgressProvider>
           <OnboardingGate ready={fontsReady}>
-            <StatusBar style="dark" />
+            {/* どの画面も上端は黒ベタ（帯 or Stackのヘッダー）なので、
+                ステータスバーの文字は白でないと読めない */}
+            <StatusBar style="light" />
             <Stack
               screenOptions={{
-                headerStyle: { backgroundColor: T.bg },
-                headerTintColor: T.text,
-                headerTitleStyle: { fontFamily: FONT.display, fontSize: 16 },
+                /* レッスンの帯。タブの画面が Screen の header で出しているものと
+                   同じ役目を、こちらは Stack のヘッダーが持つ（→ ui.tsx の ScreenHead） */
+                headerStyle: { backgroundColor: C.ink900 },
+                headerTintColor: C.paper50,
+                headerTitleStyle: { fontFamily: FONT.display, fontSize: 16, color: C.paper50 },
                 headerShadowVisible: false,
                 contentStyle: { backgroundColor: T.bg },
               }}>

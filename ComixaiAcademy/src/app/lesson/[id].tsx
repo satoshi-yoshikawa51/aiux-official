@@ -2,16 +2,19 @@
    レッスン。カードを送って読む → クイズ → 結果。
    カードの本文とプロンプトは、選んでいる職種にあわせて差し替わる
    （resolveCard がその解決をやっている）。
+
+   見た目の作法はホームに揃えてある。上の黒帯だけはこの画面の持ち物ではなく、
+   Stack のヘッダー（src/app/_layout.tsx で黒に塗ってある）が担っている。
    ============================================================ */
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import React from 'react';
-import { Platform, Pressable, ScrollView, Text, View, useWindowDimensions } from 'react-native';
+import { Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
-import { Badge, Bubble, Button, Card, Panel, Pop, Row } from '@/components/ui';
+import { Badge, Bubble, Button, Card, Cassette, Panel, Pill, Pop, Row, Screen } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { getBadge, type Title } from '@/data/badges';
 import { COURSES, getLesson, resolveCard } from '@/data/courses';
@@ -126,10 +129,9 @@ export default function LessonScreen() {
           : '終わりだ。間違えたところは、あとで戻ればいい。';
 
   return (
-    <View style={{ flex: 1, backgroundColor: T.bg }}>
-      <ScrollView
-        contentContainerStyle={{ padding: S.lg, paddingBottom: S.xxl * 2, gap: S.lg }}
-        showsVerticalScrollIndicator={false}>
+    /* 上は Stack のヘッダーが安全領域を飲んでいるので、ここでは下だけ見る */
+    <Screen edges={['bottom']} tone="dots" style={{ gap: S.lg, paddingBottom: S.xxl }}>
+      <>
         {/* 進み具合 */}
         <Row gap={3}>
           {lesson.cards.map((_, i) => (
@@ -284,7 +286,8 @@ export default function LessonScreen() {
         {/* ———— 結果 ———— */}
         {phase === 'result' ? (
           <View style={{ gap: S.lg }}>
-            <Panel tone="dots" tilt={-1} contentStyle={{ gap: S.sm, alignItems: 'center', paddingVertical: S.xl }}>
+            {/* 紙そのものに網点が敷いてあるので、このコマは白のまま抜く */}
+            <Panel tilt={-1} contentStyle={{ gap: S.sm, alignItems: 'center', paddingVertical: S.xl }}>
               <Row gap={6}>
                 <Icon name={course.icon} size={15} color={T.accent} />
                 <Text style={F.kicker}>{course.title}</Text>
@@ -333,13 +336,37 @@ export default function LessonScreen() {
               </Card>
             ) : null}
 
-            {nextLesson ? (
-              <Button label="次のレッスンへ" size="lg" onPress={() => router.replace(`/lesson/${nextLesson.id}`)} />
-            ) : null}
-            <Button label="ホームに戻る" variant="secondary" onPress={() => router.replace('/')} />
+            {/* ———— 次にやること ————
+                 ほぼ黒に沈めたコマに入れて、黄色いピルで印を付ける（ホームと同じ） */}
+            <Cassette>
+              {nextLesson ? (
+                <>
+                  <Row gap={8}>
+                    <Pill label="NEXT" />
+                    <Text
+                      style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
+                      numberOfLines={1}>
+                      {nextLesson.title}
+                    </Text>
+                  </Row>
+                  <Button
+                    label="次のレッスンへ"
+                    onPress={() => router.replace(`/lesson/${nextLesson.id}`)}
+                  />
+                </>
+              ) : (
+                <Row gap={8}>
+                  <Icon name="trophy" size={18} color={C.paper50} />
+                  <Text style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}>
+                    全課程、修了
+                  </Text>
+                </Row>
+              )}
+              <Button label="ホームに戻る" variant="secondary" onPress={() => router.replace('/')} />
+            </Cassette>
           </View>
         ) : null}
-      </ScrollView>
-    </View>
+      </>
+    </Screen>
   );
 }
