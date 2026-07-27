@@ -1,11 +1,15 @@
-/* オンボーディング1: 一緒に学ぶアバターを選ぶ。 */
+/* オンボーディング1: 一緒に学ぶアバターを選ぶ。
+
+   見た目の作法はホームに揃えてある。黄色いピルは「次にやること」の印なので、
+   ここでは STEP 表示がそれにあたる（1画面に1つ）。
+   キャラのコマだけは網点を敷かず白のままにする（紙から浮かせる）。 */
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
-import { Badge, Button, Panel, PressCard, Row, Screen, SectionHead } from '@/components/ui';
+import { Badge, Button, Panel, PressCard, Row, Screen, ScreenHead } from '@/components/ui';
 import { AVATARS, DEFAULT_AVATAR_ID, getAvatar, isReady } from '@/data/avatars';
 import { useProgress } from '@/store/progress';
 import { F, POP, S, T } from '@/theme';
@@ -25,10 +29,18 @@ export default function AvatarPickScreen() {
   };
 
   return (
-    <Screen edges={['top', 'bottom']}>
-      <SectionHead kicker="STEP 1 / 2" title="誰と学ぶ？" hand="ホーム画面にずっといる相棒。あとから変えられる" />
-
-      <Panel tone="dots" caption={avatar.tagline} contentStyle={{ alignItems: 'center', paddingBottom: S.xl + S.sm }}>
+    <Screen
+      edges={['top', 'bottom']}
+      tone="dots"
+      header={
+        <ScreenHead
+          pill="STEP 1 / 2"
+          title="誰と学ぶ？"
+          note="ホーム画面にずっといる相棒"
+          noteRight="あとから変えられる"
+        />
+      }>
+      <Panel caption={avatar.tagline} contentStyle={{ alignItems: 'center', paddingBottom: S.xl + S.sm }}>
         <Avatar3D key={avatar.id} avatar={avatar} width={stageW} height={Math.round(stageW * 0.95)} />
       </Panel>
 

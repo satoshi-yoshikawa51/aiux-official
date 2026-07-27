@@ -1,46 +1,72 @@
-/* バッジと称号。未獲得は伏せて、匂わせだけ出す（サイトの図鑑と同じ作法）。 */
+/* バッジと称号。未獲得は伏せて、匂わせだけ出す（サイトの図鑑と同じ作法）。
+
+   見た目の作法はホームに揃えてある。
+   ・いまの称号は**黒帯そのもの**が持つ（浮いた黒カードにすると、
+     上のタブバーとの黒ではさむ効きが消えて、ただの島になる）
+   ・「次にやること」＝次の称号。黒いカセットに黄色いピルで1つだけ置く */
 import React from 'react';
 import { Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { Badge, Panel, Pop, Progress, Row, Screen, SectionHead, Tone } from '@/components/ui';
-import { BADGES, TITLES } from '@/data/badges';
+import { Badge, Cassette, Panel, Pill, Pop, Row, Screen, ScreenHead } from '@/components/ui';
+import { BADGES, TITLES, nextTitle } from '@/data/badges';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 export default function BadgesScreen() {
   const { state } = useProgress();
   const stats = useStats();
+  const upcoming = nextTitle(stats.badgeCount);
+
+  const header = (
+    <ScreenHead
+      kicker="CURRENT RANK"
+      size="md"
+      icon={<Icon name={stats.title.icon} size={26} color={C.paper0} />}
+      title={stats.title.name}
+      right={
+        <Text style={{ fontFamily: FONT.mono, fontSize: 16, color: C.paper50 }}>
+          {stats.badgeCount}
+          <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300 }}>
+            /{stats.badgeTotal}
+          </Text>
+        </Text>
+      }
+      progress={{ value: stats.badgeCount, total: stats.badgeTotal }}
+      note={`レッスン ${stats.doneCount}/${stats.total}本 ・ ${stats.streak}日連続`}
+      noteRight={upcoming ? `あと${upcoming.need - stats.badgeCount}で 上がる` : 'MAX'}
+    />
+  );
 
   return (
-    <Screen>
-      <SectionHead
-        kicker="BADGES & RANKS"
-        title="バッジ"
-        hand={`${stats.badgeCount} / ${stats.badgeTotal} 個を獲得`}
-      />
-
-      {/* いまの称号 */}
-      <Pop radius={R.md}>
-        <Tone
-          tone="lines"
-          style={{
-            backgroundColor: C.ink900,
-            borderWidth: BW.bold,
-            borderColor: C.ink900,
-            borderRadius: R.md,
-            padding: S.lg,
-            gap: S.sm,
-            overflow: 'hidden',
-          }}>
-          <Text style={[F.kicker, { color: C.red100 }]}>CURRENT RANK</Text>
-          <Row gap={S.sm}>
-            <Icon name={stats.title.icon} size={30} color={C.paper0} />
-            <Text style={[F.title, { color: C.paper50, flex: 1 }]}>{stats.title.name}</Text>
+    <Screen header={header} tone="dots">
+      {/* ———— 次の称号 ———— */}
+      {upcoming ? (
+        <Cassette>
+          <Row gap={8}>
+            <Pill label="NEXT" />
+            <Icon name={upcoming.icon} size={18} color={C.paper50} />
+            <Text style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]} numberOfLines={1}>
+              {upcoming.name}
+            </Text>
+            <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300 }}>
+              BADGE {upcoming.need}
+            </Text>
           </Row>
-          <Progress value={stats.badgeCount} total={stats.badgeTotal} />
-        </Tone>
-      </Pop>
+          <Text style={[F.hand, { color: C.paper100 }]}>
+            あと{upcoming.need - stats.badgeCount}個で「{upcoming.name}」になる
+          </Text>
+        </Cassette>
+      ) : (
+        <Cassette>
+          <Row gap={8}>
+            <Icon name="crown" size={18} color={C.paper50} />
+            <Text style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}>
+              称号はここが終点
+            </Text>
+          </Row>
+        </Cassette>
+      )}
 
       {/* 称号の階段 */}
       <View style={{ gap: S.sm }}>
@@ -94,7 +120,9 @@ export default function BadgesScreen() {
           {BADGES.map((b) => {
             const got = !!state.badges[b.id];
             return got ? (
-              <Panel key={b.id} tone="dots" style={{ width: '46%' }} contentStyle={{ gap: 4, padding: S.md }}>
+              /* 紙そのものに網点が敷いてあるので、獲得済みのコマは白のまま抜く
+                 （ここにも網点を足すと、地と見分けが付かなくなる） */
+              <Panel key={b.id} style={{ width: '46%' }} contentStyle={{ gap: 4, padding: S.md }}>
                 <Icon name={b.icon} size={28} color={T.text} />
                 <Text style={[F.strong, { fontSize: 14 }]}>{b.name}</Text>
                 <Text style={F.tiny}>{b.desc}</Text>

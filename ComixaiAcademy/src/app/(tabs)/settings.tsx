@@ -1,16 +1,20 @@
-/* せってい。アバター・職種の変更と、記録のリセット。 */
+/* せってい。アバター・職種の変更と、記録のリセット。
+
+   見た目の作法はホームに揃えてある（黒帯・網点の紙・黒いカセット）。
+   この画面には「次にやること」が無いので、**黄色いピルは置かない**。
+   黒いカセットは記録（消すと戻せないもの）に使う。 */
 import { useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { Badge, Card, PressCard, Row, Screen, SectionHead } from '@/components/ui';
+import { Badge, Card, Cassette, PressCard, Row, Screen, ScreenHead } from '@/components/ui';
 import { AVATARS, getAvatar, isReady } from '@/data/avatars';
 import { ROLES, getRole } from '@/data/roles';
 import type { RoleId } from '@/data/types';
 import { useProgress, useStats } from '@/store/progress';
-import { F, FONT, S, T } from '@/theme';
+import { C, F, FONT, S, T } from '@/theme';
 
 const SITE = 'https://comixai.dev';
 
@@ -35,10 +39,17 @@ export default function SettingsScreen() {
     ]);
   };
 
-  return (
-    <Screen>
-      <SectionHead kicker="SETTINGS" title="せってい" />
+  const header = (
+    <ScreenHead
+      kicker="SETTINGS"
+      title="せってい"
+      note={`${avatar.name} ・ ${role?.name ?? '職種えらび中'}`}
+      noteRight="いつでも変えられる"
+    />
+  );
 
+  return (
+    <Screen header={header} tone="dots">
       {/* アバター */}
       <View style={{ gap: S.md }}>
         <Row style={{ justifyContent: 'space-between' }}>
@@ -92,17 +103,24 @@ export default function SettingsScreen() {
       </View>
 
       {/* 記録 */}
-      <Card tone="sunk">
-        <Text style={F.h1}>記録</Text>
-        <Text style={{ fontFamily: FONT.mono, fontSize: 12, color: T.body, lineHeight: 20 }}>
+      <Cassette>
+        <Text style={[F.h1, { color: C.paper50 }]}>記録</Text>
+        <Text style={{ fontFamily: FONT.mono, fontSize: 12, color: C.paper100, lineHeight: 20 }}>
           DONE {stats.doneCount}/{stats.total} ・ BADGE {stats.badgeCount}/{stats.badgeTotal} ・ STREAK{' '}
           {stats.streak}
         </Text>
-        <Text style={F.hand}>この端末の中だけに保存される。アプリを消すと一緒に消える。</Text>
+        <Text style={[F.hand, { color: C.ink300 }]}>
+          この端末の中だけに保存される。アプリを消すと一緒に消える。
+        </Text>
+        {/* 消すのは取り消せないので、赤いボタンの見た目にはしない。
+            黒の上では red500 が沈むので、文字は red100 で出す */}
         <Pressable onPress={confirmReset} style={{ paddingVertical: S.sm }}>
-          <Text style={[F.strong, { color: T.accent }]}>記録をぜんぶ消す</Text>
+          <Row gap={6}>
+            <Icon name="bang" size={15} color={C.red100} />
+            <Text style={[F.strong, { color: C.red100 }]}>記録をぜんぶ消す</Text>
+          </Row>
         </Pressable>
-      </Card>
+      </Cassette>
 
       {/* リンク */}
       <Card>

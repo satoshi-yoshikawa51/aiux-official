@@ -15,14 +15,14 @@ import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
-import { Bubble, Button, Panel, Progress, Row, Screen } from '@/components/ui';
+import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
 import { useProgress, useStats } from '@/store/progress';
-import { BW, C, F, FONT, R, S, T } from '@/theme';
+import { C, F, FONT, S } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
 const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
@@ -145,44 +145,29 @@ export default function HomeScreen() {
   const upcoming = nextTitle(stats.badgeCount);
 
   /* ———— 称号の帯 ————
-     画面の端まで届く黒ベタ。枠もベタ影も付けない。
-     下のタブバーと同じ黒で挟むことで、あいだが「紙」として立つ */
+     この画面はキッカーを置かず、称号そのものを見出しにする（size="md"）。
+     背の低い画面では帯も詰める。568の画面で85は取りすぎで、
+     そのぶんがまるごとアバターの取り分から引かれていた */
   const header = (
-    /* 背の低い画面では帯も詰める。568の画面で85は取りすぎで、
-       そのぶんがまるごとアバターの取り分から引かれていた */
-    <View
-      style={{
-        paddingHorizontal: S.lg,
-        paddingTop: short ? 4 : S.sm,
-        paddingBottom: short ? S.sm : S.md,
-        gap: short ? 4 : 6,
-      }}>
-      <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-        <Row gap={6} style={{ flex: 1 }}>
-          <Icon name={stats.title.icon} size={21} color={C.paper0} />
-          <Text style={[F.h2, { color: C.paper50 }]} numberOfLines={1}>
-            {stats.title.name}
-          </Text>
-        </Row>
+    <ScreenHead
+      compact={short}
+      size="md"
+      icon={<Icon name={stats.title.icon} size={21} color={C.paper0} />}
+      title={stats.title.name}
+      right={
         <Text style={{ fontFamily: FONT.mono, fontSize: 16, color: C.paper50 }}>
           {stats.badgeCount}
           <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300 }}>
             /{stats.badgeTotal}
           </Text>
         </Text>
-      </Row>
-      <Progress value={stats.badgeCount} total={stats.badgeTotal} />
-      <Row style={{ justifyContent: 'space-between' }}>
-        <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.ink300, letterSpacing: 0.6 }}>
-          {stats.streak}日連続 ・ {stats.doneCount}/{stats.total}本 ・ {stats.percent}%
-        </Text>
-        {/* 「NEXT」は下のカードの黄色いピルが持っているので、こちらは使わない
-            （同じ画面に別の意味のNEXTが2つ出る）。あと何個で上がるかを出す */}
-        <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.red100, letterSpacing: 0.6 }}>
-          {upcoming ? `あと${upcoming.need - stats.badgeCount}で ${upcoming.name}` : 'MAX'}
-        </Text>
-      </Row>
-    </View>
+      }
+      progress={{ value: stats.badgeCount, total: stats.badgeTotal }}
+      note={`${stats.streak}日連続 ・ ${stats.doneCount}/${stats.total}本 ・ ${stats.percent}%`}
+      /* 「NEXT」は下のカセットの黄色いピルが持っているので、帯では使わない
+         （同じ画面に別の意味のNEXTが2つ出る）。あと何個で上がるかを出す */
+      noteRight={upcoming ? `あと${upcoming.need - stats.badgeCount}で ${upcoming.name}` : 'MAX'}
+    />
   );
 
   return (
@@ -242,25 +227,9 @@ export default function HomeScreen() {
            出るのはこの上。コマ番号（左上の黒い角）はやめて、行の頭に
            黄色いピルを置く（角に重ねるとコースのアイコンとぶつかる） */}
       {next ? (
-        <Panel
-          surface={C.ink800}
-          tone="dots-light"
-          contentStyle={{ padding: short ? S.sm : S.md, gap: short ? 6 : S.sm }}>
+        <Cassette compact={short}>
           <Row gap={8}>
-            <View
-              style={{
-                backgroundColor: C.yellow400,
-                borderWidth: BW.bold,
-                borderColor: T.border,
-                borderRadius: R.full,
-                paddingHorizontal: 9,
-                paddingVertical: 2,
-              }}>
-              <Text
-                style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 1, color: C.ink900 }}>
-                NEXT
-              </Text>
-            </View>
+            <Pill label="NEXT" />
             <Icon name={next.course.icon} size={18} color={C.paper50} />
             <Text
               style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
@@ -273,7 +242,7 @@ export default function HomeScreen() {
             size="sm"
             onPress={() => router.push(`/lesson/${next.lesson.id}`)}
           />
-        </Panel>
+        </Cassette>
       ) : (
         <Panel contentStyle={{ padding: S.md, gap: S.xs }}>
           <Text style={F.h2}>全課程、修了</Text>
