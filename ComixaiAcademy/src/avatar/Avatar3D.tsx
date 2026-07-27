@@ -60,6 +60,10 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
   const currentRef = React.useRef<THREE.AnimationAction | null>(null);
   const emoteTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const disposedRef = React.useRef(false);
+  /* GLコンテキストの世代。枠の寸法が変わるとGLViewを作り直すので、
+     **古い描画ループを止める**ために使う。止めないと、破棄済みの
+     コンテキストに render して落ちる */
+  const genRef = React.useRef(0);
 
   const [emoteIcon, setEmoteIcon] = React.useState<IconName | null>(null);
   const [status, setStatus] = React.useState<'loading' | 'ready' | 'failed'>('loading');
@@ -108,6 +112,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
   const onContextCreate = React.useCallback(
     async (gl: ExpoWebGLRenderingContext) => {
       if (!model) return;
+      const gen = ++genRef.current;
       try {
         const renderer = new Renderer({ gl, alpha: true });
         renderer.setClearColor(0x000000, 0);
@@ -129,12 +134,12 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
             new TextureLoader().load(model.texture, res as (t: unknown) => void, undefined, rej),
           ),
         ]);
-        if (disposedRef.current) return;
+        if (disposedRef.current || genRef.current !== gen) return;
 
         const gltf = await new Promise<GLTF>((res, rej) =>
           new GLTFLoader().parse(buffer, '', res, rej),
         );
-        if (disposedRef.current) return;
+        if (disposedRef.current || genRef.current !== gen) return;
 
         /* 外出ししたベースカラーを貼り直す。
            glTFのUVは左上原点なので flipY = false が必須 */
@@ -168,7 +173,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
 
         const clock = new THREE.Clock();
         const loop = () => {
-          if (disposedRef.current) return;
+          if (disposedRef.current || genRef.current !== gen) return;
           requestAnimationFrame(loop);
           mixer.update(clock.getDelta());
           renderer.render(scene, camera);
@@ -195,7 +200,11 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
 
   return (
     <View style={[styles.host, { width, height }]} pointerEvents="none">
-      <GLView style={{ width, height }} onContextCreate={onContextCreate} />
+      {/* カメラの画角と描画サイズは onContextCreate の1回しか決まらない。
+          あとから幅・高さが変わっても追従しないので、**そのときは作り直す**。
+          追従しないままだと、古い寸法で焼いた絵が新しい枠に貼られて
+          頭が切れる（狭い端末でフキダシの実測後に枠が縮むと起きた）。 */}
+      <GLView key={`${width}x${height}`} style={{ width, height }} onContextCreate={onContextCreate} />
       {status === 'loading' && (
         <View style={styles.overlay}>
           <ActivityIndicator color={T.muted} />

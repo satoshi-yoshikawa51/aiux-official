@@ -34,8 +34,15 @@ const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
   { say: 'よし、いい顔になってきた。', motion: 'laugh', emote: 'sparkle' },
 ];
 
-/** アバターの見た目の縦横比（高さ ÷ 幅） */
-const AVATAR_RATIO = 0.92;
+/* アバターの見た目の縦横比（高さ ÷ 幅）。
+
+   3Dカメラの縦画角は固定なので、**この置き場が縦に伸びたぶんだけ
+   キャラも大きく描かれる**（同じ world 幅がより多い画素に載る）。
+   背景の教室は「立った人の目の高さ」から描いてあるため、キャラの
+   目線が地平線に届いていないと背の低い人に見える。0.92 では届かず、
+   身長125cm相当に見えていたので縦に伸ばしてある。
+   キャラの横幅は置き場の半分も無いので、縦に伸ばしても見切れない。 */
+const AVATAR_RATIO = 1.1;
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -46,9 +53,21 @@ export default function HomeScreen() {
   const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
 
-  /* コマの中身の高さ。狭い端末ではフキダシを詰めてアバターの取り分を増やす */
+  /* コマの中身の高さ。狭い端末ではフキダシを詰めてアバターの取り分を増やす。
+     しきい値はSE（コマの中身が約330）が入るように取ってある。ここを
+     下回る端末でアバターを大きいままにすると、フキダシが上にはみ出て
+     1行目が読めなくなる */
   const [area, setArea] = React.useState(0);
-  const tight = area > 0 && area < 300;
+  const tight = area > 0 && area < 380;
+
+  /* アバターに回せる高さ。フキダシの実測値から引いて出す。
+
+     割合（`88%` など）で決めると、フキダシが2行になった端末で
+     合計が中身の高さを超え、**フキダシが上へ押し出されてキャラに
+     かぶる**。セリフは長さが変わるので、割合では当てられない。
+     測ってから引く。 */
+  const [bubbleH, setBubbleH] = React.useState(0);
+  const avatarMax = area > 0 && bubbleH > 0 ? Math.max(0, area - bubbleH - S.sm) : undefined;
 
   /* アバターを置ける実寸。onLayoutで測ってから3Dを描く */
   const [box, setBox] = React.useState({ w: 0, h: 0 });
@@ -139,22 +158,23 @@ export default function HomeScreen() {
         <View
           style={{ flex: 1, justifyContent: 'flex-end', gap: S.sm }}
           onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
-          <Bubble
-            text={greeting}
-            compact={tight}
-            numberOfLines={tight ? 3 : undefined}
-            style={{ marginRight: 3, marginLeft: 3 }}
-          />
+          <View onLayout={(e) => setBubbleH(e.nativeEvent.layout.height)}>
+            <Bubble
+              text={greeting}
+              compact={tight}
+              numberOfLines={tight ? 3 : undefined}
+              style={{ marginRight: 3, marginLeft: 3 }}
+            />
+          </View>
           {/* アバターの置き場は縦横比で決める（flex:1 だと余った高さを全部
-              取ってしまい、フキダシがキャラから離れる）。狭い端末では
-              maxHeight が効いて、そのぶん小さく描かれる */}
+              取ってしまい、フキダシがキャラから離れる）。 */}
           <Pressable
             onPress={poke}
             onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
             style={{
               width: '100%',
               aspectRatio: 1 / AVATAR_RATIO,
-              maxHeight: '76%',
+              maxHeight: avatarMax ?? (tight ? '74%' : '88%'),
               alignItems: 'center',
               justifyContent: 'flex-end',
             }}>
