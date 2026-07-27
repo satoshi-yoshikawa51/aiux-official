@@ -187,7 +187,7 @@ assets/images/stage-classroom.jpg  コマに敷くもの
 ```ts
 export const STAGE = require('@/assets/images/stage-classroom.jpg');
 export const STAGE_RATIO = 0.637;    // 絵の 幅÷高さ
-export const STAGE_WALL = '#7f6b3e'; // 絵のいちばん上の色
+export const STAGE_WALL = '#736340'; // 絵のいちばん上の色
 ```
 
 #### なぜ下端に揃えて敷くのか
@@ -215,9 +215,27 @@ iPhone SEでは**横長**になる。`cover` の中央切りだと、狭い端�
 あわせて、立ち位置に**やわらかい楕円の影を焼き込む**。3Dのキャラは
 影を持たないので、これが無いと床に貼りついて見える。
 
+#### なぜぼかすのか（いちばん効く処理）
+
+3Dのキャラは固定のカメラで描かれていて、MJが描いた部屋の遠近とは
+一致しない。実測したところ、この絵の**地平線はキャラの顎を通っていた**
+（本来は目の高さに来る）。ズレ自体は12%ほどだが、背景がくっきりして
+いると脳が窓や床の大きさとキャラを比べてしまい、**「小人が立っている」**
+ように見える。
+
+ぼかすと背景が「遠く」として処理されて、比べるのをやめる。
+アバター系のアプリが軒並み背景をぼかしているのはこのため。
+あわせて明るさと彩度を少し落とし、キャラを前に出す。
+
+遠近のズレの残りは、ホーム側で `AVATAR_ZOOM`（`src/app/(tabs)/index.tsx`）
+を上げて詰めている。3Dのカメラは選択画面と共用なので触らず、
+キャンバスだけを大きくして足元を揃えたまま上へはみ出させている。
+
 ```bash
 npm run stage:prepare -- assets/images/_raw/classroom.png
 CROP_BOTTOM=0.16 npm run stage:prepare -- 元.png   # 削る量を変える
+BLUR=12          npm run stage:prepare -- 元.png   # もっとぼかす（0で無効）
+BRIGHTNESS=0.85  npm run stage:prepare -- 元.png   # もっと沈める
 SHADOW=0.45      npm run stage:prepare -- 元.png   # 影を濃くする
 ```
 
@@ -225,7 +243,8 @@ SHADOW=0.45      npm run stage:prepare -- 元.png   # 影を濃くする
 切って、フキダシとキャラの位置を重ねてある。**いちばん横長の
 iPhone SE で床と窓と黒板が残っていれば合格**。
 
-出力はJPEG。透過が要らないので、PNGだと2.4MBのところが130KBで済む。
+出力はJPEG。透過が要らないので、PNGだと2.4MBのところが**48KB**で済む
+（ぼかすと情報量が減るぶん、さらに小さくなる）。
 
 #### 構図の決まりごと
 

@@ -8,10 +8,19 @@
 
    ここでやること:
    1. 下（床）を削って、地平線を下げる
-   2. 立ち位置に、やわらかい楕円の影を焼き込む
+   2. **ぼかして、少し沈める**（下の「なぜぼかすのか」）
+   3. 立ち位置に、やわらかい楕円の影を焼き込む
       （3Dのキャラは影を持たないので、これが無いと浮いて見える）
-   3. 出来上がりの縦横比を出す（src/data/stage.ts の STAGE_RATIO に入れる）
-   4. 実測した3端末のコマの比率で切って、確認用に並べる
+   4. 出来上がりの縦横比を出す（src/data/stage.ts の STAGE_RATIO に入れる）
+   5. 実測した3端末のコマの比率で切って、確認用に並べる
+
+   ▍なぜぼかすのか
+   3Dのキャラは固定のカメラで描かれていて、MJが描いた部屋の遠近とは
+   一致しない。実測すると、この絵の地平線はキャラの**顎**を通っていた
+   （本来は目の高さに来る）。ズレは12%ほどだが、背景がくっきりしていると
+   脳が窓や床の大きさとキャラを比べてしまい、「小人が立っている」ように
+   見える。ぼかすと背景が「遠く」として処理され、比べるのをやめる。
+   アバター系のアプリが軒並み背景をぼかしているのはこのため。
 
    使い方:
      # 元画像を assets/images/_raw/ に置いてから
@@ -36,6 +45,12 @@ if (!SRC) {
 
 /** 下から削る割合。地平線を下げるほど、キャラが床に立って見える */
 const CROP_BOTTOM = Number(process.env.CROP_BOTTOM ?? 0.16);
+
+/** ぼかし（元画像の画素での sigma）。0で無効 */
+const BLUR = Number(process.env.BLUR ?? 8);
+/** 明るさ・彩度。1で無効。キャラを前に出すため、背景は少し沈める */
+const BRIGHTNESS = Number(process.env.BRIGHTNESS ?? 0.92);
+const SATURATION = Number(process.env.SATURATION ?? 0.8);
 
 /** 実測でいちばん縦長だったコマの比率。これを超えると上に隙間が出る */
 const MAX_RATIO = 0.672;
@@ -73,12 +88,21 @@ const shadow = await sharp(
   .png()
   .toBuffer();
 
-/* JPEGで出す。透過が要らないぶんPNGより一桁小さくなる
-   （この絵で 2.4MB -> 250KB 程度）。アプリに積む画像なので効く */
-await sharp(SRC)
+/* ぼかしと沈めは影を焼く**前**に掛ける。影までぼかすと、
+   せっかく足元に置いた輪郭が消えてしまう */
+const base = await sharp(SRC)
   .extract({ left: 0, top: 0, width: W, height: H })
+  .modulate({ brightness: BRIGHTNESS, saturation: SATURATION })
+  .blur(BLUR > 0 ? BLUR : undefined)
+  .png()
+  .toBuffer();
+
+/* JPEGで出す。透過が要らないぶんPNGより一桁小さくなる
+   （ぼかしたぶん更に縮んで、この絵で 2.4MB -> 60KB 程度）。
+   アプリに積む画像なので効く */
+await sharp(base)
   .composite([{ input: shadow, left: 0, top: 0 }])
-  .jpeg({ quality: 84, mozjpeg: true })
+  .jpeg({ quality: 82, mozjpeg: true })
   .toFile(dst);
 
 const ratio = W / H;

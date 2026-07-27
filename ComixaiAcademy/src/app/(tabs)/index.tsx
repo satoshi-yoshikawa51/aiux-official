@@ -44,6 +44,13 @@ const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
    キャラの横幅は置き場の半分も無いので、縦に伸ばしても見切れない。 */
 const AVATAR_RATIO = 1.1;
 
+/* ▍かつてここに AVATAR_ZOOM（キャンバスを置き場より大きくして上へはみ出させる）
+   があった。「小人に見える」への対処としては AVATAR_RATIO と同じ狙いで、
+   **両方を掛けると1.3倍になって行き過ぎる**ので片方に寄せてある。
+   はみ出させる方式をやめたのは、上へ伸びたキャラがフキダシに潜り込んで
+   顔が隠れるため（Pressableはフキダシより後ろの兄弟なので上に描かれる）。
+   置き場ごと縦に伸ばす AVATAR_RATIO なら、フキダシの居場所を奪わない。 */
+
 export default function HomeScreen() {
   const router = useRouter();
   const { state } = useProgress();
