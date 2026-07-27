@@ -11,6 +11,7 @@ import { Asset } from 'expo-asset';
 import * as Haptics from 'expo-haptics';
 import React from 'react';
 import {
+  Image,
   ImageBackground,
   Platform,
   Pressable,
@@ -18,15 +19,17 @@ import {
   StyleSheet,
   Text,
   View,
+  type ImageSourcePropType,
   type StyleProp,
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
-import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
 
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 const TONE_DOTS = require('@/assets/images/tone-dots.png');
+const TONE_DOTS_LIGHT = require('@/assets/images/tone-dots-light.png');
 const TONE_LINES = require('@/assets/images/tone-lines.png');
 
 /* ———————————————— スクリーントーン ————————————————
@@ -34,9 +37,11 @@ const TONE_LINES = require('@/assets/images/tone-lines.png');
    react-native-web は repeat に対応していないので、Webのときだけ
    CSSの background-repeat に落とす。 */
 
-export type ToneKind = 'none' | 'dots' | 'lines';
+/** dots=黒い点（紙の上） / dots-light=白い点（黒地の上） */
+export type ToneKind = 'none' | 'dots' | 'dots-light' | 'lines';
 
-const toneSource = (t: ToneKind) => (t === 'dots' ? TONE_DOTS : TONE_LINES);
+const toneSource = (t: ToneKind) =>
+  t === 'dots' ? TONE_DOTS : t === 'dots-light' ? TONE_DOTS_LIGHT : TONE_LINES;
 
 export function Tone({
   tone,
@@ -107,32 +112,57 @@ export function Pop({
 
 export function Screen({
   children,
+  /** 画面上部に端まで敷く黒ベタの帯。ステータスバーの裏まで伸ばす */
+  header,
   edges = ['top'],
   scroll = true,
+  /** 紙（本文の地）に敷くスクリーントーン */
+  tone = 'none',
+  /** 網点の濃さ。薄くしたいときだけ 0.5 くらいを渡す */
+  toneOpacity = 1,
   style,
 }: {
   children: React.ReactNode;
+  header?: React.ReactNode;
   edges?: Edge[];
   scroll?: boolean;
+  tone?: ToneKind;
+  toneOpacity?: number;
   style?: StyleProp<ViewStyle>;
 }) {
+  const insets = useSafeAreaInsets();
   /* タブバーは内容に覆いかぶさらないので、下は素の余白でよい。
      スクロールする画面だけ、最後の要素が窮屈に見えないよう少し多めに取る */
   const bottomPad = scroll ? S.xxl : S.lg;
 
+  /* 帯があるときは、帯自身がステータスバーぶんを飲み込むので
+     SafeAreaView に上を任せない（任せると帯の上に紙の余白が出る） */
+  const safeEdges = header ? edges.filter((e) => e !== 'top') : edges;
+
+  const body = scroll ? (
+    <ScrollView
+      contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
+      showsVerticalScrollIndicator={false}>
+      {children}
+    </ScrollView>
+  ) : (
+    <View style={[{ flex: 1 }, styles.screenPad, { paddingBottom: bottomPad }, style]}>
+      {children}
+    </View>
+  );
+
   return (
-    <SafeAreaView style={styles.screen} edges={edges}>
-      {scroll ? (
-        <ScrollView
-          contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
-          showsVerticalScrollIndicator={false}>
-          {children}
-        </ScrollView>
-      ) : (
-        <View style={[{ flex: 1 }, styles.screenPad, { paddingBottom: bottomPad }, style]}>
-          {children}
-        </View>
-      )}
+    <SafeAreaView style={styles.screen} edges={safeEdges}>
+      {header ? (
+        <View style={{ backgroundColor: C.ink900, paddingTop: insets.top }}>{header}</View>
+      ) : null}
+      {/* 紙。網点はここだけに敷く（黒ベタの帯とタブバーには掛からない） */}
+      <View style={{ flex: 1 }}>
+        {tone !== 'none' && (
+          <Tone tone={tone} style={[StyleSheet.absoluteFill, { opacity: toneOpacity }]} />
+        )}
+        {body}
+      </View>
     </SafeAreaView>
   );
 }
@@ -192,6 +222,10 @@ export function Card({
 export function Panel({
   children,
   tone = 'none',
+  surface = T.surface,
+  bg,
+  bgRatio,
+  bgColor,
   number,
   caption,
   tilt = 0,
@@ -201,6 +235,16 @@ export function Panel({
 }: {
   children: React.ReactNode;
   tone?: ToneKind;
+  /** コマの地の色。既定は白。C.ink800 のようにベタで沈めて
+      tone="dots-light" を敷くと、黄と赤がいちばん強く出る */
+  surface?: string;
+  /** コマの地に敷く絵。中身はこの上に重なる */
+  bg?: ImageSourcePropType;
+  /** bg の縦横比（幅÷高さ）。渡すと**下端に揃えて**敷き、上のはみ出しは切る。
+      コマの高さは端末で大きくぶれるので、床を残したい絵はこれを使う */
+  bgRatio?: number;
+  /** bg が届かない上側を埋める色。絵のいちばん上と同じ色にする */
+  bgColor?: string;
   number?: string;
   caption?: string;
   /** 傾き（度）。±1〜3くらいが効く */
@@ -213,13 +257,33 @@ export function Panel({
   const inner = (
     <View
       style={{
-        backgroundColor: T.surface,
+        backgroundColor: surface,
         borderWidth: BW.bold,
         borderColor: T.border,
         borderRadius: R.sm,
         overflow: 'hidden',
         ...(fill ? { flex: 1 } : null),
       }}>
+      {bg ? (
+        <>
+          {bgColor ? <View style={[StyleSheet.absoluteFill, { backgroundColor: bgColor }]} /> : null}
+          {bgRatio ? (
+            /* 縦横比は**外側のView**に持たせる。Image に直接 aspectRatio を
+               書いても react-native-web は画像の自然サイズで高さを決めてしまい、
+               効かない。上のはみ出しはコマの overflow:'hidden' が切る */
+            <View
+              style={{ position: 'absolute', left: 0, right: 0, bottom: 0, aspectRatio: bgRatio }}>
+              <Image source={bg} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
+            </View>
+          ) : (
+            <Image
+              source={bg}
+              resizeMode="cover"
+              style={[StyleSheet.absoluteFill, { width: '100%', height: '100%' }]}
+            />
+          )}
+        </>
+      ) : null}
       <Tone tone={tone} style={[{ padding: S.lg, gap: S.sm }, fill && { flex: 1 }, contentStyle]}>
         {children}
       </Tone>

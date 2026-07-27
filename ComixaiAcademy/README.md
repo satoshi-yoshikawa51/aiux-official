@@ -78,9 +78,13 @@ ComixaiAcademy/
 ├── src/components/ui.tsx    UI部品（サイトの ds.tsx の移植）
 ├── src/store/progress.tsx   進捗・バッジ判定・永続化
 ├── src/theme/               デザイントークン（サイトの globals.css を移植）
+├── assets/images/           アプリアイコン・スクリーントーン・舞台の絵
+│   └── _raw/                Midjourneyの元画像（加工前。削る量を変えられるよう残す）
 ├── assets/models/           sensei.glb と外出ししたテクスチャ
 ├── assets/fonts/            サブセット済みの書体（→ assets/fonts/README.md）
-└── tools/                   GLB変換・フォントサブセット・トーン/アイコン生成
+└── tools/                   GLB変換・フォントサブセット・トーン／アイコン／背景の下ごしらえ
+                             （アプリ内アイコン＝build-icons / アプリアイコン＝build-app-icon
+                              / 背景＝prepare-stage）
 ```
 
 ## 見た目のルール
@@ -105,7 +109,7 @@ ComixaiAcademy/
   置き換えてある。単色なので、置く場所にあわせて色を渡す（黒地では白抜き、紙の上ではインク）。
   タブは選択中に赤の丸ベタが入る。
 
-### アイコンを描き直すとき
+### アプリ内のアイコンを描き直すとき
 
 タブでの表示は22px前後しかないので、**PNGにせずSVG（ベクター）で持つ**こと。
 この小ささではPNGは@3xでも輪郭が甘くなるうえ、色ごとに書き出しが要る。
@@ -122,7 +126,7 @@ ComixaiAcademy/
 `tools/build-icons.mjs` に集約してある:
 
 ```bash
-node tools/build-icons.mjs
+npm run icons:ui     # = node tools/build-icons.mjs
 #  -> realsize.png  22pxで実際にラスタライズして8倍に拡大（端末で見える通り）
 #  -> sheet.png     22/44/88px＋白抜き／黒版の一覧
 #  -> src/components/icon-paths.ts  アプリが読むパスデータ（自動生成）
@@ -137,6 +141,150 @@ node tools/build-icons.mjs
 
 アイコンを増やすときは `tools/build-icons.mjs` の `ICONS` に足して再実行すれば、
 型（`IconName`）まで通る。
+
+### アプリアイコンと起動画面
+
+ホーム画面に出るアイコンは別のツール。**PNGを手で触らず、ここから全サイズ焼く。**
+
+```bash
+npm run icons:app     # = node tools/build-app-icon.mjs
+#  -> assets/images/ の6枚 ＋ public/app-icon.png
+#  -> tools/.icon-preview/app-icon.png        120px（iPhoneの60pt）で焼いて5倍
+#  -> tools/.icon-preview/app-icon-masks.png  Androidの3種のマスク＋起動画面
+```
+
+絵は「黄色の地に網点、黒ベタの角帽、赤いキラリ」。形は `tools/build-app-icon.mjs`
+の `CAP_BOARD` / `CAP_TASSEL` / `M`（配置の比率）にまとまっている。
+
+書き出し先ごとに約束ごとが違うので、ツール側で吸収してある：
+
+| 出力 | 約束ごと |
+| --- | --- |
+| `icon.png` (1024) | iOS・ストア用。**透過なし・角丸なし**（iOSが自分で丸める） |
+| `android-icon-foreground.png` (512) | 見えるのは**中央66%（72dp/108dp）の円**だけ。`markFitted()` がそこに収まる倍率を計算している |
+| `android-icon-background.png` (512) | 黄色＋網点のベタ |
+| `android-icon-monochrome.png` (432) | テーマアイコン。システムが色を塗るので**白の形だけ**。キラリは団子に見えるので入れない |
+| `splash-icon.png` (512) | 紙色の上に置くので、**タイルごと角丸**で出す。大きさは `app.json` の `imageWidth` |
+| `public/app-icon.png` (512) | 「ホーム画面に追加」で出るもの。iOSは透過を黒で合成するので**透過なし** |
+
+**判断は `app-icon.png` の実寸のコマで行う。** ホーム画面では60pt＝120px程度に
+しかならない。この工程で「房が板から切り離された棒に見える」「房とアタマが
+くっついて潰れる」「Androidのマスクで帽子のフチが欠ける」を見つけて直している。
+
+### アバターが立つ背景（舞台）
+
+ホームのコマには、アバターがそこに立って見えるよう絵を敷いている。
+Midjourneyで描いた元画像を `tools/prepare-stage.mjs` で整えたもの。
+
+```
+assets/images/_raw/classroom.png   元画像（MJの出力そのまま）
+        ↓  npm run stage:prepare
+assets/images/stage-classroom.jpg  コマに敷くもの
+```
+
+差し替え点は `src/data/stage.ts` の3つだけで、値はツールが出してくれる。
+
+```ts
+export const STAGE = require('@/assets/images/stage-classroom.jpg');
+export const STAGE_RATIO = 0.637;    // 絵の 幅÷高さ
+export const STAGE_WALL = '#736340'; // 絵のいちばん上の色
+```
+
+#### なぜ下端に揃えて敷くのか
+
+コマの高さは端末で大きくぶれる。実測すると**縦横比が 0.67〜1.10**で、
+iPhone SEでは**横長**になる。`cover` の中央切りだと、狭い端末で床が
+丸ごと消えてキャラが宙に浮く。
+
+そこで `<Panel bg bgRatio bgColor>` は「**下端に揃えて敷き、上のはみ出しを切る**」。
+絵をコマより確実に縦長にしておけば、どの端末でも床が残る。
+**`STAGE_RATIO` は実測の最小 0.672 より小さくすること。**
+超えると縦長のコマで上に隙間が出る（`bgColor` で埋まるが、絵の
+いちばん上が単色でないかぎり継ぎ目に見える）。ツールが警告を出す。
+
+#### MJの出力はそのままでは使えない
+
+`low horizon` と書いても、**MJは地平線を絵の真ん中あたりに置く**。
+実際に上がってきた絵も地平線58%・床42%だった。上は端末によって
+切られるので、このまま敷くと横長のコマで床だけの絵になる。
+
+`prepare-stage.mjs` が**下（床）を削って地平線を下げる**のはそのため。
+削るほど良いわけではなく、削ると比率が横長に寄って上記の上限に
+ぶつかる。いまは12%削って 0.560 → 0.637（地平線58% → 66%）。
+
+あわせて、立ち位置に**やわらかい楕円の影を焼き込む**。3Dのキャラは
+影を持たないので、これが無いと床に貼りついて見える。
+
+#### なぜぼかすのか（いちばん効く処理）
+
+3Dのキャラは固定のカメラで描かれていて、MJが描いた部屋の遠近とは
+一致しない。実測したところ、この絵の**地平線はキャラの顎を通っていた**
+（本来は目の高さに来る）。ズレ自体は12%ほどだが、背景がくっきりして
+いると脳が窓や床の大きさとキャラを比べてしまい、**「小人が立っている」**
+ように見える。
+
+ぼかすと背景が「遠く」として処理されて、比べるのをやめる。
+アバター系のアプリが軒並み背景をぼかしているのはこのため。
+あわせて明るさと彩度を少し落とし、キャラを前に出す。
+
+遠近のズレの残りは、ホーム側で `AVATAR_ZOOM`（`src/app/(tabs)/index.tsx`）
+を上げて詰めている。3Dのカメラは選択画面と共用なので触らず、
+キャンバスだけを大きくして足元を揃えたまま上へはみ出させている。
+
+```bash
+npm run stage:prepare -- assets/images/_raw/classroom.png
+CROP_BOTTOM=0.16 npm run stage:prepare -- 元.png   # 削る量を変える
+BLUR=12          npm run stage:prepare -- 元.png   # もっとぼかす（0で無効）
+BRIGHTNESS=0.85  npm run stage:prepare -- 元.png   # もっと沈める
+SHADOW=0.45      npm run stage:prepare -- 元.png   # 影を濃くする
+```
+
+確認は `tools/.icon-preview/stage.png`。実測した3端末のコマの比率で
+切って、フキダシとキャラの位置を重ねてある。**いちばん横長の
+iPhone SE で床と窓と黒板が残っていれば合格**。
+
+出力はJPEG。透過が要らないので、PNGだと2.4MBのところが**48KB**で済む
+（ぼかすと情報量が減るぶん、さらに小さくなる）。
+
+#### 構図の決まりごと
+
+描き直すときは、切られる前提で組む。
+
+| 帯 | 置くもの |
+| --- | --- |
+| 上 0〜30% | **切られる。かつフキダシが重なる**。何も置かない |
+| 30〜50% | 端末によっては切られる。壁だけ |
+| 50〜80% | 黒板・窓など「ここがどこか」を語るもの |
+| 80〜100% | 床。手前ほど広がる遠近で |
+| 中央の下 | キャラの立ち位置。何も置かない |
+
+キャラは黒フチのない3Dで、背景が濃いと溶ける。**彩度も明度差も抑える**こと。
+
+#### Midjourneyのプロンプト
+
+`--ar 9:16` で出す（削ったあとに 0.637 前後になる）。
+
+```
+empty modern classroom interior, 3D anime style, stylised Pixar-like render,
+warm cream and soft beige palette, large window on the left casting a soft light
+beam across a pale wooden floor, dark green chalkboard on the right wall,
+camera at standing eye level, extremely low horizon, wall filling the top four
+fifths of the frame, wide empty foreground, soft diffused lighting,
+gentle depth of field, muted low-contrast colours
+--ar 9:16 --style raw --stylize 150 --no people, characters, text, watermark, logo
+```
+
+外すと使えない絵になる指定：
+
+- **`--no people, characters`** — 入れないと必ず人が立ち、立ち位置が埋まる
+- **`camera at standing eye level`** — 無いと俯瞰になり、キャラが床にめり込む
+- **`wide empty foreground`** — 机や椅子が手前に来ると、キャラが物の中に立つ
+- **`muted low-contrast`** — 背景が強いとキャラが溶ける
+
+なお `extremely low horizon` を入れても効きは弱い。**削る前提で頼むほうが早い。**
+
+つなぎの絵が要るとき（元画像がまだ無いなど）は `npm run stage` で
+`tools/build-stage.mjs` がベクターの教室を描く。
 
 ### フォントを差し替えたら
 

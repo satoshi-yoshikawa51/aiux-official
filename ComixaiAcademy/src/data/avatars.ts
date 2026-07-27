@@ -42,7 +42,13 @@ export interface AvatarDef {
   model: AvatarModel | null;
 }
 
-/** 全身がだいたい収まる標準の画角。Web版(sensei.tsx)と同じ値 */
+/* 全身がだいたい収まる標準の画角。Web版(sensei.tsx)と同じ値。
+
+   ▍ここを触ってもコマの中でのキャラの大きさは変わらない
+   縦の画角が固定なので、**見えるworldの高さは枠の画素数に関係なく一定**。
+   つまり見た目の大きさは置き場の高さで決まる（→ (tabs)/index.tsx の
+   AVATAR_RATIO）。fov を広げると同じ距離ではむしろ小さくなり、距離を
+   詰めて補正しても伸び幅は数%で、広角の歪みが出るだけだった。 */
 const STANDING: AvatarView = {
   fov: 26,
   camera: [0, 0.62, 2.35],
