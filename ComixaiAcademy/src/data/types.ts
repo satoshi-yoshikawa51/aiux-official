@@ -7,7 +7,21 @@
 import type { IconName } from '@/components/icons';
 import type { AvatarMotion } from '@/avatar/motions';
 
-export type RoleId = 'sales' | 'marketing' | 'office' | 'creator';
+/* サイトの職種別ガイド（comixai.dev/guide）のスラッグと揃えてある。
+   'other' だけはガイドに対応するページが無く、アプリの中だけの選択肢
+   （どれにも当てはまらない人が先に進めるようにするためのもの）。
+   'other' は byRole に一切書かないこと。共通文がそのまま出るのが正しい */
+export type RoleId =
+  | 'sales'
+  | 'marketing'
+  | 'office'
+  | 'creator'
+  | 'hr'
+  | 'support'
+  | 'planner'
+  | 'owner'
+  | 'it'
+  | 'other';
 
 export type ByRole<Tvalue> = Partial<Record<RoleId, Tvalue>>;
 

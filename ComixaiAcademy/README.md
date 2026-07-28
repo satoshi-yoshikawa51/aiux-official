@@ -3,7 +3,8 @@
 [comixai.dev](https://comixai.dev) の学習コンテンツを、**3Dアバターと一緒に学ぶスマホアプリ**にしたもの。
 
 - **アバターを選ぶ** → **職種を選ぶ** → ホーム画面にアバターが常駐
-- 職種（営業／マーケ／事務／クリエイター）で、レッスンの例とプロンプトが差し替わる
+- 職種（営業／マーケ／事務／創作／人事／サポート／企画／経営／情シスの9種＋「あてはまらない」）で、
+  レッスンの例とプロンプトが差し替わる
 - レッスンをクリアするとバッジが増え、バッジの数で**称号**が上がる
 - 記録は端末内（AsyncStorage）だけ。アカウントもサーバーも使わない
 
@@ -389,6 +390,41 @@ GLBができた順に埋めていけばいい。
 ```
 
 `ByRole` に無い職種は共通のものが使われるので、**書き忘れても壊れない**。
+
+### 職種を増やすとき
+
+1. `src/data/types.ts` の `RoleId` に足す
+2. `src/data/roles.ts` に1件足す（アイコン・名前・キャッチ・当てはまる人3つ）
+3. `src/data/courses/` の **`〜ByRole` 全16か所**にその職種の文章を書く
+   （`basics.ts` 1・`prompt.ts` 6・`work.ts` 9）
+4. サイトの `src/app/guide/data.tsx` にも同じ slug でガイドを足す。
+   ヒーロー画像は `docs/guide-hero-prompts.md` を見ること
+
+`ByRole` を埋めなくても落ちませんが、**「職種別」の札を出しておいて中身が共通のまま**
+というのがいちばん白けます。書けないなら職種を足さないほうがましです。
+
+書き漏らしはこれで見つかります。
+
+```bash
+python3 - <<'PY'
+import re, pathlib
+ROLES = ['sales','marketing','office','creator','hr','support','planner','owner','it']
+for f in sorted(pathlib.Path("src/data/courses").glob("*.ts")):
+    src = f.read_text()
+    for m in re.finditer(r'(\w+ByRole):\s*\{', src):
+        i, depth = m.end(), 1
+        while depth:
+            depth += {'{': 1, '}': -1}.get(src[i], 0); i += 1
+        keys = re.findall(r'^\s{12}(\w+):', src[m.end():i], re.M)
+        miss = [r for r in ROLES if r not in keys]
+        if miss:
+            print(f"{f.name}:{src[:m.start()].count(chr(10))+1} {m.group(1)} 欠け={miss}")
+PY
+```
+
+なお `'other'`（あてはまらない）は**わざと byRole を持ちません**。共通文がそのまま出るのが
+正しい挙動なので、上のチェックの `ROLES` にも入れないこと。画面側は `role.generic` を見て
+「◯◯向けで表示中」ではなく「共通の内容で表示中」と出し分けています。
 
 コースを増やしたら `src/data/badges.ts` に修了バッジを1件足すこと（`Course.badgeId` と同じID）。
 バッジの判定条件は `src/store/progress.tsx` の `evaluateBadges()` に集約してある。

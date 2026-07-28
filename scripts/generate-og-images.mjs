@@ -468,10 +468,11 @@ await mkdir(GUIDE_OUT_DIR, { recursive: true });
 await shoot(
   pageHtml({
     kicker: "GUIDE — 職種別AI活用ガイド",
-    badge: "4職種",
+    badge: "9職種",
     title: "あなたの仕事の、<br>どこでAIを使う？",
     titleSize: 80,
-    sub: "営業 / マーケティング / 事務 / クリエイター",
+    /* 9つ並ぶので区切りは「・」にする。" / " だと1行に収まらず折り返す */
+    sub: "営業・マーケ・事務・創作・人事・CS・企画・経営・情シス",
     short: "職種ごとに、使い始める順番・業務別の実践パターン・注意点を現場目線でまとめました。",
     site: "comixai.dev/guide",
   }),

@@ -9,10 +9,10 @@ import React from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
+import { RolePicker } from '@/components/role-picker';
 import { Badge, Card, Cassette, PressCard, Row, Screen, ScreenHead } from '@/components/ui';
 import { AVATARS, getAvatar, isReady } from '@/data/avatars';
-import { ROLES, getRole } from '@/data/roles';
-import type { RoleId } from '@/data/types';
+import { getRole } from '@/data/roles';
 import { useProgress, useStats } from '@/store/progress';
 import { C, F, FONT, S, T } from '@/theme';
 
@@ -86,20 +86,7 @@ export default function SettingsScreen() {
           <Text style={F.h1}>職種</Text>
           <Text style={F.hand}>変えると内容が変わる</Text>
         </Row>
-        {ROLES.map((r) => {
-          const selected = r.id === state.roleId;
-          return (
-            <PressCard key={r.id} selected={selected} onPress={() => setRole(r.id as RoleId)}>
-              <Row style={{ justifyContent: 'space-between' }}>
-                <Row gap={S.sm} style={{ flex: 1 }}>
-                  <Icon name={r.icon} size={22} color={T.text} />
-                  <Text style={[F.strong, { flex: 1 }]}>{r.name}</Text>
-                </Row>
-                {selected ? <Badge tone="red">選択中</Badge> : null}
-              </Row>
-            </PressCard>
-          );
-        })}
+        <RolePicker value={state.roleId} onPick={setRole} />
       </View>
 
       {/* 記録 */}

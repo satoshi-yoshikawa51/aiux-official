@@ -18,6 +18,7 @@ import { Badge, Bubble, Button, Card, Cassette, Panel, Pill, Pop, Row, Screen } 
 import { getAvatar } from '@/data/avatars';
 import { getBadge, type Title } from '@/data/badges';
 import { COURSES, getLesson, resolveCard } from '@/data/courses';
+import { getRole } from '@/data/roles';
 import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
@@ -32,6 +33,7 @@ export default function LessonScreen() {
 
   const avatarRef = React.useRef<AvatarHandle>(null);
   const avatar = getAvatar(state.avatarId);
+  const role = getRole(state.roleId);
   const found = getLesson(String(id));
 
   const [phase, setPhase] = React.useState<Phase>('cards');
@@ -188,7 +190,10 @@ export default function LessonScreen() {
               <View style={{ gap: S.sm }}>
                 <Row gap={6}>
                   <Badge tone="red">コピペ用</Badge>
-                  {course.kind === 'role' ? <Text style={F.hand}>あなたの職種向け</Text> : null}
+                  {/* 「あてはまらない」を選んだ人には共通文が出るので、そうは言わない */}
+                  {course.kind === 'role' && role && !role.generic ? (
+                    <Text style={F.hand}>{role.name}向け</Text>
+                  ) : null}
                 </Row>
                 <View
                   style={{

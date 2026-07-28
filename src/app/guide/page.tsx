@@ -5,16 +5,26 @@ import { Breadcrumb, ShareRow } from "../site-ui";
 import { GUIDES, GUIDES_UPDATED } from "./data";
 
 export const metadata: Metadata = {
-  title: "職種別AI活用ガイド｜営業・マーケ・事務・クリエイター｜COMIXAI",
+  title: "職種別AI活用ガイド｜営業・マーケ・事務・人事・情シスほか全9職種｜COMIXAI",
   description:
-    "営業・マーケティング・事務・クリエイター——職種ごとに「AIをどの業務で、どう使い始めるか」を実践パターンでまとめたガイド集。コピペで使えるプロンプト、押さえるべき用語、職種別のよくある質問つき。",
-  keywords: ["AI 活用 職種別", "営業 AI", "マーケティング AI", "事務 AI 効率化", "クリエイター AI"],
+    "営業・マーケティング・事務・クリエイター・人事・サポート・企画/PM・経営者・情シス——職種ごとに「AIをどの業務で、どう使い始めるか」を実践パターンでまとめたガイド集。コピペで使えるプロンプト、押さえるべき用語、職種別のよくある質問つき。",
+  keywords: [
+    "AI 活用 職種別",
+    "営業 AI",
+    "マーケティング AI",
+    "事務 AI 効率化",
+    "クリエイター AI",
+    "人事 AI 活用",
+    "カスタマーサポート AI",
+    "情シス 生成AI 導入",
+    "個人事業主 AI",
+  ],
   alternates: { canonical: "/guide" },
   openGraph: {
     type: "website",
     siteName: "COMIXAI",
     title: "職種別AI活用ガイド｜あなたの仕事の、どこで使う？",
-    description: "営業・マーケ・事務・クリエイター。職種ごとの実践パターンをガイドに。",
+    description: "営業・マーケ・事務・クリエイター・人事・サポート・企画・経営者・情シスの全9職種。",
     url: "/guide",
     locale: "ja_JP",
     images: [{ url: "/og/guide/index.png", width: 1200, height: 630, alt: "職種別AI活用ガイド" }],
@@ -97,7 +107,7 @@ export default function GuideIndexPage() {
             言葉の意味は<a href="/glossary" style={{ color: "var(--ink-900)" }}>AI用語集（全150語）</a>へ。
           </p>
         </div>
-        <ShareRow path="/guide" text="職種別AI活用ガイド（営業・マーケ・事務・クリエイター）" />
+        <ShareRow path="/guide" text="職種別AI活用ガイド（営業・マーケ・事務・クリエイター・人事・サポート・企画・経営者・情シスの9職種）" />
       </section>
 
       <Footer />
