@@ -61,13 +61,28 @@ FORCE=1 npm run guide:heroes  # 既存も作り直す（Midjourneyの絵も消�
 
 ### 年齢
 
-既存4枚はいずれも若手です。**経営者・個人事業主だけは40代前半**にしてあります。
+既存4枚はいずれも若手です。**経営者・個人事業主だけは40代半ば**にしてあります。
 「自分で決めて、自分で責任を取る人」なので、若く描くと絵と中身が噛み合いません
 （ガイドの本文も、人を雇う前にルールを作る・月いくらまでを決める、という話です）。
 `young` と書かないだけでは若く出るので、年代を明示しています。
 
-ただし **`greying hair` や `stubble` は足さないこと**。この絵柄は誇張が効くので、
-白髪や無精ひげを指定すると一気に老人になります。年代の数字だけで足ります。
+年齢がうまく決まらないのは、**共通の絵柄ブロックが若さを引っ張っている**からです。
+`oversized expressive eyes`（目を大きく）と `slightly large head`（頭を大きく）は
+子どもっぽさの指定なので、年代を書いても打ち消されます。大人にしたい1枚だけ、
+ここを `expressive eyes` と `adult proportions` に置き換えてください。
+
+**`greying hair` や `stubble` で年齢を作らないこと。** この絵柄は誇張が効くので、
+白髪や無精ひげを指定すると一気に老人になります。効かせる順番はこうです。
+
+| 段階 | 足す言葉 | 効き |
+|---|---|---|
+| 1 | `in his mid 40s` | 弱い（他の指定に負ける） |
+| 2 | `expressive eyes` / `adult proportions` に差し替え | **いちばん効く** |
+| 3 | `a few soft smile lines around the eyes` | ほどよく足せる |
+| 4 | `thin-framed glasses` | 老けさせずに落ち着く |
+| 5 | `greying hair` `stubble` | **効きすぎる。最後の手段** |
+
+若すぎるなら 2 → 3 → 4 の順に足し、老けすぎたら逆に外していきます。
 
 ### 経営者は「店主」ではない
 
@@ -99,7 +114,7 @@ A young Japanese man working as a project manager, character holding a marker pe
 #### owner — 経営者・個人事業主
 
 ```
-A Japanese man in his early 40s running his own small company, calm and dependable, short tidy dark hair, character wearing a casual shirt with the sleeves rolled up, holding a tablet and a few invoices, a small tidy office with a desk, a laptop and a potted plant softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
+A Japanese man in his mid 40s running his own small company, mature and dependable, calm face with a few soft smile lines around the eyes, short neatly combed dark hair, thin-framed glasses, character wearing a collared shirt with the sleeves rolled up, holding a tablet and a few invoices, a small tidy office with a desk, a laptop and a potted plant softly blurred behind, cute 3D animated character, Pixar-like stylized render, expressive eyes, soft rounded shapes, adult proportions, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
 ```
 
 #### it — 情シス・社内IT
