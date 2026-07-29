@@ -59,6 +59,13 @@ FORCE=1 npm run guide:heroes  # 既存も作り直す（Midjourneyの絵も消�
 偏らないよう、新しい5職種は **人事・CSが女性、企画・経営・情シスが男性**にしてあります。
 これで 4対5。プロンプトの冒頭で指定しているので、外すと女性に寄ります。
 
+### 年齢
+
+既存4枚はいずれも若手です。**経営者・個人事業主だけは40代後半**にしてあります。
+「自分で決めて、自分で責任を取る人」なので、若く描くと絵と中身が噛み合いません
+（ガイドの本文も、人を雇う前にルールを作る・月いくらまでを決める、という話です）。
+`young` と書かないだけでは若く出るので、年代を明示しています。
+
 ### コピペ用（5職種ぶん、そのまま貼れる）
 
 #### hr — 人事・採用
@@ -82,7 +89,7 @@ A young Japanese man working as a project manager, character holding a marker pe
 #### owner — 経営者・個人事業主
 
 ```
-A young Japanese man running his own small business, character wearing a simple apron over a shirt, holding a tablet and a small stack of invoices, a shop counter with a register and wooden shelves softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
+A Japanese man in his late 40s running his own small business, dependable and warm, short greying hair at the temples and light stubble, character wearing a simple apron over a shirt, holding a tablet and a small stack of invoices, a shop counter with a register and wooden shelves softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
 ```
 
 #### it — 情シス・社内IT
