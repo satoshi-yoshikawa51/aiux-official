@@ -61,10 +61,20 @@ FORCE=1 npm run guide:heroes  # 既存も作り直す（Midjourneyの絵も消�
 
 ### 年齢
 
-既存4枚はいずれも若手です。**経営者・個人事業主だけは40代後半**にしてあります。
+既存4枚はいずれも若手です。**経営者・個人事業主だけは40代前半**にしてあります。
 「自分で決めて、自分で責任を取る人」なので、若く描くと絵と中身が噛み合いません
 （ガイドの本文も、人を雇う前にルールを作る・月いくらまでを決める、という話です）。
 `young` と書かないだけでは若く出るので、年代を明示しています。
+
+ただし **`greying hair` や `stubble` は足さないこと**。この絵柄は誇張が効くので、
+白髪や無精ひげを指定すると一気に老人になります。年代の数字だけで足ります。
+
+### 経営者は「店主」ではない
+
+ガイドが想定しているのは、従業員が数人の会社やひとりでやっている事業で、
+**営業も経理も発信も同じ人がやっている**状況です。エプロン・レジ・商品棚を
+入れると小売の店主に寄ってしまうので、小さな事務所（机・ノートPC・請求書）
+にしてあります。
 
 ### コピペ用（5職種ぶん、そのまま貼れる）
 
@@ -89,7 +99,7 @@ A young Japanese man working as a project manager, character holding a marker pe
 #### owner — 経営者・個人事業主
 
 ```
-A Japanese man in his late 40s running his own small business, dependable and warm, short greying hair at the temples and light stubble, character wearing a simple apron over a shirt, holding a tablet and a small stack of invoices, a shop counter with a register and wooden shelves softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
+A Japanese man in his early 40s running his own small company, calm and dependable, short tidy dark hair, character wearing a casual shirt with the sleeves rolled up, holding a tablet and a few invoices, a small tidy office with a desk, a laptop and a potted plant softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
 ```
 
 #### it — 情シス・社内IT
