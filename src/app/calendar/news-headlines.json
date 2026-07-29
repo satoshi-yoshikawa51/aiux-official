@@ -1,7 +1,48 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-28T22:38:51.059Z",
+  "updatedAt": "2026-07-29T22:34:18.520Z",
   "items": [
+    {
+      "title": "Cyera agrees to acquire Oasis Security for $1B to safeguard proliferating AI agents",
+      "url": "https://techcrunch.com/2026/07/28/cyera-agrees-to-acquire-oasis-security-for-1b-to-safeguard-proliferating-ai-agents/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-29T00:09:05.000Z",
+      "titleJa": "Cyera、急増する AI エージェントを保護するために Oasis Security を 10 億ドルで買収することに同意",
+      "image": "https://techcrunch.com/wp-content/uploads/2022/08/GettyImages-1197780051.jpg?resize=1200,800"
+    },
+    {
+      "title": "顧客の声とナレッジ統合分析でAI化のポテンシャルを診断",
+      "url": "https://ascii.jp/elem/000/004/422/4422134/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-29T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/07/24/4505086/xl/42de09e1f10281b8.jpg"
+    },
+    {
+      "title": "令和8年熊本地震に関する「SNS災害情報集約マップAI」を緊急公開",
+      "url": "https://ascii.jp/elem/000/004/423/4423274/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-29T09:14:14.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "PFN「国産AI」で自衛隊を支援へ 防衛の作戦立案に利用 防衛装備庁の実証実験を受託",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/29/2000000272/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-29T06:38:33.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/29/2000000272/10001323/2048"
+    },
+    {
+      "title": "Hugging Face、AIエージェント侵入の技術詳細を公開──OpenAIモデルが4.5日で1万7600回の攻撃操作",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/29/2000000263/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-29T01:29:20.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/29/2000000263/10001250/2048"
+    },
     {
       "title": "Recursive Superintelligence signs $410M compute deal with Amazon",
       "url": "https://techcrunch.com/2026/07/28/recursive-superintelligence-signs-400-compute-deal-with-amazon/",
@@ -53,30 +94,6 @@
       "image": "https://japan.zdnet.com/storage/2026/04/30/9289820572cd109e02537b9634846676/t/1280/960/d/260424_security_as_1280_1905924746.jpeg"
     },
     {
-      "title": "「Kimi K3」のモデルウェイトと技術レポート公開 日本でも「NVIDIA B300×8」環境での利用報告",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/28/2000000236/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-28T07:57:16.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/28/2000000236/10001159/2048"
-    },
-    {
-      "title": "「痺れるほどにミスを繰り返す」Gemini 3.6 Flashは変わった？ 公開から1週間、当初のおバカ回答を今検証する",
-      "url": "https://www.itmedia.co.jp/news/article/2607/28/2000000229/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-28T07:56:51.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2607/28/2000000229/10001161/2048"
-    },
-    {
-      "title": "KDDIとGoogle、国内AIスタートアップを共同支援 出資に加え「Gemini」早期アクセスも",
-      "url": "https://japan.cnet.com/article/35251010/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-07-28T01:28:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/07/28/e956fc02b32936bfaf96b7dfcc27f305/2026-07-28_10.27の画像.jpeg"
-    },
-    {
       "title": "Microsoft unveils AI security tools it says outperform competing platforms",
       "url": "https://arstechnica.com/security/2026/07/microsoft-unveils-ai-security-tools-it-says-outperform-competing-platforms/",
       "source": "Ars Technica",
@@ -100,25 +117,8 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-07-27T18:32:11.000Z",
-      "titleJa": "Microsoft、初のサイバーセキュリティ モデルと新しいエージェント サイバーセキュリティ システムを発表",
+      "titleJa": "Microsoft が初のサイバーセキュリティ モデルと新しいエージェント サイバーセキュリティ システムを発表",
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/IMG_4458.jpeg?resize=1200,900"
-    },
-    {
-      "title": "OpenAI’s Hugging Face breach has reignited the debate over alignment and control",
-      "url": "https://techcrunch.com/2026/07/27/openais-hugging-face-breach-has-reignited-the-debate-over-alignment-and-control/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-27T17:28:42.000Z",
-      "titleJa": "OpenAI の Hugging Face 侵害により、調整と制御に関する議論が再燃",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/hugging-face-openai-logos-split-screen.jpg?resize=1200,799"
-    },
-    {
-      "title": "NVIDIA、「Open Secure AI Alliance」を設立--OSS脆弱性をAIで解決",
-      "url": "https://japan.zdnet.com/article/35251002/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-27T23:25:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/07/28/47211f2cda92e32f405965e9a9d20a7a/nvidiahqscreenshot-2026-07-27-114805_l.jpg"
     }
   ]
 }
