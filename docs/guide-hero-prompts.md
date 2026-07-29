@@ -53,36 +53,42 @@ FORCE=1 npm run guide:heroes  # 既存も作り直す（Midjourneyの絵も消�
 
 文章だけで揃えるより、これが一段効きます。
 
+### 男女のバランス
+
+既存4枚は **営業だけが男性**で、マーケ・事務・創作は女性です。9枚を並べたときに
+偏らないよう、新しい5職種は **人事・CSが女性、企画・経営・情シスが男性**にしてあります。
+これで 4対5。プロンプトの冒頭で指定しているので、外すと女性に寄ります。
+
 ### コピペ用（5職種ぶん、そのまま貼れる）
 
 #### hr — 人事・採用
 
 ```
-A young Japanese HR staff character holding a small stack of resumes and a clipboard, an ID badge on a lanyard around the neck, a meeting room with chairs and a whiteboard softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
+A young Japanese woman working in HR, character holding a small stack of resumes and a clipboard, an ID badge on a lanyard around the neck, a meeting room with chairs and a whiteboard softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
 ```
 
 #### support — サポート・CS
 
 ```
-A young Japanese customer support staff character wearing a headset with a slim microphone, one hand raised in a small reassuring wave, a desk with a laptop and a mug softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
+A young Japanese woman working in customer support, character wearing a headset with a slim microphone, one hand raised in a small reassuring wave, a desk with a laptop and a mug softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
 ```
 
 #### planner — 企画・PM
 
 ```
-A young Japanese project manager character holding a marker pen, a whiteboard covered with colorful sticky notes softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
+A young Japanese man working as a project manager, character holding a marker pen, a whiteboard covered with colorful sticky notes softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
 ```
 
 #### owner — 経営者・個人事業主
 
 ```
-A young Japanese small business owner character wearing a simple apron over a shirt, holding a tablet and a small stack of invoices, a shop counter with a register and wooden shelves softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
+A young Japanese man running his own small business, character wearing a simple apron over a shirt, holding a tablet and a small stack of invoices, a shop counter with a register and wooden shelves softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
 ```
 
 #### it — 情シス・社内IT
 
 ```
-A young Japanese corporate IT administrator character holding an open laptop, a server rack with small blue status lights softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a calm reassuring smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light blue tones, high detail --ar 3:2 --style raw --v 7
+A young Japanese man working as a corporate IT administrator, character holding an open laptop, a server rack with small blue status lights softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a calm reassuring smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light blue tones, high detail --ar 3:2 --style raw --v 7
 ```
 
 ### うまくいかないとき
