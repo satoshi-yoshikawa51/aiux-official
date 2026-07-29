@@ -28,51 +28,72 @@ FORCE=1 npm run guide:heroes  # 既存も作り直す（Midjourneyの絵も消�
 
 ## Midjourneyで描くとき
 
-既存4枚と絵柄を揃えるための共通部分です。**この後半をそのまま毎回付けてください。**
+### 既存4枚の絵柄（そろえる先）
+
+`sales` / `marketing` / `office` / `creator` を見て割り出した共通点です。
+
+- **全身ではなく上半身**。キャラクターが画面の半分以上を占める大きさ
+- 頭が大きめ、目が大きい、3Dレンダリングのやわらかい造形
+- カメラ目線・ひかえめな笑顔
+- 背景は**その職種の職場**（事務なら書類棚とプリンタ、創作ならアトリエ）を
+  **強くぼかす**。被写界深度が浅く、玉ボケが出ている
+- 明るく、彩度は低め。白〜薄いグレーの壁
+- 手に職種がわかる小道具を1つ持たせている
+
+**「全身」「centered, standing full body」と書くと引きすぎた絵になり、
+既存4枚と並べたときに1枚だけ小さく見えます。**
+
+### いちばん確実に揃える方法
+
+既存の1枚をスタイル参照に渡すこと。プロンプトの末尾に足します。
 
 ```
-3D animation style character, Pixar-like, big expressive eyes, soft rounded shapes,
-standing full body, centered, blurred bright modern office background with soft bokeh,
-clean pastel color palette, soft studio lighting, white and light blue tones,
-cheerful and approachable, high detail, --ar 3:2 --style raw --v 7
+--sref https://comixai.dev/guide/office.webp
 ```
 
-職種ごとに、頭に付ける1文だけ変えます。
+文章だけで揃えるより、これが一段効きます。
 
-### hr — 人事・採用
+### コピペ用（5職種ぶん、そのまま貼れる）
 
-```
-A friendly young Japanese HR staff character holding a clipboard with resumes,
-warm welcoming gesture as if greeting a candidate, name badge on lanyard,
-```
-
-### support — サポート・CS
+#### hr — 人事・採用
 
 ```
-A cheerful Japanese customer support staff character wearing a headset,
-one hand raised in a reassuring gesture, laptop on the desk behind,
+A young Japanese HR staff character holding a small stack of resumes and a clipboard, an ID badge on a lanyard around the neck, a meeting room with chairs and a whiteboard softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
 ```
 
-### planner — 企画・PM
+#### support — サポート・CS
 
 ```
-A thoughtful Japanese project manager character standing in front of a whiteboard
-covered with sticky notes, holding a marker, mid-explanation pose,
+A young Japanese customer support staff character wearing a headset with a slim microphone, one hand raised in a small reassuring wave, a desk with a laptop and a mug softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
 ```
 
-### owner — 経営者・個人事業主
+#### planner — 企画・PM
 
 ```
-A confident Japanese small business owner character standing in front of
-a small shop counter, arms lightly crossed, laptop and a stack of invoices nearby,
+A young Japanese project manager character holding a marker pen, a whiteboard covered with colorful sticky notes softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
 ```
 
-### it — 情シス・社内IT
+#### owner — 経営者・個人事業主
 
 ```
-A calm Japanese corporate IT administrator character holding a laptop,
-server rack and network switches softly blurred in the background, shield icon feel,
+A young Japanese small business owner character wearing a simple apron over a shirt, holding a tablet and a small stack of invoices, a shop counter with a register and wooden shelves softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
 ```
+
+#### it — 情シス・社内IT
+
+```
+A young Japanese corporate IT administrator character holding an open laptop, a server rack with small blue status lights softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a calm reassuring smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light blue tones, high detail --ar 3:2 --style raw --v 7
+```
+
+### うまくいかないとき
+
+| 症状 | 直し方 |
+|---|---|
+| キャラが小さい・引きすぎ | `waist-up shot, character large in the frame` を先頭寄りに移す |
+| 背景がうるさい | `heavily blurred background` に強める |
+| 絵柄が既存4枚と違う | `--sref https://comixai.dev/guide/office.webp` を足す |
+| 顔が写実的すぎる | `oversized expressive eyes, slightly large head` を前に出す |
+| 色が派手 | `desaturated` `muted colors` を足す |
 
 ## 差し替えるときの手順
 
