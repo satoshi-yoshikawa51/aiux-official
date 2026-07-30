@@ -919,12 +919,15 @@ function PromptRecipes() {
             </a>
           ))}
         </div>
-        {/* 職種別ガイド：同じ「仕事で使う」カテゴリの入口としてここに束ねる */}
+        {/* 職種別ガイド：同じ「仕事で使う」カテゴリの入口としてここに束ねる。
+            ガイドは9職種あるが、トップに出すのは**先頭4つだけ**。
+            ここは入口なので、全部並べると2段になってこのセクションが重くなる。
+            残りは下の「職種別ガイドを見る」から /guide へ */}
         <p style={{ fontFamily: "var(--font-hand)", fontSize: 14.5, color: "var(--text-muted)", margin: "30px 0 12px" }}>
-          自分の仕事に引きつけて読むなら、職種別ガイドから↓
+          自分の仕事に引きつけて読むなら、職種別ガイドから↓（全{GUIDES.length}職種）
         </p>
         <div className="rv-stagger" style={{ display: "flex", gap: 12, flexWrap: "wrap", maxWidth: 1000 }}>
-          {GUIDES.map((g) => (
+          {GUIDES.slice(0, 4).map((g) => (
             <a
               key={g.slug}
               href={`/guide/${g.slug}`}
