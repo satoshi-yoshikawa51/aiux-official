@@ -1,56 +1,114 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-29T22:34:18.520Z",
+  "updatedAt": "2026-07-30T22:41:47.901Z",
   "items": [
     {
-      "title": "Cyera agrees to acquire Oasis Security for $1B to safeguard proliferating AI agents",
-      "url": "https://techcrunch.com/2026/07/28/cyera-agrees-to-acquire-oasis-security-for-1b-to-safeguard-proliferating-ai-agents/",
+      "title": "In the Hugging Face breach, OpenAI’s hacker was noisy and fast — but not unstoppable",
+      "url": "https://techcrunch.com/2026/07/30/in-the-hugging-face-breach-openais-hacker-was-noisy-and-fast-but-not-unstoppable/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-29T00:09:05.000Z",
-      "titleJa": "Cyera、急増する AI エージェントを保護するために Oasis Security を 10 億ドルで買収することに同意",
-      "image": "https://techcrunch.com/wp-content/uploads/2022/08/GettyImages-1197780051.jpg?resize=1200,800"
+      "date": "2026-07-30T14:48:32.000Z",
+      "titleJa": "Hugging Face 侵害では、OpenAI のハッカーは騒々しく高速でした",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/hugging-face-logo-smartphone.jpg?resize=1200,800"
     },
     {
-      "title": "顧客の声とナレッジ統合分析でAI化のポテンシャルを診断",
-      "url": "https://ascii.jp/elem/000/004/422/4422134/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-29T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/07/24/4505086/xl/42de09e1f10281b8.jpg"
+      "title": "Advancing the price-performance frontier with GPT-5.6",
+      "url": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-07-30T10:00:00.000Z",
+      "titleJa": "GPT-5.6 で価格パフォーマンスの最前線を前進"
     },
     {
-      "title": "令和8年熊本地震に関する「SNS災害情報集約マップAI」を緊急公開",
-      "url": "https://ascii.jp/elem/000/004/423/4423274/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-29T09:14:14.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "PFN「国産AI」で自衛隊を支援へ 防衛の作戦立案に利用 防衛装備庁の実証実験を受託",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/29/2000000272/",
+      "title": "悪用厳禁、「ChatGPT」の会話履歴をごっそりとぶっこ抜く“AIハック”：890th Lap",
+      "url": "https://kn.itmedia.co.jp/kn/articles/2607/31/news040.html",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-07-29T06:38:33.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/29/2000000272/10001323/2048"
+      "date": "2026-07-30T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/kn/articles/2607/31/cover_news040.jpg"
     },
     {
-      "title": "Hugging Face、AIエージェント侵入の技術詳細を公開──OpenAIモデルが4.5日で1万7600回の攻撃操作",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/29/2000000263/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-29T01:29:20.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/29/2000000263/10001250/2048"
-    },
-    {
-      "title": "Recursive Superintelligence signs $410M compute deal with Amazon",
-      "url": "https://techcrunch.com/2026/07/28/recursive-superintelligence-signs-400-compute-deal-with-amazon/",
+      "title": "Judge says Trump admin still lacks evidence for Anthropic ‘supply-chain risk’ label",
+      "url": "https://techcrunch.com/2026/07/30/judge-says-trump-admin-still-lacks-evidence-for-anthropic-supply-chain-risk-label/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-28T13:19:17.000Z",
-      "titleJa": "Recursive Superintelligence が Amazon と 4 億 1,000 万ドルのコンピューティング契約を締結",
-      "image": "https://techcrunch.com/wp-content/uploads/2021/11/GettyImages-1236309559.jpg?w=1024"
+      "date": "2026-07-30T20:26:38.000Z",
+      "titleJa": "判事、トランプ政権には人類的「サプライチェーンリスク」レッテル貼りの証拠がまだ不足していると指摘",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/08/Claude-Chrome-Ext_email-hero-hero.png?w=1200"
+    },
+    {
+      "title": "「AI全振り」も市場は懐疑的、GlobalLogic統合後も残る日立Lumadaの課題",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03680/072400011/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-07-30T20:01:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03680/072400011/topm.jpg?20220512"
+    },
+    {
+      "title": "Google reveals Gemini Robotics 2.0, promising improved dexterity and safety",
+      "url": "https://arstechnica.com/ai/2026/07/google-reveals-gemini-robotics-2-0-promising-improved-dexterity-and-safety/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-07-30T17:58:02.000Z",
+      "titleJa": "Google、手先の器用さと安全性の向上を約束する Gemini Robotics 2.0 を発表",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/gemini-robotics-2-1152x648.png"
+    },
+    {
+      "title": "JetBrains、AIが少ないトークンでコンテキストを取得しやすく、よりよいコード生成を可能にする「JetBrains Context」発表",
+      "url": "https://www.publickey1.jp/blog/26/jetbrainsaijetbrains_context.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-07-30T17:48:59.000Z",
+      "image": "https://www.publickey1.jp/2026/HNwayFBWIAAItj6.jpg"
+    },
+    {
+      "title": "M5搭載MacBook Airが1万9051円引き！ 16GBメモリ／1TB SSDモデルが259,749円",
+      "url": "https://ascii.jp/elem/000/004/423/4423675/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-30T15:10:00.000Z",
+      "image": "https://ascii.jp/img/2026/03/16/4435680/xl/9cdb7f80bed29f02.jpg?20200122"
+    },
+    {
+      "title": "ゲームもできるRyzen AI 7 350搭載デスクトップPCが、FMV直販でお買い得",
+      "url": "https://ascii.jp/elem/000/004/423/4423582/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-30T10:30:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+    },
+    {
+      "title": "KADOKAWAとはてな、AIで小説執筆を支援 新サービス「RIKU」、テスター募集開始",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/30/2000000306/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-30T06:58:31.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/30/2000000306/10001496/2048"
+    },
+    {
+      "title": "AirPods Pro3、Amazonで値上げ前より安いぞ回収急げ！",
+      "url": "https://www.gizmodo.jp/article/6456bce6-8609-469e-98ca-d31e95a65337/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-07-30T06:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/07/30/893b3e13-6121-4e75-bae5-eb63716f63e5/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "日本HPのPCが楽天のAIを搭載、ローカル実行も可能 HP岡戸社長「ハイブリッドAIの重要なマイルストーン」",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/30/2000000302/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-30T05:52:01.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/30/2000000302/10001488/2048"
+    },
+    {
+      "title": "Microsoft logs $3.2B from Anthropic investment, but OpenAI was a mixed bag",
+      "url": "https://techcrunch.com/2026/07/29/microsoft-logs-3-2b-from-anthropic-investment-but-openai-was-a-mixed-bag/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-29T22:46:03.000Z",
+      "titleJa": "Microsoft、Anthropic への投資から 32 億ドルを計上、しかし OpenAI は賛否両論",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/11/GettyImages-1778706504.jpg?resize=1200,783"
     },
     {
       "title": "Gemini API Managed Agents: 3.6 Flash, hooks, and more",
@@ -60,65 +118,6 @@
       "date": "2026-07-28T16:00:00.000Z",
       "titleJa": "Gemini API 管理エージェント: 3.6 フラッシュ、フックなど",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/unnamed_2_vNnOv20.width-1300.png"
-    },
-    {
-      "title": "千代田区、Copilot全庁導入で月2000時間削減 10カ月でAIを根付かせた定着の仕掛け",
-      "url": "https://kn.itmedia.co.jp/kn/articles/2607/29/news042.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-28T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/kn/articles/2607/29/cover_news042.jpg"
-    },
-    {
-      "title": "Google Cloud、AIが自律的にコードの脆弱性検出からサンドボックス内でのリスク検証、修正までを自動実行。「CodeMender」プレビュー公開",
-      "url": "https://www.publickey1.jp/blog/26/google_cloudaicodemender.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-07-28T15:54:06.000Z",
-      "image": "https://www.publickey1.jp/2026/codemender-pv01.jpg"
-    },
-    {
-      "title": "Claude、一部チャットがGoogle検索で“丸見え”に 過去には「ChatGPT」でも 漏えいの原因は？",
-      "url": "https://www.itmedia.co.jp/business/articles/2607/28/news089.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-28T08:35:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2607/28/cover_news089.jpg"
-    },
-    {
-      "title": "マイクロソフト、エージェント型セキュリティシステム「Project Perception」を発表",
-      "url": "https://japan.zdnet.com/article/35251024/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-07-28T08:06:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/04/30/9289820572cd109e02537b9634846676/t/1280/960/d/260424_security_as_1280_1905924746.jpeg"
-    },
-    {
-      "title": "Microsoft unveils AI security tools it says outperform competing platforms",
-      "url": "https://arstechnica.com/security/2026/07/microsoft-unveils-ai-security-tools-it-says-outperform-competing-platforms/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-07-27T21:56:14.000Z",
-      "titleJa": "Microsoft、競合プラットフォームを上回る性能を誇るAIセキュリティツールを発表",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/09/microsoft-logo-1024x648.jpg"
-    },
-    {
-      "title": "Verizon touts $1B dark fiber deal for Google data centers as first of many",
-      "url": "https://arstechnica.com/ai/2026/07/verizon-seeks-ai-profits-with-mini-data-centers-1b-dark-fiber-deal-with-google/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-07-27T18:48:41.000Z",
-      "titleJa": "Verizon、Google データセンター向けの 10 億ドルのダークファイバー契約を数ある契約の第一弾として宣伝",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/Verizon-Times-Square-Store-2560x1440.jpg"
-    },
-    {
-      "title": "Microsoft launches its first cybersecurity model, plus a new agentic cybersecurity system",
-      "url": "https://techcrunch.com/2026/07/27/microsoft-launches-its-first-cyber-model-and-a-new-agentic-cybersecurity-system/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-27T18:32:11.000Z",
-      "titleJa": "Microsoft が初のサイバーセキュリティ モデルと新しいエージェント サイバーセキュリティ システムを発表",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/IMG_4458.jpeg?resize=1200,900"
     }
   ]
 }
