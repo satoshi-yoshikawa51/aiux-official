@@ -14,12 +14,12 @@
 | `hr` | 人事・採用 | Midjourney |
 | `support` | サポート・CS | Midjourney |
 | `planner` | 企画・PM | Midjourney |
-| `owner` | 経営者・個人事業主 | **仮**（`npm run guide:heroes` が作ったタイポグラフィ）。年齢が決まらず未完 |
+| `owner` | 経営者・個人事業主 | Midjourney |
 | `it` | 情シス・社内IT | Midjourney |
 
-仮画像はサイトと同じ書体・トークンで作ってあるので、そのまま公開しても壊れては
-いません。ただし既存4枚は3Dキャラクターの絵なので、一覧に並べると**明らかに毛色が
-違います**。絵ができ次第、同じファイル名で上書きしてください。
+9職種すべて絵が入っています。`npm run guide:heroes` は、**絵が無い職種を足したときの
+つなぎ**として残してあります（サイトと同じ書体・トークンのタイポグラフィを作る）。
+既存の絵は上書きしません。
 
 ```bash
 npm run guide:heroes          # 絵の無い職種だけ、仮画像を作る
@@ -66,26 +66,23 @@ FORCE=1 npm run guide:heroes  # 既存も作り直す（Midjourneyの絵も消�
 （ガイドの本文も、人を雇う前にルールを作る・月いくらまでを決める、という話です）。
 `young` と書かないだけでは若く出るので、年代を明示しています。
 
-年齢は**いちばん転びやすい指定**です。3回外したので、効いた語と効きすぎた語を残します。
+年齢は**いちばん転びやすい指定**です。4回かかったので、効いた語を残します。
 
 | 語 | 効き |
 |---|---|
-| `in his 40s` などの年代 | 弱い。これだけでは若く出る |
-| `thin-framed glasses` | **ちょうどいい**。老けさせずに落ち着く |
-| `mature` | 強い。一気に上がる |
-| `smile lines` `wrinkles`（しわ） | **効きすぎる。使わない** |
-| `greying hair` `stubble` | **効きすぎる。使わない** |
+| `in his 40s` などの年代 | 弱い。これだけでは子どもに寄る |
+| **`--no child, boy, teenager`** | **これが決め手。** 絵柄ブロックが子ども側に引っぱるのを直接止める |
+| `thin-framed glasses` | ちょうどいい。老けさせずに落ち着く |
+| `mature` | 強い |
+| `smile lines` `wrinkles`（しわ） | 効きすぎる。使わない |
+| `greying hair` `stubble` | 効きすぎる。使わない |
 | `adult proportions`（頭身を上げる） | 強い。他の語と重ねると老人になる |
+
+順番としては、**まず `--no` で子どもを止め、年代を書く**。それで足りなければ眼鏡。
+しわ・白髪には手を出さないこと（老人になります）。
 
 **一度に1つだけ動かすこと。** 複数変えると、行き過ぎたときにどれが効いたのか
 わからなくなります（実際にそうなりました）。
-
-いまの経営者は「年代＋眼鏡」だけで、しわ・白髪・`mature`・頭身はどれも入れて
-いません。それでも合わないときは、**この1語だけ**を入れ替えてください。
-
-```
-in his late 30s   →   in his 40s   →   in his late 40s
-```
 
 ### 経営者は「店主」ではない
 
@@ -114,10 +111,10 @@ A young Japanese woman working in customer support, character wearing a headset 
 A young Japanese man working as a project manager, character holding a marker pen, a whiteboard covered with colorful sticky notes softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle friendly smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, white and light grey walls, high detail --ar 3:2 --style raw --v 7
 ```
 
-#### owner — 経営者・個人事業主
+#### owner — 経営者・個人事業主（採用した版）
 
 ```
-A Japanese man in his 40s running his own small company, calm and dependable, short neatly combed dark hair, thin-framed glasses, character wearing a collared shirt with the sleeves rolled up, holding a tablet and a few invoices, a small tidy office with a desk, a laptop and a potted plant softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7
+A Japanese man in his late 40s running his own small company, calm and dependable, short neatly combed dark hair, thin-framed glasses, character wearing a collared shirt with the sleeves rolled up, holding a tablet and a few invoices, a small tidy office with a desk, a laptop and a potted plant softly blurred behind, cute 3D animated character, Pixar-like stylized render, oversized expressive eyes, soft rounded shapes, slightly large head, waist-up shot, character large in the frame, looking at the camera with a gentle confident smile, shallow depth of field with soft bokeh, bright airy lighting, clean desaturated pastel palette, warm wood and light grey tones, high detail --ar 3:2 --style raw --v 7 --no child, boy, teenager
 ```
 
 #### it — 情シス・社内IT
