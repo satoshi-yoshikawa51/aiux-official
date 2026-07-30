@@ -11,11 +11,11 @@
 | `marketing` | マーケティング | Midjourney |
 | `office` | 事務・バックオフィス | Midjourney |
 | `creator` | クリエイター | Midjourney |
-| `hr` | 人事・採用 | **仮**（`npm run guide:heroes` が作ったタイポグラフィ） |
-| `support` | サポート・CS | **仮** |
-| `planner` | 企画・PM | **仮** |
-| `owner` | 経営者・個人事業主 | **仮** |
-| `it` | 情シス・社内IT | **仮** |
+| `hr` | 人事・採用 | Midjourney |
+| `support` | サポート・CS | Midjourney |
+| `planner` | 企画・PM | Midjourney |
+| `owner` | 経営者・個人事業主 | **仮**（`npm run guide:heroes` が作ったタイポグラフィ）。年齢が決まらず未完 |
+| `it` | 情シス・社内IT | Midjourney |
 
 仮画像はサイトと同じ書体・トークンで作ってあるので、そのまま公開しても壊れては
 いません。ただし既存4枚は3Dキャラクターの絵なので、一覧に並べると**明らかに毛色が
