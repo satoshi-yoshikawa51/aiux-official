@@ -120,3 +120,32 @@ GitHub Actions が外部から取得してコミットする：
 
 - コミットメッセージは日本語の Conventional Commits：`feat: 〜` `fix: 〜` `chore: 〜` `style: 〜`
 - 作業ブランチで開発し、mainへは基本PR経由。
+
+### Vercelのプレビューを確認するとき
+
+このリポジトリには **Vercelのプロジェクトが2つ**ある。
+
+| プロジェクト | Root Directory | 中身 |
+|---|---|---|
+| `aiux-official` | （リポジトリ直下） | comixai.dev 本体 |
+| `comixai-academy` | `ComixaiAcademy/` | Expo製の学習アプリ（Web版） |
+
+**プレビューURLの取り方**：PRを立てて、**PRのコメントを読む**。Vercelのbotが
+プロジェクトごとに `Preview` のリンクを表で貼ってくれる。
+
+```
+mcp__github__pull_request_read（method: get_comments）
+```
+
+**commit status の `target_url` はVercelの管理画面を指すだけで、プレビューURLではない。**
+ここで止まってしまいがちなので、必ずコメントまで見ること。
+
+**Claude Codeのサンドボックスからは `*.vercel.app` にも `comixai.dev` にも到達できない**
+（プロキシが弾く）。見え方の確認はユーザーに頼むしかないので、URLを渡して
+「どこを見てほしいか」を具体的に書く。ローカルで確かめられるのは
+`npm run build` が通ることと、ローカルサーバー＋Playwrightでのスクリーンショットまで。
+
+`comixai-academy` のチェックが **「Canceled by Ignored Build Step」になるのは正常**。
+`ComixaiAcademy/` に変更が無いコミットではアプリをビルドしない設定にしてある
+（`ignoreCommand`）。その場合もブランチ固定のプレビューURLは、直近でビルドされた
+コミットの内容を指している。

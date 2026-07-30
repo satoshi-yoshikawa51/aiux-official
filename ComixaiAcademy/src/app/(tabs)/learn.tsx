@@ -55,7 +55,11 @@ export default function LearnScreen() {
         </Text>
       }
       progress={{ value: doneTotal, total: lessons.length }}
-      note={role ? `${role.name} 向けで表示中` : '職種を選ぶと内容が変わる'}
+      /* 「あてはまらない」を選んだ人には職種名を出さない
+         （generic の職種は byRole を持たないので、実際に出るのは共通文） */
+      note={
+        !role ? '職種を選ぶと内容が変わる' : role.generic ? '共通の内容で表示中' : `${role.name} 向けで表示中`
+      }
       noteRight={`${COURSES.length}コース`}
     />
   );
@@ -112,9 +116,14 @@ export default function LearnScreen() {
 
             {course.kind === 'role' ? (
               <Row gap={6}>
-                <Badge tone="red">職種別</Badge>
-                <Text style={F.hand}>
-                  {role ? `${role.name}向けの例が出る` : '職種を選ぶと内容が変わる'}
+                {/* 共通文しか出ない人に「職種別」の札を出すと嘘になる */}
+                {role && !role.generic ? <Badge tone="red">職種別</Badge> : null}
+                <Text style={[F.hand, { flex: 1 }]}>
+                  {!role
+                    ? '職種を選ぶと内容が変わる'
+                    : role.generic
+                      ? 'せっていで職種を選ぶと、例が差し替わる'
+                      : `${role.name}向けの例が出る`}
                 </Text>
               </Row>
             ) : null}
