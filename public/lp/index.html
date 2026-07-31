@@ -191,18 +191,7 @@ h2.secTitle{
 }
 #stamp.on{transform:scale(1) rotate(-8deg);opacity:1;transition:all .3s cubic-bezier(.3,1.6,.5,1)}
 #stamp small{font-family:var(--font-body);font-size:9px;letter-spacing:.05em;margin-top:2px}
-/* ===== ビルドログ ===== */
-#buildLog{
-  position:fixed;top:14px;left:16px;z-index:12;
-  font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--tone);
-  background:rgba(251,248,241,.92);border:2px solid var(--ink);border-radius:8px;
-  padding:7px 11px;box-shadow:3px 3px 0 rgba(25,23,20,.12);
-  max-width:70vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  transition:opacity .5s;
-}
-#buildLog .ok{color:var(--blue-deep)}
-#buildLog.gone{opacity:0;pointer-events:none}
-/* ===== ミニ操作 ===== */
+/* ===== ミニ操作（完成後にだけ出る） ===== */
 #mini{position:fixed;top:14px;right:16px;z-index:12;display:flex;gap:8px}
 .miniBtn{
   font-size:11px;font-weight:700;letter-spacing:.05em;
@@ -212,7 +201,6 @@ h2.secTitle{
   display:none;
 }
 .miniBtn.on{display:inline-block}
-#voiceBtn{display:inline-block}
 /* ===== ナレーション吹き出し ===== */
 #bubbleWrap{
   position:fixed;left:0;right:0;bottom:0;z-index:20;
@@ -358,9 +346,7 @@ h2.secTitle{
   <div class="ds-txt">あなた専用の構成を設計しています</div>
 </div>
 
-<div id="buildLog">STANDBY ▸ 白紙の原稿</div>
 <div id="mini">
-  <button class="miniBtn" id="voiceBtn">音声:ON</button>
   <a class="miniBtn" id="xBtn" target="_blank">𝕏 ポスト</a>
   <button class="miniBtn" id="againBtn">作り直す</button>
 </div>
@@ -380,8 +366,7 @@ h2.secTitle{
 <script>
 /* ============ 基本 ============ */
 const $=s=>document.querySelector(s);
-const site=$("#site"),page=$("#page"),narr=$("#narr"),chipsRow=$("#chipsRow"),log=$("#buildLog");
-let voiceOn=true;
+const site=$("#site"),page=$("#page"),narr=$("#narr"),chipsRow=$("#chipsRow");
 
 /* ヒアリング役はAI受付のキャラ。透過webm(VP9)対応ブラウザは動画、
    Safari等はアニメWebPに切替（本体サイト /uketsuke・トップFABと同じ判定） */
@@ -393,25 +378,6 @@ let voiceOn=true;
     :'<img src="/uketsuke/char-anim.webp" alt="">';
 })();
 
-let jpVoice=null;
-function pickVoice(){
-  if(!window.speechSynthesis)return;
-  const vs=speechSynthesis.getVoices().filter(v=>v.lang&&v.lang.startsWith("ja"));
-  jpVoice=vs.find(v=>/Kyoko|O-?ren|Google 日本語|Hattori/i.test(v.name))||vs[0]||null;
-}
-if(window.speechSynthesis){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
-function speak(t){
-  if(!voiceOn||!window.speechSynthesis)return;
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(String(t).replace(/[…—▸𝕏✓]/g,""));
-  u.lang="ja-JP";if(jpVoice)u.voice=jpVoice;u.rate=1.06;u.pitch=1.05;
-  speechSynthesis.speak(u);
-}
-$("#voiceBtn").addEventListener("click",()=>{
-  voiceOn=!voiceOn;$("#voiceBtn").textContent=voiceOn?"音声:ON":"音声:OFF";
-  if(!voiceOn&&window.speechSynthesis)speechSynthesis.cancel();
-});
-
 let typeTimer=null;
 function say(text){
   return new Promise(res=>{
@@ -419,7 +385,6 @@ function say(text){
     narr.innerHTML="";
     const caret=document.createElement("span");caret.className="caret";
     narr.appendChild(caret);
-    speak(text);
     let i=0;
     typeTimer=setInterval(()=>{
       caret.insertAdjacentText("beforebegin",text.slice(i,i+1));i++;
@@ -437,7 +402,6 @@ function typeInto(el,text,speed=42){
   });
 }
 const wait=t=>new Promise(r=>setTimeout(r,t));
-function setLog(html){log.innerHTML="BUILD ▸ "+html}
 
 function pick(options){
   return new Promise(res=>{
@@ -570,7 +534,6 @@ async function placeItems(container){
 /* ============ ビルドシーケンス ============ */
 async function buildLP(spec,ans){
   /* --- コマ割り(ワイヤー一括出現) --- */
-  setLog("layout: コマ割り中…");
   const secHero=mkSec("hero","HERO — キャッチと看板");
   const secDiag=mkSec("diag","診断メモ");
   const secList=spec.sections.map((s,i)=>mkSec("list","SECTION "+(i+1)+" — "+(s.eyebrow||"")));
@@ -578,11 +541,9 @@ async function buildLP(spec,ans){
   const secFoot=mkSec("footer","奥付");
   const all=[secHero,secDiag,...secList,secCta,secFoot];
   for(const s of all){s.classList.add("show");thump(200);await wait(180)}
-  setLog("layout: コマ割り <span class='ok'>✓</span>");
   await say("コマ割り、決まりました。上から実装していきます。");
 
   /* --- HERO --- */
-  setLog("hero: コピーを執筆中…");
   scrollToEl(secHero);
   const hin=secHero.querySelector(".inner");
   hin.innerHTML=`<span class="badge">${esc(spec.hero.label)}</span>
@@ -590,26 +551,20 @@ async function buildLP(spec,ans){
     <div class="heroImg"><img src="${HERO_IMG}" alt="COMIXAI" onerror="this.parentElement.innerHTML='<div style=&quot;padding:36px;text-align:center;font-family:var(--font-disp);color:var(--blue-deep)&quot;>IMAGE SLOT:ヒーロー画像</div>'"></div>`;
   secHero.classList.add("built");flash();thump(160);
   await typeInto(hin.querySelector(".catch"),spec.hero.catch,60);
-  speak(spec.hero.catch);
   hin.querySelector(".catch").innerHTML=`<span class="ul">${esc(spec.hero.catch)}</span>`;
   await typeInto(hin.querySelector(".sub"),spec.hero.sub,26);
-  setLog("hero: <span class='ok'>✓</span> 画像を配置 <span class='ok'>✓</span>");
   await wait(500);
 
   /* --- 診断 --- */
-  setLog("diagnosis: カルテ転記中…");
   const din=secDiag.querySelector(".inner");
   din.innerHTML=`<p class="diagBox"><b>【診断】</b><span class="dtx"></span></p>`;
   secDiag.classList.add("built");
   await typeInto(din.querySelector(".dtx"),spec.diagnosis,30);
-  speak(spec.diagnosis);
-  setLog("diagnosis: <span class='ok'>✓</span>");
   await wait(600);
 
   /* --- 各セクション --- */
   for(let i=0;i<spec.sections.length;i++){
     const s=spec.sections[i],el=secList[i];
-    setLog(`section ${i+1}: 見出しを執筆中…`);
     scrollToEl(el);
     await wait(450);
     const inn=el.querySelector(".inner");
@@ -618,16 +573,12 @@ async function buildLP(spec,ans){
       <div class="items">${s.items.map(itemHTML).join("")}</div>`;
     el.classList.add("built");thump(180);
     await typeInto(inn.querySelector(".secTitle"),s.title,55);
-    speak(s.title+"。"+s.lead);
     await typeInto(inn.querySelector(".lead"),s.lead,22);
-    setLog(`section ${i+1}: 画像とカードを配置…`);
     await placeItems(inn);
-    setLog(`section ${i+1}: <span class='ok'>✓</span>`);
     await wait(400);
   }
 
   /* --- CTA --- */
-  setLog("cta: 最後のひと押しを執筆中…");
   scrollToEl(secCta);
   await wait(450);
   const cin=secCta.querySelector(".inner");
@@ -639,9 +590,7 @@ async function buildLP(spec,ans){
     </div>`;
   secCta.classList.add("built");
   await typeInto(cin.querySelector(".closing"),spec.cta.closing,34);
-  speak(spec.cta.closing);
   for(const b of cin.querySelectorAll(".ctaBtn")){b.classList.add("placed");thump(300);await wait(300)}
-  setLog("cta: <span class='ok'>✓</span>");
   await wait(400);
 
   /* --- 奥付+公開 --- */
@@ -658,13 +607,11 @@ async function buildLP(spec,ans){
       <div id="stamp">開通<small>PUBLISHED</small></div>
     </div>`;
   secFoot.classList.add("built");
-  setLog("publish: 公開処理中…");
   await wait(400);
   scrollToEl(secFoot);
   await wait(600);
   flash();thump(110);
   $("#stamp").classList.add("on");
-  setLog(`publish: <span class='ok'>✓ 第${issue}号 公開</span>`);
   await wait(800);
 
   /* --- 開放 --- */
@@ -675,7 +622,7 @@ async function buildLP(spec,ans){
   $("#xBtn").classList.add("on");$("#againBtn").classList.add("on");
   await wait(2600);
   $("#bubbleWrap").classList.add("gone");
-  setTimeout(()=>{log.classList.add("gone");site.scrollTo({top:0,behavior:"smooth"})},900);
+  setTimeout(()=>{site.scrollTo({top:0,behavior:"smooth"})},900);
 }
 
 /* ============ メインフロー ============ */
@@ -689,22 +636,18 @@ async function main(){
 
   await say("まず——お仕事は?");
   const job=await pick(["営業","マーケティング","事務・バックオフィス","クリエイター","人事・採用","サポート・CS","企画・PM","経営・個人事業主","情シス・IT","学生・その他"]);
-  setLog("hearing: 主人公 <span class='ok'>✓</span>");
   await say(`${job}。なるほど、主人公が決まりました。`);
   await wait(400);
 
   await say("AIとは、どれくらいの仲ですか?");
   const level=await pick(["ほぼ触ったことない","たまに使う","毎日使ってる"]);
-  setLog("hearing: 現在地 <span class='ok'>✓</span>");
   await say("ふむふむ。載せるものが絞れてきた。");
   await wait(400);
 
   await say("最後に——いま一番ほしいものは?");
   const want=await pick(["基礎から学びたい","なにか作ってみたい","明日の仕事で使いたい","仕事を相談したい"]);
-  setLog("hearing: ゴール <span class='ok'>✓</span>");
 
   say("十分です。……設計に入ります。あなた専用の構成、コピー、順番。ぜんぶ今から決めます。");
-  setLog("plan: 構成を設計中…");
   /* 白紙を閉じて、トップページのスプラッシュ（墨色版）で設計待ち */
   $("#blank").classList.add("gone");
   const dz=$("#designing");
@@ -718,7 +661,6 @@ async function main(){
     wait(1800)
   ]);
   spec=got||fallbackSpec(ans);
-  setLog("plan: 設計 <span class='ok'>✓</span>");
   dz.classList.add("gone");
   setTimeout(()=>{dz.hidden=true},500);
 
@@ -728,7 +670,7 @@ async function main(){
 /* 開始+音声解錠 */
 let begun=false;
 function unlockAudio(){
-  if(window.speechSynthesis){const u=new SpeechSynthesisUtterance(" ");u.lang="ja-JP";speechSynthesis.speak(u)}
+  /* 効果音(WebAudio)の再生許可だけ取る。音声ナレーションは廃止 */
   try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){}
 }
 window.addEventListener("load",()=>{setTimeout(()=>{if(!begun){begun=true;main()}},300)});
