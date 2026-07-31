@@ -213,22 +213,27 @@ h2.secTitle{
   transition:transform .5s cubic-bezier(.4,0,.2,1), opacity .5s;
 }
 #bubbleWrap.gone{transform:translateY(120%);opacity:0;pointer-events:none}
-#bubble{
-  position:relative;background:#fff;border:2.5px solid var(--ink);
-  border-radius:20px 6px 20px 20px; /* 右上だけ絞って、上に立つキャラへの尻尾に */
-  padding:13px 16px 12px;
-  min-height:72px;box-shadow:4px 4px 0 rgba(25,23,20,.18);
+/* キャラ（左下）と吹き出しの下段。下端に固定され、上下に動かない */
+#bubbleRow{
+  display:flex;align-items:flex-end;
   max-width:680px;margin:0 auto;
 }
 /* ヒアリング役: トップページ右下のAI受付FAB（uke-fab-char）と同じ作法で
-   吹き出しの右肩に固定。吹き出しと一緒に登場・退場する */
+   左下に固定。吹き出しより背が高く、上にはみ出して立つ */
 #fabChar{
-  position:absolute;right:10px;bottom:calc(100% - 12px);
-  width:84px;aspect-ratio:488/522;
+  flex:none;width:92px;aspect-ratio:488/522;
+  margin-right:-12px; /* 吹き出しの左角に少し重ねる */
+  position:relative;z-index:1;
   filter:drop-shadow(3px 4px 0 rgba(20,17,15,.22));
   pointer-events:none;
 }
 #fabChar video,#fabChar img{width:100%;height:100%;object-fit:contain;display:block}
+#bubble{
+  flex:1;position:relative;background:#fff;border:2.5px solid var(--ink);
+  border-radius:20px 20px 20px 6px; /* 左下だけ絞って、左に立つキャラへの尻尾に */
+  padding:13px 16px 12px;
+  min-height:72px;box-shadow:4px 4px 0 rgba(25,23,20,.18);
+}
 #narr{
   font-family:var(--font-serif);
   font-size:clamp(14px,3.9vw,16.5px);line-height:1.8;letter-spacing:.02em;
@@ -236,7 +241,8 @@ h2.secTitle{
 }
 #narr .caret{display:inline-block;width:.5em;height:1em;background:var(--blue);vertical-align:-.12em;animation:blink .8s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-#chipsRow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px;max-width:680px;margin-left:auto;margin-right:auto}
+/* 選択肢は吹き出しの上に出す（吹き出しは下端のまま動かない） */
+#chipsRow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 auto 12px;max-width:680px}
 .chip{
   font-family:var(--font-body);font-weight:700;font-size:13px;
   border:2.5px solid var(--ink);background:#fff;border-radius:999px;
@@ -357,11 +363,11 @@ h2.secTitle{
 <div id="flash"></div>
 
 <div id="bubbleWrap">
-  <div id="bubble">
-    <span id="fabChar" aria-hidden="true"></span>
-    <p id="narr"></p>
-  </div>
   <div id="chipsRow"></div>
+  <div id="bubbleRow">
+    <span id="fabChar" aria-hidden="true"></span>
+    <div id="bubble"><p id="narr"></p></div>
+  </div>
 </div>
 
 <script>
