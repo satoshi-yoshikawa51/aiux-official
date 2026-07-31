@@ -135,7 +135,6 @@ h2.secTitle{
   text-align:center;font-size:9px;font-weight:700;color:var(--blue-deep);
   letter-spacing:.08em;line-height:1.5;padding:4px;
 }
-.thumb .slot span{display:block;font-size:24px;margin-bottom:2px}
 .thumb::after{ /* テープ */
   content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%) rotate(-2deg);
   width:44px;height:13px;background:rgba(47,180,233,.5);z-index:2;
@@ -223,8 +222,7 @@ h2.secTitle{
 #guideIcon{
   position:absolute;left:11px;top:50%;transform:translateY(-50%);
   width:34px;height:34px;border:2.5px solid var(--ink);border-radius:50%;
-  background:var(--blue);display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-disp);color:#fff;font-size:14px;
+  background:#fff;object-fit:cover;object-position:50% 4%;
 }
 #narr{
   font-family:var(--font-serif);
@@ -250,22 +248,39 @@ h2.secTitle{
 }
 #flash.go{animation:zip .42s ease-out}
 @keyframes zip{0%{opacity:0}25%{opacity:.95}100%{opacity:0}}
-/* 白紙のはじまり */
+/* 白紙のはじまり（AI受付のキャラがヒアリング役として立つ） */
 #blank{
-  position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;
+  position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;gap:16px;
+  align-items:center;justify-content:center;
   pointer-events:none;transition:opacity .6s;
+  padding-bottom:22vh; /* 下部の吹き出しと重ならないように */
 }
+#blankChar{
+  width:124px;aspect-ratio:488/522;
+  filter:drop-shadow(3px 4px 0 rgba(20,17,15,.22));
+}
+#blankChar video,#blankChar img{width:100%;height:100%;object-fit:contain;display:block}
 #blank .paperMark{
   font-family:var(--font-disp);font-size:clamp(18px,5vw,26px);color:var(--ink);
   opacity:.1;letter-spacing:.1em;
 }
+/* 設計待ちはAI司書のローディング（キャラ+ひとこと）と同じ作法で見せる */
+#blank.designing .paperMark{
+  font-family:var(--font-serif);font-size:15px;letter-spacing:.02em;
+  color:var(--tone);opacity:.9;
+}
+.ellip::after{content:"";animation:ellip 1.2s steps(1,end) infinite}
+@keyframes ellip{0%{content:""}25%{content:"…"}50%{content:"……"}75%{content:"………"}}
 #blank.gone{opacity:0}
 @media (prefers-reduced-motion: reduce){*{transition-duration:.01s !important;animation-duration:.01s !important}}
 </style>
 </head>
 <body>
 
-<div id="blank"><div class="paperMark">— この先、まだ白紙 —</div></div>
+<div id="blank">
+  <div id="blankChar" aria-hidden="true"></div>
+  <div class="paperMark" id="blankMsg">— この先、まだ白紙 —</div>
+</div>
 
 <div id="buildLog">STANDBY ▸ 白紙の原稿</div>
 <div id="mini">
@@ -280,7 +295,7 @@ h2.secTitle{
 
 <div id="bubbleWrap">
   <div id="bubble">
-    <div id="guideIcon">AI</div>
+    <img id="guideIcon" src="/uketsuke/char-icon.webp" alt="">
     <p id="narr"></p>
   </div>
   <div id="chipsRow"></div>
@@ -291,6 +306,16 @@ h2.secTitle{
 const $=s=>document.querySelector(s);
 const site=$("#site"),page=$("#page"),narr=$("#narr"),chipsRow=$("#chipsRow"),log=$("#buildLog");
 let voiceOn=true;
+
+/* ヒアリング役はAI受付のキャラ。透過webm(VP9)対応ブラウザは動画、
+   Safari等はアニメWebPに切替（本体サイト /uketsuke と同じ判定） */
+(function(){
+  const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const v=document.createElement("video");
+  $("#blankChar").innerHTML=(!isSafari&&v.canPlayType('video/webm; codecs="vp9"'))
+    ?'<video src="/uketsuke/char-alpha.webm" autoplay muted loop playsinline preload="auto"></video>'
+    :'<img src="/uketsuke/char-anim.webp" alt="">';
+})();
 
 let jpVoice=null;
 function pickVoice(){
@@ -371,13 +396,13 @@ function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").repl
 /* ============ コンテンツ台帳(画像は既存アセット/スロット)
    ※ idは src/app/api/lp/route.ts の ITEMS と揃えること ============ */
 const ITEMS={
-  kyoshujo:{name:"5分で覚える!Claude教習所",desc:"本物そっくりの練習画面を、講師が1タップずつ案内。登録不要・無料。",url:"/claude-app",tag:"体験",img:null,emoji:"🚗",slot:"教習所 サムネ"},
-  start:{name:"AIのはじめかた(無料コース)",desc:"絵巻→マンガ→用語→体験→実践の全3章。順番に進むだけ。",url:"/start",tag:"入門",img:null,emoji:"⛰️",slot:"はじめかた 画像"},
-  manga:{name:"連載マンガ「マンガでわかる!AI活用」",desc:"現場のAI活用術を全7話のマンガで。活字が苦手でも10分。",url:"https://note.com/aiux_unite",tag:"マンガ",img:null,emoji:"📖",slot:"マンガ表紙"},
-  quest:{name:"Claude Code Quest",desc:"Claude Codeを、RPGで遊びながら学べる。コマンド不要のライト版も。",url:"https://claude-code-quest.vercel.app/",tag:"ゲーム",img:null,emoji:"🎮",slot:"Quest キービジュアル"},
-  emaki:{name:"AI歴史絵巻 EMAKI",desc:"AIの75年を、ひと巻きに。1950年からエージェント時代まで。",url:"/history",tag:"絵巻",img:null,emoji:"📜",slot:"絵巻 サムネ"},
-  prompts:{name:"仕事のプロンプト集",desc:"営業メール・議事録・Excel関数…失敗例の実演つきで頼み方が身につく。",url:"/prompts",tag:"コピペOK",img:null,emoji:"📋",slot:"プロンプト集 画像"},
-  glossary:{name:"AI用語集(図解つき)",desc:"LLM?RAG?MCP?現場目線でサクッと図解。",url:"/glossary",tag:"図解",img:null,emoji:"🔤",slot:"用語集 画像"},
+  kyoshujo:{name:"5分で覚える!Claude教習所",desc:"本物そっくりの練習画面を、講師が1タップずつ案内。登録不要・無料。",url:"/claude-app",tag:"体験",img:"/claude-app/banner.webp"},
+  start:{name:"AIのはじめかた(無料コース)",desc:"絵巻→マンガ→用語→体験→実践の全3章。順番に進むだけ。",url:"/start",tag:"入門",img:"/start/hero.webp"},
+  manga:{name:"連載マンガ「マンガでわかる!AI活用」",desc:"現場のAI活用術を全7話のマンガで。活字が苦手でも10分。",url:"https://note.com/aiux_unite",tag:"マンガ",img:"https://assets.st-note.com/production/uploads/images/153723212/magazine_cover_landscape_74e4cd3b836dcf9092fc5631a2048ad8.png?width=900"},
+  quest:{name:"Claude Code Quest",desc:"Claude Codeを、RPGで遊びながら学べる。コマンド不要のライト版も。",url:"https://claude-code-quest.vercel.app/",tag:"ゲーム",img:"/works/ccq.png"},
+  emaki:{name:"AI歴史絵巻 EMAKI",desc:"AIの75年を、ひと巻きに。1950年からエージェント時代まで。",url:"/history",tag:"絵巻",img:"/history/cover.webp"},
+  prompts:{name:"仕事のプロンプト集",desc:"営業メール・議事録・Excel関数…失敗例の実演つきで頼み方が身につく。",url:"/prompts",tag:"コピペOK",img:"/og/prompts/index.png"},
+  glossary:{name:"AI用語集(図解つき)",desc:"LLM?RAG?MCP?現場目線でサクッと図解。",url:"/glossary",tag:"図解",img:"/og/glossary/index.png"},
   guide_sales:{name:"営業のAI活用ガイド",desc:"アポ獲得メールから提案書まで、営業の仕事に引きつけて。",url:"/guide/sales",tag:"職種別",img:"/guide/sales.webp"},
   guide_marketing:{name:"マーケティングのAI活用ガイド",desc:"調査・分析・コピーづくりをAIで加速する。",url:"/guide/marketing",tag:"職種別",img:"/guide/marketing.webp"},
   guide_office:{name:"事務のAI活用ガイド",desc:"議事録・資料・定型業務を、AIでラクに正確に。",url:"/guide/office",tag:"職種別",img:"/guide/office.webp"},
@@ -387,7 +412,7 @@ const ITEMS={
   guide_planner:{name:"企画・PMのAI活用ガイド",desc:"リサーチ・要件整理・資料づくりをAIで前に進める。",url:"/guide/planner",tag:"職種別",img:"/guide/planner.webp"},
   guide_owner:{name:"経営者・個人事業主のAI活用ガイド",desc:"ひとりの手数を増やす。営業も経理も発信もAIと一緒に。",url:"/guide/owner",tag:"職種別",img:"/guide/owner.webp"},
   guide_it:{name:"情シス・社内ITのAI活用ガイド",desc:"社内展開・ルール整備・ヘルプデスクをAIで回す。",url:"/guide/it",tag:"職種別",img:"/guide/it.webp"},
-  uketsuke:{name:"AI受付(お仕事相談)",desc:"講演・寄稿・制作・取材。AIと話すだけでお問い合わせが完成。",url:"/uketsuke",tag:"相談",img:null,emoji:"💁",slot:"AI受付 画像"}
+  uketsuke:{name:"AI受付(お仕事相談)",desc:"講演・寄稿・制作・取材。AIと話すだけでお問い合わせが完成。",url:"/uketsuke",tag:"相談",img:"/uketsuke/char.webp"}
 };
 const HERO_IMG="/hero-logo.jpg";
 /* 職業チップ → 職種別ガイドid（サイトの /guide 9職種と対応） */
@@ -449,7 +474,7 @@ function mkSec(cls,label){
 }
 function thumbHTML(it){
   if(it.img)return `<div class="thumb"><img src="${it.img}" alt="" loading="lazy" onerror="this.remove()"></div>`;
-  return `<div class="thumb"><div class="slot"><span>${it.emoji||"🖼"}</span>IMAGE SLOT<br>${esc(it.slot||it.name)}</div></div>`;
+  return `<div class="thumb"><div class="slot">IMAGE SLOT<br>${esc(it.name)}</div></div>`;
 }
 function itemHTML(id){
   const it=ITEMS[id];
@@ -604,12 +629,15 @@ async function main(){
 
   say("十分です。……設計に入ります。あなた専用の構成、コピー、順番。ぜんぶ今から決めます。");
   setLog("plan: 構成を設計中…");
-  $("#blank").classList.add("gone");
+  /* 設計待ちはキャラを残したままローディング表示に切り替える */
+  $("#blank").classList.add("designing");
+  $("#blankMsg").innerHTML='あなた専用の構成を設計しています<span class="ellip"></span>';
 
   const ans={job,level,want};
   let spec;
   try{spec=await generateSpec(ans)}catch(e){spec=fallbackSpec(ans)}
   setLog("plan: 設計 <span class='ok'>✓</span>");
+  $("#blank").classList.add("gone");
 
   await buildLP(spec,ans);
 }
