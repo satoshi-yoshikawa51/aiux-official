@@ -215,15 +215,20 @@ h2.secTitle{
 #bubbleWrap.gone{transform:translateY(120%);opacity:0;pointer-events:none}
 #bubble{
   position:relative;background:#fff;border:2.5px solid var(--ink);
-  border-radius:20px;padding:13px 16px 12px 54px;
+  border-radius:20px 6px 20px 20px; /* 右上だけ絞って、上に立つキャラへの尻尾に */
+  padding:13px 16px 12px;
   min-height:72px;box-shadow:4px 4px 0 rgba(25,23,20,.18);
   max-width:680px;margin:0 auto;
 }
-#guideIcon{
-  position:absolute;left:11px;top:50%;transform:translateY(-50%);
-  width:34px;height:34px;border:2.5px solid var(--ink);border-radius:50%;
-  background:#fff;object-fit:cover;object-position:50% 4%;
+/* ヒアリング役: トップページ右下のAI受付FAB（uke-fab-char）と同じ作法で
+   吹き出しの右肩に固定。吹き出しと一緒に登場・退場する */
+#fabChar{
+  position:absolute;right:10px;bottom:calc(100% - 12px);
+  width:84px;aspect-ratio:488/522;
+  filter:drop-shadow(3px 4px 0 rgba(20,17,15,.22));
+  pointer-events:none;
 }
+#fabChar video,#fabChar img{width:100%;height:100%;object-fit:contain;display:block}
 #narr{
   font-family:var(--font-serif);
   font-size:clamp(14px,3.9vw,16.5px);line-height:1.8;letter-spacing:.02em;
@@ -248,38 +253,96 @@ h2.secTitle{
 }
 #flash.go{animation:zip .42s ease-out}
 @keyframes zip{0%{opacity:0}25%{opacity:.95}100%{opacity:0}}
-/* 白紙のはじまり（AI受付のキャラがヒアリング役として立つ） */
+/* 白紙のはじまり（白紙は白紙のまま。キャラは置かない） */
 #blank{
-  position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;gap:16px;
-  align-items:center;justify-content:center;
+  position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;
   pointer-events:none;transition:opacity .6s;
-  padding-bottom:22vh; /* 下部の吹き出しと重ならないように */
 }
-#blankChar{
-  width:124px;aspect-ratio:488/522;
-  filter:drop-shadow(3px 4px 0 rgba(20,17,15,.22));
-}
-#blankChar video,#blankChar img{width:100%;height:100%;object-fit:contain;display:block}
 #blank .paperMark{
   font-family:var(--font-disp);font-size:clamp(18px,5vw,26px);color:var(--ink);
   opacity:.1;letter-spacing:.1em;
 }
-/* 設計待ちはAI司書のローディング（キャラ+ひとこと）と同じ作法で見せる */
-#blank.designing .paperMark{
-  font-family:var(--font-serif);font-size:15px;letter-spacing:.02em;
-  color:var(--tone);opacity:.9;
-}
-.ellip::after{content:"";animation:ellip 1.2s steps(1,end) infinite}
-@keyframes ellip{0%{content:""}25%{content:"…"}50%{content:"……"}75%{content:"………"}}
 #blank.gone{opacity:0}
-@media (prefers-reduced-motion: reduce){*{transition-duration:.01s !important;animation-duration:.01s !important}}
+/* ===== 設計待ち: トップページのスプラッシュ（splash.tsx）の墨バージョン ===== */
+#designing{
+  position:fixed;inset:0;z-index:6;display:flex;flex-direction:column;gap:20px;
+  align-items:center;justify-content:center;pointer-events:none;
+  opacity:0;transition:opacity .45s;
+}
+#designing.on{opacity:1}
+#designing.gone{opacity:0}
+.ds-face{
+  position:relative;display:block;width:128px;aspect-ratio:530/310;
+  transform-origin:50% 88%;
+  /* 登場: 縦軸でくるくる回りながら実体化 → 呼吸ループ（本家と同じ） */
+  animation:ds-spinin .8s cubic-bezier(.22,1,.36,1) .1s both,
+            ds-breath 1.15s ease-in-out .9s infinite;
+}
+@keyframes ds-spinin{
+  0%{opacity:0;transform:perspective(700px) rotateY(810deg) scale(.2)}
+  55%{opacity:1}
+  82%{transform:perspective(700px) rotateY(-16deg) scale(1.08)}
+  100%{transform:perspective(700px) rotateY(0deg) scale(1)}
+}
+@keyframes ds-breath{
+  0%,100%{transform:scale(1,1)}
+  30%{transform:scale(1.07,.92) translateY(4px)}
+  62%{transform:scale(.95,1.06) translateY(-5px)}
+}
+/* 実体化の瞬間に広がるロックインリング（黄→ノンフォトブルーに差し替え） */
+.ds-ring{
+  position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;
+  border:3px solid var(--blue);border-radius:50%;opacity:0;pointer-events:none;
+  animation:ds-ringpop .46s cubic-bezier(.22,1,.36,1) .82s both;
+}
+@keyframes ds-ringpop{0%{opacity:.85;transform:scale(.4)}100%{opacity:0;transform:scale(1.55)}}
+/* ヒゲが数秒に一度ピクッと動く */
+.ds-whisk{transform-box:fill-box}
+.ds-whisk-l{transform-origin:100% 50%;animation:ds-twitch 3.6s ease-in-out 1.4s infinite}
+.ds-whisk-r{transform-origin:0% 50%;animation:ds-twitch 3.6s ease-in-out 2.6s infinite}
+@keyframes ds-twitch{0%,90%,100%{transform:rotate(0)}93%{transform:rotate(-7deg)}96%{transform:rotate(5deg)}}
+.ds-dots{display:flex;gap:7px;animation:ds-fadein .4s ease .9s both}
+@keyframes ds-fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ds-dots span{
+  width:8px;height:8px;border-radius:50%;background:var(--ink);
+  animation:ds-dot .9s ease-in-out infinite;
+}
+@keyframes ds-dot{0%,100%{transform:translateY(0);opacity:.45}40%{transform:translateY(-7px);opacity:1}}
+.ds-txt{
+  font-family:var(--font-serif);font-size:14px;letter-spacing:.03em;color:var(--tone);
+  animation:ds-fadein .4s ease 1.1s both;
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition-duration:.01s !important;animation-duration:.01s !important}
+  /* 無限ループ系は高速点滅になるので止める */
+  .ds-face,.ds-dots span,.ds-whisk-l,.ds-whisk-r{animation:none !important}
+}
 </style>
 </head>
 <body>
 
-<div id="blank">
-  <div id="blankChar" aria-hidden="true"></div>
-  <div class="paperMark" id="blankMsg">— この先、まだ白紙 —</div>
+<div id="blank"><div class="paperMark">— この先、まだ白紙 —</div></div>
+
+<div id="designing" aria-hidden="true" hidden>
+  <span class="ds-face">
+    <svg width="100%" height="100%" viewBox="-15 0 530 310" style="display:block;overflow:visible">
+      <!-- キャラの輪郭（splash.tsxのシルエットを墨色で。potrace座標のためy反転transform付き） -->
+      <g transform="translate(0,500) scale(0.1,-0.1)" fill="var(--ink)" stroke="none">
+        <path d="M1258 4925 c-82 -46 -123 -406 -84 -734 l13 -113 -40 -67 c-92 -151 -147 -294 -212 -551 -40 -160 -51 -191 -87 -244 -253 -370 -91 -780 383 -967 422 -166 1811 -186 2315 -34 485 147 707 594 474 954 -41 63 -60 119 -110 324 -53 220 -117 381 -207 529 l-36 57 14 83 c29 185 9 616 -32 704 -68 144 -300 57 -590 -222 l-77 -74 -43 16 c-211 74 -666 81 -947 14 -112 -27 -104 -29 -190 50 -230 215 -452 327 -544 275z" />
+      </g>
+      <g class="ds-whisk ds-whisk-l" stroke="var(--ink)" stroke-width="9" stroke-linecap="round">
+        <line x1="42" y1="185" x2="-4" y2="172" />
+        <line x1="44" y1="215" x2="-8" y2="220" />
+      </g>
+      <g class="ds-whisk ds-whisk-r" stroke="var(--ink)" stroke-width="9" stroke-linecap="round">
+        <line x1="458" y1="185" x2="504" y2="172" />
+        <line x1="456" y1="215" x2="508" y2="220" />
+      </g>
+    </svg>
+    <span class="ds-ring"></span>
+  </span>
+  <div class="ds-dots"><span></span><span style="animation-delay:.15s"></span><span style="animation-delay:.3s"></span></div>
+  <div class="ds-txt">あなた専用の構成を設計しています</div>
 </div>
 
 <div id="buildLog">STANDBY ▸ 白紙の原稿</div>
@@ -295,7 +358,7 @@ h2.secTitle{
 
 <div id="bubbleWrap">
   <div id="bubble">
-    <img id="guideIcon" src="/uketsuke/char-icon.webp" alt="">
+    <span id="fabChar" aria-hidden="true"></span>
     <p id="narr"></p>
   </div>
   <div id="chipsRow"></div>
@@ -308,11 +371,11 @@ const site=$("#site"),page=$("#page"),narr=$("#narr"),chipsRow=$("#chipsRow"),lo
 let voiceOn=true;
 
 /* ヒアリング役はAI受付のキャラ。透過webm(VP9)対応ブラウザは動画、
-   Safari等はアニメWebPに切替（本体サイト /uketsuke と同じ判定） */
+   Safari等はアニメWebPに切替（本体サイト /uketsuke・トップFABと同じ判定） */
 (function(){
   const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   const v=document.createElement("video");
-  $("#blankChar").innerHTML=(!isSafari&&v.canPlayType('video/webm; codecs="vp9"'))
+  $("#fabChar").innerHTML=(!isSafari&&v.canPlayType('video/webm; codecs="vp9"'))
     ?'<video src="/uketsuke/char-alpha.webm" autoplay muted loop playsinline preload="auto"></video>'
     :'<img src="/uketsuke/char-anim.webp" alt="">';
 })();
@@ -629,15 +692,22 @@ async function main(){
 
   say("十分です。……設計に入ります。あなた専用の構成、コピー、順番。ぜんぶ今から決めます。");
   setLog("plan: 構成を設計中…");
-  /* 設計待ちはキャラを残したままローディング表示に切り替える */
-  $("#blank").classList.add("designing");
-  $("#blankMsg").innerHTML='あなた専用の構成を設計しています<span class="ellip"></span>';
+  /* 白紙を閉じて、トップページのスプラッシュ（墨色版）で設計待ち */
+  $("#blank").classList.add("gone");
+  const dz=$("#designing");
+  dz.hidden=false;requestAnimationFrame(()=>dz.classList.add("on"));
 
   const ans={job,level,want};
   let spec;
-  try{spec=await generateSpec(ans)}catch(e){spec=fallbackSpec(ans)}
+  /* API応答が速くてもスプラッシュの実体化(0.8s)+呼吸が見える長さは出す */
+  const [got]=await Promise.all([
+    generateSpec(ans).catch(()=>null),
+    wait(1800)
+  ]);
+  spec=got||fallbackSpec(ans);
   setLog("plan: 設計 <span class='ok'>✓</span>");
-  $("#blank").classList.add("gone");
+  dz.classList.add("gone");
+  setTimeout(()=>{dz.hidden=true},500);
 
   await buildLP(spec,ans);
 }
