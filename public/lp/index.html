@@ -191,6 +191,20 @@ h2.secTitle{
 }
 #stamp.on{transform:scale(1) rotate(-8deg);opacity:1;transition:all .3s cubic-bezier(.3,1.6,.5,1)}
 #stamp small{font-family:var(--font-body);font-size:9px;letter-spacing:.05em;margin-top:2px}
+/* --- 奥付の下: COMIXAIトップへの導線 --- */
+.topLink{
+  display:block;margin:22px auto 0;max-width:440px;text-align:center;
+  font-family:var(--font-disp);font-size:clamp(15px,4.2vw,17px);
+  color:#fff;text-decoration:none;
+  background:var(--red);border:3px solid var(--ink);border-radius:999px;
+  padding:16px 22px;box-shadow:5px 5px 0 rgba(25,23,20,.25);
+  transition:transform .12s;
+}
+.topLink:active{transform:translate(3px,3px)}
+.topLink small{
+  display:block;font-family:var(--font-serif);font-size:11.5px;font-weight:400;
+  color:rgba(255,255,255,.85);margin-top:3px;letter-spacing:.04em;
+}
 /* ===== ミニ操作（完成後にだけ出る） ===== */
 #mini{position:fixed;top:14px;right:16px;z-index:12;display:flex;gap:8px}
 .miniBtn{
@@ -409,23 +423,12 @@ function pick(options){
     options.forEach(o=>{
       const b=document.createElement("button");
       b.className="chip";b.textContent=o;
-      b.addEventListener("click",()=>{chipsRow.innerHTML="";thump(320);res(o)});
+      b.addEventListener("click",()=>{chipsRow.innerHTML="";res(o)});
       chipsRow.appendChild(b);
     });
   });
 }
 
-let actx=null;
-function thump(freq){
-  try{
-    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
-    const o=actx.createOscillator(),g=actx.createGain();
-    o.type="triangle";o.frequency.value=freq;
-    g.gain.setValueAtTime(.1,actx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.15);
-    o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.16);
-  }catch(e){}
-}
 function flash(){const f=$("#flash");f.classList.remove("go");void f.offsetWidth;f.classList.add("go")}
 function scrollToEl(el){
   const top=el.offsetTop-70;
@@ -526,7 +529,7 @@ function itemHTML(id){
 async function placeItems(container){
   const items=container.querySelectorAll(".item");
   for(const el of items){
-    el.classList.add("placed");thump(240);
+    el.classList.add("placed");
     await wait(420);
   }
 }
@@ -540,7 +543,7 @@ async function buildLP(spec,ans){
   const secCta=mkSec("cta","CTA — 次の一歩");
   const secFoot=mkSec("footer","奥付");
   const all=[secHero,secDiag,...secList,secCta,secFoot];
-  for(const s of all){s.classList.add("show");thump(200);await wait(180)}
+  for(const s of all){s.classList.add("show");await wait(180)}
   await say("コマ割り、決まりました。上から実装していきます。");
 
   /* --- HERO --- */
@@ -549,7 +552,7 @@ async function buildLP(spec,ans){
   hin.innerHTML=`<span class="badge">${esc(spec.hero.label)}</span>
     <h1 class="catch"></h1><p class="sub"></p>
     <div class="heroImg"><img src="${HERO_IMG}" alt="COMIXAI" onerror="this.parentElement.innerHTML='<div style=&quot;padding:36px;text-align:center;font-family:var(--font-disp);color:var(--blue-deep)&quot;>IMAGE SLOT:ヒーロー画像</div>'"></div>`;
-  secHero.classList.add("built");flash();thump(160);
+  secHero.classList.add("built");flash();
   await typeInto(hin.querySelector(".catch"),spec.hero.catch,60);
   hin.querySelector(".catch").innerHTML=`<span class="ul">${esc(spec.hero.catch)}</span>`;
   await typeInto(hin.querySelector(".sub"),spec.hero.sub,26);
@@ -571,7 +574,7 @@ async function buildLP(spec,ans){
     inn.innerHTML=`<p class="eyebrow"><em>${esc(s.eyebrow||"SEC")}</em> — SECTION ${i+1}</p>
       <h2 class="secTitle"></h2><p class="lead"></p>
       <div class="items">${s.items.map(itemHTML).join("")}</div>`;
-    el.classList.add("built");thump(180);
+    el.classList.add("built");
     await typeInto(inn.querySelector(".secTitle"),s.title,55);
     await typeInto(inn.querySelector(".lead"),s.lead,22);
     await placeItems(inn);
@@ -590,7 +593,7 @@ async function buildLP(spec,ans){
     </div>`;
   secCta.classList.add("built");
   await typeInto(cin.querySelector(".closing"),spec.cta.closing,34);
-  for(const b of cin.querySelectorAll(".ctaBtn")){b.classList.add("placed");thump(300);await wait(300)}
+  for(const b of cin.querySelectorAll(".ctaBtn")){b.classList.add("placed");await wait(300)}
   await wait(400);
 
   /* --- 奥付+公開 --- */
@@ -605,12 +608,13 @@ async function buildLP(spec,ans){
         発行日 ${dstr} / ${esc(ans.job)}向け 第 ${issue} 号<br>
         企画・執筆:吉川AI(comixai.dev) — AIを、面白く。わかりやすく。</div>
       <div id="stamp">開通<small>PUBLISHED</small></div>
-    </div>`;
+    </div>
+    <a class="topLink" href="/">COMIXAI トップページへ ▸<small>あなたのLPに載せきれなかったコンテンツも、ぜんぶここに。</small></a>`;
   secFoot.classList.add("built");
   await wait(400);
   scrollToEl(secFoot);
   await wait(600);
-  flash();thump(110);
+  flash();
   $("#stamp").classList.add("on");
   await wait(800);
 
@@ -630,9 +634,9 @@ let issueFromServer=null;
 async function main(){
   await wait(600);
   await say("……あ、いらっしゃい。すみません、このLP——まだ白紙なんです。");
-  await wait(800);
+  await wait(1300);
   await say("あなたが誰か知らないのに、作れるわけがないので。3つ聞いたら、その場で作ります。");
-  await wait(300);
+  await wait(600);
 
   await say("まず——お仕事は?");
   const job=await pick(["営業","マーケティング","事務・バックオフィス","クリエイター","人事・採用","サポート・CS","企画・PM","経営・個人事業主","情シス・IT","学生・その他"]);
@@ -667,14 +671,9 @@ async function main(){
   await buildLP(spec,ans);
 }
 
-/* 開始+音声解錠 */
+/* 開始 */
 let begun=false;
-function unlockAudio(){
-  /* 効果音(WebAudio)の再生許可だけ取る。音声ナレーションは廃止 */
-  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){}
-}
 window.addEventListener("load",()=>{setTimeout(()=>{if(!begun){begun=true;main()}},300)});
-document.addEventListener("pointerdown",unlockAudio,{once:true});
 $("#againBtn").addEventListener("click",()=>location.reload());
 </script>
 </body>
