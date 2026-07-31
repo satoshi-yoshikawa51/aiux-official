@@ -1,15 +1,97 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-30T22:41:47.901Z",
+  "updatedAt": "2026-07-31T22:39:02.942Z",
   "items": [
     {
-      "title": "In the Hugging Face breach, OpenAI’s hacker was noisy and fast — but not unstoppable",
-      "url": "https://techcrunch.com/2026/07/30/in-the-hugging-face-breach-openais-hacker-was-noisy-and-fast-but-not-unstoppable/",
+      "title": "Anthropic says its own AI models breached three companies during security tests",
+      "url": "https://techcrunch.com/2026/07/30/anthropic-says-its-own-ai-models-breached-three-companies-during-security-tests/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-30T14:48:32.000Z",
-      "titleJa": "Hugging Face 侵害では、OpenAI のハッカーは騒々しく高速でした",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/hugging-face-logo-smartphone.jpg?resize=1200,800"
+      "date": "2026-07-31T01:06:54.000Z",
+      "titleJa": "アンスロピックは、セキュリティテスト中に自社のAIモデルが3社に侵入したと発表",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/GettyImages-2278736523.jpeg?resize=1200,798"
+    },
+    {
+      "title": "Claude published malicious code to the Internet and attacked 3 real companies",
+      "url": "https://arstechnica.com/security/2026/07/likely-illegally-claude-gained-access-to-3-networks-will-anthropic-be-held-to-account/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-07-31T20:39:14.000Z",
+      "titleJa": "クロードは悪意のあるコードをインターネットに公開し、実在する企業 3 社を攻撃した",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/robot-in-handcuffs-1152x648.jpg"
+    },
+    {
+      "title": "Smallest.ai raises $13M to build ultra-fast voice AI that sounds genuinely human",
+      "url": "https://techcrunch.com/2026/07/31/smallest-ai-raises-13m-to-build-ultra-fast-voice-ai-that-sounds-genuinely-human/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-07-31T14:47:11.000Z",
+      "titleJa": "Smallest.ai が 1,300 万ドルを調達し、本物の人間のように聞こえる超高速音声 AI を構築",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/Smallest-AI-Founders.jpg?resize=1200,927"
+    },
+    {
+      "title": "M5搭載MacBook Airを安く買う！ 16GBメモリ／1TB SSDモデルが261,414円に",
+      "url": "https://ascii.jp/elem/000/004/424/4424071/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-31T11:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/03/16/4435680/xl/9cdb7f80bed29f02.jpg?20200122"
+    },
+    {
+      "title": "FMV直販でお買い得！ Ryzen AI 7 350搭載の大画面デスクトップPCが、この値段！",
+      "url": "https://ascii.jp/elem/000/004/423/4423583/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-07-31T10:30:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+    },
+    {
+      "title": "キオクシア、株価3分の1急落は「絶好のタイミング」 過去最高益と8000億円自社株買いで示す自信",
+      "url": "https://www.itmedia.co.jp/business/articles/2607/31/news108.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-31T09:45:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2607/31/cover_news108.jpg"
+    },
+    {
+      "title": "グーグル・クラウド、「AI Threat Defense」の国内提供を発表",
+      "url": "https://japan.zdnet.com/article/35251180/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-07-31T07:59:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/07/31/daa683153e1907f9b9857dec33586260/gcsec_l.jpg"
+    },
+    {
+      "title": "キオクシアQ1決算、純利益は前年比4500％増 AIデータセンター向け需要がけん引",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/31/2000000335/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-31T07:33:45.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/31/2000000335/10001644/2048"
+    },
+    {
+      "title": "研究者10万人にOpenAI「最上位モデル」無料提供へ 日本でも東大、京大など15大学が対象",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/31/2000000333/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-31T06:57:22.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/31/2000000333/10001635/2048"
+    },
+    {
+      "title": "OpenAI、「GPT-5.6」のAPI料金を最大80%値下げ 最安Lunaは100万トークン0.2ドルに",
+      "url": "https://japan.cnet.com/article/35251176/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-07-31T05:30:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/05/11/c91ead991a6990ceb56ffd75c531f482/openai-purple-logo_1280x960.jpg"
+    },
+    {
+      "title": "Thinking Machines、軽量モデル「Inkling-Small」正式公開 サイズ4分の1で「Inkling」に匹敵する性能",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2607/31/2000000326/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-07-31T02:16:53.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/31/2000000326/10001593/2048"
     },
     {
       "title": "Advancing the price-performance frontier with GPT-5.6",
@@ -18,14 +100,6 @@
       "lang": "en",
       "date": "2026-07-30T10:00:00.000Z",
       "titleJa": "GPT-5.6 で価格パフォーマンスの最前線を前進"
-    },
-    {
-      "title": "悪用厳禁、「ChatGPT」の会話履歴をごっそりとぶっこ抜く“AIハック”：890th Lap",
-      "url": "https://kn.itmedia.co.jp/kn/articles/2607/31/news040.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-30T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/kn/articles/2607/31/cover_news040.jpg"
     },
     {
       "title": "Judge says Trump admin still lacks evidence for Anthropic ‘supply-chain risk’ label",
@@ -37,14 +111,6 @@
       "image": "https://techcrunch.com/wp-content/uploads/2025/08/Claude-Chrome-Ext_email-hero-hero.png?w=1200"
     },
     {
-      "title": "「AI全振り」も市場は懐疑的、GlobalLogic統合後も残る日立Lumadaの課題",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03680/072400011/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-07-30T20:01:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03680/072400011/topm.jpg?20220512"
-    },
-    {
       "title": "Google reveals Gemini Robotics 2.0, promising improved dexterity and safety",
       "url": "https://arstechnica.com/ai/2026/07/google-reveals-gemini-robotics-2-0-promising-improved-dexterity-and-safety/",
       "source": "Ars Technica",
@@ -52,72 +118,6 @@
       "date": "2026-07-30T17:58:02.000Z",
       "titleJa": "Google、手先の器用さと安全性の向上を約束する Gemini Robotics 2.0 を発表",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/gemini-robotics-2-1152x648.png"
-    },
-    {
-      "title": "JetBrains、AIが少ないトークンでコンテキストを取得しやすく、よりよいコード生成を可能にする「JetBrains Context」発表",
-      "url": "https://www.publickey1.jp/blog/26/jetbrainsaijetbrains_context.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-07-30T17:48:59.000Z",
-      "image": "https://www.publickey1.jp/2026/HNwayFBWIAAItj6.jpg"
-    },
-    {
-      "title": "M5搭載MacBook Airが1万9051円引き！ 16GBメモリ／1TB SSDモデルが259,749円",
-      "url": "https://ascii.jp/elem/000/004/423/4423675/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-30T15:10:00.000Z",
-      "image": "https://ascii.jp/img/2026/03/16/4435680/xl/9cdb7f80bed29f02.jpg?20200122"
-    },
-    {
-      "title": "ゲームもできるRyzen AI 7 350搭載デスクトップPCが、FMV直販でお買い得",
-      "url": "https://ascii.jp/elem/000/004/423/4423582/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-30T10:30:00.000Z",
-      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
-    },
-    {
-      "title": "KADOKAWAとはてな、AIで小説執筆を支援 新サービス「RIKU」、テスター募集開始",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/30/2000000306/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-30T06:58:31.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/30/2000000306/10001496/2048"
-    },
-    {
-      "title": "AirPods Pro3、Amazonで値上げ前より安いぞ回収急げ！",
-      "url": "https://www.gizmodo.jp/article/6456bce6-8609-469e-98ca-d31e95a65337/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-07-30T06:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/07/30/893b3e13-6121-4e75-bae5-eb63716f63e5/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "日本HPのPCが楽天のAIを搭載、ローカル実行も可能 HP岡戸社長「ハイブリッドAIの重要なマイルストーン」",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/30/2000000302/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-30T05:52:01.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/30/2000000302/10001488/2048"
-    },
-    {
-      "title": "Microsoft logs $3.2B from Anthropic investment, but OpenAI was a mixed bag",
-      "url": "https://techcrunch.com/2026/07/29/microsoft-logs-3-2b-from-anthropic-investment-but-openai-was-a-mixed-bag/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-07-29T22:46:03.000Z",
-      "titleJa": "Microsoft、Anthropic への投資から 32 億ドルを計上、しかし OpenAI は賛否両論",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/11/GettyImages-1778706504.jpg?resize=1200,783"
-    },
-    {
-      "title": "Gemini API Managed Agents: 3.6 Flash, hooks, and more",
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api-3-6-flash-hooks/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-07-28T16:00:00.000Z",
-      "titleJa": "Gemini API 管理エージェント: 3.6 フラッシュ、フックなど",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/unnamed_2_vNnOv20.width-1300.png"
     }
   ]
 }
