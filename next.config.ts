@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
     return [
       // 自己完結の3DゲームHTML（public/game/index.html）を /game で配信
       { source: "/game", destination: "/game/index.html" },
+      // 白紙のLP（public/lp/index.html）を /lp で配信。
+      // LP設計の生成は /api/lp がClaude APIへプロキシする
+      { source: "/lp", destination: "/lp/index.html" },
     ];
   },
   async redirects() {
