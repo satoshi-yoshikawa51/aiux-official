@@ -82,6 +82,17 @@ async function query(ctx, body) {
 const pct = (n) => `${(n * 100).toFixed(1)}%`;
 const pos = (n) => n.toFixed(1);
 
+/* クリック数だけで並べると、0クリックの行が同数で並んで
+   アルファベット順になってしまう。表示回数を第2キーにする。 */
+const byClicks = (a, b) => b.clicks - a.clicks || b.impressions - a.impressions;
+const byImpressions = (a, b) => b.impressions - a.impressions || b.clicks - a.clicks;
+
+/* 長い検索語（AIへの指示文がまるごと入ってくることがある）で
+   表が横に伸びきらないように切る */
+function clip(s, max = 44) {
+  return [...s].length > max ? [...s].slice(0, max - 1).join("") + "…" : s;
+}
+
 async function main() {
   const days = argNumber("days", 28);
   const creds = loadCredentials();
@@ -140,58 +151,110 @@ async function main() {
   });
 
   /* クエリは1回だけ多めに取って、そこから3種類の見方を作る */
+  /* クエリは1回だけ多めに取って、そこから何通りかの見方を作る */
   let queries = [];
-  await section("検索クエリ Top 30（クリック順）", async () => {
-    queries = await query(ctx, { dimensions: ["query"], rowLimit: 1000 });
+  await section("クリックされている検索語 Top 20", async () => {
+    queries = await query(ctx, { dimensions: ["query"], rowLimit: 5000 });
     table(
       ["検索語", "クリック", "表示", "CTR", "順位"],
       queries
         .slice()
-        .sort((a, b) => b.clicks - a.clicks)
-        .slice(0, 30)
-        .map((r) => [r.keys[0], num(r.clicks), num(r.impressions), pct(r.ctr), pos(r.position)]),
+        .sort(byClicks)
+        .slice(0, 20)
+        .map((r) => [clip(r.keys[0]), num(r.clicks), num(r.impressions), pct(r.ctr), pos(r.position)]),
     );
   });
 
-  await section("あと一歩のクエリ（8〜25位・表示10回以上）", async () => {
-    /* 1ページ目の下〜2ページ目。ここを押し上げるのが一番効率がいい */
+  await section("表示されている検索語 Top 20（クリックの有無を問わず）", async () => {
+    /* 「Googleが何のページとして認識しているか」が出る */
+    table(
+      ["検索語", "表示", "クリック", "順位"],
+      queries
+        .slice()
+        .sort(byImpressions)
+        .slice(0, 20)
+        .map((r) => [clip(r.keys[0]), num(r.impressions), num(r.clicks), pos(r.position)]),
+    );
+  });
+
+  await section("あと一歩の検索語（8〜30位・表示5回以上）", async () => {
+    /* 1ページ目の下〜3ページ目。ここを押し上げるのが一番効率がいい。
+       ここが空なら、そもそも上位に食い込めているクエリが無いということ。 */
     const data = queries
-      .filter((r) => r.position >= 8 && r.position <= 25 && r.impressions >= 10)
-      .sort((a, b) => b.impressions - a.impressions)
+      .filter((r) => r.position >= 8 && r.position <= 30 && r.impressions >= 5)
+      .sort(byImpressions)
       .slice(0, 30);
     table(
       ["検索語", "表示", "クリック", "順位"],
-      data.map((r) => [r.keys[0], num(r.impressions), num(r.clicks), pos(r.position)]),
+      data.map((r) => [clip(r.keys[0]), num(r.impressions), num(r.clicks), pos(r.position)]),
     );
   });
 
-  await section("表示は多いのにクリックされないクエリ（7位以内・CTR2%未満）", async () => {
-    /* 順位は取れているのに押されない＝タイトルや説明文が弱い可能性 */
+  await section("順位は取れているのに押されない検索語（10位以内・CTR2%未満）", async () => {
+    /* 見えてはいるのにクリックされない＝タイトルや説明文が弱い可能性 */
     const data = queries
-      .filter((r) => r.position <= 7 && r.impressions >= 20 && r.ctr < 0.02)
-      .sort((a, b) => b.impressions - a.impressions)
+      .filter((r) => r.position <= 10 && r.impressions >= 10 && r.ctr < 0.02)
+      .sort(byImpressions)
       .slice(0, 20);
     table(
       ["検索語", "表示", "クリック", "CTR", "順位"],
-      data.map((r) => [r.keys[0], num(r.impressions), num(r.clicks), pct(r.ctr), pos(r.position)]),
+      data.map((r) => [clip(r.keys[0]), num(r.impressions), num(r.clicks), pct(r.ctr), pos(r.position)]),
     );
   });
 
-  await section("検索で見られているページ Top 20", async () => {
-    const rows = await query(ctx, { dimensions: ["page"], rowLimit: 100 });
+  /* ページも1回取って2通りに使う */
+  let pages = [];
+  await section("検索で見られているページ Top 20（表示回数順）", async () => {
+    pages = await query(ctx, { dimensions: ["page"], rowLimit: 1000 });
     table(
-      ["ページ", "クリック", "表示", "CTR", "順位"],
-      rows
-        .sort((a, b) => b.clicks - a.clicks)
+      ["ページ", "表示", "クリック", "CTR", "順位"],
+      pages
+        .slice()
+        .sort(byImpressions)
         .slice(0, 20)
         .map((r) => [
           /* ドメインを落としてパスだけにする */
           r.keys[0].replace(/^https?:\/\/[^/]+/, "") || "/",
-          num(r.clicks),
           num(r.impressions),
+          num(r.clicks),
           pct(r.ctr),
           pos(r.position),
         ]),
+    );
+  });
+
+  await section("順位は取れているのに押されないページ（10位以内・表示10回以上・CTR2%未満）", async () => {
+    /* 検索語のほうで同じ切り口を見ても、検索回数の少ないクエリは
+       Googleが匿名化して返さないので取りこぼす。ページ単位なら見える。 */
+    const data = pages
+      .filter((r) => r.position <= 10 && r.impressions >= 10 && r.ctr < 0.02)
+      .sort(byImpressions)
+      .slice(0, 20);
+    table(
+      ["ページ", "表示", "クリック", "順位"],
+      data.map((r) => [
+        r.keys[0].replace(/^https?:\/\/[^/]+/, "") || "/",
+        num(r.impressions),
+        num(r.clicks),
+        pos(r.position),
+      ]),
+    );
+  });
+
+  await section("埋もれているページ（30位より下・表示5回以上）", async () => {
+    /* 検索結果には出ているが、誰も辿り着けない深さにいるページ。
+       表示があるということは需要はあるので、伸ばす候補になる。 */
+    const data = pages
+      .filter((r) => r.position > 30 && r.impressions >= 5)
+      .sort(byImpressions)
+      .slice(0, 25);
+    table(
+      ["ページ", "表示", "順位"],
+      data.map((r) => [
+        r.keys[0].replace(/^https?:\/\/[^/]+/, "") || "/",
+        num(r.impressions),
+        pos(r.position),
+      ]),
     );
   });
 
