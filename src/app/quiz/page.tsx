@@ -7,7 +7,7 @@ import { QUESTIONS, QUIZ_SIZE } from "./data";
 import { QuizPlayer } from "./player";
 
 export const metadata: Metadata = {
-  title: "AI用語力診断｜あなたのAI用語力は何級？【全12問・3分】｜COMIXAI",
+  title: "AI用語力診断｜あなたは何級？【全12問・3分】｜COMIXAI",
   description:
     "生成AI・LLM・RAG・トークン…今さら聞けないAI用語、どこまでわかる？全12問・3分のクイズであなたのAI用語力を5段階判定。1問ごとに現場目線の解説つきだから、遊ぶだけでAIに強くなれます。",
   keywords: ["AI クイズ", "AI用語 クイズ", "AI 診断", "生成AI クイズ", "AIリテラシー テスト"],

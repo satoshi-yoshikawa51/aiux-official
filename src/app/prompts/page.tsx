@@ -5,7 +5,7 @@ import { Breadcrumb, SectionHead } from "../site-ui";
 import { RECIPES, RECIPE_CATEGORIES, recipesByCategory } from "./data";
 
 export const metadata: Metadata = {
-  title: `仕事で使えるAIプロンプト集｜コピペOKの例文${RECIPES.length}本と失敗例｜COMIXAI`,
+  title: `仕事で使えるAIプロンプト集｜コピペOKの例文${RECIPES.length}本｜COMIXAI`,
   description:
     "営業メール・議事録・企画書・Excel関数・職務経歴書——仕事のプロンプトをコピペOKの例文で紹介。ダメな指示→事故る出力→直した指示の実演つきで、AIへの頼み方そのものが身につくプロンプト集です。",
   keywords: ["プロンプト 例文", "ChatGPT プロンプト 仕事", "プロンプト テンプレート", "生成AI 業務活用 例", "プロンプト集"],

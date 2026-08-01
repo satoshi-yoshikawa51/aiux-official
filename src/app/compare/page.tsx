@@ -7,7 +7,7 @@ import { ROWS, USES, PRICING, COMPARE_FAQ, COMPARE_UPDATED } from "./data";
 const UPDATED = COMPARE_UPDATED;
 
 export const metadata: Metadata = {
-  title: "ChatGPT・Claude・Gemini比較【2026年7月】料金・違い・使い分け｜COMIXAI",
+  title: "ChatGPT・Claude・Gemini比較｜料金と使い分け【2026年7月】",
   description:
     "ChatGPT・Claude・Gemini、結局どれを使えばいい？最新モデル（GPT-5.6／Claude Fable 5／Gemini Omni）と料金プランを2026年7月時点で比較。得意分野・用途別おすすめ・「どっちがいい？」の一問一答つき。答えは「使い分け」——全部無料で試せます。",
   keywords: ["ChatGPT Claude 違い", "ChatGPT Gemini どっち", "AI 比較 2026", "生成AI おすすめ", "ChatGPT Claude Gemini 料金"],

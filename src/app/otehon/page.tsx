@@ -4,7 +4,7 @@ import { Breadcrumb, ShareRow } from "../site-ui";
 import { OtehonGame } from "./game";
 
 export const metadata: Metadata = {
-  title: "お手本ひとつで｜ゼロショット・フューショット体験ゲーム｜COMIXAI",
+  title: "ゼロショット・フューショット体験ゲーム｜お手本ひとつで",
   description:
     "AIに渡す「お手本」を選ぶと、その特徴どおりに出力が量産される。良い例はAIを一撃で賢くし、悪い例は悪癖ごと増殖——ゼロショット・フューショットの効果とリスクが、遊ぶだけで体感できます。",
   keywords: ["ゼロショット とは", "フューショット とは", "few-shot プロンプト", "プロンプト 例示"],

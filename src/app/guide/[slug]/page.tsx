@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { seoTitle } from "../../seo";
 import { notFound } from "next/navigation";
 import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const g = getGuide(slug);
   if (!g) return {};
   return {
-    title: `${g.title}｜今日から使える実践パターン｜COMIXAI`,
+    title: seoTitle(g.title, "今日から使える実践パターン", "COMIXAI"),
     description: g.metaDescription,
     keywords: g.keywords,
     alternates: { canonical: `/guide/${g.slug}` },

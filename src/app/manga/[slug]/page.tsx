@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { seoTitle } from "../../seo";
 import { notFound } from "next/navigation";
 import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const s = getSeries(slug);
   if (!s) return {};
   return {
-    title: `${s.metaTitle}｜COMIXAI`,
+    title: seoTitle(s.metaTitle, "COMIXAI"),
     description: s.metaDescription,
     keywords: s.keywords,
     alternates: { canonical: `/manga/${s.slug}` },

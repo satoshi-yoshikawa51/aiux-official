@@ -4,7 +4,7 @@ import { Breadcrumb, ShareRow } from "../site-ui";
 import { KeibiGame } from "./game";
 
 export const metadata: Metadata = {
-  title: "インジェクション・ディフェンス｜プロンプトインジェクション体験ゲーム｜COMIXAI",
+  title: "プロンプトインジェクション体験ゲーム｜COMIXAI",
   description:
     "AIエージェントが読む文書に仕込まれた「隠れ指示」を摘発する防衛ゲーム。白文字・HTMLコメント・丁寧語の罠——実在するプロンプトインジェクションの手口が、遊ぶだけで見抜けるようになります。",
   keywords: ["プロンプトインジェクション とは", "プロンプトインジェクション 対策", "AIエージェント セキュリティ", "AI 攻撃 手口"],

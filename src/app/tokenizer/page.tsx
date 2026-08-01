@@ -4,7 +4,7 @@ import { Breadcrumb } from "../site-ui";
 import { TokenizerLab } from "./lab";
 
 export const metadata: Metadata = {
-  title: "トークナイザー体験｜AIは文章をこう読む【打つだけでわかる】｜COMIXAI",
+  title: "トークナイザー体験｜AIは文章をこう読む｜COMIXAI",
   description:
     "文章を打つと、AIが実際に使うトークナイザーがその場で文章を「トークン」に刻む様子を体験できます。トークン数・料金の目安・コンテキストウィンドウの使用量まで一目でわかる、触って学べるAI用語ラボ。",
   keywords: ["トークナイザー", "トークン数 数える", "トークンとは", "AI 料金 トークン", "コンテキストウィンドウ"],

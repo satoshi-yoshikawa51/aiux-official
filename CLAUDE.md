@@ -14,7 +14,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev          # 開発サーバ（http://localhost:3000）
 npm run build        # 本番ビルド ＝ 実質の型チェック／唯一の検証手段
 npm run og:glossary  # OGP画像を一括生成（Playwright/Chromium を使用）
+npm run img:optimize # 表示に使う画像を軽量化（元画像は残す）
+npm run ga:report    # GA4のデータをAPIで取ってレポート表示（要 環境変数）
 ```
+
+`ga:report` は `GA_PROPERTY_ID` と `GA_SERVICE_ACCOUNT_JSON` を環境変数で渡す。
+**サービスアカウントのJSONキーはリポジトリに置かない。** 準備の手順は
+`scripts/ga-report.mjs` の冒頭コメントに全部書いてある。
 
 **テストもLintも設定されていない。** 変更の検証は `npm run build` が通ることで行う（`tsconfig` は `strict: true`）。
 

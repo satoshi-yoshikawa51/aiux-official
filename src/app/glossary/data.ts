@@ -50,7 +50,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-07-16";
+export const GLOSSARY_UPDATED = "2026-08-01";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
@@ -174,7 +174,7 @@ const TERMS_BATCH1: GlossaryTerm[] = [
       desc: "指定し忘れた項目は「いい感じ」に解釈されます——ラップで納品されても泣かない。笑って学ぶプロンプトの基本4点セット。",
       cta: "指示する",
     },
-    relatedSlugs: ["generative-ai", "llm", "ai-workflow"],
+    relatedSlugs: ["generative-ai", "llm", "ai-workflow", "temperature"],
     sections: [
       {
         heading: "プロンプトエンジニアリングの基本テクニック5選",
@@ -323,7 +323,7 @@ const TERMS_BATCH1: GlossaryTerm[] = [
       desc: "学習データ（餌）を3回与えるとAIの人格が決まります。猫ばかり与えると……過学習を体感できる育成ゲーム。",
       cta: "育てる",
     },
-    relatedSlugs: ["rag", "llm"],
+    relatedSlugs: ["rag", "llm", "transfer-learning"],
     sections: [
       {
         heading: "ファインチューニングのやり方（流れ）",
@@ -467,7 +467,7 @@ const TERMS_BATCH1: GlossaryTerm[] = [
       { label: "Claude Code Quest ライト版（選択式のかんたん版）", href: "/works/claude-code-quest-lite" },
       { label: "スマホのClaude Codeだけでニュースアプリを作った記録", href: "https://note.com/aiux_unite/n/n750de90c0668" },
     ],
-    relatedSlugs: ["vibe-coding", "ai-agent", "mcp"],
+    relatedSlugs: ["vibe-coding", "ai-agent", "mcp", "cursor", "coding-agent"],
     sections: [
       {
         heading: "Claude Codeでできること",
@@ -521,7 +521,7 @@ const TERMS_BATCH1: GlossaryTerm[] = [
       desc: "「もっとポップに」——雑な一言を選ぶだけで、目の前でミニアプリが変形していく3分体験。組み合わせは81通り。",
       cta: "作ってみる",
     },
-    relatedSlugs: ["claude-code", "generative-ai"],
+    relatedSlugs: ["claude-code", "generative-ai", "cursor"],
     sections: [
       {
         heading: "バイブコーディングのやり方",
@@ -915,7 +915,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
     links: [
       { label: "連載「マンガでわかる！AI活用」シリーズ紹介", href: "/manga/wakaru" },
     ],
-    relatedSlugs: ["llm", "neural-network", "token"],
+    relatedSlugs: ["llm", "neural-network", "token", "attention"],
     sections: [
       {
         heading: "何がすごかったのか：アテンション（注意機構）",
@@ -1010,7 +1010,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
     links: [
       { label: "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」", href: "https://note.com/aiux_unite/n/n3254dbb5e6b1" },
     ],
-    relatedSlugs: ["token", "llm", "rag"],
+    relatedSlugs: ["token", "llm", "rag", "memory"],
     sections: [
       {
         heading: "広さの目安と「本何冊ぶん」",
@@ -1100,7 +1100,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
     links: [
       { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
     ],
-    relatedSlugs: ["llm", "fine-tuning"],
+    relatedSlugs: ["llm", "fine-tuning", "qwen"],
     sections: [
       {
         heading: "ローカルLLMの始め方",
@@ -1145,7 +1145,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
     links: [
       { label: "ノンエンジニアが挑むChatGPT APIを使ったPythonアプリ構築", href: "https://note.com/aiux_unite/n/n3d980b7ca111" },
     ],
-    relatedSlugs: ["llm", "claude", "gemini"],
+    relatedSlugs: ["llm", "claude", "gemini", "grok", "gpts"],
     sections: [
       {
         heading: "ChatGPTでできること",
@@ -1373,7 +1373,7 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     links: [
       { label: "Claude Coworkで業務改善を半自動化してみた", href: "https://note.com/aiux_unite/n/n169ba6bd6c1e" },
     ],
-    relatedSlugs: ["ai-agent", "deep-research", "multi-agent"],
+    relatedSlugs: ["ai-agent", "deep-research", "multi-agent", "gamma"],
     faq: [
       { q: "Gensparkは何ができますか？", a: "調査レポート作成、スライド生成、画像・動画づくり、電話代行など、複数のAIエージェントがタスクを丸ごと請け負います。「お願い」から「納品」までの距離が短いのが特徴です。" },
       { q: "無料で使えますか？", a: "無料クレジット制で試せます。継続的に使う場合は有料プランという構成です。" },
@@ -1586,7 +1586,7 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       desc: "流れてくる記事を スロップ🗑️/良質✨ でスワイプ判定。あなたのタイムラインを守る鑑定ゲーム。",
       cta: "鑑定する",
     },
-    relatedSlugs: ["generative-ai", "hallucination", "llmo"],
+    relatedSlugs: ["generative-ai", "hallucination", "llmo", "ai-detector"],
     faq: [
       { q: "スロップの見分け方は？", a: "出典のない数字、具体性のない一般論、不自然な画像（指・文字）、書き手が不明——このあたりが典型的なサインです。当ページの扉の鑑定ゲームで目を鍛えられます。" },
       { q: "AIで作ったらスロップなのですか？", a: "いいえ。分かれ目はAI製かどうかではなく、事実確認と責任を人間が持ったかどうかです。AIで作って人間が磨いたコンテンツはスロップではありません。" },
@@ -1865,7 +1865,7 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "モデル名の「7B」「70B」はパラメータ数（Bは10億=Billion）。数が多いほど高性能な傾向がありますが、そのぶんGPUのメモリを食い、料金も高くなります。最近は「小さくても賢い」モデルづくりが競争の主戦場で、蒸留や量子化（それぞれの項を参照）といった軽量化技術が注目されています。",
     ],
     links: [],
-    relatedSlugs: ["llm", "distillation", "quantization"],
+    relatedSlugs: ["llm", "distillation", "quantization", "moe"],
     faq: [
       { q: "パラメータが多いほど賢いのですか？", a: "傾向としては賢くなりますが、データの質や訓練方法しだいで逆転も起きます。近年は小型で高性能なモデルの進化が著しく、「大きさ＝賢さ」の等式は崩れつつあります。" },
       { q: "7Bや70Bの読み方は？", a: "BはBillion（10億）です。7Bなら70億個のパラメータ（モデル内の調整つまみ）を持つ、という意味になります。" },
@@ -1905,7 +1905,7 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "何を学習させたかは著作権問題の主戦場でもあります（AIと著作権の項を参照）。また「良質なデータが枯渇し始めた」ことが業界の大きな課題で、AIが作った文章をAIが学ぶ「共食い」による品質低下も懸念されています（AIスロップの項も参照）。",
     ],
     links: [],
-    relatedSlugs: ["machine-learning", "ai-copyright", "ai-slop"],
+    relatedSlugs: ["machine-learning", "ai-copyright", "ai-slop", "synthetic-data"],
     faq: [
       { q: "学習データはどこから来ているのですか？", a: "公開されたWebテキスト、書籍、コードなどが中心で、近年はライセンス契約したデータや、AIが作った合成データの比率が増えています。" },
       { q: "データに偏りがあるとどうなりますか？", a: "データの偏りはそのままAIの偏りになります。同じ餌ばかり与えて育てるとどうなるかは、当ページの扉の育成ゲームで体験できます。" },
@@ -2123,7 +2123,7 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "副作用もあって、人間に好かれようとするあまり「お世辞が多い」「自信満々に間違える」傾向が生まれるという研究も。AIの妙に丁寧な相づちはRLHFの産物です。飼い主に似るのは犬もAIも同じ、ということかもしれません。",
     ],
     links: [],
-    relatedSlugs: ["reinforcement-learning", "alignment", "chatgpt"],
+    relatedSlugs: ["reinforcement-learning", "alignment", "chatgpt", "human-in-the-loop"],
     faq: [
       { q: "RLHFは何と読みますか？", a: "アールエルエイチエフと読みます。Reinforcement Learning from Human Feedback（人間のフィードバックによる強化学習）の略です。" },
       { q: "副作用があるというのは本当ですか？", a: "本当です。人間に好かれる回答に寄るため、お世辞が増えたり自信満々に間違えたりする傾向（追従性）が研究で指摘されています。当ページの扉で調教する側を体験できます。" },
@@ -2466,7 +2466,7 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "クラウドAIが「賢いが遠い本社」、エッジAIが「そこそこ賢い現場担当」。往復の時間がないぶん反応が速く、通信費もかかりません。モデルの軽量化（量子化・蒸留）の進歩とともに、「その場で考えるAI」の守備範囲はどんどん広がっています。",
     ],
     links: [],
-    relatedSlugs: ["local-llm", "quantization", "gpu"],
+    relatedSlugs: ["local-llm", "quantization", "gpu", "ai-pc"],
     faq: [
       { q: "エッジAIの「エッジ」とは何ですか？", a: "ネットワークの端（edge）＝手元の機器のことです。クラウド（中心）に対して、スマホやカメラなど末端側で処理するためこう呼ばれます。" },
       { q: "エッジAIのメリットは？", a: "通信不要で速い、オフラインでも動く、データが外に出ない、通信コストがかからない、の4点です。AI PCやスマホのAI機能の正体はこれです。" },

@@ -5,7 +5,7 @@ import { Breadcrumb, ShareRow } from "../site-ui";
 import { GUIDES, GUIDES_UPDATED } from "./data";
 
 export const metadata: Metadata = {
-  title: "職種別AI活用ガイド｜営業・マーケ・事務・人事・情シスほか全9職種｜COMIXAI",
+  title: "職種別AI活用ガイド｜営業・マーケ・事務など全9職種｜COMIXAI",
   description:
     "営業・マーケティング・事務・クリエイター・人事・サポート・企画/PM・経営者・情シス——職種ごとに「AIをどの業務で、どう使い始めるか」を実践パターンでまとめたガイド集。コピペで使えるプロンプト、押さえるべき用語、職種別のよくある質問つき。",
   keywords: [
