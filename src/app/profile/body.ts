@@ -1,4 +1,115 @@
 /* プロフィール本文HTML（Claude Design）。dangerouslySetInnerHTMLで描画 */
+import { TERMS } from "../glossary/data";
+import { RECIPES } from "../prompts/data";
+import { GUIDES } from "../guide/data";
+import { WORK_DETAILS } from "../works/data";
+import noteArticles from "../note-articles.json";
+
+/* ============================================================
+   講演・寄稿を検討している人が見るページなので、
+   「何を頼めるか」と「過去に何をやったか」を先に出す。
+
+   TOPICS は依頼を受けられるテーマ。実際の連載・講座・制作物を
+   元にした案なので、内容は本人の意向で書き換えること。
+   RECORD は公開済みの実績だけを載せる。会社名義の登壇は
+   許諾を取ってから足す（勝手に増やさない）。
+   ============================================================ */
+export interface ProfileTopic {
+  title: string;
+  body: string;
+  base: string;
+  icon: string;
+}
+
+export const PROFILE_TOPICS: ProfileTopic[] = [
+  {
+    title: "AI動画制作講座",
+    body: "企画・シナリオづくりから画像素材の生成、動画への仕上げまでを、その場で作りながら見せる実演形式。ツールの説明ではなく「1本できあがる」体験を持ち帰ってもらう構成です。",
+    base: "株式会社FPEC様で実施",
+    icon: "ph-film-slate",
+  },
+  {
+    title: "マンガでわかる生成AI入門",
+    body: "「AIはこわくない」から始める非エンジニア向けの入門。用語の解説ではなく、現場で何がどう変わるかをマンガの語り口で伝えます。",
+    base: "note連載「マンガでわかる！AI活用」全7話",
+    icon: "ph-pen-nib",
+  },
+  {
+    title: "現場で使う生成AI ― Web制作・UXの実践",
+    body: "実際の制作フローのどこにAIを差し込むか。うまくいった型と、事故った型の両方を出します。",
+    base: "note連載「マンガで実践！AI活用」全6話",
+    icon: "ph-compass",
+  },
+  {
+    title: "Claude Codeで、ひとりでサイトをつくる",
+    body: "このサイトそのものを題材に、AIコーディングで個人がどこまで作れるかを具体的に。設計の任せ方と、任せてはいけない場所の線引きまで。",
+    base: "当サイトの全ページを実例に",
+    icon: "ph-code",
+  },
+  {
+    title: "AI時代の「流行」と「本質」",
+    body: "毎週のように出る新ツール。追うべきものと、変わらない芯を切り分ける視点を、IT業界の現場目線で。",
+    base: "note連載「AI時代の流行と本質」",
+    icon: "ph-compass-tool",
+  },
+];
+
+export interface ProfileRecord {
+  date: string;
+  title: string;
+  client: string;
+  body: string;
+  links: { label: string; href: string }[];
+}
+
+export const PROFILE_RECORDS: ProfileRecord[] = [
+  {
+    date: "2024.12",
+    title: "AI動画制作講座",
+    client: "株式会社FPEC様 ／ 個人活動として実施",
+    body: "「AIを面白く！わかりやすく！」をテーマに、構成・シナリオ作成から画像素材の生成、動画の仕上げまでを解説。実施レポートをnoteで公開しています。",
+    links: [
+      { label: "実施レポート（前編）", href: "https://note.com/aiux_unite/n/n77f117e59052" },
+      { label: "（後編）", href: "https://note.com/aiux_unite/n/n537a83c2d15c" },
+    ],
+  },
+];
+
+/* 体験ゲームだけはルートが1本ずつ独立していて数えられないので定数。
+   増やしたらここも直す。 */
+const GAME_COUNT = 17;
+
+const NOTE = (noteArticles as { articles?: { likes?: number }[] }).articles ?? [];
+const NOTE_LIKES = NOTE.reduce((s, a) => s + (a.likes ?? 0), 0);
+
+const topicCards = PROFILE_TOPICS.map(
+  (t, i) => `
+        <article class="topic-card">
+          <div class="tno"><i class="ph-bold ${t.icon}"></i><span>${String(i + 1).padStart(2, "0")}</span></div>
+          <h3>${t.title}</h3>
+          <p>${t.body}</p>
+          <div class="tbase">${t.base}</div>
+        </article>`,
+).join("");
+
+const recordItems = PROFILE_RECORDS.map(
+  (r) => `
+        <li class="rec-item">
+          <span class="rec-date">${r.date}</span>
+          <div>
+            <h3>${r.title}</h3>
+            <div class="rec-client">${r.client}</div>
+            <p>${r.body}</p>
+            <div class="rec-links">${r.links
+              .map(
+                (l) =>
+                  `<a href="${l.href}" target="_blank" rel="noopener">${l.label}<i class="ph-bold ph-arrow-up-right"></i></a>`,
+              )
+              .join("")}</div>
+          </div>
+        </li>`,
+).join("");
+
 export const PROFILE_BODY = `<main>
   <!-- HERO -->
   <section class="hero" aria-label="プロフィール概要">
@@ -95,6 +206,56 @@ export const PROFILE_BODY = `<main>
         <div><dt>連載</dt><dd>週刊少年チャンピオンで漫画を連載</dd></div>
         <div><dt>発信</dt><dd>note「AI-UX UNITE」でAI活用マンガ・記事を発信・YouTube @comixai-dev</dd></div>
       </dl>
+    </div>
+  </section>
+
+  <!-- TOPICS — 依頼できること -->
+  <section aria-label="依頼できるテーマ">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">TOPICS — 依頼できること</div>
+        <h2 class="sec-title">こんなテーマで、お話しします。</h2>
+        <p class="sec-sub">講演・研修・寄稿のご相談に。時間や聴き手に合わせて組み替えますので、まずはご相談ください。</p>
+      </div>
+      <div class="topics">${topicCards}
+      </div>
+    </div>
+  </section>
+
+  <!-- RECORD — 登壇・講座 -->
+  <section class="ink-sec" aria-label="登壇・講座の実績">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">RECORD — 登壇・講座</div>
+        <h2 class="sec-title">現場で、話してきたこと。</h2>
+        <p class="sec-sub" style="color:var(--paper-200)">個人としてご依頼をいただいた講座・登壇の記録です。</p>
+      </div>
+      <ol class="record">${recordItems}
+      </ol>
+    </div>
+  </section>
+
+  <!-- SCALE — つくったもの -->
+  <section aria-label="制作物の規模">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">SCALE — つくったもの</div>
+        <h2 class="sec-title">「AIで作れます」より、作ったものを。</h2>
+        <p class="sec-sub">このサイトは、企画・デザイン・実装・運用まで、ひとりで Claude Code を使って作っています。AI活用の説明としては、これが一番早いと思っています。</p>
+      </div>
+      <div class="scale">
+        <div class="sc"><b>${TERMS.length}</b><span>AI用語集</span></div>
+        <div class="sc"><b>${GAME_COUNT}</b><span>体験ゲーム</span></div>
+        <div class="sc"><b>${RECIPES.length}</b><span>プロンプト</span></div>
+        <div class="sc"><b>${GUIDES.length}</b><span>職種別ガイド</span></div>
+        <div class="sc"><b>${WORK_DETAILS.length}</b><span>ツール・作品</span></div>
+        <div class="sc"><b>${NOTE.length}</b><span>note記事</span></div>
+        <div class="sc"><b>${NOTE_LIKES.toLocaleString("ja-JP")}</b><span>累計スキ</span></div>
+      </div>
+      <div class="scale-cta">
+        <a class="btn btn-ink" href="/works"><i class="ph-bold ph-squares-four"></i>つくったものを見る<i class="ph-bold ph-arrow-right"></i></a>
+        <a class="btn btn-ghost" href="/claude-app"><i class="ph-bold ph-graduation-cap"></i>Claude教習所をさわる<i class="ph-bold ph-arrow-right"></i></a>
+      </div>
     </div>
   </section>
 
