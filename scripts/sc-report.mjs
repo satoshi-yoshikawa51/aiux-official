@@ -98,6 +98,7 @@ async function main() {
   const creds = loadCredentials();
   const token = await getAccessToken(creds, SCOPE);
 
+  const drillPage = process.argv.slice(2).find((a) => a.startsWith("--page="))?.slice(7);
   const sites = await listSites(token);
   if (process.argv.includes("--sites")) {
     console.log("権限のあるサイト:");
@@ -132,6 +133,32 @@ async function main() {
 
   console.log(`\x1b[1mcomixai.dev 検索パフォーマンス\x1b[0m  \x1b[2m${ctx.startDate} 〜 ${ctx.endDate}\x1b[0m`);
   console.log(`\x1b[2m${siteUrl} / ${creds.client_email}\x1b[0m`);
+
+  /* --page=/calendar のように渡すと、そのページ1枚が
+     どんな検索語で出ているかだけを見る。タイトルや説明文を
+     書き直す前に、ずれているのが順位なのか文言なのかを確かめる。 */
+  if (drillPage) {
+    await section(`${drillPage} が出ている検索語`, async () => {
+      const rows = await query(ctx, {
+        dimensions: ["query"],
+        rowLimit: 100,
+        dimensionFilterGroups: [
+          {
+            filters: [
+              { dimension: "page", operator: "equals", expression: `https://comixai.dev${drillPage}` },
+            ],
+          },
+        ],
+      });
+      table(
+        ["検索語", "表示", "クリック", "CTR", "順位"],
+        rows
+          .sort(byImpressions)
+          .map((r) => [clip(r.keys[0]), num(r.impressions), num(r.clicks), pct(r.ctr), pos(r.position)]),
+      );
+    });
+    return;
+  }
 
   await section("サマリ（前の同じ期間との比較）", async () => {
     const [now, before] = await Promise.all([query(ctx, {}), query(prev, {})]);

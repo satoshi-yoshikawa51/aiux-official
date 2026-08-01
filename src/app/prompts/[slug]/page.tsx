@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { seoTitle } from "../../seo";
 import { notFound } from "next/navigation";
 import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const r = getRecipe(slug);
   if (!r) return {};
   return {
-    title: `${r.seoTitle}｜COMIXAI`,
+    title: seoTitle(r.seoTitle, "COMIXAI"),
     description: r.short,
     keywords: r.keywords,
     alternates: { canonical: `/prompts/${r.slug}` },

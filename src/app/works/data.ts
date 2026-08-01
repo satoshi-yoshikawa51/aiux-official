@@ -58,7 +58,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     lastUpdated: "2026-07-04",
     metaTitle: "Claude Code Quest｜Claude Codeを遊びながら学べるRPG",
     metaDescription:
-      "Claude Codeの使い方を、RPGの冒険を通じて学べるブラウザゲーム。Webディレクターが主人公となり、実際にコマンドを打ちながらAIコーディングの基本を体験。新規事業開発の手法で企画し、GA計測とClaudeによる分析でアップデートを重ねています。ブラウザですぐ遊べます。",
+      "Claude Codeの使い方を、RPGの冒険を通じて学べるブラウザゲーム。Webディレクターが主人公となり、実際にコマンドを打ちながらAIコーディングの基本を体験できます。登録不要、ブラウザですぐ遊べます。",
     keywords: [
       "Claude Code 学習",
       "Claude Code 入門",
@@ -106,7 +106,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     tone: "ink",
     badge: "ライト版",
     lastUpdated: "2026-07-04",
-    metaTitle: "Claude Code Quest ライト版｜選択式でかんたんに学べるClaude Code入門ゲーム",
+    metaTitle: "Claude Code Quest ライト版｜選択式で学ぶClaude Code入門",
     metaDescription:
       "コマンドを入力せず、選択肢から選ぶだけで進められるClaude Code入門ゲーム。通常版よりさらに気軽に、Claude Codeでできること・基本の流れをつかめます。スキマ時間に、スマホからでも。ブラウザですぐ遊べます。",
     keywords: [
@@ -155,7 +155,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     tone: "yellow",
     badge: "3D",
     lastUpdated: "2026-07-04",
-    metaTitle: "マンガから作る！3Dゲーム｜手描きイラストからClaudeで作ったブラウザ3Dアクション",
+    metaTitle: "手描きマンガから作った3Dゲーム｜Claude製ブラウザアクション",
     metaDescription:
       "漫画家の手描きイラストから、Claudeを使って3Dゲームを制作。そらとびマスコットを操作してコインを集める、ブラウザですぐ遊べる3Dアクションゲームです。制作の一部始終はnoteで公開中。",
     keywords: [
@@ -248,7 +248,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     tone: "red",
     badge: "新作",
     lastUpdated: "2026-07-24",
-    metaTitle: "5分で覚える！Claude教習所｜さわって覚えるClaude入門シミュレーター",
+    metaTitle: "Claude教習所｜さわって覚えるClaude入門シミュレーター",
     metaDescription:
       "本物そっくりの練習画面を3D講師が「どこを押すか」から1つずつ案内する無料の教習コース。1コース約5分で、チャット・Cowork・コードの使い分けから変更の承認、本番公開まで体験できる。登録不要で失敗しても何も壊れない。",
     keywords: [

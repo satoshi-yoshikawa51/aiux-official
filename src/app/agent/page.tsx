@@ -4,7 +4,7 @@ import { Breadcrumb, ShareRow } from "../site-ui";
 import { AgentGame } from "./game";
 
 export const metadata: Metadata = {
-  title: "AIエージェントに任せてみた｜見守りシミュレーション【エンディング6種】｜COMIXAI",
+  title: "AIエージェントに任せてみた｜体験ゲーム【全6結末】｜COMIXAI",
   description:
     "AIエージェントに「ライバル3社の調査レポート」を任せるシミュレーションゲーム。口を出しすぎても、放置しすぎても事故る——あなたの「任せ方」でエンディングが分岐します。遊ぶだけでAIエージェント時代のマネジメント感覚が身につく。",
   keywords: ["AIエージェント とは", "AI 任せ方", "AIエージェント 体験", "エージェント シミュレーション"],

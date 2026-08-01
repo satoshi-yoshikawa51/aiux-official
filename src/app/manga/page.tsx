@@ -6,7 +6,7 @@ import { MANGA_SERIES } from "./data";
 import { Breadcrumb, SectionHead, ShareRow, SeriesCard } from "./ui";
 
 export const metadata: Metadata = {
-  title: "AI活用マンガ・連載シリーズ一覧｜マンガでわかる生成AI｜COMIXAI",
+  title: "AI活用マンガ連載一覧｜マンガでわかる生成AI｜COMIXAI",
   description:
     "生成AIの入門から実践、AI時代の考察まで。漫画家・AIクリエイター吉川聡史がnoteで連載する「マンガでわかる！AI活用」「マンガで実践！AI活用」「AI時代の流行と本質」の3シリーズを紹介。むずかしいAIを、マンガで面白く、わかりやすく。",
   keywords: [

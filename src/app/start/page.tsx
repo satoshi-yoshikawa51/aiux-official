@@ -5,7 +5,7 @@ import { Breadcrumb } from "../site-ui";
 import { MANGA_SERIES } from "../manga/data";
 
 export const metadata: Metadata = {
-  title: "AIのはじめかた｜誰でも簡単に始められる無料のAI学習コース｜COMIXAI",
+  title: "AIのはじめかた｜無料で始めるAI学習コース｜COMIXAI",
   description:
     "「AIを勉強したいけど、何から始めればいいかわからない」人のための学習コース。絵巻で歴史→マンガで全体像→用語を覚えたらすぐ体験ゲーム→診断で腕試し→仕事につなげる。全部無料、順番に進むだけでAIの基礎が身につきます。",
   keywords: ["AI 勉強 何から", "AI 初心者 独学", "生成AI 学び方", "AI 入門", "AI 学習 ロードマップ"],

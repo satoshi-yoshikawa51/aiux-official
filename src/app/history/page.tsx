@@ -5,7 +5,7 @@ import { Breadcrumb } from "../site-ui";
 import { EmakiFx } from "./emaki-fx";
 
 export const metadata: Metadata = {
-  title: "AIの歴史75年をわかりやすく｜チューリングからエージェント時代までの絵巻｜COMIXAI",
+  title: "AIの歴史75年をわかりやすく｜スクロールで読む年表絵巻",
   description:
     "1950年のチューリングテストから、AI冬の時代、ディープラーニング革命、ChatGPT、そしてAIエージェント時代まで——AIの75年の歴史を、スクロールで読める1本の絵巻にしました。各時代の用語解説つき。",
   keywords: ["AI 歴史", "人工知能 歴史 わかりやすく", "AI 年表", "ディープラーニング 歴史", "ChatGPT 歴史"],

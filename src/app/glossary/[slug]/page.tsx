@@ -7,6 +7,7 @@ import { ARTICLES, ARTICLES_POPULAR, type Tone } from "../../data";
 import { MANGA_SERIES } from "../../manga/data";
 import { WORK_DETAILS } from "../../works/data";
 import { TERMS, getTerm, type TermLink } from "../data";
+import { seoTitle, titleWidth } from "../../seo";
 import { RECIPES } from "../../prompts/data";
 import { TermDiagram, hasDiagram } from "../diagrams";
 import ARTICLE_META from "../article-meta.json";
@@ -102,8 +103,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = getTerm(slug);
   if (!t) return {};
   const title = `${t.term}とは？意味をわかりやすく解説`;
+  /* 用語名の長さは1語ずつ違う。「DX（デジタルトランスフォーメーション）」の
+     ように長い語だと、決まり文句とサイト名を足したところで検索結果では
+     切られてしまうので、短い言い回しから順に入るものを選ぶ。 */
+  const head =
+    [title, `${t.term}とは？わかりやすく解説`, `${t.term}とは？意味を解説`].find(
+      (s) => titleWidth(s) <= 30,
+    ) ?? `${t.term}とは？`;
   return {
-    title: `${title}｜AI用語集｜COMIXAI`,
+    title: seoTitle(head, "AI用語集", "COMIXAI"),
     description: t.short,
     keywords: [`${t.term}とは`, `${t.term} 意味`, `${t.term} わかりやすく`, "AI 用語集", "生成AI"],
     alternates: { canonical: `/glossary/${t.slug}` },

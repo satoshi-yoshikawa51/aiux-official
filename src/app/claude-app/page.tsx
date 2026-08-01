@@ -5,9 +5,9 @@ import { GuidedClaudeApp } from "./guide";
 import { DemoMovie } from "./demo";
 
 export const metadata: Metadata = {
-  title: "5分で覚える！Claude教習所｜さわって覚えるClaudeアプリ入門｜COMIXAI",
+  title: "Claude教習所｜5分でわかるClaudeアプリ入門｜COMIXAI",
   description:
-    "Claudeの使い方は、読むよりさわって覚えるのが早い。本物そっくりの練習画面を講師が「どこを押すか」から1つずつ案内する無料の教習コース。1コース約5分で、チャット・コワーク・コードの使い分け、フォルダの許可、変更やコマンドの承認、成果物のプレビューまで体験できる。登録不要。",
+    "Claudeの使い方は、読むよりさわって覚えるのが早い。本物そっくりの練習画面を、講師が「どこを押すか」から1つずつ案内する無料の教習コース。1コース約5分で、チャット・コワーク・コードの使い分けまで体験できます。登録不要。",
   keywords: ["Claude 使い方", "Claude 入門", "Claude 初心者", "Claude アプリ", "Anthropic Claude 練習", "Claude チュートリアル"],
   alternates: { canonical: "/claude-app" },
   openGraph: {

@@ -121,7 +121,7 @@ const SERIES_BASE: SeriesBase[] = [
     cover:
       "https://assets.st-note.com/production/uploads/images/187520549/magazine_cover_landscape_6bdb11f606659c04533285cbee28805d.png?width=900",
     tone: "red",
-    metaTitle: "マンガで実践！AI活用（全6話）｜Web制作の現場で使えるAI活用テクニック",
+    metaTitle: "マンガで実践！AI活用（全6話）｜Web制作現場のAIテクニック",
     metaDescription:
       "「マンガでわかる！AI活用」の続編となる実践編。実際に「売れる」WebサイトをAIツールを駆使して作る過程を全6話のマンガで公開。Web制作の現場でそのまま使えるAI活用テクニックを、AIクリエイター・漫画家の吉川聡史が実践形式で解説します。",
     keywords: [
