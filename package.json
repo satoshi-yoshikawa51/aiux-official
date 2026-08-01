@@ -9,7 +9,8 @@
     "og:glossary": "node --experimental-strip-types scripts/generate-og-images.mjs",
     "guide:heroes": "node scripts/generate-guide-heroes.mjs",
     "img:optimize": "node scripts/optimize-images.mjs",
-    "ga:report": "node scripts/ga-report.mjs"
+    "ga:report": "node scripts/ga-report.mjs",
+    "sc:report": "node scripts/sc-report.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.111.0",
