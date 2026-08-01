@@ -1117,12 +1117,16 @@ const UKE_SPARKS: { left: number; top: number; size: number; color: string; dela
 function UketsukeFab() {
   const [state, setState] = React.useState<"hidden" | "pop" | "exiting" | "docked">("hidden");
   /* 透過webm（VP9アルファ）が再生できるブラウザだけ動画にする。
-     SafariはVP9を再生できてもアルファ非対応で黒背景になるため除外 */
+     SafariはVP9を再生できてもアルファ非対応で黒背景になるため除外。
+     Xアプリ等のiOS WKWebViewはUAに"Safari"を含まないので、iOS端末
+     そのものでも判定する（Mac風UAのiPadOSはタッチ点数で検出） */
   const [alphaVideo, setAlphaVideo] = React.useState(false);
   React.useEffect(() => {
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const ua = navigator.userAgent;
+    const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
     const v = document.createElement("video");
-    if (!isSafari && v.canPlayType('video/webm; codecs="vp9"')) setAlphaVideo(true);
+    if (!isIOS && !isSafari && v.canPlayType('video/webm; codecs="vp9"')) setAlphaVideo(true);
   }, []);
   const [sparkle, setSparkle] = React.useState(false);
 
