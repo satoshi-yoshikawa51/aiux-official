@@ -96,7 +96,7 @@ body::before{
   box-shadow:5px 5px 0 rgba(25,23,20,.15);
   overflow:hidden;background:#fff;
 }
-.heroImg img{display:block;width:100%;height:auto}
+.heroImg img,.heroImg video{display:block;width:100%;height:auto}
 /* --- 診断（黄色い付箋メモ風。カルテの走り書き） --- */
 .diag .inner{padding:14px 16px}
 .diagBox{
@@ -457,15 +457,15 @@ const ITEMS={
   guide_it:{name:"情シス・社内ITのAI活用ガイド",desc:"社内展開・ルール整備・ヘルプデスクをAIで回す。",url:"/guide/it",tag:"職種別",img:"/guide/it.webp"},
   uketsuke:{name:"AI受付(お仕事相談)",desc:"講演・寄稿・制作・取材。AIと話すだけでお問い合わせが完成。",url:"/uketsuke",tag:"相談",img:"/uketsuke/char.webp"}
 };
-/* MVのビジュアル: 3問目の回答ごとの猫キャラ画像を public/lp/hero/ に置く。
-   {learn,make,work,consult}.webp → 無ければ default.webp → 無ければロゴ */
+/* MVのビジュアル: 3問目の回答ごとの猫キャラのループ動画（public/lp/hero/）。
+   {key}.mp4 + ポスター{key}.webp のペア。再生できない環境はロゴにフォールバック */
 const HERO_BY_WANT={
   "基礎から学びたい":"learn",
   "なにか作ってみたい":"make",
   "明日の仕事で使いたい":"work",
   "仕事を相談したい":"consult"
 };
-function heroSrc(want){return `/lp/hero/${HERO_BY_WANT[want]||"default"}.webp`}
+function heroBase(want){return `/lp/hero/${HERO_BY_WANT[want]||"default"}`}
 const HERO_FALLBACK="/hero-logo.jpg";
 /* 職業チップ → 職種別ガイドid（サイトの /guide 9職種と対応） */
 const GUIDE_MAP={
@@ -560,7 +560,7 @@ async function buildLP(spec,ans){
   const hin=secHero.querySelector(".inner");
   hin.innerHTML=`<span class="badge">${esc(spec.hero.label)}</span>
     <h1 class="catch"></h1><p class="sub"></p>
-    <div class="heroImg"><img src="${heroSrc(ans.want)}" alt="COMIXAI" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='/lp/hero/default.webp'}else if(!this.dataset.g){this.dataset.g=1;this.src='${HERO_FALLBACK}'}else{this.remove()}"></div>`;
+    <div class="heroImg"><video poster="${heroBase(ans.want)}.webp" autoplay muted loop playsinline preload="auto" aria-label="COMIXAI"><source src="${heroBase(ans.want)}.webm" type="video/webm"><source src="${heroBase(ans.want)}.mp4" type="video/mp4" onerror="var v=this.parentElement,i=document.createElement('img');i.src='${HERO_FALLBACK}';i.alt='COMIXAI';v.replaceWith(i)"></video></div>`;
   secHero.classList.add("built");flash();
   await typeInto(hin.querySelector(".catch"),spec.hero.catch,60);
   hin.querySelector(".catch").innerHTML=`<span class="ul">${esc(spec.hero.catch)}</span>`;
