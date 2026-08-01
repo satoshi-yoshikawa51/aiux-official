@@ -3,6 +3,7 @@ import { TERMS } from "../glossary/data";
 import { RECIPES } from "../prompts/data";
 import { GUIDES } from "../guide/data";
 import { WORK_DETAILS } from "../works/data";
+import { GAME_COUNT } from "../games";
 import noteArticles from "../note-articles.json";
 
 /* ============================================================
@@ -74,10 +75,6 @@ export const PROFILE_RECORDS: ProfileRecord[] = [
     ],
   },
 ];
-
-/* 体験ゲームだけはルートが1本ずつ独立していて数えられないので定数。
-   増やしたらここも直す。 */
-const GAME_COUNT = 17;
 
 const NOTE = (noteArticles as { articles?: { likes?: number }[] }).articles ?? [];
 const NOTE_LIKES = NOTE.reduce((s, a) => s + (a.likes ?? 0), 0);
