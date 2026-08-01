@@ -55,13 +55,13 @@ export function SectionHead({ kicker, title, hand }: { kicker: React.ReactNode; 
 /* —— サムネイル＋概要つきの横型リンクカード
       （用語集の「もっと深く」等。マガジンの収録エピソードと同デザイン） —— */
 export function MediaLinkCard({
-  href, title, desc, thumb, badge, tone = "paper", likes, external,
+  href, title, desc, thumb, badge, tone = "paper", likes, external, place = "media-link",
 }: {
   href: string; title: string; desc?: string; thumb?: string;
-  badge?: string; tone?: Tone; likes?: number; external: boolean;
+  badge?: string; tone?: Tone; likes?: number; external: boolean; place?: string;
 }) {
   return (
-    <a href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: "none", color: "inherit" }}>
+    <a href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} data-ga="card_click" data-ga-place={place} data-ga-path={href} style={{ textDecoration: "none", color: "inherit" }}>
       <Card variant="pop" hover padding={0} style={{ overflow: "hidden" }}>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {thumb && (
