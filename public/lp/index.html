@@ -404,11 +404,16 @@ document.addEventListener("click",e=>{
 },true);
 
 /* ヒアリング役はAI受付のキャラ。透過webm(VP9)対応ブラウザは動画、
-   Safari等はアニメWebPに切替（本体サイト /uketsuke・トップFABと同じ判定） */
+   それ以外はアニメWebPに切替。
+   注意: iOSはWebKitがVP9を再生できてもアルファ(透過)非対応なので常にWebP。
+   XアプリのWKWebViewはUAに"Safari"を含まず旧判定をすり抜けるため、
+   iOS端末そのものを見る（iPadOSはMac風UAなのでタッチ点数でも判定） */
 (function(){
-  const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const ua=navigator.userAgent;
+  const isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  const isSafari=/^((?!chrome|android).)*safari/i.test(ua);
   const v=document.createElement("video");
-  $("#fabChar").innerHTML=(!isSafari&&v.canPlayType('video/webm; codecs="vp9"'))
+  $("#fabChar").innerHTML=(!isIOS&&!isSafari&&v.canPlayType('video/webm; codecs="vp9"'))
     ?'<video src="/uketsuke/char-alpha.webm" autoplay muted loop playsinline preload="auto"></video>'
     :'<img src="/uketsuke/char-anim.webp" alt="">';
 })();
