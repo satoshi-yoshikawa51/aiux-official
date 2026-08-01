@@ -378,6 +378,54 @@ export const WORK_DETAILS: WorkDetail[] = [
     appCategory: "UtilitiesApplication",
     storyUrls: [],
   },
+  {
+    slug: "hakushi-lp",
+    category: "ツール",
+    title: "白紙のLP",
+    tagline: "3タップ答えると、目の前であなた専用のLPが組み上がる。",
+    appUrl: "/lp",
+    cta: "つくってもらう",
+    image: "/lp/ogp.png",
+    tone: "blue",
+    badge: "世界に一冊",
+    lastUpdated: "2026-08-01",
+    metaTitle: "白紙のLP｜3タップで、あなた専用のLPがその場で組み上がる",
+    metaDescription:
+      "開いた瞬間はまっ白。AIが職業・AIとの距離・いまほしいものを3タップで聞いて、その場であなた専用のLPを設計・執筆・組み上げるインタラクティブ体験です。構成もキャッチコピーも訪問者ごとに違う、発行番号つきの世界に一冊のLP。",
+    keywords: [
+      "AI LP 自動生成",
+      "パーソナライズ LP",
+      "Claude API 活用例",
+      "生成AI Webサイト",
+      "インタラクティブ LP",
+      "AI Web制作",
+    ],
+    intro: [
+      "開いた瞬間は、まっ白なページ。「あなたが誰か知らないのに、作れるわけがないので」——AIが逆に3つ質問してきて、答えると目の前でワイヤーフレームが引かれ、キャッチコピーが執筆され、画像が貼り込まれて、あなた専用のLPが組み上がっていきます。構成も、コピーも、載るコンテンツの順番も、訪問者ごとに違います。",
+      "しくみは、3つの回答をClaudeに渡してLPの設計JSON（構成・コピー・掲載コンテンツ）を生成し、それをライブビルド演出で実装していくというもの。完成したLPには発行日と通し番号入りの奥付が付いて「開通」の判が押されます。同じLPは二度とできない、世界に一冊のLPです。",
+    ],
+    features: [
+      {
+        icon: "ph-chats-circle",
+        title: "AIが逆に質問してくる",
+        text: "職業・AIとの距離・いまほしいもの。3タップ答えるだけで、あなたの専用設計が始まる。",
+      },
+      {
+        icon: "ph-magic-wand",
+        title: "目の前で組み上がる",
+        text: "コマ割り→執筆→画像配置→公開まで、LPができていく過程そのものを演出として見せる。",
+      },
+      {
+        icon: "ph-book-open",
+        title: "世界に一冊の奥付つき",
+        text: "発行日と通し番号が入って「開通」の判が押される。あなたのためだけの一冊が発行される。",
+      },
+    ],
+    tech: ["Claude API", "Claude Code", "Next.js", "Midjourney", "Vercel"],
+    schemaType: "WebApplication",
+    appCategory: "DesignApplication",
+    storyUrls: [],
+  },
 ];
 
 export function getWork(slug: string): WorkDetail | undefined {
