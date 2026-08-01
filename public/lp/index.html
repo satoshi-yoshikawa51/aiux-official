@@ -457,7 +457,16 @@ const ITEMS={
   guide_it:{name:"情シス・社内ITのAI活用ガイド",desc:"社内展開・ルール整備・ヘルプデスクをAIで回す。",url:"/guide/it",tag:"職種別",img:"/guide/it.webp"},
   uketsuke:{name:"AI受付(お仕事相談)",desc:"講演・寄稿・制作・取材。AIと話すだけでお問い合わせが完成。",url:"/uketsuke",tag:"相談",img:"/uketsuke/char.webp"}
 };
-const HERO_IMG="/hero-logo.jpg";
+/* MVのビジュアル: 3問目の回答ごとの猫キャラ画像を public/lp/hero/ に置く。
+   {learn,make,work,consult}.webp → 無ければ default.webp → 無ければロゴ */
+const HERO_BY_WANT={
+  "基礎から学びたい":"learn",
+  "なにか作ってみたい":"make",
+  "明日の仕事で使いたい":"work",
+  "仕事を相談したい":"consult"
+};
+function heroSrc(want){return `/lp/hero/${HERO_BY_WANT[want]||"default"}.webp`}
+const HERO_FALLBACK="/hero-logo.jpg";
 /* 職業チップ → 職種別ガイドid（サイトの /guide 9職種と対応） */
 const GUIDE_MAP={
   "営業":"guide_sales","マーケティング":"guide_marketing","事務・バックオフィス":"guide_office",
@@ -551,7 +560,7 @@ async function buildLP(spec,ans){
   const hin=secHero.querySelector(".inner");
   hin.innerHTML=`<span class="badge">${esc(spec.hero.label)}</span>
     <h1 class="catch"></h1><p class="sub"></p>
-    <div class="heroImg"><img src="${HERO_IMG}" alt="COMIXAI" onerror="this.parentElement.innerHTML='<div style=&quot;padding:36px;text-align:center;font-family:var(--font-disp);color:var(--blue-deep)&quot;>IMAGE SLOT:ヒーロー画像</div>'"></div>`;
+    <div class="heroImg"><img src="${heroSrc(ans.want)}" alt="COMIXAI" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='/lp/hero/default.webp'}else if(!this.dataset.g){this.dataset.g=1;this.src='${HERO_FALLBACK}'}else{this.remove()}"></div>`;
   secHero.classList.add("built");flash();
   await typeInto(hin.querySelector(".catch"),spec.hero.catch,60);
   hin.querySelector(".catch").innerHTML=`<span class="ul">${esc(spec.hero.catch)}</span>`;
