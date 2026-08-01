@@ -23,10 +23,10 @@ export interface ProfileTopic {
 
 export const PROFILE_TOPICS: ProfileTopic[] = [
   {
-    title: "AI動画制作講座",
-    body: "企画・シナリオづくりから画像素材の生成、動画への仕上げまでを、その場で作りながら見せる実演形式。ツールの説明ではなく「1本できあがる」体験を持ち帰ってもらう構成です。",
-    base: "株式会社FPEC様で実施",
-    icon: "ph-film-slate",
+    title: "現場で使う生成AI ― Web制作・UXの実践",
+    body: "実際の制作フローのどこにAIを差し込むか。うまくいった型と、事故った型の両方を出します。",
+    base: "note連載「マンガで実践！AI活用」全6話",
+    icon: "ph-compass",
   },
   {
     title: "マンガでわかる生成AI入門",
@@ -35,16 +35,16 @@ export const PROFILE_TOPICS: ProfileTopic[] = [
     icon: "ph-pen-nib",
   },
   {
-    title: "現場で使う生成AI ― Web制作・UXの実践",
-    body: "実際の制作フローのどこにAIを差し込むか。うまくいった型と、事故った型の両方を出します。",
-    base: "note連載「マンガで実践！AI活用」全6話",
-    icon: "ph-compass",
-  },
-  {
     title: "Claude Codeで、ひとりでサイトをつくる",
     body: "このサイトそのものを題材に、AIコーディングで個人がどこまで作れるかを具体的に。設計の任せ方と、任せてはいけない場所の線引きまで。",
     base: "当サイトの全ページを実例に",
     icon: "ph-code",
+  },
+  {
+    title: "AI動画制作講座",
+    body: "企画・シナリオづくりから画像素材の生成、動画への仕上げまでを、その場で作りながら見せる実演形式。ツールの説明ではなく「1本できあがる」体験を持ち帰ってもらう構成です。",
+    base: "株式会社FPEC様で実施",
+    icon: "ph-film-slate",
   },
   {
     title: "AI時代の「流行」と「本質」",
