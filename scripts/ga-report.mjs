@@ -144,23 +144,32 @@ class GaError extends Error {
   }
 }
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 async function runReport(ctx, body) {
-  const res = await fetch(`${API}/properties/${ctx.propertyId}:runReport`, {
-    method: "POST",
-    headers: {
-      authorization: `Bearer ${ctx.token}`,
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      dateRanges: [{ startDate: `${ctx.days}daysAgo`, endDate: "today" }],
-      ...body,
-    }),
-  });
-  const json = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new GaError(json.error?.message ?? `HTTP ${res.status}`, res.status);
+  /* 503 / 429 がたまに返るので数回だけ待って引き直す。
+     ここで諦めると、その項目だけ空で出てしまい紛らわしい。 */
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt > 0) await sleep(attempt * 1500);
+    const res = await fetch(`${API}/properties/${ctx.propertyId}:runReport`, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${ctx.token}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        dateRanges: [{ startDate: `${ctx.days}daysAgo`, endDate: "today" }],
+        ...body,
+      }),
+    });
+    const json = await res.json().catch(() => ({}));
+    if (res.ok) return json;
+    lastError = new GaError(json.error?.message ?? `HTTP ${res.status}`, res.status);
+    /* 引数の間違いや権限不足は待っても直らないので即やめる */
+    if (res.status !== 503 && res.status !== 429 && res.status < 500) break;
   }
-  return json;
+  throw lastError;
 }
 
 /* レスポンスを [{ 次元1, 次元2, ..., 数値 }] の素直な配列にする */
