@@ -12,6 +12,14 @@
 <meta property="og:url" content="https://comixai.dev/lp">
 <meta property="og:image" content="https://comixai.dev/lp/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FVS6MP6GQ"></script>
+<script>
+/* GA4（本体サイトと同じ測定ID）。読み込み失敗時もgtag()はdataLayerに積むだけなので安全 */
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments)}
+gtag("js",new Date());
+gtag("config","G-2FVS6MP6GQ");
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -361,8 +369,8 @@ h2.secTitle{
 </div>
 
 <div id="mini">
-  <a class="miniBtn" id="xBtn" target="_blank">𝕏 ポスト</a>
-  <button class="miniBtn" id="againBtn">作り直す</button>
+  <a class="miniBtn" id="xBtn" target="_blank" data-ga="lp_share_x">𝕏 ポスト</a>
+  <button class="miniBtn" id="againBtn" data-ga="lp_retry">作り直す</button>
 </div>
 
 <div id="site"><div id="page"></div></div>
@@ -381,6 +389,19 @@ h2.secTitle{
 /* ============ 基本 ============ */
 const $=s=>document.querySelector(s);
 const site=$("#site"),page=$("#page"),narr=$("#narr"),chipsRow=$("#chipsRow");
+
+/* ============ GA4計測 ============ */
+function track(name,params){try{gtag("event",name,params||{})}catch(e){}}
+/* 本体サイトの ga-clicks.tsx と同じ作法: data-ga属性のクリックをまとめて計測 */
+document.addEventListener("click",e=>{
+  const el=e.target instanceof Element?e.target.closest("[data-ga]"):null;
+  if(!el)return;
+  const params={};
+  for(const a of el.attributes){
+    if(a.name.startsWith("data-ga-"))params[a.name.slice(8).replace(/-/g,"_")]=a.value;
+  }
+  track(el.getAttribute("data-ga"),params);
+},true);
 
 /* ヒアリング役はAI受付のキャラ。透過webm(VP9)対応ブラウザは動画、
    Safari等はアニメWebPに切替（本体サイト /uketsuke・トップFABと同じ判定） */
@@ -530,7 +551,7 @@ function thumbHTML(it){
 }
 function itemHTML(id){
   const it=ITEMS[id];
-  return `<a class="item" href="${it.url}" target="_blank">
+  return `<a class="item" href="${it.url}" target="_blank" data-ga="lp_item_click" data-ga-item="${id}">
     ${thumbHTML(it)}
     <div class="itxt"><span class="tag">${esc(it.tag)}</span><b>${esc(it.name)}</b><p>${esc(it.desc||"")}</p><span class="go">ひらく ▸</span></div>
   </a>`;
@@ -597,8 +618,8 @@ async function buildLP(spec,ans){
   const m=ITEMS[spec.cta.main.id],sb=ITEMS[spec.cta.sub.id];
   cin.innerHTML=`<p class="closing"></p>
     <div class="ctaRow">
-      <a class="ctaBtn dark" href="${m.url}" target="_blank">${esc(spec.cta.main.text)}</a>
-      <a class="ctaBtn" href="${sb.url}" target="_blank">${esc(spec.cta.sub.text)}</a>
+      <a class="ctaBtn dark" href="${m.url}" target="_blank" data-ga="lp_cta_click" data-ga-item="${spec.cta.main.id}" data-ga-place="main">${esc(spec.cta.main.text)}</a>
+      <a class="ctaBtn" href="${sb.url}" target="_blank" data-ga="lp_cta_click" data-ga-item="${spec.cta.sub.id}" data-ga-place="sub">${esc(spec.cta.sub.text)}</a>
     </div>`;
   secCta.classList.add("built");
   await typeInto(cin.querySelector(".closing"),spec.cta.closing,34);
@@ -618,13 +639,14 @@ async function buildLP(spec,ans){
         企画・執筆:吉川AI(comixai.dev) — AIを、面白く。わかりやすく。</div>
       <div id="stamp">開通<small>PUBLISHED</small></div>
     </div>
-    <a class="topLink" href="/">COMIXAI トップページへ ▸<small>あなたのLPに載せきれなかったコンテンツも、ぜんぶここに。</small></a>`;
+    <a class="topLink" href="/" data-ga="lp_top_click">COMIXAI トップページへ ▸<small>あなたのLPに載せきれなかったコンテンツも、ぜんぶここに。</small></a>`;
   secFoot.classList.add("built");
   await wait(400);
   scrollToEl(secFoot);
   await wait(600);
   flash();
   $("#stamp").classList.add("on");
+  track("lp_publish",{job:ans.job,want:ans.want,issue:String(issue)});
   await wait(800);
 
   /* --- 開放 --- */
@@ -649,16 +671,19 @@ async function main(){
 
   await say("まず——お仕事は?");
   const job=await pick(["営業","マーケティング","事務・バックオフィス","クリエイター","人事・採用","サポート・CS","企画・PM","経営・個人事業主","情シス・IT","学生・その他"]);
+  track("lp_answer",{step:"job",answer:job});
   await say(`${job}。なるほど、主人公が決まりました。`);
   await wait(400);
 
   await say("AIとは、どれくらいの仲ですか?");
   const level=await pick(["ほぼ触ったことない","たまに使う","毎日使ってる"]);
+  track("lp_answer",{step:"level",answer:level});
   await say("ふむふむ。載せるものが絞れてきた。");
   await wait(400);
 
   await say("最後に——いま一番ほしいものは?");
   const want=await pick(["基礎から学びたい","なにか作ってみたい","明日の仕事で使いたい","仕事を相談したい"]);
+  track("lp_answer",{step:"want",answer:want});
 
   say("十分です。……設計に入ります。あなた専用の構成、コピー、順番。ぜんぶ今から決めます。");
   /* 白紙を閉じて、トップページのスプラッシュ（墨色版）で設計待ち */
@@ -674,6 +699,7 @@ async function main(){
     wait(1800)
   ]);
   spec=got||fallbackSpec(ans);
+  track("lp_generate",{result:got?"ai":"fallback"});
   dz.classList.add("gone");
   setTimeout(()=>{dz.hidden=true},500);
 
