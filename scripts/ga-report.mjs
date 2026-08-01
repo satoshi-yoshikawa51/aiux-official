@@ -273,6 +273,68 @@ async function main() {
   );
 
   await section(
+    "何が押されているか（place別）",
+    async () => {
+      /* トップページから人がどこへ抜けているかを見る。
+         card_click＝コンテンツのカード、cta_click＝節ごとのボタン、
+         nav_click＝ヘッダー・フッター・本文中のリンク。 */
+      const r = await runReport(ctx, {
+        dimensions: [{ name: "eventName" }, { name: "customEvent:place" }],
+        metrics: [{ name: "eventCount" }],
+        dimensionFilter: eventFilter(["card_click", "cta_click", "nav_click", "social_click"]),
+        orderBys: [{ metric: { metricName: "eventCount" }, desc: true }],
+        limit: 60,
+      });
+      table(
+        ["置き場所", "種類", "回数"],
+        rows(r).map((x) => [x.keys[1], x.keys[0].replace("_click", ""), num(x.values[0])]),
+      );
+    },
+    DIM_HINT,
+  );
+
+  await section(
+    "どこへ抜けているか（遷移先別）",
+    async () => {
+      const r = await runReport(ctx, {
+        dimensions: [{ name: "customEvent:path" }],
+        metrics: [{ name: "eventCount" }],
+        dimensionFilter: eventFilter(["card_click", "nav_click"]),
+        orderBys: [{ metric: { metricName: "eventCount" }, desc: true }],
+        limit: 30,
+      });
+      table(
+        ["遷移先", "回数"],
+        rows(r).map((x) => [x.keys[0], num(x.values[0])]),
+      );
+    },
+    DIM_HINT,
+  );
+
+  await section("AI司書のファネル（ボタン→検索実行）", async () => {
+    /* 検索ボタンが押された回数と、実際に検索された回数。
+       前者だけ多いなら「開いたが使わなかった」、
+       どちらも少ないなら「そもそも気づかれていない」。 */
+    const r = await runReport(ctx, {
+      dimensions: [{ name: "eventName" }],
+      metrics: [{ name: "eventCount" }, { name: "totalUsers" }],
+      dimensionFilter: eventFilter(["search_open", "site_search"]),
+      limit: 10,
+    });
+    const m = new Map(rows(r).map((x) => [x.keys[0], x.values]));
+    const open = m.get("search_open") ?? [0, 0];
+    const used = m.get("site_search") ?? [0, 0];
+    table(
+      ["段階", "回数", "人数"],
+      [
+        ["検索ボタンを押した", num(open[0]), num(open[1])],
+        ["実際に検索した", num(used[0]), num(used[1])],
+        ["うち検索まで進んだ割合", open[0] ? `${Math.round((used[0] / open[0]) * 100)}%` : "-", ""],
+      ],
+    );
+  });
+
+  await section(
     "CTAのクリック（cta_click）",
     async () => {
       const r = await runReport(ctx, {

@@ -49,13 +49,15 @@ const fmtDate = (d?: string) => (d || "").replace(/-/g, ".");
 function HeroActionsLight() {
   return (
     <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-      <a href={NOTE} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+      <a href={NOTE} target="_blank" rel="noopener noreferrer" data-ga="cta_click" data-ga-place="hero-note" style={{ textDecoration: "none" }}>
         <Button variant="primary" size="lg" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
           noteでマンガを読む
         </Button>
       </a>
       <a
         href="#articles"
+        data-ga="cta_click"
+        data-ga-place="hero-articles"
         style={{
           textDecoration: "none",
           display: "inline-flex",
@@ -376,7 +378,7 @@ function Profile() {
           ))}
         </div>
         <div style={{ marginTop: 30 }}>
-          <a href="/profile" style={{ textDecoration: "none" }}>
+          <a href="/profile" data-ga="cta_click" data-ga-place="top-profile" style={{ textDecoration: "none" }}>
             <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
               詳しいプロフィールを見る
             </Button>
@@ -423,7 +425,7 @@ function Thumb({ a, h }: { a: Article; h: number | string }) {
 
 function ArticleCard({ a, mode }: { a: Article; mode: "new" | "popular" }) {
   return (
-    <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+    <a href={a.url} target="_blank" rel="noopener noreferrer" data-ga="card_click" data-ga-place={`articles-${mode}`} data-ga-path={a.url} style={{ textDecoration: "none", color: "inherit" }}>
       <Card variant="pop" hover padding={0} style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
         <Thumb a={a} h={150} />
         <div style={{ padding: "16px 16px 18px", display: "flex", flexDirection: "column", flex: 1 }}>
@@ -470,7 +472,7 @@ function Articles() {
         ))}
       </div>
       <div style={{ textAlign: "center", marginTop: 34 }}>
-        <a href={NOTE_ALL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+        <a href={NOTE_ALL} target="_blank" rel="noopener noreferrer" data-ga="cta_click" data-ga-place="articles-more" style={{ textDecoration: "none" }}>
           <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
             noteで記事一覧を見る
           </Button>
@@ -498,7 +500,7 @@ function Magazines() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 22 }} className="mag-grid">
           {MAGAZINES.map((m) => (
             <Card key={m.id} variant="pop" hover padding={0} style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
-              <a href={`/manga/${m.id}`} style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", flex: 1 }}>
+              <a href={`/manga/${m.id}`} data-ga="card_click" data-ga-place="magazines" data-ga-path={`/manga/${m.id}`} style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", flex: 1 }}>
                 <div style={{ position: "relative", aspectRatio: "900/300", borderBottom: "var(--bw-bold) solid var(--ink-900)", overflow: "hidden", background: toneBg(m.tone) }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={m.cover} alt={m.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -512,10 +514,10 @@ function Magazines() {
                 </div>
               </a>
               <div style={{ padding: "0 18px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                <a href={`/manga/${m.id}`} style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
+                <a href={`/manga/${m.id}`} data-ga="card_click" data-ga-place="magazines-link" data-ga-path={`/manga/${m.id}`} style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
                   シリーズ紹介を見る <i className="ph-bold ph-arrow-right" />
                 </a>
-                <a href={m.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--text-muted)" }}>
+                <a href={m.url} target="_blank" rel="noopener noreferrer" data-ga="card_click" data-ga-place="magazines-note" data-ga-path={m.url} style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--text-muted)" }}>
                   noteで読む <i className="ph-bold ph-arrow-up-right" />
                 </a>
               </div>
@@ -523,7 +525,7 @@ function Magazines() {
           ))}
         </div>
         <div style={{ textAlign: "center", marginTop: 34 }}>
-          <a href="/manga" style={{ textDecoration: "none" }}>
+          <a href="/manga" data-ga="cta_click" data-ga-place="magazines-more" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               連載シリーズ一覧を見る
             </Button>
@@ -556,14 +558,14 @@ function Works() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }} className="articles-grid">
               {items.map((w) => (
-                <WorkCard key={w.slug} work={w} />
+                <WorkCard key={w.slug} work={w} place="top-works" />
               ))}
             </div>
           </div>
         );
       })}
       <div style={{ textAlign: "center", marginTop: 4 }}>
-        <a href="/works" style={{ textDecoration: "none" }}>
+        <a href="/works" data-ga="cta_click" data-ga-place="works-more" style={{ textDecoration: "none" }}>
           <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
             つくったもの一覧を見る
           </Button>
@@ -593,6 +595,9 @@ function Glossary() {
             <a
               key={t.slug}
               href={`/glossary/${t.slug}`}
+              data-ga="card_click"
+              data-ga-place="top-glossary"
+              data-ga-path={`/glossary/${t.slug}`}
               style={{
                 textDecoration: "none",
                 fontFamily: "var(--font-heading)",
@@ -613,7 +618,7 @@ function Glossary() {
           ))}
         </div>
         <div style={{ textAlign: "center", marginTop: 34 }}>
-          <a href="/glossary" style={{ textDecoration: "none" }}>
+          <a href="/glossary" data-ga="cta_click" data-ga-place="glossary-more" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               AI用語集を見る
             </Button>
@@ -621,7 +626,7 @@ function Glossary() {
         </div>
 
         {/* —— AI用語力診断への導線（表紙動画つき） —— */}
-        <a href="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "40px auto 0" }}>
+        <a href="/quiz" data-ga="card_click" data-ga-place="top-quiz" data-ga-path="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "40px auto 0" }}>
           <div
             className="quiz-banner"
             style={{
@@ -675,7 +680,7 @@ function Glossary() {
         </a>
 
         {/* —— AI歴史絵巻への導線（1950年のサムネつき） —— */}
-        <a href="/history" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "18px auto 0" }}>
+        <a href="/history" data-ga="card_click" data-ga-place="top-history" data-ga-path="/history" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "18px auto 0" }}>
           <div
             className="quiz-banner"
             style={{
@@ -745,7 +750,7 @@ function StartSection() {
     <section id="ai-start" style={{ maxWidth: PAGE, margin: "0 auto", padding: "62px 0 56px" }}>
       <SectionHead kicker="START — はじめての人へ" title="AI、何から始める？" hand="迷ったら、ここから" />
       <div style={{ maxWidth: 680, margin: "0 auto" }}>
-        <a href="/start" style={{ textDecoration: "none", color: "inherit" }}>
+        <a href="/start" data-ga="card_click" data-ga-place="top-start" data-ga-path="/start" style={{ textDecoration: "none", color: "inherit" }}>
           <Card variant="pop" padding={0} style={{ overflow: "hidden", height: "100%" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/start/hero.webp" alt="AIのはじめかた——？の山を越えて進むキャラクター" loading="lazy" style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)", display: "block" }} />
@@ -762,8 +767,8 @@ function StartSection() {
         </a>
       </div>
       <p style={{ margin: "16px 0 0", fontSize: 13.5, lineHeight: 1.9, color: "var(--text-muted)" }}>
-        使う前の不安には <a href="/faq" style={{ color: "var(--red-600)", fontWeight: 700 }}>AIのよくある質問</a>、
-        道具選びに迷ったら <a href="/compare" style={{ color: "var(--red-600)", fontWeight: 700 }}>ChatGPT・Claude・Gemini比較</a> を。あそんだ記録は <a href="/zukan" style={{ color: "var(--red-600)", fontWeight: 700 }}>COMIXAI図鑑</a> に刻まれます。
+        使う前の不安には <a href="/faq" data-ga="nav_click" data-ga-place="top-inline" data-ga-path="/faq" style={{ color: "var(--red-600)", fontWeight: 700 }}>AIのよくある質問</a>、
+        道具選びに迷ったら <a href="/compare" data-ga="nav_click" data-ga-place="top-inline" data-ga-path="/compare" style={{ color: "var(--red-600)", fontWeight: 700 }}>ChatGPT・Claude・Gemini比較</a> を。あそんだ記録は <a href="/zukan" data-ga="nav_click" data-ga-place="top-inline" data-ga-path="/zukan" style={{ color: "var(--red-600)", fontWeight: 700 }}>COMIXAI図鑑</a> に刻まれます。
       </p>
     </section>
   );
@@ -850,13 +855,13 @@ function NewsStrip() {
         >
           <div style={{ flex: "1 1 auto", minWidth: 0, display: "grid", gap: 8 }}>
             {topNews && (
-              <a href={topNews.url} target="_blank" rel="noopener noreferrer" style={rowStyle}>
+              <a href={topNews.url} target="_blank" rel="noopener noreferrer" data-ga="card_click" data-ga-place="news-strip" data-ga-path={topNews.url} style={rowStyle}>
                 {label(<><i className="ph-bold ph-newspaper" style={{ marginRight: 4 }} />今日の話題</>)}
                 <span style={textStyle}>{topNews.titleJa ?? topNews.title}</span>
               </a>
             )}
             {nextEvent && (
-              <a href="/calendar#calendar" style={rowStyle}>
+              <a href="/calendar#calendar" data-ga="card_click" data-ga-place="news-strip" data-ga-path="/calendar" style={rowStyle}>
                 {label(<><i className="ph-bold ph-calendar-blank" style={{ marginRight: 4 }} />イベント</>)}
                 <span style={textStyle}>
                   {nextEvent.title}
@@ -865,7 +870,7 @@ function NewsStrip() {
               </a>
             )}
           </div>
-          <a href="/calendar" style={{ textDecoration: "none", flex: "none" }}>
+          <a href="/calendar" data-ga="cta_click" data-ga-place="news-more" style={{ textDecoration: "none", flex: "none" }}>
             <Button variant="yellow" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>
               NEWS
             </Button>
@@ -899,6 +904,9 @@ function PromptRecipes() {
             <a
               key={r.slug}
               href={`/prompts/${r.slug}`}
+              data-ga="card_click"
+              data-ga-place="top-prompts"
+              data-ga-path={`/prompts/${r.slug}`}
               style={{
                 textDecoration: "none",
                 fontFamily: "var(--font-heading)",
@@ -931,6 +939,9 @@ function PromptRecipes() {
             <a
               key={g.slug}
               href={`/guide/${g.slug}`}
+              data-ga="card_click"
+              data-ga-place="top-guide"
+              data-ga-path={`/guide/${g.slug}`}
               style={{
                 flex: "1 1 180px",
                 maxWidth: 250,
@@ -959,12 +970,12 @@ function PromptRecipes() {
           ))}
         </div>
         <div style={{ textAlign: "center", marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="/prompts" style={{ textDecoration: "none" }}>
+          <a href="/prompts" data-ga="cta_click" data-ga-place="prompts-more" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               プロンプト集を見る
             </Button>
           </a>
-          <a href="/guide" style={{ textDecoration: "none" }}>
+          <a href="/guide" data-ga="cta_click" data-ga-place="guide-more" style={{ textDecoration: "none" }}>
             <Button variant="secondary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               職種別ガイドを見る
             </Button>
@@ -1029,7 +1040,7 @@ function Social() {
               {Inner}
             </div>
           ) : (
-            <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+            <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" data-ga="social_click" data-ga-network={s.name} data-ga-place="top" style={{ textDecoration: "none", color: "inherit" }}>
               {Inner}
             </a>
           );
@@ -1037,7 +1048,7 @@ function Social() {
       </div>
 
       {/* YouTube チャンネル */}
-      <a href={YOUTUBE} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+      <a href={YOUTUBE} target="_blank" rel="noopener noreferrer" data-ga="social_click" data-ga-network="youtube" data-ga-place="top" style={{ textDecoration: "none", color: "inherit" }}>
         <div style={{ marginTop: 22, display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: 16, alignItems: "stretch" }} className="yt-grid">
           <div
             className="social-card"
@@ -1261,7 +1272,7 @@ function UketsukeFab() {
           <i className="ph-bold ph-x" />
         </button>
       </div>
-      <a href="/uketsuke" aria-label="AI受付をひらく" style={{ display: "block" }}>
+      <a href="/uketsuke" aria-label="AI受付をひらく" data-ga="cta_click" data-ga-place="uketsuke-fab" style={{ display: "block" }}>
         {/* React は muted 属性をSSRで落とすため video は生HTMLで埋め込む */}
         <span
           className="uke-fab-char"
@@ -1328,7 +1339,7 @@ function Contact() {
             <i className="ph-bold ph-envelope-simple" /> {CONTACT_EMAIL}
           </div>
           {/* AI受付への導線 */}
-          <a href="/uketsuke" style={{ textDecoration: "none", display: "block", marginTop: 20, maxWidth: 380 }}>
+          <a href="/uketsuke" data-ga="cta_click" data-ga-place="contact-uketsuke" style={{ textDecoration: "none", display: "block", marginTop: 20, maxWidth: 380 }}>
             <Card variant="pop" hover padding={16} style={{ background: "var(--yellow-400)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}

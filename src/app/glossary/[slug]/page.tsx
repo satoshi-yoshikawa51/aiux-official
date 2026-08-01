@@ -248,7 +248,7 @@ export default async function GlossaryTermPage({ params }: Props) {
 
             {/* —— 隠しコンテンツの扉（secretを持つ用語だけ） —— */}
             {t.secret && (
-              <a href={t.secret.href} style={{ textDecoration: "none", color: "inherit", display: "block", marginTop: 34 }}>
+              <a href={t.secret.href} data-ga="card_click" data-ga-place="glossary-secret" data-ga-path={t.secret.href} style={{ textDecoration: "none", color: "inherit", display: "block", marginTop: 34 }}>
                 <div
                   style={{
                     background: "var(--ink-900)",
@@ -280,7 +280,7 @@ export default async function GlossaryTermPage({ params }: Props) {
 
             {/* ツール系用語には「どれを使う？」比較への導線を出す */}
             {["chatgpt", "claude", "gemini", "perplexity", "microsoft-copilot"].includes(t.slug) && (
-              <a href="/compare" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 14, marginTop: 28, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "14px 18px", boxShadow: "var(--shadow-pop-sm)", flexWrap: "wrap" }}>
+              <a href="/compare" data-ga="card_click" data-ga-place="glossary-compare" data-ga-path="/compare" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 14, marginTop: 28, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "14px 18px", boxShadow: "var(--shadow-pop-sm)", flexWrap: "wrap" }}>
                 <span style={{ fontSize: 26, flex: "none" }}><i className="ph-bold ph-scales" /></span>
                 <span style={{ flex: "1 1 220px" }}>
                   <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15 }}>どれを使うか、迷ってる？</span>
@@ -321,7 +321,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                 <div style={{ display: "grid", gap: 14 }}>
                   {t.links.map((l) => {
                     const r = resolveLink(l);
-                    return <MediaLinkCard key={r.href} {...r} />;
+                    return <MediaLinkCard key={r.href} {...r} place="glossary-links" />;
                   })}
                 </div>
               </div>
@@ -349,7 +349,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                 <p style={{ margin: "0 0 12px", fontSize: 12.5, lineHeight: 1.8, color: "var(--text-muted)" }}>
                   週刊少年チャンピオンで連載経験のある漫画家が、Web制作の現場目線で執筆しています。
                 </p>
-                <a href="/profile" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
+                <a href="/profile" data-ga="nav_click" data-ga-place="glossary-author" data-ga-path="/profile" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
                   プロフィールを見る <i className="ph-bold ph-arrow-right" />
                 </a>
               </Card>
@@ -363,7 +363,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                   </div>
                   <div style={{ display: "grid", gap: 8 }}>
                     {related.map((r) => (
-                      <a key={r.slug} href={`/glossary/${r.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--ink-900)", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "9px 14px", boxShadow: "var(--shadow-pop-sm)" }}>
+                      <a key={r.slug} href={`/glossary/${r.slug}`} data-ga="card_click" data-ga-place="glossary-related" data-ga-path={`/glossary/${r.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--ink-900)", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "9px 14px", boxShadow: "var(--shadow-pop-sm)" }}>
                         <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.term}</span>
                         <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", flex: "none" }} />
                       </a>

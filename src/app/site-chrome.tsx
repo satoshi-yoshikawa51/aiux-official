@@ -29,12 +29,14 @@ export function Nav({ home = true }: { home?: boolean }) {
   const [open, setOpen] = React.useState(false);
   /* AI司書（サイト内検索）の黒丸ボタン。PCはnav内（お問い合わせの左）、
      スマホはnav外（ハンバーガーの左）に同じものを出し分ける */
-  const searchBtn = (className: string) => (
+  const searchBtn = (className: string, place: string) => (
     <a
       href="/search"
       aria-label="AI司書に聞く（サイト内検索）"
       title="AI司書に聞く"
       className={className}
+      data-ga="search_open"
+      data-ga-place={place}
       style={{
         width: 38,
         height: 38,
@@ -64,7 +66,7 @@ export function Nav({ home = true }: { home?: boolean }) {
       }}
     >
       <div style={{ maxWidth: PAGE, margin: "0 auto", height: 66, display: "flex", alignItems: "center", gap: 24 }}>
-        <a href={home ? "#top" : "/"} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 9 }}>
+        <a href={home ? "#top" : "/"} data-ga="nav_click" data-ga-place="logo" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 9 }}>
           <span
             style={{
               fontFamily: "var(--font-display)",
@@ -88,6 +90,9 @@ export function Nav({ home = true }: { home?: boolean }) {
             <a
               key={it.href}
               href={link(it.href)}
+              data-ga="nav_click"
+              data-ga-place="header"
+              data-ga-path={it.href}
               style={{
                 fontFamily: "var(--font-heading)",
                 fontWeight: 700,
@@ -102,15 +107,15 @@ export function Nav({ home = true }: { home?: boolean }) {
               {it.label}
             </a>
           ))}
-          {searchBtn("")}
-          <a href={link("#contact")} style={{ textDecoration: "none", marginLeft: 2 }}>
+          {searchBtn("", "nav")}
+          <a href={link("#contact")} data-ga="cta_click" data-ga-place="nav-contact" style={{ textDecoration: "none", marginLeft: 2 }}>
             <Button variant="primary" size="sm">
               お問い合わせ
             </Button>
           </a>
         </nav>
         {/* スマホ用の検索ボタン（nav-linksが消えたとき右端に出る） */}
-        {searchBtn("nav-search-btn-sp")}
+        {searchBtn("nav-search-btn-sp", "nav-sp")}
         <button
           type="button"
           className="hamburger"
@@ -137,6 +142,9 @@ export function Nav({ home = true }: { home?: boolean }) {
               key={it.href}
               href={link(it.href)}
               onClick={() => setOpen(false)}
+              data-ga="nav_click"
+              data-ga-place="mobile"
+              data-ga-path={it.href}
               style={{
                 fontFamily: "var(--font-heading)",
                 fontWeight: 700,
@@ -155,6 +163,8 @@ export function Nav({ home = true }: { home?: boolean }) {
           <a
             href={link("#contact")}
             onClick={() => setOpen(false)}
+            data-ga="cta_click"
+            data-ga-place="mobile-contact"
             style={{
               fontFamily: "var(--font-heading)",
               fontWeight: 700,
@@ -194,6 +204,8 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.name}
+              data-ga="social_click"
+              data-ga-network={s.name}
               style={{
                 width: 40,
                 height: 40,
@@ -218,19 +230,19 @@ export function Footer() {
           </div>
           {/* サイト内サブリンク（静かに置いておく） */}
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <a href="/start" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+            <a href="/start" data-ga="nav_click" data-ga-place="footer" data-ga-path="/start" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               <i className="ph-bold ph-rocket-launch" style={{ marginRight: 5 }} />AIのはじめかた
             </a>
-            <a href="/guide" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+            <a href="/guide" data-ga="nav_click" data-ga-place="footer" data-ga-path="/guide" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               <i className="ph-bold ph-briefcase" style={{ marginRight: 5 }} />職種別AIガイド
             </a>
-            <a href="/history" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+            <a href="/history" data-ga="nav_click" data-ga-place="footer" data-ga-path="/history" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               <i className="ph-bold ph-scroll" style={{ marginRight: 5 }} />AI歴史絵巻
             </a>
-            <a href="/faq" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+            <a href="/faq" data-ga="nav_click" data-ga-place="footer" data-ga-path="/faq" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               <i className="ph-bold ph-chat-circle-dots" style={{ marginRight: 5 }} />よくある質問
             </a>
-            <a href="/zukan" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+            <a href="/zukan" data-ga="nav_click" data-ga-place="footer" data-ga-path="/zukan" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               <i className="ph-bold ph-paw-print" style={{ marginRight: 5 }} />COMIXAI図鑑
             </a>
           </div>
