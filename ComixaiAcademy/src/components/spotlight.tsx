@@ -7,36 +7,42 @@
    囲われる側が自分の名前と見比べて、自分で光る。
    画面が変わっても安全領域が変わっても狂わない。
 
-   ▍細い枠1本では見えない
-   最初は枠を1本だけ点滅させたが、**紙の上でも黒いカセットの上でも
-   まるで目立たなかった**。枠は「線」なので、面積が無く、
-   薄くなった瞬間に背景に沈む。
+   ▍透明度で「ふわっ」とやるのはやめた
+   最初は枠1本を薄く濃くしていたが、線は面積が無いので薄くなった瞬間に
+   背景へ沈む。次ににじみ（boxShadow）を足したが、**ぼけた光は
+   「何かが光っている」ようには見えても「どこを指しているか」が伝わらない**。
 
-   なので光を4枚重ねてある：
+   いまは**大きさで見せている**。枠を 等倍 → 中 → 大 → 特大 と
+   4段で外へ飛ばして、また等倍に戻る。段で切り替わるので、
+   にじみと違って「広がっている」ことがはっきり分かる。
+   等倍の枠は**動かさず出しっぱなし**にして、囲いの本体を保つ。
 
-     1. にじみ（boxShadow）  外へ広がるぼけた光。いちばん「ホワン」する
-     2. 外の輪（10px幅・薄い） にじみが出ない端末でも面積を稼ぐ保険
-     3. 内の輪（6px幅・濃い）  輪郭をはっきりさせる
-     4. 芯の枠（太線・不透明） ここが囲いの本体。**消えない**
-
-   1〜3はまとめて呼吸させる（透明度と大きさを同時に動かす）。
-   4だけは薄くなりきらないので、いちばん暗い瞬間でも囲いが読める。
-
-   ▍にじみを当てにしない
-   boxShadow は RN 0.76 から iOS/Android でも効くが、旧アーキテクチャや
-   端末によっては出ないことがある。**出なくても2と3で成立する**ように
-   組んであるので、にじみが消えても「光っていない」ことにはならない。
+   ▍外へ出す余地は場所ごとに違う
+   コマ（Panel）の中は overflow:'hidden' なので、はみ出した輪は切られる。
+   切れた輪は「壊れて見える」ので、**余地の狭いところは room で狭める**。
+   画面の端については、タブの土台（app/(tabs)/_layout.tsx）で切っている
+   ——切らないとモバイルのブラウザがページごとズームアウトする。
    ============================================================ */
 import React from 'react';
-import { Animated, Easing, Platform, View, type StyleProp, type ViewStyle } from 'react-native';
+import { View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { isSpot, useTutorial, type SpotName } from '@/store/tutorial';
 import { BW, C, R } from '@/theme';
 
-/** 片道の時間。往復1.8秒で「ホワン、ホワン」くらいの速さ */
-const PULSE_MS = 900;
-/** Webの Animated はネイティブドライバを持たない */
-const NATIVE = Platform.OS !== 'web';
+/** 1段の持ち時間。4段で約0.9秒ひとまわり */
+const STEP_MS = 230;
+/** 何段で飛ばすか。0段目＝等倍 */
+const STEPS = 4;
+/** 段が進むほど少しだけ薄くする。外へ抜けていく向きが出る */
+const FADE = [1, 0.95, 0.8, 0.62];
+/** 外へ出せる余地の既定値（px）。
+
+    **ここは思ったより狭い。** カードは画面の内余白16pxの内側に置かれ、
+    コマの中の行もコマの内余白16pxの内側にいる。16を超えて飛ばすと
+    画面の外か、コマの overflow:'hidden' に切られて、輪の左右だけが
+    消えた「壊れた枠」になる。なので既定は14に留め、
+    **足りないぶんは段の切り替わり（4段ぜんぶ違う大きさ）で見せる**。 */
+const ROOM = 14;
 
 /** 黄色を透かして使う。C.yellow400 と同じ色 */
 const glow = (a: number) => `rgba(255, 210, 63, ${a})`;
@@ -48,100 +54,70 @@ export function Spotlight({
   radius = R.sm,
   /** 芯の枠の位置。マイナスで外側に張り出す */
   inset = 0,
+  /** 外へ飛ばせる余地。**切られる場所では狭める**（コマの内側など） */
+  room = ROOM,
   style,
 }: {
   name: SpotName;
   children: React.ReactNode;
   radius?: number;
   inset?: number;
+  room?: number;
   style?: StyleProp<ViewStyle>;
 }) {
   const { step } = useTutorial();
   const on = isSpot(step, name);
 
-  const t = React.useRef(new Animated.Value(1)).current;
+  const [phase, setPhase] = React.useState(0);
 
   React.useEffect(() => {
     if (!on) return;
-    t.setValue(1);
-    const loop = Animated.loop(
-      Animated.sequence([
-        Animated.timing(t, {
-          toValue: 0,
-          duration: PULSE_MS,
-          easing: Easing.inOut(Easing.quad),
-          useNativeDriver: NATIVE,
-        }),
-        Animated.timing(t, {
-          toValue: 1,
-          duration: PULSE_MS,
-          easing: Easing.inOut(Easing.quad),
-          useNativeDriver: NATIVE,
-        }),
-      ]),
-    );
-    loop.start();
-    return () => loop.stop();
-  }, [on, t]);
+    setPhase(0);
+    const id = setInterval(() => setPhase((n) => (n + 1) % STEPS), STEP_MS);
+    return () => clearInterval(id);
+  }, [on]);
 
   if (!on) return <View style={style}>{children}</View>;
 
-  /** 外側へ o だけ張り出した輪 */
-  const ring = (o: number, width: number, alpha: number): ViewStyle => ({
+  /** 外へ o だけ張り出した枠 */
+  const frame = (o: number, alpha: number): ViewStyle => ({
     position: 'absolute',
-    left: -o,
-    right: -o,
-    top: -o,
-    bottom: -o,
+    left: inset - o,
+    right: inset - o,
+    top: inset - o,
+    bottom: inset - o,
     borderRadius: radius + o,
-    borderWidth: width,
+    borderWidth: BW.bold,
     borderColor: glow(alpha),
   });
+
+  /* 0段目は等倍（＝芯の枠に重なる）。あとは room を3つに割って外へ */
+  const grow = (phase / (STEPS - 1)) * room;
 
   return (
     <View style={style}>
       {children}
 
-      {/* ———— 呼吸する光 ————
-           透明度と大きさを一緒に動かすと、明滅ではなく**膨らんで見える** */}
-      <Animated.View
-        pointerEvents="none"
-        style={{
-          position: 'absolute',
-          left: inset,
-          top: inset,
-          right: inset,
-          bottom: inset,
-          borderRadius: radius,
-          /* にじみ。ここがいちばん「ホワン」する。
-             出ない端末があるので、下の2枚の輪で保険をかけてある */
-          boxShadow: `0px 0px 22px 8px ${glow(0.9)}`,
-          opacity: t.interpolate({ inputRange: [0, 1], outputRange: [0.2, 1] }),
-          transform: [{ scale: t.interpolate({ inputRange: [0, 1], outputRange: [1, 1.035] }) }],
-        }}>
-        <View pointerEvents="none" style={ring(11, 11, 0.3)} />
-        <View pointerEvents="none" style={ring(4, 6, 0.55)} />
-      </Animated.View>
-
       {/* ———— 芯の枠 ————
-           ここは**消し切らない**。全部が薄くなる瞬間があると、
-           「点いていない枠」に見えてどこの話か分からなくなる */}
-      <Animated.View
+           動かない。飛んでいる輪が外にいるあいだも、
+           **どこを囲っているのかが分かる**ようにここは出しっぱなし */}
+      <View
         pointerEvents="none"
         style={{
-          position: 'absolute',
-          left: inset,
-          top: inset,
-          right: inset,
-          bottom: inset,
-          borderRadius: radius,
-          borderWidth: BW.bold,
+          ...frame(0, 1),
           borderColor: C.yellow400,
-          /* ごく薄く面を敷く。線だけだと、白い紙の上で細く見える */
-          backgroundColor: glow(0.1),
-          opacity: t.interpolate({ inputRange: [0, 1], outputRange: [0.7, 1] }),
+          /* 線だけだと白い紙の上で細く見えるので、ごく薄く面を敷く */
+          backgroundColor: glow(0.12),
+          /* 黒地の上でいちばん効く、控えめなにじみ。**動かさない**
+             （動かすと、また「ふわっ」に戻ってしまう） */
+          boxShadow: `0px 0px 10px 2px ${glow(0.55)}`,
         }}
       />
+
+      {/* ———— 飛んでいく輪 ————
+           等倍 → 中 → 大 → 特大 の4段。段で切り替わるので、
+           広がっていることが**ひと目で**分かる */}
+      <View pointerEvents="none" style={frame(grow, FADE[phase])} />
     </View>
   );
 }

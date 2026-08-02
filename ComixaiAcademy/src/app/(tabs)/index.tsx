@@ -151,8 +151,10 @@ export default function HomeScreen() {
      そのぶんがまるごとアバターの取り分から引かれていた */
   const header = (
     /* チュートリアルの1歩目で囲われる。帯そのものではなく中身を囲うと、
-       ステータスバーぶんの余白まで黄色くならない */
-    <Spotlight name="home-head" radius={R.sm}>
+       ステータスバーぶんの余白まで黄色くならない。
+       帯は画面の端まであるので、枠を8px内側に置いて**内から端へ**飛ばす
+       （外へ飛ばすと画面の外に出て、輪の左右が切れる） */
+    <Spotlight name="home-head" radius={R.sm} inset={8} room={8}>
     <ScreenHead
       compact={short}
       size="md"

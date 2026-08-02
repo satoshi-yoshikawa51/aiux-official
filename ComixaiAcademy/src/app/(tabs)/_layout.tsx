@@ -42,7 +42,12 @@ function Bar() {
   }, [ready, state.roleId, state.seenTutorial, start]);
 
   return (
-    <View style={{ flex: 1 }}>
+    /* ▍画面の端で切る
+       案内の光は枠の外へ飛ぶので、切らないと画面からはみ出す。
+       はみ出したぶんだけ**モバイルのブラウザがページごとズームアウトする**
+       （オープニングで実測：innerWidth が 390 → 472 に膨らんだ）。
+       端まで届いた光はそこで切れるだけなので、見た目の実害は無い */
+    <View style={{ flex: 1, overflow: 'hidden' }}>
       <Tabs
         screenOptions={{
           headerShown: false,

@@ -57,7 +57,7 @@ export default function SettingsScreen() {
             節そのものを囲うと、アバター5枚で画面の高さを超えてしまい、
             「枠」ではなくページの縁に見える（職種の節はもっと長い）。
             どこの話かが分かればいいので、見出しに絞る */}
-        <Spotlight name="settings-avatar" radius={R.xs} inset={-6}>
+        <Spotlight name="settings-avatar" radius={R.xs} inset={-6} room={8}>
           <Row style={{ justifyContent: 'space-between' }}>
             <Text style={F.h1}>アバター</Text>
             <Text style={F.hand}>いま：{avatar.name}</Text>
