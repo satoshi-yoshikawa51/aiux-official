@@ -42,5 +42,7 @@ export function resolveCard(card: LessonCard, role: RoleId | null) {
     body: pick(card.body, card.bodyByRole, role),
     prompt: pick(card.prompt, card.promptByRole, role),
     bullets: pick(card.bullets, card.bulletsByRole, role),
+    /* 体験は職種で変えない。全職種共通の道具として出す */
+    interactive: card.interactive,
   };
 }

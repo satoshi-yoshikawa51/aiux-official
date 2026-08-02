@@ -25,7 +25,35 @@ export type RoleId =
 
 export type ByRole<Tvalue> = Partial<Record<RoleId, Tvalue>>;
 
+/* ============================================================
+   体験カード。読むだけ・選ぶだけにしないための仕掛け。
+
+   カードに interactive を足すと、本文の下に道具が出る。
+   ・tokenizer     … 好きに打って、トークンの割れ方を見る（合否なし）
+   ・token-budget  … 決められたトークン数に収める（**通らないと次に進めない**）
+
+   増やすときは、この union に足して src/components/lesson-interactive.tsx に
+   描き方を書く。合否のあるものは done を呼ぶこと（呼ばないと先に進めない）。
+   ============================================================ */
+export type LessonInteractive =
+  | {
+      kind: 'tokenizer';
+      /** 押すと入る例文 */
+      presets?: string[];
+    }
+  | {
+      kind: 'token-budget';
+      /** この範囲に収める（両端を含む） */
+      min: number;
+      max: number;
+      /** 何を書かせるか */
+      brief: string;
+      presets?: string[];
+    };
+
 export interface LessonCard {
+  /** 本文の下に出す体験。読むだけにしないための仕掛け */
+  interactive?: LessonInteractive;
   /** アバターの吹き出しセリフ。職種別に差し替えたいときは sayByRole */
   say: string;
   sayByRole?: ByRole<string>;

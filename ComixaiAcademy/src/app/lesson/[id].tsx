@@ -14,6 +14,7 @@ import { Platform, Pressable, Text, View, useWindowDimensions } from 'react-nati
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
+import { LessonInteractiveCard } from '@/components/lesson-interactive';
 import { Badge, Bubble, Button, Card, Cassette, Panel, Pill, Pop, Row, Screen } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { getBadge, type Title } from '@/data/badges';
@@ -42,6 +43,8 @@ export default function LessonScreen() {
   const [choice, setChoice] = React.useState<number | null>(null);
   const [misses, setMisses] = React.useState(0);
   const [copied, setCopied] = React.useState(false);
+  /* 合否のある体験カードを通過したか。カードを送るたびに戻す */
+  const [cleared, setCleared] = React.useState(false);
   const [result, setResult] = React.useState<{ newBadges: string[]; newTitle: Title | null } | null>(null);
   const savedRef = React.useRef(false);
 
@@ -55,9 +58,21 @@ export default function LessonScreen() {
   React.useEffect(() => {
     if (phase !== 'cards' || !view) return;
     setCopied(false);
+    setCleared(false);
     avatarRef.current?.play(view.motion ?? 'explain');
     if (view.emote) avatarRef.current?.emote(view.emote);
   }, [phase, view]);
+
+  /* 合否のある体験（token-budget）は、通るまで「つぎへ」を出さない */
+  const gated = view?.interactive?.kind === 'token-budget';
+  const canAdvance = !gated || cleared;
+
+  const onInteractiveDone = React.useCallback((ok: boolean) => {
+    if (!ok) return;
+    setCleared(true);
+    avatarRef.current?.play('laugh');
+    avatarRef.current?.emote('sparkle');
+  }, []);
 
   React.useEffect(() => {
     if (phase !== 'result' || savedRef.current || !found) return;
@@ -216,8 +231,18 @@ export default function LessonScreen() {
                 />
               </View>
             ) : null}
+            {view.interactive ? (
+              <LessonInteractiveCard spec={view.interactive} onDone={onInteractiveDone} />
+            ) : null}
             <Button
-              label={cardIndex + 1 < lesson.cards.length ? 'つぎへ' : 'クイズへ'}
+              label={
+                !canAdvance
+                  ? '収まったら進める'
+                  : cardIndex + 1 < lesson.cards.length
+                    ? 'つぎへ'
+                    : 'クイズへ'
+              }
+              disabled={!canAdvance}
               onPress={goNextCard}
             />
           </Panel>
