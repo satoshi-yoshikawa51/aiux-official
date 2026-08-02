@@ -18,39 +18,47 @@ import noteArticles from "../note-articles.json";
 export interface ProfileTopic {
   title: string;
   body: string;
+  /** そのテーマの裏づけ（連載・実施実績など） */
   base: string;
+  /** 登壇 / 執筆 のどちらで受けられるか */
+  kind: string;
   icon: string;
 }
 
 export const PROFILE_TOPICS: ProfileTopic[] = [
   {
-    title: "現場で使う生成AI ― Web制作・UXの実践",
-    body: "実際の制作フローのどこにAIを差し込むか。うまくいった型と、事故った型の両方を出します。",
+    title: "現場で使う生成AI ― 導入から、AIファーストの制作フローまで",
+    body: "何から入れるか、という最初の一歩から。そこから先は、AIを前提に制作フローそのものを組み替えて、生産性とクオリティを同時に上げるところまで踏み込みます。実際に回している型と、事故った型の両方を出します。",
     base: "note連載「マンガで実践！AI活用」全6話",
+    kind: "登壇・執筆",
     icon: "ph-compass",
   },
   {
-    title: "マンガでわかる生成AI入門",
-    body: "「AIはこわくない」から始める非エンジニア向けの入門。用語の解説ではなく、現場で何がどう変わるかをマンガの語り口で伝えます。",
+    title: "マンガと記事で、AIをやさしく伝える",
+    body: "むずかしい生成AIの話を、やさしく・わかりやすく・面白く。読み手が身構える前に伝わるところまで噛み砕いて、マンガと記事の両方で書きます。媒体のトーンに合わせた書き分けもできます。",
     base: "note連載「マンガでわかる！AI活用」全7話",
+    kind: "執筆",
     icon: "ph-pen-nib",
   },
   {
     title: "Claude Codeで、ひとりでサイトをつくる",
     body: "このサイトそのものを題材に、AIコーディングで個人がどこまで作れるかを具体的に。設計の任せ方と、任せてはいけない場所の線引きまで。",
     base: "当サイトの全ページを実例に",
+    kind: "登壇・執筆",
     icon: "ph-code",
   },
   {
     title: "AI動画制作講座",
     body: "企画・シナリオづくりから画像素材の生成、動画への仕上げまでを、その場で作りながら見せる実演形式。ツールの説明ではなく「1本できあがる」体験を持ち帰ってもらう構成です。",
     base: "株式会社FPEC様で実施",
+    kind: "登壇",
     icon: "ph-film-slate",
   },
   {
     title: "AI時代の「流行」と「本質」",
     body: "毎週のように出る新ツール。追うべきものと、変わらない芯を切り分ける視点を、IT業界の現場目線で。",
     base: "note連載「AI時代の流行と本質」",
+    kind: "登壇・執筆",
     icon: "ph-compass-tool",
   },
 ];
@@ -82,7 +90,7 @@ const NOTE_LIKES = NOTE.reduce((s, a) => s + (a.likes ?? 0), 0);
 const topicCards = PROFILE_TOPICS.map(
   (t, i) => `
         <article class="topic-card">
-          <div class="tno"><i class="ph-bold ${t.icon}"></i><span>${String(i + 1).padStart(2, "0")}</span></div>
+          <div class="tno"><i class="ph-bold ${t.icon}"></i><span>${String(i + 1).padStart(2, "0")}</span><em class="tkind">${t.kind}</em></div>
           <h3>${t.title}</h3>
           <p>${t.body}</p>
           <div class="tbase">${t.base}</div>
@@ -211,8 +219,8 @@ export const PROFILE_BODY = `<main>
     <div class="wrap">
       <div class="sec-head">
         <div class="kicker">TOPICS — 依頼できること</div>
-        <h2 class="sec-title">こんなテーマで、お話しします。</h2>
-        <p class="sec-sub">講演・研修・寄稿のご相談に。時間や聴き手に合わせて組み替えますので、まずはご相談ください。</p>
+        <h2 class="sec-title">こんなテーマで、話します・書きます。</h2>
+        <p class="sec-sub">講演・研修・執筆・監修のご相談に。時間や媒体、読み手に合わせて組み替えますので、まずはご相談ください。</p>
       </div>
       <div class="topics">${topicCards}
       </div>
