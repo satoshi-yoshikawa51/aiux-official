@@ -15,6 +15,7 @@ import { Platform, Pressable, Text, View, useWindowDimensions } from 'react-nati
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { LessonInteractiveCard } from '@/components/lesson-interactive';
+import { SlideIn } from '@/components/motion';
 import { Badge, Bubble, Button, Card, Cassette, Panel, Pill, Pop, Row, Screen } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { getBadge, type Title } from '@/data/badges';
@@ -188,6 +189,11 @@ export default function LessonScreen() {
 
         {/* ———— 本文カード ———— */}
         {phase === 'cards' && view ? (
+          /* ▍カードが変わったことを動きで見せる
+             key を付けてあるので、送るたびに作り直されて入りの動きが走る。
+             **出は動かしていない**——中身を差し替えるまでの待ちが要って、
+             送りのテンポが落ちるため */
+          <SlideIn key={`c${cardIndex}`}>
           <Panel number={String(cardIndex + 1)} contentStyle={{ paddingTop: S.xl + S.sm, gap: S.md }}>
             {view.heading ? <Text style={F.h1}>{view.heading}</Text> : null}
             {view.body ? <Text style={F.body}>{view.body}</Text> : null}
@@ -248,10 +254,12 @@ export default function LessonScreen() {
               onPress={goNextCard}
             />
           </Panel>
+          </SlideIn>
         ) : null}
 
         {/* ———— クイズ ———— */}
         {phase === 'quiz' ? (
+          <SlideIn key={`q${quizIndex}`}>
           <Panel tone="lines" contentStyle={{ gap: S.md }}>
             <Row style={{ justifyContent: 'space-between' }}>
               <Text style={F.kicker}>
@@ -313,11 +321,13 @@ export default function LessonScreen() {
               </View>
             ) : null}
           </Panel>
+          </SlideIn>
         ) : null}
 
         {/* ———— 結果 ———— */}
         {phase === 'result' ? (
-          <View style={{ gap: S.lg }}>
+          /* 締めは下から持ち上げる。横に流すと「まだ続く」ように見える */
+          <SlideIn from="bottom" distance={24} duration={380} style={{ gap: S.lg }}>
             {/* 紙そのものに網点が敷いてあるので、このコマは白のまま抜く */}
             <Panel tilt={-1} contentStyle={{ gap: S.sm, alignItems: 'center', paddingVertical: S.xl }}>
               <Row gap={6}>
@@ -396,7 +406,7 @@ export default function LessonScreen() {
               )}
               <Button label="ホームに戻る" variant="secondary" onPress={() => router.replace('/')} />
             </Cassette>
-          </View>
+          </SlideIn>
         ) : null}
       </>
     </Screen>
