@@ -34,6 +34,8 @@ export interface ProgressState {
   seenTitle: string;
   /** オープニング（AI歴史絵巻）を見終えたか。2回目以降は出さない */
   seenOpening: boolean;
+  /** 先生によるアプリ案内を見終えた（またはとばした）か */
+  seenTutorial: boolean;
 }
 
 const EMPTY: ProgressState = {
@@ -46,6 +48,7 @@ const EMPTY: ProgressState = {
   days: [],
   seenTitle: '',
   seenOpening: false,
+  seenTutorial: false,
 };
 
 /* ———————————————— 日付ユーティリティ ———————————————— */
@@ -126,6 +129,7 @@ interface Ctx {
   completeLesson: (lessonId: string, perfect: boolean) => CompletionResult;
   markTitleSeen: () => void;
   markOpeningSeen: () => void;
+  markTutorialSeen: () => void;
   reset: () => void;
 }
 
@@ -246,8 +250,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     persist({ ...ref.current, seenOpening: true });
   }, [persist]);
 
-  /* 記録を消してもオープニングは出し直さない。
-     もう一度見たい人向けではなく、初回だけの導入なので */
+  const markTutorialSeen = React.useCallback(() => {
+    if (ref.current.seenTutorial) return;
+    persist({ ...ref.current, seenTutorial: true });
+  }, [persist]);
+
+  /* 記録を消してもオープニングは出し直さない（初回だけの導入なので）。
+     一方**アプリ案内は出し直す**。記録を消す人はアバターや職種も
+     選び直すことになるので、案内も最初からのほうが筋が通る */
   const reset = React.useCallback(
     () => persist({ ...EMPTY, seenOpening: ref.current.seenOpening }),
     [persist],
@@ -262,9 +272,20 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       completeLesson,
       markTitleSeen,
       markOpeningSeen,
+      markTutorialSeen,
       reset,
     }),
-    [state, ready, setAvatar, setRole, completeLesson, markTitleSeen, markOpeningSeen, reset],
+    [
+      state,
+      ready,
+      setAvatar,
+      setRole,
+      completeLesson,
+      markTitleSeen,
+      markOpeningSeen,
+      markTutorialSeen,
+      reset,
+    ],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

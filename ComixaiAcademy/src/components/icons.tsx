@@ -16,7 +16,7 @@
    自動生成されるので、手で書き写さないこと。
    ============================================================ */
 import React from 'react';
-import { View } from 'react-native';
+import { Animated, Easing, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 import { ICON_PATHS, type IconName } from './icon-paths';
@@ -60,17 +60,69 @@ export function Icon({
   );
 }
 
-/** タブ用。選択中は赤の丸ベタを敷いて、アイコンは白のまま抜く */
+/* 「ここを見て」の合図。黄色いリングが外へ広がって消えるのを繰り返す。
+   Reanimated ではなく素の Animated を使う（この程度なら差が出ないし、
+   ワークレットまわりの落とし穴を持ち込まずに済む）。 */
+function GlowRing({ box }: { box: number }) {
+  const t = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    const loop = Animated.loop(
+      Animated.timing(t, {
+        toValue: 1,
+        duration: 1400,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [t]);
+  /* 消えている時間のほうが長いと見落とすので、**出しっぱなしのリング**を土台にして、
+     その上に広がって消えるリングを重ねる。広がるほうはタブバーに切られることが
+     あるので、控えめな倍率にとどめる */
+  const ring = {
+    position: 'absolute',
+    width: box,
+    height: box,
+    borderRadius: box / 2,
+    borderWidth: 2.5,
+    borderColor: C.yellow400,
+    /* アイコン本体（zIndex:1）より上に出す。
+       下に置くと、選択中の赤い丸ベタとアイコンに隠れて見えない */
+    zIndex: 2,
+  } as const;
+  return (
+    <>
+      <View pointerEvents="none" style={ring} />
+      <Animated.View
+        pointerEvents="none"
+        style={[
+          ring,
+          {
+            opacity: t.interpolate({ inputRange: [0, 1], outputRange: [0.8, 0] }),
+            transform: [{ scale: t.interpolate({ inputRange: [0, 1], outputRange: [1, 1.5] }) }],
+          },
+        ]}
+      />
+    </>
+  );
+}
+
+/** タブ用。選択中は赤の丸ベタを敷いて、アイコンは白のまま抜く。
+    チュートリアル中に指し示されているタブは、外側に黄色いリングが脈打つ */
 export function TabIcon({
   name,
   focused,
   box = 30,
   glyph = 20,
+  glow = false,
 }: {
   name: IconName;
   focused: boolean;
   box?: number;
   glyph?: number;
+  /** ここを見てほしい、の合図。座標を測らずに済むよう、光る側が自分で描く */
+  glow?: boolean;
 }) {
   return (
     <View style={{ width: box, height: box, alignItems: 'center', justifyContent: 'center' }}>
@@ -90,6 +142,9 @@ export function TabIcon({
       <View style={{ zIndex: 1 }}>
         <Icon name={name} size={glyph} color={C.paper0} opacity={focused ? 1 : 0.5} />
       </View>
+      {/* リングはいちばん最後＝いちばん上に描く。
+          先に描くと赤丸に塗りつぶされて消える */}
+      {glow ? <GlowRing box={box} /> : null}
     </View>
   );
 }

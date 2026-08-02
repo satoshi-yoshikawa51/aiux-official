@@ -1,0 +1,121 @@
+/* ============================================================
+   チュートリアルの吹き出し。タブバーのすぐ上に浮かせる。
+
+   ▍3Dアバターをここに置かない理由
+   先生の顔を出したいところだが、GLViewをもう1つ立てると、ホームの
+   アバターと2重になる。読み込み直しも起きうるし、非力な端末では効く。
+   ホームの回では**本物のアバターが後ろに立っている**ので、ここは
+   アイコンと名前だけにして、そちらに語らせる。
+
+   下の余白はタブバーの高さ＋安全領域ぶん空けること。
+   ここを固定値にすると、ホームインジケーターのある端末で隠れる。
+   ============================================================ */
+import * as Haptics from 'expo-haptics';
+import React from 'react';
+import { Platform, Pressable, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { Icon } from '@/components/icons';
+import { Pop, Row } from '@/components/ui';
+import { getAvatar } from '@/data/avatars';
+import { useProgress } from '@/store/progress';
+import { useTutorial } from '@/store/tutorial';
+import { BW, C, F, FONT, POP, R, S, T, TAB } from '@/theme';
+
+export function TutorialOverlay() {
+  const insets = useSafeAreaInsets();
+  const { active, step, index, total, next, finish } = useTutorial();
+  const { state } = useProgress();
+  const avatar = getAvatar(state.avatarId);
+
+  if (!active || !step) return null;
+
+  const tap = () => {
+    if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+  };
+
+  return (
+    <View
+      pointerEvents="box-none"
+      style={{
+        position: 'absolute',
+        left: S.md,
+        right: S.md,
+        /* タブバーの上に置く。バーの高さは theme の TAB から取る */
+        bottom: TAB.height + insets.bottom + S.sm,
+      }}>
+      <Pop radius={R.md} reserve={false} style={{ marginBottom: POP.md }}>
+        <View
+          style={{
+            backgroundColor: C.ink800,
+            borderWidth: BW.bold,
+            borderColor: T.border,
+            borderRadius: R.md,
+            padding: S.md,
+            gap: S.sm,
+          }}>
+          <Row gap={8}>
+            <View
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: R.full,
+                backgroundColor: C.ink900,
+                borderWidth: BW.line,
+                borderColor: C.paper50,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Icon name={avatar.icon} size={17} color={C.paper50} />
+            </View>
+            <Text style={[F.strong, { flex: 1, fontSize: 13.5, color: C.paper50 }]}>
+              {avatar.name}
+            </Text>
+            <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, color: C.ink300, letterSpacing: 1 }}>
+              {index} / {total}
+            </Text>
+          </Row>
+
+          <Text style={{ fontFamily: FONT.hand, fontSize: 14.5, lineHeight: 23, color: C.paper50 }}>
+            {step.say}
+          </Text>
+
+          <Row gap={S.sm} style={{ justifyContent: 'flex-end' }}>
+            <Pressable
+              onPress={() => {
+                tap();
+                finish();
+              }}
+              hitSlop={8}
+              style={{ paddingVertical: 8, paddingHorizontal: 6 }}>
+              <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300, letterSpacing: 1 }}>
+                とばす
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                tap();
+                next();
+              }}
+              style={{
+                backgroundColor: C.yellow400,
+                borderWidth: BW.bold,
+                borderColor: T.border,
+                borderRadius: R.sm,
+                paddingVertical: 9,
+                paddingHorizontal: 18,
+              }}>
+              <Row gap={6}>
+                <Text style={{ fontFamily: FONT.heading, fontSize: 14, color: C.ink900 }}>
+                  {/* ホームの「はじめる（3分…）」と紛れるので、締めは別の言葉にする */}
+                  {index >= total ? 'わかった' : 'つぎへ'}
+                </Text>
+                <Icon name="play" size={11} color={C.ink900} />
+              </Row>
+            </Pressable>
+          </Row>
+        </View>
+      </Pop>
+    </View>
+  );
+}
