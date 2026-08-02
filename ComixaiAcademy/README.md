@@ -369,6 +369,11 @@ mp4は14本で7MB。**1回しか見ない画面のためにアプリを7MB太ら
 静止画のまま映ります（`canPlayType` が空を返す）。動きの確認は実機かデスクトップの
 Chrome/Safariでやってください。
 
+**`playsInline` を外さないこと。** iOS Safari は `playsinline` の付いていない
+`<video>` を、再生した瞬間に全画面へ持っていきます。コマの中で再生させたいので、
+`VideoView` に `playsInline` と `fullscreenOptions={{ enable: false }}` を渡しています
+（一度これを忘れて、1コマ進むたびに全画面になりました）。
+
 ### 素材の取り込み
 
 コマのデータと絵は自動生成なので、手で編集しない。

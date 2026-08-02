@@ -132,6 +132,13 @@ export default function OpeningScreen() {
             player={player}
             nativeControls={false}
             contentFit="cover"
+            /* ———— コマの中で再生させる ————
+               iOS Safari は playsinline の付いていない <video> を、再生した瞬間に
+               全画面へ持っていく。1コマ進むたびに全画面になってしまうので、
+               ここで止める。全画面ボタンとPiPも要らないので閉じておく */
+            playsInline
+            fullscreenOptions={{ enable: false }}
+            allowsPictureInPicture={false}
             style={{
               position: 'absolute',
               left: 0,
