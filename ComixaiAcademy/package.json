@@ -16,6 +16,7 @@
     "stage:prepare": "node tools/prepare-stage.mjs",
     "fonts:subset": "node tools/subset-fonts.mjs",
     "tones": "node tools/make-tones.mjs",
+    "emaki": "node --experimental-strip-types tools/sync-emaki.mjs",
     "build:web": "expo export --platform web"
   },
   "dependencies": {

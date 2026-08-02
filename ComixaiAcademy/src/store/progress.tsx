@@ -32,6 +32,8 @@ export interface ProgressState {
   days: string[];
   /** 昇格演出を出し終えた称号名 */
   seenTitle: string;
+  /** オープニング（AI歴史絵巻）を見終えたか。2回目以降は出さない */
+  seenOpening: boolean;
 }
 
 const EMPTY: ProgressState = {
@@ -43,6 +45,7 @@ const EMPTY: ProgressState = {
   badges: {},
   days: [],
   seenTitle: '',
+  seenOpening: false,
 };
 
 /* ———————————————— 日付ユーティリティ ———————————————— */
@@ -122,6 +125,7 @@ interface Ctx {
   setRole: (id: RoleId) => void;
   completeLesson: (lessonId: string, perfect: boolean) => CompletionResult;
   markTitleSeen: () => void;
+  markOpeningSeen: () => void;
   reset: () => void;
 }
 
@@ -237,11 +241,30 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     persist({ ...ref.current, seenTitle: t.name });
   }, [persist]);
 
-  const reset = React.useCallback(() => persist({ ...EMPTY }), [persist]);
+  const markOpeningSeen = React.useCallback(() => {
+    if (ref.current.seenOpening) return;
+    persist({ ...ref.current, seenOpening: true });
+  }, [persist]);
+
+  /* 記録を消してもオープニングは出し直さない。
+     もう一度見たい人向けではなく、初回だけの導入なので */
+  const reset = React.useCallback(
+    () => persist({ ...EMPTY, seenOpening: ref.current.seenOpening }),
+    [persist],
+  );
 
   const value = React.useMemo<Ctx>(
-    () => ({ state, ready, setAvatar, setRole, completeLesson, markTitleSeen, reset }),
-    [state, ready, setAvatar, setRole, completeLesson, markTitleSeen, reset],
+    () => ({
+      state,
+      ready,
+      setAvatar,
+      setRole,
+      completeLesson,
+      markTitleSeen,
+      markOpeningSeen,
+      reset,
+    }),
+    [state, ready, setAvatar, setRole, completeLesson, markTitleSeen, markOpeningSeen, reset],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

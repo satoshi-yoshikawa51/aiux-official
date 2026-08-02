@@ -12,7 +12,7 @@ import { C, FONT, T } from '@/theme';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-/** アバターと職種が決まるまでは、オンボーディングから出さない */
+/** オープニング → アバター → 職種、が決まるまでは先に進ませない */
 function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; children: React.ReactNode }) {
   const { state, ready } = useProgress();
   const segments = useSegments() as string[];
@@ -22,15 +22,22 @@ function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; child
     if (!ready || !fontsReady) return;
     SplashScreen.hideAsync().catch(() => {});
 
+    const inOpening = segments[0] === 'opening';
     const inOnboarding = segments[0] === 'onboarding';
-    if (!state.avatarId) {
+    /* 初回だけ絵巻を見せる。ここでアバターのGLBを先読みするので、
+       飛ばしてもホームで待たされない（opening.tsx を参照） */
+    if (!state.seenOpening) {
+      if (!inOpening) router.replace('/opening');
+    } else if (inOpening) {
+      router.replace(state.avatarId ? '/' : '/onboarding/avatar');
+    } else if (!state.avatarId) {
       if (segments[1] !== 'avatar') router.replace('/onboarding/avatar');
     } else if (!state.roleId) {
       if (segments[1] !== 'role') router.replace('/onboarding/role');
     } else if (inOnboarding) {
       router.replace('/');
     }
-  }, [ready, fontsReady, state.avatarId, state.roleId, segments, router]);
+  }, [ready, fontsReady, state.seenOpening, state.avatarId, state.roleId, segments, router]);
 
   return <>{children}</>;
 }
@@ -66,6 +73,7 @@ export default function RootLayout() {
                 contentStyle: { backgroundColor: T.bg },
               }}>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="opening" options={{ headerShown: false }} />
               <Stack.Screen name="onboarding/avatar" options={{ headerShown: false }} />
               <Stack.Screen name="onboarding/role" options={{ headerShown: false }} />
               <Stack.Screen name="lesson/[id]" options={{ title: '', headerBackTitle: '戻る' }} />
