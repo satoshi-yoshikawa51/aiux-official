@@ -1,7 +1,48 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-01T22:32:42.407Z",
+  "updatedAt": "2026-08-02T22:33:17.811Z",
   "items": [
+    {
+      "title": "AI時代のサイバー攻撃で脆弱性パッチ適用とサプライチェーン攻撃対策を同時支援する新機能",
+      "url": "https://ascii.jp/elem/000/004/423/4423238/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-02T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/07/29/4507163/xl/66e64cb69193206a.jpg"
+    },
+    {
+      "title": "OpenAI、次期主力モデル「Astra」の存在を明らかに――未解決の数学問題10件を「解決」と発表",
+      "url": "https://www.itmedia.co.jp/news/article/2608/03/2000000348/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-02T21:56:14.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/03/2000000348/10001721/2048"
+    },
+    {
+      "title": "Fender’s CEO seems to think your bandmates are just analog AI",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/974265/fender-ceo-bud-cole-ai-music",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-02T19:36:08.000Z",
+      "titleJa": "フェンダーのCEOはバンド仲間はただのアナログAIだと考えているようだ",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/gettyimages-1259130896.jpg?quality=90&strip=all&crop=0%2C9.9724610532046%2C100%2C80.055077893591&w=1200"
+    },
+    {
+      "title": "アトラシアン、AI時代の仕事用ブラウザ「Diaブラウザ」のWindows版リリースへ。ウェイトリストへの登録開始",
+      "url": "https://www.publickey1.jp/blog/26/aidiawindows.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-02T15:56:09.000Z",
+      "image": "https://www.publickey1.jp/2026/dia-on-windows-thisfall.png"
+    },
+    {
+      "title": "Google、パーソナルAI「Gemini Spark」を日本でも利用可能に Chrome統合は米国から",
+      "url": "https://www.itmedia.co.jp/news/article/2608/02/2000000347/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-02T01:12:35.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/02/2000000347/10001717/2048"
+    },
     {
       "title": "Judge denies xAI’s request to block Minnesota ban on ‘nudify’ apps",
       "url": "https://techcrunch.com/2026/08/01/judge-denies-xais-request-to-block-minnesota-ban-on-nudify-apps/",
@@ -27,14 +68,6 @@
       "date": "2026-08-01T15:58:17.000Z",
       "titleJa": "この 9 ドルのキーは、最も中毒性の高いアプリを物理的にロックします",
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/AutonomousKey1.jpeg?w=1200"
-    },
-    {
-      "title": "Core Ultra X7・最大50TOPS搭載。24時間動く16型OLEDノート「Acer Swift 16 AI」",
-      "url": "https://ascii.jp/elem/000/004/423/4423700/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-01T11:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/07/31/4507635/xl/6b7023af1d60e976.jpg?20200122"
     },
     {
       "title": "Anthropic says its own AI models breached three companies during security tests",
@@ -63,16 +96,6 @@
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/robot-in-handcuffs-1152x648.jpg"
     },
     {
-      "title": "Playwrightで業務E2Eテストのアーキテクチャを設計する — Screen Object Model、Fluent Chaining、日本語メソッド名、ロケーター辞書の統合パターン | DevelopersIO",
-      "url": "https://dev.classmethod.jp/articles/playwright-e2e-test-architecture-patterns/",
-      "source": "dev.classmethod.jp",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 105,
-      "date": "2026-07-31T10:22:34.000Z",
-      "image": "https://images.ctfassets.net/ct0aopd36mqt/HIY2TvpoSdbhLnkapsstH/6b30ab4cdde77eba78bb4ef61c985f73/gfopcmkdgetofqknzwxr.png"
-    },
-    {
       "title": "キオクシア、株価3分の1急落は「絶好のタイミング」 過去最高益と8000億円自社株買いで示す自信",
       "url": "https://www.itmedia.co.jp/business/articles/2607/31/news108.html",
       "source": "ITmedia AI＋",
@@ -87,39 +110,6 @@
       "lang": "ja",
       "date": "2026-07-31T07:59:00.000Z",
       "image": "https://japan.zdnet.com/storage/2026/07/31/daa683153e1907f9b9857dec33586260/gcsec_l.jpg"
-    },
-    {
-      "title": "キオクシアQ1決算、純利益は前年比4500％増 AIデータセンター向け需要がけん引",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/31/2000000335/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-31T07:33:45.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/31/2000000335/10001644/2048"
-    },
-    {
-      "title": "研究者10万人にOpenAI「最上位モデル」無料提供へ 日本でも東大、京大など15大学が対象",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/31/2000000333/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-31T06:57:22.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/31/2000000333/10001635/2048"
-    },
-    {
-      "title": "Advancing the price-performance frontier with GPT-5.6",
-      "url": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-07-30T10:00:00.000Z",
-      "titleJa": "GPT-5.6 で価格パフォーマンスの最前線を前進"
-    },
-    {
-      "title": "Google reveals Gemini Robotics 2.0, promising improved dexterity and safety",
-      "url": "https://arstechnica.com/ai/2026/07/google-reveals-gemini-robotics-2-0-promising-improved-dexterity-and-safety/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-07-30T17:58:02.000Z",
-      "titleJa": "Google、手先の器用さと安全性の向上を約束する Gemini Robotics 2.0 を発表",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/gemini-robotics-2-1152x648.png"
     }
   ]
 }
