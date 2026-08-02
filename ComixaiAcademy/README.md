@@ -374,6 +374,14 @@ Chrome/Safariでやってください。
 `VideoView` に `playsInline` と `fullscreenOptions={{ enable: false }}` を渡しています
 （一度これを忘れて、1コマ進むたびに全画面になりました）。
 
+**`VideoView` は「箱で囲って、中で100%」にすること。** `left/right/top/bottom` だけを
+指定しても、react-native-web は `<video>` を素の大きさのまま置いてしまい、コマから
+はみ出して下の文章に被ります。外側の `View` で位置と `overflow: 'hidden'` を決め、
+`VideoView` 自身は `width: '100%', height: '100%'` にします。
+
+`<Panel bg>` の `Image` でもまったく同じ罠を踏んでいます（`ui.tsx` のコメント参照）。
+**react-native-web では、上下左右の指定だけでメディア要素は縮まない**と覚えておくこと。
+
 ### 素材の取り込み
 
 コマのデータと絵は自動生成なので、手で編集しない。

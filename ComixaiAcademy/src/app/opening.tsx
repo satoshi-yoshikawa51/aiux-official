@@ -125,29 +125,39 @@ export default function OpeningScreen() {
         fill
         surface={panel.tone ? TONE_BG[panel.tone] : T.surface}
         contentStyle={{ padding: 0, gap: 0 }}>
-        <View style={{ flex: 1, minHeight: short ? 150 : 190 }}>
+        <View style={{ flex: 1, minHeight: short ? 150 : 190, overflow: 'hidden' }}>
           {/* 静止画は常に敷いておく。動画は届いたら上に重ねる */}
           <Image source={panel.image} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
-          <VideoView
-            player={player}
-            nativeControls={false}
-            contentFit="cover"
-            /* ———— コマの中で再生させる ————
-               iOS Safari は playsinline の付いていない <video> を、再生した瞬間に
-               全画面へ持っていく。1コマ進むたびに全画面になってしまうので、
-               ここで止める。全画面ボタンとPiPも要らないので閉じておく */
-            playsInline
-            fullscreenOptions={{ enable: false }}
-            allowsPictureInPicture={false}
+          {/* ▍動画は「箱で囲って、中で100%」にする
+              VideoView に上下左右（left/right/top/bottom）だけを指定しても、
+              react-native-web は <video> を素の大きさのまま置いてしまい、
+              コマからはみ出して下の文章に被る（Imageで踏んだのと同じ）。
+              外側の箱で位置と切り抜きを決め、中身は width/height 100% にする */}
+          <View
+            pointerEvents="none"
             style={{
               position: 'absolute',
               left: 0,
-              right: 0,
               top: 0,
+              right: 0,
               bottom: 0,
+              overflow: 'hidden',
               opacity: videoReady ? 1 : 0,
-            }}
-          />
+            }}>
+            <VideoView
+              player={player}
+              nativeControls={false}
+              contentFit="cover"
+              /* ———— コマの中で再生させる ————
+                 iOS Safari は playsinline の付いていない <video> を、再生した瞬間に
+                 全画面へ持っていく。1コマ進むたびに全画面になってしまうので、
+                 ここで止める。全画面ボタンとPiPも要らないので閉じておく */
+              playsInline
+              fullscreenOptions={{ enable: false }}
+              allowsPictureInPicture={false}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </View>
 
           {/* 左右の送り。コマの上に重ねる */}
           <ArrowTap
