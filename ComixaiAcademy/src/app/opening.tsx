@@ -127,16 +127,16 @@ export default function OpeningScreen() {
       tone="dots"
       edges={['bottom']}
       style={{
-        gap: short ? S.sm : S.md,
+        /* ▍縦の間隔は gap に任せず、下の3つの「空き」で決める
+           gap を効かせると、空きのまわりに余分な隙間が足されて
+           「ボタンの上と下を同じにする」が崩れる。ここは0にして、
+           必要なところにだけ marginTop を書く */
+        gap: 0,
         padding: short ? S.sm : S.lg,
-        /* ボタンは指で押す場所なので、下端との間はいちばん広く取る */
-        paddingBottom: short ? S.md : S.xl,
+        paddingBottom: 0,
       }}>
-      {/* ———— 余った縦（上）————
-           下だけに寄せると、コマの下に大きな穴が空いて見える。
-           上にも少し配って、コマが画面の真ん中寄りに立つようにする。
-           **下の方を厚く**して、ボタンまわりに余裕を残す（下の 1.4 が効く） */}
-      <View style={{ flex: 1 }} />
+      {/* ———— 空き①：コマの上 ———— */}
+      <Gap short={short} />
 
       {/* ———— コマ ———— */}
       <Panel
@@ -218,11 +218,10 @@ export default function OpeningScreen() {
         </View>
       </Panel>
 
-      {/* ———— 余った縦（下）———— */}
-      <View style={{ flex: 1.4 }} />
-
-      {/* ———— 進み具合 ———— */}
-      <Row gap={4} style={{ justifyContent: 'center' }}>
+      {/* ———— 進み具合 ————
+           コマの**すぐ下**に置く。離すと、どのコマの話なのか分からない
+           ただの点になる。ここはコマに属する表示なので、くっつける */}
+      <Row gap={4} style={{ justifyContent: 'center', marginTop: short ? S.xs : S.sm }}>
         {EMAKI.map((_, n) => (
           <View
             key={n}
@@ -236,11 +235,27 @@ export default function OpeningScreen() {
         ))}
       </Row>
 
+      {/* ———— 空き②：ボタンの上 ———— */}
+      <Gap short={short} />
+
       {/* ———— 本編へ ————
            いつでも押せる。読み込みの都合で待たせない */}
       <EnterButton label={last ? 'アプリをはじめる' : '本編にすすむ'} onPress={enter} />
+
+      {/* ———— 空き③：ボタンの下 ————
+           ②と同じ幅で伸びるので、ボタンの上下が同じだけ空く。
+           画面の paddingBottom を0にしてあるのは、ここで決めたいから */}
+      <Gap short={short} />
     </Screen>
   );
+}
+
+/* ———— 余った縦をならすための空き ————
+   同じものを3つ（コマの上・ボタンの上・ボタンの下）に置く。
+   flex が同じなので、余りは**3等分**され、ボタンの上と下が同じ幅になる。
+   背の低い端末で余りが無いときは、最低限だけ残して詰まる */
+function Gap({ short }: { short: boolean }) {
+  return <View style={{ flex: 1, minHeight: short ? S.sm : S.md }} />;
 }
 
 /* コマの左右半分にかぶせる送りボタン。
