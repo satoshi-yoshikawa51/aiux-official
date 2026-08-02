@@ -49,6 +49,21 @@ export type LessonInteractive =
       /** 何を書かせるか */
       brief: string;
       presets?: string[];
+    }
+  | {
+      kind: 'ai-prompt';
+      /**
+       * サイト側 /api/academy/grade の台帳にあるお題のID。
+       * **お題の中身はサーバーが持つ。** アプリから渡すのはIDだけ
+       * （中身を持たせると、そこを書き換えてAPIキーにタダ乗りされる）。
+       * 増やすときは src/app/api/academy/grade/route.ts の EXERCISES にも足すこと
+       */
+      exerciseId: string;
+      /** 画面に出すお題。サーバー側の brief と食い違わないようにする */
+      brief: string;
+      /** これ以上なら合格。届かなくても、書き直せば何度でも出せる */
+      pass: number;
+      presets?: string[];
     };
 
 export interface LessonCard {

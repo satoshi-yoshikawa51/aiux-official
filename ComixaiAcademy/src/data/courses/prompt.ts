@@ -71,6 +71,20 @@ export const PROMPT: Course = {
           },
         },
         {
+          say: 'そこまで分かったなら、自分で書いてみろ。おれが本物のAIに渡して、結果ごと採点してやる。',
+          motion: 'arms-crossed',
+          emote: 'target',
+          heading: '書いて、渡してみる',
+          body: '書いたプロンプトを実際のAIに渡します。返ってきた成果物と、指示そのものの点数が出ます。何度でも書き直せます。',
+          interactive: {
+            kind: 'ai-prompt',
+            exerciseId: 'prompt-basics',
+            brief: '「社内の人に一読で伝わるように、文章を書き直して」とAIに頼む指示を書く',
+            pass: 70,
+            presets: ['この文章をいい感じに書き直して'],
+          },
+        },
+        {
           say: '一度書けば、次からは中身を差し替えるだけだ。書くのは今日だけでいい。',
           motion: 'laugh',
         },
@@ -211,6 +225,20 @@ export const PROMPT: Course = {
               '「あなたは現場の社員です」→ 守られないルールが見つかる',
               '「あなたは攻撃側の視点を持つ人です」→ 想定していない使われ方が出る',
             ],
+          },
+        },
+        {
+          say: 'やってみろ。役割を与えて、自分の企画なり文章なりを叩かせる指示だ。',
+          motion: 'arms-crossed',
+          emote: 'target',
+          heading: '役割を与えて、叩かせる',
+          body: '「生成させる」のではなく「批評させる」指示を書きます。褒めさせないこと、観点を絞ること——このあたりが点に出ます。',
+          interactive: {
+            kind: 'ai-prompt',
+            exerciseId: 'prompt-role',
+            brief: '自分の企画や文章の弱点を洗い出させる指示を書く（生成させるのではなく批評させる）',
+            pass: 70,
+            presets: ['この企画の悪いところを教えて'],
           },
         },
         {

@@ -63,7 +63,9 @@ export default function LessonScreen() {
     if (view.emote) avatarRef.current?.emote(view.emote);
   }, [phase, view]);
 
-  /* 合否のある体験（token-budget）は、通るまで「つぎへ」を出さない */
+  /* 通せんぼをするのは token-budget だけ。
+     トークン数は誰がやっても同じ答えになるので、必ず抜けられる。
+     ai-prompt の点はAIの判断で揺れるので、**揺れるもので止めない** */
   const gated = view?.interactive?.kind === 'token-budget';
   const canAdvance = !gated || cleared;
 
