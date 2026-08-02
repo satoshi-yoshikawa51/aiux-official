@@ -303,6 +303,7 @@ export function Panel({
   caption,
   tilt = 0,
   fill = false,
+  shrink = false,
   style,
   contentStyle,
 }: {
@@ -324,6 +325,11 @@ export function Panel({
   tilt?: number;
   /** 縦に余っている分を埋める（1画面に収める画面で使う） */
   fill?: boolean;
+  /** 縦が足りないときに縮んでよい。
+      RNの既定は flexShrink: 0 なので、**途中のViewが1つでも縮まないと
+      いちばん内側の flexShrink は効かない**。背の低い端末で
+      1画面に収めたいコマは、これを立てて道をつなぐ */
+  shrink?: boolean;
   style?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
 }) {
@@ -336,6 +342,7 @@ export function Panel({
         borderRadius: R.sm,
         overflow: 'hidden',
         ...(fill ? { flex: 1 } : null),
+        ...(shrink ? { flexShrink: 1 } : null),
       }}>
       {bg ? (
         <>
@@ -375,7 +382,12 @@ export function Panel({
   return (
     <Pop
       radius={R.sm}
-      style={[fill && { flex: 1 }, tilt ? { transform: [{ rotate: `${tilt}deg` }] } : null, style]}>
+      style={[
+        fill && { flex: 1 },
+        shrink && { flexShrink: 1 },
+        tilt ? { transform: [{ rotate: `${tilt}deg` }] } : null,
+        style,
+      ]}>
       {inner}
     </Pop>
   );

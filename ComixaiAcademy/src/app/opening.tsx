@@ -23,7 +23,16 @@ import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import React from 'react';
-import { Image, Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
+import {
+  Animated,
+  Easing,
+  Image,
+  Platform,
+  Pressable,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { Panel, Pill, Row, Screen, ScreenHead } from '@/components/ui';
@@ -46,15 +55,76 @@ const TONE_BG = { winter: '#e7f0ff', boom: '#fff1db' } as const;
     なので幅に合わせて高さを決める。余った縦は下のボタン側に渡す */
 const MEDIA_RATIO = 1100 / 829;
 
+/* ———— コマの入れ替わり ————
+   出ていくのは速く、入ってくるのはゆっくり。
+   同じ速さで往復させると「行って戻った」ように見えて、進んだ感じが出ない。
+   出は加速（in）、入りは減速（out）にすると、送られた紙芝居のように見える */
+const OUT_MS = 150;
+const IN_MS = 260;
+/** 横に動かす量。画面幅に対する割合。**端まで動かさない**——
+    端まで送ると一瞬なにも無い画面になって、かえって間延びする */
+const SLIDE = 0.3;
+/** Webの Animated はネイティブドライバを持たない（警告が出るだけで動かない） */
+const NATIVE = Platform.OS !== 'web';
+
 export default function OpeningScreen() {
   const router = useRouter();
   const { markOpeningSeen } = useProgress();
-  const { height } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const short = height < 700;
 
+  /* i = 行き先 / shown = いま出ているコマ。
+     入れ替えのアニメーションを挟むので、この2つは一瞬ずれる */
   const [i, setI] = React.useState(0);
-  const panel = EMAKI[i];
+  const [shown, setShown] = React.useState(0);
+  const panel = EMAKI[shown];
   const last = i === EMAKI.length - 1;
+
+  /* ———— カードの入れ替え ————
+     -1 = 左に抜けた / 0 = ど真ん中 / +1 = 右に控えている。
+     「左に抜く → 中身を差し替える → 右から入れる」の2段で送る */
+  const slide = React.useRef(new Animated.Value(0)).current;
+  /* 送っている最中にもう一度押されたときのため、行き先は ref でも持つ */
+  const goal = React.useRef(0);
+
+  React.useEffect(() => {
+    goal.current = i;
+    if (i === shown) return;
+    /* 戻るときは逆向き。**押した方向と絵の動く向きを合わせる** */
+    const back = i < shown;
+    Animated.timing(slide, {
+      toValue: back ? 1 : -1,
+      duration: OUT_MS,
+      easing: Easing.in(Easing.quad),
+      useNativeDriver: NATIVE,
+    }).start(({ finished }) => {
+      /* 途中で次の送りに割り込まれたら、そちらに任せる */
+      if (!finished) return;
+      setShown(goal.current);
+      slide.setValue(back ? -1 : 1);
+      Animated.timing(slide, {
+        toValue: 0,
+        duration: IN_MS,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: NATIVE,
+      }).start();
+    });
+  }, [i, shown, slide]);
+
+  /** 文章まわりの高さの最大。カードの背丈をコマごとに変えないための下限 */
+  const [capH, setCapH] = React.useState(0);
+
+  const cardStyle = {
+    opacity: slide.interpolate({ inputRange: [-1, 0, 1], outputRange: [0, 1, 0] }),
+    transform: [
+      {
+        translateX: slide.interpolate({
+          inputRange: [-1, 0, 1],
+          outputRange: [-width * SLIDE, 0, width * SLIDE],
+        }),
+      },
+    ],
+  };
 
   /* ———— 動画 ————
      1つのプレイヤーを使い回し、コマが変わったら中身を差し替える。
@@ -115,7 +185,8 @@ export default function OpeningScreen() {
       kicker="OPENING — AIの75年"
       title="AIは、どこから来たか"
       size="md"
-      note={`${i + 1} / ${EMAKI.length}`}
+      /* 出ている絵に合わせる（送っている最中に数字だけ先に行かない） */
+      note={`${shown + 1} / ${EMAKI.length}`}
       noteRight={panel.year}
     />
   );
@@ -134,89 +205,113 @@ export default function OpeningScreen() {
         gap: 0,
         padding: short ? S.sm : S.lg,
         paddingBottom: 0,
+        /* ▍横に流れたカードは画面の端で切る
+           切らないと、カードが画面の外にはみ出したぶんだけ
+           **モバイルのブラウザがページ全体をズームアウトする**
+           （実測で innerWidth が 390 → 472 に膨らんだ）。
+           絵が縮んで戻らなくなるので、ここで必ず切る */
+        overflow: 'hidden',
       }}>
       {/* ———— 空き①：コマの上 ———— */}
       <Gap short={short} />
 
-      {/* ———— コマ ———— */}
-      <Panel
-        surface={panel.tone ? TONE_BG[panel.tone] : T.surface}
-        contentStyle={{ padding: 0, gap: 0 }}>
-        {/* 幅いっぱいに置いて、高さは縦横比から決める。
-            背の低い端末で入りきらないときだけ縮む（flexShrink） */}
-        <View
-          style={{ width: '100%', aspectRatio: MEDIA_RATIO, flexShrink: 1, overflow: 'hidden' }}>
-          {/* 静止画は常に敷いておく。動画は届いたら上に重ねる */}
-          <Image source={panel.image} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
-          {/* ▍動画は「箱で囲って、中で100%」にする
-              VideoView に上下左右（left/right/top/bottom）だけを指定しても、
-              react-native-web は <video> を素の大きさのまま置いてしまい、
-              コマからはみ出して下の文章に被る（Imageで踏んだのと同じ）。
-              外側の箱で位置と切り抜きを決め、中身は width/height 100% にする */}
+      {/* ———— コマ ————
+           送るときはカードごと横に流す（中の絵だけ動かすと、
+           枠が残って「紙をめくった」感じにならない） */}
+      <Animated.View style={[cardStyle, { flexShrink: 1 }]}>
+        <Panel
+          /* 背の低い端末では、絵を縮めて1画面に収める。
+             途中のViewが1つでも縮まないと内側の flexShrink が効かないので、
+             ここから中まで shrink を通しておく */
+          shrink
+          surface={panel.tone ? TONE_BG[panel.tone] : T.surface}
+          contentStyle={{ padding: 0, gap: 0, flexShrink: 1 }}>
+          {/* 幅いっぱいに置いて、高さは縦横比から決める。
+              背の低い端末で入りきらないときだけ縮む（flexShrink） */}
           <View
-            pointerEvents="none"
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              right: 0,
-              bottom: 0,
-              overflow: 'hidden',
-              opacity: videoReady ? 1 : 0,
-            }}>
-            <VideoView
-              player={player}
-              nativeControls={false}
-              contentFit="cover"
-              /* ———— コマの中で再生させる ————
-                 iOS Safari は playsinline の付いていない <video> を、再生した瞬間に
-                 全画面へ持っていく。1コマ進むたびに全画面になってしまうので、
-                 ここで止める。全画面ボタンとPiPも要らないので閉じておく */
-              playsInline
-              fullscreenOptions={{ enable: false }}
-              allowsPictureInPicture={false}
-              style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', aspectRatio: MEDIA_RATIO, flexShrink: 1, overflow: 'hidden' }}>
+            {/* 静止画は常に敷いておく。動画は届いたら上に重ねる */}
+            <Image source={panel.image} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
+            {/* ▍動画は「箱で囲って、中で100%」にする
+                VideoView に上下左右（left/right/top/bottom）だけを指定しても、
+                react-native-web は <video> を素の大きさのまま置いてしまい、
+                コマからはみ出して下の文章に被る（Imageで踏んだのと同じ）。
+                外側の箱で位置と切り抜きを決め、中身は width/height 100% にする */}
+            <View
+              pointerEvents="none"
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                overflow: 'hidden',
+                opacity: videoReady ? 1 : 0,
+              }}>
+              <VideoView
+                player={player}
+                nativeControls={false}
+                contentFit="cover"
+                /* ———— コマの中で再生させる ————
+                   iOS Safari は playsinline の付いていない <video> を、再生した瞬間に
+                   全画面へ持っていく。1コマ進むたびに全画面になってしまうので、
+                   ここで止める。全画面ボタンとPiPも要らないので閉じておく */
+                playsInline
+                fullscreenOptions={{ enable: false }}
+                allowsPictureInPicture={false}
+                style={{ width: '100%', height: '100%' }}
+              />
+            </View>
+
+            {/* 左右の送り。コマの上に重ねる */}
+            <ArrowTap
+              side="left"
+              disabled={i === 0}
+              onPress={() => {
+                tap();
+                setI((n) => Math.max(0, n - 1));
+              }}
+            />
+            <ArrowTap
+              side="right"
+              disabled={last}
+              onPress={() => {
+                tap();
+                setI((n) => Math.min(EMAKI.length - 1, n + 1));
+              }}
             />
           </View>
 
-          {/* 左右の送り。コマの上に重ねる */}
-          <ArrowTap
-            side="left"
-            disabled={i === 0}
-            onPress={() => {
-              tap();
-              setI((n) => Math.max(0, n - 1));
+          {/* ▍文章の高さを、いちばん長いコマに合わせて固定する
+              本文は3行のコマも6行のコマもあるので、そのままだとカードの
+              高さが50pxほど動く。すると**送るたびに下のドットとボタンが跳ねる**。
+              出た高さの最大を覚えて下限にすることで、1周した時点で止まる
+              （数値を決め打ちしない。端末の幅でも文字サイズでも変わるため） */}
+          <View
+            onLayout={(e) => {
+              const h = Math.ceil(e.nativeEvent.layout.height);
+              setCapH((prev) => (h > prev ? h : prev));
             }}
-          />
-          <ArrowTap
-            side="right"
-            disabled={last}
-            onPress={() => {
-              tap();
-              setI((n) => Math.min(EMAKI.length - 1, n + 1));
-            }}
-          />
-        </View>
-
-        <View style={{ padding: short ? S.sm : S.md, gap: short ? 4 : 6 }}>
-          <Row gap={8}>
-            <Pill label={panel.year} />
-            <Text style={[F.h2, { flex: 1, fontSize: short ? 15 : 17 }]} numberOfLines={2}>
-              {panel.title}
+            style={{ padding: short ? S.sm : S.md, gap: short ? 4 : 6, minHeight: capH }}>
+            <Row gap={8}>
+              <Pill label={panel.year} />
+              <Text style={[F.h2, { flex: 1, fontSize: short ? 15 : 17 }]} numberOfLines={2}>
+                {panel.title}
+              </Text>
+            </Row>
+            <Text
+              style={[F.body, { fontSize: short ? 12.5 : 14, lineHeight: short ? 20 : 23 }]}
+              numberOfLines={short ? 4 : 6}>
+              {panel.body}
             </Text>
-          </Row>
-          <Text
-            style={[F.body, { fontSize: short ? 12.5 : 14, lineHeight: short ? 20 : 23 }]}
-            numberOfLines={short ? 4 : 6}>
-            {panel.body}
-          </Text>
-          {panel.hand ? (
-            <Text style={[F.hand, { fontSize: short ? 12 : 13 }]} numberOfLines={2}>
-              {panel.hand}
-            </Text>
-          ) : null}
-        </View>
-      </Panel>
+            {panel.hand ? (
+              <Text style={[F.hand, { fontSize: short ? 12 : 13 }]} numberOfLines={2}>
+                {panel.hand}
+              </Text>
+            ) : null}
+          </View>
+        </Panel>
+      </Animated.View>
 
       {/* ———— 進み具合 ————
            コマの**すぐ下**に置く。離すと、どのコマの話なのか分からない
@@ -226,10 +321,10 @@ export default function OpeningScreen() {
           <View
             key={n}
             style={{
-              width: n === i ? 16 : 6,
+              width: n === shown ? 16 : 6,
               height: 6,
               borderRadius: R.full,
-              backgroundColor: n === i ? T.accent : n < i ? T.border : T.borderSoft,
+              backgroundColor: n === shown ? T.accent : n < shown ? T.border : T.borderSoft,
             }}
           />
         ))}
