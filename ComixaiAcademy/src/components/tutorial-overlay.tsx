@@ -22,6 +22,14 @@ import { useProgress } from '@/store/progress';
 import { useTutorial } from '@/store/tutorial';
 import { BW, C, F, FONT, POP, R, S, T, TAB } from '@/theme';
 
+/* 黒帯のおおよその高さ。上に出すときだけ、これだけ下げて帯を避ける。
+
+   帯の高さは中身しだいで変わるので**測って配るのが本筋**だが、そのために
+   画面から帯の高さを持ち上げる仕掛けを足すほどの話ではない。
+   `bubble: 'top'` を使うのはホームの1回だけで、ホームの帯は実測85px。
+   少し多めに取ってあるので、帯が縮む端末では隙間が空くだけで重ならない。 */
+const HEAD_H = 88;
+
 export function TutorialOverlay() {
   const insets = useSafeAreaInsets();
   const { active, step, index, total, next, finish } = useTutorial();
@@ -41,8 +49,11 @@ export function TutorialOverlay() {
         position: 'absolute',
         left: S.md,
         right: S.md,
-        /* タブバーの上に置く。バーの高さは theme の TAB から取る */
-        bottom: TAB.height + insets.bottom + S.sm,
+        /* ふだんは下（親指に近い）。指している場所が下敷きになる回だけ上へ。
+           上に出すときは黒帯のぶんだけ下げて、帯と重ならないようにする */
+        ...(step.bubble === 'top'
+          ? { top: insets.top + HEAD_H + S.sm }
+          : { bottom: TAB.height + insets.bottom + S.sm }),
       }}>
       <Pop radius={R.md} reserve={false} style={{ marginBottom: POP.md }}>
         <View

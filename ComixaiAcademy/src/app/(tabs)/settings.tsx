@@ -89,12 +89,12 @@ export default function SettingsScreen() {
 
       {/* 職種 */}
       <View style={{ gap: S.md }}>
-        <Spotlight name="settings-role" radius={R.xs} inset={-6}>
-          <Row style={{ justifyContent: 'space-between' }}>
-            <Text style={F.h1}>職種</Text>
-            <Text style={F.hand}>変えると内容が変わる</Text>
-          </Row>
-        </Spotlight>
+        {/* ここは案内で光らせない。アバター5枚ぶん下にあってフキダシの
+            下敷きになるため（→ store/tutorial.tsx の5歩目） */}
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Text style={F.h1}>職種</Text>
+          <Text style={F.hand}>変えると内容が変わる</Text>
+        </Row>
         <RolePicker value={state.roleId} onPick={setRole} />
       </View>
 

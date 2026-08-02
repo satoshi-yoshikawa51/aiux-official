@@ -25,16 +25,18 @@ export type SpotName =
   | 'home-next'
   | 'learn-next'
   | 'badges-next'
-  | 'settings-avatar'
-  | 'settings-role';
+  | 'settings-avatar';
 
 export interface TutorialStep {
   /** 移動先のタブ（expo-router のパス） */
   route: '/' | '/learn' | '/badges' | '/settings';
   /** 光らせるタブアイコンの名前。TabIcon 側がこれと自分を見比べる */
   glow: IconName;
-  /** 画面の中で黄色い枠を出す場所。複数を同時に囲ってもいい */
+  /** 画面の中で光らせる場所。複数を同時に指してもいい */
   spot?: SpotName | SpotName[];
+  /** フキダシを上に出す。**指している場所がフキダシの下敷きになる回**で使う
+      （既定は下。下のほうが親指に近くて押しやすい） */
+  bubble?: 'top' | 'bottom';
   /** 先生のセリフ */
   say: string;
 }
@@ -50,7 +52,11 @@ export const TUTORIAL: TutorialStep[] = [
     route: '/',
     glow: 'home',
     spot: 'home-next',
-    say: '真ん中の黒いカセットが「次にやること」。迷ったらこれを押せ。それだけでいい。',
+    /* カセットは画面のいちばん下にあり、**ふだんの位置のフキダシが
+       まるごと覆ってしまう**（光の左右がはみ出すだけになる）。
+       この回だけフキダシを上へ逃がす */
+    bubble: 'top',
+    say: '下の黒いカセットが「次にやること」。迷ったらこれを押せ。それだけでいい。',
   },
   {
     route: '/learn',
@@ -75,11 +81,12 @@ export const TUTORIAL: TutorialStep[] = [
   {
     route: '/settings',
     glow: 'settings',
-    /* 職種の見出しは、アバター5枚のぶんだけ下にあってフキダシに隠れる。
-       枠は出しておくが、**セリフで下だと言っておく**（案内中もスクロールできる。
-       フキダシは box-none なので下の画面に触れる） */
-    spot: ['settings-avatar', 'settings-role'],
-    say: '相棒と職種は、ここでいつでも変えられる。職種は下だ。変えると、例とプロンプトが差し替わる。',
+    /* 職種の見出しはアバター5枚のぶんだけ下にあり、フキダシの下敷きになる。
+       **見えない光は出さない**——指すのは見出し1つだけにして、
+       職種はセリフで「下だ」と言う（案内中もスクロールできる。
+       フキダシは box-none なので、後ろの画面に触れる） */
+    spot: 'settings-avatar',
+    say: '相棒と職種は、ここでいつでも変えられる。職種はこの下だ。変えると、例とプロンプトが差し替わる。',
   },
   {
     /* 締めはどこも囲わない。**全部を指したら、何も指していないのと同じ** */
