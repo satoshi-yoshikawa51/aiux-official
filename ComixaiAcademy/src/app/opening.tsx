@@ -39,6 +39,13 @@ const AUTO_MS = 6000;
 /** 冬の時代は寒色、ブームは暖色でコマの地を染める */
 const TONE_BG = { winter: '#e7f0ff', boom: '#fff1db' } as const;
 
+/** ———— コマ絵の縦横比（幅÷高さ）————
+    静止画は 1100×829、動画は 720×544。どちらも約1.33の横長。
+    **高さを画面の余りで決めると縦長の箱になり、左右が切れる**（絵の端に
+    人や機械が寄っているので、切れると何の絵か分からなくなる）。
+    なので幅に合わせて高さを決める。余った縦は下のボタン側に渡す */
+const MEDIA_RATIO = 1100 / 829;
+
 export default function OpeningScreen() {
   const router = useRouter();
   const { markOpeningSeen } = useProgress();
@@ -119,13 +126,26 @@ export default function OpeningScreen() {
       header={header}
       tone="dots"
       edges={['bottom']}
-      style={{ gap: short ? S.sm : S.md, padding: short ? S.sm : S.lg }}>
+      style={{
+        gap: short ? S.sm : S.md,
+        padding: short ? S.sm : S.lg,
+        /* ボタンは指で押す場所なので、下端との間はいちばん広く取る */
+        paddingBottom: short ? S.md : S.xl,
+      }}>
+      {/* ———— 余った縦（上）————
+           下だけに寄せると、コマの下に大きな穴が空いて見える。
+           上にも少し配って、コマが画面の真ん中寄りに立つようにする。
+           **下の方を厚く**して、ボタンまわりに余裕を残す（下の 1.4 が効く） */}
+      <View style={{ flex: 1 }} />
+
       {/* ———— コマ ———— */}
       <Panel
-        fill
         surface={panel.tone ? TONE_BG[panel.tone] : T.surface}
         contentStyle={{ padding: 0, gap: 0 }}>
-        <View style={{ flex: 1, minHeight: short ? 150 : 190, overflow: 'hidden' }}>
+        {/* 幅いっぱいに置いて、高さは縦横比から決める。
+            背の低い端末で入りきらないときだけ縮む（flexShrink） */}
+        <View
+          style={{ width: '100%', aspectRatio: MEDIA_RATIO, flexShrink: 1, overflow: 'hidden' }}>
           {/* 静止画は常に敷いておく。動画は届いたら上に重ねる */}
           <Image source={panel.image} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
           {/* ▍動画は「箱で囲って、中で100%」にする
@@ -197,6 +217,9 @@ export default function OpeningScreen() {
           ) : null}
         </View>
       </Panel>
+
+      {/* ———— 余った縦（下）———— */}
+      <View style={{ flex: 1.4 }} />
 
       {/* ———— 進み具合 ———— */}
       <Row gap={4} style={{ justifyContent: 'center' }}>
