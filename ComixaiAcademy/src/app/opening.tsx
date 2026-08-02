@@ -1,22 +1,27 @@
 /* ============================================================
-   オープニング。初回起動のときだけ出る「AI歴史絵巻」。
+   オープニング。初回起動のときだけ出る「AIの75年」。
 
-   ▍なにを待っているのか
-   ストアからのダウンロードはOSの仕事なので、アプリからは見せられない。
-   実際に待ちが出るのは**初回のアセット読み込み**——アバターのGLB（1.9MB）と
-   そのテクスチャ、舞台の背景。放っておくとホームに着いてから読み込みが
-   始まって、キャラが出るまで数秒かかる。
+   ▍これは「ダウンロード画面」ではない
+   一度そう作ろうとしてやめた。ストアから落とした時点で中身は全部
+   端末に入っているので、進捗バーを出しても**中身のない演出**になる。
+   AIリテラシーを教えるアプリが、入口で嘘の進捗を見せるのは筋が通らない。
 
-   そこでこの画面が**先に読み込んでしまう**。絵巻を1コマずつ見ているあいだに
-   裏で終わらせ、終わったら「スキップ」を押せるようにする。飛ばした人も
-   ホームでは待たされない。
+   なので**オープニング演出**として作ってある。下のボタンで**いつでも**
+   本編に行ける。止めない、急かさない、飛ばせる。
 
-   コマの中身は src/data/emaki.ts（サイトの /history から取り込んだもの。
-   tools/sync-emaki.mjs が作る）。
+   ▍動画はアプリに積んでいない
+   mp4は14本で7MB。1回しか見ない画面のために積むには重いので、
+   サイト（comixai.dev/history/）から取りにいく。届くまでは
+   アプリに積んである静止画が出ているので、**電波が悪くても絵巻は成立する**
+   （動きが無いだけ）。src/data/emaki.ts の video がそのURL。
+
+   裏でホームの重いもの（アバターのGLB・舞台）を先読みしている。
+   進捗は**出さない**。見せるほどの待ちではないし、出せば演出になる。
    ============================================================ */
 import { Asset } from 'expo-asset';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import React from 'react';
 import { Image, Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
 
@@ -28,6 +33,9 @@ import { STAGE } from '@/data/stage';
 import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
+/** 1コマの持ち時間。動画が5.2秒なので、少し余らせて切り替える */
+const AUTO_MS = 6000;
+
 /** 冬の時代は寒色、ブームは暖色でコマの地を染める */
 const TONE_BG = { winter: '#e7f0ff', boom: '#fff1db' } as const;
 
@@ -38,30 +46,57 @@ export default function OpeningScreen() {
   const short = height < 700;
 
   const [i, setI] = React.useState(0);
-  const [loaded, setLoaded] = React.useState(false);
   const panel = EMAKI[i];
   const last = i === EMAKI.length - 1;
 
-  /* ホームで使う重いものを、ここで先に落としておく。
-     失敗しても先へ進ませる（読み込みはホーム側でもう一度試みられる） */
+  /* ———— 動画 ————
+     1つのプレイヤーを使い回し、コマが変わったら中身を差し替える。
+     コマごとに作ると、そのたびに接続し直しになって余計に待つ */
+  const player = useVideoPlayer(panel.video, (p) => {
+    p.loop = true;
+    p.muted = true;
+    p.play();
+  });
+  const [videoReady, setVideoReady] = React.useState(false);
+
   React.useEffect(() => {
-    let alive = true;
+    setVideoReady(false);
+    try {
+      player.replace(panel.video);
+      player.play();
+    } catch {
+      /* 取れなくても静止画のままでいい */
+    }
+  }, [panel.video, player]);
+
+  React.useEffect(() => {
+    const sub = player.addListener('statusChange', ({ status }) => {
+      setVideoReady(status === 'readyToPlay');
+    });
+    return () => sub.remove();
+  }, [player]);
+
+  /* ———— 裏でホームの重いものを落としておく ————
+     進捗は見せない。飛ばした人がホームで待たされないための用意 */
+  React.useEffect(() => {
     const heavy = [STAGE, ...AVATARS.flatMap((a) => (a.model ? [a.model.glb, a.model.texture] : []))];
-    Asset.loadAsync(heavy)
-      .catch(() => {})
-      .finally(() => {
-        if (alive) setLoaded(true);
-      });
-    return () => {
-      alive = false;
-    };
+    Asset.loadAsync(heavy).catch(() => {});
   }, []);
+
+  /* ———— 自動送り ————
+     手で送ったときはタイマーを引き直す（読んでいる途中で飛ばさない）。
+     最後まで来たら止める。ぐるぐる回さない */
+  React.useEffect(() => {
+    if (last) return;
+    const t = setTimeout(() => setI((n) => Math.min(EMAKI.length - 1, n + 1)), AUTO_MS);
+    return () => clearTimeout(t);
+  }, [i, last]);
 
   const tap = () => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
   };
 
-  const leave = () => {
+  const enter = () => {
     tap();
     markOpeningSeen();
     router.replace('/onboarding/avatar');
@@ -70,46 +105,62 @@ export default function OpeningScreen() {
   const header = (
     <ScreenHead
       compact={short}
-      kicker="AI EMAKI — 75年のはなし"
+      kicker="OPENING — AIの75年"
       title="AIは、どこから来たか"
       size="md"
-      right={
-        /* 読み込みが終わるまでは飛ばせない。
-           終わっていないと、ホームでキャラが出るのを待たされるだけなので */
-        loaded ? (
-          <Pressable onPress={leave} hitSlop={10}>
-            <Row gap={4}>
-              <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300, letterSpacing: 1 }}>
-                スキップ
-              </Text>
-              <Icon name="play" size={11} color={C.ink300} />
-            </Row>
-          </Pressable>
-        ) : (
-          <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.ink300, letterSpacing: 0.6 }}>
-            よみこみ中…
-          </Text>
-        )
-      }
       note={`${i + 1} / ${EMAKI.length}`}
       noteRight={panel.year}
     />
   );
 
   return (
-    <Screen scroll={false} header={header} tone="dots" edges={['bottom']}
+    <Screen
+      scroll={false}
+      header={header}
+      tone="dots"
+      edges={['bottom']}
       style={{ gap: short ? S.sm : S.md, padding: short ? S.sm : S.lg }}>
       {/* ———— コマ ———— */}
       <Panel
         fill
         surface={panel.tone ? TONE_BG[panel.tone] : T.surface}
         contentStyle={{ padding: 0, gap: 0 }}>
-        {/* 余った高さは**絵に回す**。文章の下に空白を溜めるより、
-            縦長の端末ほどコマ絵が大きくなるほうが絵巻らしい。
-            minHeight は、文章が長いコマでも絵が潰れないための下限 */}
         <View style={{ flex: 1, minHeight: short ? 150 : 190 }}>
+          {/* 静止画は常に敷いておく。動画は届いたら上に重ねる */}
           <Image source={panel.image} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
+          <VideoView
+            player={player}
+            nativeControls={false}
+            contentFit="cover"
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              opacity: videoReady ? 1 : 0,
+            }}
+          />
+
+          {/* 左右の送り。コマの上に重ねる */}
+          <ArrowTap
+            side="left"
+            disabled={i === 0}
+            onPress={() => {
+              tap();
+              setI((n) => Math.max(0, n - 1));
+            }}
+          />
+          <ArrowTap
+            side="right"
+            disabled={last}
+            onPress={() => {
+              tap();
+              setI((n) => Math.min(EMAKI.length - 1, n + 1));
+            }}
+          />
         </View>
+
         <View style={{ padding: short ? S.sm : S.md, gap: short ? 4 : 6 }}>
           <Row gap={8}>
             <Pill label={panel.year} />
@@ -145,99 +196,95 @@ export default function OpeningScreen() {
         ))}
       </Row>
 
-      {/* ———— 横ボタン ———— */}
-      <Row gap={S.sm}>
-        <ArrowButton
-          icon="play"
-          flip
-          label="もどる"
-          disabled={i === 0}
-          onPress={() => {
-            tap();
-            setI((n) => Math.max(0, n - 1));
-          }}
-        />
-        <ArrowButton
-          icon="play"
-          label={last ? 'はじめる' : 'つぎへ'}
-          primary
-          onPress={() => {
-            tap();
-            if (last) leave();
-            else setI((n) => Math.min(EMAKI.length - 1, n + 1));
-          }}
-        />
-      </Row>
+      {/* ———— 本編へ ————
+           いつでも押せる。読み込みの都合で待たせない */}
+      <EnterButton label={last ? 'アプリをはじめる' : '本編にすすむ'} onPress={enter} />
     </Screen>
   );
 }
 
-/* 左右送りのボタン。矢印は play（三角）を回して使う
-   （専用の矢印アイコンは作っていない。icons.tsx を増やすほどではない） */
-function ArrowButton({
-  icon,
-  label,
+/* コマの左右半分にかぶせる送りボタン。
+   三角は play アイコンを使い回す（専用の矢印は作っていない） */
+function ArrowTap({
+  side,
   onPress,
   disabled,
-  primary,
-  flip,
 }: {
-  icon: React.ComponentProps<typeof Icon>['name'];
-  label: string;
+  side: 'left' | 'right';
   onPress: () => void;
   disabled?: boolean;
-  primary?: boolean;
-  flip?: boolean;
 }) {
-  const [pressed, setPressed] = React.useState(false);
-  const bg = disabled ? T.sunk : primary ? T.accent : T.surface;
-  const fg = disabled ? T.disabled : primary ? C.paper0 : C.ink900;
+  if (disabled) return null;
   return (
     <Pressable
-      disabled={disabled}
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
       onPress={onPress}
-      style={{ flex: primary ? 1.6 : 1 }}>
+      style={{
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        [side]: 0,
+        width: 64,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <View
         style={{
-          backgroundColor: bg,
+          width: 34,
+          height: 34,
+          borderRadius: R.full,
+          backgroundColor: 'rgba(20,17,15,0.55)',
+          borderWidth: BW.line,
+          borderColor: C.paper50,
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: [{ rotate: side === 'left' ? '180deg' : '0deg' }],
+        }}>
+        <Icon name="play" size={14} color={C.paper50} />
+      </View>
+    </Pressable>
+  );
+}
+
+function EnterButton({ label, onPress }: { label: string; onPress: () => void }) {
+  const [pressed, setPressed] = React.useState(false);
+  return (
+    <Pressable
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
+      onPress={onPress}>
+      <View
+        style={{
+          backgroundColor: T.accent,
           borderWidth: BW.bold,
-          borderColor: disabled ? T.borderSoft : T.border,
+          borderColor: T.border,
           borderRadius: R.sm,
-          paddingVertical: 13,
+          paddingVertical: 14,
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: POP.sm,
-          transform: [
-            { translateX: pressed && !disabled ? 2 : 0 },
-            { translateY: pressed && !disabled ? 2 : 0 },
-          ],
+          transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }],
         }}>
         <Row gap={7}>
-          {flip ? <View style={{ transform: [{ rotate: '180deg' }] }}><Icon name={icon} size={13} color={fg} /></View> : null}
-          <Text style={{ fontFamily: FONT.heading, fontSize: 15, color: fg, letterSpacing: 0.4 }}>
+          <Text style={{ fontFamily: FONT.heading, fontSize: 16, color: C.paper0, letterSpacing: 0.4 }}>
             {label}
           </Text>
-          {flip ? null : <Icon name={icon} size={13} color={fg} />}
+          <Icon name="play" size={13} color={C.paper0} />
         </Row>
       </View>
-      {!disabled ? (
-        /* ベタ影。押すと本体が沈んで影が消える（サイトと同じ挙動） */
-        <View
-          pointerEvents="none"
-          style={{
-            position: 'absolute',
-            left: POP.sm,
-            top: pressed ? 0 : POP.sm,
-            right: -POP.sm,
-            bottom: pressed ? POP.sm : 0,
-            backgroundColor: T.border,
-            borderRadius: R.sm,
-            zIndex: -1,
-          }}
-        />
-      ) : null}
+      {/* ベタ塗りの影。押すと本体が沈んで影が消える（サイトと同じ挙動） */}
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          left: POP.sm,
+          top: pressed ? 0 : POP.sm,
+          right: -POP.sm,
+          bottom: pressed ? POP.sm : 0,
+          backgroundColor: T.border,
+          borderRadius: R.sm,
+          zIndex: -1,
+        }}
+      />
     </Pressable>
   );
 }

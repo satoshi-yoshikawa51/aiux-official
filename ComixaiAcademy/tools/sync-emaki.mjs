@@ -7,8 +7,11 @@
    サイト側の年表を直したら、これを実行して取り込み直すこと。
    **src/data/emaki.ts は自動生成なので手で編集しない。**
 
-   動画（mp4, 計8MB）は取り込まない。アプリに積むには重すぎるし、
-   1コマずつボタンで送る見せ方なら静止画で足りる。
+   ▍動画はコピーしない。URLだけ持つ
+   mp4は14本で7MB。**1回しか見ない画面のためにアプリを7MB太らせない。**
+   サイトが同じものを配信しているので、そのURLを書き出して、
+   アプリ側は再生時に取りにいく。届くまでは静止画が出ているので、
+   電波が悪くても絵巻は成立する（動画が出ないだけ）。
 
    使い方:
      node tools/sync-emaki.mjs
@@ -47,6 +50,9 @@ for (const era of ERAS) {
 
 const q = (s) => JSON.stringify(s ?? '');
 
+/** 動画の配信元。ローカルで別の場所に向けたいときはここを変える */
+const SITE_ORIGIN = process.env.EMAKI_ORIGIN ?? 'https://comixai.dev';
+
 const body = `/* ============================================================
    AI歴史絵巻。起動時のオープニングで1コマずつ見せる。
 
@@ -55,7 +61,9 @@ const body = `/* ============================================================
    npm run emaki を実行すること。
 
    絵は assets/images/emaki/ に置いてある（サイトの public/history から
-   コピーしたもの）。動画は重いので取り込んでいない。
+   コピーしたもの）。**動画はアプリに積まず、サイトから取りにいく**
+   （14本で7MBあり、1回しか見ない画面のために積むには重い）。
+   届くまでは静止画が出るので、電波が悪くても絵巻は成立する。
    ============================================================ */
 
 export interface EmakiPanel {
@@ -67,8 +75,10 @@ export interface EmakiPanel {
   hand?: string;
   /** 冬の時代か、ブームか。コマの色みを変えるのに使う */
   tone?: 'winter' | 'boom';
-  /** require したコマ絵 */
+  /** require したコマ絵。動画が届くまでこれが出る */
   image: number;
+  /** 動画のURL。アプリには積まず、サイトから取りにいく */
+  video: string;
 }
 
 export const EMAKI: EmakiPanel[] = [
@@ -81,6 +91,7 @@ ${kept
       era.tone ? `\n    tone: '${era.tone}',` : ''
     }
     image: require('@/assets/images/emaki/${slug}.webp'),
+    video: '${SITE_ORIGIN}/history/${slug}.mp4',
   },`,
   )
   .join('\n')}
