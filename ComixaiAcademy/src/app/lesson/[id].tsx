@@ -245,7 +245,7 @@ export default function LessonScreen() {
             <Button
               label={
                 !canAdvance
-                  ? '収まったら進める'
+                  ? 'ゲームをクリアすると進める'
                   : cardIndex + 1 < lesson.cards.length
                     ? 'つぎへ'
                     : 'クイズへ'
