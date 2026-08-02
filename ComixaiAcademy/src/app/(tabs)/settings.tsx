@@ -6,7 +6,7 @@
 import { useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Alert, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
@@ -25,18 +25,18 @@ export default function SettingsScreen() {
   const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
 
-  const confirmReset = () => {
-    Alert.alert('記録をぜんぶ消す', 'レッスンの修了・バッジ・称号がすべて初期化される。取り消せない。', [
-      { text: 'やめる', style: 'cancel' },
-      {
-        text: '消す',
-        style: 'destructive',
-        onPress: () => {
-          reset();
-          router.replace('/onboarding/avatar');
-        },
-      },
-    ]);
+  /* ▍確認は画面の中で出す。Alert.alert は使わない
+     react-native-web の Alert は **中身が空のメソッド**で、
+     Webでは押しても何も起きない（このアプリはWebでも配っている）。
+     出す／出さないが端末で変わってしまうので、自前の2段階にする */
+  const [asking, setAsking] = React.useState(false);
+
+  const doReset = () => {
+    setAsking(false);
+    reset();
+    /* オープニングから通し直す。ルートの振り分けも同じ判断をするが、
+       ここで先に飛ばしておくと1フレームぶん待たない */
+    router.replace('/opening');
   };
 
   const header = (
@@ -101,12 +101,35 @@ export default function SettingsScreen() {
         </Text>
         {/* 消すのは取り消せないので、赤いボタンの見た目にはしない。
             黒の上では red500 が沈むので、文字は red100 で出す */}
-        <Pressable onPress={confirmReset} style={{ paddingVertical: S.sm }}>
-          <Row gap={6}>
-            <Icon name="bang" size={15} color={C.red100} />
-            <Text style={[F.strong, { color: C.red100 }]}>記録をぜんぶ消す</Text>
-          </Row>
-        </Pressable>
+        {asking ? (
+          <View style={{ gap: S.sm, paddingTop: S.xs }}>
+            <Text style={[F.strong, { color: C.paper50 }]}>
+              ぜんぶ消して、オープニングからやり直す。いいか？
+            </Text>
+            {/* 取り消せない操作なので、2つの文字は離しておく。
+                指で押すものが並ぶと、隣を巻き込む */}
+            <Row gap={S.xl}>
+              <Pressable onPress={() => setAsking(false)} style={{ paddingVertical: S.sm }}>
+                <Text style={[F.strong, { color: C.paper100 }]}>やめる</Text>
+              </Pressable>
+              <Pressable onPress={doReset} style={{ paddingVertical: S.sm }}>
+                <Row gap={6}>
+                  <Icon name="bang" size={15} color={C.red100} />
+                  <Text style={[F.strong, { color: C.red100 }]}>消す</Text>
+                </Row>
+              </Pressable>
+            </Row>
+          </View>
+        ) : (
+          <Pressable onPress={() => setAsking(true)} style={{ paddingVertical: S.sm }}>
+            <Row gap={6}>
+              <Icon name="bang" size={15} color={C.red100} />
+              <Text style={[F.strong, { color: C.red100 }]}>
+                記録をぜんぶ消す（オープニングからやり直す）
+              </Text>
+            </Row>
+          </Pressable>
+        )}
       </Cassette>
 
       {/* リンク */}

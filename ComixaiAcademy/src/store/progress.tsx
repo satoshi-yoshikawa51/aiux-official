@@ -255,13 +255,12 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     persist({ ...ref.current, seenTutorial: true });
   }, [persist]);
 
-  /* 記録を消してもオープニングは出し直さない（初回だけの導入なので）。
-     一方**アプリ案内は出し直す**。記録を消す人はアバターや職種も
-     選び直すことになるので、案内も最初からのほうが筋が通る */
-  const reset = React.useCallback(
-    () => persist({ ...EMPTY, seenOpening: ref.current.seenOpening }),
-    [persist],
-  );
+  /* 記録を消したら**オープニングからやり直す**。
+     消す人はアバターも職種も選び直すことになるので、
+     途中から始まるより最初から通したほうが筋が通る。
+     絵巻を見直したいときの入口にもなる（初回しか出ないので、
+     ここを残しておかないと端末のデータを消すしか手が無くなる） */
+  const reset = React.useCallback(() => persist({ ...EMPTY }), [persist]);
 
   const value = React.useMemo<Ctx>(
     () => ({
