@@ -8,6 +8,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
+import { Spotlight } from '@/components/spotlight';
 import {
   Badge,
   Button,
@@ -23,7 +24,7 @@ import {
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { useProgress } from '@/store/progress';
-import { C, F, FONT, S, T } from '@/theme';
+import { C, F, FONT, R, S, T } from '@/theme';
 
 export default function LearnScreen() {
   const router = useRouter();
@@ -142,11 +143,11 @@ export default function LearnScreen() {
                 const done = !!state.done[lesson.id];
                 const perfect = !!state.perfect[lesson.id];
                 /* 上のカセットと同じレッスンには印を付ける。
-                   黄色は使わない（1画面に1つ）ので、赤の枠で示す */
+                   黄色は使わない（1画面に1つ）ので、赤の枠で示す。
+                   案内中だけは、この上に黄色い枠が重なる（→ Spotlight） */
                 const isNext = next?.lesson.id === lesson.id;
-                return (
+                const card = (
                   <PressCard
-                    key={lesson.id}
                     selected={isNext}
                     onPress={() => router.push(`/lesson/${lesson.id}`)}
                     style={isNext ? undefined : { backgroundColor: done ? T.sunk : T.surface }}>
@@ -169,6 +170,14 @@ export default function LearnScreen() {
                       />
                     </Row>
                   </PressCard>
+                );
+                /* 案内が指しているのはこの1行。**次の1本にだけ**枠を出す */
+                return isNext ? (
+                  <Spotlight key={lesson.id} name="learn-next" radius={R.md}>
+                    {card}
+                  </Spotlight>
+                ) : (
+                  <View key={lesson.id}>{card}</View>
                 );
               })}
             </View>

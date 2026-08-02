@@ -15,6 +15,7 @@ import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
+import { Spotlight } from '@/components/spotlight';
 import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
@@ -22,7 +23,7 @@ import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
 import { useProgress, useStats } from '@/store/progress';
-import { C, F, FONT, S } from '@/theme';
+import { C, F, FONT, R, S } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
 const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
@@ -149,6 +150,9 @@ export default function HomeScreen() {
      背の低い画面では帯も詰める。568の画面で85は取りすぎで、
      そのぶんがまるごとアバターの取り分から引かれていた */
   const header = (
+    /* チュートリアルの1歩目で囲われる。帯そのものではなく中身を囲うと、
+       ステータスバーぶんの余白まで黄色くならない */
+    <Spotlight name="home-head" radius={R.sm}>
     <ScreenHead
       compact={short}
       size="md"
@@ -168,6 +172,7 @@ export default function HomeScreen() {
          （同じ画面に別の意味のNEXTが2つ出る）。あと何個で上がるかを出す */
       noteRight={upcoming ? `あと${upcoming.need - stats.badgeCount}で ${upcoming.name}` : 'MAX'}
     />
+    </Spotlight>
   );
 
   return (
@@ -227,6 +232,7 @@ export default function HomeScreen() {
            出るのはこの上。コマ番号（左上の黒い角）はやめて、行の頭に
            黄色いピルを置く（角に重ねるとコースのアイコンとぶつかる） */}
       {next ? (
+        <Spotlight name="home-next">
         <Cassette compact={short}>
           <Row gap={8}>
             <Pill label="NEXT" />
@@ -243,6 +249,7 @@ export default function HomeScreen() {
             onPress={() => router.push(`/lesson/${next.lesson.id}`)}
           />
         </Cassette>
+        </Spotlight>
       ) : (
         <Panel contentStyle={{ padding: S.md, gap: S.xs }}>
           <Text style={F.h2}>全課程、修了</Text>

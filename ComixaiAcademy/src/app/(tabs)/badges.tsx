@@ -8,6 +8,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
+import { Spotlight } from '@/components/spotlight';
 import { Badge, Cassette, Panel, Pill, Pop, Row, Screen, ScreenHead } from '@/components/ui';
 import { BADGES, TITLES, nextTitle } from '@/data/badges';
 import { useProgress, useStats } from '@/store/progress';
@@ -42,6 +43,7 @@ export default function BadgesScreen() {
     <Screen header={header} tone="dots">
       {/* ———— 次の称号 ———— */}
       {upcoming ? (
+        <Spotlight name="badges-next">
         <Cassette>
           <Row gap={8}>
             <Pill label="NEXT" />
@@ -57,6 +59,7 @@ export default function BadgesScreen() {
             あと{upcoming.need - stats.badgeCount}個で「{upcoming.name}」になる
           </Text>
         </Cassette>
+        </Spotlight>
       ) : (
         <Cassette>
           <Row gap={8}>
