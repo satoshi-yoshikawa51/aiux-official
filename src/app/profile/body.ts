@@ -148,8 +148,10 @@ const CARDS = (linkCards as { cards?: Record<string, LinkCard> }).cards ?? {};
 
 /* OGPが取れているリンクはサムネつきカード、まだのものは文字リンクにする。
    CIが link-cards.json を埋めた時点で自動的にカードへ切り替わる。
-   カード内に記事タイトルは出さない（すぐ上の見出しと同じ文字列になるため）。
-   alt も空にしてある。見出しで内容が読めるので、読み上げでの重複を避ける。 */
+   出すのはOGP画像とリンク文言だけ。タイトルは見出しと、サイト名は
+   実施主体の行と重複するので、カード側には持たせない。枠も付けない
+   （実績カードの中に入れ子のカードができて二重に見えるため）。
+   alt が空なのも同じ理由で、見出しで内容が読めるため。 */
 function renderLinks(links: { label: string; href: string }[]): string {
   const cards = links.filter((l) => CARDS[l.href]?.image);
   const plain = links.filter((l) => !CARDS[l.href]?.image);
@@ -159,10 +161,7 @@ function renderLinks(links: { label: string; href: string }[]): string {
           const c = CARDS[l.href];
           return `<a class="lcard" href="${esc(c.url)}" target="_blank" rel="noopener">
               <img src="${esc(c.image)}" alt="" loading="lazy" width="1200" height="630">
-              <div class="lbody">
-                <span class="lsite">${esc(c.siteName || new URL(c.url).hostname)}</span>
-                <span class="lgo">${esc(l.label)}<i class="ph-bold ph-arrow-up-right"></i></span>
-              </div>
+              <span class="lgo">${esc(l.label)}<i class="ph-bold ph-arrow-up-right"></i></span>
             </a>`;
         })
         .join("")}</div>`
