@@ -71,7 +71,9 @@ export interface ProfileRecord {
   kind: string;
   /** 実施主体。会社の業務として行ったものは、その旨をここで明記する */
   client: string;
-  body: string;
+  /** 自分の活動についてだけ書く。他社が公開した記事の内容を要約・言い換え
+      して載せない（掲載条件が「タイトルとリンクの紹介にとどめる」ため）。 */
+  body?: string;
   links: { label: string; href: string }[];
 }
 
@@ -81,7 +83,6 @@ export const PROFILE_RECORDS: ProfileRecord[] = [
     title: "答えるAIから働くAIへ｜Claude活用で変わる業務改革",
     kind: "登壇",
     client: "株式会社ニジボックスの業務として",
-    body: "ニジボックス主催イベントでの講演とデモ。Claudeの各機能の使い分け、上流設計からUI生成・実装までの変化、人の役割と組織導入の壁までを扱いました。",
     links: [{ label: "登壇レポートを読む", href: "https://blog.nijibox.jp/article/ai-shift-claude" }],
   },
   {
@@ -89,7 +90,6 @@ export const PROFILE_RECORDS: ProfileRecord[] = [
     title: "【Claude活用入門編】スキルを簡単につくって使いこなすコツ",
     kind: "出演",
     client: "株式会社ニジボックスの業務として",
-    body: "Claudeのスキル機能を、つくるところから実際に使うところまで動画で解説しています。",
     links: [{ label: "動画を見る", href: "https://www.youtube.com/watch?v=iCXRhKaAB6M" }],
   },
   {
@@ -98,7 +98,6 @@ export const PROFILE_RECORDS: ProfileRecord[] = [
       "【Figma Make・Cursorの使い方が分かる！】デザインシステムに沿ったワイヤーフレームの作成〜デザイン〜実装をAIで自動生成！",
     kind: "監修",
     client: "株式会社ニジボックスの業務として",
-    body: "デザインシステムを守りながら、ワイヤーフレームからデザイン・実装までをAIで通す流れを扱った記事の監修を担当しました。",
     links: [{ label: "記事を読む", href: "https://blog.nijibox.jp/article/ai_wireframe_2" }],
   },
   {
@@ -186,7 +185,7 @@ const recordItems = PROFILE_RECORDS.map(
           <div>
             <h3>${r.title}</h3>
             <div class="rec-client">${r.client}</div>
-            <p>${r.body}</p>
+            ${r.body ? `<p>${r.body}</p>` : ""}
             ${renderLinks(r.links)}
           </div>
         </li>`,
