@@ -75,7 +75,36 @@ const ymd = (s) => {
   return m ? `${m[1]}-${m[2]}-${m[3]}` : "";
 };
 
+/* YouTubeはOGPをJavaScriptで後から差し込むため、HTMLを取っただけでは
+   タイトルが「- YouTube」、og:image が空のまま返ってくる。
+   公式のoEmbedならタイトルとサムネイルが取れるので、そちらを使う。 */
+async function fetchYouTube(url) {
+  const id = url.match(/[?&]v=([\w-]{6,})/)?.[1] || url.match(/youtu\.be\/([\w-]{6,})/)?.[1];
+  if (!id) return null;
+  const res = await fetch(
+    `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`,
+    { headers: { "User-Agent": UA } },
+  );
+  console.log(`  GET oembed ${id} -> ${res.status}`);
+  if (!res.ok) return null;
+  const j = await res.json();
+  if (!j.title) return null;
+  return {
+    url,
+    title: decode(j.title),
+    description: "",
+    /* maxresdefault は無い動画があるので、必ず存在する hqdefault を使う */
+    image: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+    siteName: j.author_name ? decode(j.author_name) : "YouTube",
+    date: "",
+  };
+}
+
 async function fetchCard(url) {
+  if (/(?:youtube\.com|youtu\.be)/.test(url)) {
+    const yt = await fetchYouTube(url);
+    if (yt) return yt;
+  }
   const res = await fetch(url, {
     headers: { "User-Agent": UA, "Accept-Language": "ja,en;q=0.8", Accept: "text/html" },
     redirect: "follow",
