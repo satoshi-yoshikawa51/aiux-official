@@ -1,0 +1,5 @@
+{
+  "_comment": "外部記事・動画のOGP。scripts/fetch-link-cards.mjs がCIで自動生成する（手で編集しない）。取得元URLはスクリプト側のURLSで管理。",
+  "generatedAt": null,
+  "cards": {}
+}

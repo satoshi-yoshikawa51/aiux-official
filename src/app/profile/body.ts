@@ -5,6 +5,7 @@ import { GUIDES } from "../guide/data";
 import { WORK_DETAILS } from "../works/data";
 import { GAME_COUNT } from "../games";
 import noteArticles from "../note-articles.json";
+import linkCards from "./link-cards.json";
 
 /* ============================================================
    講演・寄稿を検討している人が見るページなので、
@@ -101,6 +102,57 @@ const topicCards = PROFILE_TOPICS.map(
         </article>`,
 ).join("");
 
+/* CIが外部サイトから取ってきた文字列をそのままHTMLに流すので、
+   必ずエスケープする（dangerouslySetInnerHTML で描画されるため）。 */
+const esc = (v: string) =>
+  v
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+interface LinkCard {
+  url: string;
+  title: string;
+  description: string;
+  image: string;
+  siteName: string;
+  date: string;
+}
+const CARDS = (linkCards as { cards?: Record<string, LinkCard> }).cards ?? {};
+
+/* OGPが取れているリンクはサムネつきカード、まだのものは文字リンクにする。
+   CIが link-cards.json を埋めた時点で自動的にカードへ切り替わる。 */
+function renderLinks(links: { label: string; href: string }[]): string {
+  const cards = links.filter((l) => CARDS[l.href]?.image);
+  const plain = links.filter((l) => !CARDS[l.href]?.image);
+  const cardHtml = cards.length
+    ? `<div class="rec-cards">${cards
+        .map((l) => {
+          const c = CARDS[l.href];
+          return `<a class="lcard" href="${esc(c.url)}" target="_blank" rel="noopener">
+              <img src="${esc(c.image)}" alt="" loading="lazy" width="1200" height="630">
+              <div class="lbody">
+                <span class="lsite">${esc(c.siteName || new URL(c.url).hostname)}</span>
+                <strong>${esc(c.title)}</strong>
+                <span class="lgo">${esc(l.label)}<i class="ph-bold ph-arrow-up-right"></i></span>
+              </div>
+            </a>`;
+        })
+        .join("")}</div>`
+    : "";
+  const plainHtml = plain.length
+    ? `<div class="rec-links">${plain
+        .map(
+          (l) =>
+            `<a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)}<i class="ph-bold ph-arrow-up-right"></i></a>`,
+        )
+        .join("")}</div>`
+    : "";
+  return cardHtml + plainHtml;
+}
+
 const recordItems = PROFILE_RECORDS.map(
   (r) => `
         <li class="rec-item">
@@ -109,12 +161,7 @@ const recordItems = PROFILE_RECORDS.map(
             <h3>${r.title}</h3>
             <div class="rec-client">${r.client}</div>
             <p>${r.body}</p>
-            <div class="rec-links">${r.links
-              .map(
-                (l) =>
-                  `<a href="${l.href}" target="_blank" rel="noopener">${l.label}<i class="ph-bold ph-arrow-up-right"></i></a>`,
-              )
-              .join("")}</div>
+            ${renderLinks(r.links)}
           </div>
         </li>`,
 ).join("");
