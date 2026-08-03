@@ -66,6 +66,9 @@ export const PROFILE_TOPICS: ProfileTopic[] = [
 export interface ProfileRecord {
   date: string;
   title: string;
+  /** 登壇 / 監修 など、その実績の種別 */
+  kind: string;
+  /** 実施主体。会社の業務として行ったものは、その旨をここで明記する */
   client: string;
   body: string;
   links: { label: string; href: string }[];
@@ -75,6 +78,7 @@ export const PROFILE_RECORDS: ProfileRecord[] = [
   {
     date: "2024.12",
     title: "AI動画制作講座",
+    kind: "講座",
     client: "株式会社FPEC様 ／ 個人活動として実施",
     body: "「AIを面白く！わかりやすく！」をテーマに、構成・シナリオ作成から画像素材の生成、動画の仕上げまでを解説。実施レポートをnoteで公開しています。",
     links: [
@@ -100,7 +104,7 @@ const topicCards = PROFILE_TOPICS.map(
 const recordItems = PROFILE_RECORDS.map(
   (r) => `
         <li class="rec-item">
-          <span class="rec-date">${r.date}</span>
+          <span class="rec-date">${r.date}<em class="rec-kind">${r.kind}</em></span>
           <div>
             <h3>${r.title}</h3>
             <div class="rec-client">${r.client}</div>
