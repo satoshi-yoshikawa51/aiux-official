@@ -77,6 +77,31 @@ export interface ProfileRecord {
 
 export const PROFILE_RECORDS: ProfileRecord[] = [
   {
+    date: "2026.07",
+    title: "答えるAIから働くAIへ｜Claude活用で変わる業務改革",
+    kind: "登壇",
+    client: "株式会社ニジボックスの業務として",
+    body: "ニジボックス主催イベントでの講演とデモ。Claudeの各機能の使い分け、上流設計からUI生成・実装までの変化、人の役割と組織導入の壁までを扱いました。",
+    links: [{ label: "登壇レポートを読む", href: "https://blog.nijibox.jp/article/ai-shift-claude" }],
+  },
+  {
+    date: "2026.07",
+    title: "【Claude活用入門編】スキルを簡単につくって使いこなすコツ",
+    kind: "出演",
+    client: "株式会社ニジボックスの業務として",
+    body: "Claudeのスキル機能を、つくるところから実際に使うところまで動画で解説しています。",
+    links: [{ label: "動画を見る", href: "https://www.youtube.com/watch?v=iCXRhKaAB6M" }],
+  },
+  {
+    date: "2026.02",
+    title:
+      "【Figma Make・Cursorの使い方が分かる！】デザインシステムに沿ったワイヤーフレームの作成〜デザイン〜実装をAIで自動生成！",
+    kind: "監修",
+    client: "株式会社ニジボックスの業務として",
+    body: "デザインシステムを守りながら、ワイヤーフレームからデザイン・実装までをAIで通す流れを扱った記事の監修を担当しました。",
+    links: [{ label: "記事を読む", href: "https://blog.nijibox.jp/article/ai_wireframe_2" }],
+  },
+  {
     date: "2024.12",
     title: "AI動画制作講座",
     kind: "講座",
@@ -123,7 +148,9 @@ interface LinkCard {
 const CARDS = (linkCards as { cards?: Record<string, LinkCard> }).cards ?? {};
 
 /* OGPが取れているリンクはサムネつきカード、まだのものは文字リンクにする。
-   CIが link-cards.json を埋めた時点で自動的にカードへ切り替わる。 */
+   CIが link-cards.json を埋めた時点で自動的にカードへ切り替わる。
+   カード内に記事タイトルは出さない（すぐ上の見出しと同じ文字列になるため）。
+   alt も空にしてある。見出しで内容が読めるので、読み上げでの重複を避ける。 */
 function renderLinks(links: { label: string; href: string }[]): string {
   const cards = links.filter((l) => CARDS[l.href]?.image);
   const plain = links.filter((l) => !CARDS[l.href]?.image);
@@ -135,7 +162,6 @@ function renderLinks(links: { label: string; href: string }[]): string {
               <img src="${esc(c.image)}" alt="" loading="lazy" width="1200" height="630">
               <div class="lbody">
                 <span class="lsite">${esc(c.siteName || new URL(c.url).hostname)}</span>
-                <strong>${esc(c.title)}</strong>
                 <span class="lgo">${esc(l.label)}<i class="ph-bold ph-arrow-up-right"></i></span>
               </div>
             </a>`;
@@ -282,9 +308,9 @@ export const PROFILE_BODY = `<main>
   <section class="ink-sec" aria-label="登壇・講座の実績">
     <div class="wrap">
       <div class="sec-head">
-        <div class="kicker">RECORD — 登壇・講座</div>
+        <div class="kicker">RECORD — 登壇・監修</div>
         <h2 class="sec-title">現場で、話してきたこと。</h2>
-        <p class="sec-sub" style="color:var(--paper-200)">個人としてご依頼をいただいた講座・登壇の記録です。</p>
+        <p class="sec-sub" style="color:var(--paper-200)">公開されている登壇・出演・監修・講座の記録です。実施主体はそれぞれに明記しています。</p>
       </div>
       <ol class="record">${recordItems}
       </ol>
