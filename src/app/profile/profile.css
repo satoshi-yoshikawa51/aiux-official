@@ -363,13 +363,14 @@
   .rec-client { font-family: var(--font-hand); font-size: 14px; color: var(--ink-700); margin-bottom: 9px; }
   .rec-item p { font-size: 14.5px; line-height: 1.85; color: var(--ink-700); }
   /* ── 外部記事のリンク（OGP画像＋リンク文言） ── */
-  .rec-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 260px)); gap: 16px; margin-top: 14px; }
+  .rec-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 260px)); justify-content: center; gap: 16px; margin-top: 14px; }
   .lcard { display: block; text-decoration: none; color: inherit; }
   /* height 属性が presentational hint として残るので height:auto で打ち消す。
      入れないと aspect-ratio が効かず、画像が元の高さのまま縦に伸びる。 */
   .lcard img { width: 100%; height: auto; aspect-ratio: 1200/630; object-fit: cover; display: block; border: var(--bw-line) solid var(--ink-900); border-radius: var(--radius-sm); background: var(--paper-100); box-shadow: var(--shadow-pop-sm); transition: transform var(--dur-base,220ms) var(--ease-pop,ease), box-shadow var(--dur-base,220ms); }
   .lcard:hover img { transform: translate(-3px,-3px); box-shadow: var(--shadow-pop); }
-  .lcard .lgo { display: inline-flex; align-items: center; gap: 5px; margin-top: 9px; font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--red-600); }
+  /* リンク文言は画像の右端に揃える（画像自体は中央に置く） */
+  .lcard .lgo { display: flex; justify-content: flex-end; align-items: center; gap: 5px; margin-top: 9px; font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--red-600); }
   .lcard:hover .lgo { text-decoration: underline; }
 
   .rec-links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; }
