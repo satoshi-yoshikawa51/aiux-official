@@ -290,7 +290,7 @@ export const PROFILE_BODY = `<main>
   </section>
 
   <!-- TOPICS — 依頼できること -->
-  <section aria-label="依頼できるテーマ">
+  <section id="topics" aria-label="依頼できるテーマ">
     <div class="wrap">
       <div class="sec-head">
         <div class="kicker">TOPICS — 依頼できること</div>
@@ -303,7 +303,7 @@ export const PROFILE_BODY = `<main>
   </section>
 
   <!-- RECORD — 登壇・講座 -->
-  <section class="ink-sec" aria-label="登壇・講座の実績">
+  <section class="ink-sec" id="record" aria-label="登壇・講座の実績">
     <div class="wrap">
       <div class="sec-head">
         <div class="kicker">RECORD — 登壇・監修</div>
@@ -316,7 +316,7 @@ export const PROFILE_BODY = `<main>
   </section>
 
   <!-- SCALE — つくったもの -->
-  <section aria-label="制作物の規模">
+  <section id="works" aria-label="制作物の規模">
     <div class="wrap">
       <div class="sec-head">
         <div class="kicker">SCALE — つくったもの</div>
