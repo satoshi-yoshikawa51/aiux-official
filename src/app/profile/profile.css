@@ -241,9 +241,15 @@
   .btn-ghost:hover { background: var(--paper-100); }
 
   /* ── Hero ── */
-  .hero { position: relative; overflow: hidden; border-bottom: var(--bw-bold) solid var(--ink-900); }
+  /* 総則 section{padding:60px 0} がヒーローにも効いてしまい、
+     .pf-hero-grid の30pxと合わさってパンくずとの間が90pxになっていた。
+     他ページは30pxなので、ヒーローだけ上パディングを打ち消す。 */
+  .hero { position: relative; overflow: hidden; border-bottom: var(--bw-bold) solid var(--ink-900); padding-top: 0; }
   .hero::before { content:""; position:absolute; inset:0; background-image: var(--tone-dots); background-size: 14px 14px; opacity: .5; pointer-events:none; }
-  .pf-hero-grid { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; padding: 56px 0 50px; }
+  /* テキスト側を上端に揃える。align-items:center だと、右の縦長ポートレート
+     （900×1200）に引きずられて本文が下に押し下がり、パンくずとの間が
+     他ページ（57px）の3倍以上あいてしまう。padding も他ページと同じ30pxに。 */
+  .pf-hero-grid { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: start; padding: 30px 0 50px; }
   .eyebrow { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: .14em; color: var(--red-600); margin-bottom: 18px; }
   .eyebrow .d { width: 9px; height: 9px; border-radius: 999px; background: var(--red-500); }
   h1.name { font-family: var(--font-display); font-weight: 900; font-size: clamp(44px, 7vw, 72px); line-height: 1.08; letter-spacing: .01em; }
@@ -373,7 +379,7 @@
     .rec-item { grid-template-columns: 1fr; gap: 6px; }
   }
   @media (max-width: 880px) {
-    .pf-hero-grid { grid-template-columns: 1fr; gap: 30px; padding-top: 24px; padding-bottom: 38px; }
+    .pf-hero-grid { grid-template-columns: 1fr; gap: 30px; padding-bottom: 38px; }
     .portrait { max-width: 380px; margin: 0 auto; }
     .roles { grid-template-columns: repeat(2,1fr); }
     .expertise, .out-grid { grid-template-columns: 1fr; }
