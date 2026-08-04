@@ -26,6 +26,8 @@ export interface RecordGroup {
   kind: string;
   /** 実施主体。会社の業務として行ったものはその旨を明記する */
   client: string;
+  /** カード下部のリンク文言 */
+  linkLabel: string;
   /** 新しい順。URLだけを書く（タイトル等はOGPから取る） */
   urls: string[];
 }
@@ -37,6 +39,7 @@ export const RECORD_GROUPS: RecordGroup[] = [
     icon: "ph-microphone-stage",
     kind: "登壇",
     client: "株式会社ニジボックスの業務として",
+    linkLabel: "レポートを読む",
     urls: [
       "https://blog.nijibox.jp/article/ui-ux-camp-2026",
       "https://blog.nijibox.jp/article/ai-shift-claude",
@@ -46,14 +49,25 @@ export const RECORD_GROUPS: RecordGroup[] = [
     ],
   },
   {
-    label: "動画",
-    note: "AI活用の解説・実演",
-    icon: "ph-youtube-logo",
+    label: "解説動画",
+    note: "AIの使い方を、つくりながら見せる",
+    icon: "ph-play-circle",
     kind: "出演",
     client: "株式会社ニジボックスの業務として",
+    linkLabel: "動画を見る",
     urls: [
       "https://www.youtube.com/watch?v=iCXRhKaAB6M",
       "https://www.youtube.com/watch?v=c7ahkpVh2bU",
+    ],
+  },
+  {
+    label: "登壇アーカイブ",
+    note: "イベント登壇の記録映像",
+    icon: "ph-video-camera",
+    kind: "登壇",
+    client: "株式会社ニジボックスの業務として",
+    linkLabel: "アーカイブを見る",
+    urls: [
       "https://www.youtube.com/watch?v=g2kTo6uRlF0",
       "https://www.youtube.com/watch?v=yQPFYp9IOkk",
       "https://www.youtube.com/watch?v=qorckco4JFc",
@@ -69,6 +83,7 @@ export const RECORD_GROUPS: RecordGroup[] = [
     icon: "ph-check-square-offset",
     kind: "監修",
     client: "株式会社ニジボックスの業務として",
+    linkLabel: "記事を読む",
     urls: [
       "https://blog.nijibox.jp/article/ai_wireframe_2",
       "https://blog.nijibox.jp/article/ai-coding",
@@ -84,7 +99,20 @@ export const RECORD_GROUPS: RecordGroup[] = [
     icon: "ph-chats-circle",
     kind: "取材",
     client: "株式会社ニジボックスの業務として",
+    linkLabel: "記事を読む",
     urls: ["https://www.wantedly.com/companies/nijibox/post_articles/489416"],
+  },
+  {
+    label: "講座",
+    note: "個人としてご依頼をいただいた講座",
+    icon: "ph-film-slate",
+    kind: "講座",
+    client: "株式会社FPEC様 ／ 個人活動として実施",
+    linkLabel: "実施レポートを読む",
+    urls: [
+      "https://note.com/aiux_unite/n/n537a83c2d15c",
+      "https://note.com/aiux_unite/n/n77f117e59052",
+    ],
   },
 ];
 

@@ -5,7 +5,6 @@ import { GUIDES } from "../guide/data";
 import { WORK_DETAILS } from "../works/data";
 import { GAME_COUNT } from "../games";
 import noteArticles from "../note-articles.json";
-import linkCards from "./link-cards.json";
 
 /* ============================================================
    講演・寄稿を検討している人が見るページなので、
@@ -64,55 +63,6 @@ export const PROFILE_TOPICS: ProfileTopic[] = [
   },
 ];
 
-export interface ProfileRecord {
-  date: string;
-  title: string;
-  /** 登壇 / 監修 など、その実績の種別 */
-  kind: string;
-  /** 実施主体。会社の業務として行ったものは、その旨をここで明記する */
-  client: string;
-  /** 自分の活動についてだけ書く。他社が公開した記事の内容を要約・言い換え
-      して載せない（掲載条件が「タイトルとリンクの紹介にとどめる」ため）。 */
-  body?: string;
-  links: { label: string; href: string }[];
-}
-
-export const PROFILE_RECORDS: ProfileRecord[] = [
-  {
-    date: "2026.07",
-    title: "答えるAIから働くAIへ｜Claude活用で変わる業務改革",
-    kind: "登壇",
-    client: "株式会社ニジボックスの業務として",
-    links: [{ label: "登壇レポートを読む", href: "https://blog.nijibox.jp/article/ai-shift-claude" }],
-  },
-  {
-    date: "2026.07",
-    title: "【Claude活用入門編】スキルを簡単につくって使いこなすコツ",
-    kind: "出演",
-    client: "株式会社ニジボックスの業務として",
-    links: [{ label: "動画を見る", href: "https://www.youtube.com/watch?v=iCXRhKaAB6M" }],
-  },
-  {
-    date: "2026.02",
-    title:
-      "【Figma Make・Cursorの使い方が分かる！】デザインシステムに沿ったワイヤーフレームの作成〜デザイン〜実装をAIで自動生成！",
-    kind: "監修",
-    client: "株式会社ニジボックスの業務として",
-    links: [{ label: "記事を読む", href: "https://blog.nijibox.jp/article/ai_wireframe_2" }],
-  },
-  {
-    date: "2024.12",
-    title: "AI動画制作講座",
-    kind: "講座",
-    client: "株式会社FPEC様 ／ 個人活動として実施",
-    body: "「AIを面白く！わかりやすく！」をテーマに、構成・シナリオ作成から画像素材の生成、動画の仕上げまでを解説。実施レポートをnoteで公開しています。",
-    links: [
-      { label: "実施レポート（前編）", href: "https://note.com/aiux_unite/n/n77f117e59052" },
-      { label: "（後編）", href: "https://note.com/aiux_unite/n/n537a83c2d15c" },
-    ],
-  },
-];
-
 const NOTE = (noteArticles as { articles?: { likes?: number }[] }).articles ?? [];
 const NOTE_LIKES = NOTE.reduce((s, a) => s + (a.likes ?? 0), 0);
 
@@ -126,71 +76,7 @@ const topicCards = PROFILE_TOPICS.map(
         </article>`,
 ).join("");
 
-/* CIが外部サイトから取ってきた文字列をそのままHTMLに流すので、
-   必ずエスケープする（dangerouslySetInnerHTML で描画されるため）。 */
-const esc = (v: string) =>
-  v
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-
-interface LinkCard {
-  url: string;
-  title: string;
-  description: string;
-  image: string;
-  siteName: string;
-  date: string;
-}
-const CARDS = (linkCards as { cards?: Record<string, LinkCard> }).cards ?? {};
-
-/* OGPが取れているリンクはサムネつきカード、まだのものは文字リンクにする。
-   CIが link-cards.json を埋めた時点で自動的にカードへ切り替わる。
-   出すのはOGP画像とリンク文言だけ。タイトルは見出しと、サイト名は
-   実施主体の行と重複するので、カード側には持たせない。枠も付けない
-   （実績カードの中に入れ子のカードができて二重に見えるため）。
-   alt が空なのも同じ理由で、見出しで内容が読めるため。 */
-function renderLinks(links: { label: string; href: string }[]): string {
-  const cards = links.filter((l) => CARDS[l.href]?.image);
-  const plain = links.filter((l) => !CARDS[l.href]?.image);
-  const cardHtml = cards.length
-    ? `<div class="rec-cards">${cards
-        .map((l) => {
-          const c = CARDS[l.href];
-          return `<a class="lcard" href="${esc(c.url)}" target="_blank" rel="noopener">
-              <img src="${esc(c.image)}" alt="" loading="lazy" width="1200" height="630">
-              <span class="lgo">${esc(l.label)}<i class="ph-bold ph-arrow-up-right"></i></span>
-            </a>`;
-        })
-        .join("")}</div>`
-    : "";
-  const plainHtml = plain.length
-    ? `<div class="rec-links">${plain
-        .map(
-          (l) =>
-            `<a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)}<i class="ph-bold ph-arrow-up-right"></i></a>`,
-        )
-        .join("")}</div>`
-    : "";
-  return cardHtml + plainHtml;
-}
-
-const recordItems = PROFILE_RECORDS.map(
-  (r) => `
-        <li class="rec-item">
-          <span class="rec-date">${r.date}<em class="rec-kind">${r.kind}</em></span>
-          <div>
-            <h3>${r.title}</h3>
-            <div class="rec-client">${r.client}</div>
-            ${r.body ? `<p>${r.body}</p>` : ""}
-            ${renderLinks(r.links)}
-          </div>
-        </li>`,
-).join("");
-
-export const PROFILE_BODY = `<main>
+export const PROFILE_BODY_TOP = `<main>
   <!-- HERO -->
   <section class="hero" aria-label="プロフィール概要">
     <div class="wrap pf-hero-grid">
@@ -302,19 +188,11 @@ export const PROFILE_BODY = `<main>
     </div>
   </section>
 
-  <!-- RECORD — 登壇・講座 -->
-  <section class="ink-sec" id="record" aria-label="登壇・講座の実績">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="kicker">RECORD — 登壇・監修</div>
-        <h2 class="sec-title">現場で、話してきたこと。</h2>
-        <p class="sec-sub" style="color:var(--paper-200)">公開されている登壇・出演・監修・講座の記録です。実施主体はそれぞれに明記しています。</p>
-      </div>
-      <ol class="record">${recordItems}
-      </ol>
-    </div>
-  </section>
+`;
 
+/* RECORDセクションはReactで描く（サイト標準のカード部品を使うため）。
+   ここでHTMLを分割し、profile/page.tsx が間に差し込む。 */
+export const PROFILE_BODY_BOTTOM = `
   <!-- SCALE — つくったもの -->
   <section id="works" aria-label="制作物の規模">
     <div class="wrap">
