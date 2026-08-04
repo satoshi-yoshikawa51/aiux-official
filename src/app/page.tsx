@@ -377,10 +377,17 @@ function Profile() {
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 30 }}>
+        {/* 講演・執筆を頼めることは、トップのどこにも書いていなかった。
+            セクションを増やさず、ここで名乗って依頼テーマへ直接送る。 */}
+        <div style={{ marginTop: 30, display: "flex", gap: 12, flexWrap: "wrap" }}>
           <a href="/profile" data-ga="cta_click" data-ga-place="top-profile" style={{ textDecoration: "none" }}>
             <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
               詳しいプロフィールを見る
+            </Button>
+          </a>
+          <a href="/profile#topics" data-ga="cta_click" data-ga-place="top-topics" style={{ textDecoration: "none" }}>
+            <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              登壇・執筆のご依頼
             </Button>
           </a>
         </div>
@@ -1330,6 +1337,17 @@ function Contact() {
           <p style={{ fontSize: 15.5, lineHeight: 1.95, color: "var(--text-body)", maxWidth: 380 }}>
             講演・寄稿・制作・取材などのご相談はお気軽に。いただいたご相談には、メールにて返信いたします。
           </p>
+          <div style={{ marginTop: 12 }}>
+            <a
+              href="/profile#topics"
+              data-ga="nav_click"
+              data-ga-place="contact-topics"
+              data-ga-path="/profile#topics"
+              style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14, color: "var(--red-600)" }}
+            >
+              お話しできるテーマを見る <i className="ph-bold ph-arrow-right" />
+            </a>
+          </div>
           <div style={{ marginTop: 22 }}>
             <SpeechBubble variant="say" tail="bottom-left" style={{ fontSize: 16 }}>
               一緒に、AIを面白く！

@@ -63,27 +63,6 @@ export const PROFILE_TOPICS: ProfileTopic[] = [
   },
 ];
 
-export interface ProfileRecord {
-  date: string;
-  title: string;
-  client: string;
-  body: string;
-  links: { label: string; href: string }[];
-}
-
-export const PROFILE_RECORDS: ProfileRecord[] = [
-  {
-    date: "2024.12",
-    title: "AI動画制作講座",
-    client: "株式会社FPEC様 ／ 個人活動として実施",
-    body: "「AIを面白く！わかりやすく！」をテーマに、構成・シナリオ作成から画像素材の生成、動画の仕上げまでを解説。実施レポートをnoteで公開しています。",
-    links: [
-      { label: "実施レポート（前編）", href: "https://note.com/aiux_unite/n/n77f117e59052" },
-      { label: "（後編）", href: "https://note.com/aiux_unite/n/n537a83c2d15c" },
-    ],
-  },
-];
-
 const NOTE = (noteArticles as { articles?: { likes?: number }[] }).articles ?? [];
 const NOTE_LIKES = NOTE.reduce((s, a) => s + (a.likes ?? 0), 0);
 
@@ -97,25 +76,7 @@ const topicCards = PROFILE_TOPICS.map(
         </article>`,
 ).join("");
 
-const recordItems = PROFILE_RECORDS.map(
-  (r) => `
-        <li class="rec-item">
-          <span class="rec-date">${r.date}</span>
-          <div>
-            <h3>${r.title}</h3>
-            <div class="rec-client">${r.client}</div>
-            <p>${r.body}</p>
-            <div class="rec-links">${r.links
-              .map(
-                (l) =>
-                  `<a href="${l.href}" target="_blank" rel="noopener">${l.label}<i class="ph-bold ph-arrow-up-right"></i></a>`,
-              )
-              .join("")}</div>
-          </div>
-        </li>`,
-).join("");
-
-export const PROFILE_BODY = `<main>
+export const PROFILE_BODY_TOP = `<main>
   <!-- HERO -->
   <section class="hero" aria-label="プロフィール概要">
     <div class="wrap pf-hero-grid">
@@ -215,7 +176,7 @@ export const PROFILE_BODY = `<main>
   </section>
 
   <!-- TOPICS — 依頼できること -->
-  <section aria-label="依頼できるテーマ">
+  <section id="topics" aria-label="依頼できるテーマ">
     <div class="wrap">
       <div class="sec-head">
         <div class="kicker">TOPICS — 依頼できること</div>
@@ -227,21 +188,13 @@ export const PROFILE_BODY = `<main>
     </div>
   </section>
 
-  <!-- RECORD — 登壇・講座 -->
-  <section class="ink-sec" aria-label="登壇・講座の実績">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="kicker">RECORD — 登壇・講座</div>
-        <h2 class="sec-title">現場で、話してきたこと。</h2>
-        <p class="sec-sub" style="color:var(--paper-200)">個人としてご依頼をいただいた講座・登壇の記録です。</p>
-      </div>
-      <ol class="record">${recordItems}
-      </ol>
-    </div>
-  </section>
+`;
 
+/* RECORDセクションはReactで描く（サイト標準のカード部品を使うため）。
+   ここでHTMLを分割し、profile/page.tsx が間に差し込む。 */
+export const PROFILE_BODY_BOTTOM = `
   <!-- SCALE — つくったもの -->
-  <section aria-label="制作物の規模">
+  <section id="works" aria-label="制作物の規模">
     <div class="wrap">
       <div class="sec-head">
         <div class="kicker">SCALE — つくったもの</div>

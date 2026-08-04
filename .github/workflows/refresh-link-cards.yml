@@ -1,0 +1,44 @@
+# 外部記事・動画のOGP（link-cards.json）を取得・更新するワークフロー。
+# Claude Code のサンドボックスは外部サイトに一切到達できないため、
+# 取得はこのワークフロー（GitHub Actionsランナー）上で行う。
+# 掲載先の記事タイトルが直されることは稀なので、週次で十分。
+name: Refresh link cards
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 毎時0分は混雑で遅延・スキップされやすいため中途半端な分にずらす
+    - cron: "50 23 * * 0" # 毎週日曜 23:50 UTC = 月曜 08:50 JST
+  # workflow_dispatch はデフォルトブランチにマージされるまで使えないため、
+  # 開発ブランチではスクリプト/ワークフロー変更のpushでも起動する
+  push:
+    branches:
+      - "claude/site-recent-updates-q8v273"
+    paths:
+      - "scripts/fetch-link-cards.mjs"
+      - ".github/workflows/refresh-link-cards.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Fetch OGP for external articles
+        run: node scripts/fetch-link-cards.mjs
+      - name: Commit & push if changed
+        run: |
+          if git diff --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/app/profile/link-cards.json
+          git commit -m "chore: refresh external link cards"
+          git push
