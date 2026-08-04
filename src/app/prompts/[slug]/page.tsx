@@ -7,6 +7,8 @@ import { Breadcrumb, SectionHead, ShareRow } from "../../site-ui";
 import { TERMS } from "../../glossary/data";
 import { RECIPES, getRecipe } from "../data";
 import { CopyPromptButton } from "../copy-button";
+import { yonkomaSrc, yonkomaOg } from "../../yonkoma/registry";
+import { YonkomaStrip } from "../../yonkoma/strip";
 
 export const dynamicParams = false;
 
@@ -32,7 +34,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: r.short,
       url: `/prompts/${r.slug}`,
       locale: "ja_JP",
-      images: [{ url: `/og/prompts/${r.slug}.png`, width: 1200, height: 630, alt: `${r.title}のAIプロンプト｜COMIXAI` }],
+      images: [
+        {
+          /* 4コマ用のOGを入稿してあればそちらを優先（無ければ既定のタイポグラフィOG） */
+          url: yonkomaOg("prompts", r.slug) ?? `/og/prompts/${r.slug}.png`,
+          width: 1200,
+          height: 630,
+          alt: `${r.title}のAIプロンプト｜COMIXAI`,
+        },
+      ],
     },
     twitter: { card: "summary_large_image" },
   };
@@ -129,6 +139,13 @@ export default async function PromptRecipePage({ params }: Props) {
             {r.intro.map((p) => (
               <P key={p.slice(0, 12)}>{p}</P>
             ))}
+
+            {/* —— 手描き4コマ（public/yonkoma/prompts/<slug>.png を置くと出る） —— */}
+            {yonkomaSrc("prompts", r.slug) && (
+              <div style={{ marginTop: 26 }}>
+                <YonkomaStrip src={yonkomaSrc("prompts", r.slug)!} alt={`4コマ漫画でわかる${r.title}のプロンプト`} />
+              </div>
+            )}
 
             {/* —— ダメな指示の実演 —— */}
             <section style={{ marginTop: 34 }}>

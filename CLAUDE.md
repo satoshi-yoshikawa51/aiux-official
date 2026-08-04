@@ -16,11 +16,12 @@ npm run build        # 本番ビルド ＝ 実質の型チェック／唯一の�
 npm run og:glossary  # OGP画像を一括生成（Playwright/Chromium を使用）
 npm run img:optimize # 表示に使う画像を軽量化（元画像は残す）
 npm run ga:report    # GA4のデータをAPIで取ってレポート表示（要 環境変数）
-npm run daily:manga  # 日刊4コマ（/daily）を1本生成（要 ANTHROPIC_API_KEY）
+npm run yonkoma      # 手描き4コマのネーム案を3つ出す壁打ち（要 ANTHROPIC_API_KEY）
 ```
 
-`daily:manga` は `-- --sample` を付けるとAPIを叩かず見本データで描画だけ試せる。
-キャラ素材の仕様は `docs/daily-manga-cast.md`。
+`yonkoma` は `-- --list` で描ける対象と入稿済みの一覧、`-- <slug> --dry` でAPIを
+叩かずお題の確認だけできる。**4コマの入稿はデータ編集不要で、
+`public/yonkoma/<glossary|prompts>/<slug>.png` を置くだけ**。詳細は `docs/yonkoma.md`。
 
 `ga:report` は `GA_PROPERTY_ID` と `GA_SERVICE_ACCOUNT_JSON` を環境変数で渡す。
 **サービスアカウントのJSONキーはリポジトリに置かない。** 準備の手順は
@@ -100,7 +101,7 @@ XやGitHubなどのロゴは**商標なので描き直さない**。Phosphorの 
 | `glossary/data.ts` + `terms-wave2*.ts` | AI用語集150語（5,000行超。波ごとにファイル分割） |
 | `prompts/data.ts` + `recipes-*.ts` | プロンプト集24レシピ |
 | `works/data.ts` `guide/data.tsx` `faq/data.ts` `manga/data.ts` `calendar/events.ts` | 各セクションのコンテンツ |
-| `daily/data.ts` + `entries.json` | 日刊4コマ。entries.jsonは自動生成、data.tsは型とヘルパだけ |
+| `public/yonkoma/` + `yonkoma/registry.ts` | 手描き4コマ。**データファイルなし**（置いた画像が正）。registryがfsを見て用語/レシピページとギャラリーに配る |
 
 **コンテンツを追加したら**：該当 `data.ts` → `*_UPDATED` 定数 → `sitemap.ts`（新セクションの場合）→ OGP画像（`npm run og:glossary`）の順で更新する。
 
@@ -111,7 +112,6 @@ GitHub Actions が外部から取得してコミットする：
 - `src/app/note-articles.json` — noteの全記事（毎週月曜 8:40 JST）
 - `src/app/glossary/article-meta.json`、`src/app/manga/episodes.json` — 同上
 - `src/app/calendar/news-headlines.json`、`event-images.json` — AIニュース（毎朝 6:40 JST）
-- `src/app/daily/entries.json` と `public/daily/*.png`、`public/og/daily/*.png` — 日刊4コマ（毎朝 7:10 JST）
 
 **例外的に手書きなのは `src/app/note-article-meta.json`**。badge / tone / tags / excerpt のキュレーション情報で、生成側より優先される。新記事のメタを整えるときはこれを編集する。
 
