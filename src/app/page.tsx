@@ -379,10 +379,13 @@ function Profile() {
           ))}
         </div>
         {/* 依頼のボタンは、この下の RECORD（実績）の末尾に置いている。
-            名乗り → 実績 → 依頼 の順にしたいので、ここでは頼まない。 */}
-        <div style={{ marginTop: 30, display: "flex", gap: 12, flexWrap: "wrap" }}>
+            名乗り → 実績 → 依頼 の順にしたいので、ここでは頼まない。
+            節の締めのボタンは中央・lg がトップ全体のルール（記事・マガジン・
+            WORKS・用語集・プロンプト・RECORDが全部そう）。ここだけ
+            左寄せ・md で外れていた。 */}
+        <div style={{ marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <a href="/profile" data-ga="cta_click" data-ga-place="top-profile" style={{ textDecoration: "none" }}>
-            <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+            <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               詳しいプロフィールを見る
             </Button>
           </a>
@@ -443,7 +446,7 @@ function Record() {
             <RecordCard key={card.url} card={card} group={group} place="top-record" />
           ))}
         </RecordGrid>
-        <div style={{ marginTop: 32, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{ marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           {/* 黒地なので ink のボタンは使えない（背景と同じ色で消える） */}
           <a href="/record" data-ga="cta_click" data-ga-place="top-record-all" style={{ textDecoration: "none" }}>
             <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
