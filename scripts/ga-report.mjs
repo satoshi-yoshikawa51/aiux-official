@@ -122,19 +122,24 @@ async function main() {
     const r = await runReport(ctx, {
       metrics: [
         { name: "activeUsers" },
+        { name: "newUsers" },
         { name: "sessions" },
         { name: "screenPageViews" },
         { name: "averageSessionDuration" },
       ],
     });
-    const v = rows(r)[0]?.values ?? [];
+    const v = (rows(r)[0]?.values ?? []).map(Number);
+    const [users, fresh, sessions, views, dur] = v;
     table(
       ["指標", "値"],
       [
-        ["ユーザー", num(v[0] ?? 0)],
-        ["セッション", num(v[1] ?? 0)],
-        ["表示回数", num(v[2] ?? 0)],
-        ["平均滞在", `${Math.round(v[3] ?? 0)}秒`],
+        ["ユーザー", num(users ?? 0)],
+        /* 「新しく届いた人数」が集客の実数。セッションは同じ人の開き直しで膨らむ */
+        ["うち新規", num(fresh ?? 0)],
+        ["セッション", num(sessions ?? 0)],
+        ["表示回数", num(views ?? 0)],
+        ["1セッションの表示", sessions ? (views / sessions).toFixed(2) : "-"],
+        ["平均滞在", `${Math.round(dur ?? 0)}秒`],
       ],
     );
   });
@@ -152,17 +157,41 @@ async function main() {
     );
   });
 
-  await section("流入元 Top 10", async () => {
+  /* セッション数だけで並べると、自分のアクセスが流入源に化ける。
+     実際、はてブ経由の61セッションは新規0・2人が30回ずつ開き直していた
+     だけで、集客はゼロだった。人数と新規と「1人あたり何回」を必ず並べ、
+     新規0のものには印を付ける。 */
+  await section("流入元 Top 12", async () => {
     const r = await runReport(ctx, {
       dimensions: [{ name: "sessionDefaultChannelGroup" }, { name: "sessionSource" }],
-      metrics: [{ name: "sessions" }],
+      metrics: [{ name: "sessions" }, { name: "totalUsers" }, { name: "newUsers" }],
       orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
-      limit: 10,
+      limit: 12,
     });
+    const list = rows(r);
     table(
-      ["チャネル / 参照元", "セッション"],
-      rows(r).map((x) => [`${x.keys[0]} / ${x.keys[1]}`, num(x.values[0])]),
+      ["チャネル / 参照元", "セッション", "人数", "新規", "1人あたり", ""],
+      list.map((x) => {
+        const [s, u, n] = x.values.map(Number);
+        return [
+          `${x.keys[0]} / ${x.keys[1]}`,
+          num(s),
+          num(u),
+          num(n),
+          u ? (s / u).toFixed(1) : "-",
+          /* 新規が無い＝新しい人を連れてきていない。自分のアクセスを疑う */
+          n === 0 ? "← 新規なし" : s / Math.max(u, 1) >= 5 ? "← 回数が多い" : "",
+        ];
+      }),
     );
+    const self = list.filter((x) => Number(x.values[2]) === 0);
+    if (self.length) {
+      const total = self.reduce((a, x) => a + Number(x.values[0]), 0);
+      console.log(
+        `\n  [2m新規ユーザーが0の参照元が${self.length}件（計${num(total)}セッション）。` +
+          `自分や関係者のアクセスの可能性が高いので、集客の数え上げからは外すこと。[0m`,
+      );
+    }
   });
 
   await section("イベント数", async () => {
