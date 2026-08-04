@@ -108,7 +108,7 @@ export default function RecordPage() {
                     {g.note}
                   </>
                 }
-                title={`${g.label}（${cards.length}件）`}
+                title={g.label}
                 hand={g.client}
               />
               <RecordGrid>
