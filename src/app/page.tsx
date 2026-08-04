@@ -399,24 +399,41 @@ function Profile() {
 function Record() {
   if (TOP_RECORDS.length === 0) return null;
   return (
-    /* 沈んだ背景にする。プロフィール（黒）→ここ→記事（紙）と並ぶので、
-       ここも紙色だと記事と地続きになって切れ目が見えなくなる。 */
+    /* 背景は上のプロフィールと同じ黒ドット。名乗り→実績→依頼はひと続きの
+       話なので、ここで色を変えると別の話に見えてしまう。/profile の
+       RECORD も同じ配色にしてある。
+       上の縁取りは付けない。プロフィールと地続きの1枚に見せたいので、
+       境目を作らずドットだけ続ける。 */
     <section
       id="record"
       style={{
-        background: "var(--paper-100)",
-        borderTop: "var(--bw-line) solid var(--ink-900)",
-        borderBottom: "var(--bw-line) solid var(--ink-900)",
-        backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)",
-        backgroundSize: "11px 11px",
+        background: "var(--ink-900)",
+        borderBottom: "var(--bw-bold) solid var(--ink-900)",
+        backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.3px, transparent 1.4px)",
+        backgroundSize: "13px 13px",
       }}
     >
-      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 60px" }}>
-        <SectionHead
-          kicker="RECORD — 登壇・監修の実績"
-          title="現場で、話してきたこと。"
-          hand={`公開されている記録を${RECORD_TOTAL}件`}
-        />
+      {/* 上のプロフィールから続いているので、間はうっすら線で仕切るだけ。
+          区切りの太さは黒地の中で使っている FACTS の罫線に合わせる */}
+      <div style={{ maxWidth: PAGE, margin: "0 auto" }}>
+        <div style={{ borderTop: "1px solid rgba(244,236,221,0.18)" }} />
+      </div>
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "52px 0 62px" }}>
+        {/* 黒地なので SectionHead は使えない（キッカー赤・見出し黒のため）。
+            プロフィール節と同じ配色（キッカー黄／見出し紙色）で組む */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 8 }}>
+            RECORD — 登壇・監修の実績
+          </div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(26px,3.4vw,36px)", margin: 0, lineHeight: 1.2, color: "var(--paper-50)" }}>
+              現場で、話してきたこと。
+            </h2>
+            <span style={{ fontFamily: "var(--font-hand)", color: "var(--paper-200)", fontSize: 16 }}>
+              公開されている記録を{RECORD_TOTAL}件
+            </span>
+          </div>
+        </div>
         {/* rv-stagger では包まない。あれは用語チップ用で、中の <a> 全部に
             「ホバーで傾く」が掛かる。スマホは一度触れると :hover が
             残るので、カードが斜めのままスクロールしてしまう。
@@ -427,8 +444,9 @@ function Record() {
           ))}
         </RecordGrid>
         <div style={{ marginTop: 32, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          {/* 黒地なので ink のボタンは使えない（背景と同じ色で消える） */}
           <a href="/record" data-ga="cta_click" data-ga-place="top-record-all" style={{ textDecoration: "none" }}>
-            <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+            <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               実績をすべて見る（{RECORD_TOTAL}件）
             </Button>
           </a>
