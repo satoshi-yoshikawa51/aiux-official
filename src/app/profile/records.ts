@@ -119,3 +119,12 @@ export const RECORD_GROUPS: RecordGroup[] = [
 /* 掲載件数は「URLの数」ではなく「実際にカードを出せた数」を使う。
    OGPの取得はCIに任せているので、追加直後のURLはまだカードが無い。
    数え方は record-ui.tsx の RECORD_TOTAL を参照。 */
+
+/* トップページに出す3件。並びは「新しい順」でも「区分ごとに1件」でもなく、
+   いちばん見せたいものから手で決める。ここを書き換えれば順番が変わる。
+   /record の中の順番（区分ごとに新しい順）には影響しない。 */
+export const TOP_RECORD_URLS = [
+  "https://www.youtube.com/watch?v=iCXRhKaAB6M", // 【Claude活用入門編】スキルを簡単につくって使いこなすコツ
+  "https://www.youtube.com/watch?v=g2kTo6uRlF0", // AI時代の業務改革最前線〜Claude Code・Claude Designで広がる可能性〜
+  "https://blog.nijibox.jp/article/ui-ux-camp-2026", // UI UX Camp! 2026 〜いま、見つめなおすデザイン〜
+];

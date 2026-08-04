@@ -9,7 +9,7 @@
    ため。相手の記事の要約になってしまう）。
    ============================================================ */
 import { Badge, Card } from "../ds";
-import { RECORD_GROUPS, type RecordGroup } from "./records";
+import { RECORD_GROUPS, TOP_RECORD_URLS, type RecordGroup } from "./records";
 import linkCards from "./link-cards.json";
 
 interface LinkCard {
@@ -36,6 +36,14 @@ export const RECORD_TOTAL = RECORD_GROUPS.reduce((n, g) => n + cardsOf(g).length
 
 /** カードが1件以上ある区分だけ。0件の区分は見出しもバッジも出さない */
 export const RECORD_FILLED = RECORD_GROUPS.filter((g) => cardsOf(g).length > 0);
+
+/** トップに出す代表3件。records.ts の TOP_RECORD_URLS の順に並べる。
+    区分（バッジと「動画を見る」等の文言）はURLの持ち主から引く。 */
+export const TOP_RECORDS = TOP_RECORD_URLS.map((url) => {
+  const card = CARDS[url];
+  const group = RECORD_GROUPS.find((g) => g.urls.includes(url));
+  return card?.title && group ? { card, group } : null;
+}).filter((x): x is { card: LinkCard; group: RecordGroup } => x !== null);
 
 export function RecordCard({
   card,

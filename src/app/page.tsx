@@ -27,7 +27,7 @@ import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
 import { FEATURED_RECIPES } from "./prompts/data";
 import { GUIDES } from "./guide/data";
-import { RecordCard, RecordGrid, cardsOf, RECORD_TOTAL, RECORD_FILLED } from "./profile/record-ui";
+import { RecordCard, RecordGrid, RECORD_TOTAL, TOP_RECORDS } from "./profile/record-ui";
 import { EVENTS, dateLabel, isPast } from "./calendar/events";
 import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
@@ -397,10 +397,7 @@ function Profile() {
    公開されている記録で裏を取る形にして、その流れのまま依頼へ送る。
    トップに出すのは代表3件だけ。全件は /record にある。 */
 function Record() {
-  const cards = RECORD_FILLED.slice(0, 3)
-    .map((g) => ({ g, c: cardsOf(g)[0] }))
-    .filter((x) => x.c);
-  if (cards.length === 0) return null;
+  if (TOP_RECORDS.length === 0) return null;
   return (
     /* 沈んだ背景にする。プロフィール（黒）→ここ→記事（紙）と並ぶので、
        ここも紙色だと記事と地続きになって切れ目が見えなくなる。 */
@@ -420,13 +417,15 @@ function Record() {
           title="現場で、話してきたこと。"
           hand={`公開されている記録を${RECORD_TOTAL}件`}
         />
-        <div className="rv-stagger">
-          <RecordGrid>
-            {cards.map(({ g, c }) => (
-              <RecordCard key={c!.url} card={c!} group={g} place="top-record" />
-            ))}
-          </RecordGrid>
-        </div>
+        {/* rv-stagger では包まない。あれは用語チップ用で、中の <a> 全部に
+            「ホバーで傾く」が掛かる。スマホは一度触れると :hover が
+            残るので、カードが斜めのままスクロールしてしまう。
+            出現演出は RecordGrid の .articles-grid 側で効いている。 */}
+        <RecordGrid>
+          {TOP_RECORDS.map(({ card, group }) => (
+            <RecordCard key={card.url} card={card} group={group} place="top-record" />
+          ))}
+        </RecordGrid>
         <div style={{ marginTop: 32, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <a href="/record" data-ga="cta_click" data-ga-place="top-record-all" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
