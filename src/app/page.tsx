@@ -27,6 +27,7 @@ import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
 import { FEATURED_RECIPES } from "./prompts/data";
 import { GUIDES } from "./guide/data";
+import { RecordCard, RecordGrid, RECORD_TOTAL, TOP_RECORDS } from "./profile/record-ui";
 import { EVENTS, dateLabel, isPast } from "./calendar/events";
 import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
@@ -377,16 +378,83 @@ function Profile() {
             </div>
           ))}
         </div>
-        {/* 講演・執筆を頼めることは、トップのどこにも書いていなかった。
-            セクションを増やさず、ここで名乗って依頼テーマへ直接送る。 */}
-        <div style={{ marginTop: 30, display: "flex", gap: 12, flexWrap: "wrap" }}>
+        {/* 依頼のボタンは、この下の RECORD（実績）の末尾に置いている。
+            名乗り → 実績 → 依頼 の順にしたいので、ここでは頼まない。
+            節の締めのボタンは中央・lg がトップ全体のルール（記事・マガジン・
+            WORKS・用語集・プロンプト・RECORDが全部そう）。ここだけ
+            左寄せ・md で外れていた。 */}
+        <div style={{ marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <a href="/profile" data-ga="cta_click" data-ga-place="top-profile" style={{ textDecoration: "none" }}>
-            <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+            <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               詳しいプロフィールを見る
             </Button>
           </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════ RECORD（登壇・監修の実績） ═══════════════
+   プロフィールの直後に置く。「5つの顔」と名乗った直後に、外部に
+   公開されている記録で裏を取る形にして、その流れのまま依頼へ送る。
+   トップに出すのは代表3件だけ。全件は /record にある。 */
+function Record() {
+  if (TOP_RECORDS.length === 0) return null;
+  return (
+    /* 背景は上のプロフィールと同じ黒ドット。名乗り→実績→依頼はひと続きの
+       話なので、ここで色を変えると別の話に見えてしまう。/profile の
+       RECORD も同じ配色にしてある。
+       上の縁取りは付けない。プロフィールと地続きの1枚に見せたいので、
+       境目を作らずドットだけ続ける。 */
+    <section
+      id="record"
+      style={{
+        background: "var(--ink-900)",
+        borderBottom: "var(--bw-bold) solid var(--ink-900)",
+        backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.3px, transparent 1.4px)",
+        backgroundSize: "13px 13px",
+      }}
+    >
+      {/* 上のプロフィールから続いているので、間はうっすら線で仕切るだけ。
+          区切りの太さは黒地の中で使っている FACTS の罫線に合わせる */}
+      <div style={{ maxWidth: PAGE, margin: "0 auto" }}>
+        <div style={{ borderTop: "1px solid rgba(244,236,221,0.18)" }} />
+      </div>
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "52px 0 62px" }}>
+        {/* 黒地なので SectionHead は使えない（キッカー赤・見出し黒のため）。
+            プロフィール節と同じ配色（キッカー黄／見出し紙色）で組む */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 8 }}>
+            RECORD — 登壇・監修の実績
+          </div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(26px,3.4vw,36px)", margin: 0, lineHeight: 1.2, color: "var(--paper-50)" }}>
+              現場で、話してきたこと。
+            </h2>
+            <span style={{ fontFamily: "var(--font-hand)", color: "var(--paper-200)", fontSize: 16 }}>
+              公開されている記録を{RECORD_TOTAL}件
+            </span>
+          </div>
+        </div>
+        {/* rv-stagger では包まない。あれは用語チップ用で、中の <a> 全部に
+            「ホバーで傾く」が掛かる。スマホは一度触れると :hover が
+            残るので、カードが斜めのままスクロールしてしまう。
+            出現演出は RecordGrid の .articles-grid 側で効いている。 */}
+        <RecordGrid>
+          {TOP_RECORDS.map(({ card, group }) => (
+            <RecordCard key={card.url} card={card} group={group} place="top-record" />
+          ))}
+        </RecordGrid>
+        <div style={{ marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          {/* 黒地なので ink のボタンは使えない（背景と同じ色で消える） */}
+          <a href="/record" data-ga="cta_click" data-ga-place="top-record-all" style={{ textDecoration: "none" }}>
+            <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              実績をすべて見る（{RECORD_TOTAL}件）
+            </Button>
+          </a>
           <a href="/profile#topics" data-ga="cta_click" data-ga-place="top-topics" style={{ textDecoration: "none" }}>
-            <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+            <Button variant="secondary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               登壇・執筆のご依頼
             </Button>
           </a>
@@ -941,7 +1009,10 @@ function PromptRecipes() {
         <p style={{ fontFamily: "var(--font-hand)", fontSize: 14.5, color: "var(--text-muted)", margin: "30px 0 12px" }}>
           自分の仕事に引きつけて読むなら、職種別ガイドから↓（全{GUIDES.length}職種）
         </p>
-        <div className="rv-stagger" style={{ display: "flex", gap: 12, flexWrap: "wrap", maxWidth: 1000 }}>
+        {/* 4枚でページ幅を使い切る。flexで maxWidth を掛けていたころは
+            4×250+gap が並びの maxWidth 1000 に収まらず241pxに縮み、
+            右端がページより80px手前で終わって他の節と揃わなかった。 */}
+        <div className="rv-stagger guide-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }}>
           {GUIDES.slice(0, 4).map((g) => (
             <a
               key={g.slug}
@@ -950,8 +1021,6 @@ function PromptRecipes() {
               data-ga-place="top-guide"
               data-ga-path={`/guide/${g.slug}`}
               style={{
-                flex: "1 1 180px",
-                maxWidth: 250,
                 textDecoration: "none",
                 color: "inherit",
                 border: "var(--bw-line) solid var(--ink-900)",
@@ -968,7 +1037,9 @@ function PromptRecipes() {
                 loading="lazy"
                 style={{ display: "block", width: "100%", height: 96, objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }}
               />
-              <span style={{ display: "block", padding: "9px 12px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, whiteSpace: "nowrap" }}>
+              {/* nowrap にすると、スマホの2列で「マーケティングの…」が
+                  はみ出して矢印が切れる。折り返させる（PCは1行のまま） */}
+              <span style={{ display: "block", padding: "9px 12px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, lineHeight: 1.5 }}>
                 <i className={"ph-bold " + g.icon} style={{ marginRight: 6, color: "var(--red-500)" }} />
                 {g.role.split("・")[0]}のAI活用
                 <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
@@ -1452,6 +1523,7 @@ export default function Page() {
       <NewsStrip />
       <KyoshujoBanner />
       <Profile />
+      <Record />
       <Articles />
       <Magazines />
       <Works />
