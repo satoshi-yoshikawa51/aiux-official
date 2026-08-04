@@ -1,6 +1,6 @@
 {
-  "_comment": "外部記事・動画のOGP。scripts/fetch-link-cards.mjs がCIで自動生成する（手で編集しない）。取得元URLはスクリプト側のURLSで管理。",
-  "generatedAt": "2026-08-03",
+  "_comment": "外部記事・動画のOGP。scripts/fetch-link-cards.mjs がCIで自動生成する（手で編集しない）。取得元URLは src/app/profile/records.ts から拾う。",
+  "generatedAt": "2026-08-04",
   "cards": {
     "https://blog.nijibox.jp/article/ai-shift-claude": {
       "url": "https://blog.nijibox.jp/article/ai-shift-claude",
@@ -25,6 +25,150 @@
       "image": "https://blog.nijibox.jp/wp-content/uploads/2026/02/MV_Figma-Make%E3%83%BBCursor%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%81%8C%E5%88%86%E3%81%8B%E3%82%8B%EF%BC%81%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%AB%E6%B2%BF%E3%81%A3%E3%81%9F%E3%83%AF%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%81%AE%E4%BD%9C%E6%88%90%E3%80%9C%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%80%9C%E5%AE%9F%E8%A3%85%E3%82%92AI%E3%81%A7%E8%87%AA%E5%8B%95%E7%94%9F%E6%88%90%EF%BC%81_B-560x363.jpg",
       "siteName": "株式会社ニジボックス",
       "date": "2026-02-02"
+    },
+    "https://blog.nijibox.jp/article/ui-ux-camp-2026": {
+      "url": "https://blog.nijibox.jp/article/ui-ux-camp-2026",
+      "title": "UI UX Camp! 2026 〜いま、見つめなおすデザイン〜",
+      "description": "世界がデジタルシフトしていく中、「デザインはどうあるべきなのか？」という問いに対して、さまざまな職域の方々と、その本質的な価値・可能性を見つめ直し探求したい。そのような思いからスタートした、株式会社ニジボックス主催のイベント『UI UX Camp!』。5回目となる今回のテーマは「いま、見つめなおすデザイン」です。",
+      "image": "https://blog.nijibox.jp/wp-content/uploads/2026/07/MV_UI-UX-Camp-2026-%E3%80%9C%E3%81%84%E3%81%BE%E3%80%81%E8%A6%8B%E3%81%A4%E3%82%81%E3%81%AA%E3%81%8A%E3%81%99%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%80%9C-560x363.png",
+      "siteName": "株式会社ニジボックス",
+      "date": "2026-07-28"
+    },
+    "https://note.com/researchconf/n/n8e171b7b2e70": {
+      "url": "https://note.com/researchconf/n/n8e171b7b2e70",
+      "title": "【イベントレポ】東海のリサーチ実践者から学ぶ｜RESEARCH Conference Pop-up in NAGOYA｜RESEARCH Conference",
+      "description": "こんにちは、RESEARCH Conference 事務局の幅田です。 この記事は2026年1月30日に開催された「RESEARCH Conference Pop-up in NAGOYA 2026」の当日の様子についてまとめたものです。ご参加された方もそうでない方も、本記事で当日の様子を振り返って頂けたら幸いです。  \n\n\nRESEARCH Conference Pop-up in NAGOYA 2026 (2026/01/30 19:00〜)\n\n\n#  RESEARCH Conference Pop-up in NAGOYA  ## イベント概要  「東海地方のUX実\n\n\nrese",
+      "image": "https://assets.st-note.com/production/uploads/images/269837494/rectangle_large_type_2_632f390e60575763e5218fd5a8e22d14.png?fit=bounds&quality=85&width=1280",
+      "siteName": "note（ノート）",
+      "date": ""
+    },
+    "https://note.com/nijibox_jp/n/nf09e87702af8": {
+      "url": "https://note.com/nijibox_jp/n/nf09e87702af8",
+      "title": "【イベントレポート】UI UX Camp! 2025 ～デザイン新世界の波に乗れ！～（後編）｜株式会社ニジボックス",
+      "description": "この記事は、【イベントレポート】UI UX Camp! 2025 ～デザイン新世界の波に乗れ！～（前編）の続きです   ［SPLASH 01］ 誰一人取り残されない行政サービスの実現を目指して　〜デジタル庁におけるアクセシビリティへの取り組み〜 デジタル庁 / 伊敷 政英 このセッションではデジタル庁のサービスデザインユニットでアクセシビリティスペシャリストを務める伊敷政英さんにデジタル庁のアクセシビリティへの取り組みや課題について紹介されました。  デジタル庁のビジョンとアクセシビリティ推進体制  デジタル庁は「誰一人取り残されない、人に優しいデジタル化を。」をミッションに掲げていま",
+      "image": "https://assets.st-note.com/production/uploads/images/184784166/rectangle_large_type_2_e030b64a8ea175878e883d661fe346de.png?fit=bounds&quality=85&width=1280",
+      "siteName": "note（ノート）",
+      "date": ""
+    },
+    "https://blog.nijibox.jp/article/nijiboxcollege-event": {
+      "url": "https://blog.nijibox.jp/article/nijiboxcollege-event",
+      "title": "AI時代を見据えたUX研修『NIJIBOX College』ニジボックスが考える、企業の生存戦略とは？ | 株式会社ニジボックス",
+      "description": "リクルートや大手企業の実績多数！ ニジボックスのUXデザインフローや案件事例をご紹介！ 無料で資料ダウンロード AIの進化により、プロダクト開発のスピードと生産性が向上する一方で、「何を、なぜ作るのか」という本質的な問いが重要視されています。 こうした背景のもと、ニジボックスが立ち上げたのがUX研修プログラム『NIJIBOX",
+      "image": "https://blog.nijibox.jp/wp-content/uploads/2026/05/mv_NIJIBOXCollege_eventreport-560x363.png",
+      "siteName": "株式会社ニジボックス",
+      "date": "2026-05-25"
+    },
+    "https://www.youtube.com/watch?v=c7ahkpVh2bU": {
+      "url": "https://www.youtube.com/watch?v=c7ahkpVh2bU",
+      "title": "Claude、実際どう使ってる？— Chat / Cowork / Code 実践使い分け —",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/c7ahkpVh2bU/hqdefault.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=g2kTo6uRlF0": {
+      "url": "https://www.youtube.com/watch?v=g2kTo6uRlF0",
+      "title": "AI時代の業務改革最前線～Claude Code・Claude Designで広がる可能性～／株式会社ニジボックス",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/g2kTo6uRlF0/hqdefault.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=yQPFYp9IOkk": {
+      "url": "https://www.youtube.com/watch?v=yQPFYp9IOkk",
+      "title": "なぜニジボックスはAI時代にUX学習プログラムを作ったのか？企業向けUX研修『NIJIBOX College』を一挙公開／株式会社ニジボックス",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/yQPFYp9IOkk/hqdefault.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=qorckco4JFc": {
+      "url": "https://www.youtube.com/watch?v=qorckco4JFc",
+      "title": "「使いやすさ」だけでは、「勝てる」サービスにはならない。～KPIとUXの分断を埋める、サービス戦略という「指針」～【ニジボックス UX・ディレクション室】｜UI UX Camp! 2026",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/qorckco4JFc/hqdefault.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=Yc4o5rkhBPI": {
+      "url": "https://www.youtube.com/watch?v=Yc4o5rkhBPI",
+      "title": "AI時代のデザインシステム〜実践デモで学ぶ、AIがもたらすUI UXの新しい可能性〜／株式会社ニジボックス",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/Yc4o5rkhBPI/hqdefault.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=vMu28tJWdXA": {
+      "url": "https://www.youtube.com/watch?v=vMu28tJWdXA",
+      "title": "シリコンバレーのAIツールから学ぶ、デジタルクリエイティブの進化 ③パネルトーク｜株式会社ニジボックス主催イベント",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/vMu28tJWdXA/hqdefault.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=N3JFr9wpnpM": {
+      "url": "https://www.youtube.com/watch?v=N3JFr9wpnpM",
+      "title": "シリコンバレーのAIツールから学ぶ、デジタルクリエイティブの進化 ②吉川 聡史｜株式会社ニジボックス主催イベント",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/N3JFr9wpnpM/hqdefault.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=A4ofIoto-lk": {
+      "url": "https://www.youtube.com/watch?v=A4ofIoto-lk",
+      "title": "【古川 陽介/吉川 聡史/上田 沙緒理】企業における生成AI導入の実際〜デザイン組織リーダーが考える、これからのプロダクト開発の現場〜 | UI UX Camp! 2024 | ニジボックス主催",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/A4ofIoto-lk/hqdefault.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": ""
+    },
+    "https://blog.nijibox.jp/article/ai-coding": {
+      "url": "https://blog.nijibox.jp/article/ai-coding",
+      "title": "AIコーディングを成功に導くには？メリットやリスクも解説！ | 株式会社ニジボックス",
+      "description": "本記事は、AIコーディング導入のメリットやリスク、AI時代の開発現場で品質と生産性を両立させるための戦略を解説します。AIコーディングの失敗リスクを回避し、事業を成功に導くためのヒントを見つけてください。",
+      "image": "https://blog.nijibox.jp/wp-content/uploads/2025/12/MV_-AI%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%82%92%E6%88%90%E5%8A%9F%E3%81%AB%E5%B0%8E%E3%81%8F%E3%81%AB%E3%81%AF%EF%BC%9F%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88%E3%82%84%E3%83%AA%E3%82%B9%E3%82%AF%E3%82%82%E8%A7%A3%E8%AA%AC%EF%BC%81-560x363.png",
+      "siteName": "株式会社ニジボックス",
+      "date": "2025-12-25"
+    },
+    "https://blog.nijibox.jp/article/ai-agents": {
+      "url": "https://blog.nijibox.jp/article/ai-agents",
+      "title": "AIエージェントとは？業務での活用例や生成AIとの違いを紹介 | 株式会社ニジボックス",
+      "description": "本記事では、人間が介入せずとも目標達成まで自律的に行動する「AIエージェント」の基本、生成AIとの違い、代表的なツール、そして活用例を解説します。AIエージェントの全体像を理解し、業務に生かしていきましょう。",
+      "image": "https://blog.nijibox.jp/wp-content/uploads/2025/11/MV_AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E3%81%A8%E3%81%AF%EF%BC%9F%E6%A5%AD%E5%8B%99%E3%81%A7%E3%81%AE%E6%B4%BB%E7%94%A8%E4%BE%8B%E3%82%84%E7%94%9F%E6%88%90AI%E3%81%A8%E3%81%AE%E9%81%95%E3%81%84%E3%82%92%E7%B4%B9%E4%BB%8B_A-560x363.png",
+      "siteName": "株式会社ニジボックス",
+      "date": "2025-11-12"
+    },
+    "https://blog.nijibox.jp/article/ai_frontend_tools": {
+      "url": "https://blog.nijibox.jp/article/ai_frontend_tools",
+      "title": "【2026年最新版】Web制作を効率化！工程別に使えるAIツール9選をご紹介",
+      "description": "Web制作におけるフロントエンド開発の基本的な流れを確認した上で、要件定義からデザイン、コーディング、テストまで、各プロセスで効果的に活用できるAIツールの種類と特長を詳しくご紹介します。",
+      "image": "https://blog.nijibox.jp/wp-content/uploads/2025/09/MV_Web%E5%88%B6%E4%BD%9C%E3%82%92%E5%8A%B9%E7%8E%87%E5%8C%96%EF%BC%81%E5%B7%A5%E7%A8%8B%E5%88%A5%E3%81%AB%E4%BD%BF%E3%81%88%E3%82%8BAI%E3%83%84%E3%83%BC%E3%83%AB9%E9%81%B8%E3%82%92%E3%81%94%E7%B4%B9%E4%BB%8B-560x363.png",
+      "siteName": "株式会社ニジボックス",
+      "date": "2025-09-26"
+    },
+    "https://blog.nijibox.jp/article/ai_wireframe": {
+      "url": "https://blog.nijibox.jp/article/ai_wireframe",
+      "title": "【デザイン×AI】AI活用で現場に合ったワイヤーフレームを作成！デザインシステム連携の実例とポイント | 株式会社ニジボックス",
+      "description": "リクルートや大手企業の実績多数！ ニジボックスのUIデザインフローや案件事例を ご紹介！ 無料で資料ダウンロード AI技術が日々発展する中、Web制作現場では、現場に合った形でAIツールを活用しより質の高いアウトプットを出すことが求められています。",
+      "image": "https://blog.nijibox.jp/wp-content/uploads/2025/09/MV_%E3%80%90%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%C3%97AI%E3%80%91AI%E6%B4%BB%E7%94%A8%E3%81%A7%E7%8F%BE%E5%A0%B4%E3%81%AB%E5%90%88%E3%81%A3%E3%81%9F%E3%83%AF%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%82%92%E4%BD%9C%E6%88%90%EF%BC%81_B-560x363.png",
+      "siteName": "株式会社ニジボックス",
+      "date": "2025-09-26"
+    },
+    "https://blog.nijibox.jp/article/ai_development_cost": {
+      "url": "https://blog.nijibox.jp/article/ai_development_cost",
+      "title": "AIを活用した開発でコスト削減を実現するには？導入のステップを解説 | 株式会社ニジボックス",
+      "description": "リクルートや大手企業の実績多数！ ニジボックスの開発案件事例をご紹介！ 無料で資料ダウンロード AIが着実な進化を続けるなかで、企業における活用事例もどんどん増えてきています。一方で、「自社の開発においてどのように使えばいいのか分からない」「必要性は感じていてもなかなか一歩を踏み出せない」という方も少なくないのではないでしょうか。",
+      "image": "https://blog.nijibox.jp/wp-content/uploads/2025/08/MV_AI%E3%82%92%E6%B4%BB%E7%94%A8%E3%81%97%E3%81%9F%E9%96%8B%E7%99%BA%E3%81%A7%E3%82%B3%E3%82%B9%E3%83%88%E5%89%8A%E6%B8%9B%E3%82%92%E5%AE%9F%E7%8F%BE%E3%81%99%E3%82%8B%E3%81%AB%E3%81%AF%EF%BC%9F-560x363.png",
+      "siteName": "株式会社ニジボックス",
+      "date": "2025-08-22"
+    },
+    "https://www.wantedly.com/companies/nijibox/post_articles/489416": {
+      "url": "https://www.wantedly.com/companies/nijibox/post_articles/489416",
+      "title": "一つひとつの人生経験を生かす。ニジボックスの仲間と共に、より良い未来へ価値を提供していきたい。 | Webディレクター/UXデザイナー",
+      "description": "元々は漫画家として、連載も持っていたという異色の経歴を持つ吉川さん。30歳を手前にキャリアチェンジし、ニジボックスに入社しました。入社後はイラストレーターとしての仕事の幅を大きく飛び越え、アニメ...",
+      "image": "https://www.wantedly.com/post_articles/489416/ogp_image",
+      "siteName": "",
+      "date": ""
     }
   }
 }
