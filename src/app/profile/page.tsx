@@ -3,8 +3,7 @@ import { Nav, Footer, PAGE } from "../site-chrome";
 import { Breadcrumb } from "../site-ui";
 import { PROFILE_BODY_TOP, PROFILE_BODY_BOTTOM } from "./body";
 import { Button } from "../ds";
-import { RECORD_GROUPS, RECORD_COUNT } from "./records";
-import { RecordCard, RecordGrid, cardsOf } from "./record-ui";
+import { RecordCard, RecordGrid, cardsOf, RECORD_TOTAL, RECORD_FILLED } from "./record-ui";
 import { PROFILE_JSONLD } from "./jsonld";
 import "./profile.css";
 
@@ -59,7 +58,9 @@ export default function ProfilePage() {
           backgroundSize: "13px 13px",
         }}
       >
-        <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 60px" }}>
+        {/* 上下の余白は profile.css の総則 section{padding:60px 0} に任せる。
+            ここで padding を足すと他の節（.ink-sec など）の倍あいてしまう。 */}
+        <div style={{ maxWidth: PAGE, margin: "0 auto" }}>
           {/* 暗い背景なので SectionHead ではなく、profile.css の ink-sec と
               同じ配色（キッカー黄／見出し紙色）で組む */}
           <div style={{ marginBottom: 26 }}>
@@ -71,12 +72,12 @@ export default function ProfilePage() {
                 現場で、話してきたこと。
               </h2>
               <span style={{ fontFamily: "var(--font-hand)", color: "var(--paper-200)", fontSize: 16 }}>
-                公開されている記録を{RECORD_COUNT}件
+                公開されている記録を{RECORD_TOTAL}件
               </span>
             </div>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 26 }}>
-            {RECORD_GROUPS.map((g) => (
+            {RECORD_FILLED.map((g) => (
               <span
                 key={g.label}
                 style={{
@@ -96,7 +97,7 @@ export default function ProfilePage() {
             ))}
           </div>
           <RecordGrid>
-            {RECORD_GROUPS.slice(0, 3).map((g) => {
+            {RECORD_FILLED.slice(0, 3).map((g) => {
               const c = cardsOf(g)[0];
               return c ? <RecordCard key={c.url} card={c} group={g} place="profile-record" /> : null;
             })}
@@ -104,7 +105,7 @@ export default function ProfilePage() {
           <div style={{ marginTop: 30 }}>
             <a href="/record" data-ga="cta_click" data-ga-place="profile-record-all" style={{ textDecoration: "none" }}>
               <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
-                実績をすべて見る（{RECORD_COUNT}件）
+                実績をすべて見る（{RECORD_TOTAL}件）
               </Button>
             </a>
           </div>

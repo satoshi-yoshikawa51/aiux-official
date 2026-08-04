@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Button } from "../ds";
 import { Breadcrumb, SectionHead, ShareRow } from "../site-ui";
-import { RECORD_GROUPS, RECORD_COUNT } from "../profile/records";
-import { RecordCard, RecordGrid, cardsOf } from "../profile/record-ui";
+import { RecordCard, RecordGrid, cardsOf, RECORD_TOTAL, RECORD_FILLED } from "../profile/record-ui";
 import { seoTitle } from "../seo";
 
 export const metadata: Metadata = {
@@ -70,7 +69,7 @@ export default function RecordPage() {
           現場で、話してきたこと。
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0, maxWidth: 760 }}>
-          公開されている登壇・出演・監修・講座の記録を、区分ごとに新しい順で{RECORD_COUNT}件。
+          公開されている登壇・出演・監修・講座の記録を、区分ごとに新しい順で{RECORD_TOTAL}件。
           実施主体はそれぞれに明記しています。講演・研修・執筆・監修のご相談は
           <a href="/#contact" data-ga="nav_click" data-ga-place="record-contact" data-ga-path="/#contact" style={{ color: "var(--red-600)", fontWeight: 700 }}>
             お問い合わせ
@@ -79,9 +78,8 @@ export default function RecordPage() {
         </p>
       </section>
 
-      {RECORD_GROUPS.map((g, i) => {
+      {RECORD_FILLED.map((g, i) => {
         const cards = cardsOf(g);
-        if (cards.length === 0) return null;
         /* 区分ごとに背景を交互にして、切れ目を分かりやすくする */
         const sunk = i % 2 === 1;
         return (

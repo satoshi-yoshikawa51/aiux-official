@@ -9,7 +9,7 @@
    ため。相手の記事の要約になってしまう）。
    ============================================================ */
 import { Badge, Card } from "../ds";
-import type { RecordGroup } from "./records";
+import { RECORD_GROUPS, type RecordGroup } from "./records";
 import linkCards from "./link-cards.json";
 
 interface LinkCard {
@@ -30,6 +30,12 @@ export function getCard(url: string): LinkCard | undefined {
 export function cardsOf(group: RecordGroup): LinkCard[] {
   return group.urls.map((u) => CARDS[u]).filter((c): c is LinkCard => Boolean(c?.title));
 }
+
+/** 画面に出せる実績の総数。URLの数ではなくカードの数で数える */
+export const RECORD_TOTAL = RECORD_GROUPS.reduce((n, g) => n + cardsOf(g).length, 0);
+
+/** カードが1件以上ある区分だけ。0件の区分は見出しもバッジも出さない */
+export const RECORD_FILLED = RECORD_GROUPS.filter((g) => cardsOf(g).length > 0);
 
 export function RecordCard({
   card,

@@ -116,5 +116,6 @@ export const RECORD_GROUPS: RecordGroup[] = [
   },
 ];
 
-/** 掲載している外部実績の総数 */
-export const RECORD_COUNT = RECORD_GROUPS.reduce((n, g) => n + g.urls.length, 0);
+/* 掲載件数は「URLの数」ではなく「実際にカードを出せた数」を使う。
+   OGPの取得はCIに任せているので、追加直後のURLはまだカードが無い。
+   数え方は record-ui.tsx の RECORD_TOTAL を参照。 */
