@@ -26,13 +26,17 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_PATH = path.join(ROOT, "src/app/profile/link-cards.json");
 
-/* OGPを取りにいくURL。src/app/profile/body.ts の PROFILE_RECORDS に
-   書いたリンクと一致させること（増やしたら両方に足す）。 */
-const URLS = [
-  "https://blog.nijibox.jp/article/ai-shift-claude",
-  "https://www.youtube.com/watch?v=iCXRhKaAB6M",
-  "https://blog.nijibox.jp/article/ai_wireframe_2",
-];
+/* OGPを取りにいくURL。src/app/profile/records.ts に書いたURLを
+   そのまま拾う（実績を1件足せば、取得対象にも自動で入る）。
+   FPEC講座のnote記事など、records.ts の外で使うものは EXTRA に足す。 */
+const RECORDS_PATH = path.join(ROOT, "src/app/profile/records.ts");
+const EXTRA = [];
+
+async function collectUrls() {
+  const src = await readFile(RECORDS_PATH, "utf8");
+  const found = [...src.matchAll(/"(https:\/\/[^"]+)"/g)].map((m) => m[1]);
+  return [...new Set([...found, ...EXTRA])];
+}
 
 const UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36";
@@ -138,6 +142,9 @@ const prev = await readFile(OUT_PATH, "utf8")
 const cards = { ...(prev.cards ?? {}) };
 let changed = false;
 
+const URLS = await collectUrls();
+console.log(`対象URL: ${URLS.length}件`);
+
 for (const url of URLS) {
   try {
     const card = await fetchCard(url);
@@ -167,7 +174,7 @@ if (!changed) {
 } else {
   const out = {
     _comment:
-      "外部記事・動画のOGP。scripts/fetch-link-cards.mjs がCIで自動生成する（手で編集しない）。取得元URLはスクリプト側のURLSで管理。",
+      "外部記事・動画のOGP。scripts/fetch-link-cards.mjs がCIで自動生成する（手で編集しない）。取得元URLは src/app/profile/records.ts から拾う。",
     generatedAt: new Date().toISOString().slice(0, 10),
     cards,
   };
