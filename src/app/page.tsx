@@ -27,6 +27,7 @@ import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
 import { FEATURED_RECIPES } from "./prompts/data";
 import { GUIDES } from "./guide/data";
+import { RecordCard, RecordGrid, cardsOf, RECORD_TOTAL, RECORD_FILLED } from "./profile/record-ui";
 import { EVENTS, dateLabel, isPast } from "./calendar/events";
 import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
@@ -377,16 +378,63 @@ function Profile() {
             </div>
           ))}
         </div>
-        {/* 講演・執筆を頼めることは、トップのどこにも書いていなかった。
-            セクションを増やさず、ここで名乗って依頼テーマへ直接送る。 */}
+        {/* 依頼のボタンは、この下の RECORD（実績）の末尾に置いている。
+            名乗り → 実績 → 依頼 の順にしたいので、ここでは頼まない。 */}
         <div style={{ marginTop: 30, display: "flex", gap: 12, flexWrap: "wrap" }}>
           <a href="/profile" data-ga="cta_click" data-ga-place="top-profile" style={{ textDecoration: "none" }}>
             <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
               詳しいプロフィールを見る
             </Button>
           </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════ RECORD（登壇・監修の実績） ═══════════════
+   プロフィールの直後に置く。「5つの顔」と名乗った直後に、外部に
+   公開されている記録で裏を取る形にして、その流れのまま依頼へ送る。
+   トップに出すのは代表3件だけ。全件は /record にある。 */
+function Record() {
+  const cards = RECORD_FILLED.slice(0, 3)
+    .map((g) => ({ g, c: cardsOf(g)[0] }))
+    .filter((x) => x.c);
+  if (cards.length === 0) return null;
+  return (
+    /* 沈んだ背景にする。プロフィール（黒）→ここ→記事（紙）と並ぶので、
+       ここも紙色だと記事と地続きになって切れ目が見えなくなる。 */
+    <section
+      id="record"
+      style={{
+        background: "var(--paper-100)",
+        borderTop: "var(--bw-line) solid var(--ink-900)",
+        borderBottom: "var(--bw-line) solid var(--ink-900)",
+        backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)",
+        backgroundSize: "11px 11px",
+      }}
+    >
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 60px" }}>
+        <SectionHead
+          kicker="RECORD — 登壇・監修の実績"
+          title="現場で、話してきたこと。"
+          hand={`公開されている記録を${RECORD_TOTAL}件`}
+        />
+        <div className="rv-stagger">
+          <RecordGrid>
+            {cards.map(({ g, c }) => (
+              <RecordCard key={c!.url} card={c!} group={g} place="top-record" />
+            ))}
+          </RecordGrid>
+        </div>
+        <div style={{ marginTop: 32, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          <a href="/record" data-ga="cta_click" data-ga-place="top-record-all" style={{ textDecoration: "none" }}>
+            <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              実績をすべて見る（{RECORD_TOTAL}件）
+            </Button>
+          </a>
           <a href="/profile#topics" data-ga="cta_click" data-ga-place="top-topics" style={{ textDecoration: "none" }}>
-            <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+            <Button variant="secondary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               登壇・執筆のご依頼
             </Button>
           </a>
@@ -941,7 +989,10 @@ function PromptRecipes() {
         <p style={{ fontFamily: "var(--font-hand)", fontSize: 14.5, color: "var(--text-muted)", margin: "30px 0 12px" }}>
           自分の仕事に引きつけて読むなら、職種別ガイドから↓（全{GUIDES.length}職種）
         </p>
-        <div className="rv-stagger" style={{ display: "flex", gap: 12, flexWrap: "wrap", maxWidth: 1000 }}>
+        {/* 4枚でページ幅を使い切る。flexで maxWidth を掛けていたころは
+            4×250+gap が並びの maxWidth 1000 に収まらず241pxに縮み、
+            右端がページより80px手前で終わって他の節と揃わなかった。 */}
+        <div className="rv-stagger guide-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }}>
           {GUIDES.slice(0, 4).map((g) => (
             <a
               key={g.slug}
@@ -950,8 +1001,6 @@ function PromptRecipes() {
               data-ga-place="top-guide"
               data-ga-path={`/guide/${g.slug}`}
               style={{
-                flex: "1 1 180px",
-                maxWidth: 250,
                 textDecoration: "none",
                 color: "inherit",
                 border: "var(--bw-line) solid var(--ink-900)",
@@ -968,7 +1017,9 @@ function PromptRecipes() {
                 loading="lazy"
                 style={{ display: "block", width: "100%", height: 96, objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }}
               />
-              <span style={{ display: "block", padding: "9px 12px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, whiteSpace: "nowrap" }}>
+              {/* nowrap にすると、スマホの2列で「マーケティングの…」が
+                  はみ出して矢印が切れる。折り返させる（PCは1行のまま） */}
+              <span style={{ display: "block", padding: "9px 12px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, lineHeight: 1.5 }}>
                 <i className={"ph-bold " + g.icon} style={{ marginRight: 6, color: "var(--red-500)" }} />
                 {g.role.split("・")[0]}のAI活用
                 <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
@@ -1452,6 +1503,7 @@ export default function Page() {
       <NewsStrip />
       <KyoshujoBanner />
       <Profile />
+      <Record />
       <Articles />
       <Magazines />
       <Works />

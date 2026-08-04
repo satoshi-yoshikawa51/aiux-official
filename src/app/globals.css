@@ -516,7 +516,8 @@ img {
   .hero-art {
     min-height: 300px !important;
   }
-  .roles-grid {
+  .roles-grid,
+  .guide-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
   .facts-grid {
@@ -745,7 +746,8 @@ img {
   }
 }
 @media (max-width: 560px) {
-  .roles-grid {
+  .roles-grid,
+  .guide-grid {
     grid-template-columns: 1fr 1fr !important;
   }
 }
