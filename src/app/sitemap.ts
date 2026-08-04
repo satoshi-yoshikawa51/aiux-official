@@ -6,6 +6,7 @@ import { RECIPES, PROMPTS_UPDATED } from "./prompts/data";
 import { FAQ_UPDATED } from "./faq/data";
 import { EVENTS_UPDATED } from "./calendar/events";
 import { GUIDES, GUIDES_UPDATED } from "./guide/data";
+import { DAILY_ENTRIES, DAILY_UPDATED } from "./daily/data";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -115,6 +116,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 0.8,
     },
+    {
+      url: `${base}/daily`,
+      lastModified: new Date(DAILY_UPDATED),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    /* 日刊4コマは1回ぶんが1URL。更新後は追記されないので changeFrequency は yearly */
+    ...DAILY_ENTRIES.map((e) => ({
+      url: `${base}/daily/${e.date}`,
+      lastModified: new Date(e.date),
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
+    })),
     {
       url: `${base}/faq`,
       lastModified: new Date(FAQ_UPDATED),

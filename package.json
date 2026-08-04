@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "og:glossary": "node --experimental-strip-types scripts/generate-og-images.mjs",
+    "daily:manga": "node --experimental-strip-types scripts/generate-daily-manga.mjs",
     "guide:heroes": "node scripts/generate-guide-heroes.mjs",
     "img:optimize": "node scripts/optimize-images.mjs",
     "ga:report": "node scripts/ga-report.mjs",

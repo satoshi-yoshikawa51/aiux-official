@@ -22,6 +22,7 @@ export function Nav({ home = true }: { home?: boolean }) {
     { label: "用語集", href: "/glossary" },
     { label: "プロンプト", href: "/prompts" },
     { label: "NEWS", href: "/calendar" },
+    { label: "毎朝4コマ", href: "/daily" },
     { label: "プロフィール", href: "/profile" },
   ];
   /* #アンカーはトップページ内リンク、/パスはどのページからも共通 */

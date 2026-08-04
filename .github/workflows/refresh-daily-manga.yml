@@ -1,0 +1,70 @@
+# 日刊4コマ（/daily）を毎朝1本生成するワークフロー。
+# ニュース見出し(news-headlines.json) → Claude APIでネーム → コマ割りを
+# PlaywrightでPNGに焼く → src/app/daily/entries.json に追記、までを行う。
+# Claude Code のサンドボックスからは外部サイトに到達できないため、
+# 取得と生成はこのワークフロー（GitHub Actionsランナー）上で行う。
+#
+# 必要なシークレット: ANTHROPIC_API_KEY
+#   未設定でもジョブは落ちない（生成をスキップし、サイトは既存の回のまま動く）。
+name: Refresh daily manga
+
+on:
+  workflow_dispatch:
+  schedule:
+    # refresh-ai-news（21:40 UTC）の後に回す。
+    # 毎時0分はGitHub Actionsの混雑で大幅遅延・スキップされやすいため中途半端な分を指定
+    - cron: "10 22 * * *" # 毎日 22:10 UTC = 翌朝 07:10 JST
+  # workflow_dispatch はデフォルトブランチにマージされるまで使えないため、
+  # 開発ブランチではスクリプト/ワークフロー変更のpushでも起動する
+  push:
+    branches:
+      - "claude/passive-site-ideas-crvu62"
+    paths:
+      - "scripts/generate-daily-manga.mjs"
+      - ".github/workflows/refresh-daily-manga.yml"
+
+permissions:
+  contents: write
+
+# 同時に2本走ると entries.json の追記が衝突するので直列化する
+concurrency:
+  group: daily-manga
+  cancel-in-progress: false
+
+jobs:
+  draw:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # --experimental-strip-types（用語集の .ts を直接読む）に Node 22 が要る
+          node-version: 22
+      - name: Install dependencies
+        run: npm ci
+      # Playwrightは本番バンドルに要らないので package.json には入れず、ここだけで入れる
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Draw today's 4-koma
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run daily:manga
+      - name: Commit & push if changed
+        run: |
+          if git diff --quiet && git diff --quiet --cached && [ -z "$(git status --porcelain)" ]; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/app/daily/entries.json public/daily public/og/daily
+          if git diff --quiet --cached; then
+            echo "Nothing staged."
+            exit 0
+          fi
+          git commit -m "chore: 今日の4コマを追加"
+          # 他のワークフローが同じ時間帯にpushしていることがあるので、取り込んでから押し込む
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push
