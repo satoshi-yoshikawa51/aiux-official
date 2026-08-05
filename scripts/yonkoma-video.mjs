@@ -39,9 +39,12 @@ const KEEP = flags.has("--keep"); // 中間ファイル（フレームPNG等）�
 
 /* —— 尺の設計。ショートは冒頭で掴んで15〜20秒で終えるのが基本 —— */
 const FPS = 30;
-const PANEL_SEC = 3.4;
+const PANEL_SEC = 3.2;
 const END_SEC = 2.8;
-const FADE_SEC = 0.25;
+/* ページめくりはCSS 3Dをコマ送りで撮る（ffmpegの既製トランジションに
+   めくりが無いため）。14コマ×30fps ≒ 0.47秒 */
+const FLIP_FRAMES = 14;
+const FLIP_SEC = FLIP_FRAMES / FPS;
 
 /* —— デザイントークン（globals.cssと揃える） —— */
 const INK = "#14110f";
@@ -333,6 +336,49 @@ body { height:${frameH}px; }
   };
 }
 
+/* ═══════════════ 2.5 ページめくりのコマ送り ═══════════════ */
+
+/** 前のページが上辺を軸にめくれ上がり、下のページが現れる。
+    fromScale: 前セグメントのズーム終端(1.05)と絵柄を合わせるための倍率 */
+async function renderFlipFrames(page, fromUrl, toUrl, fromScale, work, index) {
+  await page.setContent(
+    `<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; }
+body { width:1080px; height:1920px; overflow:hidden; background:${INK}; }
+.scene { position:relative; width:1080px; height:1920px; perspective:2600px; }
+.under, .flip { position:absolute; inset:0; }
+.under img, .flip img { width:1080px; height:1920px; display:block; }
+.under-shade { position:absolute; inset:0; background:#000; }
+.flip { transform-origin:50% 0%; backface-visibility:hidden; will-change:transform; }
+.flip-inner { width:1080px; height:1920px; transform:scale(${fromScale}); transform-origin:50% 50%; }
+.flip-shade { position:absolute; inset:0; background:#000; }
+</style></head><body>
+<div class="scene">
+  <div class="under"><img src="${toUrl}"><div class="under-shade" id="us"></div></div>
+  <div class="flip" id="pg"><div class="flip-inner"><img src="${fromUrl}"></div><div class="flip-shade" id="fs"></div></div>
+</div>
+<script>
+  window.setProgress = (p) => {
+    const e = 0.5 - 0.5 * Math.cos(Math.PI * p);       /* ease-in-out */
+    const deg = 115 * e;                               /* 90°で裏返り、姿を消す */
+    document.getElementById("pg").style.transform = "rotateX(" + deg + "deg)";
+    const lift = Math.sin(Math.min(deg, 90) * Math.PI / 180);
+    document.getElementById("fs").style.opacity = 0.38 * lift;   /* めくれた紙の陰 */
+    document.getElementById("us").style.opacity = 0.45 * (1 - e); /* 下のページに落ちる影 */
+  };
+</script></body></html>`,
+    { waitUntil: "networkidle" }
+  );
+  const files = [];
+  for (let k = 0; k < FLIP_FRAMES; k++) {
+    await page.evaluate((p) => window.setProgress(p), k / (FLIP_FRAMES - 1));
+    const f = path.join(work, `flip${index}-${String(k).padStart(2, "0")}.png`);
+    await page.screenshot({ path: f });
+    files.push(f);
+  }
+  return path.join(work, `flip${index}-%02d.png`);
+}
+
 /* ═══════════════ 3. 音 ═══════════════ */
 
 /** ページをめくる「サッ」を合成する（外部素材なしで済ませる） */
@@ -400,64 +446,93 @@ async function main() {
   await page.screenshot({ path: endFrame });
   frames.push(endFrame);
   durations.push(END_SEC);
+
+  /* めくりのコマ送りを撮る（前ページの見た目の終端 → 次ページ） */
+  const flipSeqs = [];
+  for (let i = 0; i < frames.length - 1; i++) {
+    let fromUrl;
+    let fromScale = 1.05; /* zoompanの終端倍率と合わせて、切り替わりの絵飛びを防ぐ */
+    if (!panels && i === 0) {
+      /* スクロール構成: 最後に見えている下端1920pxを「めくられる前のページ」にする */
+      fromUrl = await page.evaluate(async (url) => {
+        const img = new Image();
+        img.src = url;
+        await img.decode();
+        const cv = document.createElement("canvas");
+        cv.width = 1080;
+        cv.height = 1920;
+        cv.getContext("2d").drawImage(img, 0, img.naturalHeight - 1920, 1080, 1920, 0, 0, 1080, 1920);
+        return cv.toDataURL("image/png");
+      }, await toDataUrl(frames[i]));
+      fromScale = 1.0;
+    } else {
+      fromUrl = await toDataUrl(frames[i]);
+    }
+    flipSeqs.push(await renderFlipFrames(page, fromUrl, await toDataUrl(frames[i + 1]), fromScale, work, i));
+  }
   await browser.close();
 
   /* —— ffmpeg —— */
-  const flip = makeFlipSe(work);
+  const seWav = makeFlipSe(work);
   const hasBgm = await exists(BGM_PATH);
-  const scrollMode = !panels;
 
   const inputs = [];
   for (const f of frames) inputs.push("-i", f);
-  inputs.push("-i", flip);
-  const flipIdx = frames.length;
+  for (const seq of flipSeqs) inputs.push("-framerate", String(FPS), "-i", seq);
+  inputs.push("-i", seWav);
+  const seIdx = frames.length + flipSeqs.length;
   let bgmIdx = -1;
   if (hasBgm) {
     inputs.push("-stream_loop", "-1", "-i", BGM_PATH);
-    bgmIdx = frames.length + 1;
+    bgmIdx = seIdx + 1;
   }
 
-  /* 各フレーム: 2倍に拡大してからzoompan（ガタつき防止の定石）。
-     スクロール構成の1枚目だけは、cropのy式で上から下へ流す */
+  /* 静止セグメント: 2倍に拡大してからzoompan（ガタつき防止の定石）。
+     スクロール構成の1枚目だけは、cropのy式で上から下へ流す。
+     concatで繋ぐので、全枝で fps/timebase/SAR/pixfmt を揃えること */
   const fc = [];
+  const NORM = `settb=AVTB,setsar=1,format=yuv420p`;
   for (let i = 0; i < frames.length; i++) {
     const d = Math.round(durations[i] * FPS);
-    if (scrollMode && i === 0) {
+    if (!panels && i === 0) {
       fc.push(
         `[${i}:v]loop=loop=${d}:size=1:start=0,scale=1080:-2,` +
-          /* settbはfpsの後に置く。他の枝（zoompan）とタイムベースを揃えないとxfadeが失敗する */
           `crop=1080:1920:0:'min(ih-1920,(ih-1920)*t/${durations[i] - 1.2})',` +
-          `fps=${FPS},settb=AVTB[v${i}]`
+          `fps=${FPS},${NORM}[s${i}]`
       );
     } else {
       fc.push(
         `[${i}:v]scale=2160:3840,zoompan=z='1+0.05*on/${d}':` +
-          `x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${d}:fps=${FPS}:s=1080x1920,settb=AVTB[v${i}]`
+          `x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${d}:fps=${FPS}:s=1080x1920,${NORM}[s${i}]`
       );
     }
   }
+  flipSeqs.forEach((_, t) => {
+    fc.push(`[${frames.length + t}:v]fps=${FPS},${NORM}[f${t}]`);
+  });
 
-  /* xfadeで連結（次のコマが下からスライドしてくる＝縦読みのめくり） */
-  const offsets = [];
+  /* 静止→めくり→静止…の順で連結 */
+  const order = [];
+  for (let i = 0; i < frames.length; i++) {
+    order.push(`[s${i}]`);
+    if (i < flipSeqs.length) order.push(`[f${i}]`);
+  }
+  fc.push(`${order.join("")}concat=n=${order.length}:v=1:a=0[vout]`);
+
+  /* めくり開始時刻（SEをここに置く） */
+  const flipStarts = [];
   let acc = 0;
-  for (let i = 0; i < frames.length - 1; i++) {
-    acc += durations[i] - FADE_SEC;
-    offsets.push(acc);
+  for (let t = 0; t < flipSeqs.length; t++) {
+    acc += durations[t];
+    flipStarts.push(acc + t * FLIP_SEC);
   }
-  let vout = "[v0]";
-  for (let i = 1; i < frames.length; i++) {
-    const label = i === frames.length - 1 ? "[vout]" : `[x${i}]`;
-    const transition = i === frames.length - 1 ? "fade" : "slideup";
-    fc.push(`${vout}[v${i}]xfade=transition=${transition}:duration=${FADE_SEC}:offset=${offsets[i - 1]}[${label.slice(1, -1)}]`);
-    vout = label;
-  }
-  const total = acc + durations[durations.length - 1];
+  const total = durations.reduce((a, b) => a + b, 0) + flipSeqs.length * FLIP_SEC;
 
-  /* めくりSEを各切り替え位置に置き、あればBGMを小さく敷く */
+  /* めくりSEを各めくり位置に置き、あればBGMを小さく敷く */
   const audioMix = [];
-  offsets.forEach((o, i) => {
+  flipStarts.forEach((o, i) => {
     const ms = Math.round(o * 1000);
-    fc.push(`[${flipIdx}:a]adelay=${ms}|${ms}[se${i}]`);
+    fc.push(`[${seIdx}:a]adelay=${ms}|${ms}[se${i}]`);
     audioMix.push(`[se${i}]`);
   });
   if (hasBgm) {
