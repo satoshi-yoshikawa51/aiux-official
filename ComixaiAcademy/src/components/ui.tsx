@@ -26,6 +26,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
 
+import { useTutorial } from '@/store/tutorial';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 const TONE_DOTS = require('@/assets/images/tone-dots.png');
@@ -135,19 +136,32 @@ export function Screen({
      スクロールする画面だけ、最後の要素が窮屈に見えないよう少し多めに取る */
   const bottomPad = scroll ? S.xxl : S.lg;
 
+  /* ———— 案内パネルのぶんだけ下を空ける ————
+     案内中はタブバーの上に説明のパネルが浮いている。**空けないと、
+     案内が指している当のものをパネルが隠す**（ホームのカセットで実際に
+     起きた）。paddingBottom ではなく高さのある箱を足しているのは、
+     この下の style で padding をまるごと上書きしている画面があるため。
+     光は枠の外へ14px出るので、そのぶんも足しておく */
+  const { active: guiding, panelH } = useTutorial();
+  const reserve = guiding && panelH > 0 ? panelH + S.lg : 0;
+
   /* 帯があるときは、帯自身がステータスバーぶんを飲み込むので
      SafeAreaView に上を任せない（任せると帯の上に紙の余白が出る） */
   const safeEdges = header ? edges.filter((e) => e !== 'top') : edges;
+
+  const spacer = reserve > 0 ? <View style={{ height: reserve }} /> : null;
 
   const body = scroll ? (
     <ScrollView
       contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
       showsVerticalScrollIndicator={false}>
       {children}
+      {spacer}
     </ScrollView>
   ) : (
     <View style={[{ flex: 1 }, styles.screenPad, { paddingBottom: bottomPad }, style]}>
       {children}
+      {spacer}
     </View>
   );
 

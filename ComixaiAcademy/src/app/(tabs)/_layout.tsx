@@ -9,7 +9,7 @@
    タブ切り替えのたびに消えてしまうため。 */
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TabIcon, type IconName } from '@/components/icons';
@@ -28,7 +28,7 @@ const SCREENS: { name: string; title: string; icon: IconName }[] = [
 function Bar() {
   const insets = useSafeAreaInsets();
   const { state, ready } = useProgress();
-  const { active, step, start } = useTutorial();
+  const { active, step, start, next } = useTutorial();
 
   /* 職種まで決め終わった直後、1回だけ案内を出す。
      見終わったときの保存は TutorialProvider の onFinish 側 */
@@ -88,6 +88,19 @@ function Bar() {
           />
         ))}
       </Tabs>
+
+      {/* ▍案内中は画面を止めて、触ったら次へ進むようにする
+
+          止めないと、**光っているボタンをそのまま押せてしまう**。
+          実際に2歩目でホームの「はじめる（3分・クイズ2問）」を押せて、
+          レッスンに飛んで案内が途切れていた。指し示しているものを
+          押させないのは、案内としては当たり前の作法。
+
+          ただし「押しても何も起きない」だと固まったように見えるので、
+          **どこを触っても次へ進む**（送りのボタンと同じ）。
+          パネルはこれより後に描いているので、とばす／つぎへは効く。 */}
+      {active ? <Pressable style={StyleSheet.absoluteFill} onPress={next} /> : null}
+
       <TutorialOverlay />
     </View>
   );

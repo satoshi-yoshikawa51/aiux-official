@@ -34,9 +34,6 @@ export interface TutorialStep {
   glow: IconName;
   /** 画面の中で光らせる場所。複数を同時に指してもいい */
   spot?: SpotName | SpotName[];
-  /** フキダシを上に出す。**指している場所がフキダシの下敷きになる回**で使う
-      （既定は下。下のほうが親指に近くて押しやすい） */
-  bubble?: 'top' | 'bottom';
   /** セリフを誰の口から出すか。
 
       'avatar' … その画面に立っているアバターのフキダシに出す。
@@ -65,10 +62,6 @@ export const TUTORIAL: TutorialStep[] = [
     glow: 'home',
     spot: 'home-next',
     voice: 'avatar',
-    /* カセットは画面のいちばん下にあり、**ふだんの位置のフキダシが
-       まるごと覆ってしまう**（光の左右がはみ出すだけになる）。
-       この回だけフキダシを上へ逃がす */
-    bubble: 'top',
     say: '下の黒いカセットが「次にやること」。迷ったらこれを押せ。それだけでいい。',
   },
   {
@@ -94,12 +87,11 @@ export const TUTORIAL: TutorialStep[] = [
   {
     route: '/settings',
     glow: 'settings',
-    /* 職種の見出しはアバター5枚のぶんだけ下にあり、フキダシの下敷きになる。
-       **見えない光は出さない**——指すのは見出し1つだけにして、
-       職種はセリフで「下だ」と言う（案内中もスクロールできる。
-       フキダシは box-none なので、後ろの画面に触れる） */
+    /* 職種の見出しはアバター5枚のぶんだけ下にある。**見えない光は出さない**ので
+       指すのは見出し1つだけ。案内中は画面を止めている（触ると次へ進む）ので、
+       「下だ」と場所を指す言い方もしない——スクロールできないため */
     spot: 'settings-avatar',
-    say: '相棒と職種は、ここでいつでも変えられる。職種はこの下だ。変えると、例とプロンプトが差し替わる。',
+    say: '相棒と職種は、ここでいつでも変えられる。職種を変えると、例とプロンプトが差し替わる。',
   },
   {
     /* 締めはどこも囲わない。**全部を指したら、何も指していないのと同じ** */
@@ -120,6 +112,19 @@ interface Ctx {
   /** 案内中か */
   active: boolean;
   step: TutorialStep | null;
+  /** 案内パネルの高さ（実測）。
+
+      ▍**パネルは浮かせるが、場所は空けさせる**
+      かつては画面の上に浮かべっぱなしにしていて、指している当のものを
+      パネルが覆ってしまっていた（ホームのカセット、そのあとはフキダシ）。
+      「この回だけ上に逃がす」で凌ごうとしたが、逃がした先にも別のものが
+      あって同じことの繰り返しになる。
+
+      いまはパネルが自分の高さを測って配り、**画面がそのぶん下を空ける**
+      （→ components/ui.tsx の Screen）。覆うものが無くなるので、
+      逃がす必要も、黒帯の高さを決め打ちする必要も無くなった。 */
+  panelH: number;
+  setPanelH: (h: number) => void;
   /** 何歩目か（1始まり）と全体の数。「2 / 6」の表示に使う */
   index: number;
   total: number;
@@ -141,6 +146,7 @@ export function TutorialProvider({
 }) {
   const router = useRouter();
   const [i, setI] = React.useState<number | null>(null);
+  const [panelH, setPanelH] = React.useState(0);
 
   const go = React.useCallback(
     (n: number) => {
@@ -169,13 +175,15 @@ export function TutorialProvider({
     () => ({
       active: i !== null,
       step: i === null ? null : TUTORIAL[i],
+      panelH,
+      setPanelH,
       index: (i ?? 0) + 1,
       total: TUTORIAL.length,
       start,
       next,
       finish,
     }),
-    [i, start, next, finish],
+    [i, panelH, start, next, finish],
   );
 
   return <TutorialContext.Provider value={value}>{children}</TutorialContext.Provider>;
@@ -187,6 +195,8 @@ export function useTutorial(): Ctx {
     React.useContext(TutorialContext) ?? {
       active: false,
       step: null,
+      panelH: 0,
+      setPanelH: () => {},
       index: 0,
       total: TUTORIAL.length,
       start: () => {},

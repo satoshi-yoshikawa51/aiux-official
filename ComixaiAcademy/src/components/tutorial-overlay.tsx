@@ -22,17 +22,9 @@ import { useProgress } from '@/store/progress';
 import { useTutorial } from '@/store/tutorial';
 import { BW, C, F, FONT, POP, R, S, T, TAB } from '@/theme';
 
-/* 黒帯のおおよその高さ。上に出すときだけ、これだけ下げて帯を避ける。
-
-   帯の高さは中身しだいで変わるので**測って配るのが本筋**だが、そのために
-   画面から帯の高さを持ち上げる仕掛けを足すほどの話ではない。
-   `bubble: 'top'` を使うのはホームの1回だけで、ホームの帯は実測85px。
-   少し多めに取ってあるので、帯が縮む端末では隙間が空くだけで重ならない。 */
-const HEAD_H = 88;
-
 export function TutorialOverlay() {
   const insets = useSafeAreaInsets();
-  const { active, step, index, total, next, finish } = useTutorial();
+  const { active, step, index, total, next, finish, setPanelH } = useTutorial();
   const { state } = useProgress();
   const avatar = getAvatar(state.avatarId);
 
@@ -52,12 +44,14 @@ export function TutorialOverlay() {
         position: 'absolute',
         left: S.md,
         right: S.md,
-        /* ふだんは下（親指に近い）。指している場所が下敷きになる回だけ上へ。
-           上に出すときは黒帯のぶんだけ下げて、帯と重ならないようにする */
-        ...(step.bubble === 'top'
-          ? { top: insets.top + HEAD_H + S.sm }
-          : { bottom: TAB.height + insets.bottom + S.sm }),
-      }}>
+        /* いつも下（親指に近い）。**上に逃がす仕組みはやめた**——
+           逃がした先にも隠すものがあって（フキダシ）、同じことの繰り返しに
+           なるため。いまは画面がこのパネルのぶんだけ下を空けるので、
+           そもそも何も覆わない（→ store/tutorial.tsx の panelH） */
+        bottom: TAB.height + insets.bottom + S.sm,
+      }}
+      /* 自分の高さを測って配る。画面はこれを見て下を空ける */
+      onLayout={(e) => setPanelH(Math.ceil(e.nativeEvent.layout.height))}>
       <Pop radius={R.md} reserve={false} style={{ marginBottom: POP.md }}>
         <View
           style={{
