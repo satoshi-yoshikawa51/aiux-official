@@ -17,6 +17,7 @@ npm run og:glossary  # OGP画像を一括生成（Playwright/Chromium を使用�
 npm run img:optimize # 表示に使う画像を軽量化（元画像は残す）
 npm run ga:report    # GA4のデータをAPIで取ってレポート表示（要 環境変数）
 npm run yonkoma      # 手描き4コマのネーム案を3つ出す壁打ち（要 ANTHROPIC_API_KEY）
+npm run yonkoma:video # 入稿済み4コマをショート動画(mp4)にする（要 ffmpeg-static、API不要）
 ```
 
 `yonkoma` は `-- --list` で描ける対象と入稿済みの一覧、`-- <slug> --dry` でAPIを

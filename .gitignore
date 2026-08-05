@@ -30,3 +30,9 @@ gcp-*.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 4コマのショート動画（生成物。アップロードしたら消してよい）
+/yonkoma-videos/
+
+# BGM素材（権利があるならコミットしてもよいが、既定では入れない）
+scripts/yonkoma-bgm.mp3
