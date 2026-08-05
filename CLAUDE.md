@@ -16,12 +16,11 @@ npm run build        # 本番ビルド ＝ 実質の型チェック／唯一の�
 npm run og:glossary  # OGP画像を一括生成（Playwright/Chromium を使用）
 npm run img:optimize # 表示に使う画像を軽量化（元画像は残す）
 npm run ga:report    # GA4のデータをAPIで取ってレポート表示（要 環境変数）
-npm run yonkoma      # 手描き4コマのネーム案を3つ出す壁打ち（要 ANTHROPIC_API_KEY）
+npm run yonkoma:list  # 4コマを描ける対象(slug)と入稿済みの一覧
 npm run yonkoma:video # 入稿済み4コマをショート動画(mp4)にする（要 ffmpeg-static、API不要）
 ```
 
-`yonkoma` は `-- --list` で描ける対象と入稿済みの一覧、`-- <slug> --dry` でAPIを
-叩かずお題の確認だけできる。**4コマの入稿はデータ編集不要で、
+4コマのネーム・ネタ作りは人間の仕事（AIに生成させない方針）。**入稿はデータ編集不要で、
 `public/yonkoma/<glossary|prompts>/<slug>.png` を置くだけ**。詳細は `docs/yonkoma.md`。
 
 `ga:report` は `GA_PROPERTY_ID` と `GA_SERVICE_ACCOUNT_JSON` を環境変数で渡す。

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "og:glossary": "node --experimental-strip-types scripts/generate-og-images.mjs",
-    "yonkoma": "node --experimental-strip-types scripts/yonkoma-name.mjs",
+    "yonkoma:list": "node --experimental-strip-types scripts/yonkoma-list.mjs",
     "yonkoma:video": "node --experimental-strip-types scripts/yonkoma-video.mjs",
     "guide:heroes": "node scripts/generate-guide-heroes.mjs",
     "img:optimize": "node scripts/optimize-images.mjs",
