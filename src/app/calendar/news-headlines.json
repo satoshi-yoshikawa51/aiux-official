@@ -1,7 +1,98 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-04T22:40:10.752Z",
+  "updatedAt": "2026-08-05T22:38:45.885Z",
   "items": [
+    {
+      "title": "Meta launches Muse Code, an AI agent for large code bases",
+      "url": "https://techcrunch.com/2026/08/05/meta-launches-muse-code-an-ai-agent-for-large-code-bases/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-05T21:21:28.000Z",
+      "titleJa": "Meta が大規模なコードベース用の AI エージェントである Muse Code を開始",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/10/GettyImages-2235448056.jpg?resize=1200,800"
+    },
+    {
+      "title": "Jeff Dean and other top AI researchers are leaving Google to launch their own startup",
+      "url": "https://techcrunch.com/2026/08/05/jeff-dean-and-other-top-ai-researchers-are-leaving-google-to-launch-their-own-startup/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-05T19:30:19.000Z",
+      "titleJa": "ジェフ・ディーン氏とその他のトップAI研究者がGoogleを退職し、独自のスタートアップを立ち上げる",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-1197130647.jpg?resize=1200,800"
+    },
+    {
+      "title": "Google just announced a major shakeup of its top AI leadership",
+      "url": "https://www.theverge.com/tech/975677/google-deepmind-ai-demis-hassabis-shakeup",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-05T16:47:23.000Z",
+      "titleJa": "GoogleはAIトップのリーダーシップの大規模な刷新を発表したばかりだ",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/gettyimages-2273112113.jpg?quality=90&strip=all&crop=0%2C10.751100563416%2C100%2C78.497798873168&w=1200"
+    },
+    {
+      "title": "富士通が産業ロボ大手3社と提携 フィジカルAIに共通ソフト基盤",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/072901478/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-05T22:04:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/072901478/topm.jpg?20220512"
+    },
+    {
+      "title": "ワークマン、実は画像生成AIを導入していた 間に合わない商品撮影を代替 アプリ通知開封も1.5倍",
+      "url": "https://www.itmedia.co.jp/news/article/2608/06/2000000370/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-05T22:00:00.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/06/2000000370/10001827/2048"
+    },
+    {
+      "title": "資金調達の「二極化」進む 勝ち抜く企業の条件は？ 早大教授に聞く",
+      "url": "https://www.itmedia.co.jp/business/articles/2608/06/news014.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-05T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2608/06/cover_news014.jpg"
+    },
+    {
+      "title": "KDDIも40年前はスタートアップだった 高橋会長の“昔話”から考える、日本企業の成長戦略",
+      "url": "https://www.itmedia.co.jp/business/articles/2608/06/news028.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-05T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2608/06/cover_news028.jpg"
+    },
+    {
+      "title": "デジタルツイン総合研究所、フィジカルAIの参照・オーケストレーション基盤「SHOKEI」をリリース",
+      "url": "https://ascii.jp/elem/000/004/425/4425250/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-05T09:08:43.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "【数量限定特典も】美を調える ”空気のシャワー” LICO THE AIR CLEANSE SHOWER (ライコ エアークレンズシャワー)が東京都『TIB SHOP』に期間限定出店。8月5日より開始",
+      "url": "https://ascii.jp/elem/000/004/425/4425239/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-05T09:04:48.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "UPDFが新学期応援キャンペーンを開始｜学生・教職員のPDF学習と授業準備をAIで効率化",
+      "url": "https://ascii.jp/elem/000/004/425/4425251/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-05T09:04:45.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "FDUA 生成AIWG、『金融生成AIガイドライン（第1.2版）』を公開",
+      "url": "https://ascii.jp/elem/000/004/425/4425242/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-05T09:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
     {
       "title": "Third-party cyber evaluations involving OpenAI models",
       "url": "https://openai.com/index/third-party-cyber-evaluations-involving-openai-models",
@@ -27,96 +118,6 @@
       "date": "2026-08-04T13:00:00.000Z",
       "titleJa": "2026年7月に発表したAI最新ニュース",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/July_AI_Recap_still.width-1300.png"
-    },
-    {
-      "title": "SpaceX上場後初の決算、売上高トップはStarlink AIも急伸 ロケット部門は最小に",
-      "url": "https://japan.cnet.com/article/35251278/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-04T22:34:00.000Z",
-      "image": "https://japan.cnet.com/storage/2023/01/18/464e3d9bf035532fa66a46e80b2e70f5/spacex45715171884-624136120f-ka_1280x960.jpg"
-    },
-    {
-      "title": "自治体に導入拡大する無償のファンラーニング型AI英語アプリ",
-      "url": "https://ascii.jp/elem/000/004/424/4424380/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-04T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/08/03/4508734/xl/2a74aafead203cb6.jpg"
-    },
-    {
-      "title": "「日本人が海外へ行けない」を打ち破る シンガポール発LCCが仕掛ける“逆張り戦略”",
-      "url": "https://www.itmedia.co.jp/business/articles/2608/05/news025.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-04T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2608/05/cover_news025.jpg"
-    },
-    {
-      "title": "「私がウダウダしゃべるより聞きやすい」 三菱重工、決算説明に“AIジュリア”起用の本音",
-      "url": "https://www.itmedia.co.jp/business/articles/2608/05/news042.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-04T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2608/05/cover_news042.jpg"
-    },
-    {
-      "title": "OpenAI、Appleの提訴に全面反論「雑で攻撃的で、妙に個人的な訴訟」 メールやiMessageも公開",
-      "url": "https://japan.cnet.com/article/35251275/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-04T21:59:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/05/1b6a959b9230c858f2132d453bb191e1/IMG_2918.jpeg"
-    },
-    {
-      "title": "1Password、ダッシュボードから組織のAI支出状況を表示する新機能。ClaudeやCursor、ChatGPTなど複数AIにI対応",
-      "url": "https://www.publickey1.jp/blog/26/1passwordaiclaudecursorchatgptaii.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-08-04T15:38:32.000Z",
-      "image": "https://www.publickey1.jp/2026/1password-ai-consumption03.png"
-    },
-    {
-      "title": "アプリが遅い原因をAIがトレースログから分析してくれる「Windows Performance Analyzer MCP」（WPA MCP）、マイクロソフトがプレビュー公開",
-      "url": "https://www.publickey1.jp/blog/26/aiwindows_performance_analyzer_mcpwpa_mcp.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-08-04T15:36:16.000Z",
-      "image": "https://www.publickey1.jp/2026/wpa-mcp-ep01.png"
-    },
-    {
-      "title": "DJIがオズポケでも使えるAIノイキャン搭載ワイヤレスマイク「Mic Mini 2S」発表",
-      "url": "https://ascii.jp/elem/000/004/423/4423622/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-04T15:01:00.000Z",
-      "image": "https://ascii.jp/img/2026/07/30/4507543/xl/46c9b3c92708c966.jpg?20200122"
-    },
-    {
-      "title": "Apple says more ex-employees may have taken confidential data to OpenAI",
-      "url": "https://techcrunch.com/2026/08/04/apple-says-more-ex-employees-may-have-taken-confidential-data-to-openai/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-04T14:03:01.000Z",
-      "titleJa": "Apple、さらに多くの元従業員が機密データをOpenAIに持ち込んだ可能性があると発表",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/tim-cook-sam-altman-GettyImages-2233062347.jpg?w=1024"
-    },
-    {
-      "title": "Circles powers telco personalization with OpenAI technology",
-      "url": "https://openai.com/index/circles",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-08-03T00:00:00.000Z",
-      "titleJa": "Circles は OpenAI テクノロジーで通信会社のパーソナライゼーションを強化します"
-    },
-    {
-      "title": "Design Arena creators raise $7.9 million to bring taste to AI models",
-      "url": "https://techcrunch.com/2026/08/03/designarena-creators-raise-7-9-million-to-bring-taste-to-ai-models/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-03T19:28:57.000Z",
-      "titleJa": "Design Arena のクリエイターが AI モデルにセンスをもたらすために 790 万ドルを調達",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Screenshot-2026-08-03-at-12.31.35-PM.jpg?resize=1200,739"
     }
   ]
 }
