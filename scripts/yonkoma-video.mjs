@@ -42,9 +42,11 @@ const FPS = 30;
 const PANEL_SEC = 3.2;
 const END_SEC = 2.8;
 /* ページめくりはCSS 3Dをコマ送りで撮る（ffmpegの既製トランジションに
-   めくりが無いため）。14コマ×30fps ≒ 0.47秒 */
-const FLIP_FRAMES = 14;
+   めくりが無いため）。16コマ×30fps ≒ 0.53秒 */
+const FLIP_FRAMES = 16;
 const FLIP_SEC = FLIP_FRAMES / FPS;
+/* 紙のたわみ表現: ページを縦の短冊に割り、円筒写像で曲げる。多いほど滑らか */
+const FLIP_STRIPS = 27;
 
 /* —— デザイントークン（globals.cssと揃える） —— */
 const INK = "#14110f";
@@ -338,36 +340,136 @@ body { height:${frameH}px; }
 
 /* ═══════════════ 2.5 ページめくりのコマ送り ═══════════════ */
 
-/** 前のページが上辺を軸にめくれ上がり、下のページが現れる。
+/** 前のページが右から左へ、紙らしく「曲がりながら」めくれる。
+    モデルは実物のページカール：
+      ・折り目（半径Rの円筒）が右端から左へ走る
+      ・折り目より右の紙は円筒に巻き付き（曲がって持ち上がり）、
+        巻き切った部分は裏（クリーム色）を上にして平らに左へ倒れていく
+      ・折り目の左の床には影が落ち、曲面には向きに応じた陰影が乗る
+    実装は縦短冊の絶対配置。短冊ごとに円筒写像 x'=a+R·sinφ, z'=R(1-cosφ)
+    （φ=(x-a)/R）を計算して translate3d + rotateY で置く。
     fromScale: 前セグメントのズーム終端(1.05)と絵柄を合わせるための倍率 */
 async function renderFlipFrames(page, fromUrl, toUrl, fromScale, work, index) {
   await page.setContent(
     `<!doctype html><html><head><meta charset="utf-8"><style>
 * { margin:0; padding:0; }
 body { width:1080px; height:1920px; overflow:hidden; background:${INK}; }
-.scene { position:relative; width:1080px; height:1920px; perspective:2600px; }
-.under, .flip { position:absolute; inset:0; }
-.under img, .flip img { width:1080px; height:1920px; display:block; }
+.scene { position:relative; width:1080px; height:1920px; perspective:3200px; perspective-origin:50% 50%; }
+.under { position:absolute; inset:0; }
+.under img { width:1080px; height:1920px; display:block; }
 .under-shade { position:absolute; inset:0; background:#000; }
-.flip { transform-origin:50% 0%; backface-visibility:hidden; will-change:transform; }
-.flip-inner { width:1080px; height:1920px; transform:scale(${fromScale}); transform-origin:50% 50%; }
-.flip-shade { position:absolute; inset:0; background:#000; }
+/* preserve-3dで短冊同士をひとつの3D空間に置く（巻いた紙の前後関係が深度で解決される） */
+#root { position:absolute; inset:0; transform-style:preserve-3d; }
+#cast { position:absolute; top:0; height:1920px; width:170px;
+  background:linear-gradient(to left, rgba(0,0,0,0.34), transparent); }
+.seg { position:absolute; top:0; height:1920px; transform-origin:0% 50%; transform-style:preserve-3d; }
+/* backface-visibilityは子に継承されない。imgやshadeを個別に隠さないと
+   面が裏を向いたとき中身だけが描かれ続けて縞になる */
+.face, .face * { backface-visibility:hidden; }
+.face { position:absolute; top:0; left:0; height:1920px; overflow:hidden; }
+.face img { position:absolute; top:0; width:1080px; height:1920px; max-width:none; }
+.shade { position:absolute; inset:0; background:#000; }
+/* 紙の裏。180°回して仕込んでおくと、90°を超えて巻けた短冊だけ自然に現れる。
+   グラデにすると短冊ごとに繰り返して縞になるので無地 */
+.back { position:absolute; top:0; left:0; height:1920px; backface-visibility:hidden;
+  transform:rotateY(180deg); background:#f3ecdc; }
 </style></head><body>
 <div class="scene">
-  <div class="under"><img src="${toUrl}"><div class="under-shade" id="us"></div></div>
-  <div class="flip" id="pg"><div class="flip-inner"><img src="${fromUrl}"></div><div class="flip-shade" id="fs"></div></div>
+  <div class="under"><img id="to" src="${toUrl}"><div class="under-shade" id="us"></div></div>
+  <div id="cast"></div>
+  <div id="root"></div>
 </div>
 <script>
+  window.__init = async (fromUrl, fromScale, N) => {
+    await document.getElementById("to").decode();
+    /* ズーム終端の絵柄を先に焼き込んでから短冊に切る */
+    const img = new Image();
+    img.src = fromUrl;
+    await img.decode();
+    const cv = document.createElement("canvas");
+    cv.width = 1080; cv.height = 1920;
+    const w = 1080 * fromScale, h = 1920 * fromScale;
+    cv.getContext("2d").drawImage(img, (1080 - w) / 2, (1920 - h) / 2, w, h);
+    const baked = cv.toDataURL("image/png");
+
+    const stripW = 1080 / N;
+    const root = document.getElementById("root");
+    window.__segs = [];
+    window.__stripW = stripW;
+    const loading = [];
+    for (let i = 0; i < N; i++) {
+      const seg = document.createElement("div");
+      seg.className = "seg";
+      seg.style.width = stripW + "px";
+      seg.style.left = i * stripW + "px";
+      const face = document.createElement("div");
+      face.className = "face";
+      face.style.width = (stripW + 2.5) + "px"; /* 継ぎ目の線防止に少し重ねる */
+      const im = document.createElement("img");
+      im.src = baked;
+      im.style.left = (-i * stripW) + "px";
+      loading.push(im.decode());
+      const sh = document.createElement("div");
+      sh.className = "shade";
+      sh.style.opacity = "0";
+      face.appendChild(im);
+      face.appendChild(sh);
+      const back = document.createElement("div");
+      back.className = "back";
+      back.style.width = (stripW + 2.5) + "px";
+      seg.appendChild(back);
+      seg.appendChild(face);
+      root.appendChild(seg);
+      window.__segs.push({ seg, sh, x: i * stripW });
+    }
+    await Promise.all(loading);
+  };
+
   window.setProgress = (p) => {
-    const e = 0.5 - 0.5 * Math.cos(Math.PI * p);       /* ease-in-out */
-    const deg = 115 * e;                               /* 90°で裏返り、姿を消す */
-    document.getElementById("pg").style.transform = "rotateX(" + deg + "deg)";
-    const lift = Math.sin(Math.min(deg, 90) * Math.PI / 180);
-    document.getElementById("fs").style.opacity = 0.38 * lift;   /* めくれた紙の陰 */
-    document.getElementById("us").style.opacity = 0.45 * (1 - e); /* 下のページに落ちる影 */
+    const e = 0.5 - 0.5 * Math.cos(Math.PI * p);  /* ease-in-out */
+    const R = 150;                                 /* 折り目の円筒半径＝紙の硬さ */
+    /* 折り目の位置。右端(1080)から画面左外まで走らせると紙が抜け切る */
+    const a = 1080 - (1080 + 1.35 * R) * e;
+    const segs = window.__segs;
+    segs.forEach(({ seg, sh, x }) => {
+      if (x <= a) {
+        /* 折り目より左：まだ平ら */
+        seg.style.transform = "none";
+        sh.style.opacity = "0";
+        return;
+      }
+      const phi = (x - a) / R;
+      let tx, tz, deg, shade;
+      if (phi <= Math.PI) {
+        /* 円筒に巻き付いている区間：持ち上がりながら曲がる */
+        tx = a + R * Math.sin(phi) - x;
+        tz = R * (1 - Math.cos(phi));
+        deg = (phi * 180) / Math.PI;
+        shade = phi <= Math.PI / 2 ? 0.36 * Math.sin(phi) : 0.12;
+      } else {
+        /* 巻き切った区間：裏を上にして平らに左へ倒れている。
+           tzをごく僅かに傾けて、同一平面の重なりのちらつきを防ぐ */
+        tx = a - (phi - Math.PI) * R - x;
+        tz = 2 * R + (phi - Math.PI) * 0.6;
+        deg = 179.5;
+        shade = 0;
+      }
+      seg.style.transform =
+        "translate3d(" + tx.toFixed(2) + "px,0," + tz.toFixed(2) + "px) rotateY(" + -deg.toFixed(2) + "deg)";
+      sh.style.opacity = shade.toFixed(3);
+    });
+    /* 折り目の左の床に落ちる影と、下のページ全体の暗さ */
+    const cast = document.getElementById("cast");
+    cast.style.left = (a - 170).toFixed(1) + "px";
+    cast.style.opacity = (Math.min(1, (1080 - a) / 260) * (a > -170 ? 1 : 0)).toFixed(3);
+    document.getElementById("us").style.opacity = (0.4 * (1 - e)).toFixed(3);
   };
 </script></body></html>`,
     { waitUntil: "networkidle" }
+  );
+  await page.evaluate(
+    ({ fromUrl, fromScale, N }) => window.__init(fromUrl, fromScale, N),
+    { fromUrl, fromScale, N: FLIP_STRIPS }
   );
   const files = [];
   for (let k = 0; k < FLIP_FRAMES; k++) {
