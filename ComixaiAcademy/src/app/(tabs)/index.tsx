@@ -23,6 +23,7 @@ import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
 import { useProgress, useStats } from '@/store/progress';
+import { useTutorial } from '@/store/tutorial';
 import { C, F, FONT, R, S } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
@@ -56,6 +57,10 @@ export default function HomeScreen() {
   const router = useRouter();
   const { state } = useProgress();
   const stats = useStats();
+  /* 案内中はセリフをこちらのフキダシに出す。**先生が2か所で
+     同時にしゃべらないため**（→ store/tutorial.tsx の voice） */
+  const tutorial = useTutorial();
+  const guiding = tutorial.active && tutorial.step?.voice === 'avatar';
 
   const avatarRef = React.useRef<AvatarHandle>(null);
   const avatar = getAvatar(state.avatarId);
@@ -129,14 +134,17 @@ export default function HomeScreen() {
   const [talk, setTalk] = React.useState<string | null>(null);
 
   const greeting = React.useMemo(() => {
+    if (guiding) return tutorial.step?.say ?? '';
     if (talk) return talk;
     if (!next) return 'ぜんぶ終わったな。……よくやった。あとは現場で使え。';
     if (stats.doneCount === 0) return `${role?.name ?? ''}か。なら、話が早い。まず1本やってみろ。`;
     if (stats.streak >= 3) return `${stats.streak}日続いてるな。……その調子だ。`;
     return `次は「${next.lesson.title}」だ。`;
-  }, [talk, next, stats.doneCount, stats.streak, role?.name]);
+  }, [guiding, tutorial.step, talk, next, stats.doneCount, stats.streak, role?.name]);
 
   const poke = () => {
+    /* 案内中はつつかせない。雑談で案内のセリフを上書きしてしまう */
+    if (guiding) return;
     const pick = SMALL_TALK[Math.floor(Math.random() * SMALL_TALK.length)];
     setTalk(pick.say);
     avatarRef.current?.play(pick.motion);

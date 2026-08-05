@@ -38,6 +38,9 @@ export function TutorialOverlay() {
 
   if (!active || !step) return null;
 
+  /** その画面のアバターがしゃべる回か。ここはボタンだけの帯になる */
+  const byAvatar = step.voice === 'avatar';
+
   const tap = () => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
   };
@@ -65,33 +68,55 @@ export function TutorialOverlay() {
             padding: S.md,
             gap: S.sm,
           }}>
-          <Row gap={8}>
-            <View
-              style={{
-                width: 30,
-                height: 30,
-                borderRadius: R.full,
-                backgroundColor: C.ink900,
-                borderWidth: BW.line,
-                borderColor: C.paper50,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Icon name={avatar.icon} size={17} color={C.paper50} />
-            </View>
-            <Text style={[F.strong, { flex: 1, fontSize: 13.5, color: C.paper50 }]}>
-              {avatar.name}
-            </Text>
-            <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, color: C.ink300, letterSpacing: 1 }}>
-              {index} / {total}
-            </Text>
-          </Row>
+          {/* ▍アバターが自分の口でしゃべる回は、名前もセリフも出さない
+              ホームには先生が立っていて、そのフキダシに案内のセリフが出ている。
+              ここにも同じ人物の名前とセリフを並べると、**声が2つになって
+              どちらを読めばいいのか分からなくなる**（→ store/tutorial.tsx の voice）。
+              その回のこのパネルは、送りのボタンだけを持つ細い帯にする */}
+          {byAvatar ? null : (
+            <>
+              <Row gap={8}>
+                <View
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: R.full,
+                    backgroundColor: C.ink900,
+                    borderWidth: BW.line,
+                    borderColor: C.paper50,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Icon name={avatar.icon} size={17} color={C.paper50} />
+                </View>
+                <Text style={[F.strong, { flex: 1, fontSize: 13.5, color: C.paper50 }]}>
+                  {avatar.name}
+                </Text>
+                <Text
+                  style={{ fontFamily: FONT.mono, fontSize: 10.5, color: C.ink300, letterSpacing: 1 }}>
+                  {index} / {total}
+                </Text>
+              </Row>
 
-          <Text style={{ fontFamily: FONT.hand, fontSize: 14.5, lineHeight: 23, color: C.paper50 }}>
-            {step.say}
-          </Text>
+              <Text
+                style={{ fontFamily: FONT.hand, fontSize: 14.5, lineHeight: 23, color: C.paper50 }}>
+                {step.say}
+              </Text>
+            </>
+          )}
 
           <Row gap={S.sm} style={{ justifyContent: 'flex-end' }}>
+            {/* アバターがしゃべる回は、この帯に文字が無いので
+                「何歩目か」だけ左に置いておく（進み具合は要る） */}
+            {byAvatar ? (
+              <Row gap={7} style={{ flex: 1 }}>
+                <Icon name={avatar.icon} size={14} color={C.ink300} />
+                <Text
+                  style={{ fontFamily: FONT.mono, fontSize: 10.5, color: C.ink300, letterSpacing: 1 }}>
+                  {index} / {total}
+                </Text>
+              </Row>
+            ) : null}
             <Pressable
               onPress={() => {
                 tap();
