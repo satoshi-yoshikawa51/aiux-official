@@ -44,7 +44,8 @@ const END_SEC = 2.8;
 /* ページめくりはCSS 3Dをコマ送りで撮る（ffmpegの既製トランジションに
    めくりが無いため）。16コマ×30fps ≒ 0.53秒 */
 const FLIP_FRAMES = 16;
-const FLIP_SEC = FLIP_FRAMES / FPS;
+/* エンドカードへのクロスフェードの長さ（めくりはコマ間だけの演出） */
+const FADE_FRAMES = 10;
 /* 紙のたわみ表現: ページを縦の短冊に割り、円筒写像で曲げる。多いほど滑らか */
 const FLIP_STRIPS = 27;
 
@@ -338,102 +339,95 @@ body { height:${frameH}px; }
   };
 }
 
-/* ═══════════════ 2.5 ページめくりのコマ送り ═══════════════ */
+/* ═══════════════ 2.5 コマめくりのコマ送り ═══════════════ */
 
-/** 前のページが右から左へ、紙らしく「曲がりながら」めくれる。
+/** コマのカード単体が、右から左へ紙らしく「曲がりながら」めくれて、
+    下から次のコマが現れる。背景（タイトル・進捗ドット等）は静止したまま。
     モデルは実物のページカール：
-      ・折り目（半径Rの円筒）が右端から左へ走る
-      ・折り目より右の紙は円筒に巻き付き（曲がって持ち上がり）、
-        巻き切った部分は裏（クリーム色）を上にして平らに左へ倒れていく
-      ・折り目の左の床には影が落ち、曲面には向きに応じた陰影が乗る
-    実装は縦短冊の絶対配置。短冊ごとに円筒写像 x'=a+R·sinφ, z'=R(1-cosφ)
-    （φ=(x-a)/R）を計算して translate3d + rotateY で置く。
-    fromScale: 前セグメントのズーム終端(1.05)と絵柄を合わせるための倍率 */
-async function renderFlipFrames(page, fromUrl, toUrl, fromScale, work, index) {
-  await page.setContent(
-    `<!doctype html><html><head><meta charset="utf-8"><style>
-* { margin:0; padding:0; }
-body { width:1080px; height:1920px; overflow:hidden; background:${INK}; }
-.scene { position:relative; width:1080px; height:1920px; perspective:3200px; perspective-origin:50% 50%; }
-.under { position:absolute; inset:0; }
-.under img { width:1080px; height:1920px; display:block; }
-.under-shade { position:absolute; inset:0; background:#000; }
-/* preserve-3dで短冊同士をひとつの3D空間に置く（巻いた紙の前後関係が深度で解決される） */
-#root { position:absolute; inset:0; transform-style:preserve-3d; }
-#cast { position:absolute; top:0; height:1920px; width:170px;
-  background:linear-gradient(to left, rgba(0,0,0,0.34), transparent); }
-.seg { position:absolute; top:0; height:1920px; transform-origin:0% 50%; transform-style:preserve-3d; }
-/* backface-visibilityは子に継承されない。imgやshadeを個別に隠さないと
-   面が裏を向いたとき中身だけが描かれ続けて縞になる */
-.face, .face * { backface-visibility:hidden; }
-.face { position:absolute; top:0; left:0; height:1920px; overflow:hidden; }
-.face img { position:absolute; top:0; width:1080px; height:1920px; max-width:none; }
-.shade { position:absolute; inset:0; background:#000; }
-/* 紙の裏。180°回して仕込んでおくと、90°を超えて巻けた短冊だけ自然に現れる。
-   グラデにすると短冊ごとに繰り返して縞になるので無地 */
-.back { position:absolute; top:0; left:0; height:1920px; backface-visibility:hidden;
-  transform:rotateY(180deg); background:#f3ecdc; }
+      ・折り目（半径Rの円筒）がカード右端から左へ走る
+      ・折り目より右の紙は円筒に巻き付いて持ち上がり、
+        巻き切った部分は紙の裏（クリーム色）を上にして平らに左へ倒れる
+      ・下のコマは折り目の右側だけ順に見えてくる（めくった下から現れる）
+    実装はカードを縦短冊に割った絶対配置。短冊ごとに円筒写像
+    x'=a+R·sinφ, z'=R(1-cosφ)（φ=(x-a)/R）を計算して translate3d + rotateY。 */
+function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
+  const dots = Array.from({ length: total }, (_, i) => `<span class="dot ${i === dotIndex ? "on" : ""}"></span>`).join("");
+  return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}${FRAME_BASE}
+.panel-wrap { margin-top:56px; flex:1; width:100%; position:relative; min-height:0; perspective:2000px; perspective-origin:50% 50%; }
+.layer { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.card { max-width:968px; max-height:1180px; width:auto; height:auto; background:${PAPER_0}; border-radius:14px; }
+#toCard { box-shadow:12px 12px 0 rgba(0,0,0,.55); }
+#fromHolder { visibility:hidden; }
+#rig { position:absolute; transform-style:preserve-3d; }
+.seg { position:absolute; top:0; transform-origin:0% 50%; transform-style:preserve-3d; }
+/* backface-visibilityは子に継承されないので、面の中身にも個別指定する */
+.seg, .seg * { backface-visibility:hidden; }
+.sface { position:absolute; top:0; left:0; overflow:hidden; background-repeat:no-repeat; background-color:${PAPER_0}; }
+.sshade { position:absolute; inset:0; background:#000; }
+.sback { position:absolute; top:0; left:0; transform:rotateY(180deg); background:#f3ecdc; }
+#rigShadow { position:absolute; border-radius:14px; box-shadow:12px 12px 0 rgba(0,0,0,.55); }
 </style></head><body>
-<div class="scene">
-  <div class="under"><img id="to" src="${toUrl}"><div class="under-shade" id="us"></div></div>
-  <div id="cast"></div>
-  <div id="root"></div>
+<div class="stage">
+  <div class="kicker">4コマで学ぶAI</div>
+  <div class="title">${esc(meta.title)}</div>
+  <div class="panel-wrap" id="wrap">
+    <div class="layer"><img id="toCard" class="card" src="${toUrl}"></div>
+    <div class="layer"><img id="fromHolder" class="card" src="${fromUrl}"></div>
+    <div id="rigShadow"></div>
+    <div id="rig"></div>
+  </div>
+  <div class="foot"><div class="dots">${dots}</div><div class="site">comixai.dev</div></div>
 </div>
 <script>
-  window.__init = async (fromUrl, fromScale, N) => {
-    await document.getElementById("to").decode();
-    /* ズーム終端の絵柄を先に焼き込んでから短冊に切る */
-    const img = new Image();
-    img.src = fromUrl;
-    await img.decode();
-    const cv = document.createElement("canvas");
-    cv.width = 1080; cv.height = 1920;
-    const w = 1080 * fromScale, h = 1920 * fromScale;
-    cv.getContext("2d").drawImage(img, (1080 - w) / 2, (1920 - h) / 2, w, h);
-    const baked = cv.toDataURL("image/png");
-
-    const stripW = 1080 / N;
-    const root = document.getElementById("root");
-    window.__segs = [];
-    window.__stripW = stripW;
-    const loading = [];
+  window.__init = async (N) => {
+    const toCard = document.getElementById("toCard");
+    const holder = document.getElementById("fromHolder");
+    await toCard.decode();
+    await holder.decode();
+    const wrapRect = document.getElementById("wrap").getBoundingClientRect();
+    const fr = holder.getBoundingClientRect();
+    const tr = toCard.getBoundingClientRect();
+    const W = fr.width, H = fr.height;
+    const left = fr.left - wrapRect.left, top = fr.top - wrapRect.top;
+    const rig = document.getElementById("rig");
+    rig.style.left = left + "px"; rig.style.top = top + "px";
+    rig.style.width = W + "px"; rig.style.height = H + "px";
+    const shadow = document.getElementById("rigShadow");
+    shadow.style.left = left + "px"; shadow.style.top = top + "px";
+    shadow.style.width = W + "px"; shadow.style.height = H + "px";
+    const sw = W / N;
+    window.__ctx = { W, H, left, sw, toLeft: tr.left - wrapRect.left, toW: tr.width, segs: [] };
     for (let i = 0; i < N; i++) {
+      const x = i * sw;
       const seg = document.createElement("div");
       seg.className = "seg";
-      seg.style.width = stripW + "px";
-      seg.style.left = i * stripW + "px";
-      const face = document.createElement("div");
-      face.className = "face";
-      face.style.width = (stripW + 2.5) + "px"; /* 継ぎ目の線防止に少し重ねる */
-      const im = document.createElement("img");
-      im.src = baked;
-      im.style.left = (-i * stripW) + "px";
-      loading.push(im.decode());
+      seg.style.left = x + "px"; seg.style.width = sw + "px"; seg.style.height = H + "px";
+      const f = document.createElement("div");
+      f.className = "sface";
+      f.style.width = (sw + 2) + "px"; f.style.height = H + "px";
+      f.style.backgroundImage = "url(" + holder.src + ")";
+      f.style.backgroundSize = W + "px " + H + "px";
+      f.style.backgroundPosition = (-x) + "px 0";
+      /* カードの角丸を端の短冊だけ再現して、静止コマとの継ぎ目を消す */
+      if (i === 0) f.style.borderRadius = "14px 0 0 14px";
+      if (i === N - 1) f.style.borderRadius = "0 14px 14px 0";
       const sh = document.createElement("div");
-      sh.className = "shade";
-      sh.style.opacity = "0";
-      face.appendChild(im);
-      face.appendChild(sh);
-      const back = document.createElement("div");
-      back.className = "back";
-      back.style.width = (stripW + 2.5) + "px";
-      seg.appendChild(back);
-      seg.appendChild(face);
-      root.appendChild(seg);
-      window.__segs.push({ seg, sh, x: i * stripW });
+      sh.className = "sshade"; sh.style.opacity = "0";
+      f.appendChild(sh);
+      const b = document.createElement("div");
+      b.className = "sback"; b.style.width = (sw + 2) + "px"; b.style.height = H + "px";
+      seg.appendChild(b); seg.appendChild(f); rig.appendChild(seg);
+      window.__ctx.segs.push({ seg, sh, x });
     }
-    await Promise.all(loading);
   };
 
   window.setProgress = (p) => {
     const e = 0.5 - 0.5 * Math.cos(Math.PI * p);  /* ease-in-out */
-    const R = 150;                                 /* 折り目の円筒半径＝紙の硬さ */
-    /* 折り目の位置。右端(1080)から画面左外まで走らせると紙が抜け切る */
-    const a = 1080 - (1080 + 1.35 * R) * e;
-    const segs = window.__segs;
+    const { W, left, segs, toLeft, toW } = window.__ctx;
+    const R = Math.max(90, W * 0.13);              /* 折り目の円筒半径＝紙の硬さ */
+    const a = W - (W + 1.4 * R) * e;               /* 折り目の位置（カード左外まで走る） */
     segs.forEach(({ seg, sh, x }) => {
       if (x <= a) {
-        /* 折り目より左：まだ平ら */
         seg.style.transform = "none";
         sh.style.opacity = "0";
         return;
@@ -441,14 +435,12 @@ body { width:1080px; height:1920px; overflow:hidden; background:${INK}; }
       const phi = (x - a) / R;
       let tx, tz, deg, shade;
       if (phi <= Math.PI) {
-        /* 円筒に巻き付いている区間：持ち上がりながら曲がる */
         tx = a + R * Math.sin(phi) - x;
         tz = R * (1 - Math.cos(phi));
         deg = (phi * 180) / Math.PI;
-        shade = phi <= Math.PI / 2 ? 0.36 * Math.sin(phi) : 0.12;
+        shade = phi <= Math.PI / 2 ? 0.32 * Math.sin(phi) : 0.1;
       } else {
-        /* 巻き切った区間：裏を上にして平らに左へ倒れている。
-           tzをごく僅かに傾けて、同一平面の重なりのちらつきを防ぐ */
+        /* 巻き切った区間。tzを僅かに傾けて同一平面のちらつきを防ぐ */
         tx = a - (phi - Math.PI) * R - x;
         tz = 2 * R + (phi - Math.PI) * 0.6;
         deg = 179.5;
@@ -458,19 +450,18 @@ body { width:1080px; height:1920px; overflow:hidden; background:${INK}; }
         "translate3d(" + tx.toFixed(2) + "px,0," + tz.toFixed(2) + "px) rotateY(" + -deg.toFixed(2) + "deg)";
       sh.style.opacity = shade.toFixed(3);
     });
-    /* 折り目の左の床に落ちる影と、下のページ全体の暗さ */
-    const cast = document.getElementById("cast");
-    cast.style.left = (a - 170).toFixed(1) + "px";
-    cast.style.opacity = (Math.min(1, (1080 - a) / 260) * (a > -170 ? 1 : 0)).toFixed(3);
-    document.getElementById("us").style.opacity = (0.4 * (1 - e)).toFixed(3);
+    /* 下のコマは折り目の右側だけ見せる。insetの他辺は負にして影を切らない */
+    const clipL = Math.max(0, Math.min(toW, left + a - toLeft));
+    document.getElementById("toCard").style.clipPath = "inset(-40px -40px -40px " + clipL.toFixed(1) + "px)";
+    document.getElementById("rigShadow").style.opacity = (1 - e).toFixed(3);
   };
-</script></body></html>`,
-    { waitUntil: "networkidle" }
-  );
-  await page.evaluate(
-    ({ fromUrl, fromScale, N }) => window.__init(fromUrl, fromScale, N),
-    { fromUrl, fromScale, N: FLIP_STRIPS }
-  );
+</script></body></html>`;
+}
+
+async function renderPanelCurlFrames(page, fromPanelUrl, toPanelUrl, dotIndex, total, work, index) {
+  await page.setContent(flipSceneHtml(fromPanelUrl, toPanelUrl, dotIndex, total), { waitUntil: "networkidle" });
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate((N) => window.__init(N), FLIP_STRIPS);
   const files = [];
   for (let k = 0; k < FLIP_FRAMES; k++) {
     await page.evaluate((p) => window.setProgress(p), k / (FLIP_FRAMES - 1));
@@ -478,7 +469,38 @@ body { width:1080px; height:1920px; overflow:hidden; background:${INK}; }
     await page.screenshot({ path: f });
     files.push(f);
   }
-  return path.join(work, `flip${index}-%02d.png`);
+  return { pattern: path.join(work, `flip${index}-%02d.png`), n: FLIP_FRAMES };
+}
+
+/** エンドカードへの控えめなクロスフェード（めくりはコマ間だけの演出にする） */
+async function renderFadeFrames(page, fromUrl, toUrl, work, index) {
+  await page.setContent(
+    `<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; }
+body { width:1080px; height:1920px; overflow:hidden; background:${INK}; }
+img { position:absolute; inset:0; width:1080px; height:1920px; }
+</style></head><body>
+<img id="a" src="${fromUrl}"><img id="b" src="${toUrl}" style="opacity:0">
+<script>
+  window.__init = async () => {
+    await document.getElementById("a").decode();
+    await document.getElementById("b").decode();
+  };
+  window.setProgress = (p) => {
+    document.getElementById("b").style.opacity = (0.5 - 0.5 * Math.cos(Math.PI * p)).toFixed(3);
+  };
+</script></body></html>`,
+    { waitUntil: "networkidle" }
+  );
+  await page.evaluate(() => window.__init());
+  const files = [];
+  for (let k = 0; k < FADE_FRAMES; k++) {
+    await page.evaluate((p) => window.setProgress(p), k / (FADE_FRAMES - 1));
+    const f = path.join(work, `flip${index}-${String(k).padStart(2, "0")}.png`);
+    await page.screenshot({ path: f });
+    files.push(f);
+  }
+  return { pattern: path.join(work, `flip${index}-%02d.png`), n: FADE_FRAMES };
 }
 
 /* ═══════════════ 3. 音 ═══════════════ */
@@ -549,28 +571,29 @@ async function main() {
   frames.push(endFrame);
   durations.push(END_SEC);
 
-  /* めくりのコマ送りを撮る（前ページの見た目の終端 → 次ページ） */
-  const flipSeqs = [];
-  for (let i = 0; i < frames.length - 1; i++) {
-    let fromUrl;
-    let fromScale = 1.05; /* zoompanの終端倍率と合わせて、切り替わりの絵飛びを防ぐ */
-    if (!panels && i === 0) {
-      /* スクロール構成: 最後に見えている下端1920pxを「めくられる前のページ」にする */
-      fromUrl = await page.evaluate(async (url) => {
-        const img = new Image();
-        img.src = url;
-        await img.decode();
-        const cv = document.createElement("canvas");
-        cv.width = 1080;
-        cv.height = 1920;
-        cv.getContext("2d").drawImage(img, 0, img.naturalHeight - 1920, 1080, 1920, 0, 0, 1080, 1920);
-        return cv.toDataURL("image/png");
-      }, await toDataUrl(frames[i]));
-      fromScale = 1.0;
-    } else {
-      fromUrl = await toDataUrl(frames[i]);
+  /* 切り替えのコマ送りを撮る。
+     コマ間＝カード単体のめくり（背景は静止）、エンドカードへ＝クロスフェード */
+  const transSeqs = [];
+  if (panels) {
+    for (let t = 0; t < panels.length - 1; t++) {
+      transSeqs.push(await renderPanelCurlFrames(page, panels[t], panels[t + 1], t + 1, panels.length, work, t));
     }
-    flipSeqs.push(await renderFlipFrames(page, fromUrl, await toDataUrl(frames[i + 1]), fromScale, work, i));
+    transSeqs.push(
+      await renderFadeFrames(page, await toDataUrl(frames[frames.length - 2]), await toDataUrl(endFrame), work, panels.length - 1)
+    );
+  } else {
+    /* スクロール構成: 最後に見えている下端1920px → エンドカードのフェード */
+    const lastView = await page.evaluate(async (url) => {
+      const img = new Image();
+      img.src = url;
+      await img.decode();
+      const cv = document.createElement("canvas");
+      cv.width = 1080;
+      cv.height = 1920;
+      cv.getContext("2d").drawImage(img, 0, img.naturalHeight - 1920, 1080, 1920, 0, 0, 1080, 1920);
+      return cv.toDataURL("image/png");
+    }, await toDataUrl(frames[0]));
+    transSeqs.push(await renderFadeFrames(page, lastView, await toDataUrl(endFrame), work, 0));
   }
   await browser.close();
 
@@ -580,16 +603,16 @@ async function main() {
 
   const inputs = [];
   for (const f of frames) inputs.push("-i", f);
-  for (const seq of flipSeqs) inputs.push("-framerate", String(FPS), "-i", seq);
+  for (const seq of transSeqs) inputs.push("-framerate", String(FPS), "-i", seq.pattern);
   inputs.push("-i", seWav);
-  const seIdx = frames.length + flipSeqs.length;
+  const seIdx = frames.length + transSeqs.length;
   let bgmIdx = -1;
   if (hasBgm) {
     inputs.push("-stream_loop", "-1", "-i", BGM_PATH);
     bgmIdx = seIdx + 1;
   }
 
-  /* 静止セグメント: 2倍に拡大してからzoompan（ガタつき防止の定石）。
+  /* 静止セグメント。切り替え側の絵と一致させるためズームはしない。
      スクロール構成の1枚目だけは、cropのy式で上から下へ流す。
      concatで繋ぐので、全枝で fps/timebase/SAR/pixfmt を揃えること */
   const fc = [];
@@ -603,32 +626,30 @@ async function main() {
           `fps=${FPS},${NORM}[s${i}]`
       );
     } else {
-      fc.push(
-        `[${i}:v]scale=2160:3840,zoompan=z='1+0.05*on/${d}':` +
-          `x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${d}:fps=${FPS}:s=1080x1920,${NORM}[s${i}]`
-      );
+      fc.push(`[${i}:v]loop=loop=${d}:size=1:start=0,fps=${FPS},${NORM}[s${i}]`);
     }
   }
-  flipSeqs.forEach((_, t) => {
+  transSeqs.forEach((_, t) => {
     fc.push(`[${frames.length + t}:v]fps=${FPS},${NORM}[f${t}]`);
   });
 
-  /* 静止→めくり→静止…の順で連結 */
+  /* 静止→切り替え→静止…の順で連結 */
   const order = [];
   for (let i = 0; i < frames.length; i++) {
     order.push(`[s${i}]`);
-    if (i < flipSeqs.length) order.push(`[f${i}]`);
+    if (i < transSeqs.length) order.push(`[f${i}]`);
   }
   fc.push(`${order.join("")}concat=n=${order.length}:v=1:a=0[vout]`);
 
-  /* めくり開始時刻（SEをここに置く） */
+  /* 切り替え開始時刻（SEをここに置く） */
   const flipStarts = [];
   let acc = 0;
-  for (let t = 0; t < flipSeqs.length; t++) {
+  for (let t = 0; t < transSeqs.length; t++) {
     acc += durations[t];
-    flipStarts.push(acc + t * FLIP_SEC);
+    flipStarts.push(acc);
+    acc += transSeqs[t].n / FPS;
   }
-  const total = durations.reduce((a, b) => a + b, 0) + flipSeqs.length * FLIP_SEC;
+  const total = durations.reduce((a, b) => a + b, 0) + transSeqs.reduce((a, s) => a + s.n / FPS, 0);
 
   /* めくりSEを各めくり位置に置き、あればBGMを小さく敷く */
   const audioMix = [];
