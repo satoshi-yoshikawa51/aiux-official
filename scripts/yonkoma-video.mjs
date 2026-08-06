@@ -298,24 +298,29 @@ function panelFrameHtml(panelUrl, index, total) {
 </div></body></html>`;
 }
 
-function endFrameHtml() {
-  return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}${FRAME_BASE}
-.end { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px; }
-.logo { font-size:88px; font-weight:900; letter-spacing:.01em; color:${PAPER_50}; }
+/* 締めは黒画面ではなく「同じ棚の最後のカード」。4コマ目がめくれると
+   下からこのカードが現れる（＝最後もめくりで統一できる）。
+   968×640で描き、他のコマと同じカードとして枠に置く */
+function endCardHtml() {
+  return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:968px; height:640px; font-family:"Zen Kaku Gothic New", sans-serif; color:${INK};
+  background:${PAPER_0};
+  background-image:radial-gradient(rgba(20,17,15,0.07) 1.5px, transparent 1.6px);
+  background-size:14px 14px; }
+.card { width:968px; height:640px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:26px; border:6px solid ${INK}; border-radius:14px; }
+.logo { font-size:64px; font-weight:900; letter-spacing:.01em; }
 .logo .mix { color:${RED}; }
-.tsuzuki { font-size:44px; font-weight:900; }
-.url { font-family:"JetBrains Mono", monospace; font-size:38px; font-weight:700; color:${INK};
-  background:${YELLOW}; padding:18px 34px; border-radius:12px; }
-.sub { font-size:28px; font-weight:700; color:${INK_500}; }
-</style></head><body><div class="stage">
-  <div class="kicker">4コマで学ぶAI</div>
-  <div class="end">
-    <div class="logo">CO<span class="mix">MIX</span>AI</div>
-    <div class="tsuzuki">解説の続きは</div>
-    <div class="url">comixai.dev${esc(meta.pagePath)}</div>
-    <div class="sub">漫画家が描くAI解説・毎回描き下ろし</div>
-  </div>
-  <div class="foot"><div class="site">comixai.dev</div></div>
+.tsuzuki { font-size:32px; font-weight:900; }
+.url { font-family:"JetBrains Mono", monospace; font-size:27px; font-weight:700;
+  background:${YELLOW}; padding:14px 26px; border-radius:10px; border:3px solid ${INK}; }
+.sub { font-size:19px; font-weight:700; color:${INK_500}; }
+</style></head><body><div class="card">
+  <div class="logo">CO<span class="mix">MIX</span>AI</div>
+  <div class="tsuzuki">解説の続きは</div>
+  <div class="url">comixai.dev${esc(meta.pagePath)}</div>
+  <div class="sub">漫画家が描くAI解説・毎回描き下ろし</div>
 </div></body></html>`;
 }
 
@@ -563,24 +568,29 @@ async function main() {
     await page.setViewportSize({ width: 1080, height: 1920 });
   }
 
-  /* エンドカード */
-  await page.setContent(endFrameHtml(), { waitUntil: "networkidle" });
+  /* エンドカード（CTAを「最後のカード」として同じ枠に置く） */
+  await page.setContent(endCardHtml(), { waitUntil: "networkidle" });
+  await page.evaluate(() => document.fonts.ready);
+  const endCardPng = path.join(work, "end-card.png");
+  await page.screenshot({ path: endCardPng, clip: { x: 0, y: 0, width: 968, height: 640 } });
+  const endCardUrl = await toDataUrl(endCardPng);
+  const dotsTotal = panels ? panels.length : 0;
+  /* dotIndex=-1 でどのドットも点灯しない＝本編の外、の意味 */
+  await page.setContent(panelFrameHtml(endCardUrl, -1, dotsTotal), { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
   const endFrame = path.join(work, "frame-end.png");
   await page.screenshot({ path: endFrame });
   frames.push(endFrame);
   durations.push(END_SEC);
 
-  /* 切り替えのコマ送りを撮る。
-     コマ間＝カード単体のめくり（背景は静止）、エンドカードへ＝クロスフェード */
+  /* 切り替えのコマ送りを撮る。最後のCTAカードまで含めて全部めくりで進む */
   const transSeqs = [];
   if (panels) {
-    for (let t = 0; t < panels.length - 1; t++) {
-      transSeqs.push(await renderPanelCurlFrames(page, panels[t], panels[t + 1], t + 1, panels.length, work, t));
+    const deck = [...panels, endCardUrl];
+    for (let t = 0; t < deck.length - 1; t++) {
+      const dotIndex = t + 1 < panels.length ? t + 1 : -1;
+      transSeqs.push(await renderPanelCurlFrames(page, deck[t], deck[t + 1], dotIndex, panels.length, work, t));
     }
-    transSeqs.push(
-      await renderFadeFrames(page, await toDataUrl(frames[frames.length - 2]), await toDataUrl(endFrame), work, panels.length - 1)
-    );
   } else {
     /* スクロール構成: 最後に見えている下端1920px → エンドカードのフェード */
     const lastView = await page.evaluate(async (url) => {
