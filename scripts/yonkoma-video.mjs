@@ -631,14 +631,16 @@ async function main() {
   const NORM = `settb=AVTB,setsar=1,format=yuv420p`;
   for (let i = 0; i < frames.length; i++) {
     const d = Math.round(durations[i] * FPS);
+    /* PNG入力の既定タイムスタンプは25fps。loopの直後にsetptsで30fpsに
+       打ち直さないと尺が1.2倍に伸び、-tの合計計算とズレて末尾が切れる */
     if (!panels && i === 0) {
       fc.push(
-        `[${i}:v]loop=loop=${d}:size=1:start=0,scale=1080:-2,` +
+        `[${i}:v]loop=loop=${d}:size=1:start=0,setpts=N/${FPS}/TB,scale=1080:-2,` +
           `crop=1080:1920:0:'min(ih-1920,(ih-1920)*t/${durations[i] - 1.2})',` +
           `fps=${FPS},${NORM}[s${i}]`
       );
     } else {
-      fc.push(`[${i}:v]loop=loop=${d}:size=1:start=0,fps=${FPS},${NORM}[s${i}]`);
+      fc.push(`[${i}:v]loop=loop=${d}:size=1:start=0,setpts=N/${FPS}/TB,fps=${FPS},${NORM}[s${i}]`);
     }
   }
   transSeqs.forEach((_, t) => {
