@@ -430,7 +430,9 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
     const e = 0.5 - 0.5 * Math.cos(Math.PI * p);  /* ease-in-out */
     const { W, left, segs, toLeft, toW } = window.__ctx;
     const R = Math.max(90, W * 0.13);              /* 折り目の円筒半径＝紙の硬さ */
-    const a = W - (W + 1.4 * R) * e;               /* 折り目の位置（カード左外まで走る） */
+    /* カードは画面幅より狭いので、カード左端で止めると紙の束が画面に残る。
+       画面の左外（カード位置left＋余白）まで走らせて完全に抜け切らせる */
+    const a = W - (W + R + left + 60) * e;
     segs.forEach(({ seg, sh, x }) => {
       if (x <= a) {
         seg.style.transform = "none";
