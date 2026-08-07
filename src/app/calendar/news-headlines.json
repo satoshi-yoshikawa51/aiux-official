@@ -1,7 +1,66 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-07T01:04:29.060Z",
+  "updatedAt": "2026-08-07T22:09:04.902Z",
   "items": [
+    {
+      "title": "New Mexico court orders Meta to pay additional $567M in child safety case",
+      "url": "https://techcrunch.com/2026/08/07/new-mexico-court-orders-meta-to-pay-additional-567m-in-child-safety-case/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-07T11:40:37.000Z",
+      "titleJa": "ニューメキシコ州裁判所は児童安全訴訟でメタ社に追加の5億6,700万ドルの支払いを命じる",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/02/zuckerberg-LA-trial-2026-GettyImages-2261841364.jpg?w=1024"
+    },
+    {
+      "title": "OpenAI puts the brakes on a new model because it’s supposedly too powerful",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/976948/openai-astra-model-pause-critical-cyber-capabilities",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-07T18:40:34.000Z",
+      "titleJa": "OpenAI、新モデルが強力すぎるとしてブレーキをかける",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/04/STK155_OPEN_AI_CVirginia_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "ByteDance trains massive AI model in bid to rival Anthropic",
+      "url": "https://arstechnica.com/ai/2026/08/bytedance-trains-massive-ai-model-in-bid-to-rival-anthropic/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-08-07T13:29:22.000Z",
+      "titleJa": "ByteDance は Anthropic に対抗するために大規模な AI モデルをトレーニングします",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/bytedance-1152x648.jpg"
+    },
+    {
+      "title": "シャープ、通期純利益見通し170億円下方修正 円安など影響 AIサーバは9月に参入",
+      "url": "https://www.itmedia.co.jp/news/article/2608/07/2000000455/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-07T10:34:01.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/07/2000000455/10002177/2048"
+    },
+    {
+      "title": "音楽生成AIのSuno、著作権問題を受け楽曲に「電子透かし」導入へ",
+      "url": "https://japan.cnet.com/article/35251421/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-07T07:33:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/07/d7f4ec59ad7f7a8c2411219aaf22ba47/GettyImages-2278960510_1280x960.jpg"
+    },
+    {
+      "title": "PFNの国産LLM「PLaMo 3.0 Prime」、さくらのAI推論基盤で提供開始 利用は申請制",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/07/2000000443/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-07T04:07:21.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/07/2000000443/10002112/2048"
+    },
+    {
+      "title": "リコージャパン、営業支援AIで30年度に60億円へ ナレッジワークと提携",
+      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03334/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-07T02:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03334/Topm.JPG?20220512"
+    },
     {
       "title": "無料版「ChatGPT」で無限の会話が可能に、新モデル「GPT‑5.6 Luna」も開放",
       "url": "https://japan.cnet.com/article/35251396/",
@@ -37,15 +96,6 @@
       "image": "https://techcrunch.com/wp-content/uploads/2026/04/GettyImages-2266466589.jpg?w=1024"
     },
     {
-      "title": "OpenAI says Apple’s trade secrets lawsuit is ‘rotten to its core’",
-      "url": "https://www.theverge.com/tech/976042/openai-apple-trade-secrets-lawsuit-dismissal-request",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-06T09:33:11.000Z",
-      "titleJa": "OpenAI、Appleの営業秘密訴訟は「芯まで腐っている」と発言",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25431704/STK201_SAM_ALTMAN_CVIRGINIA_C.jpg?quality=90&strip=all&crop=4.7487503051758%2C21.869598945592%2C95.251249694824%2C74.804666989327&w=1200"
-    },
-    {
       "title": "Improving GPT‑5.6 Sol in ChatGPT—and expanding access to GPT-5.6 Luna for free users",
       "url": "https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt",
       "source": "OpenAI（公式）",
@@ -68,57 +118,6 @@
       "lang": "ja",
       "date": "2026-08-06T22:00:00.000Z",
       "image": "https://image.itmedia.co.jp/business/articles/2608/07/cover_news011.jpg"
-    },
-    {
-      "title": "AIは人間が脆弱性を修正する速度を超えて動く--企業が直面する試練",
-      "url": "https://japan.zdnet.com/article/35251305/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-06T21:30:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/05/349a95ea8a80abc73842bf06b82ea22b/gettyimages-110682810_l.jpg"
-    },
-    {
-      "title": "アプリが遅い原因をAIがトレースログから分析してくれる「Windows Performance Analyzer MCP」 Microsoftがプレビュー公開",
-      "url": "https://www.itmedia.co.jp/news/article/2608/06/2000000434/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-06T10:54:46.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/06/2000000434/10002078/2048"
-    },
-    {
-      "title": "【介護・看護DX→AX】導入の壁を「現場の知見」で乗り越える。介護記録AI「神マナ」、業界理解を強みにする『認定パートナー制度』を開始 ----「現場を知る人の一言が、いちばん届く」",
-      "url": "https://ascii.jp/elem/000/004/425/4425661/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-06T10:13:52.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "リクルート、新卒エンジニア向け研修資料を無料公開 “AI時代の生き残り方”など紹介する13本",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/06/2000000418/",
-      "source": "ITmedia",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 230,
-      "date": "2026-08-06T08:36:10.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/06/2000000418/10002023/2048"
-    },
-    {
-      "title": "Meta launches Muse Code, an AI agent for large code bases",
-      "url": "https://techcrunch.com/2026/08/05/meta-launches-muse-code-an-ai-agent-for-large-code-bases/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-05T21:21:28.000Z",
-      "titleJa": "Meta が大規模なコードベース用の AI エージェントである Muse Code を開始",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/10/GettyImages-2235448056.jpg?resize=1200,800"
-    },
-    {
-      "title": "Third-party cyber evaluations involving OpenAI models",
-      "url": "https://openai.com/index/third-party-cyber-evaluations-involving-openai-models",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-08-04T19:00:00.000Z",
-      "titleJa": "OpenAI モデルを含むサードパーティのサイバー評価"
     }
   ]
 }
