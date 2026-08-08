@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { SparkLayer } from '@/components/motion';
+import { TermSheetProvider } from '@/components/term-text';
 import { ProgressProvider, useProgress } from '@/store/progress';
 import { C, FONT, T } from '@/theme';
 
@@ -80,6 +81,8 @@ export default function RootLayout() {
               作り直されるたびに星まで消えてしまう（motion.tsx を参照）。
               ※ ミニゲームは Modal＝別の窓なので、あちらは自前で層を持つ */}
           <SparkLayer>
+          {/* 本文の用語を押したときの説明。窓を増やさないよう根元に1枚だけ持つ */}
+          <TermSheetProvider>
           <OnboardingGate ready={fontsReady}>
             {/* どの画面も上端は黒ベタ（帯 or Stackのヘッダー）なので、
                 ステータスバーの文字は白でないと読めない */}
@@ -103,6 +106,7 @@ export default function RootLayout() {
               <Stack.Screen name="review" options={{ title: '復習', headerBackTitle: '戻る' }} />
             </Stack>
           </OnboardingGate>
+          </TermSheetProvider>
           </SparkLayer>
         </ProgressProvider>
       </SafeAreaProvider>

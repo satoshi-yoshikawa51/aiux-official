@@ -14,6 +14,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { useTap } from '@/components/motion';
+import { TermText } from '@/components/term-text';
 import { Badge, Card, Pop, Row, sinkFlat } from '@/components/ui';
 import type { QuizItem } from '@/data/types';
 import { BW, F, FONT, POP, R, S, T } from '@/theme';
@@ -111,7 +112,8 @@ export function QuizExplain({ quiz, choice }: { quiz: QuizItem; choice: number }
       tone={choice === quiz.answer ? 'ok' : 'warn'}
       variant="flat"
       contentStyle={{ padding: S.md }}>
-      <Text style={F.body}>{quiz.explanation}</Text>
+      {/* 解説にも用語が出る。ここで詰まると、そのまま次に進んでしまう */}
+      <TermText style={F.body}>{quiz.explanation}</TermText>
     </Card>
   );
 }

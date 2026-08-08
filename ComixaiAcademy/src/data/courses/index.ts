@@ -107,3 +107,28 @@ const QUIZ_BY_ID = new Map(ALL_QUIZ.map((e) => [e.item.id, e]));
 export function getQuiz(id: string): QuizEntry | undefined {
   return QUIZ_BY_ID.get(id);
 }
+
+/* ———————————————— 「あなたの現場だと」 ————————————————
+   職種を選ばせておきながら、書き分けは78カード中16か所しかなかった。
+   全レッスンの最後に1枚、その職種の話を足す。
+
+   **カードの配列そのものには混ぜない。** レッスンごとに枚数が変わると
+   進み具合の点の数が揺れるうえ、既存のカードのどこに挟むかで
+   本文の流れが崩れる。読み終わりに1枚足すのがいちばん素直。
+
+   「あてはまらない」を選んだ人には roleNote が無いので、何も足さない。 */
+export function lessonCards(lesson: Lesson, role: RoleId | null): LessonCard[] {
+  const note = role ? lesson.roleNote?.[role] : undefined;
+  if (!note) return lesson.cards;
+  return [
+    ...lesson.cards,
+    {
+      /* セリフは職種に触れない。触れると roleNote と同じことを二度言う */
+      say: 'ここまでは全員に同じ話をした。あんたの現場だと、こうなる。',
+      motion: 'explain',
+      emote: 'compass',
+      heading: 'あなたの現場だと',
+      body: note,
+    },
+  ];
+}

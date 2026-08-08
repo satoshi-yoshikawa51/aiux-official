@@ -17,6 +17,7 @@ import { Icon } from '@/components/icons';
 import { LessonInteractiveCard } from '@/components/lesson-interactive';
 import { MissTag, QuizChoices, QuizExplain } from '@/components/quiz';
 import { RankUpScreen } from '@/components/rank-up';
+import { hasTerm, TermHint, TermText } from '@/components/term-text';
 import { SlideIn } from '@/components/motion';
 import {
   Badge,
@@ -31,7 +32,7 @@ import {
 } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { getBadge, prevTitle, titleSay, type Title } from '@/data/badges';
-import { COURSES, getLesson, resolveCard } from '@/data/courses';
+import { COURSES, getLesson, lessonCards, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { LESSON_VOICE, say as voice } from '@/data/voice';
 import { useProgress } from '@/store/progress';
@@ -68,7 +69,14 @@ export default function LessonScreen() {
     navigation.setOptions({ title: found?.lesson.title ?? 'レッスン' });
   }, [navigation, found?.lesson.title]);
 
-  const card = found ? found.lesson.cards[cardIndex] : undefined;
+  /* 職種の1枚は最後に足される（→ courses/index.ts の lessonCards）。
+     以降の枚数の数え方は、すべてこの cards を見ること。
+     lesson.cards を直接数えると、最後の1枚ぶんだけ点がずれる */
+  const cards = React.useMemo(
+    () => (found ? lessonCards(found.lesson, state.roleId) : []),
+    [found, state.roleId],
+  );
+  const card = cards[cardIndex];
   const view = React.useMemo(
     () => (card ? resolveCard(card, state.roleId, state.avatarId) : null),
     [card, state.roleId, state.avatarId],
@@ -126,7 +134,7 @@ export default function LessonScreen() {
   })();
 
   const goNextCard = () => {
-    if (cardIndex + 1 < lesson.cards.length) setCardIndex((n) => n + 1);
+    if (cardIndex + 1 < cards.length) setCardIndex((n) => n + 1);
     else setPhase(lesson.quiz.length > 0 ? 'quiz' : 'result');
   };
 
@@ -180,7 +188,7 @@ export default function LessonScreen() {
       <>
         {/* 進み具合 */}
         <Row gap={3}>
-          {lesson.cards.map((_, i) => (
+          {cards.map((_, i) => (
             <View
               key={i}
               style={{
@@ -222,7 +230,10 @@ export default function LessonScreen() {
           <SlideIn key={`c${cardIndex}`}>
           <Panel number={String(cardIndex + 1)} contentStyle={{ paddingTop: S.xl + S.sm, gap: S.md }}>
             {view.heading ? <Text style={F.h1}>{view.heading}</Text> : null}
-            {view.body ? <Text style={F.body}>{view.body}</Text> : null}
+            {/* 本文と箇条書きの中の用語は押せる（→ components/term-text.tsx）。
+                初出の回で説明していても、あとの回で出てきたときに
+                戻る手段が無いと、そこで置いていかれる */}
+            {view.body ? <TermText style={F.body}>{view.body}</TermText> : null}
             {view.bullets?.length ? (
               <View style={{ gap: 8 }}>
                 {view.bullets.map((b, i) => (
@@ -230,11 +241,14 @@ export default function LessonScreen() {
                     <View style={{ paddingTop: 9 }}>
                       <Icon name="play" size={9} color={T.accent} />
                     </View>
-                    <Text style={[F.body, { flex: 1 }]}>{b}</Text>
+                    <TermText style={[F.body, { flex: 1 }]}>{b}</TermText>
                   </Row>
                 ))}
               </View>
             ) : null}
+            {/* 押せることに気づかないと意味が無いので、用語のあるカードだけ
+                一度だけ案内を出す */}
+            {hasTerm(view.body) || view.bullets?.some(hasTerm) ? <TermHint /> : null}
             {view.prompt ? (
               <View style={{ gap: S.sm }}>
                 <Row gap={6}>
@@ -272,7 +286,7 @@ export default function LessonScreen() {
               label={
                 !canAdvance
                   ? 'ゲームをクリアすると進める'
-                  : cardIndex + 1 < lesson.cards.length
+                  : cardIndex + 1 < cards.length
                     ? 'つぎへ'
                     : 'クイズへ'
               }
