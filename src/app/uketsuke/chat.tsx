@@ -9,6 +9,7 @@
    ============================================================ */
 import React from "react";
 import { Badge, Button, Card, Input } from "../ds";
+import { track } from "../ga";
 import { FORMSPREE_ENDPOINT, CONTACT_EMAIL } from "../data";
 
 /* —— 型 —— */
@@ -88,6 +89,26 @@ export default function UketsukeChat() {
   function push(msg: Msg) {
     setMessages((prev) => [...prev, msg]);
   }
+
+  /* ---- 計測 ----------------------------------------------------------
+     どの段階まで進んだかだけを送る。会話の本文・氏名・メールは
+     絶対に載せない（GAに個人情報を入れてはいけない）。
+     種別（講演/寄稿/制作/取材/コラボ/その他）は本人を特定しないので、
+     どの相談が多いか分かるように付けている。
+     ここが無かったせいで、AI受付から実際に依頼が届いているのか、
+     1件も届いていないのかすら分からない状態だった。 -------------------- */
+  const startedRef = React.useRef(false);
+  function markStarted() {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    track("uketsuke_start", { mode: modeRef.current });
+  }
+  const summarizedRef = React.useRef(false);
+  React.useEffect(() => {
+    if (!summary || summarizedRef.current) return;
+    summarizedRef.current = true;
+    track("uketsuke_summary", { mode: modeRef.current, category: summary.category });
+  }, [summary]);
 
   /* —— スクリプト受付モード —— */
   function scriptedRespond(userText: string, state = script) {
@@ -170,6 +191,7 @@ export default function UketsukeChat() {
   function send(text: string) {
     const t = text.trim();
     if (!t || sending || phase !== "chat") return;
+    markStarted();
     setInput("");
     const userMsg: Msg = { role: "user", text: t };
     const history = [...messages, userMsg];
@@ -221,6 +243,8 @@ export default function UketsukeChat() {
 
     const configured = !FORMSPREE_ENDPOINT.includes("REPLACE_WITH_FORM_ID");
     if (!configured) {
+      /* メーラーが開いたところまでしか分からないので method で区別する */
+      track("uketsuke_submit", { mode: modeRef.current, category: summary.category, method: "mailto" });
       window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("【AI受付】お問い合わせ")}&body=${encodeURIComponent(message)}`;
       return;
     }
@@ -229,15 +253,19 @@ export default function UketsukeChat() {
     try {
       const res = await fetch(FORMSPREE_ENDPOINT, { method: "POST", body: data, headers: { Accept: "application/json" } });
       if (res.ok) {
+        track("uketsuke_submit", { mode: modeRef.current, category: summary.category, method: "form" });
         setSendState("idle");
         setPhase("done");
       } else {
         const j = await res.json().catch(() => ({}));
         setSendErr((j.errors && j.errors.map((x: { message: string }) => x.message).join(" / ")) || "送信に失敗しました。");
+        /* 失敗も数えないと、届いていないことに永遠に気づけない */
+        track("uketsuke_error", { mode: modeRef.current, reason: "rejected" });
         setSendState("error");
       }
     } catch {
       setSendErr("通信エラーが発生しました。");
+      track("uketsuke_error", { mode: modeRef.current, reason: "network" });
       setSendState("error");
     }
   }
