@@ -389,6 +389,48 @@ async function main() {
     if (ng[0] > 0) console.log("\n  [2m送信の失敗が出ている。届いていない問い合わせがあるので、フォームの設定を確認すること。[0m");
   });
 
+  /* AI受付は Formspree まで行く本物の窓口なのに、長らく無計測だった。
+     会話の中身は送っていない（進んだ段階と相談の種別だけ）。 */
+  await section("AI受付のファネル（会話→要約→送信）", async () => {
+    const r = await runReport(ctx, {
+      dimensions: [{ name: "eventName" }],
+      metrics: [{ name: "eventCount" }, { name: "totalUsers" }],
+      dimensionFilter: eventFilter(["uketsuke_start", "uketsuke_summary", "uketsuke_submit", "uketsuke_error"]),
+      limit: 10,
+    });
+    const m = new Map(rows(r).map((x) => [x.keys[0], x.values]));
+    const st = m.get("uketsuke_start") ?? [0, 0];
+    const sm = m.get("uketsuke_summary") ?? [0, 0];
+    const ok = m.get("uketsuke_submit") ?? [0, 0];
+    const ng = m.get("uketsuke_error") ?? [0, 0];
+    table(
+      ["段階", "回数", "人数"],
+      [
+        ["話しかけた", num(st[0]), num(st[1])],
+        ["要約まで進んだ", num(sm[0]), num(sm[1])],
+        ["送信できた", num(ok[0]), num(ok[1])],
+        ["送信に失敗した", num(ng[0]), num(ng[1])],
+        ["話しかけた人のうち送れた割合", st[0] ? `${Math.round((ok[0] / st[0]) * 100)}%` : "-", ""],
+      ],
+    );
+  });
+
+  await section(
+    "AI受付に届いた相談の種別",
+    async () => {
+      const r = await runReport(ctx, {
+        dimensions: [{ name: "customEvent:category" }],
+        metrics: [{ name: "eventCount" }],
+        dimensionFilter: eventFilter(["uketsuke_submit"]),
+        orderBys: [{ metric: { metricName: "eventCount" }, desc: true }],
+        limit: 10,
+      });
+      table(["種別", "件数"], rows(r).map((x) => [x.keys[0], num(x.values[0])]));
+    },
+    "登録が必要なカスタムディメンション: category",
+  );
+
+
   await section(
     "CTAのクリック（cta_click）",
     async () => {
