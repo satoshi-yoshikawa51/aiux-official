@@ -46,24 +46,51 @@ const PRESETS: { label: string; icon: string; text: string }[] = [
 
 /* トークン列を「表示できる最小単位」のチップにまとめる。
    日本語や絵文字は1文字が複数トークンに割れることがあり、
-   その場合は複数トークンで1チップ（×n表示）になる。 */
+   その場合は複数トークンで1チップ（×n表示）になる。
+
+   ▍decode に「�が出るか」で判定してはいけない
+   かつては1トークンずつ足しながら decode して、置換文字（U+FFFD）が
+   消えたところで区切っていた。ところが gpt-tokenizer の decode は
+   **末尾の半端なバイトを黙って捨てて返す**。そのため「まだ途中」なのに
+   文字として成立したように見え、区切りが1つ後ろへずれて、次の文字を
+   巻き込んでいた（合計トークン数は合うが、×n の内訳が違う）。
+
+   decodeGenerator は半端なバイトを内部に持ち越し、**読めた瞬間**にだけ
+   文字を返す。1トークンずつ流し込んで、返ってきた時点までに何トークン
+   使ったかを数える。アプリ側（ComixaiAcademy/src/lib/tokenizer.ts）も同じ。 */
 interface Chip {
   text: string;
   n: number; // このチップを構成するトークン数
   ids: number[];
 }
-function toChips(tokens: number[], decode: (t: number[]) => string): Chip[] {
+function toChips(tokens: number[], enc: Encoder): Chip[] {
   const chips: Chip[] = [];
-  let buf: number[] = [];
-  for (const t of tokens) {
-    buf.push(t);
-    const s = decode(buf);
-    if (s && !s.includes("�")) {
-      chips.push({ text: s, n: buf.length, ids: [...buf] });
-      buf = [];
+  /* いま generator に渡し終えた位置と、直前に文字が確定した位置 */
+  let at = -1;
+  let last = -1;
+
+  function* feed(): Generator<number> {
+    for (let i = 0; i < tokens.length; i++) {
+      at = i;
+      yield tokens[i];
     }
   }
-  if (buf.length) chips.push({ text: "…", n: buf.length, ids: [...buf] });
+
+  for (const piece of enc.decodeGenerator(feed())) {
+    if (!piece) continue;
+    if (at === last && chips.length) {
+      /* 1トークンから2回に分けて返ってきた場合。
+         新しいチップにすると0トークンの塊ができるので、前にくっつける */
+      chips[chips.length - 1].text += piece;
+      continue;
+    }
+    chips.push({ text: piece, n: at - last, ids: tokens.slice(last + 1, at + 1) });
+    last = at;
+  }
+
+  if (last < tokens.length - 1) {
+    chips.push({ text: "…", n: tokens.length - 1 - last, ids: tokens.slice(last + 1) });
+  }
   return chips;
 }
 
@@ -101,6 +128,8 @@ function fmtYen(yen: number): string {
 type Encoder = {
   encode: (s: string) => number[];
   decode: (t: number[]) => string;
+  /* 途中で切れたバイト列を内部に持ち越しながら、読めたぶんだけ返す */
+  decodeGenerator: (t: Iterable<number>) => Generator<string>;
 };
 
 export function TokenizerLab() {
@@ -146,7 +175,7 @@ export function TokenizerLab() {
   React.useEffect(() => {
     let alive = true;
     import("gpt-tokenizer").then((m) => {
-      if (alive) setEnc({ encode: m.encode, decode: m.decode });
+      if (alive) setEnc({ encode: m.encode, decode: m.decode, decodeGenerator: m.decodeGenerator });
     });
     return () => {
       alive = false;
@@ -161,7 +190,7 @@ export function TokenizerLab() {
       const tokens = enc.encode(text);
       prevChipCount.current = chips.length;
       setTokenCount(tokens.length);
-      setChips(toChips(tokens, enc.decode));
+      setChips(toChips(tokens, enc));
       setSelected(null);
     }, 90);
     return () => {
