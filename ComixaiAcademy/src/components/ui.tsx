@@ -26,6 +26,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
 
+import { useSparkBurst } from '@/components/motion';
 import { useTutorial } from '@/store/tutorial';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
@@ -490,6 +491,9 @@ export function Button({
   style?: StyleProp<ViewStyle>;
 }) {
   const [pressed, setPressed] = React.useState(false);
+  /* 押すたびに指のところから星が舞う。描くのは画面いちばん上の
+     SparkLayer（_layout.tsx）。ここは座標を渡すだけ */
+  const burst = useSparkBurst();
   /* 押せないボタンは**薄くせず、色を落とす**。全体を半透明にすると、
      紙に敷いた網点がボタンを透けて出てきて汚れて見える */
   const v = disabled
@@ -526,8 +530,12 @@ export function Button({
       disabled={disabled}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
-      onPress={() => {
+      onPress={(e) => {
         if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+        const { pageX, pageY } = e.nativeEvent;
+        /* 指の座標が取れないとき（読み上げ操作など）は星を出さない。
+           出すと画面の左上隅で光ってしまう */
+        if (pageX || pageY) burst(pageX, pageY, size === 'lg' ? 1.2 : 1);
         onPress();
       }}
       style={style}>

@@ -7,6 +7,7 @@ import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { SparkLayer } from '@/components/motion';
 import { ProgressProvider, useProgress } from '@/store/progress';
 import { C, FONT, T } from '@/theme';
 
@@ -58,6 +59,11 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <ProgressProvider>
+          {/* ボタンを押したときの星は、ここが全画面ぶんまとめて描く。
+              ボタンの中で描くと、押した拍子に画面が切り替わる／ボタンが
+              作り直されるたびに星まで消えてしまう（motion.tsx を参照）。
+              ※ ミニゲームは Modal＝別の窓なので、あちらは自前で層を持つ */}
+          <SparkLayer>
           <OnboardingGate ready={fontsReady}>
             {/* どの画面も上端は黒ベタ（帯 or Stackのヘッダー）なので、
                 ステータスバーの文字は白でないと読めない */}
@@ -79,6 +85,7 @@ export default function RootLayout() {
               <Stack.Screen name="lesson/[id]" options={{ title: '', headerBackTitle: '戻る' }} />
             </Stack>
           </OnboardingGate>
+          </SparkLayer>
         </ProgressProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

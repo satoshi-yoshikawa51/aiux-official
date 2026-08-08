@@ -9,8 +9,9 @@
    なのでここでは：
    ・全画面（Modal）で開く。レッスンの進み具合バーも先生も出さない
    ・地を黒に沈める。紙（レッスン）と地続きに見せない
-   ・入るとまずタイトルが動く。読ませるためではなく、**切り替わりの合図**
-   ・終わると CLEAR が降ってきて、押して戻る
+   ・入りはタイルがパパパパッと並んで画面を埋める。ここでレッスンが消える
+   ・埋まってからタイトルが動く。読ませるためではなく、**切り替わりの合図**
+   ・終わると CLEAR が降ってきて、星が舞い、押して戻る
 
    先生を出していないのは意図。ここは説明を聞く場ではなく手を動かす場で、
    フキダシがあると目線がそちらへ行く。戻ればレッスンの先生がいる。
@@ -30,11 +31,12 @@ import {
   Text,
   TextInput,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/icons';
-import { Bump, PopIn, SlideIn, Stamp } from '@/components/motion';
+import { Bump, PopIn, SlideIn, SparkLayer, Stamp, TileIn, useSparkBurst } from '@/components/motion';
 import { Tone } from '@/components/ui';
 import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
@@ -48,8 +50,9 @@ const DEBOUNCE_MS = 140;
 /** チップが1枚ずつずれて出るときの間隔。サイトと同じ28ms、頭打ちも同じ400ms */
 const CHIP_STEP_MS = 28;
 const CHIP_STEP_MAX = 400;
-/** タイトルを見せている時間。**待たせすぎない**。押せば飛ばせる */
-const TITLE_MS = 1700;
+/** タイトルを見せている時間。**待たせすぎない**。押せば飛ばせる。
+    前にタイル演出が0.6秒ほど入るので、そのぶん短くしてある */
+const TITLE_MS = 1300;
 
 export interface GameMeta {
   name: string;
@@ -95,13 +98,17 @@ export function MiniGame({
   const insets = useSafeAreaInsets();
   const g = GAME[spec.kind];
   const [phase, setPhase] = React.useState<Phase>('title');
+  /* タイルが画面を覆い終わったか。覆うまでは中身を出さない */
+  const [covered, setCovered] = React.useState(false);
 
-  /* タイトルは自動で終わる。押したら飛ばせる */
+  /* タイトルは自動で終わる。押したら飛ばせる。
+     数え始めるのは**タイルが覆い終わってから**。先に数え始めると、
+     タイルを見ているあいだにタイトルの持ち時間が減っていく */
   React.useEffect(() => {
-    if (phase !== 'title') return;
+    if (phase !== 'title' || !covered) return;
     const t = setTimeout(() => setPhase('play'), TITLE_MS);
     return () => clearTimeout(t);
-  }, [phase]);
+  }, [phase, covered]);
 
   const clear = React.useCallback(() => {
     if (Platform.OS !== 'web') {
@@ -111,37 +118,55 @@ export function MiniGame({
     setPhase('clear');
   }, [onCleared]);
 
+  /* ▍入りはタイル。Modal の fade は使わない
+     ふわっと重なると、レッスンの上にもう1枚乗ったようにしか見えない。
+     四角がパパパパッと並んで画面を埋めるほうが「始まる」感じが出る。
+
+     そのため transparent＝下のレッスンを見せたまま、タイルで塗り潰す。
+     タイルの色は覆ったあとに出す地（ink900）と同じなので、
+     覆い終わって中身に差し替わっても、色が変わったようには見えない。
+
+     Modal は**1つのまま**中身だけ差し替える。transparent は端末に出す
+     ときに効くもので、あとから切り替えても反映されないことがある */
   return (
-    <Modal visible animationType="fade" transparent={false} onRequestClose={onClose}>
-      <View style={{ flex: 1, backgroundColor: C.ink900 }}>
-        {/* 地は黒＋白い網点。紙（レッスン）と地続きに見せない */}
-        <Tone tone="dots-light" style={{ flex: 1 }}>
-          {phase === 'title' ? (
-            <TitleScreen meta={g} onSkip={() => setPhase('play')} />
-          ) : (
-            <View style={{ flex: 1, paddingTop: insets.top }}>
-              <GameBar meta={g} onClose={onClose} />
-              {phase === 'clear' ? (
-                <ClearScreen meta={g} onClose={onClose} />
-              ) : spec.kind === 'ai-prompt' ? (
-                <AiPromptPlay spec={spec} onClear={clear} />
-              ) : (
-                <TokenPlay
-                  spec={spec}
-                  onClear={clear}
-                  /* 合否の無いゲーム（トークナイザー）は「わかった」で終わり。
-                     CLEAR画面は出さないが、**遊んだ印は付ける**ので
-                     レッスンに戻ったとき入口にCLEARが出る */
-                  onFinish={() => {
-                    onCleared();
-                    onClose();
-                  }}
-                />
-              )}
-            </View>
-          )}
-        </Tone>
-      </View>
+    <Modal visible animationType="none" transparent onRequestClose={onClose}>
+      {!covered ? (
+        <TileIn color={C.ink900} onDone={() => setCovered(true)} />
+      ) : (
+        /* Modal は別の窓なので、根元（_layout.tsx）の星の層は届かない。
+           ゲームの中の星はここが描く */
+        <SparkLayer>
+        <View style={{ flex: 1, backgroundColor: C.ink900 }}>
+          {/* 地は黒＋白い網点。紙（レッスン）と地続きに見せない */}
+          <Tone tone="dots-light" style={{ flex: 1 }}>
+            {phase === 'title' ? (
+              <TitleScreen meta={g} onSkip={() => setPhase('play')} />
+            ) : (
+              <View style={{ flex: 1, paddingTop: insets.top }}>
+                <GameBar meta={g} onClose={onClose} />
+                {phase === 'clear' ? (
+                  <ClearScreen meta={g} onClose={onClose} />
+                ) : spec.kind === 'ai-prompt' ? (
+                  <AiPromptPlay spec={spec} onClear={clear} />
+                ) : (
+                  <TokenPlay
+                    spec={spec}
+                    onClear={clear}
+                    /* 合否の無いゲーム（トークナイザー）は「わかった」で終わり。
+                       CLEAR画面は出さないが、**遊んだ印は付ける**ので
+                       レッスンに戻ったとき入口にCLEARが出る */
+                    onFinish={() => {
+                      onCleared();
+                      onClose();
+                    }}
+                  />
+                )}
+              </View>
+            )}
+          </Tone>
+        </View>
+        </SparkLayer>
+      )}
     </Modal>
   );
 }
@@ -250,6 +275,18 @@ function GameBar({ meta, onClose }: { meta: GameMeta; onClose: () => void }) {
 /* ———————————————— 通ったあと ———————————————— */
 
 function ClearScreen({ meta, onClose }: { meta: GameMeta; onClose: () => void }) {
+  /* スタンプが落ちた瞬間から、3回に分けて星を散らす。
+     1回だけだと一瞬で消えて、通した手ごたえにならない。
+     位置はCLEARの字のあたり＝画面のまんなかを少し上 */
+  const burst = useSparkBurst();
+  const { width, height } = useWindowDimensions();
+  React.useEffect(() => {
+    const ids = [260, 780, 1300].map((ms) =>
+      setTimeout(() => burst(width / 2, height / 2 - 40, 2.2), ms),
+    );
+    return () => ids.forEach(clearTimeout);
+  }, [burst, width, height]);
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: S.xl, gap: S.md }}>
       <Stamp tilt={-6}>
@@ -291,8 +328,16 @@ function GameButton({
   tone?: 'yellow' | 'ghost';
 }) {
   const yellow = tone === 'yellow';
+  /* 黒地なので星がいちばん効く。押すたびに指のところから舞う */
+  const burst = useSparkBurst();
   return (
-    <Pressable onPress={onPress} disabled={disabled}>
+    <Pressable
+      onPress={(e) => {
+        const { pageX, pageY } = e.nativeEvent;
+        if (pageX || pageY) burst(pageX, pageY);
+        onPress();
+      }}
+      disabled={disabled}>
       <View
         style={{
           backgroundColor: disabled ? C.ink800 : yellow ? C.yellow400 : 'transparent',
