@@ -25,8 +25,8 @@ import { Platform, Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { GAME, MiniGame } from '@/components/mini-game';
-import { SlideIn } from '@/components/motion';
-import { Row } from '@/components/ui';
+import { SlideIn, useTap } from '@/components/motion';
+import { Row, sinkFlat } from '@/components/ui';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
@@ -41,6 +41,7 @@ export function LessonInteractiveCard({
   const g = GAME[spec.kind];
   const [open, setOpen] = React.useState(false);
   const [cleared, setCleared] = React.useState(false);
+  const { pressed, onPressIn, onPressOut } = useTap();
 
   const start = () => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
@@ -83,16 +84,21 @@ export function LessonInteractiveCard({
           </Text>
           <Text style={[F.hand, { fontSize: 12.5, color: C.ink300 }]}>{g.how}</Text>
 
-          <Pressable onPress={start} style={{ marginTop: 2 }}>
+          <Pressable
+            onPressIn={onPressIn}
+            onPressOut={onPressOut}
+            onPress={start}
+            style={{ marginTop: 2 }}>
             <View
-              style={{
-                backgroundColor: cleared ? 'transparent' : T.accent,
+              style={[{
+                /* 押すと一段沈んだ赤に。黒地のカードなので色の差がよく出る */
+                backgroundColor: cleared ? (pressed ? C.ink800 : 'transparent') : pressed ? T.accentPress : T.accent,
                 borderWidth: BW.bold,
-                borderColor: cleared ? C.paper100 : T.accent,
+                borderColor: cleared ? C.paper100 : pressed ? T.accentPress : T.accent,
                 borderRadius: R.sm,
                 paddingVertical: 12,
                 alignItems: 'center',
-              }}>
+              }, sinkFlat(pressed, 0.97)]}>
               <Row gap={7}>
                 <Text
                   style={{

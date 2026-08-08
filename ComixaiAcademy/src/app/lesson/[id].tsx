@@ -15,8 +15,20 @@ import { Platform, Pressable, Text, View, useWindowDimensions } from 'react-nati
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { LessonInteractiveCard } from '@/components/lesson-interactive';
-import { SlideIn } from '@/components/motion';
-import { Badge, Bubble, Button, Card, Cassette, Panel, Pill, Pop, Row, Screen } from '@/components/ui';
+import { SlideIn, useTap } from '@/components/motion';
+import {
+  Badge,
+  Bubble,
+  Button,
+  Card,
+  Cassette,
+  Panel,
+  Pill,
+  Pop,
+  Row,
+  Screen,
+  sinkFlat,
+} from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { getBadge, type Title } from '@/data/badges';
 import { COURSES, getLesson, resolveCard } from '@/data/courses';
@@ -25,6 +37,65 @@ import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 type Phase = 'cards' | 'quiz' | 'result';
+
+/* ———————————————— クイズの選択肢 ————————————————
+   押した返事（沈み・触覚・星）を持たせるため、1つずつの部品にしている。
+   map の中に直接書くと「いま押されているのはどれか」を持てない。
+
+   答えを出したあとは押せないので、返事も出さない。 */
+
+function QuizChoice({
+  label,
+  mark,
+  bg,
+  revealed,
+  isAnswer,
+  isPicked,
+  onPress,
+}: {
+  label: string;
+  mark: string;
+  bg: string;
+  revealed: boolean;
+  isAnswer: boolean;
+  isPicked: boolean;
+  onPress: () => void;
+}) {
+  const { pressed, onPressIn, onPressOut } = useTap();
+  const down = pressed && !revealed;
+  return (
+    <Pressable disabled={revealed} onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress}>
+      <Pop offset={revealed && (isAnswer || isPicked) ? POP.sm : 0} radius={R.sm} reserve={false}>
+        <View
+          style={[
+            {
+              backgroundColor: down ? T.sunk : bg,
+              borderWidth: revealed && (isAnswer || isPicked) ? BW.bold : BW.line,
+              borderColor: revealed && !isAnswer && !isPicked ? T.borderSoft : T.border,
+              borderRadius: R.sm,
+              padding: S.md,
+            },
+            /* 画面幅いっぱいの行なので、縮みは控えめに */
+            sinkFlat(down, 0.97),
+          ]}>
+          <Row gap={S.sm} style={{ alignItems: 'flex-start' }}>
+            <Text
+              style={{
+                fontFamily: FONT.display,
+                fontSize: 15,
+                lineHeight: 26,
+                color: revealed && isAnswer ? T.ok : T.muted,
+                width: 16,
+              }}>
+              {mark}
+            </Text>
+            <Text style={[F.body, { flex: 1 }]}>{label}</Text>
+          </Row>
+        </View>
+      </Pop>
+    </Pressable>
+  );
+}
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -280,32 +351,16 @@ export default function LessonScreen() {
                 const bg = !revealed ? T.surface : isAnswer ? T.okSoft : isPicked ? T.accentSoft : T.surface;
                 const mark = revealed ? (isAnswer ? '○' : isPicked ? '×' : ' ') : String.fromCharCode(65 + i);
                 return (
-                  <Pressable key={i} onPress={() => answer(i)} disabled={revealed}>
-                    <Pop offset={revealed && (isAnswer || isPicked) ? POP.sm : 0} radius={R.sm} reserve={false}>
-                      <View
-                        style={{
-                          backgroundColor: bg,
-                          borderWidth: revealed && (isAnswer || isPicked) ? BW.bold : BW.line,
-                          borderColor: revealed && !isAnswer && !isPicked ? T.borderSoft : T.border,
-                          borderRadius: R.sm,
-                          padding: S.md,
-                        }}>
-                        <Row gap={S.sm} style={{ alignItems: 'flex-start' }}>
-                          <Text
-                            style={{
-                              fontFamily: FONT.display,
-                              fontSize: 15,
-                              lineHeight: 26,
-                              color: revealed && isAnswer ? T.ok : T.muted,
-                              width: 16,
-                            }}>
-                            {mark}
-                          </Text>
-                          <Text style={[F.body, { flex: 1 }]}>{c}</Text>
-                        </Row>
-                      </View>
-                    </Pop>
-                  </Pressable>
+                  <QuizChoice
+                    key={i}
+                    label={c}
+                    mark={mark}
+                    bg={bg}
+                    revealed={revealed}
+                    isAnswer={isAnswer}
+                    isPicked={isPicked}
+                    onPress={() => answer(i)}
+                  />
                 );
               })}
             </View>

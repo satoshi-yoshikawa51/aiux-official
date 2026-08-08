@@ -16,7 +16,7 @@ import { Platform, Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon } from '@/components/icons';
-import { Pop, Row } from '@/components/ui';
+import { Pop, Row, Tap } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { useProgress } from '@/store/progress';
 import { useTutorial } from '@/store/tutorial';
@@ -111,30 +111,34 @@ export function TutorialOverlay() {
                 </Text>
               </Row>
             ) : null}
-            <Pressable
+            {/* 案内を打ち切る口。**星は出さない** */}
+            <Tap
               onPress={() => {
                 tap();
                 finish();
               }}
+              sparks={false}
               hitSlop={8}
               style={{ paddingVertical: 8, paddingHorizontal: 6 }}>
               <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300, letterSpacing: 1 }}>
                 とばす
               </Text>
-            </Pressable>
-            <Pressable
+            </Tap>
+            <Tap
               onPress={() => {
                 tap();
                 next();
               }}
-              style={{
-                backgroundColor: C.yellow400,
-                borderWidth: BW.bold,
-                borderColor: T.border,
-                borderRadius: R.sm,
-                paddingVertical: 9,
-                paddingHorizontal: 18,
-              }}>
+              scale={0.95}>
+              <View
+                style={{
+                  backgroundColor: C.yellow400,
+                  borderWidth: BW.bold,
+                  borderColor: T.border,
+                  borderRadius: R.sm,
+                  paddingVertical: 9,
+                  paddingHorizontal: 18,
+                }}>
               <Row gap={6}>
                 <Text style={{ fontFamily: FONT.heading, fontSize: 14, color: C.ink900 }}>
                   {/* ホームの「はじめる（3分…）」と紛れるので、締めは別の言葉にする */}
@@ -142,7 +146,8 @@ export function TutorialOverlay() {
                 </Text>
                 <Icon name="play" size={11} color={C.ink900} />
               </Row>
-            </Pressable>
+              </View>
+            </Tap>
           </Row>
         </View>
       </Pop>

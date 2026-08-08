@@ -35,6 +35,7 @@ import {
 } from 'react-native';
 
 import { Icon } from '@/components/icons';
+import { useTap } from '@/components/motion';
 import { Panel, Pill, Row, Screen, ScreenHead } from '@/components/ui';
 import { AVATARS } from '@/data/avatars';
 import { EMAKI } from '@/data/emaki';
@@ -364,9 +365,14 @@ function ArrowTap({
   onPress: () => void;
   disabled?: boolean;
 }) {
+  /* 絵巻の送り。コマを次々に見るところなので星は出さない
+     （14回押すあいだ星が舞い続けると、絵のほうが見えなくなる） */
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light' });
   if (disabled) return null;
   return (
     <Pressable
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
       onPress={onPress}
       style={{
         position: 'absolute',
@@ -382,12 +388,12 @@ function ArrowTap({
           width: 34,
           height: 34,
           borderRadius: R.full,
-          backgroundColor: 'rgba(20,17,15,0.55)',
+          backgroundColor: pressed ? 'rgba(20,17,15,0.9)' : 'rgba(20,17,15,0.55)',
           borderWidth: BW.line,
           borderColor: C.paper50,
           alignItems: 'center',
           justifyContent: 'center',
-          transform: [{ rotate: side === 'left' ? '180deg' : '0deg' }],
+          transform: [{ rotate: side === 'left' ? '180deg' : '0deg' }, { scale: pressed ? 0.86 : 1 }],
         }}>
         <Icon name="play" size={14} color={C.paper50} />
       </View>
@@ -396,12 +402,9 @@ function ArrowTap({
 }
 
 function EnterButton({ label, onPress }: { label: string; onPress: () => void }) {
-  const [pressed, setPressed] = React.useState(false);
+  const { pressed, onPressIn, onPressOut } = useTap();
   return (
-    <Pressable
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
-      onPress={onPress}>
+    <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress}>
       <View
         style={{
           backgroundColor: T.accent,
@@ -412,7 +415,11 @@ function EnterButton({ label, onPress }: { label: string; onPress: () => void })
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: POP.sm,
-          transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }],
+          transform: [
+            { translateX: pressed ? POP.sm : 0 },
+            { translateY: pressed ? POP.sm : 0 },
+            { scale: pressed ? 0.98 : 1 },
+          ],
         }}>
         <Row gap={7}>
           <Text style={{ fontFamily: FONT.heading, fontSize: 16, color: C.paper0, letterSpacing: 0.4 }}>

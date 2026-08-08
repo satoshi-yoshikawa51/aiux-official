@@ -8,7 +8,6 @@
    方式にしている。これなら iOS / Android / Web で同じ絵が出る。
    ============================================================ */
 import { Asset } from 'expo-asset';
-import * as Haptics from 'expo-haptics';
 import React from 'react';
 import {
   Image,
@@ -26,7 +25,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
 
-import { usePressFeel, useSparkBurst } from '@/components/motion';
+import { useTap } from '@/components/motion';
 import { useTutorial } from '@/store/tutorial';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
@@ -463,6 +462,66 @@ export function Cassette({
   );
 }
 
+/* ———————————————— 押した見た目 ————————————————
+   **押せるものは全部、この2つのどちらかに揃える**。
+   一部だけ返事があると、返事のないものが「効かない」ように見える。
+
+   配線（沈み・触覚・星）は motion.tsx の useTap が持っている。
+   ここにあるのは見た目だけ。 */
+
+/** ベタ影のあるもの用。影の位置まで丸ごと落ちる。
+    使う側は影のずらし量も `down ? 0 : POP.sm` にすること */
+export const sinkPop = (down: boolean, depth: number = POP.sm) => ({
+  transform: [
+    { translateX: down ? depth : 0 },
+    { translateY: down ? depth : 0 },
+    { scale: down ? 0.98 : 1 },
+  ],
+});
+
+/** 影のない平らなもの用（タブ・チップ・文字だけのもの）。
+    落ちる先が無いので、きゅっと縮めて返事にする。
+    **横に広いものほど控えめに**（画面幅いっぱいの行を0.92で縮めると、
+    25pxも痩せてガタつく）。小さいものは 0.92、横長の行は 0.97 くらい */
+export const sinkFlat = (down: boolean, scale = 0.92) => ({
+  transform: [{ scale: down ? scale : 1 }],
+});
+
+/** 押した返事つきの Pressable。中身が押下状態を要らないとき用の手軽版。
+    ベタ影を持たない「文字だけの押せるところ」（設定の項目、リンク、
+    チュートリアルの とばす／つぎへ など）はこれで包む */
+export function Tap({
+  children,
+  onPress,
+  disabled,
+  /** 星を出さない。消す・やめる など、**押して気持ちよくしたくない**ところ */
+  sparks = true,
+  scale = 0.94,
+  hitSlop,
+  style,
+}: {
+  children: React.ReactNode;
+  onPress: () => void;
+  disabled?: boolean;
+  sparks?: boolean;
+  scale?: number;
+  hitSlop?: number;
+  style?: StyleProp<ViewStyle>;
+}) {
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks });
+  return (
+    <Pressable
+      disabled={disabled}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      hitSlop={hitSlop}
+      style={style}>
+      <View style={sinkFlat(pressed && !disabled, scale)}>{children}</View>
+    </Pressable>
+  );
+}
+
 /* ———————————————— ボタン ———————————————— */
 
 type BtnVariant = 'primary' | 'secondary' | 'ink' | 'ghost' | 'yellow';
@@ -501,11 +560,8 @@ export function Button({
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
-  /* 速く叩いても沈んだ姿が必ず見えるようにする（motion.tsx） */
-  const { pressed, onPressIn, onPressOut } = usePressFeel();
-  /* 押すたびに指のところから星が舞う。描くのは画面いちばん上の
-     SparkLayer（_layout.tsx）。ここは座標を渡すだけ */
-  const burst = useSparkBurst();
+  /* 沈み・触覚・星をまとめて（motion.tsx の useTap） */
+  const { pressed, onPressIn, onPressOut } = useTap({ scale: size === 'lg' ? 1.2 : 1 });
   /* 押せないボタンは**薄くせず、色を落とす**。全体を半透明にすると、
      紙に敷いた網点がボタンを透けて出てきて汚れて見える */
   const v = disabled
@@ -545,32 +601,15 @@ export function Button({
       disabled={disabled}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      onPress={(e) => {
-        /* Light だと画面を見ていないと分からない。押した手ごたえは Medium */
-        if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
-        const { pageX, pageY } = e.nativeEvent;
-        /* 指の座標が取れないとき（読み上げ操作など）は星を出さない。
-           出すと画面の左上隅で光ってしまう */
-        if (pageX || pageY) burst(pageX, pageY, size === 'lg' ? 1.2 : 1);
-        onPress();
-      }}
+      onPress={onPress}
       style={style}>
       {flat ? (
-        face
+        <View style={sinkFlat(pressed && !disabled)}>{face}</View>
       ) : (
         /* 押すと影が消え、ボタンが影のあった位置まで丸ごと落ちる。
            わずかに縮めているのは、指で隠れていても縁の動きで分かるように */
         <Pop offset={offset} radius={dims.radius} reserve={false} style={{ marginBottom: POP.sm }}>
-          <View
-            style={{
-              transform: [
-                { translateX: down ? POP.sm : 0 },
-                { translateY: down ? POP.sm : 0 },
-                { scale: down ? 0.98 : 1 },
-              ],
-            }}>
-            {face}
-          </View>
+          <View style={sinkPop(down)}>{face}</View>
         </Pop>
       )}
     </Pressable>
@@ -762,15 +801,12 @@ export function PressCard({
   selected?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
-  const [pressed, setPressed] = React.useState(false);
+  const { pressed, onPressIn, onPressOut } = useTap();
+  const down = pressed && !disabled;
   return (
-    <Pressable
-      disabled={disabled}
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
-      onPress={onPress}>
+    <Pressable disabled={disabled} onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress}>
       <Pop
-        offset={pressed ? 1 : POP.sm}
+        offset={down ? 0 : POP.sm}
         radius={R.md}
         color={disabled ? T.borderSoft : T.border}
         reserve={false}
@@ -781,14 +817,14 @@ export function PressCard({
               /* 使えないカードも**地は不透明のまま**にする。
                  Pressable 全体を薄くすると、紙に敷いた網点がカードを
                  透けて出てきて汚れて見える。薄くするのは中身だけ */
-              backgroundColor: disabled ? T.sunk : selected ? T.accentSoft : T.surface,
+              backgroundColor: disabled ? T.sunk : down ? T.sunk : selected ? T.accentSoft : T.surface,
               borderWidth: selected ? BW.bold : BW.line,
               borderColor: disabled ? T.borderSoft : T.border,
               borderRadius: R.md,
               padding: S.md,
-              transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }],
             },
             style,
+            sinkPop(down),
           ]}>
           <View style={{ opacity: disabled ? 0.45 : 1 }}>{children}</View>
         </View>

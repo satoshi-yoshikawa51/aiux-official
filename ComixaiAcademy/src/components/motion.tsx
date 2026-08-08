@@ -11,6 +11,7 @@
    transform と opacity だけを動かしているので、
    `useNativeDriver` を切ってもWebで問題なく動く。
    ============================================================ */
+import * as Haptics from 'expo-haptics';
 import React from 'react';
 import {
   Animated,
@@ -19,6 +20,7 @@ import {
   StyleSheet,
   View,
   useWindowDimensions,
+  type GestureResponderEvent,
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
@@ -254,26 +256,32 @@ type SparkSpec = { x: number; y: number; size: number; color: string; delay: num
 
    ▍遅れは詰める
    サイトは0.42秒かけて順に出していた。指で押した返事としてはこれが遅く、
-   最後の星が出るころには指が離れている。0.2秒に詰めて、
-   **ひと固まりで弾ける**ようにした。順に出る感じは残っている */
+   最後の星が出るころには指が離れている。0.12秒まで詰めて、
+   **ひと固まりで弾ける**ようにした。順に出る感じはまだ残っている。
+   大きい星ほど先に出す（最初のひと目で大きいものが見えるように） */
 const SPARKS: SparkSpec[] = [
   { x: -26, y: -20, size: 22, color: C.yellow400, delay: 0 },
-  { x: 24, y: -26, size: 17, color: C.red500, delay: 25 },
-  { x: -44, y: 10, size: 15, color: C.yellow400, delay: 50 },
-  { x: 46, y: 6, size: 19, color: C.yellow400, delay: 75 },
-  { x: -14, y: -40, size: 14, color: C.red500, delay: 100 },
-  { x: 12, y: 34, size: 16, color: C.yellow400, delay: 130 },
-  { x: -34, y: 40, size: 13, color: C.yellow400, delay: 155 },
-  { x: 40, y: -40, size: 12, color: C.red500, delay: 180 },
-  { x: 0, y: 48, size: 14, color: C.yellow400, delay: 205 },
+  { x: 46, y: 6, size: 19, color: C.yellow400, delay: 0 },
+  { x: 24, y: -26, size: 17, color: C.red500, delay: 15 },
+  { x: 12, y: 34, size: 16, color: C.yellow400, delay: 30 },
+  { x: -44, y: 10, size: 15, color: C.yellow400, delay: 45 },
+  { x: -14, y: -40, size: 14, color: C.red500, delay: 60 },
+  { x: 0, y: 48, size: 14, color: C.yellow400, delay: 80 },
+  { x: -34, y: 40, size: 13, color: C.yellow400, delay: 100 },
+  { x: 40, y: -40, size: 12, color: C.red500, delay: 120 },
 ];
 
 /** 星1つぶんの寿命。サイトは0.75秒だが、指で押した返事としては遅い。
     **押した瞬間に返ってこないと、押した実感につながらない** */
-const SPARK_MS = 520;
+const SPARK_MS = 460;
 
-/** いちばん開くところ。ここが早いほど「パッ」と出る（サイトは0.4） */
-const SPARK_PEAK = 0.3;
+/** いちばん開くところ。ここが早いほど「パッ」と出る（サイトは0.4）。
+    0.2 ＝ 触れてから約90msで開ききる */
+const SPARK_PEAK = 0.2;
+
+/** 色が乗りきるところ。開ききるより手前にして、
+    **形が完成する前にもう見えている**状態を作る（見え出しは約45ms） */
+const SPARK_FADE_IN = 0.1;
 
 function Spark({ spec, scale }: { spec: SparkSpec; scale: number }) {
   const t = React.useRef(new Animated.Value(0)).current;
@@ -301,7 +309,11 @@ function Spark({ spec, scale }: { spec: SparkSpec; scale: number }) {
     <Animated.View
       style={{
         position: 'absolute',
-        opacity: num(0, 1, 0),
+        /* 色だけは形より先に乗せる。開ききるのを待たずに見え始める */
+        opacity: t.interpolate({
+          inputRange: [0, SPARK_FADE_IN, SPARK_PEAK, 1],
+          outputRange: [0, 1, 1, 0],
+        }),
         transform: [
           { translateX: num(spec.x * 0.55 * scale, spec.x * scale, spec.x * 1.3 * scale) },
           { translateY: num(spec.y * 0.55 * scale, spec.y * scale - 3, spec.y * 1.3 * scale - 12) },
@@ -391,6 +403,50 @@ export function usePressFeel() {
     }
     timer.current = setTimeout(() => setPressed(false), left);
   }, []);
+
+  return { pressed, onPressIn, onPressOut };
+}
+
+/* ———————————————— 押せるものの返事、ひとまとめ ————————————————
+   沈み・触覚・星をまとめて配る。**押せるものは全部これを通す**。
+   一部だけ返事があると、返事のないものが壊れて見える。
+
+   ▍星は「指を離したとき」ではなく「触れた瞬間」に出す
+   onPress は指を離したときに来る。ふつうのタップでも0.1秒前後あるので、
+   そのぶん丸ごと待たされていた。onPressIn なら触れた瞬間に出る。
+
+   引き換えに、**スクロールし始めた指が押せるものの上にあると、
+   一度だけ星が出る**（RNはまず子に触りを渡し、あとからスクロールが
+   奪うため）。速さを取ってこちらにしてある。うるさければ、
+   下の burst をこのフックの onPress 側へ移せば元に戻る。 */
+
+export function useTap({
+  /** 星の大きさの倍率 */
+  scale = 1,
+  /** 星を出さない（連打させるところ、細かいものなど） */
+  sparks = true,
+  /** 触覚の強さ。既定は Medium（Light は画面を見ていないと分からない） */
+  haptic = 'medium' as 'light' | 'medium' | 'none',
+} = {}) {
+  const burst = useSparkBurst();
+  const { pressed, onPressIn: sink, onPressOut } = usePressFeel();
+
+  const onPressIn = React.useCallback(
+    (e: GestureResponderEvent) => {
+      sink();
+      if (Platform.OS !== 'web' && haptic !== 'none') {
+        const style =
+          haptic === 'light' ? Haptics.ImpactFeedbackStyle.Light : Haptics.ImpactFeedbackStyle.Medium;
+        Haptics.impactAsync(style).catch(() => {});
+      }
+      if (!sparks) return;
+      /* 指の座標が取れないとき（読み上げ操作など）は星を出さない。
+         出すと画面の左上隅で光ってしまう */
+      const { pageX, pageY } = e.nativeEvent;
+      if (pageX || pageY) burst(pageX, pageY, scale);
+    },
+    [sink, burst, scale, sparks, haptic],
+  );
 
   return { pressed, onPressIn, onPressOut };
 }

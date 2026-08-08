@@ -11,7 +11,8 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { Panel, Pop, Row } from '@/components/ui';
+import { useTap } from '@/components/motion';
+import { Panel, Pop, Row, sinkPop } from '@/components/ui';
 import { ROLES, getRole } from '@/data/roles';
 import type { RoleId } from '@/data/types';
 import { BW, F, FONT, POP, R, S, T } from '@/theme';
@@ -27,18 +28,18 @@ function RoleCard({
   selected: boolean;
   onPress: () => void;
 }) {
-  const [pressed, setPressed] = React.useState(false);
+  const { pressed, onPressIn, onPressOut } = useTap();
   return (
     /* 47%＋gap で2列。48%だと、ベタ影のぶんが右端からはみ出る端末がある */
     <Pressable
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
       onPress={onPress}
       style={{ width: '47%' }}>
-      <Pop offset={pressed ? 1 : POP.sm} radius={R.md} reserve={false} style={{ marginBottom: POP.sm }}>
+      <Pop offset={pressed ? 0 : POP.sm} radius={R.md} reserve={false} style={{ marginBottom: POP.sm }}>
         <View
-          style={{
-            backgroundColor: selected ? T.accentSoft : T.surface,
+          style={[{
+            backgroundColor: pressed ? T.sunk : selected ? T.accentSoft : T.surface,
             borderWidth: selected ? BW.bold : BW.line,
             borderColor: T.border,
             borderRadius: R.md,
@@ -48,8 +49,7 @@ function RoleCard({
             alignItems: 'center',
             justifyContent: 'center',
             gap: 6,
-            transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }],
-          }}>
+          }, sinkPop(pressed)]}>
           <Icon name={icon} size={23} color={selected ? T.accent : T.text} />
           <Text
             numberOfLines={2}

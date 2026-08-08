@@ -11,7 +11,7 @@ import { Pressable, Text, View } from 'react-native';
 import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
 import { Spotlight } from '@/components/spotlight';
-import { Badge, Card, Cassette, PressCard, Row, Screen, ScreenHead } from '@/components/ui';
+import { Badge, Card, Cassette, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { AVATARS, getAvatar, isReady } from '@/data/avatars';
 import { getRole } from '@/data/roles';
 import { useProgress, useStats } from '@/store/progress';
@@ -118,26 +118,27 @@ export default function SettingsScreen() {
             {/* 取り消せない操作なので、2つの文字は離しておく。
                 指で押すものが並ぶと、隣を巻き込む */}
             <Row gap={S.xl}>
-              <Pressable onPress={() => setAsking(false)} style={{ paddingVertical: S.sm }}>
+              <Tap onPress={() => setAsking(false)} sparks={false} style={{ paddingVertical: S.sm }}>
                 <Text style={[F.strong, { color: C.paper100 }]}>やめる</Text>
-              </Pressable>
-              <Pressable onPress={doReset} style={{ paddingVertical: S.sm }}>
+              </Tap>
+              {/* 記録が消える口。**星は出さない**（祝うところではない） */}
+              <Tap onPress={doReset} sparks={false} style={{ paddingVertical: S.sm }}>
                 <Row gap={6}>
                   <Icon name="bang" size={15} color={C.red100} />
                   <Text style={[F.strong, { color: C.red100 }]}>消す</Text>
                 </Row>
-              </Pressable>
+              </Tap>
             </Row>
           </View>
         ) : (
-          <Pressable onPress={() => setAsking(true)} style={{ paddingVertical: S.sm }}>
+          <Tap onPress={() => setAsking(true)} sparks={false} scale={0.97} style={{ paddingVertical: S.sm }}>
             <Row gap={6}>
               <Icon name="bang" size={15} color={C.red100} />
               <Text style={[F.strong, { color: C.red100 }]}>
                 記録をぜんぶ消す（オープニングからやり直す）
               </Text>
             </Row>
-          </Pressable>
+          </Tap>
         )}
       </Cassette>
 
@@ -147,9 +148,9 @@ export default function SettingsScreen() {
         <Text style={F.body}>
           COMIXAI（comixai.dev）の用語集・職種別ガイド・プロンプト集をもとにした学習アプリ。
         </Text>
-        <Pressable onPress={() => WebBrowser.openBrowserAsync(SITE)} style={{ paddingVertical: S.xs }}>
+        <Tap onPress={() => WebBrowser.openBrowserAsync(SITE)} style={{ paddingVertical: S.xs }}>
           <Text style={[F.strong, { color: T.link }]}>COMIXAI を開く →</Text>
-        </Pressable>
+        </Tap>
       </Card>
     </Screen>
   );

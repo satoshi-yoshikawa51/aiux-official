@@ -43,10 +43,10 @@ import {
   SparkLayer,
   Stamp,
   TileIn,
-  usePressFeel,
   useSparkBurst,
+  useTap,
 } from '@/components/motion';
-import { Tone } from '@/components/ui';
+import { sinkFlat, Tone } from '@/components/ui';
 import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
 import { loadTokenizer, toChips, type TokenChip } from '@/lib/tokenizer';
@@ -272,12 +272,32 @@ function GameBar({ meta, onClose }: { meta: GameMeta; onClose: () => void }) {
           {meta.rule}
         </Text>
       </View>
-      <Pressable onPress={onClose} hitSlop={10} style={{ paddingVertical: 6, paddingHorizontal: 4 }}>
-        <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.ink300 }}>
-          やめる
-        </Text>
-      </Pressable>
+      <QuitButton onPress={onClose} />
     </View>
+  );
+}
+
+/* やめる。**ここは星を出さない**。ゲームをやめる口なので、
+   押して気持ちいいものにしてはいけない。文字が白く起きるだけにする */
+function QuitButton({ onPress }: { onPress: () => void }) {
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light' });
+  return (
+    <Pressable
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      hitSlop={10}
+      style={{ paddingVertical: 6, paddingHorizontal: 4 }}>
+      <Text
+        style={{
+          fontFamily: FONT.mono,
+          fontSize: 11,
+          letterSpacing: 1,
+          color: pressed ? C.paper50 : C.ink300,
+        }}>
+        やめる
+      </Text>
+    </Pressable>
   );
 }
 
@@ -337,24 +357,14 @@ function GameButton({
   tone?: 'yellow' | 'ghost';
 }) {
   const yellow = tone === 'yellow';
-  /* 黒地なので星がいちばん効く。押すたびに指のところから舞う */
-  const burst = useSparkBurst();
   /* ここは押しても何も起きなかった。ゲームの中でいちばん叩くボタンなので、
-     紙の上の Button と同じだけ手ごたえを付ける（motion.tsx） */
-  const { pressed, onPressIn, onPressOut } = usePressFeel();
+     紙の上の Button と同じだけ手ごたえを付ける（motion.tsx の useTap）。
+     黒地なので星がいちばん効く */
+  const { pressed, onPressIn, onPressOut } = useTap();
   const down = pressed && !disabled;
 
   return (
-    <Pressable
-      onPressIn={onPressIn}
-      onPressOut={onPressOut}
-      onPress={(e) => {
-        if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
-        const { pageX, pageY } = e.nativeEvent;
-        if (pageX || pageY) burst(pageX, pageY);
-        onPress();
-      }}
-      disabled={disabled}>
+    <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress} disabled={disabled}>
       <View
         style={{
           /* 押しているあいだは一段沈んだ黄色に。黒地なので、
@@ -384,6 +394,32 @@ function GameButton({
             color: disabled ? C.ink500 : yellow ? C.ink900 : C.paper50,
           }}>
           {label}
+        </Text>
+      </View>
+    </Pressable>
+  );
+}
+
+/* 例文のチップ。細かいので星は出さない（横に並んだ小さいものから
+   毎回9つ飛ぶと、何を押したのか分からなくなる）。縮みと触覚だけ */
+function PresetChip({ text, onPick }: { text: string; onPick: () => void }) {
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light' });
+  return (
+    <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPick}>
+      <View
+        style={[
+          {
+            borderWidth: BW.line,
+            borderColor: pressed ? C.yellow400 : C.ink700,
+            backgroundColor: pressed ? C.ink800 : 'transparent',
+            borderRadius: R.full,
+            paddingHorizontal: 11,
+            paddingVertical: 6,
+          },
+          sinkFlat(pressed),
+        ]}>
+        <Text style={{ fontFamily: FONT.body, fontSize: 12.5, color: C.paper100 }} numberOfLines={1}>
+          {text.length > 18 ? text.slice(0, 18) + '…' : text}
         </Text>
       </View>
     </Pressable>
@@ -614,27 +650,7 @@ function TokenPlay({
         {presets.length ? (
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6 }}>
             {presets.map((p) => (
-              <Pressable
-                key={p}
-                onPress={() => {
-                  if (Platform.OS !== 'web') {
-                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
-                  }
-                  setText(p);
-                }}
-                style={{
-                  borderWidth: BW.line,
-                  borderColor: C.ink700,
-                  borderRadius: R.full,
-                  paddingHorizontal: 11,
-                  paddingVertical: 6,
-                }}>
-                <Text
-                  style={{ fontFamily: FONT.body, fontSize: 12.5, color: C.paper100 }}
-                  numberOfLines={1}>
-                  {p.length > 18 ? p.slice(0, 18) + '…' : p}
-                </Text>
-              </Pressable>
+              <PresetChip key={p} text={p} onPick={() => setText(p)} />
             ))}
           </ScrollView>
         ) : null}

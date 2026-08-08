@@ -16,6 +16,7 @@ import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
 import { Spotlight } from '@/components/spotlight';
+import { useSparkBurst } from '@/components/motion';
 import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
@@ -142,6 +143,8 @@ export default function HomeScreen() {
     return `次は「${next.lesson.title}」だ。`;
   }, [guiding, tutorial.step, talk, next, stats.doneCount, stats.streak, role?.name]);
 
+  const burst = useSparkBurst();
+
   const poke = () => {
     /* 案内中はつつかせない。雑談で案内のセリフを上書きしてしまう */
     if (guiding) return;
@@ -221,6 +224,12 @@ export default function HomeScreen() {
           {/* アバターの置き場は縦横比で決める（flex:1 だと余った高さを全部
               取ってしまい、フキダシがキャラから離れる）。 */}
           <Pressable
+            /* つついたところから星。沈めたりはしない（本人が動いて返事をする） */
+            onPressIn={(e) => {
+              if (guiding) return;
+              const { pageX, pageY } = e.nativeEvent;
+              if (pageX || pageY) burst(pageX, pageY, 1.4);
+            }}
             onPress={poke}
             onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
             style={{

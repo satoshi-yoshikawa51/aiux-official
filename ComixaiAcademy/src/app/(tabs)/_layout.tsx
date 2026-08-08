@@ -9,10 +9,12 @@
    タブ切り替えのたびに消えてしまうため。 */
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import * as Haptics from 'expo-haptics';
+import { Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TabIcon, type IconName } from '@/components/icons';
+import { useSparkBurst } from '@/components/motion';
 import { TutorialOverlay } from '@/components/tutorial-overlay';
 import { useProgress } from '@/store/progress';
 import { TutorialProvider, useTutorial } from '@/store/tutorial';
@@ -27,8 +29,23 @@ const SCREENS: { name: string; title: string; icon: IconName }[] = [
 
 function Bar() {
   const insets = useSafeAreaInsets();
+  const { width, height } = useWindowDimensions();
   const { state, ready } = useProgress();
   const { active, step, start, next } = useTutorial();
+  const burst = useSparkBurst();
+
+  /* ▍タブだけは、押した座標を計算で出している
+     ほかの押せるものは指の座標（pageX/pageY）をそのまま使えるが、
+     タブの中身は react-navigation が描いていて触れない。
+     tabBarButton を差し替える手もあるが、**このバーは高さの計算が
+     噛み合っていないとラベルが切れる**ので触りたくない。
+     等分に並んでいるぶん、位置は素直に割り出せる */
+  const tabSpark = (i: number) => {
+    if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
+    const x = (width / SCREENS.length) * (i + 0.5);
+    const y = height - insets.bottom - TAB.height / 2;
+    burst(x, y, 1.1);
+  };
 
   /* 職種まで決め終わった直後、1回だけ案内を出す。
      見終わったときの保存は TutorialProvider の onFinish 側 */
@@ -67,10 +84,11 @@ function Bar() {
           tabBarIconStyle: { height: TAB.icon },
           tabBarLabelStyle: { fontFamily: FONT.heading, fontSize: 10.5, lineHeight: TAB.label },
         }}>
-        {SCREENS.map((s) => (
+        {SCREENS.map((s, i) => (
           <Tabs.Screen
             key={s.name}
             name={s.name}
+            listeners={{ tabPress: () => tabSpark(i) }}
             options={{
               title: s.title,
               tabBarIcon: ({ focused }) => (
