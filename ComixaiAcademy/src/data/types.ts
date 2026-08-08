@@ -60,6 +60,7 @@ export type ByAvatar<Tvalue> = Partial<Record<AvatarId, Tvalue>>;
    ・find          … 文書の中の危ない行をタップして摘発する
    ・build         … 指示の部品を選ぶと、出力がその場で変わる
    ・fit           … 資料を選んで、限られた広さに詰める
+   ・order         … 工程を正しい順に並べる
    ・tokenizer     … 好きに打って、トークンの割れ方を見る（合否なし）
    ・token-budget  … 決められたトークン数に収める（**通らないと次に進めない**）
    ・ai-prompt     … 本物のAIに指示を渡して採点される
@@ -86,6 +87,15 @@ export interface BuildSlot {
     /** これを選んだときに出力がどう変わるか（1〜2行） */
     result: string;
   }[];
+}
+
+/** 並べる工程の1つ */
+export interface OrderStep {
+  name: string;
+  /** 正しい位置に置けたときに出す一言 */
+  why: string;
+  /** まだ早いのに押したときに出す一言 */
+  tooEarly: string;
 }
 
 /** 詰めるときに机へ載せる資料 */
@@ -119,6 +129,13 @@ export type LessonInteractive =
       brief: string;
       slots: BuildSlot[];
       /** 全部選び終わったときに出す締め */
+      wrap: string;
+    }
+  | {
+      kind: 'order';
+      brief: string;
+      /** **正しい順に書く**。画面には並べ替えて出す */
+      steps: OrderStep[];
       wrap: string;
     }
   | {

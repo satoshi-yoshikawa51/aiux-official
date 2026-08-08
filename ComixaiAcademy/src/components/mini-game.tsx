@@ -49,6 +49,7 @@ import {
 import { BuildPlay } from '@/components/games/build-game';
 import { FindPlay } from '@/components/games/find-game';
 import { FitPlay } from '@/components/games/fit-game';
+import { OrderPlay } from '@/components/games/order-game';
 import { SortPlay } from '@/components/games/sort-game';
 import { sinkFlat, Tone } from '@/components/ui';
 import type { LessonInteractive } from '@/data/types';
@@ -93,6 +94,12 @@ export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
     icon: 'hammer',
     rule: '部品を選んで指示にする',
     how: '札を選ぶたびに、AIの返しがその場で変わります',
+  },
+  order: {
+    name: '手順を組む',
+    icon: 'compass',
+    rule: '正しい順に並べる',
+    how: '「つぎにやること」を選んでいくと、手順が組み上がります',
   },
   fit: {
     name: 'つくえの上',
@@ -194,6 +201,10 @@ export function MiniGame({
                 ) : spec.kind === 'build' ? (
                   <GameScroll>
                     <BuildPlay spec={spec} onClear={clear} />
+                  </GameScroll>
+                ) : spec.kind === 'order' ? (
+                  <GameScroll>
+                    <OrderPlay spec={spec} onClear={clear} />
                   </GameScroll>
                 ) : spec.kind === 'fit' ? (
                   <GameScroll>
