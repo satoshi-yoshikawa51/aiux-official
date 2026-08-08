@@ -46,6 +46,40 @@ interface Props {
   onReady?: () => void;
 }
 
+/* ============================================================
+   ▍歩きは「その場で足踏み」に直してから使う
+
+   walk には**前進が焼き込まれている**（Rootの位置が2.4秒で1.12ユニット動く。
+   しかも先頭が -0.98 なので、再生した瞬間に真横へ1ユニットずれる）。
+   そのまま流すと、キャラが自分の枠から出ていって **canvas の端で切れる**。
+   一幕（app/intro.tsx）で「出てくるとき右が切れる」として実際に出た。
+
+   移動は画面側（枠ごと translateX で動かす）が受け持つので、ここでは
+   Rootの位置の track だけ落とす。**足の運びや腰の上下は残す**ので、
+   歩き方は変わらない。
+
+   落とすのは**大きく動くものだけ**。待機や説明のRootにも数センチの揺れが
+   入っていて、それは芝居なので残す。閾値はwalk（1.12）と待機（0.12）の
+   あいだを取ってある。新しいモーションを足しても勝手に効く。 */
+const TRAVEL = 0.3;
+
+function stripTravel(clip: THREE.AnimationClip) {
+  clip.tracks = clip.tracks.filter((t) => {
+    if (t.name !== 'Root.position') return true;
+    /* 3成分ずつ入っているので、軸ごとに振れ幅を見る */
+    for (let axis = 0; axis < 3; axis++) {
+      let lo = Infinity;
+      let hi = -Infinity;
+      for (let i = axis; i < t.values.length; i += 3) {
+        if (t.values[i] < lo) lo = t.values[i];
+        if (t.values[i] > hi) hi = t.values[i];
+      }
+      if (hi - lo > TRAVEL) return false;
+    }
+    return true;
+  });
+}
+
 /** アセットをArrayBufferとして読む（fetch(file://)に頼らない） */
 async function readArrayBuffer(mod: number): Promise<ArrayBuffer> {
   const asset = Asset.fromModule(mod);
@@ -181,6 +215,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         const mixer = new THREE.AnimationMixer(gltf.scene);
         mixerRef.current = mixer;
         for (const clip of gltf.animations) {
+          stripTravel(clip);
           actionsRef.current[clip.name] = mixer.clipAction(clip);
         }
         /* ワンショットのモーションが終わったら待機に戻す */
