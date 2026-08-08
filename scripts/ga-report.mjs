@@ -363,6 +363,32 @@ async function main() {
     );
   });
 
+  /* 依頼のファネル。ここが広告を出すときの成果地点になる。
+     form_start はGA4の拡張計測が自動で送っているもの、
+     contact_submit / contact_error は page.tsx から明示的に送っている。 */
+  await section("お問い合わせのファネル（書き始め→送信）", async () => {
+    const r = await runReport(ctx, {
+      dimensions: [{ name: "eventName" }],
+      metrics: [{ name: "eventCount" }, { name: "totalUsers" }],
+      dimensionFilter: eventFilter(["form_start", "contact_submit", "contact_error"]),
+      limit: 10,
+    });
+    const m = new Map(rows(r).map((x) => [x.keys[0], x.values]));
+    const start = m.get("form_start") ?? [0, 0];
+    const done = m.get("contact_submit") ?? [0, 0];
+    const ng = m.get("contact_error") ?? [0, 0];
+    table(
+      ["段階", "回数", "人数"],
+      [
+        ["フォームを書き始めた", num(start[0]), num(start[1])],
+        ["送信できた", num(done[0]), num(done[1])],
+        ["送信に失敗した", num(ng[0]), num(ng[1])],
+        ["書き始めた人のうち送れた割合", start[0] ? `${Math.round((done[0] / start[0]) * 100)}%` : "-", ""],
+      ],
+    );
+    if (ng[0] > 0) console.log("\n  [2m送信の失敗が出ている。届いていない問い合わせがあるので、フォームの設定を確認すること。[0m");
+  });
+
   await section(
     "CTAのクリック（cta_click）",
     async () => {

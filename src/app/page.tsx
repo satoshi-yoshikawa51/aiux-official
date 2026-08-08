@@ -28,6 +28,7 @@ import { FEATURED_TERMS } from "./glossary/data";
 import { FEATURED_RECIPES } from "./prompts/data";
 import { GUIDES } from "./guide/data";
 import { RecordCard, RecordGrid, RECORD_TOTAL, TOP_RECORDS } from "./profile/record-ui";
+import { track } from "./ga";
 import { EVENTS, dateLabel, isPast } from "./calendar/events";
 import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
@@ -1379,6 +1380,8 @@ function Contact() {
     const data = new FormData(form);
     if (!configured) {
       const body = `お名前: ${data.get("name")}\nメール: ${data.get("email")}\n\n${data.get("message")}`;
+      /* メーラーが開いた時点までしか分からないので、送信完了とは別の名前で送る */
+      track("contact_submit", { place: "top-contact", method: "mailto" });
       window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("【オフィシャルサイト】お問い合わせ")}&body=${encodeURIComponent(body)}`;
       return;
     }
@@ -1387,15 +1390,23 @@ function Contact() {
     try {
       const res = await fetch(FORMSPREE_ENDPOINT, { method: "POST", body: data, headers: { Accept: "application/json" } });
       if (res.ok) {
+        /* 「送信が通った」という事実だけを送る。氏名・メール・本文は絶対に
+           載せない（GAに個人情報を入れてはいけない）。
+           form_start はGA4の拡張計測が自動で送っているので、この
+           contact_submit と対にすると、書きかけて離脱した人数が分かる。 */
+        track("contact_submit", { place: "top-contact", method: "form" });
         setState("done");
         form.reset();
       } else {
         const j = await res.json().catch(() => ({}));
         setErr((j.errors && j.errors.map((x: { message: string }) => x.message).join(" / ")) || "送信に失敗しました。");
+        /* 失敗も数えないと、届いていないことに永遠に気づけない */
+        track("contact_error", { place: "top-contact", reason: "rejected" });
         setState("error");
       }
     } catch {
       setErr("通信エラーが発生しました。");
+      track("contact_error", { place: "top-contact", reason: "network" });
       setState("error");
     }
   }
