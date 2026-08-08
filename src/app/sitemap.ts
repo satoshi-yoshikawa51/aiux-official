@@ -38,6 +38,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    /* /game と /lp は public/ から rewrites で配信していて、
+       app/ にページが無い。つまり Next が自動では拾わないので、
+       ここに手で書かないと永久にサイトマップから漏れる。
+       実際 /lp は28日で132人が使っている（公開まで到達47回）のに
+       検索エンジンに一度も伝わっていなかった。 */
+    {
+      url: `${base}/lp`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     {
       url: `${base}/manga`,
       lastModified: new Date(
