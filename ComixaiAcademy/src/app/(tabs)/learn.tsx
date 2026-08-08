@@ -23,13 +23,14 @@ import {
 } from '@/components/ui';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
-import { useProgress } from '@/store/progress';
+import { useProgress, useReview } from '@/store/progress';
 import { C, F, FONT, R, S, T } from '@/theme';
 
 export default function LearnScreen() {
   const router = useRouter();
   const { state } = useProgress();
   const role = getRole(state.roleId);
+  const review = useReview();
 
   const lessons = React.useMemo(() => COURSES.flatMap((c) => c.lessons), []);
   const doneTotal = lessons.filter((l) => state.done[l.id]).length;
@@ -67,6 +68,46 @@ export default function LearnScreen() {
 
   return (
     <Screen header={header} tone="dots">
+      {/* ———— 直すものがあるなら、新しい1本より先 ————
+           まだ身についていないものを置いたまま先に進むと、積み上がるだけ。
+           **期限が来ているぶんだけ**出す（→ store/progress.tsx の useReview）。
+           こちらはスクロールする画面なので、行を足しても何も潰れない */}
+      {review.due.length > 0 ? (
+        <Cassette>
+          <Row gap={8}>
+            <Pill label="REVIEW" />
+            <Icon name="rotate" size={18} color={C.paper50} />
+            <Text style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}>
+              まちがえた問題が {review.due.length}問
+            </Text>
+          </Row>
+          <Button
+            label="復習する"
+            variant="yellow"
+            size="sm"
+            onPress={() => router.push('/review')}
+          />
+        </Cassette>
+      ) : review.pending.length > 0 ? (
+        /* 期限前でも、前倒しで解きたい人のために道は残す。
+           急かさないよう、こちらは沈んだ見た目にしない */
+        <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+          <Row gap={8}>
+            <Icon name="rotate" size={16} color={T.muted} />
+            <Text style={[F.small, { flex: 1 }]}>
+              直しかけの問題が {review.pending.length}問（次の出番は日をあけてから）
+            </Text>
+          </Row>
+          <Button
+            label="いま解く"
+            variant="secondary"
+            size="sm"
+            onPress={() => router.push('/review')}
+            style={{ alignSelf: 'flex-start' }}
+          />
+        </Panel>
+      ) : null}
+
       {/* ———— つづき ————
            いちばん押してほしいものを、ほぼ黒に沈めたコマに入れる（ホームと同じ） */}
       {next ? (

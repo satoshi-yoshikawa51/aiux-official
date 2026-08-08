@@ -200,7 +200,20 @@ export interface LessonCard {
   bulletsByRole?: ByRole<string[]>;
 }
 
+/* ============================================================
+   クイズ1問。
+
+   ▍id は履歴の鍵。**一度決めたら変えない**
+   間違えた問題は復習に回り、日を置いて戻ってくる（→ store/progress.tsx の
+   quiz、app/review.tsx）。その記録をこのidで引くので、**idを変えると
+   その人の「まだ直っていない問題」が行方不明になる**。
+   問題文を直すのは構わないが、idはそのまま。差し替えるなら新しいidにする。
+
+   ▍`${レッスンid}-q${通し番号}` で付ける
+   順番から自動で作らないのは、あいだに1問足した瞬間に**それ以降の
+   全部の履歴がずれる**から。書いた本人が明示的に持つ。 */
 export interface QuizItem {
+  id: string;
   q: string;
   choices: string[];
   /** choices のインデックス */

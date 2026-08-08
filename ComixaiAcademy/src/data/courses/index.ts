@@ -1,5 +1,14 @@
 /* 全コースの束ね役。表示順はこの配列のとおり。 */
-import type { Course, Lesson, RoleId, LessonCard, ByRole, ByAvatar, AvatarId } from '../types';
+import type {
+  Course,
+  Lesson,
+  RoleId,
+  LessonCard,
+  ByRole,
+  ByAvatar,
+  AvatarId,
+  QuizItem,
+} from '../types';
 import { BASICS } from './basics';
 import { WORK } from './work';
 import { PROMPT } from './prompt';
@@ -61,4 +70,40 @@ export function resolveCard(card: LessonCard, role: RoleId | null, avatarId: Ava
     /* 体験は職種で変えない。全職種共通の道具として出す */
     interactive: card.interactive,
   };
+}
+
+/* ———————————————— 問題の索引 ————————————————
+   復習は「レッスンの外」で問題を出すので、idから1問を引ける必要がある
+   （→ app/review.tsx）。ここで一度だけ作って使い回す。
+
+   **idの重複はここで落とす。** 重複すると復習の記録が混ざり、
+   直したはずの問題が別の問題として戻ってくる。データを足したときに
+   気づけるよう、黙って通さない。 */
+export interface QuizEntry {
+  item: QuizItem;
+  lesson: Lesson;
+  course: Course;
+}
+
+export const ALL_QUIZ: QuizEntry[] = (() => {
+  const out: QuizEntry[] = [];
+  const seen = new Set<string>();
+  for (const course of COURSES) {
+    for (const lesson of course.lessons) {
+      for (const item of lesson.quiz) {
+        if (seen.has(item.id)) {
+          throw new Error(`クイズのidが重複しています: ${item.id}（${lesson.id}）`);
+        }
+        seen.add(item.id);
+        out.push({ item, lesson, course });
+      }
+    }
+  }
+  return out;
+})();
+
+const QUIZ_BY_ID = new Map(ALL_QUIZ.map((e) => [e.item.id, e]));
+
+export function getQuiz(id: string): QuizEntry | undefined {
+  return QUIZ_BY_ID.get(id);
 }

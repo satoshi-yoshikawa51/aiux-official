@@ -100,6 +100,7 @@ export default function RootLayout() {
               <Stack.Screen name="onboarding/role" options={{ headerShown: false }} />
               <Stack.Screen name="intro" options={{ headerShown: false }} />
               <Stack.Screen name="lesson/[id]" options={{ title: '', headerBackTitle: '戻る' }} />
+              <Stack.Screen name="review" options={{ title: '復習', headerBackTitle: '戻る' }} />
             </Stack>
           </OnboardingGate>
           </SparkLayer>

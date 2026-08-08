@@ -10,13 +10,14 @@ import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import React from 'react';
-import { Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { Platform, Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { LessonInteractiveCard } from '@/components/lesson-interactive';
+import { MissTag, QuizChoices, QuizExplain } from '@/components/quiz';
 import { RankUpScreen } from '@/components/rank-up';
-import { SlideIn, useTap } from '@/components/motion';
+import { SlideIn } from '@/components/motion';
 import {
   Badge,
   Bubble,
@@ -25,10 +26,8 @@ import {
   Cassette,
   Panel,
   Pill,
-  Pop,
   Row,
   Screen,
-  sinkFlat,
 } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { getBadge, prevTitle, titleSay, type Title } from '@/data/badges';
@@ -40,70 +39,11 @@ import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 type Phase = 'cards' | 'quiz' | 'result';
 
-/* ———————————————— クイズの選択肢 ————————————————
-   押した返事（沈み・触覚・星）を持たせるため、1つずつの部品にしている。
-   map の中に直接書くと「いま押されているのはどれか」を持てない。
-
-   答えを出したあとは押せないので、返事も出さない。 */
-
-function QuizChoice({
-  label,
-  mark,
-  bg,
-  revealed,
-  isAnswer,
-  isPicked,
-  onPress,
-}: {
-  label: string;
-  mark: string;
-  bg: string;
-  revealed: boolean;
-  isAnswer: boolean;
-  isPicked: boolean;
-  onPress: () => void;
-}) {
-  const { pressed, onPressIn, onPressOut } = useTap();
-  const down = pressed && !revealed;
-  return (
-    <Pressable disabled={revealed} onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress}>
-      <Pop offset={revealed && (isAnswer || isPicked) ? POP.sm : 0} radius={R.sm} reserve={false}>
-        <View
-          style={[
-            {
-              backgroundColor: down ? T.sunk : bg,
-              borderWidth: revealed && (isAnswer || isPicked) ? BW.bold : BW.line,
-              borderColor: revealed && !isAnswer && !isPicked ? T.borderSoft : T.border,
-              borderRadius: R.sm,
-              padding: S.md,
-            },
-            /* 画面幅いっぱいの行なので、縮みは控えめに */
-            sinkFlat(down, 0.97),
-          ]}>
-          <Row gap={S.sm} style={{ alignItems: 'flex-start' }}>
-            <Text
-              style={{
-                fontFamily: FONT.display,
-                fontSize: 15,
-                lineHeight: 26,
-                color: revealed && isAnswer ? T.ok : T.muted,
-                width: 16,
-              }}>
-              {mark}
-            </Text>
-            <Text style={[F.body, { flex: 1 }]}>{label}</Text>
-          </Row>
-        </View>
-      </Pop>
-    </Pressable>
-  );
-}
-
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const navigation = useNavigation();
-  const { state, completeLesson } = useProgress();
+  const { state, completeLesson, answerQuiz } = useProgress();
   const { width } = useWindowDimensions();
 
   const avatarRef = React.useRef<AvatarHandle>(null);
@@ -195,6 +135,9 @@ export default function LessonScreen() {
     setChoice(i);
     const ok = i === quiz.answer;
     if (!ok) setMisses((n) => n + 1);
+    /* 間違えた問題は控えておいて、日を置いてもう一度出す（→ app/review.tsx）。
+       ここで記録しないと「間違えたことに気づいて終わり」になる */
+    answerQuiz(quiz.id, ok);
     if (Platform.OS !== 'web') {
       Haptics.notificationAsync(
         ok ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Warning,
@@ -348,39 +291,13 @@ export default function LessonScreen() {
               <Text style={F.kicker}>
                 QUIZ {quizIndex + 1} / {lesson.quiz.length}
               </Text>
-              {misses > 0 ? (
-                <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>MISS {misses}</Text>
-              ) : (
-                <Badge tone="green">ノーミス継続</Badge>
-              )}
+              <MissTag misses={misses} />
             </Row>
             <Text style={F.h1}>{quiz.q}</Text>
-            <View style={{ gap: S.sm }}>
-              {quiz.choices.map((c, i) => {
-                const revealed = choice !== null;
-                const isAnswer = i === quiz.answer;
-                const isPicked = i === choice;
-                const bg = !revealed ? T.surface : isAnswer ? T.okSoft : isPicked ? T.accentSoft : T.surface;
-                const mark = revealed ? (isAnswer ? '○' : isPicked ? '×' : ' ') : String.fromCharCode(65 + i);
-                return (
-                  <QuizChoice
-                    key={i}
-                    label={c}
-                    mark={mark}
-                    bg={bg}
-                    revealed={revealed}
-                    isAnswer={isAnswer}
-                    isPicked={isPicked}
-                    onPress={() => answer(i)}
-                  />
-                );
-              })}
-            </View>
+            <QuizChoices quiz={quiz} choice={choice} onPick={answer} />
             {choice !== null ? (
               <View style={{ gap: S.md, marginTop: S.xs }}>
-                <Card tone={choice === quiz.answer ? 'ok' : 'warn'} variant="flat" contentStyle={{ padding: S.md }}>
-                  <Text style={F.body}>{quiz.explanation}</Text>
-                </Card>
+                <QuizExplain quiz={quiz} choice={choice} />
                 <Button
                   label={quizIndex + 1 < lesson.quiz.length ? 'つぎの問題' : '結果を見る'}
                   onPress={goNextQuiz}

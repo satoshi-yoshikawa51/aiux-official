@@ -13,10 +13,43 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
 import { BADGES, titleFor, type Title } from '@/data/badges';
-import { ALL_LESSONS, COURSES } from '@/data/courses';
+import { ALL_LESSONS, COURSES, getQuiz, type QuizEntry } from '@/data/courses';
 import type { RoleId } from '@/data/types';
 
 const KEY = 'comixai-academy-v1';
+
+/* ============================================================
+   ▍復習（間隔をあけて出し直す）
+
+   読んで1問答えて終わり、では**間違えたことに気づいて終わる**だけで、
+   直る機会が無い。なので間違えた問題だけを控えておいて、日を置いて
+   もう一度出す。
+
+   ▍控えるのは「間違えた問題」だけ
+   全問を反復すると、覚えている問題まで毎日出てきて続かない。
+   一度も間違えなかった問題は記録すら作らない（＝復習に出てこない）。
+
+   ▍卒業まで3回
+   間違える → その場で復習できる（due = いま）
+   正解する → 翌日 → 3日後 → 7日後 と間隔が伸び、3回続けて正解で卒業。
+   途中で間違えたら連続はゼロに戻る。**日をまたいで3回**なので、
+   その場で3連打しても卒業できない。そこが狙い。
+   ============================================================ */
+
+/** 何日後に出し直すか。連続正解1回目・2回目・3回目 */
+const REVIEW_STEP_DAYS = [1, 3, 7];
+/** 連続正解がここに達したら卒業 */
+export const REVIEW_GRADUATE = REVIEW_STEP_DAYS.length;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+export interface QuizRecord {
+  /** 次に出す時刻(ms)。0＝卒業（もう出さない） */
+  due: number;
+  /** 連続正解数 */
+  streak: number;
+  /** 通算のまちがい回数 */
+  wrong: number;
+}
 
 export interface ProgressState {
   version: 1;
@@ -36,6 +69,8 @@ export interface ProgressState {
   seenOpening: boolean;
   /** 職種を決めた直後の一幕（相棒が歩いてくる）を見終えたか */
   seenIntro: boolean;
+  /** 間違えた問題の記録。キーは QuizItem.id（→ 下の「復習」） */
+  quiz: Record<string, QuizRecord>;
   /** 先生によるアプリ案内を見終えた（またはとばした）か */
   seenTutorial: boolean;
 }
@@ -52,6 +87,7 @@ const EMPTY: ProgressState = {
   seenOpening: false,
   seenIntro: false,
   seenTutorial: false,
+  quiz: {},
 };
 
 /* ———————————————— 日付ユーティリティ ———————————————— */
@@ -130,6 +166,8 @@ interface Ctx {
   setAvatar: (id: string) => void;
   setRole: (id: RoleId) => void;
   completeLesson: (lessonId: string, perfect: boolean) => CompletionResult;
+  /** 1問答えたことを記録する。本編のクイズからも復習からも呼ぶ */
+  answerQuiz: (quizId: string, correct: boolean) => void;
   markTitleSeen: () => void;
   markOpeningSeen: () => void;
   markIntroSeen: () => void;
@@ -249,6 +287,30 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [applyBadges, persist],
   );
 
+  /* ▍間違えたときだけ記録を作る
+     正解した問題まで控えると、覚えているものが毎日出てきて続かない。
+     記録が無い＝一度も間違えていない＝復習に出さない、でよい */
+  const answerQuiz = React.useCallback(
+    (quizId: string, correct: boolean) => {
+      const prev = ref.current.quiz[quizId];
+      if (!prev && correct) return;
+      const now = Date.now();
+      const next: QuizRecord = correct
+        ? (() => {
+            const streak = (prev?.streak ?? 0) + 1;
+            const graduated = streak >= REVIEW_GRADUATE;
+            return {
+              streak,
+              wrong: prev?.wrong ?? 0,
+              due: graduated ? 0 : now + REVIEW_STEP_DAYS[streak - 1] * DAY_MS,
+            };
+          })()
+        : { streak: 0, wrong: (prev?.wrong ?? 0) + 1, due: now };
+      persist({ ...ref.current, quiz: { ...ref.current.quiz, [quizId]: next } });
+    },
+    [persist],
+  );
+
   const markTitleSeen = React.useCallback(() => {
     const t = titleFor(Object.keys(ref.current.badges).length);
     persist({ ...ref.current, seenTitle: t.name });
@@ -283,6 +345,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       setAvatar,
       setRole,
       completeLesson,
+      answerQuiz,
       markTitleSeen,
       markOpeningSeen,
       markIntroSeen,
@@ -295,6 +358,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       setAvatar,
       setRole,
       completeLesson,
+      answerQuiz,
       markTitleSeen,
       markOpeningSeen,
       markIntroSeen,
@@ -327,4 +391,44 @@ export function useStats() {
     title: titleFor(badgeCount),
     percent: ALL_LESSONS.length ? Math.round((doneCount / ALL_LESSONS.length) * 100) : 0,
   };
+}
+
+/* ———————————————— 復習 ————————————————
+   ホームとまなぶタブの導線、復習画面がここを見る */
+
+export interface ReviewSet {
+  /** いま出すべき問題（期限が来ているもの）。少ない順に並ぶ */
+  due: QuizEntry[];
+  /** まだ卒業していない問題ぜんぶ（期限前も含む）。「まとめて解く」用 */
+  pending: QuizEntry[];
+  /** 卒業した問題の数。積み上がりを見せるのに使う */
+  graduated: number;
+}
+
+export function useReview(): ReviewSet {
+  const { state } = useProgress();
+  return React.useMemo(() => {
+    const now = Date.now();
+    const due: QuizEntry[] = [];
+    const pending: QuizEntry[] = [];
+    let graduated = 0;
+    for (const [id, rec] of Object.entries(state.quiz)) {
+      const entry = getQuiz(id);
+      /* データから消えた問題の記録は無視する（idを変えたときなど）。
+         消さずに残しておくのは、戻したときに履歴が生き返るように */
+      if (!entry) continue;
+      if (rec.due === 0) {
+        graduated += 1;
+        continue;
+      }
+      pending.push(entry);
+      if (rec.due <= now) due.push(entry);
+    }
+    /* 出す順は「間違えた回数が多い順」。いちばん怪しいものから当てる */
+    const byWrong = (a: QuizEntry, b: QuizEntry) =>
+      (state.quiz[b.item.id]?.wrong ?? 0) - (state.quiz[a.item.id]?.wrong ?? 0);
+    due.sort(byWrong);
+    pending.sort(byWrong);
+    return { due, pending, graduated };
+  }, [state.quiz]);
 }

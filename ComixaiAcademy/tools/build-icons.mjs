@@ -306,6 +306,39 @@ export const ICONS = {
 
   /** ばつ（ポップアップを閉じる） */
   close: cross({}),
+
+  /** 復習＝ぐるっと戻る矢印。
+      線で描くと縮小したとき消えるので、**太い円弧をベタで抜いて**作る
+      （外円から内円を抜き、右上に切れ目を入れて、そこへ三角を刺す）。 */
+  rotate: (() => {
+    const cx = 12;
+    const cy = 12;
+    const rOut = 10.8;
+    const rIn = 6.9;
+    const rMid = (rOut + rIn) / 2;
+    /* 描き始め（真上の少し右）から、切れ目を残してぐるっと一周 */
+    const a0 = -Math.PI / 2 + 0.55;
+    const sweep = Math.PI * 2 - 1.5;
+    const a1 = a0 + sweep;
+    const steps = 44;
+    const pts = [];
+    for (let i = 0; i <= steps; i++) {
+      const a = a0 + (i / steps) * sweep;
+      pts.push([cx + rOut * Math.cos(a), cy + rOut * Math.sin(a)]);
+    }
+    /* 内周を逆にたどって戻る＝リングになる */
+    for (let i = steps; i >= 0; i--) {
+      const a = a0 + (i / steps) * sweep;
+      pts.push([cx + rIn * Math.cos(a), cy + rIn * Math.sin(a)]);
+    }
+    /* 矢じりは**終点に、進む向きへ**。始点側に付けると自分の胴体に刺さる */
+    const head = poly(
+      [cx + (rOut + 2.3) * Math.cos(a1), cy + (rOut + 2.3) * Math.sin(a1)],
+      [cx + (rIn - 2.3) * Math.cos(a1), cy + (rIn - 2.3) * Math.sin(a1)],
+      [cx + rMid * Math.cos(a1 + 0.8), cy + rMid * Math.sin(a1 + 0.8)],
+    );
+    return poly(...pts) + head;
+  })(),
 };
 
 /* ———————————————— 確認用の画像 ———————————————— */

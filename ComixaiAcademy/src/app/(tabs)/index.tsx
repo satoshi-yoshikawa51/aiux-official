@@ -24,7 +24,7 @@ import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
 import { smallTalkFor } from '@/data/voice';
-import { useProgress, useStats } from '@/store/progress';
+import { useProgress, useReview, useStats } from '@/store/progress';
 import { useTutorial } from '@/store/tutorial';
 import { C, F, FONT, R, S } from '@/theme';
 
@@ -51,6 +51,8 @@ export default function HomeScreen() {
   const router = useRouter();
   const { state } = useProgress();
   const stats = useStats();
+  /* 期限が来ている復習の数。0なら何も出さない（→ app/review.tsx） */
+  const due = useReview().due.length;
   /* 案内中はセリフをこちらのフキダシに出す。**先生が2か所で
      同時にしゃべらないため**（→ store/tutorial.tsx の voice） */
   const tutorial = useTutorial();
@@ -257,17 +259,39 @@ export default function HomeScreen() {
               {next.lesson.title}
             </Text>
           </Row>
-          <Button
-            label={`はじめる（${next.lesson.minutes}分・クイズ${next.lesson.quiz.length}問）`}
-            size="sm"
-            onPress={() => router.push(`/lesson/${next.lesson.id}`)}
-          />
+          {/* ▍復習は、行を増やさずに横へ足す
+              ホームは1画面に収める作りなので、カセットに行を足すと
+              そのぶんアバターが縮む。**同じ行に並べる**なら高さは変わらない */}
+          <Row gap={S.sm}>
+            <View style={{ flex: 1 }}>
+              <Button
+                label={
+                  due > 0
+                    ? `はじめる（${next.lesson.minutes}分）`
+                    : `はじめる（${next.lesson.minutes}分・クイズ${next.lesson.quiz.length}問）`
+                }
+                size="sm"
+                onPress={() => router.push(`/lesson/${next.lesson.id}`)}
+              />
+            </View>
+            {due > 0 ? (
+              <Button
+                label={`復習 ${due}`}
+                variant="yellow"
+                size="sm"
+                onPress={() => router.push('/review')}
+              />
+            ) : null}
+          </Row>
         </Cassette>
         </Spotlight>
       ) : (
-        <Panel contentStyle={{ padding: S.md, gap: S.xs }}>
+        <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
           <Text style={F.h2}>全課程、修了</Text>
           <Text style={F.small}>やり直したいレッスンは「まなぶ」から開けます。</Text>
+          {due > 0 ? (
+            <Button label={`復習する（${due}問）`} size="sm" onPress={() => router.push('/review')} />
+          ) : null}
         </Panel>
       )}
     </Screen>
