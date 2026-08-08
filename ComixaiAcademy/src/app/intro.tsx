@@ -1,15 +1,19 @@
 /* ============================================================
    入口の一幕。職種を決めた直後に挟む。
    右から相棒が歩いてきて、中央で止まり、正面を向いてひとこと言う。
-   そのままホームへ渡し、ホーム側のアプリ案内（tutorial）に続く。
+   タップするとホームへ渡し、ホーム側のアプリ案内（tutorial）に続く。
 
    ▍出すものは網点の紙と相棒だけ
    帯もカードもボタンも置かない。ここは画面ではなく**間（ま）**なので、
    要素を足すほど「場面が変わった」感じが薄れる。
 
+   ▍立ち位置はホームに合わせる（下の HOME_* ）
+   次に映るのがホームなので、**同じ大きさの相棒が同じ高さに立っている**と
+   場面がつながる。ずれていると、切り替わった瞬間にキャラが跳ぶ。
+
    ▍歩きは2段で止める
-   等速で歩いてきて、最後だけ減速する。1本の減速カーブで通すと
-   最初から足を引きずって見える（歩幅と速さが合わない）。
+   等速で歩いてきて、最後のひと足だけ減速する。1本の減速カーブで通すと
+   最初から足を引きずって見える。
 
    ▍向きは Avatar3D の face() に任せる
    毎フレーム少しずつ寄せてくれるので、こちらは「左を向け」「正面を向け」と
@@ -21,10 +25,22 @@
    なので seenIntro を見て**Gate がここへ寄越し**、見終えてフラグを立てたら
    **Gate がホームへ返す**。この画面は router を触らない。
    ============================================================ */
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Animated, Easing, Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
+import {
+  Animated,
+  Easing,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
+import { Icon } from '@/components/icons';
 import { PopIn } from '@/components/motion';
 import { Bubble, Screen } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
@@ -38,30 +54,59 @@ const NATIVE = Platform.OS !== 'web';
 /** 歩いてくる時間と、最後に止まる時間 */
 const WALK_MS = 900;
 const STOP_MS = 420;
-/** しゃべってから、ホームへ渡すまでの間。読み終わるくらい */
-const READ_MS = 4200;
 /** 3Dが出てこないとき（モデル未実装・読み込み失敗）でも、ここまでで歩き出す */
 const GIVE_UP_MS = 3500;
 
-/** 左を向く角度。回転0でカメラ側（正面）を向いているモデルなので、-90度で下手向き */
+/** 左を向く角度。回転0でカメラ側（正面）を向くモデルなので、-90度で下手向き */
 const FACE_LEFT = -Math.PI / 2;
+
+/* ———————————————— ホームでの立ち位置 ————————————————
+   ホームのアバターは
+   「黒帯 → 余白 → コマ（フキダシ＋アバター）→ 次のカセット → タブバー」
+   に挟まれて場所が決まる。ここにはその**どれも無い**ので、同じ位置に
+   立たせるには数字で合わせるしかない。以下はホーム（案内を閉じた状態）の
+   実測値。iPhoneの主要な幅で確かめてある。
+
+     390x844 → 幅330・高さ364・足元から下まで230
+     414x896 → 幅355・高さ390・同230
+     430x932 → 幅370・高さ408・同230
+     375x667 → 幅287・高さ316・同208（背の低い画面）
+
+   ホームの数値を変えたら（余白・カセット・AVATAR_RATIO）ここも測り直すこと。 */
+
+/** ホームの AVATAR_RATIO と同じ。3Dカメラの画角は固定なので、**キャラの
+    大きさは枠の高さだけで決まる**。ここがずれると場面の変わり目で伸び縮みする */
+const HOME_RATIO = 1.1;
+/** コマが左右にとられるぶん（画面の余白＋枠＋コマの内余白） */
+const HOME_SIDE = { tall: 60, short: 44 };
+/** 足元から画面の下まで（カセットとタブバーのぶん） */
+const HOME_FOOT = { tall: 230, short: 208 };
+/** フキダシに残しておく最低限。背の低い画面はここで頭打ちになる */
+const HOME_HEAD = { tall: 150, short: 140 };
 
 export default function IntroScreen() {
   const { state, markIntroSeen } = useProgress();
   const avatar = getAvatar(state.avatarId);
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
 
   const handle = React.useRef<AvatarHandle | null>(null);
   const [talking, setTalking] = React.useState(false);
 
-  /* 1＝画面の右外、0＝中央 */
+  /* 1＝画面の右外、0＝定位置 */
   const walk = React.useRef(new Animated.Value(1)).current;
   const walked = React.useRef(false);
   const left = React.useRef(false);
 
-  /* 相棒のコマ。オンボーディングの1枚目と同じくらいの背丈にする */
-  const stageW = Math.min(width * 0.74, 290);
-  const stageH = Math.round(stageW * 0.95);
+  /* ホームと同じ寸法・同じ高さに立たせる（上の HOME_* を参照） */
+  const short = height < 700;
+  const key = short ? 'short' : 'tall';
+  const stageW = Math.floor(
+    Math.min(width - HOME_SIDE[key], (height - HOME_FOOT[key] - HOME_HEAD[key]) / HOME_RATIO),
+  );
+  const stageH = Math.round(stageW * HOME_RATIO);
+  /* タブバーは安全領域のぶんだけ下に伸びるので、足元もそのぶん下がる */
+  const foot = HOME_FOOT[key] + insets.bottom;
   /* 枠の左端が画面の右端に接する位置＝完全に画面の外 */
   const from = width / 2 + stageW / 2;
 
@@ -106,73 +151,85 @@ export default function IntroScreen() {
     return () => clearTimeout(t);
   }, [start]);
 
+  /* ▍勝手に進めない
+     読み終わる時間は人によって違う。秒数で送ると、速い人は待たされ、
+     遅い人は読み切る前に消える。**押したら進む**に統一する */
   const leave = React.useCallback(() => {
-    if (left.current) return;
+    if (left.current || !talking) return;
     left.current = true;
     markIntroSeen();
-  }, [markIntroSeen]);
-
-  /* 読み終わるころに自動で進む。待たせない、急かさない */
-  React.useEffect(() => {
-    if (!talking) return;
-    const t = setTimeout(leave, READ_MS);
-    return () => clearTimeout(t);
-  }, [talking, leave]);
+  }, [markIntroSeen, talking]);
 
   return (
     <Screen
       scroll={false}
       tone="dots"
-      edges={['top', 'bottom']}
+      /* 網点の紙を画面いっぱいに敷きたいので、安全領域は自分で見る */
+      edges={[]}
       /* 画面の外へ歩かせるので、はみ出したぶんは必ず切る。
          切らないとモバイルのブラウザがページごとズームアウトする
-         （opening.tsx で実際に踏んだ） */
-      style={{ padding: 0, gap: 0, overflow: 'hidden' }}>
-      {/* 待てない人のために、どこを押しても進めるようにしておく */}
-      <Pressable
-        onPress={talking ? leave : undefined}
-        style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: S.xxl }}>
-        {/* ▍フキダシのぶんの高さは先に空けておく
-            出た瞬間に相棒が下へ押されると、せっかく止まった足がずれる */}
-        <View
-          style={{
-            width: '100%',
-            minHeight: 132,
-            justifyContent: 'flex-end',
-            paddingHorizontal: S.lg,
-          }}>
-          {talking ? (
-            <PopIn>
-              <Bubble variant="say" text={say(INTRO_VOICE.greet, state.avatarId)} />
-            </PopIn>
-          ) : null}
-        </View>
+         （opening.tsx で実際に踏んだ）。
+         padding は longhand が勝つので、下だけ別に0を書く */
+      style={{ padding: 0, paddingBottom: 0, gap: 0, overflow: 'hidden' }}>
+      {/* この画面だけ黒帯が無い。白い文字のままだと時計が読めない */}
+      <StatusBar style="dark" />
 
-        <Animated.View
-          style={{
-            transform: [
-              {
-                translateX: walk.interpolate({ inputRange: [0, 1], outputRange: [0, from] }),
-              },
-            ],
-          }}>
-          <Avatar3D
-            ref={handle}
-            avatar={avatar}
-            width={stageW}
-            height={stageH}
-            onReady={start}
-          />
-        </Animated.View>
+      {/* ———— セリフ ————
+           下から積む。上から置くと、行数が増えたぶんだけ相棒に近づいて
+           しっぽが顔に刺さる */}
+      <View
+        pointerEvents="none"
+        style={{ position: 'absolute', left: S.lg, right: S.lg, bottom: foot + stageH - S.sm }}>
+        {talking ? (
+          <PopIn>
+            <Bubble variant="say" text={say(INTRO_VOICE.greet, state.avatarId)} />
+          </PopIn>
+        ) : null}
+      </View>
 
-        <View style={{ height: 22, justifyContent: 'center' }}>
-          {talking ? (
-            <PopIn>
-              <Text style={F.tiny}>タップで進む</Text>
-            </PopIn>
-          ) : null}
-        </View>
-      </Pressable>
+      {/* ———— 相棒 ————
+           足元の高さはホームに合わせてある（上の HOME_FOOT） */}
+      <Animated.View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: foot,
+          alignItems: 'center',
+          transform: [{ translateX: walk.interpolate({ inputRange: [0, 1], outputRange: [0, from] }) }],
+        }}>
+        <Avatar3D ref={handle} avatar={avatar} width={stageW} height={stageH} onReady={start} />
+      </Animated.View>
+
+      {/* ———— 次へ ————
+           ホームでいうタブバーのあたり。ここに置くと、相棒の足元と
+           重ならずに済む */}
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: insets.bottom + S.xl,
+          alignItems: 'center',
+        }}>
+        {talking ? (
+          <PopIn>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <Text style={[F.hand, { fontSize: 14 }]}>タップして、つづける</Text>
+              <Icon name="play" size={11} />
+            </View>
+          </PopIn>
+        ) : null}
+      </View>
+
+      {/* ———— 押すところ ————
+           **いちばん上に重ねる。** 下に敷くと、相棒の上を押したときに
+           GLView の canvas が先に受け取ってしまう（親の pointerEvents="none"
+           が canvas まで効かない）。ここには押すものが他に無いので、
+           全面を1枚のPressableで覆ってしまってよい */}
+      <Pressable onPress={leave} style={StyleSheet.absoluteFill} />
     </Screen>
   );
 }
