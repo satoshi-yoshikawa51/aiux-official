@@ -373,8 +373,10 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
 #fromHolder { visibility:hidden; }
 #rig { position:absolute; transform-style:preserve-3d; }
 /* めくりの間だけ現れるスピード線（右から左）。うるさくならないよう
-   本数少なめ・低不透明度・尾が消えるグラデにする */
+   本数少なめ・低不透明度・尾が消えるグラデにする。
+   #lines=カード帯の手前 / #bglines=画面全体の背景（文字やカードの後ろ）の2層 */
 #lines { position:absolute; inset:0; pointer-events:none; }
+#bglines { position:absolute; inset:0; pointer-events:none; z-index:-1; }
 .spd { position:absolute; height:5px; border-radius:3px;
   background:linear-gradient(to left, rgba(20,17,15,.55), rgba(20,17,15,0)); }
 .seg { position:absolute; top:0; transform-origin:0% 50%; transform-style:preserve-3d; }
@@ -388,6 +390,7 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
   box-shadow:0 16px 18px -12px rgba(20,17,15,.28); }
 #rigShadow { position:absolute; border-radius:14px; box-shadow:10px 10px 0 ${INK}; }
 </style></head><body>
+<div id="bglines"></div>
 <div class="stage">
   <div class="kicker">4コマで学ぶAI</div>
   <div class="title"><span class="mk">${esc(meta.title)}</span></div>
@@ -443,23 +446,26 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
     }
 
     /* スピード線。位置と速さは乱数だが、コマ送りの全フレームで同一に
-       なるようシード付き（回によっては配置が変わってよい） */
+       なるようシード付き（回によっては配置が変わってよい）。
+       手前（カード帯・濃いめ）と背景（画面全体・薄め）の2層 */
     let s = (seed * 48271) % 2147483647 || 1234;
     const rnd = () => (s = (s * 48271) % 2147483647) / 2147483647;
-    const linesEl = document.getElementById("lines");
-    const wrapH = document.getElementById("wrap").getBoundingClientRect().height;
     window.__lines = [];
-    for (let i = 0; i < 9; i++) {
+    const addLine = (parent, y, maxY, op) => {
       const d = document.createElement("div");
       d.className = "spd";
-      const y = top - 70 + rnd() * (H + 140);
-      d.style.top = Math.max(8, Math.min(wrapH - 12, y)).toFixed(1) + "px";
-      d.style.width = (220 + rnd() * 320).toFixed(0) + "px";
+      d.style.top = Math.max(8, Math.min(maxY, y)).toFixed(1) + "px";
+      d.style.width = (220 + rnd() * 380).toFixed(0) + "px";
       d.style.height = (3 + rnd() * 4).toFixed(1) + "px";
       d.style.opacity = "0";
-      linesEl.appendChild(d);
-      window.__lines.push({ el: d, speed: 1 + rnd() * 0.9, x0: 1080 + rnd() * 500 });
-    }
+      parent.appendChild(d);
+      window.__lines.push({ el: d, speed: 1 + rnd() * 0.9, x0: 1080 + rnd() * 500, op });
+    };
+    const linesEl = document.getElementById("lines");
+    const wrapH = document.getElementById("wrap").getBoundingClientRect().height;
+    for (let i = 0; i < 8; i++) addLine(linesEl, top - 70 + rnd() * (H + 140), wrapH - 12, 0.45);
+    const bgEl = document.getElementById("bglines");
+    for (let i = 0; i < 12; i++) addLine(bgEl, rnd() * 1900, 1908, 0.3);
   };
 
   window.setProgress = (p) => {
@@ -499,9 +505,9 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
     document.getElementById("rigShadow").style.opacity = (1 - e).toFixed(3);
     /* スピード線：中盤で最も濃く、始まりと終わりは消えている */
     const env = Math.sin(Math.PI * e);
-    window.__lines.forEach(({ el, speed, x0 }) => {
+    window.__lines.forEach(({ el, speed, x0, op }) => {
       el.style.left = (x0 - 2000 * e * speed).toFixed(1) + "px";
-      el.style.opacity = (0.45 * env).toFixed(3);
+      el.style.opacity = (op * env).toFixed(3);
     });
   };
 </script></body></html>`;
