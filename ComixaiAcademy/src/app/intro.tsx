@@ -46,7 +46,8 @@ import { Bubble, Screen } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { INTRO_VOICE, say } from '@/data/voice';
 import { useProgress } from '@/store/progress';
-import { F, S } from '@/theme';
+import { stepSay, TUTORIAL } from '@/store/tutorial';
+import { BW, F, S } from '@/theme';
 
 /** Webの Animated はネイティブドライバを持たない */
 const NATIVE = Platform.OS !== 'web';
@@ -61,28 +62,53 @@ const GIVE_UP_MS = 3500;
 const FACE_LEFT = -Math.PI / 2;
 
 /* ———————————————— ホームでの立ち位置 ————————————————
-   ホームのアバターは
-   「黒帯 → 余白 → コマ（フキダシ＋アバター）→ 次のカセット → タブバー」
-   に挟まれて場所が決まる。ここにはその**どれも無い**ので、同じ位置に
-   立たせるには数字で合わせるしかない。以下はホーム（案内を閉じた状態）の
-   実測値。iPhoneの主要な幅で確かめてある。
+   ホームのアバターは、上下に積まれたものに挟まれて場所が決まる。
 
-     390x844 → 幅330・高さ364・足元から下まで230
-     414x896 → 幅355・高さ390・同230
-     430x932 → 幅370・高さ408・同230
-     375x667 → 幅287・高さ316・同208（背の低い画面）
+     安全領域 / 黒帯 / 画面の余白 / コマの枠と内余白 / フキダシ / すきま
+       ……アバター……
+     すきま / コマの枠と内余白 / 次のカセット / 画面の余白 / 案内のパネル /
+     タブバー / 安全領域
 
-   ホームの数値を変えたら（余白・カセット・AVATAR_RATIO）ここも測り直すこと。 */
+   ここにはその**どれも無い**ので、同じ大きさ・同じ高さは数字で作るしかない。
+
+   ▍いちばん間違えやすいのは安全領域
+   ノッチのある実機では上下に90pxほど食われる。Webで見ていると0なので、
+   **枠の幅で頭打ちになっているように見えて、実機では高さで頭打ちになる**。
+   一度これで実機だけ4割大きくなった。insets を必ず引くこと。
+
+   ▍案内のパネルのぶんも見込む
+   一幕の次に映るのは「案内が出ているホーム」で、パネルのぶんホームは
+   アバターを縮めている（Screen の reserve）。ここを見込まないと、
+   切り替わった瞬間にキャラが縮む。
+
+   ▍フキダシの高さは「ホームで出る行」を測って決める
+   アバターの上にどれだけ空くかはフキダシの行数で決まり、行数は端末の幅で
+   変わる（同じ文でも390では3行、414では2行）。決め打ちにできない。
+   なので**ホームの1歩目に出る行を、透明のフキダシに入れて測る**。
+   自分のセリフで測ると、行数が食い違ったぶんだけ大きさがずれる
+   （実測で10%ずれた）。測るのはホームの行、出すのは自分の行。 */
 
 /** ホームの AVATAR_RATIO と同じ。3Dカメラの画角は固定なので、**キャラの
     大きさは枠の高さだけで決まる**。ここがずれると場面の変わり目で伸び縮みする */
 const HOME_RATIO = 1.1;
-/** コマが左右にとられるぶん（画面の余白＋枠＋コマの内余白） */
-const HOME_SIDE = { tall: 60, short: 44 };
-/** 足元から画面の下まで（カセットとタブバーのぶん） */
-const HOME_FOOT = { tall: 230, short: 208 };
-/** フキダシに残しておく最低限。背の低い画面はここで頭打ちになる */
-const HOME_HEAD = { tall: 150, short: 140 };
+
+/** 背の高い画面／低い画面それぞれの、ホームの実測値（安全領域は別に足す） */
+const HOME = {
+  /** 黒帯の高さ（安全領域を含まない） */
+  band: { tall: 85, short: 73 },
+  /** 画面の余白（ホームの Screen style と同じ） */
+  pad: { tall: S.lg, short: S.sm },
+  /** コマが左右にとられるぶん（余白＋枠＋内余白＋ベタ影） */
+  side: { tall: 60, short: 44 },
+  /** 足元から画面の下まで（コマの内余白・カセット・余白・タブバー） */
+  foot: { tall: 230, short: 208 },
+};
+/** コマの枠と内余白（フキダシの上に乗るぶん） */
+const HOME_EDGE = BW.bold + S.sm;
+/** 案内のパネルがホームの下に積む高さ（パネル＋その上の余白）。実測 */
+const GUIDE_H = 107;
+/** ホームのフキダシがコマの中でとる左右の余白（marginLeft/Right） */
+const HOME_BUBBLE_MARGIN = 3;
 
 export default function IntroScreen() {
   const { state, markIntroSeen } = useProgress();
@@ -98,24 +124,39 @@ export default function IntroScreen() {
   const walked = React.useRef(false);
   const left = React.useRef(false);
 
-  /* ホームと同じ寸法・同じ高さに立たせる（上の HOME_* を参照） */
+  /* ———— ホームと同じ寸法・同じ高さに立たせる（上の HOME を参照）————
+     測れるまでは何も描かない。あとから寸法が変わると GLView が作り直しに
+     なって、1.9MBのGLBを読み直すことになる */
   const short = height < 700;
-  const key = short ? 'short' : 'tall';
+  const k = short ? 'short' : 'tall';
+  const [bubbleH, setBubbleH] = React.useState(0);
+  const [settled, setSettled] = React.useState(0);
+  React.useEffect(() => {
+    const t = setTimeout(() => setSettled(bubbleH), 120);
+    return () => clearTimeout(t);
+  }, [bubbleH]);
+
+  /* フキダシの幅はホームに合わせる。ここが違うと折り返す行数が変わり、
+     測った高さも見え方もずれる */
+  const bubbleSide = HOME.side[k] / 2 + HOME_BUBBLE_MARGIN;
+  /* 足元から画面の下まで。案内のパネルと安全領域のぶんも下がる */
+  const foot = HOME.foot[k] + GUIDE_H + insets.bottom;
+  /* アバターの上にあるもの。フキダシまで含めた高さ */
+  const head = insets.top + HOME.band[k] + HOME.pad[k] + HOME_EDGE + settled + S.sm;
   const stageW = Math.floor(
-    Math.min(width - HOME_SIDE[key], (height - HOME_FOOT[key] - HOME_HEAD[key]) / HOME_RATIO),
+    Math.min(width - HOME.side[k], Math.max(120, (height - head - foot) / HOME_RATIO)),
   );
   const stageH = Math.round(stageW * HOME_RATIO);
-  /* タブバーは安全領域のぶんだけ下に伸びるので、足元もそのぶん下がる */
-  const foot = HOME_FOOT[key] + insets.bottom;
   /* 枠の左端が画面の右端に接する位置＝完全に画面の外 */
   const from = width / 2 + stageW / 2;
 
   /* 読み込みが終わる前に向きだけ決めておく。
      こうしておくと、出てきた瞬間から左を向いて立っている
-     （出てから回すと、正面を向いたまま横に滑る絵になる） */
+     （出てから回すと、正面を向いたまま横に滑る絵になる）。
+     Avatar3D はフキダシを測ってから生えるので、そのあとで呼ぶ */
   React.useEffect(() => {
-    handle.current?.face(FACE_LEFT);
-  }, []);
+    if (settled > 0) handle.current?.face(FACE_LEFT);
+  }, [settled]);
 
   const start = React.useCallback(() => {
     if (walked.current) return;
@@ -174,21 +215,45 @@ export default function IntroScreen() {
       {/* この画面だけ黒帯が無い。白い文字のままだと時計が読めない */}
       <StatusBar style="dark" />
 
+      {/* ———— ものさし ————
+           **ホームの1歩目に出る行**を、ホームと同じ幅・同じ設定のフキダシに
+           入れて高さを測る。画面には出さない。自分のセリフで測ると、
+           折り返しの行数が食い違ったぶんだけアバターの大きさがずれる */}
+      <View
+        pointerEvents="none"
+        onLayout={(e) => setBubbleH(Math.ceil(e.nativeEvent.layout.height))}
+        style={{ position: 'absolute', left: bubbleSide, right: bubbleSide, top: 0, opacity: 0 }}>
+        <Bubble
+          text={stepSay(TUTORIAL[0], state.avatarId)}
+          compact={short}
+          numberOfLines={short ? 3 : undefined}
+        />
+      </View>
+
       {/* ———— セリフ ————
            下から積む。上から置くと、行数が増えたぶんだけ相棒に近づいて
            しっぽが顔に刺さる */}
       <View
         pointerEvents="none"
-        style={{ position: 'absolute', left: S.lg, right: S.lg, bottom: foot + stageH - S.sm }}>
+        style={{
+          position: 'absolute',
+          left: bubbleSide,
+          right: bubbleSide,
+          bottom: foot + stageH + S.sm,
+        }}>
         {talking ? (
           <PopIn>
-            <Bubble variant="say" text={say(INTRO_VOICE.greet, state.avatarId)} />
+            <Bubble
+              text={say(INTRO_VOICE.greet, state.avatarId)}
+              compact={short}
+              numberOfLines={short ? 3 : undefined}
+            />
           </PopIn>
         ) : null}
       </View>
 
       {/* ———— 相棒 ————
-           足元の高さはホームに合わせてある（上の HOME_FOOT） */}
+           大きさと足元の高さはホームに合わせてある（上の HOME） */}
       <Animated.View
         pointerEvents="none"
         style={{
@@ -199,7 +264,13 @@ export default function IntroScreen() {
           alignItems: 'center',
           transform: [{ translateX: walk.interpolate({ inputRange: [0, 1], outputRange: [0, from] }) }],
         }}>
-        <Avatar3D ref={handle} avatar={avatar} width={stageW} height={stageH} onReady={start} />
+        {/* フキダシを測り終えてから描き始める。先に描くと、測った直後に
+            寸法が変わってGLBを読み直す */}
+        {settled > 0 ? (
+          <Avatar3D ref={handle} avatar={avatar} width={stageW} height={stageH} onReady={start} />
+        ) : (
+          <View style={{ width: stageW, height: stageH }} />
+        )}
       </Animated.View>
 
       {/* ———— 次へ ————
