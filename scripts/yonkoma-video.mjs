@@ -54,8 +54,10 @@ const INK = "#14110f";
 const INK_500 = "#6e635b";
 const PAPER_0 = "#ffffff";
 const PAPER_50 = "#fbf7ef";
+const PAPER_100 = "#f4ecdd";
 const YELLOW = "#ffd23f";
 const RED = "#e60012";
+const RED_600 = "#c70010";
 
 const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -268,20 +270,26 @@ async function detectAndCropPanels(page) {
 
 /* ═══════════════ 2. フレーム画像を組む ═══════════════ */
 
+/* サイトと同じ言語で組む：クリーム地＋トーンドット、赤のmono kicker、
+   墨色の極太見出しに黄色マーカー、フッターに小さくロゴ */
 const FRAME_BASE = `
 * { margin:0; padding:0; box-sizing:border-box; }
-body { width:1080px; height:1920px; font-family:"Zen Kaku Gothic New", sans-serif; color:${PAPER_50};
-  background:${INK};
-  background-image:radial-gradient(rgba(251,247,239,0.05) 1.6px, transparent 1.7px);
+body { width:1080px; height:1920px; font-family:"Zen Kaku Gothic New", sans-serif; color:${INK};
+  background:${PAPER_100};
+  background-image:radial-gradient(rgba(20,17,15,0.13) 1.7px, transparent 1.8px);
   background-size:15px 15px; overflow:hidden; }
-.stage { width:1080px; height:1920px; display:flex; flex-direction:column; align-items:center; padding:120px 56px 150px; }
-.kicker { font-family:"JetBrains Mono", monospace; font-size:26px; letter-spacing:.18em; font-weight:700; color:${YELLOW}; }
-.title { font-size:52px; font-weight:900; line-height:1.35; text-align:center; margin-top:18px; max-width:940px; }
+.stage { width:1080px; height:1920px; display:flex; flex-direction:column; align-items:center; padding:120px 56px 140px; }
+.kicker { font-family:"JetBrains Mono", monospace; font-size:25px; letter-spacing:.2em; font-weight:700; color:${RED_600}; }
+.title { font-size:54px; font-weight:900; line-height:1.5; text-align:center; margin-top:20px; max-width:940px; letter-spacing:.02em; }
+.title .mk { background:linear-gradient(transparent 64%, ${YELLOW} 64%); padding:0 8px; }
 .foot { margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:20px; }
 .dots { display:flex; gap:14px; }
-.dot { width:18px; height:18px; border-radius:50%; border:3px solid ${PAPER_50}; opacity:.45; }
-.dot.on { background:${YELLOW}; border-color:${YELLOW}; opacity:1; }
-.site { font-family:"JetBrains Mono", monospace; font-size:24px; font-weight:700; color:${INK_500}; }
+.dot { width:18px; height:18px; border-radius:50%; border:3px solid ${INK}; opacity:.2; }
+.dot.on { background:${YELLOW}; border-color:${INK}; opacity:1; }
+.brand { display:flex; align-items:baseline; gap:16px; }
+.logo { font-size:29px; font-weight:900; letter-spacing:.01em; color:${INK}; }
+.logo .mix { color:${RED}; }
+.site { font-family:"JetBrains Mono", monospace; font-size:21px; font-weight:700; color:${INK_500}; }
 `;
 
 function panelFrameHtml(panelUrl, index, total) {
@@ -289,12 +297,12 @@ function panelFrameHtml(panelUrl, index, total) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}${FRAME_BASE}
 .panel-wrap { margin-top:56px; flex:1; display:flex; align-items:center; justify-content:center; min-height:0; width:100%; }
 .panel-wrap img { max-width:968px; max-height:1180px; width:auto; height:auto;
-  background:${PAPER_0}; border-radius:14px; box-shadow:12px 12px 0 rgba(0,0,0,.55); }
+  background:${PAPER_0}; border-radius:14px; box-shadow:10px 10px 0 ${INK}; }
 </style></head><body><div class="stage">
   <div class="kicker">4コマで学ぶAI</div>
-  <div class="title">${esc(meta.title)}</div>
+  <div class="title"><span class="mk">${esc(meta.title)}</span></div>
   <div class="panel-wrap"><img src="${panelUrl}"></div>
-  <div class="foot"><div class="dots">${dots}</div><div class="site">comixai.dev</div></div>
+  <div class="foot"><div class="dots">${dots}</div><div class="brand"><span class="logo">CO<span class="mix">MIX</span>AI</span><span class="site">comixai.dev</span></div></div>
 </div></body></html>`;
 }
 
@@ -335,10 +343,10 @@ function scrollFrameHtml(stripUrl, stripW, stripH) {
 body { height:${frameH}px; }
 .stage { height:${frameH}px; padding-bottom:120px; }
 .strip { margin-top:52px; width:${drawW}px; border-radius:14px; background:${PAPER_0};
-  box-shadow:12px 12px 0 rgba(0,0,0,.55); }
+  box-shadow:10px 10px 0 ${INK}; }
 </style></head><body><div class="stage">
   <div class="kicker">4コマで学ぶAI</div>
-  <div class="title">${esc(meta.title)}</div>
+  <div class="title"><span class="mk">${esc(meta.title)}</span></div>
   <img class="strip" src="${stripUrl}">
 </div></body></html>`,
   };
@@ -361,30 +369,39 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
 .panel-wrap { margin-top:56px; flex:1; width:100%; position:relative; min-height:0; perspective:2000px; perspective-origin:50% 50%; }
 .layer { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
 .card { max-width:968px; max-height:1180px; width:auto; height:auto; background:${PAPER_0}; border-radius:14px; }
-#toCard { box-shadow:12px 12px 0 rgba(0,0,0,.55); }
+#toCard { box-shadow:10px 10px 0 ${INK}; }
 #fromHolder { visibility:hidden; }
 #rig { position:absolute; transform-style:preserve-3d; }
+/* めくりの間だけ現れるスピード線（右から左）。うるさくならないよう
+   本数少なめ・低不透明度・尾が消えるグラデにする */
+#lines { position:absolute; inset:0; pointer-events:none; }
+.spd { position:absolute; height:5px; border-radius:3px;
+  background:linear-gradient(to left, rgba(20,17,15,.55), rgba(20,17,15,0)); }
 .seg { position:absolute; top:0; transform-origin:0% 50%; transform-style:preserve-3d; }
 /* backface-visibilityは子に継承されないので、面の中身にも個別指定する */
 .seg, .seg * { backface-visibility:hidden; }
 .sface { position:absolute; top:0; left:0; overflow:hidden; background-repeat:no-repeat; background-color:${PAPER_0}; }
 .sshade { position:absolute; inset:0; background:#000; }
-.sback { position:absolute; top:0; left:0; transform:rotateY(180deg); background:#f3ecdc; }
-#rigShadow { position:absolute; border-radius:14px; box-shadow:12px 12px 0 rgba(0,0,0,.55); }
+/* 紙の裏。クリーム地に埋もれないよう白寄りにして、浮いている影を足す。
+   影は下方向だけに絞る（横に広げると隣の短冊に落ちて縦縞に見える） */
+.sback { position:absolute; top:0; left:0; transform:rotateY(180deg); background:#fffdf6;
+  box-shadow:0 16px 18px -12px rgba(20,17,15,.28); }
+#rigShadow { position:absolute; border-radius:14px; box-shadow:10px 10px 0 ${INK}; }
 </style></head><body>
 <div class="stage">
   <div class="kicker">4コマで学ぶAI</div>
-  <div class="title">${esc(meta.title)}</div>
+  <div class="title"><span class="mk">${esc(meta.title)}</span></div>
   <div class="panel-wrap" id="wrap">
     <div class="layer"><img id="toCard" class="card" src="${toUrl}"></div>
     <div class="layer"><img id="fromHolder" class="card" src="${fromUrl}"></div>
     <div id="rigShadow"></div>
     <div id="rig"></div>
+    <div id="lines"></div>
   </div>
-  <div class="foot"><div class="dots">${dots}</div><div class="site">comixai.dev</div></div>
+  <div class="foot"><div class="dots">${dots}</div><div class="brand"><span class="logo">CO<span class="mix">MIX</span>AI</span><span class="site">comixai.dev</span></div></div>
 </div>
 <script>
-  window.__init = async (N) => {
+  window.__init = async (N, seed) => {
     const toCard = document.getElementById("toCard");
     const holder = document.getElementById("fromHolder");
     await toCard.decode();
@@ -424,6 +441,25 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
       seg.appendChild(b); seg.appendChild(f); rig.appendChild(seg);
       window.__ctx.segs.push({ seg, sh, x });
     }
+
+    /* スピード線。位置と速さは乱数だが、コマ送りの全フレームで同一に
+       なるようシード付き（回によっては配置が変わってよい） */
+    let s = (seed * 48271) % 2147483647 || 1234;
+    const rnd = () => (s = (s * 48271) % 2147483647) / 2147483647;
+    const linesEl = document.getElementById("lines");
+    const wrapH = document.getElementById("wrap").getBoundingClientRect().height;
+    window.__lines = [];
+    for (let i = 0; i < 9; i++) {
+      const d = document.createElement("div");
+      d.className = "spd";
+      const y = top - 70 + rnd() * (H + 140);
+      d.style.top = Math.max(8, Math.min(wrapH - 12, y)).toFixed(1) + "px";
+      d.style.width = (220 + rnd() * 320).toFixed(0) + "px";
+      d.style.height = (3 + rnd() * 4).toFixed(1) + "px";
+      d.style.opacity = "0";
+      linesEl.appendChild(d);
+      window.__lines.push({ el: d, speed: 1 + rnd() * 0.9, x0: 1080 + rnd() * 500 });
+    }
   };
 
   window.setProgress = (p) => {
@@ -461,6 +497,12 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
     const clipL = Math.max(0, Math.min(toW, left + a - toLeft));
     document.getElementById("toCard").style.clipPath = "inset(-40px -40px -40px " + clipL.toFixed(1) + "px)";
     document.getElementById("rigShadow").style.opacity = (1 - e).toFixed(3);
+    /* スピード線：中盤で最も濃く、始まりと終わりは消えている */
+    const env = Math.sin(Math.PI * e);
+    window.__lines.forEach(({ el, speed, x0 }) => {
+      el.style.left = (x0 - 2000 * e * speed).toFixed(1) + "px";
+      el.style.opacity = (0.45 * env).toFixed(3);
+    });
   };
 </script></body></html>`;
 }
@@ -468,7 +510,7 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
 async function renderPanelCurlFrames(page, fromPanelUrl, toPanelUrl, dotIndex, total, work, index) {
   await page.setContent(flipSceneHtml(fromPanelUrl, toPanelUrl, dotIndex, total), { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
-  await page.evaluate((N) => window.__init(N), FLIP_STRIPS);
+  await page.evaluate(({ N, seed }) => window.__init(N, seed), { N: FLIP_STRIPS, seed: index + 1 });
   const files = [];
   for (let k = 0; k < FLIP_FRAMES; k++) {
     await page.evaluate((p) => window.setProgress(p), k / (FLIP_FRAMES - 1));
