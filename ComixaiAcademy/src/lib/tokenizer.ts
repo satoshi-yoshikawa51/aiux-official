@@ -23,6 +23,8 @@ export interface TokenChip {
 interface Enc {
   encode: (s: string) => number[];
   decode: (t: number[]) => string;
+  /** 途中で切れたバイト列を内部に持ち越しながら、読めたぶんだけ返す */
+  decodeGenerator: (t: Iterable<number>) => Generator<string>;
 }
 
 let cached: Enc | null = null;
@@ -33,7 +35,7 @@ export function loadTokenizer(): Promise<Enc> {
   if (cached) return Promise.resolve(cached);
   if (!inflight) {
     inflight = import('gpt-tokenizer/encoding/cl100k_base').then((m) => {
-      cached = { encode: m.encode, decode: m.decode };
+      cached = { encode: m.encode, decode: m.decode, decodeGenerator: m.decodeGenerator };
       return cached;
     });
   }
@@ -47,21 +49,47 @@ export function tokenizerReady(): boolean {
 
 /**
  * トークン列を「読める塊」に束ねる。
- * 文字の途中で切れているあいだは次のトークンを足していき、
- * decodeが成立したところで1つのチップにする（サイトの実験室と同じ作法）。
+ *
+ * ▍decode に「�が出るか」で判定してはいけない
+ * かつては1トークンずつ足しながら decode して、置換文字（U+FFFD）が
+ * 消えたところで区切っていた。ところが gpt-tokenizer の decode は、
+ * **末尾の半端なバイトを黙って捨てて返す**。そのため「まだ途中」なのに
+ * 文字として成立したように見え、区切りが1つ後ろへずれていた。
+ *
+ * 実際に出ていた誤り（合計は合っているが、内訳が違う）：
+ *   「事務の」 事 ／ 務の×3      → 正しくは 事 ／ 務×2 ／ の
+ *   「書類」   書×3 ／ 類        → 正しくは 書×2 ／ 類×2
+ *
+ * decodeGenerator は半端なバイトを内部に持ち越すので、**読めた瞬間**に
+ * だけ文字を返す。これを1トークンずつ流し込んで、返ってきた時点までに
+ * 何トークン使ったかを数える。
  */
-export function toChips(tokens: number[], decode: (t: number[]) => string): TokenChip[] {
+export function toChips(tokens: number[], enc: Enc): TokenChip[] {
   const chips: TokenChip[] = [];
-  let buf: number[] = [];
-  for (const t of tokens) {
-    buf.push(t);
-    const s = decode(buf);
-    if (s && !s.includes('�')) {
-      chips.push({ text: s, n: buf.length });
-      buf = [];
+  /* いま generator に渡し終えた位置と、直前に文字が確定した位置 */
+  let at = -1;
+  let last = -1;
+
+  function* feed(): Generator<number> {
+    for (let i = 0; i < tokens.length; i++) {
+      at = i;
+      yield tokens[i];
     }
   }
-  /* 末尾が中途半端に終わった場合（入力の途中など） */
-  if (buf.length) chips.push({ text: '…', n: buf.length });
+
+  for (const piece of enc.decodeGenerator(feed())) {
+    if (!piece) continue;
+    if (at === last && chips.length) {
+      /* 1トークンから2回に分けて返ってきた場合。
+         新しいチップにすると0トークンの塊ができてしまうので、前にくっつける */
+      chips[chips.length - 1].text += piece;
+      continue;
+    }
+    chips.push({ text: piece, n: at - last });
+    last = at;
+  }
+
+  /* 末尾が中途半端に終わった場合（サロゲートの片割れだけ、など） */
+  if (last < tokens.length - 1) chips.push({ text: '…', n: tokens.length - 1 - last });
   return chips;
 }

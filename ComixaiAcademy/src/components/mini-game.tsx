@@ -533,11 +533,11 @@ function TokenPlay({
     if (!ready) return;
     const t = setTimeout(() => {
       loadTokenizer()
-        .then(({ encode, decode }) => {
-          const ids = encode(text);
+        .then((enc) => {
+          const ids = enc.encode(text);
           setChips((old) => {
             prevChips.current = old.length;
-            return toChips(ids, decode);
+            return toChips(ids, enc);
           });
           setCount(ids.length);
         })
