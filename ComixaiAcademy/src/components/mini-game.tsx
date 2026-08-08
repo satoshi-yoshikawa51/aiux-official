@@ -46,6 +46,10 @@ import {
   useSparkBurst,
   useTap,
 } from '@/components/motion';
+import { BuildPlay } from '@/components/games/build-game';
+import { FindPlay } from '@/components/games/find-game';
+import { FitPlay } from '@/components/games/fit-game';
+import { SortPlay } from '@/components/games/sort-game';
 import { sinkFlat, Tone } from '@/components/ui';
 import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
@@ -72,6 +76,30 @@ export interface GameMeta {
 }
 
 export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
+  sort: {
+    name: '仕分け',
+    icon: 'target',
+    rule: '2つの箱に振り分ける',
+    how: '流れてくる1枚を、左右どちらの箱に入れるか決めます',
+  },
+  find: {
+    name: '検問',
+    icon: 'shield',
+    rule: '危ない行を見つける',
+    how: '文書を読んで、あやしい行をタップして摘発します',
+  },
+  build: {
+    name: '指示を組む',
+    icon: 'hammer',
+    rule: '部品を選んで指示にする',
+    how: '札を選ぶたびに、AIの返しがその場で変わります',
+  },
+  fit: {
+    name: 'つくえの上',
+    icon: 'folder',
+    rule: '限られた広さに詰める',
+    how: 'AIの作業机は狭い。要るものだけを載せてください',
+  },
   tokenizer: {
     name: 'トークナイザー',
     icon: 'pen',
@@ -155,6 +183,22 @@ export function MiniGame({
                 <GameBar meta={g} onClose={onClose} />
                 {phase === 'clear' ? (
                   <ClearScreen meta={g} onClose={onClose} />
+                ) : spec.kind === 'sort' ? (
+                  <GameScroll>
+                    <SortPlay spec={spec} onClear={clear} />
+                  </GameScroll>
+                ) : spec.kind === 'find' ? (
+                  <GameScroll>
+                    <FindPlay spec={spec} onClear={clear} />
+                  </GameScroll>
+                ) : spec.kind === 'build' ? (
+                  <GameScroll>
+                    <BuildPlay spec={spec} onClear={clear} />
+                  </GameScroll>
+                ) : spec.kind === 'fit' ? (
+                  <GameScroll>
+                    <FitPlay spec={spec} onClear={clear} />
+                  </GameScroll>
                 ) : spec.kind === 'ai-prompt' ? (
                   <AiPromptPlay spec={spec} onClear={clear} />
                 ) : (
@@ -177,6 +221,19 @@ export function MiniGame({
         </SparkLayer>
       )}
     </Modal>
+  );
+}
+
+/* 指1本のゲーム共通の器。中身が縦に伸びるので、スクロールさせる。
+   下は少し多めに空ける（決めるボタンが画面の縁に貼り付くと押しにくい） */
+function GameScroll({ children }: { children: React.ReactNode }) {
+  return (
+    <ScrollView
+      contentContainerStyle={{ padding: S.lg, paddingBottom: S.xxl }}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled">
+      {children}
+    </ScrollView>
   );
 }
 

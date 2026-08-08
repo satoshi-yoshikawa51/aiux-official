@@ -48,13 +48,86 @@ export type ByAvatar<Tvalue> = Partial<Record<AvatarId, Tvalue>>;
    体験カード。読むだけ・選ぶだけにしないための仕掛け。
 
    カードに interactive を足すと、本文の下に道具が出る。
+   ▍打たせるものは、ごく一部でいい
+   はじめは「打って結果を見る」ものばかりだった。17本中3本にしか体験が無く、
+   しかもその3本すべてがテキスト入力で、残り14本は**読んでクイズ1問**だった。
+   スマホで長文を打つのはそれ自体が面倒なので、体験の入口がそこだと入らない。
+
+   なので**指1本で成立するもの**を軸にし、打つのは prompt-1 の1本だけ残した
+   （本物のAIに渡す手ざわりは、それはそれで価値があるため）。
+
+   ・sort          … 流れてくるものを左右に振り分ける（ウソ/ホント、入れていい/ダメ）
+   ・find          … 文書の中の危ない行をタップして摘発する
+   ・build         … 指示の部品を選ぶと、出力がその場で変わる
+   ・fit           … 資料を選んで、限られた広さに詰める
    ・tokenizer     … 好きに打って、トークンの割れ方を見る（合否なし）
    ・token-budget  … 決められたトークン数に収める（**通らないと次に進めない**）
+   ・ai-prompt     … 本物のAIに指示を渡して採点される
 
-   増やすときは、この union に足して src/components/lesson-interactive.tsx に
-   描き方を書く。合否のあるものは done を呼ぶこと（呼ばないと先に進めない）。
+   増やすときは、この union に足して src/components/mini-game.tsx に
+   遊び方を書く。合否のあるものは onClear を呼ぶこと（呼ばないと先に進めない）。
    ============================================================ */
+
+/** 仕分けの1枚 */
+export interface SortItem {
+  text: string;
+  /** true なら「右」の箱が正解 */
+  right: boolean;
+  /** 答え合わせのときに出す一言 */
+  why: string;
+}
+
+/** 組み立ての部品ひと組 */
+export interface BuildSlot {
+  /** 「役割」「形式」など、選ばせる軸の名前 */
+  label: string;
+  options: {
+    name: string;
+    /** これを選んだときに出力がどう変わるか（1〜2行） */
+    result: string;
+  }[];
+}
+
+/** 詰めるときに机へ載せる資料 */
+export interface FitItem {
+  name: string;
+  /** 占める広さ */
+  cost: number;
+  /** この仕事に要るものか */
+  needed: boolean;
+  why: string;
+}
 export type LessonInteractive =
+  | {
+      kind: 'sort';
+      /** 左右の箱の名前。左＝right:false、右＝right:true */
+      left: string;
+      right: string;
+      items: SortItem[];
+      /** 何枚まで間違えて通れるか */
+      allow: number;
+    }
+  | {
+      kind: 'find';
+      /** 何を探すのか（1行） */
+      brief: string;
+      /** 文書の行。危ない行は bad を立てる */
+      lines: { text: string; bad?: boolean; why?: string }[];
+    }
+  | {
+      kind: 'build';
+      brief: string;
+      slots: BuildSlot[];
+      /** 全部選び終わったときに出す締め */
+      wrap: string;
+    }
+  | {
+      kind: 'fit';
+      brief: string;
+      /** 机の広さ */
+      capacity: number;
+      items: FitItem[];
+    }
   | {
       kind: 'tokenizer';
       /** 押すと入る例文 */
