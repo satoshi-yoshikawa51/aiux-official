@@ -38,7 +38,8 @@ import Svg, { Path } from 'react-native-svg';
 import { Icon } from '@/components/icons';
 import { SparkLayer, useSparkBurst } from '@/components/motion';
 import { Bubble } from '@/components/ui';
-import type { Title } from '@/data/badges';
+import { titleSay, type Title } from '@/data/badges';
+import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 const NATIVE = Platform.OS !== 'web';
@@ -314,6 +315,9 @@ export function RankUpScreen({
 function Stage({ from, to, onDone }: { from: Title | null; to: Title; onDone: () => void }) {
   const { width, height } = useWindowDimensions();
   const burst = useSparkBurst();
+  /* ひとことは選んでいる相棒の口調で出す（書けていなければ先生の言葉） */
+  const { state } = useProgress();
+  const avatarId = state.avatarId;
   const [beat, setBeat] = React.useState(0);
 
   /* 白飛び。最初の一瞬だけ画面を白く飛ばして、黒へ沈める */
@@ -473,7 +477,7 @@ function Stage({ from, to, onDone }: { from: Title | null; to: Title; onDone: ()
         <Slot h={124}>
         {beat >= 5 ? (
           <Slam from={1.35}>
-            <Bubble text={to.say} variant="say" numberOfLines={3} style={{ maxWidth: 300 }} />
+            <Bubble text={titleSay(to, avatarId)} variant="say" numberOfLines={3} style={{ maxWidth: 300 }} />
           </Slam>
         ) : null}
         </Slot>

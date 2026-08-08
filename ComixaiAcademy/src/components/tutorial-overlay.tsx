@@ -19,7 +19,7 @@ import { Icon } from '@/components/icons';
 import { Pop, Row, Tap } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { useProgress } from '@/store/progress';
-import { useTutorial } from '@/store/tutorial';
+import { useTutorial, stepSay } from '@/store/tutorial';
 import { BW, C, F, FONT, POP, R, S, T, TAB } from '@/theme';
 
 export function TutorialOverlay() {
@@ -94,7 +94,7 @@ export function TutorialOverlay() {
 
               <Text
                 style={{ fontFamily: FONT.hand, fontSize: 14.5, lineHeight: 23, color: C.paper50 }}>
-                {step.say}
+                {stepSay(step, state.avatarId)}
               </Text>
             </>
           )}

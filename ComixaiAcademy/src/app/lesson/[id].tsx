@@ -31,9 +31,10 @@ import {
   sinkFlat,
 } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
-import { getBadge, prevTitle, type Title } from '@/data/badges';
+import { getBadge, prevTitle, titleSay, type Title } from '@/data/badges';
 import { COURSES, getLesson, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
+import { LESSON_VOICE, say as voice } from '@/data/voice';
 import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
@@ -128,7 +129,10 @@ export default function LessonScreen() {
   }, [navigation, found?.lesson.title]);
 
   const card = found ? found.lesson.cards[cardIndex] : undefined;
-  const view = React.useMemo(() => (card ? resolveCard(card, state.roleId) : null), [card, state.roleId]);
+  const view = React.useMemo(
+    () => (card ? resolveCard(card, state.roleId, state.avatarId) : null),
+    [card, state.roleId, state.avatarId],
+  );
 
   React.useEffect(() => {
     if (phase !== 'cards' || !view) return;
@@ -212,18 +216,20 @@ export default function LessonScreen() {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
   };
 
+  /* セリフは相棒で変わる。書けていない相棒は先生の言葉に落ちる（data/voice.ts） */
+  const v = (line: Parameters<typeof voice>[0]) => voice(line, state.avatarId);
   const say =
     phase === 'cards'
       ? (view?.say ?? '')
       : phase === 'quiz'
         ? choice === null
-          ? '確認だ。ここだけ間違えるな。'
+          ? v(LESSON_VOICE.quizAsk)
           : choice === quiz.answer
-            ? 'そうだ。わかってるじゃないか。'
-            : '違う。……まあ、ここで間違えておけ。'
+            ? v(LESSON_VOICE.quizRight)
+            : v(LESSON_VOICE.quizWrong)
         : misses === 0
-          ? 'ノーミスか。文句なしだ。'
-          : '終わりだ。間違えたところは、あとで戻ればいい。';
+          ? v(LESSON_VOICE.resultPerfect)
+          : v(LESSON_VOICE.resultDone);
 
   return (
     /* 上は Stack のヘッダーが安全領域を飲んでいるので、ここでは下だけ見る */
@@ -435,7 +441,9 @@ export default function LessonScreen() {
                   <Icon name={result.newTitle.icon} size={32} color={C.paper0} />
                   <Text style={[F.title, { color: C.paper50, flex: 1 }]}>{result.newTitle.name}</Text>
                 </Row>
-                <Text style={[F.hand, { color: C.paper100 }]}>「{result.newTitle.say}」</Text>
+                <Text style={[F.hand, { color: C.paper100 }]}>
+                  「{titleSay(result.newTitle, state.avatarId)}」
+                </Text>
               </Card>
             ) : null}
 

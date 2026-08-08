@@ -1,5 +1,5 @@
 /* 全コースの束ね役。表示順はこの配列のとおり。 */
-import type { Course, Lesson, RoleId, LessonCard, ByRole } from '../types';
+import type { Course, Lesson, RoleId, LessonCard, ByRole, ByAvatar, AvatarId } from '../types';
 import { BASICS } from './basics';
 import { WORK } from './work';
 import { PROMPT } from './prompt';
@@ -32,10 +32,26 @@ export function pick<Tvalue>(
   return common;
 }
 
-/** カードの表示内容を、選択中の職種にあわせて解決する */
-export function resolveCard(card: LessonCard, role: RoleId | null) {
+/** アバター別の値があればそれを、無ければ共通の値を返す */
+export function pickAvatar<Tvalue>(
+  common: Tvalue | undefined,
+  byAvatar: ByAvatar<Tvalue> | undefined,
+  avatarId: AvatarId | null,
+): Tvalue | undefined {
+  if (avatarId && byAvatar && byAvatar[avatarId] !== undefined) return byAvatar[avatarId];
+  return common;
+}
+
+/** カードの表示内容を、選択中の職種と相棒にあわせて解決する。
+
+    ▍セリフは「相棒 → 職種 → 共通」の順で見る
+    フキダシは**誰がしゃべっているか**が先に立つので、相棒別があれば勝つ。
+    職種別（sayByRole）は「あんたの仕事は〜」と相手の仕事に触れる回で
+    使っているものなので、そういう回に相棒別を書くときは、
+    **仕事に触れない言い回しにするか、書かずに職種別へ譲る**こと。 */
+export function resolveCard(card: LessonCard, role: RoleId | null, avatarId: AvatarId | null = null) {
   return {
-    say: pick(card.say, card.sayByRole, role) ?? card.say,
+    say: pickAvatar(undefined, card.sayByAvatar, avatarId) ?? pick(card.say, card.sayByRole, role) ?? card.say,
     motion: card.motion,
     emote: card.emote,
     heading: card.heading,

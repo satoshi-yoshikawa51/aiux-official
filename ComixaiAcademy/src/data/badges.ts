@@ -8,6 +8,8 @@
    ============================================================ */
 import type { IconName } from '@/components/icons';
 
+import type { AvatarId, ByAvatar } from './types';
+
 export interface Badge {
   id: string;
   icon: IconName;
@@ -132,8 +134,16 @@ export interface Title {
   need: number;
   name: string;
   icon: IconName;
-  /** 昇格したときに先生が言うひとこと */
+  /** 昇格したときのひとこと。全画面の演出で読ませる山場のセリフ */
   say: string;
+  /** 相棒別の書き分け。**未記入なら say（＝先生の言葉）に落ちる** */
+  sayByAvatar?: ByAvatar<string>;
+}
+
+/** 昇格のひとことを、選んでいる相棒の口調で返す */
+export function titleSay(title: Title, avatarId: AvatarId | null): string {
+  if (avatarId && title.sayByAvatar?.[avatarId] !== undefined) return title.sayByAvatar[avatarId];
+  return title.say;
 }
 
 /** 上から順に、条件を満たす最上位が現在の称号になる。

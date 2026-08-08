@@ -14,6 +14,8 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 
+import type { AvatarId, ByAvatar } from '@/data/types';
+
 import type { IconName } from '@/components/icons';
 
 /** 画面の中で囲う場所の名前。
@@ -45,8 +47,16 @@ export interface TutorialStep {
       案内のパネルにもセリフを出すと、同じ人物の声が2つ並んで
       どちらを読めばいいのか分からなくなる。 */
   voice?: 'avatar';
-  /** 先生のセリフ */
+  /** 相棒のセリフ（共通＝先生の言葉） */
   say: string;
+  /** 相棒別の書き分け。**未記入なら say に落ちる** */
+  sayByAvatar?: ByAvatar<string>;
+}
+
+/** 案内のセリフを、選んでいる相棒の口調で返す */
+export function stepSay(step: TutorialStep, avatarId: AvatarId | null): string {
+  if (avatarId && step.sayByAvatar?.[avatarId] !== undefined) return step.sayByAvatar[avatarId];
+  return step.say;
 }
 
 export const TUTORIAL: TutorialStep[] = [

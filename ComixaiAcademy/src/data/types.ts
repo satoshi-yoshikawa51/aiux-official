@@ -25,6 +25,25 @@ export type RoleId =
 
 export type ByRole<Tvalue> = Partial<Record<RoleId, Tvalue>>;
 
+/** アバターのid（'sensei' 'senpai' …）で引く。→ src/data/avatars.ts */
+export type AvatarId = string;
+
+/* ============================================================
+   セリフをアバター別に持つための入れ物。
+
+   ▍なぜ要るのか
+   フキダシの中身は**そのキャラがしゃべっている言葉**なので、相棒を
+   変えたら口調も変わらないとおかしい。先輩は「テンション高め・タメ口」、
+   相棒は「無感情・簡潔・数字で語る」と性格が決めてあるのに、いまは
+   全員が先生の言葉で話していた（→ avatars.ts の personality）。
+
+   ▍書けていないぶんは先生の言葉が出る
+   1人あたり80本ほどあるので、一度に書き切る前提にしない。
+   **未記入なら共通（＝先生）にそのまま落ちる**ので、モデルを足した
+   キャラから少しずつ埋めていける。
+   ============================================================ */
+export type ByAvatar<Tvalue> = Partial<Record<AvatarId, Tvalue>>;
+
 /* ============================================================
    体験カード。読むだけ・選ぶだけにしないための仕掛け。
 
@@ -69,9 +88,11 @@ export type LessonInteractive =
 export interface LessonCard {
   /** 本文の下に出す体験。読むだけにしないための仕掛け */
   interactive?: LessonInteractive;
-  /** アバターの吹き出しセリフ。職種別に差し替えたいときは sayByRole */
+  /** アバターの吹き出しセリフ。職種別に差し替えたいときは sayByRole、
+      相棒別に書き分けたいときは sayByAvatar（→ resolveCard の優先順） */
   say: string;
   sayByRole?: ByRole<string>;
+  sayByAvatar?: ByAvatar<string>;
   /** 再生するモーション（省略時は説明モーション） */
   motion?: AvatarMotion;
   /** 頭上に出すエモート */

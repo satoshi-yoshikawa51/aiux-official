@@ -23,19 +23,12 @@ import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
+import { smallTalkFor } from '@/data/voice';
 import { useProgress, useStats } from '@/store/progress';
 import { useTutorial } from '@/store/tutorial';
 import { C, F, FONT, R, S } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
-const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
-  { say: '……なんだ。用が無いなら、手を動かせ。', motion: 'arms-crossed' },
-  { say: '休憩か。まあ、詰め込みすぎても入らないからな。', motion: 'idle-b' },
-  { say: '1日1本で十分だ。続けるほうが難しい。', motion: 'explain' },
-  { say: 'わからんところは、飛ばしていい。あとで戻れ。', motion: 'wave' },
-  { say: '……そんなに見るな。', motion: 'worried', emote: 'bang' },
-  { say: 'よし、いい顔になってきた。', motion: 'laugh', emote: 'sparkle' },
-];
 
 /* アバターの見た目の縦横比（高さ ÷ 幅）。
 
@@ -148,7 +141,9 @@ export default function HomeScreen() {
   const poke = () => {
     /* 案内中はつつかせない。雑談で案内のセリフを上書きしてしまう */
     if (guiding) return;
-    const pick = SMALL_TALK[Math.floor(Math.random() * SMALL_TALK.length)];
+    /* 小話は相棒ごと。書けていない相棒は先生のものが出る（data/voice.ts） */
+    const talks = smallTalkFor(state.avatarId);
+    const pick = talks[Math.floor(Math.random() * talks.length)];
     setTalk(pick.say);
     avatarRef.current?.play(pick.motion);
     if (pick.emote) avatarRef.current?.emote(pick.emote);
