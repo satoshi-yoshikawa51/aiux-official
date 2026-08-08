@@ -66,6 +66,20 @@ function star({ cx, cy, r, inner = 0.46, rot = 0 }) {
   return poly(...pts);
 }
 
+/** ばつ（閉じる）。
+    **2本の帯を重ねてはいけない**。fill-rule="evenodd" なので交差した中心が
+    抜けて穴になる。十字を1本の輪郭で作ってから45度まわす */
+function cross({ cx = 12, cy = 12, len = 9.4, w = 2.3, rot = 45 }) {
+  const pts = [
+    [-w, -len], [w, -len], [w, -w], [len, -w], [len, w], [w, w],
+    [w, len], [-w, len], [-w, w], [-len, w], [-len, -w], [-w, -w],
+  ];
+  const t = (rot * Math.PI) / 180;
+  return poly(
+    ...pts.map(([x, y]) => [cx + x * Math.cos(t) - y * Math.sin(t), cy + x * Math.sin(t) + y * Math.cos(t)]),
+  );
+}
+
 /** 4方向のキラリ（マンガの効果） */
 function twinkle({ cx, cy, r, waist = 0.17 }) {
   const w = r * waist;
@@ -289,6 +303,9 @@ export const ICONS = {
   /** キラリ1つ。**散らして舞わせる用**（sparkle は星2つ入りなので、
       6個も撒くと画面が潰れる）。サイトの ph-star-four と同じ形 */
   twinkle: twinkle({ cx: 12, cy: 12, r: 11.6 }),
+
+  /** ばつ（ポップアップを閉じる） */
+  close: cross({}),
 };
 
 /* ———————————————— 確認用の画像 ———————————————— */

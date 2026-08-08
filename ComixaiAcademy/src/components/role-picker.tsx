@@ -19,7 +19,7 @@ import { Modal, Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { useTap } from '@/components/motion';
-import { Button, Panel, Pop, Row, sinkPop } from '@/components/ui';
+import { Button, Panel, Pop, Row, sinkPop, Tap } from '@/components/ui';
 import { ROLES, getRole, type Role } from '@/data/roles';
 import type { RoleId } from '@/data/types';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
@@ -104,6 +104,23 @@ function RoleSheet({
             <Row gap={8}>
               <Icon name={role.icon} size={26} color={T.accent} />
               <Text style={[F.h1, { flex: 1 }]}>{role.name}</Text>
+              {/* 閉じる口は**右上のばつ**。決めるボタンの真下に文字で置くと、
+                  決めたつもりで閉じてしまう（実際に誤タップしそうだと指摘された） */}
+              <Tap onPress={onClose} sparks={false} hitSlop={12}>
+                <View
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: R.full,
+                    borderWidth: BW.line,
+                    borderColor: T.border,
+                    backgroundColor: T.sunk,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Icon name="close" size={13} color={T.text} />
+                </View>
+              </Tap>
             </Row>
             <Text style={F.body}>{role.catch}</Text>
             <View style={{ gap: 3, marginTop: 2 }}>
@@ -115,11 +132,6 @@ function RoleSheet({
             </View>
             <View style={{ marginTop: S.sm }}>
               <Button label={confirmLabel} size="lg" onPress={onConfirm} />
-              <Pressable onPress={onClose} style={{ paddingVertical: S.sm, alignItems: 'center' }}>
-                <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: T.muted }}>
-                  ほかを見る
-                </Text>
-              </Pressable>
             </View>
           </Panel>
         </Pressable>
@@ -156,7 +168,7 @@ export function RolePicker({
         ))}
       </View>
 
-      <Text style={F.hand}>ひとつ押すと、どんな内容になるかが出る</Text>
+      <Text style={F.hand}>ひとつ選ぶと、どんな内容になるかが見られます</Text>
 
       {role ? (
         <RoleSheet

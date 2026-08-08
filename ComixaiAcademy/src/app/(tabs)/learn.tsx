@@ -59,7 +59,7 @@ export default function LearnScreen() {
       /* 「あてはまらない」を選んだ人には職種名を出さない
          （generic の職種は byRole を持たないので、実際に出るのは共通文） */
       note={
-        !role ? '職種を選ぶと内容が変わる' : role.generic ? '共通の内容で表示中' : `${role.name} 向けで表示中`
+        !role ? '職種を選ぶと内容が変わります' : role.generic ? '共通の内容を表示しています' : `${role.name} 向けの内容です`
       }
       noteRight={`${COURSES.length}コース`}
     />

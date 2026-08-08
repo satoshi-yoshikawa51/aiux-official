@@ -34,7 +34,7 @@ export default function RolePickScreen() {
         <ScreenHead
           pill="STEP 2 / 2"
           title="どんな仕事をしてる？"
-          note="選んだ職種にあわせて、例とプロンプトが差し替わる"
+          note="選んだ職種にあわせて、例とプロンプトが変わります"
         />
       }>
       <Bubble

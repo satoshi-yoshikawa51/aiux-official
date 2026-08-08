@@ -76,19 +76,19 @@ export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
     name: 'トークナイザー',
     icon: 'pen',
     rule: 'AIの切れ目を見る',
-    how: '好きに打つと、AIから見た区切りが出る。合否はない',
+    how: '好きに打つと、AIから見た区切りが出ます。合否はありません',
   },
   'token-budget': {
     name: 'トークン収め',
     icon: 'target',
     rule: '決められた幅に収める',
-    how: '書いて削って、決められたトークン数に収める',
+    how: '書いて削って、決められたトークン数に収めてください',
   },
   'ai-prompt': {
     name: 'AIに指示を出す',
     icon: 'bulb',
     rule: '書いて、渡して、採点される',
-    how: '本物のAIに指示を渡す。返ってきたものと指示が採点される',
+    how: '本物のAIに指示を渡します。返ってきたものと指示が採点されます',
   },
 };
 

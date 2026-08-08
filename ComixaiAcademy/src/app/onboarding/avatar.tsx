@@ -38,8 +38,8 @@ export default function AvatarPickScreen() {
         <ScreenHead
           pill="STEP 1 / 2"
           title="誰と学ぶ？"
-          note={`${AVATARS.length}人から選ぶ`}
-          noteRight="あとから変えられる"
+          note={`${AVATARS.length}人から選べます`}
+          noteRight="あとから変えられます"
         />
       }
       /* 決める口は下に貼り付けておく。一覧の末尾に置くと、
@@ -77,7 +77,7 @@ export default function AvatarPickScreen() {
       </View>
 
       <Text style={F.hand}>
-        「準備中」は3Dモデルを追加すると選べるようになる（手順はREADME）
+        「準備中」の相棒は、3Dモデルを追加すると選べるようになります
       </Text>
     </Screen>
   );

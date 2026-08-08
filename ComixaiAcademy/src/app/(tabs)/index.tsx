@@ -272,7 +272,7 @@ export default function HomeScreen() {
       ) : (
         <Panel contentStyle={{ padding: S.md, gap: S.xs }}>
           <Text style={F.h2}>全課程、修了</Text>
-          <Text style={F.small}>やり直したいレッスンは「まなぶ」から開ける。</Text>
+          <Text style={F.small}>やり直したいレッスンは「まなぶ」から開けます。</Text>
         </Panel>
       )}
     </Screen>

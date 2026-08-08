@@ -45,7 +45,7 @@ export default function SettingsScreen() {
       kicker="SETTINGS"
       title="せってい"
       note={`${avatar.name} ・ ${role?.name ?? '職種えらび中'}`}
-      noteRight="いつでも変えられる"
+      noteRight="いつでも変えられます"
     />
   );
 
@@ -93,7 +93,7 @@ export default function SettingsScreen() {
             下敷きになるため（→ store/tutorial.tsx の5歩目） */}
         <Row style={{ justifyContent: 'space-between' }}>
           <Text style={F.h1}>職種</Text>
-          <Text style={F.hand}>変えると内容が変わる</Text>
+          <Text style={F.hand}>変えると、レッスンの内容が変わります</Text>
         </Row>
         <RolePicker value={state.roleId} onPick={setRole} />
       </View>
@@ -106,7 +106,7 @@ export default function SettingsScreen() {
           {stats.streak}
         </Text>
         <Text style={[F.hand, { color: C.ink300 }]}>
-          この端末の中だけに保存される。アプリを消すと一緒に消える。
+          この端末の中だけに保存されます。アプリを消すと一緒に消えます。
         </Text>
         {/* 消すのは取り消せないので、赤いボタンの見た目にはしない。
             黒の上では red500 が沈むので、文字は red100 で出す */}
@@ -135,7 +135,7 @@ export default function SettingsScreen() {
             <Row gap={6}>
               <Icon name="bang" size={15} color={C.red100} />
               <Text style={[F.strong, { color: C.red100 }]}>
-                記録をぜんぶ消す（オープニングからやり直す）
+                記録をぜんぶ消す（オープニングからやり直します）
               </Text>
             </Row>
           </Tap>
@@ -146,7 +146,7 @@ export default function SettingsScreen() {
       <Card>
         <Text style={F.h1}>このアプリについて</Text>
         <Text style={F.body}>
-          COMIXAI（comixai.dev）の用語集・職種別ガイド・プロンプト集をもとにした学習アプリ。
+          COMIXAI（comixai.dev）の用語集・職種別ガイド・プロンプト集をもとにした学習アプリです。
         </Text>
         <Tap onPress={() => WebBrowser.openBrowserAsync(SITE)} style={{ paddingVertical: S.xs }}>
           <Text style={[F.strong, { color: T.link }]}>COMIXAI を開く →</Text>

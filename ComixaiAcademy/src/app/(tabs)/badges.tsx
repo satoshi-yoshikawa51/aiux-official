@@ -151,7 +151,7 @@ export default function BadgesScreen() {
             );
           })}
         </View>
-        <Text style={F.hand}>記録はこの端末の中だけ。アカウントもサーバーも使っていない。</Text>
+        <Text style={F.hand}>記録はこの端末の中だけに残ります。アカウントもサーバーも使いません。</Text>
       </View>
     </Screen>
   );
