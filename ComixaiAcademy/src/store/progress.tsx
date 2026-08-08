@@ -34,6 +34,8 @@ export interface ProgressState {
   seenTitle: string;
   /** オープニング（AI歴史絵巻）を見終えたか。2回目以降は出さない */
   seenOpening: boolean;
+  /** 職種を決めた直後の一幕（相棒が歩いてくる）を見終えたか */
+  seenIntro: boolean;
   /** 先生によるアプリ案内を見終えた（またはとばした）か */
   seenTutorial: boolean;
 }
@@ -48,6 +50,7 @@ const EMPTY: ProgressState = {
   days: [],
   seenTitle: '',
   seenOpening: false,
+  seenIntro: false,
   seenTutorial: false,
 };
 
@@ -129,6 +132,7 @@ interface Ctx {
   completeLesson: (lessonId: string, perfect: boolean) => CompletionResult;
   markTitleSeen: () => void;
   markOpeningSeen: () => void;
+  markIntroSeen: () => void;
   markTutorialSeen: () => void;
   reset: () => void;
 }
@@ -149,7 +153,12 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         if (!alive || !raw) return;
         let loaded: ProgressState;
         try {
-          loaded = { ...EMPTY, ...(JSON.parse(raw) as ProgressState) };
+          const parsed = JSON.parse(raw) as Partial<ProgressState>;
+          loaded = { ...EMPTY, ...parsed };
+          /* ▍あとから足した「見たか」の印は、既に始めている人には立てておく
+             そうしないと、もう学習が進んでいる人の画面に**いまさら
+             入口の演出が割り込む**。職種まで決まっていれば通過済みとみなす */
+          if (parsed.seenIntro === undefined && parsed.roleId) loaded.seenIntro = true;
         } catch {
           /* 壊れていたら初期状態で続行する（遊びには支障がない） */
           return;
@@ -250,6 +259,11 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     persist({ ...ref.current, seenOpening: true });
   }, [persist]);
 
+  const markIntroSeen = React.useCallback(() => {
+    if (ref.current.seenIntro) return;
+    persist({ ...ref.current, seenIntro: true });
+  }, [persist]);
+
   const markTutorialSeen = React.useCallback(() => {
     if (ref.current.seenTutorial) return;
     persist({ ...ref.current, seenTutorial: true });
@@ -271,6 +285,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       completeLesson,
       markTitleSeen,
       markOpeningSeen,
+      markIntroSeen,
       markTutorialSeen,
       reset,
     }),
@@ -282,6 +297,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       completeLesson,
       markTitleSeen,
       markOpeningSeen,
+      markIntroSeen,
       markTutorialSeen,
       reset,
     ],

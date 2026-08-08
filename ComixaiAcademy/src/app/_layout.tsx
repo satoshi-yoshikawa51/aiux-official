@@ -25,6 +25,7 @@ function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; child
 
     const inOpening = segments[0] === 'opening';
     const inOnboarding = segments[0] === 'onboarding';
+    const inIntro = segments[0] === 'intro';
     /* 初回だけ絵巻を見せる。ここでアバターのGLBを先読みするので、
        飛ばしてもホームで待たされない（opening.tsx を参照） */
     if (!state.seenOpening) {
@@ -35,10 +36,25 @@ function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; child
       if (segments[1] !== 'avatar') router.replace('/onboarding/avatar');
     } else if (!state.roleId) {
       if (segments[1] !== 'role') router.replace('/onboarding/role');
-    } else if (inOnboarding) {
+    } else if (!state.seenIntro) {
+      /* 職種まで決まったら、ホームの前に一幕はさむ（app/intro.tsx）。
+         **行き先の判断はここ1か所に寄せる。** 職種の画面から直接
+         intro へ飛ばすと、この効果の「終わっていたらホームへ」と
+         競り合って、どちらが後に走るかで行き先が変わる */
+      if (!inIntro) router.replace('/intro');
+    } else if (inOnboarding || inIntro) {
       router.replace('/');
     }
-  }, [ready, fontsReady, state.seenOpening, state.avatarId, state.roleId, segments, router]);
+  }, [
+    ready,
+    fontsReady,
+    state.seenOpening,
+    state.avatarId,
+    state.roleId,
+    state.seenIntro,
+    segments,
+    router,
+  ]);
 
   return <>{children}</>;
 }
@@ -82,6 +98,7 @@ export default function RootLayout() {
               <Stack.Screen name="opening" options={{ headerShown: false }} />
               <Stack.Screen name="onboarding/avatar" options={{ headerShown: false }} />
               <Stack.Screen name="onboarding/role" options={{ headerShown: false }} />
+              <Stack.Screen name="intro" options={{ headerShown: false }} />
               <Stack.Screen name="lesson/[id]" options={{ title: '', headerBackTitle: '戻る' }} />
             </Stack>
           </OnboardingGate>

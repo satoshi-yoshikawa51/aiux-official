@@ -29,6 +29,13 @@ import { F, T } from '@/theme';
 export interface AvatarHandle {
   play: (motion: AvatarMotion) => void;
   emote: (icon: IconName) => void;
+  /**
+   * 体の向きを変える（ラジアン、Y軸まわり）。0＝正面。
+   * **すぐには向かない。** 描画ループが毎フレーム少しずつ寄せるので、
+   * 呼ぶのは1回でよく、あとは勝手に回りきる。
+   * 歩いて登場して正面を向く、のような演出に使う（onboarding/intro.tsx）。
+   */
+  face: (yaw: number) => void;
 }
 
 interface Props {
@@ -60,6 +67,9 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
   const currentRef = React.useRef<THREE.AnimationAction | null>(null);
   const emoteTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const disposedRef = React.useRef(false);
+  /* 体の向き。root＝いま向いている角度、want＝向きたい角度 */
+  const rootRef = React.useRef<THREE.Object3D | null>(null);
+  const yawRef = React.useRef(0);
   /* GLコンテキストの世代。枠の寸法が変わるとGLViewを作り直すので、
      **古い描画ループを止める**ために使う。止めないと、破棄済みの
      コンテキストに render して落ちる */
@@ -96,6 +106,13 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         setEmoteIcon(icon);
         if (emoteTimer.current) clearTimeout(emoteTimer.current);
         emoteTimer.current = setTimeout(() => setEmoteIcon(null), 1800);
+      },
+      face: (yaw: number) => {
+        yawRef.current = yaw;
+        /* まだ読み込み中なら、出てきたときにこの向きで立たせる */
+        if (rootRef.current && Math.abs(rootRef.current.rotation.y - yaw) > Math.PI) {
+          rootRef.current.rotation.y = yaw;
+        }
       },
     }),
     [playByName],
@@ -158,6 +175,8 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         });
 
         scene.add(gltf.scene);
+        rootRef.current = gltf.scene;
+        gltf.scene.rotation.y = yawRef.current;
 
         const mixer = new THREE.AnimationMixer(gltf.scene);
         mixerRef.current = mixer;
@@ -175,7 +194,15 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         const loop = () => {
           if (disposedRef.current || genRef.current !== gen) return;
           requestAnimationFrame(loop);
-          mixer.update(clock.getDelta());
+          const dt = clock.getDelta();
+          mixer.update(dt);
+          /* 向きたい角度へ、毎フレーム少しずつ寄せる。
+             一気に代入すると、歩きながらパッと反転して人形に見える */
+          const root = rootRef.current;
+          if (root) {
+            const d = yawRef.current - root.rotation.y;
+            root.rotation.y += Math.abs(d) < 0.002 ? d : d * Math.min(1, dt * 7);
+          }
           renderer.render(scene, camera);
           gl.endFrameEXP();
         };

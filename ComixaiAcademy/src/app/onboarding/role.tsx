@@ -2,7 +2,6 @@
 
    見た目の作法はホームに揃えてある。黄色いピルは STEP 表示が持つ（1画面に1つ）。
    職種は10あるので、一覧は2列グリッド（src/components/role-picker.tsx）。 */
-import { useRouter } from 'expo-router';
 import React from 'react';
 
 import { RolePicker } from '@/components/role-picker';
@@ -13,18 +12,19 @@ import { useProgress } from '@/store/progress';
 import { POP, S } from '@/theme';
 
 export default function RolePickScreen() {
-  const router = useRouter();
   const { state, setRole } = useProgress();
   const avatar = getAvatar(state.avatarId);
 
   /* ▍決めるのはポップアップの中
      かつては一覧の下に説明を出し、さらに下に「はじめる」を置いていた。
      説明が出るぶん下が伸びて、**選んだ瞬間にボタンが画面の外へ出て**
-     いた（選んだのに進めない）。いまは押す → 説明を読む → その場で決める。 */
-  const decide = (id: RoleId) => {
-    setRole(id);
-    router.replace('/');
-  };
+     いた（選んだのに進めない）。いまは押す → 説明を読む → その場で決める。
+
+     ▍決めたあとの行き先はここで指図しない
+     職種が決まると _layout.tsx の振り分けが動き、入口の一幕（/intro）へ
+     渡してくれる。ここでも router を触ると、両方が同時に走って
+     行き先が運任せになる。 */
+  const decide = (id: RoleId) => setRole(id);
 
   return (
     <Screen
