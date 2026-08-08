@@ -4,18 +4,25 @@
    ▍なぜ1列のカードをやめたか
    職種が10になり、1列の縦並びだと1画面に3枚しか入らなくなった。
    選ぶには全部見えていることが大事なので、**アイコンと名前だけの
-   2列グリッド**にして一覧性を取り、説明は「いま選んでいる1つ」だけ
-   下に出す形にしている。10枚でもだいたい1画面に収まる。
+   2列グリッド**にして一覧性を取っている。10枚でもだいたい1画面に収まる。
+
+   ▍説明を一覧の下に置くのをやめた
+   かつては選んだ1つの説明をグリッドの下に出していた。ところが説明が
+   出るぶん下が伸びて、**先へ進むボタンが画面の外へ押し出されていた**。
+   選んだのに進めない、という一番まずい状態になる。
+
+   いまはカードを押すと説明が**ポップアップ**で出て、決めるのもその中で行う。
+   一覧の高さは動かないし、読んでから決められる。
    ============================================================ */
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Modal, Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { useTap } from '@/components/motion';
-import { Panel, Pop, Row, sinkPop } from '@/components/ui';
-import { ROLES, getRole } from '@/data/roles';
+import { Button, Panel, Pop, Row, sinkPop } from '@/components/ui';
+import { ROLES, getRole, type Role } from '@/data/roles';
 import type { RoleId } from '@/data/types';
-import { BW, F, FONT, POP, R, S, T } from '@/theme';
+import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 function RoleCard({
   icon,
@@ -68,14 +75,73 @@ function RoleCard({
   );
 }
 
+/* 押した職種の説明。読んでから、ここで決める */
+function RoleSheet({
+  role,
+  confirmLabel,
+  onConfirm,
+  onClose,
+}: {
+  role: Role;
+  confirmLabel: string;
+  onConfirm: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <Modal visible transparent animationType="fade" onRequestClose={onClose}>
+      {/* 外側を押しても閉じる。読むだけのつもりで開いた人の逃げ道 */}
+      <Pressable
+        onPress={onClose}
+        style={{
+          flex: 1,
+          backgroundColor: 'rgba(20,17,15,0.55)',
+          justifyContent: 'center',
+          padding: S.lg,
+        }}>
+        {/* 中身を押しても閉じない */}
+        <Pressable onPress={() => {}}>
+          <Panel contentStyle={{ gap: S.sm, padding: S.lg }}>
+            <Row gap={8}>
+              <Icon name={role.icon} size={26} color={T.accent} />
+              <Text style={[F.h1, { flex: 1 }]}>{role.name}</Text>
+            </Row>
+            <Text style={F.body}>{role.catch}</Text>
+            <View style={{ gap: 3, marginTop: 2 }}>
+              {role.fit.map((f) => (
+                <Text key={f} style={F.hand}>
+                  ・{f}
+                </Text>
+              ))}
+            </View>
+            <View style={{ marginTop: S.sm }}>
+              <Button label={confirmLabel} size="lg" onPress={onConfirm} />
+              <Pressable onPress={onClose} style={{ paddingVertical: S.sm, alignItems: 'center' }}>
+                <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: T.muted }}>
+                  ほかを見る
+                </Text>
+              </Pressable>
+            </View>
+          </Panel>
+        </Pressable>
+      </Pressable>
+    </Modal>
+  );
+}
+
 export function RolePicker({
   value,
   onPick,
+  /** ポップアップの決めるボタンの文言。画面によって意味が違う */
+  confirmLabel = 'この仕事にする',
 }: {
   value: RoleId | null;
   onPick: (id: RoleId) => void;
+  confirmLabel?: string;
 }) {
-  const picked = getRole(value);
+  /* 押しただけではまだ決まらない。説明を読んでから決める */
+  const [looking, setLooking] = React.useState<RoleId | null>(null);
+  const role = getRole(looking);
+
   return (
     <View style={{ gap: S.sm }}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: S.sm }}>
@@ -85,30 +151,24 @@ export function RolePicker({
             icon={r.icon}
             name={r.name}
             selected={r.id === value}
-            onPress={() => onPick(r.id)}
+            onPress={() => setLooking(r.id)}
           />
         ))}
       </View>
 
-      {/* 説明は選んだ1つだけ。全部に出すと、10枚ぶんで画面が3倍になる */}
-      {picked ? (
-        <Panel contentStyle={{ gap: 6, padding: S.md }}>
-          <Row gap={6}>
-            <Icon name={picked.icon} size={18} color={T.accent} />
-            <Text style={[F.h2, { flex: 1 }]}>{picked.name}</Text>
-          </Row>
-          <Text style={F.body}>{picked.catch}</Text>
-          <View style={{ gap: 2, marginTop: 2 }}>
-            {picked.fit.map((f) => (
-              <Text key={f} style={F.hand}>
-                ・{f}
-              </Text>
-            ))}
-          </View>
-        </Panel>
-      ) : (
-        <Text style={F.hand}>ひとつ選ぶと、ここに説明が出る</Text>
-      )}
+      <Text style={F.hand}>ひとつ押すと、どんな内容になるかが出る</Text>
+
+      {role ? (
+        <RoleSheet
+          role={role}
+          confirmLabel={confirmLabel}
+          onConfirm={() => {
+            setLooking(null);
+            onPick(role.id);
+          }}
+          onClose={() => setLooking(null)}
+        />
+      ) : null}
     </View>
   );
 }

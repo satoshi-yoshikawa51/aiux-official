@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 
 import { RolePicker } from '@/components/role-picker';
-import { Bubble, Button, Screen, ScreenHead } from '@/components/ui';
+import { Bubble, Screen, ScreenHead } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import type { RoleId } from '@/data/types';
 import { useProgress } from '@/store/progress';
@@ -17,11 +17,12 @@ export default function RolePickScreen() {
   const { state, setRole } = useProgress();
   const avatar = getAvatar(state.avatarId);
 
-  const [picked, setPicked] = React.useState<RoleId | null>(null);
-
-  const decide = () => {
-    if (!picked) return;
-    setRole(picked);
+  /* ▍決めるのはポップアップの中
+     かつては一覧の下に説明を出し、さらに下に「はじめる」を置いていた。
+     説明が出るぶん下が伸びて、**選んだ瞬間にボタンが画面の外へ出て**
+     いた（選んだのに進めない）。いまは押す → 説明を読む → その場で決める。 */
+  const decide = (id: RoleId) => {
+    setRole(id);
     router.replace('/');
   };
 
@@ -42,9 +43,7 @@ export default function RolePickScreen() {
         style={{ marginRight: POP.sm, marginBottom: S.lg }}
       />
 
-      <RolePicker value={picked} onPick={setPicked} />
-
-      <Button label="はじめる" size="lg" onPress={decide} disabled={!picked} />
+      <RolePicker value={null} onPick={decide} confirmLabel="この仕事ではじめる" />
     </Screen>
   );
 }

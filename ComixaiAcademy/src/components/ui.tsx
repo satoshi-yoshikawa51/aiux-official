@@ -121,6 +121,11 @@ export function Screen({
   tone = 'none',
   /** 網点の濃さ。薄くしたいときだけ 0.5 くらいを渡す */
   toneOpacity = 1,
+  /** 画面下に貼り付けて動かさない帯。**先に進むボタン専用**。
+      長い一覧の末尾にボタンを置くと、スクロールしないと見つからない
+      （相棒えらびで実際に「どこで決めるのか分からない」が起きた）。
+      ここに置いたぶんの高さは本文の下に自動で空ける */
+  footer,
   style,
 }: {
   children: React.ReactNode;
@@ -129,9 +134,13 @@ export function Screen({
   scroll?: boolean;
   tone?: ToneKind;
   toneOpacity?: number;
+  footer?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
 }) {
   const insets = useSafeAreaInsets();
+  /* 固定帯の高さは中身しだいなので、置いてから測る。
+     決め打ちにすると、文字の大きさ設定を上げた端末で本文が隠れる */
+  const [footerH, setFooterH] = React.useState(0);
   /* タブバーは内容に覆いかぶさらないので、下は素の余白でよい。
      スクロールする画面だけ、最後の要素が窮屈に見えないよう少し多めに取る */
   const bottomPad = scroll ? S.xxl : S.lg;
@@ -149,7 +158,10 @@ export function Screen({
      SafeAreaView に上を任せない（任せると帯の上に紙の余白が出る） */
   const safeEdges = header ? edges.filter((e) => e !== 'top') : edges;
 
-  const spacer = reserve > 0 ? <View style={{ height: reserve }} /> : null;
+  /* 案内パネルと固定帯、どちらのぶんも下に空ける。
+     空けないと、いちばん下の項目が帯の裏に隠れて**選べないように見える** */
+  const spacerH = reserve + footerH;
+  const spacer = spacerH > 0 ? <View style={{ height: spacerH }} /> : null;
 
   const body = scroll ? (
     <ScrollView
@@ -176,6 +188,27 @@ export function Screen({
           <Tone tone={tone} style={[StyleSheet.absoluteFill, { opacity: toneOpacity }]} />
         )}
         {body}
+
+        {/* 固定帯。紙と同じ色で塗り、上に線を引いて「ここから下は別」を出す。
+            透かすと本文の文字が透けて読めなくなる */}
+        {footer ? (
+          <View
+            onLayout={(e) => setFooterH(e.nativeEvent.layout.height)}
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: T.bg,
+              borderTopWidth: BW.line,
+              borderTopColor: T.border,
+              paddingHorizontal: S.lg,
+              paddingTop: S.md,
+              paddingBottom: S.md,
+            }}>
+            {footer}
+          </View>
+        ) : null}
       </View>
     </SafeAreaView>
   );
