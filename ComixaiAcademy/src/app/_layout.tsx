@@ -104,6 +104,7 @@ export default function RootLayout() {
               <Stack.Screen name="intro" options={{ headerShown: false }} />
               <Stack.Screen name="lesson/[id]" options={{ title: '', headerBackTitle: '戻る' }} />
               <Stack.Screen name="review" options={{ title: '復習', headerBackTitle: '戻る' }} />
+              <Stack.Screen name="sheet" options={{ headerShown: false }} />
             </Stack>
           </OnboardingGate>
           </TermSheetProvider>

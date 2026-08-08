@@ -225,6 +225,28 @@ export default function LearnScreen() {
           </Panel>
         );
       })}
+
+      {/* ———— 持ち帰り ————
+           終えた回のぶんだけ、自分の職種向けの一言とプロンプトが溜まる。
+           一覧の**下**に置く。上に置くと目的地が2つに見える */}
+      <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+        <Row gap={8}>
+          <Icon name="folder" size={18} color={T.text} />
+          <Text style={[F.h2, { flex: 1 }]}>持ち帰り</Text>
+          {doneTotal > 0 ? <Badge tone="paper">{doneTotal}本ぶん</Badge> : null}
+        </Row>
+        <Text style={F.small}>
+          終えた回から、あなたの職種向けの一言とプロンプトを集めてあります。まるごとコピーして、
+          仕事で使う場所に貼っておけます。
+        </Text>
+        <Button
+          label="ひらく"
+          variant="secondary"
+          size="sm"
+          onPress={() => router.push('/sheet')}
+          style={{ alignSelf: 'flex-start' }}
+        />
+      </Panel>
     </Screen>
   );
 }
