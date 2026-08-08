@@ -36,7 +36,16 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/icons';
-import { Bump, PopIn, SlideIn, SparkLayer, Stamp, TileIn, useSparkBurst } from '@/components/motion';
+import {
+  Bump,
+  PopIn,
+  SlideIn,
+  SparkLayer,
+  Stamp,
+  TileIn,
+  usePressFeel,
+  useSparkBurst,
+} from '@/components/motion';
 import { Tone } from '@/components/ui';
 import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
@@ -330,9 +339,17 @@ function GameButton({
   const yellow = tone === 'yellow';
   /* 黒地なので星がいちばん効く。押すたびに指のところから舞う */
   const burst = useSparkBurst();
+  /* ここは押しても何も起きなかった。ゲームの中でいちばん叩くボタンなので、
+     紙の上の Button と同じだけ手ごたえを付ける（motion.tsx） */
+  const { pressed, onPressIn, onPressOut } = usePressFeel();
+  const down = pressed && !disabled;
+
   return (
     <Pressable
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
       onPress={(e) => {
+        if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
         const { pageX, pageY } = e.nativeEvent;
         if (pageX || pageY) burst(pageX, pageY);
         onPress();
@@ -340,13 +357,24 @@ function GameButton({
       disabled={disabled}>
       <View
         style={{
-          backgroundColor: disabled ? C.ink800 : yellow ? C.yellow400 : 'transparent',
+          /* 押しているあいだは一段沈んだ黄色に。黒地なので、
+             縁の色が変わるだけでもはっきり分かる */
+          backgroundColor: disabled
+            ? C.ink800
+            : yellow
+              ? down
+                ? C.yellow200
+                : C.yellow400
+              : down
+                ? C.ink800
+                : 'transparent',
           borderWidth: BW.bold,
-          borderColor: disabled ? C.ink700 : yellow ? C.yellow400 : C.paper100,
+          borderColor: disabled ? C.ink700 : yellow ? (down ? C.yellow200 : C.yellow400) : C.paper100,
           borderRadius: R.sm,
           paddingVertical: 13,
           paddingHorizontal: S.xl,
           alignItems: 'center',
+          transform: [{ translateY: down ? 2 : 0 }, { scale: down ? 0.97 : 1 }],
         }}>
         <Text
           style={{

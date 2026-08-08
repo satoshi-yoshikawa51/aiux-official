@@ -250,21 +250,30 @@ export function Stamp({
 type SparkSpec = { x: number; y: number; size: number; color: string; delay: number };
 
 /* サイトは6つだが、スマホは画面が近いぶん物足りない。
-   数を9つに増やし、ひと回り大きく・広く散らしてある */
+   数を9つに増やし、ひと回り大きく・広く散らしてある。
+
+   ▍遅れは詰める
+   サイトは0.42秒かけて順に出していた。指で押した返事としてはこれが遅く、
+   最後の星が出るころには指が離れている。0.2秒に詰めて、
+   **ひと固まりで弾ける**ようにした。順に出る感じは残っている */
 const SPARKS: SparkSpec[] = [
   { x: -26, y: -20, size: 22, color: C.yellow400, delay: 0 },
-  { x: 24, y: -26, size: 17, color: C.red500, delay: 60 },
-  { x: -44, y: 10, size: 15, color: C.yellow400, delay: 110 },
-  { x: 46, y: 6, size: 19, color: C.yellow400, delay: 160 },
-  { x: -14, y: -40, size: 14, color: C.red500, delay: 210 },
-  { x: 12, y: 34, size: 16, color: C.yellow400, delay: 260 },
-  { x: -34, y: 40, size: 13, color: C.yellow400, delay: 320 },
-  { x: 40, y: -40, size: 12, color: C.red500, delay: 380 },
-  { x: 0, y: 48, size: 14, color: C.yellow400, delay: 430 },
+  { x: 24, y: -26, size: 17, color: C.red500, delay: 25 },
+  { x: -44, y: 10, size: 15, color: C.yellow400, delay: 50 },
+  { x: 46, y: 6, size: 19, color: C.yellow400, delay: 75 },
+  { x: -14, y: -40, size: 14, color: C.red500, delay: 100 },
+  { x: 12, y: 34, size: 16, color: C.yellow400, delay: 130 },
+  { x: -34, y: 40, size: 13, color: C.yellow400, delay: 155 },
+  { x: 40, y: -40, size: 12, color: C.red500, delay: 180 },
+  { x: 0, y: 48, size: 14, color: C.yellow400, delay: 205 },
 ];
 
-/** 星1つぶんの寿命。サイトと同じ0.75秒 */
-const SPARK_MS = 750;
+/** 星1つぶんの寿命。サイトは0.75秒だが、指で押した返事としては遅い。
+    **押した瞬間に返ってこないと、押した実感につながらない** */
+const SPARK_MS = 520;
+
+/** いちばん開くところ。ここが早いほど「パッ」と出る（サイトは0.4） */
+const SPARK_PEAK = 0.3;
 
 function Spark({ spec, scale }: { spec: SparkSpec; scale: number }) {
   const t = React.useRef(new Animated.Value(0)).current;
@@ -281,11 +290,12 @@ function Spark({ spec, scale }: { spec: SparkSpec; scale: number }) {
     return () => a.stop();
   }, [t, spec.delay]);
 
-  /* 0% → 40% → 100% の3点。40%で行き過ぎるところが「パッ」の正体 */
+  /* 出はじめ → いちばん開くところ → 消えぎわ の3点。
+     途中で行き過ぎる（1.25倍）ところが「パッ」の正体 */
   const num = (a: number, b: number, c: number) =>
-    t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [a, b, c] });
+    t.interpolate({ inputRange: [0, SPARK_PEAK, 1], outputRange: [a, b, c] });
   const deg = (a: string, b: string, c: string) =>
-    t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [a, b, c] });
+    t.interpolate({ inputRange: [0, SPARK_PEAK, 1], outputRange: [a, b, c] });
 
   return (
     <Animated.View
@@ -347,6 +357,42 @@ export function SparkLayer({ children }: { children: React.ReactNode }) {
       </View>
     </SparkCtx.Provider>
   );
+}
+
+/* ———————————————— 押した感じ ————————————————
+   Pressable の pressed をそのまま使うと、**速く叩いたときに沈んだ姿が
+   見えない**。指を離すのが1フレームで、描く前に戻ってしまうため。
+   押してから最低 PRESS_HOLD_MS のあいだは沈めたままにする。
+
+   サイト（ds.tsx）は translate(2px,2px)＋影を3px→1px にしている。
+   スマホは**指がボタンを覆う**のでこれでは見えない。使う側では
+   影を0まで潰して影の位置まで落とし、地の色も一段濃くすること。 */
+
+const PRESS_HOLD_MS = 110;
+
+export function usePressFeel() {
+  const [pressed, setPressed] = React.useState(false);
+  const downAt = React.useRef(0);
+  const timer = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  React.useEffect(() => () => clearTimeout(timer.current), []);
+
+  const onPressIn = React.useCallback(() => {
+    clearTimeout(timer.current);
+    downAt.current = Date.now();
+    setPressed(true);
+  }, []);
+
+  const onPressOut = React.useCallback(() => {
+    const left = PRESS_HOLD_MS - (Date.now() - downAt.current);
+    if (left <= 0) {
+      setPressed(false);
+      return;
+    }
+    timer.current = setTimeout(() => setPressed(false), left);
+  }, []);
+
+  return { pressed, onPressIn, onPressOut };
 }
 
 /* ———————————————— タイルで画面を覆う ————————————————

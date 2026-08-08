@@ -26,7 +26,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
 
-import { useSparkBurst } from '@/components/motion';
+import { usePressFeel, useSparkBurst } from '@/components/motion';
 import { useTutorial } from '@/store/tutorial';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
@@ -475,6 +475,17 @@ const BTN: Record<BtnVariant, { bg: string; fg: string; border: string }> = {
   yellow: { bg: C.yellow400, fg: C.ink900, border: T.border },
 };
 
+/* 押しているあいだの地の色。スマホは指がボタンを覆うので、
+   沈めるだけでは伝わらない。**指の外にはみ出している縁の色が変わる**のが
+   いちばん確実に見える。サイトのホバー色（ds.tsx）と同じ考え方 */
+const BTN_PRESS: Record<BtnVariant, string> = {
+  primary: T.accentPress,
+  secondary: C.paper100,
+  ink: C.ink800,
+  ghost: 'transparent',
+  yellow: C.yellow200,
+};
+
 export function Button({
   label,
   onPress,
@@ -490,7 +501,8 @@ export function Button({
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
-  const [pressed, setPressed] = React.useState(false);
+  /* 速く叩いても沈んだ姿が必ず見えるようにする（motion.tsx） */
+  const { pressed, onPressIn, onPressOut } = usePressFeel();
   /* 押すたびに指のところから星が舞う。描くのは画面いちばん上の
      SparkLayer（_layout.tsx）。ここは座標を渡すだけ */
   const burst = useSparkBurst();
@@ -505,12 +517,15 @@ export function Button({
     lg: { fontSize: 18, py: 16, px: 28, radius: R.md },
   }[size];
   const flat = variant === 'ghost';
-  const offset = flat || disabled ? 0 : pressed ? 1 : POP.sm;
+  const down = pressed && !disabled && !flat;
+  /* 押したら影を**0まで潰す**＝ボタンが影の位置まで落ちきる。
+     サイトは1px残すが、スマホでは残すと落ちたのか分からない */
+  const offset = flat || disabled ? 0 : down ? 0 : POP.sm;
 
   const face = (
     <View
       style={{
-        backgroundColor: v.bg,
+        backgroundColor: down ? BTN_PRESS[variant] : v.bg,
         borderWidth: BW.bold,
         borderColor: v.border,
         borderRadius: dims.radius,
@@ -528,10 +543,11 @@ export function Button({
   return (
     <Pressable
       disabled={disabled}
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
       onPress={(e) => {
-        if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+        /* Light だと画面を見ていないと分からない。押した手ごたえは Medium */
+        if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
         const { pageX, pageY } = e.nativeEvent;
         /* 指の座標が取れないとき（読み上げ操作など）は星を出さない。
            出すと画面の左上隅で光ってしまう */
@@ -542,9 +558,17 @@ export function Button({
       {flat ? (
         face
       ) : (
-        /* 押している間は影が縮んで、ボタン自体が沈む（サイトと同じ挙動） */
+        /* 押すと影が消え、ボタンが影のあった位置まで丸ごと落ちる。
+           わずかに縮めているのは、指で隠れていても縁の動きで分かるように */
         <Pop offset={offset} radius={dims.radius} reserve={false} style={{ marginBottom: POP.sm }}>
-          <View style={{ transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }] }}>
+          <View
+            style={{
+              transform: [
+                { translateX: down ? POP.sm : 0 },
+                { translateY: down ? POP.sm : 0 },
+                { scale: down ? 0.98 : 1 },
+              ],
+            }}>
             {face}
           </View>
         </Pop>
