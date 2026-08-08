@@ -15,6 +15,7 @@ import { Platform, Pressable, Text, View, useWindowDimensions } from 'react-nati
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { LessonInteractiveCard } from '@/components/lesson-interactive';
+import { RankUpScreen } from '@/components/rank-up';
 import { SlideIn, useTap } from '@/components/motion';
 import {
   Badge,
@@ -30,7 +31,7 @@ import {
   sinkFlat,
 } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
-import { getBadge, type Title } from '@/data/badges';
+import { getBadge, prevTitle, type Title } from '@/data/badges';
 import { COURSES, getLesson, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { useProgress } from '@/store/progress';
@@ -118,6 +119,8 @@ export default function LessonScreen() {
   /* 合否のある体験カードを通過したか。カードを送るたびに戻す */
   const [cleared, setCleared] = React.useState(false);
   const [result, setResult] = React.useState<{ newBadges: string[]; newTitle: Title | null } | null>(null);
+  /* ランクアップの演出を出しているあいだ。**結果画面より前に**割り込ませる */
+  const [rankUp, setRankUp] = React.useState<Title | null>(null);
   const savedRef = React.useRef(false);
 
   React.useLayoutEffect(() => {
@@ -153,6 +156,9 @@ export default function LessonScreen() {
     savedRef.current = true;
     const r = completeLesson(found.lesson.id, misses === 0);
     setResult(r);
+    /* 称号が上がったら、結果を読ませる前に演出を差し込む。
+       ここでしか上がらないものなので、結果画面のカード1枚では軽すぎる */
+    if (r.newTitle) setRankUp(r.newTitle);
     avatarRef.current?.play(misses === 0 ? 'laugh' : 'bow');
     avatarRef.current?.emote(misses === 0 ? 'sparkle' : 'bulb');
   }, [phase, found, misses, completeLesson]);
@@ -462,6 +468,13 @@ export default function LessonScreen() {
               <Button label="ホームに戻る" variant="secondary" onPress={() => router.replace('/')} />
             </Cassette>
           </SlideIn>
+        ) : null}
+
+        {/* ———— 称号ランクアップ ————
+             結果を読ませる前に全画面で割り込む。閉じるまで結果は裏にいる。
+             ここでしか上がらないご褒美なので、カード1枚では軽すぎた */}
+        {rankUp ? (
+          <RankUpScreen from={prevTitle(rankUp)} to={rankUp} onDone={() => setRankUp(null)} />
         ) : null}
       </>
     </Screen>

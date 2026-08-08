@@ -157,3 +157,10 @@ export function titleFor(badgeCount: number): Title {
 export function nextTitle(badgeCount: number): Title | null {
   return TITLES.find((t) => t.need > badgeCount) ?? null;
 }
+
+/** ひとつ前の称号（いちばん下ならnull）。
+    ランクアップの演出で「どこから上がったか」を出すのに使う */
+export function prevTitle(title: Title): Title | null {
+  const i = TITLES.findIndex((t) => t.name === title.name);
+  return i > 0 ? TITLES[i - 1] : null;
+}
