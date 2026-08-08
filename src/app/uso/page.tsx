@@ -6,7 +6,7 @@ import { USO_QUESTIONS, USO_ROUNDS } from "./data";
 import { UsoPlayer } from "./player";
 
 export const metadata: Metadata = {
-  title: "AIのウソを見抜け｜ハルシネーション体験ゲーム【全8問】｜COMIXAI",
+  title: "AIのウソを見抜け｜ハルシネーション体験ゲーム｜COMIXAI",
   description:
     "AIの回答を2つ並べます。片方にはハルシネーション（ウソ）が混ざっています——見抜けますか？架空の判例、捏造された出典、古い制度の知識など、実際のAIがやらかす「ウソの型」だけを集めた体験ゲーム。遊ぶだけでAIリテラシーが身につきます。",
   keywords: ["ハルシネーション", "AI ウソ", "AI 間違い 見抜く", "AIリテラシー ゲーム", "ファクトチェック"],

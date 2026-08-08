@@ -518,7 +518,7 @@ export const RECIPES_BASICS: Recipe[] = [
   {
     slug: "summary",
     title: "長い資料の要約",
-    seoTitle: "資料要約のAIプロンプト｜「読んだつもり」にならない要約のさせ方",
+    seoTitle: "資料要約のAIプロンプト｜「読んだつもり」にならない要約術",
     catch: "要約とは「短くすること」ではなく「あなたの判断材料を残すこと」。",
     category: "会議・報告",
     icon: "ph-books",
@@ -625,7 +625,7 @@ export const RECIPES_BASICS: Recipe[] = [
   {
     slug: "weekly-report",
     title: "週報・日報",
-    seoTitle: "週報・日報をAIで書くプロンプト｜5分で「読まれる報告」に変える",
+    seoTitle: "週報・日報をAIで書くプロンプト｜5分で読まれる報告に",
     catch: "「特になし」と書く前に。メモの断片から報告書を組み立てる。",
     category: "会議・報告",
     icon: "ph-calendar-blank",

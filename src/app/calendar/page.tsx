@@ -12,7 +12,7 @@ import eventImagesJson from "./event-images.json";
 const EVENT_IMAGES = (eventImagesJson as { images: Record<string, string> }).images ?? {};
 
 export const metadata: Metadata = {
-  title: "AIイベントカレンダー2026｜世界と日本の主要イベント＆今日のAIニュース｜COMIXAI",
+  title: "AIイベントカレンダー2026｜世界と日本の日程一覧｜COMIXAI",
   description:
     "OpenAI DevDay・NVIDIA GTCなど世界のビッグイベントから、AI博覧会・AI EXPOなど日本の展示会まで、AI主要イベントの日程をカレンダーで一望。毎朝自動更新の「今日のAIニュース」見出しつき。公式発表済みの情報だけを掲載しています。",
   keywords: ["AI イベント 2026", "AI カンファレンス 一覧", "OpenAI DevDay いつ", "AI EXPO 日程", "AI ニュース 今日", "生成AI イベント"],

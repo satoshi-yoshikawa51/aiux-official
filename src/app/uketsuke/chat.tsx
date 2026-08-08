@@ -65,12 +65,16 @@ export default function UketsukeChat() {
   modeRef.current = mode;
 
   /* 空状態のキャラを透過アニメで動かす。
-     透過webm(VP9)対応ブラウザは動画、Safari等はアニメWebPに切替 */
+     透過webm(VP9)対応ブラウザは動画、Safari等はアニメWebPに切替。
+     Xアプリ等のiOS WKWebViewはUAに"Safari"を含まないので、iOS端末
+     そのものでも判定する（Mac風UAのiPadOSはタッチ点数で検出） */
   const [alphaVideo, setAlphaVideo] = React.useState(false);
   React.useEffect(() => {
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const ua = navigator.userAgent;
+    const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
     const v = document.createElement("video");
-    if (!isSafari && v.canPlayType('video/webm; codecs="vp9"')) setAlphaVideo(true);
+    if (!isIOS && !isSafari && v.canPlayType('video/webm; codecs="vp9"')) setAlphaVideo(true);
   }, []);
 
   const started = messages.some((m) => m.role === "user");

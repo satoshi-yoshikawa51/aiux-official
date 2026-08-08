@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
-import { Button } from "../ds";
+import { Badge, Button, Card } from "../ds";
 import { NOTE } from "../data";
 import { MANGA_SERIES } from "./data";
 import { Breadcrumb, SectionHead, ShareRow, SeriesCard } from "./ui";
+import { toneBg } from "../site-ui";
 
 export const metadata: Metadata = {
-  title: "AI活用マンガ・連載シリーズ一覧｜マンガでわかる生成AI｜COMIXAI",
+  title: "AI活用マンガ連載一覧｜マンガでわかる生成AI｜COMIXAI",
   description:
     "生成AIの入門から実践、AI時代の考察まで。漫画家・AIクリエイター吉川聡史がnoteで連載する「マンガでわかる！AI活用」「マンガで実践！AI活用」「AI時代の流行と本質」の3シリーズを紹介。むずかしいAIを、マンガで面白く、わかりやすく。",
   keywords: [
@@ -58,6 +59,66 @@ const JSON_LD = {
   ],
 };
 
+/* ═══ 連載の全体像 ═══
+   「何話あって、どれだけ読まれているか」が一目でわかるようにする。
+   読む人には「どれから読むか」の material に、
+   出版・寄稿の相談で見に来た人には連載の規模の裏づけになる。
+   数字はすべて episodes.json（CIが毎週noteから更新）から算出する。 */
+const ALL_EPISODES = MANGA_SERIES.flatMap((s) => s.episodes);
+const TOTAL_LIKES = ALL_EPISODES.reduce((n, e) => n + (e.likes ?? 0), 0);
+const EPISODE_DATES = ALL_EPISODES.map((e) => e.date)
+  .filter((d): d is string => Boolean(d))
+  .sort();
+const FIRST_DATE = EPISODE_DATES[0];
+/** 2024-09-02 → 2024.9 */
+const ymLabel = (d: string) => `${d.slice(0, 4)}.${Number(d.slice(5, 7))}`;
+
+const STATS: { value: string; label: string }[] = [
+  { value: String(MANGA_SERIES.length), label: "シリーズ" },
+  { value: String(ALL_EPISODES.length), label: "全話数" },
+  { value: TOTAL_LIKES.toLocaleString("ja-JP"), label: "累計スキ" },
+  { value: FIRST_DATE ? `${ymLabel(FIRST_DATE)}〜` : "—", label: "連載中" },
+];
+
+function EpisodeRow({ ep }: { ep: (typeof ALL_EPISODES)[number] }) {
+  return (
+    <a
+      href={ep.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-ga="card_click"
+      data-ga-place="manga-episode"
+      data-ga-path={ep.url}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "58px minmax(0, 1fr) auto",
+        gap: 14,
+        alignItems: "center",
+        padding: "13px 16px",
+        textDecoration: "none",
+        color: "inherit",
+        borderBottom: "var(--bw-hair) solid var(--paper-200)",
+      }}
+    >
+      <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 700, color: "var(--red-600)" }}>
+        {ep.no != null ? `第${ep.no}話` : ep.date ? ymLabel(ep.date) : "—"}
+      </span>
+      <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14.5, lineHeight: 1.6, minWidth: 0 }}>
+        {ep.title}
+      </span>
+      <span style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "var(--font-mono)", fontSize: 12.5, color: "var(--text-muted)", whiteSpace: "nowrap" }}>
+        {ep.likes != null && (
+          <>
+            <i className="ph-bold ph-heart" style={{ color: "var(--red-500)" }} />
+            {ep.likes.toLocaleString("ja-JP")}
+          </>
+        )}
+        <i className="ph-bold ph-arrow-up-right" />
+      </span>
+    </a>
+  );
+}
+
 export default function MangaIndexPage() {
   return (
     <div style={{ background: "var(--paper-50)", minHeight: "100vh" }}>
@@ -91,6 +152,89 @@ export default function MangaIndexPage() {
               </Button>
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* ═══ 全話一覧 ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "54px 0 50px" }}>
+        <SectionHead
+          kicker="EPISODES — 全話一覧"
+          title={`${ALL_EPISODES.length}話、ぜんぶここに。`}
+          hand="気になった回から読んでOK"
+        />
+        <div
+          style={{
+            display: "grid",
+            /* PCは4つ横並び、スマホは2列に折り返す（縦一列だと間延びする） */
+            gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+            gap: 12,
+            marginBottom: 32,
+          }}
+        >
+          {STATS.map((s) => (
+            <div
+              key={s.label}
+              style={{
+                border: "var(--bw-line) solid var(--ink-900)",
+                borderRadius: "var(--radius-md)",
+                background: "var(--paper-0)",
+                boxShadow: "var(--shadow-pop-sm)",
+                padding: "18px 12px",
+                textAlign: "center",
+              }}
+            >
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 27, lineHeight: 1.1 }}>
+                {s.value}
+              </div>
+              <div style={{ marginTop: 6, fontSize: 11.5, color: "var(--text-muted)" }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ display: "grid", gap: 22 }}>
+          {MANGA_SERIES.map((s) => (
+            <Card key={s.slug} variant="pop" padding={0} style={{ overflow: "hidden" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 12,
+                  flexWrap: "wrap",
+                  padding: "14px 18px",
+                  background: toneBg(s.tone),
+                  borderBottom: "var(--bw-line) solid var(--ink-900)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                  <Badge tone="red">{s.label}</Badge>
+                  <h3 style={{ margin: 0, fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17 }}>
+                    {s.title}
+                  </h3>
+                </div>
+                <a
+                  href={`/manga/${s.slug}`}
+                  data-ga="card_click"
+                  data-ga-place="manga-series"
+                  data-ga-path={`/manga/${s.slug}`}
+                  style={{
+                    textDecoration: "none",
+                    fontFamily: "var(--font-heading)",
+                    fontWeight: 700,
+                    fontSize: 13,
+                    color: "var(--ink-900)",
+                  }}
+                >
+                  シリーズ紹介を見る <i className="ph-bold ph-arrow-right" />
+                </a>
+              </div>
+              <div style={{ background: "var(--paper-0)" }}>
+                {s.episodes.map((ep) => (
+                  <EpisodeRow key={ep.url} ep={ep} />
+                ))}
+              </div>
+            </Card>
+          ))}
         </div>
       </section>
 

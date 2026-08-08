@@ -9,10 +9,10 @@ import type { WorkDetail } from "./data";
 export { toneBg, Breadcrumb, SectionHead, ShareRow, RelatedArticleCard } from "../site-ui";
 
 /* —— 作品紹介カード（/works 一覧・「ほかの作品」で使用） —— */
-export function WorkCard({ work }: { work: WorkDetail }) {
+export function WorkCard({ work, place = "works" }: { work: WorkDetail; place?: string }) {
   return (
     <Card variant="pop" hover padding={0} style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
-      <a href={`/works/${work.slug}`} style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", flex: 1 }}>
+      <a href={`/works/${work.slug}`} data-ga="card_click" data-ga-place={place} data-ga-path={`/works/${work.slug}`} style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", flex: 1 }}>
         <div style={{ position: "relative", height: 150, background: toneBg(work.tone), borderBottom: "var(--bw-bold) solid var(--ink-900)", overflow: "hidden" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

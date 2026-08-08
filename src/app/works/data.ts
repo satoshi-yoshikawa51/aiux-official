@@ -58,7 +58,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     lastUpdated: "2026-07-04",
     metaTitle: "Claude Code Quest｜Claude Codeを遊びながら学べるRPG",
     metaDescription:
-      "Claude Codeの使い方を、RPGの冒険を通じて学べるブラウザゲーム。Webディレクターが主人公となり、実際にコマンドを打ちながらAIコーディングの基本を体験。新規事業開発の手法で企画し、GA計測とClaudeによる分析でアップデートを重ねています。ブラウザですぐ遊べます。",
+      "Claude Codeの使い方を、RPGの冒険を通じて学べるブラウザゲーム。Webディレクターが主人公となり、実際にコマンドを打ちながらAIコーディングの基本を体験できます。登録不要、ブラウザですぐ遊べます。",
     keywords: [
       "Claude Code 学習",
       "Claude Code 入門",
@@ -106,7 +106,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     tone: "ink",
     badge: "ライト版",
     lastUpdated: "2026-07-04",
-    metaTitle: "Claude Code Quest ライト版｜選択式でかんたんに学べるClaude Code入門ゲーム",
+    metaTitle: "Claude Code Quest ライト版｜選択式で学ぶClaude Code入門",
     metaDescription:
       "コマンドを入力せず、選択肢から選ぶだけで進められるClaude Code入門ゲーム。通常版よりさらに気軽に、Claude Codeでできること・基本の流れをつかめます。スキマ時間に、スマホからでも。ブラウザですぐ遊べます。",
     keywords: [
@@ -155,7 +155,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     tone: "yellow",
     badge: "3D",
     lastUpdated: "2026-07-04",
-    metaTitle: "マンガから作る！3Dゲーム｜手描きイラストからClaudeで作ったブラウザ3Dアクション",
+    metaTitle: "手描きマンガから作った3Dゲーム｜Claude製ブラウザアクション",
     metaDescription:
       "漫画家の手描きイラストから、Claudeを使って3Dゲームを制作。そらとびマスコットを操作してコインを集める、ブラウザですぐ遊べる3Dアクションゲームです。制作の一部始終はnoteで公開中。",
     keywords: [
@@ -248,7 +248,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     tone: "red",
     badge: "新作",
     lastUpdated: "2026-07-24",
-    metaTitle: "5分で覚える！Claude教習所｜さわって覚えるClaude入門シミュレーター",
+    metaTitle: "Claude教習所｜さわって覚えるClaude入門シミュレーター",
     metaDescription:
       "本物そっくりの練習画面を3D講師が「どこを押すか」から1つずつ案内する無料の教習コース。1コース約5分で、チャット・Cowork・コードの使い分けから変更の承認、本番公開まで体験できる。登録不要で失敗しても何も壊れない。",
     keywords: [
@@ -376,6 +376,54 @@ export const WORK_DETAILS: WorkDetail[] = [
     tech: ["Claude API", "BM25", "Claude Code", "Next.js", "Vercel"],
     schemaType: "WebApplication",
     appCategory: "UtilitiesApplication",
+    storyUrls: [],
+  },
+  {
+    slug: "hakushi-lp",
+    category: "ツール",
+    title: "白紙のLP",
+    tagline: "3タップ答えると、目の前であなた専用のLPが組み上がる。",
+    appUrl: "/lp",
+    cta: "つくってもらう",
+    image: "/lp/ogp.png",
+    tone: "blue",
+    badge: "世界に一冊",
+    lastUpdated: "2026-08-01",
+    metaTitle: "白紙のLP｜3タップで、あなた専用のLPがその場で組み上がる",
+    metaDescription:
+      "開いた瞬間はまっ白。AIが職業・AIとの距離・いまほしいものを3タップで聞いて、その場であなた専用のLPを設計・執筆・組み上げるインタラクティブ体験です。構成もキャッチコピーも訪問者ごとに違う、発行番号つきの世界に一冊のLP。",
+    keywords: [
+      "AI LP 自動生成",
+      "パーソナライズ LP",
+      "Claude API 活用例",
+      "生成AI Webサイト",
+      "インタラクティブ LP",
+      "AI Web制作",
+    ],
+    intro: [
+      "開いた瞬間は、まっ白なページ。「あなたが誰か知らないのに、作れるわけがないので」——AIが逆に3つ質問してきて、答えると目の前でワイヤーフレームが引かれ、キャッチコピーが執筆され、画像が貼り込まれて、あなた専用のLPが組み上がっていきます。構成も、コピーも、載るコンテンツの順番も、訪問者ごとに違います。",
+      "しくみは、3つの回答をClaudeに渡してLPの設計JSON（構成・コピー・掲載コンテンツ）を生成し、それをライブビルド演出で実装していくというもの。完成したLPには発行日と通し番号入りの奥付が付いて「開通」の判が押されます。同じLPは二度とできない、世界に一冊のLPです。",
+    ],
+    features: [
+      {
+        icon: "ph-chats-circle",
+        title: "AIが逆に質問してくる",
+        text: "職業・AIとの距離・いまほしいもの。3タップ答えるだけで、あなたの専用設計が始まる。",
+      },
+      {
+        icon: "ph-magic-wand",
+        title: "目の前で組み上がる",
+        text: "コマ割り→執筆→画像配置→公開まで、LPができていく過程そのものを演出として見せる。",
+      },
+      {
+        icon: "ph-book-open",
+        title: "世界に一冊の奥付つき",
+        text: "発行日と通し番号が入って「開通」の判が押される。あなたのためだけの一冊が発行される。",
+      },
+    ],
+    tech: ["Claude API", "Claude Code", "Next.js", "Midjourney", "Vercel"],
+    schemaType: "WebApplication",
+    appCategory: "DesignApplication",
     storyUrls: [],
   },
 ];

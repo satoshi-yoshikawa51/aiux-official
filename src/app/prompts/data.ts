@@ -86,7 +86,7 @@ export const RECIPES: Recipe[] = [
   ...RECIPES_WORK,
 ];
 
-export const PROMPTS_UPDATED = "2026-07-15";
+export const PROMPTS_UPDATED = "2026-08-01";
 
 /** カテゴリの表示順と説明（一覧ページで使う） */
 export const RECIPE_CATEGORIES: {

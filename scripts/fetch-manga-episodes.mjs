@@ -20,6 +20,8 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const EPISODES_PATH = path.join(ROOT, "src/app/manga/episodes.json");
 const META_PATH = path.join(ROOT, "src/app/note-article-meta.json");
+/* 全記事のスキ数はこちらに入っている（refresh-note-articles.yml が毎週更新） */
+const ARTICLES_PATH = path.join(ROOT, "src/app/note-articles.json");
 
 const USER = "aiux_unite";
 /* slug は src/app/manga/data.ts の MANGA_SERIES と一致させること */
@@ -166,7 +168,7 @@ const epNo = (title) => {
   return m ? Number(m[1]) : undefined;
 };
 
-function buildEpisodes(notes, prevEpisodes, meta) {
+function buildEpisodes(notes, prevEpisodes, meta, likesByUrl) {
   const prevByUrl = new Map(prevEpisodes.map((e) => [e.url, e]));
   let eps = notes.map((n) => {
     const url = `https://note.com/${USER}/n/${n.key}`;
@@ -182,7 +184,10 @@ function buildEpisodes(notes, prevEpisodes, meta) {
     if (n.date) ep.date = n.date;
     const thumb = n.thumb || prev?.thumb;
     if (thumb) ep.thumb = thumb;
-    const likes = n.likes ?? prev?.likes;
+    /* マガジンRSS（取得経路1）はスキ数を返さないので、そのままだと
+       ほとんどの話でスキ数が欠ける。全記事を別に集めている
+       note-articles.json に同じURLがあればそこから補う。 */
+    const likes = n.likes ?? likesByUrl.get(url) ?? prev?.likes;
     if (likes != null) ep.likes = likes;
     return ep;
   });
@@ -197,6 +202,10 @@ function buildEpisodes(notes, prevEpisodes, meta) {
 
 const prev = JSON.parse(await readFile(EPISODES_PATH, "utf8"));
 const meta = JSON.parse(await readFile(META_PATH, "utf8"));
+const articles = JSON.parse(await readFile(ARTICLES_PATH, "utf8")).articles ?? [];
+const likesByUrl = new Map(
+  articles.filter((a) => a.url && a.likes != null).map((a) => [a.url, a.likes]),
+);
 const today = new Date().toISOString().slice(0, 10);
 
 let changed = false;
@@ -207,7 +216,7 @@ for (const series of SERIES) {
     continue;
   }
   const prevEntry = prev.series[series.slug] || { updatedAt: today, episodes: [] };
-  const eps = buildEpisodes(notes, prevEntry.episodes, meta);
+  const eps = buildEpisodes(notes, prevEntry.episodes, meta, likesByUrl);
   if (JSON.stringify(eps) !== JSON.stringify(prevEntry.episodes)) {
     prev.series[series.slug] = { updatedAt: today, episodes: eps };
     changed = true;

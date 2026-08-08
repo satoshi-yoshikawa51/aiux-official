@@ -889,7 +889,7 @@ export const GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES_UPDATED = "2026-07-28";
+export const GUIDES_UPDATED = "2026-08-01";
 
 export function getGuide(slug: string): Guide | undefined {
   return GUIDES.find((g) => g.slug === slug);

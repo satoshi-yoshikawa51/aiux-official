@@ -4,7 +4,7 @@ import { Breadcrumb, ShareRow } from "../site-ui";
 import { VibeGame } from "./game";
 
 export const metadata: Metadata = {
-  title: "3分バイブコーディング｜雑な一言でアプリが完成する体験｜COMIXAI",
+  title: "3分バイブコーディング｜雑な一言でアプリが完成｜COMIXAI",
   description:
     "「もっとポップに」「なんかこう、ドン！って」——雑な一言を選ぶだけで、目の前でミニアプリが変形していくバイブコーディング体験。仕様書ゼロ、4ターンで完成。組み合わせは81通り。",
   keywords: ["バイブコーディング", "vibe coding とは", "AI アプリ開発 体験", "Claude Code"],

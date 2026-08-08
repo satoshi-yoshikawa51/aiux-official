@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMIXAI — 白紙のLP「いまから、あなたのLPを作ります」</title>
+<meta name="description" content="このLP、まだ白紙です。3つ答えると、目の前であなた専用のLPが組み上がります。AIを、面白く。わかりやすく。">
+<link rel="canonical" href="https://comixai.dev/lp">
+<meta property="og:type" content="website">
+<meta property="og:title" content="COMIXAI — 白紙のLP">
+<meta property="og:description" content="3つ答えると、目の前であなた専用のLPが組み上がる。世界に一冊のLP、いまから作ります。">
+<meta property="og:url" content="https://comixai.dev/lp">
+<meta property="og:image" content="https://comixai.dev/lp/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FVS6MP6GQ"></script>
+<script>
+/* GA4（本体サイトと同じ測定ID）。読み込み失敗時もgtag()はdataLayerに積むだけなので安全 */
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments)}
+gtag("js",new Date());
+gtag("config","G-2FVS6MP6GQ");
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF8F1;
+  --ink:#191714;
+  --blue:#2FB4E9;      /* ノンフォトブルー: 下書き・ワイヤー工程専用 */
+  --blue-deep:#0E86BD;
+  --red:#E60012;       /* 完成後は本体サイトのトンマナ（red-500/yellow-400） */
+  --red-deep:#C70010;
+  --yellow:#FFD23F;
+  --yellow-soft:#FFE89A;
+  --tone:#8A857C;
+  --font-serif:"Shippori Antique B1", serif;
+  --font-disp:"RocknRoll One", sans-serif;
+  --font-body:"Zen Kaku Gothic New", sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--font-body);overflow:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle, rgba(25,23,20,.05) 1px, transparent 1.4px);
+  background-size:9px 9px;
+}
+/* ===== サイト本体(ここが組み上がる) ===== */
+#site{
+  position:fixed;inset:0;z-index:1;overflow:hidden;
+  scroll-behavior:smooth;
+}
+#site.free{overflow-y:auto;-webkit-overflow-scrolling:touch}
+#page{
+  max-width:720px;margin:0 auto;
+  padding:20px 18px 40px;
+  display:flex;flex-direction:column;gap:22px;
+  padding-bottom:180px;
+}
+/* --- セクション共通:ワイヤー状態 → 実装済み --- */
+.sec{
+  position:relative;border:2.5px dashed var(--blue);
+  border-radius:4px;background:rgba(47,180,233,.04);
+  min-height:90px;opacity:0;transform:translateY(10px);
+  transition:opacity .4s, transform .4s;
+}
+.sec.show{opacity:1;transform:none}
+.sec .wireLabel{
+  position:absolute;top:8px;left:10px;
+  font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--blue-deep);
+  opacity:.8;
+}
+.sec.built{
+  border:2.5px solid var(--ink);background:#fff;
+  box-shadow:5px 5px 0 rgba(25,23,20,.12);
+  transition:border-color .3s, background .3s, box-shadow .3s;
+}
+.sec.built .wireLabel{display:none}
+.sec .inner{padding:20px 18px;display:none}
+.sec.built .inner{display:block}
+/* --- HERO --- */
+.hero .inner{padding:26px 20px 22px}
+.badge{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;
+  background:var(--red);color:#fff;padding:4px 12px;border-radius:999px;
+  margin-bottom:12px;
+}
+.catch{
+  font-family:var(--font-disp);
+  font-size:clamp(26px,7.4vw,44px);line-height:1.4;
+  min-height:1.4em;
+}
+.catch .ul{background:linear-gradient(transparent 62%, var(--yellow) 62%)}
+.sub{
+  font-family:var(--font-serif);font-size:clamp(13.5px,3.8vw,16px);
+  line-height:2;color:#3d3a34;margin-top:12px;min-height:2em;
+}
+.heroImg{
+  margin-top:16px;border:3px solid var(--ink);
+  box-shadow:5px 5px 0 rgba(25,23,20,.15);
+  overflow:hidden;background:#fff;
+}
+.heroImg img,.heroImg video{display:block;width:100%;height:auto}
+/* --- 診断（黄色い付箋メモ風。カルテの走り書き） --- */
+.diag .inner{padding:14px 16px}
+.diagBox{
+  font-family:var(--font-serif);font-size:13.5px;line-height:1.9;
+  color:#3d3a34;
+}
+.diagBox b{font-family:var(--font-body);font-weight:700;letter-spacing:.1em;margin-right:6px;color:var(--red)}
+.sec.built.diag{
+  border:2.5px dashed rgba(20,17,15,.35);
+  background:rgba(255,232,154,.32);box-shadow:none;
+}
+/* --- セクション --- */
+.eyebrow{
+  font-size:10.5px;font-weight:700;letter-spacing:.24em;color:var(--tone);
+  margin-bottom:8px;
+}
+.eyebrow em{font-style:normal;color:var(--red)}
+h2.secTitle{
+  font-family:var(--font-disp);font-size:clamp(19px,5.4vw,26px);
+  line-height:1.5;min-height:1.5em;
+}
+.lead{
+  font-family:var(--font-serif);font-size:clamp(12.5px,3.5vw,14.5px);
+  line-height:1.95;color:#3d3a34;margin-top:8px;
+}
+.items{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.item{
+  display:flex;gap:12px;align-items:stretch;text-decoration:none;color:var(--ink);
+  border:2.5px solid var(--ink);background:#fff;border-radius:4px;
+  box-shadow:4px 4px 0 rgba(25,23,20,.12);overflow:hidden;
+  opacity:0;transform:translateY(-10px) rotate(-1.2deg) scale(1.02);
+  transition:opacity .35s, transform .35s cubic-bezier(.3,1.4,.5,1);
+}
+.item.placed{opacity:1;transform:none}
+.item:active{transform:translate(2px,2px)}
+.thumb{
+  flex:none;width:96px;min-height:88px;position:relative;
+  border-right:2.5px solid var(--ink);background:#F4ECDD;
+  display:flex;align-items:center;justify-content:center;
+}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.thumb .slot{
+  text-align:center;font-size:9px;font-weight:700;color:var(--tone);
+  letter-spacing:.08em;line-height:1.5;padding:4px;
+}
+.thumb::after{ /* マスキングテープ */
+  content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%) rotate(-2deg);
+  width:44px;height:13px;background:rgba(255,210,63,.8);z-index:2;
+}
+.itxt{padding:11px 12px 10px 2px;flex:1;position:relative}
+.itxt b{font-family:var(--font-disp);font-size:14.5px;line-height:1.5;display:block}
+.itxt p{font-size:11.5px;color:#4a463f;line-height:1.65;margin-top:4px}
+.itxt .go{
+  position:absolute;right:9px;bottom:7px;font-size:9.5px;color:var(--red);
+  font-weight:700;letter-spacing:.12em;
+}
+.itxt .tag{
+  display:inline-block;font-size:9px;font-weight:700;background:var(--ink);color:var(--paper);
+  padding:1.5px 6px;border-radius:3px;letter-spacing:.1em;margin-bottom:4px;
+}
+/* --- CTA --- */
+.cta .inner{text-align:center;padding:26px 18px}
+.closing{
+  font-family:var(--font-serif);font-size:clamp(14px,4vw,17px);line-height:2;
+  margin-bottom:16px;min-height:2em;
+}
+.ctaRow{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.ctaBtn{
+  font-family:var(--font-disp);font-size:clamp(14px,4vw,16.5px);
+  text-decoration:none;color:var(--ink);
+  border:3px solid var(--ink);background:#fff;border-radius:999px;
+  padding:14px 26px;box-shadow:5px 5px 0 var(--yellow);
+  transition:transform .12s;opacity:0;
+}
+.ctaBtn.placed{opacity:1;transition:opacity .4s, transform .12s}
+.ctaBtn:active{transform:translate(3px,3px)}
+.ctaBtn.dark{background:var(--red);color:#fff;box-shadow:5px 5px 0 rgba(25,23,20,.25)}
+/* --- 奥付 --- */
+.footer{border:none;background:none;box-shadow:none !important}
+.footer .inner{padding:18px 6px 0;border-top:2.5px solid var(--ink)}
+.footer.built{border:none;background:none}
+.okuzuke{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:10px;
+}
+.okuzuke .l{font-size:11px;color:var(--tone);line-height:1.9}
+.okuzuke .l b{font-family:var(--font-serif);font-size:14px;color:var(--ink);letter-spacing:.1em;display:block}
+#stamp{
+  flex:none;width:74px;height:74px;border:3px solid var(--red);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--red);font-family:var(--font-serif);font-size:15px;line-height:1.3;
+  transform:scale(3) rotate(-25deg);opacity:0;
+}
+#stamp.on{transform:scale(1) rotate(-8deg);opacity:1;transition:all .3s cubic-bezier(.3,1.6,.5,1)}
+#stamp small{font-family:var(--font-body);font-size:9px;letter-spacing:.05em;margin-top:2px}
+/* --- 奥付の下: COMIXAIトップへの導線 --- */
+.topLink{
+  display:block;margin:22px auto 0;max-width:440px;text-align:center;
+  font-family:var(--font-disp);font-size:clamp(15px,4.2vw,17px);
+  color:#fff;text-decoration:none;
+  background:var(--red);border:3px solid var(--ink);border-radius:999px;
+  padding:16px 22px;box-shadow:5px 5px 0 rgba(25,23,20,.25);
+  transition:transform .12s;
+}
+.topLink:active{transform:translate(3px,3px)}
+.topLink small{
+  display:block;font-family:var(--font-serif);font-size:11.5px;font-weight:400;
+  color:rgba(255,255,255,.85);margin-top:3px;letter-spacing:.04em;
+}
+/* ===== ミニ操作（完成後にだけ出る） ===== */
+#mini{position:fixed;top:14px;right:16px;z-index:12;display:flex;gap:8px}
+.miniBtn{
+  font-size:11px;font-weight:700;letter-spacing:.05em;
+  border:2px solid var(--ink);background:#fff;border-radius:999px;
+  padding:6px 11px;cursor:pointer;font-family:var(--font-body);
+  box-shadow:2px 2px 0 rgba(25,23,20,.15);text-decoration:none;color:var(--ink);
+  display:none;
+}
+.miniBtn.on{display:inline-block}
+/* ===== ナレーション吹き出し ===== */
+#bubbleWrap{
+  position:fixed;left:0;right:0;bottom:0;z-index:20;
+  padding:10px 18px calc(16px + env(safe-area-inset-bottom));
+  transition:transform .5s cubic-bezier(.4,0,.2,1), opacity .5s;
+}
+#bubbleWrap.gone{transform:translateY(120%);opacity:0;pointer-events:none}
+/* キャラ（左下）と吹き出しの下段。下端に固定され、上下に動かない */
+#bubbleRow{
+  display:flex;align-items:flex-end;
+  max-width:680px;margin:0 auto;
+}
+/* ヒアリング役: トップページ右下のAI受付FAB（uke-fab-char）と同じ作法で
+   左下に固定。吹き出しより背が高く、上にはみ出して立つ */
+#fabChar{
+  flex:none;width:92px;aspect-ratio:488/522;
+  margin-right:-12px; /* 吹き出しの左角に少し重ねる */
+  position:relative;z-index:1;
+  filter:drop-shadow(3px 4px 0 rgba(20,17,15,.22));
+  pointer-events:none;
+}
+#fabChar video,#fabChar img{width:100%;height:100%;object-fit:contain;display:block}
+#bubble{
+  flex:1;position:relative;background:#fff;border:2.5px solid var(--ink);
+  border-radius:20px 20px 20px 6px; /* 左下だけ絞って、左に立つキャラへの尻尾に */
+  padding:13px 16px 12px;
+  min-height:72px;box-shadow:4px 4px 0 rgba(25,23,20,.18);
+}
+#narr{
+  font-family:var(--font-serif);
+  font-size:clamp(14px,3.9vw,16.5px);line-height:1.8;letter-spacing:.02em;
+  min-height:3.6em;
+}
+#narr .caret{display:inline-block;width:.5em;height:1em;background:var(--blue);vertical-align:-.12em;animation:blink .8s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+/* 選択肢は吹き出しの上に出す（吹き出しは下端のまま動かない） */
+#chipsRow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 auto 12px;max-width:680px}
+.chip{
+  font-family:var(--font-body);font-weight:700;font-size:13px;
+  border:2.5px solid var(--ink);background:#fff;border-radius:999px;
+  padding:9px 15px;cursor:pointer;box-shadow:3px 3px 0 rgba(47,180,233,.55);
+  transition:transform .1s;
+}
+.chip:active{transform:translate(2px,2px);box-shadow:1px 1px 0 rgba(47,180,233,.55)}
+/* ===== 集中線フラッシュ ===== */
+#flash{
+  position:fixed;inset:-40%;z-index:30;pointer-events:none;opacity:0;
+  background:repeating-conic-gradient(from 0deg at 50% 50%, var(--ink) 0deg .7deg, transparent .7deg 5.5deg);
+  -webkit-mask:radial-gradient(circle at 50% 50%, transparent 30%, #000 70%);
+          mask:radial-gradient(circle at 50% 50%, transparent 30%, #000 70%);
+}
+#flash.go{animation:zip .42s ease-out}
+@keyframes zip{0%{opacity:0}25%{opacity:.95}100%{opacity:0}}
+/* 白紙のはじまり（白紙は白紙のまま。キャラは置かない） */
+#blank{
+  position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;transition:opacity .6s;
+}
+#blank .paperMark{
+  font-family:var(--font-disp);font-size:clamp(18px,5vw,26px);color:var(--ink);
+  opacity:.1;letter-spacing:.1em;
+}
+#blank.gone{opacity:0}
+/* ===== 設計待ち: トップページのスプラッシュ（splash.tsx）の墨バージョン ===== */
+#designing{
+  position:fixed;inset:0;z-index:6;display:flex;flex-direction:column;gap:20px;
+  align-items:center;justify-content:center;pointer-events:none;
+  opacity:0;transition:opacity .45s;
+}
+#designing.on{opacity:1}
+#designing.gone{opacity:0}
+.ds-face{
+  position:relative;display:block;width:128px;aspect-ratio:530/310;
+  transform-origin:50% 88%;
+  /* 登場: 縦軸でくるくる回りながら実体化 → 呼吸ループ（本家と同じ） */
+  animation:ds-spinin .8s cubic-bezier(.22,1,.36,1) .1s both,
+            ds-breath 1.15s ease-in-out .9s infinite;
+}
+@keyframes ds-spinin{
+  0%{opacity:0;transform:perspective(700px) rotateY(810deg) scale(.2)}
+  55%{opacity:1}
+  82%{transform:perspective(700px) rotateY(-16deg) scale(1.08)}
+  100%{transform:perspective(700px) rotateY(0deg) scale(1)}
+}
+@keyframes ds-breath{
+  0%,100%{transform:scale(1,1)}
+  30%{transform:scale(1.07,.92) translateY(4px)}
+  62%{transform:scale(.95,1.06) translateY(-5px)}
+}
+/* 実体化の瞬間に広がるロックインリング（黄→ノンフォトブルーに差し替え） */
+.ds-ring{
+  position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;
+  border:3px solid var(--blue);border-radius:50%;opacity:0;pointer-events:none;
+  animation:ds-ringpop .46s cubic-bezier(.22,1,.36,1) .82s both;
+}
+@keyframes ds-ringpop{0%{opacity:.85;transform:scale(.4)}100%{opacity:0;transform:scale(1.55)}}
+/* ヒゲが数秒に一度ピクッと動く */
+.ds-whisk{transform-box:fill-box}
+.ds-whisk-l{transform-origin:100% 50%;animation:ds-twitch 3.6s ease-in-out 1.4s infinite}
+.ds-whisk-r{transform-origin:0% 50%;animation:ds-twitch 3.6s ease-in-out 2.6s infinite}
+@keyframes ds-twitch{0%,90%,100%{transform:rotate(0)}93%{transform:rotate(-7deg)}96%{transform:rotate(5deg)}}
+.ds-dots{display:flex;gap:7px;animation:ds-fadein .4s ease .9s both}
+@keyframes ds-fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ds-dots span{
+  width:8px;height:8px;border-radius:50%;background:var(--ink);
+  animation:ds-dot .9s ease-in-out infinite;
+}
+@keyframes ds-dot{0%,100%{transform:translateY(0);opacity:.45}40%{transform:translateY(-7px);opacity:1}}
+.ds-txt{
+  font-family:var(--font-serif);font-size:14px;letter-spacing:.03em;color:var(--tone);
+  animation:ds-fadein .4s ease 1.1s both;
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition-duration:.01s !important;animation-duration:.01s !important}
+  /* 無限ループ系は高速点滅になるので止める */
+  .ds-face,.ds-dots span,.ds-whisk-l,.ds-whisk-r{animation:none !important}
+}
+</style>
+</head>
+<body>
+
+<div id="blank"><div class="paperMark">— この先、まだ白紙 —</div></div>
+
+<div id="designing" aria-hidden="true" hidden>
+  <span class="ds-face">
+    <svg width="100%" height="100%" viewBox="-15 0 530 310" style="display:block;overflow:visible">
+      <!-- キャラの輪郭（splash.tsxのシルエットを墨色で。potrace座標のためy反転transform付き） -->
+      <g transform="translate(0,500) scale(0.1,-0.1)" fill="var(--ink)" stroke="none">
+        <path d="M1258 4925 c-82 -46 -123 -406 -84 -734 l13 -113 -40 -67 c-92 -151 -147 -294 -212 -551 -40 -160 -51 -191 -87 -244 -253 -370 -91 -780 383 -967 422 -166 1811 -186 2315 -34 485 147 707 594 474 954 -41 63 -60 119 -110 324 -53 220 -117 381 -207 529 l-36 57 14 83 c29 185 9 616 -32 704 -68 144 -300 57 -590 -222 l-77 -74 -43 16 c-211 74 -666 81 -947 14 -112 -27 -104 -29 -190 50 -230 215 -452 327 -544 275z" />
+      </g>
+      <g class="ds-whisk ds-whisk-l" stroke="var(--ink)" stroke-width="9" stroke-linecap="round">
+        <line x1="42" y1="185" x2="-4" y2="172" />
+        <line x1="44" y1="215" x2="-8" y2="220" />
+      </g>
+      <g class="ds-whisk ds-whisk-r" stroke="var(--ink)" stroke-width="9" stroke-linecap="round">
+        <line x1="458" y1="185" x2="504" y2="172" />
+        <line x1="456" y1="215" x2="508" y2="220" />
+      </g>
+    </svg>
+    <span class="ds-ring"></span>
+  </span>
+  <div class="ds-dots"><span></span><span style="animation-delay:.15s"></span><span style="animation-delay:.3s"></span></div>
+  <div class="ds-txt">あなた専用の構成を設計しています</div>
+</div>
+
+<div id="mini">
+  <a class="miniBtn" id="xBtn" target="_blank" data-ga="lp_share_x">𝕏 ポスト</a>
+  <button class="miniBtn" id="againBtn" data-ga="lp_retry">作り直す</button>
+</div>
+
+<div id="site"><div id="page"></div></div>
+
+<div id="flash"></div>
+
+<div id="bubbleWrap">
+  <div id="chipsRow"></div>
+  <div id="bubbleRow">
+    <span id="fabChar" aria-hidden="true"></span>
+    <div id="bubble"><p id="narr"></p></div>
+  </div>
+</div>
+
+<script>
+/* ============ 基本 ============ */
+const $=s=>document.querySelector(s);
+const site=$("#site"),page=$("#page"),narr=$("#narr"),chipsRow=$("#chipsRow");
+
+/* ============ GA4計測 ============ */
+function track(name,params){try{gtag("event",name,params||{})}catch(e){}}
+/* 本体サイトの ga-clicks.tsx と同じ作法: data-ga属性のクリックをまとめて計測 */
+document.addEventListener("click",e=>{
+  const el=e.target instanceof Element?e.target.closest("[data-ga]"):null;
+  if(!el)return;
+  const params={};
+  for(const a of el.attributes){
+    if(a.name.startsWith("data-ga-"))params[a.name.slice(8).replace(/-/g,"_")]=a.value;
+  }
+  track(el.getAttribute("data-ga"),params);
+},true);
+
+/* ヒアリング役はAI受付のキャラ。透過webm(VP9)対応ブラウザは動画、
+   それ以外はアニメWebPに切替。
+   注意: iOSはWebKitがVP9を再生できてもアルファ(透過)非対応なので常にWebP。
+   XアプリのWKWebViewはUAに"Safari"を含まず旧判定をすり抜けるため、
+   iOS端末そのものを見る（iPadOSはMac風UAなのでタッチ点数でも判定） */
+(function(){
+  const ua=navigator.userAgent;
+  const isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  const isSafari=/^((?!chrome|android).)*safari/i.test(ua);
+  const v=document.createElement("video");
+  $("#fabChar").innerHTML=(!isIOS&&!isSafari&&v.canPlayType('video/webm; codecs="vp9"'))
+    ?'<video src="/uketsuke/char-alpha.webm" autoplay muted loop playsinline preload="auto"></video>'
+    :'<img src="/uketsuke/char-anim.webp" alt="">';
+})();
+
+let typeTimer=null;
+function say(text){
+  return new Promise(res=>{
+    clearInterval(typeTimer);
+    narr.innerHTML="";
+    const caret=document.createElement("span");caret.className="caret";
+    narr.appendChild(caret);
+    let i=0;
+    typeTimer=setInterval(()=>{
+      caret.insertAdjacentText("beforebegin",text.slice(i,i+1));i++;
+      if(i>=text.length){clearInterval(typeTimer);res()}
+    },38);
+  });
+}
+function typeInto(el,text,speed=42){
+  return new Promise(res=>{
+    el.textContent="";let i=0;
+    const t=setInterval(()=>{
+      el.textContent=text.slice(0,i+1);i++;
+      if(i>=text.length){clearInterval(t);res()}
+    },speed);
+  });
+}
+const wait=t=>new Promise(r=>setTimeout(r,t));
+
+function pick(options){
+  return new Promise(res=>{
+    chipsRow.innerHTML="";
+    options.forEach(o=>{
+      const b=document.createElement("button");
+      b.className="chip";b.textContent=o;
+      b.addEventListener("click",()=>{chipsRow.innerHTML="";res(o)});
+      chipsRow.appendChild(b);
+    });
+  });
+}
+
+function flash(){const f=$("#flash");f.classList.remove("go");void f.offsetWidth;f.classList.add("go")}
+function scrollToEl(el){
+  const top=el.offsetTop-70;
+  site.scrollTo({top,behavior:"smooth"});
+}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+/* ============ コンテンツ台帳(画像は既存アセット/スロット)
+   ※ idは src/app/api/lp/route.ts の ITEMS と揃えること ============ */
+const ITEMS={
+  kyoshujo:{name:"5分で覚える!Claude教習所",desc:"本物そっくりの練習画面を、講師が1タップずつ案内。登録不要・無料。",url:"/claude-app",tag:"体験",img:"/claude-app/banner.webp"},
+  start:{name:"AIのはじめかた(無料コース)",desc:"絵巻→マンガ→用語→体験→実践の全3章。順番に進むだけ。",url:"/start",tag:"入門",img:"/start/hero.webp"},
+  manga:{name:"連載マンガ「マンガでわかる!AI活用」",desc:"現場のAI活用術を全7話のマンガで。活字が苦手でも10分。",url:"/manga/wakaru",tag:"マンガ",img:"https://assets.st-note.com/production/uploads/images/153723212/magazine_cover_landscape_74e4cd3b836dcf9092fc5631a2048ad8.png?width=900"},
+  quest:{name:"Claude Code Quest",desc:"Claude Codeを、RPGで遊びながら学べる。コマンド不要のライト版も。",url:"/works/claude-code-quest",tag:"ゲーム",img:"/works/ccq.png"},
+  emaki:{name:"AI歴史絵巻 EMAKI",desc:"AIの75年を、ひと巻きに。1950年からエージェント時代まで。",url:"/history",tag:"絵巻",img:"/history/cover.webp"},
+  prompts:{name:"仕事のプロンプト集",desc:"営業メール・議事録・Excel関数…失敗例の実演つきで頼み方が身につく。",url:"/prompts",tag:"コピペOK",img:"/og/prompts/index.png"},
+  glossary:{name:"AI用語集(図解つき)",desc:"LLM?RAG?MCP?現場目線でサクッと図解。",url:"/glossary",tag:"図解",img:"/og/glossary/index.png"},
+  guide_sales:{name:"営業のAI活用ガイド",desc:"アポ獲得メールから提案書まで、営業の仕事に引きつけて。",url:"/guide/sales",tag:"職種別",img:"/guide/sales.webp"},
+  guide_marketing:{name:"マーケティングのAI活用ガイド",desc:"調査・分析・コピーづくりをAIで加速する。",url:"/guide/marketing",tag:"職種別",img:"/guide/marketing.webp"},
+  guide_office:{name:"事務のAI活用ガイド",desc:"議事録・資料・定型業務を、AIでラクに正確に。",url:"/guide/office",tag:"職種別",img:"/guide/office.webp"},
+  guide_creator:{name:"クリエイターのAI活用ガイド",desc:"制作フローにAIを組み込み、作る速度と幅を広げる。",url:"/guide/creator",tag:"職種別",img:"/guide/creator.webp"},
+  guide_hr:{name:"人事・採用のAI活用ガイド",desc:"求人票・面接準備・社内文書を、AIで丁寧に速く。",url:"/guide/hr",tag:"職種別",img:"/guide/hr.webp"},
+  guide_support:{name:"サポート・CSのAI活用ガイド",desc:"問い合わせ対応とナレッジ整備を、AIで底上げする。",url:"/guide/support",tag:"職種別",img:"/guide/support.webp"},
+  guide_planner:{name:"企画・PMのAI活用ガイド",desc:"リサーチ・要件整理・資料づくりをAIで前に進める。",url:"/guide/planner",tag:"職種別",img:"/guide/planner.webp"},
+  guide_owner:{name:"経営者・個人事業主のAI活用ガイド",desc:"ひとりの手数を増やす。営業も経理も発信もAIと一緒に。",url:"/guide/owner",tag:"職種別",img:"/guide/owner.webp"},
+  guide_it:{name:"情シス・社内ITのAI活用ガイド",desc:"社内展開・ルール整備・ヘルプデスクをAIで回す。",url:"/guide/it",tag:"職種別",img:"/guide/it.webp"},
+  uketsuke:{name:"AI受付(お仕事相談)",desc:"講演・寄稿・制作・取材。AIと話すだけでお問い合わせが完成。",url:"/uketsuke",tag:"相談",img:"/uketsuke/char.webp"}
+};
+/* MVのビジュアル: 3問目の回答ごとの猫キャラのループ動画（public/lp/hero/）。
+   {key}.mp4 + ポスター{key}.webp のペア。再生できない環境はロゴにフォールバック */
+const HERO_BY_WANT={
+  "基礎から学びたい":"learn",
+  "なにか作ってみたい":"make",
+  "明日の仕事で使いたい":"work",
+  "仕事を相談したい":"consult"
+};
+function heroBase(want){return `/lp/hero/${HERO_BY_WANT[want]||"default"}`}
+const HERO_FALLBACK="/hero-logo.jpg";
+/* 職業チップ → 職種別ガイドid（サイトの /guide 9職種と対応） */
+const GUIDE_MAP={
+  "営業":"guide_sales","マーケティング":"guide_marketing","事務・バックオフィス":"guide_office",
+  "クリエイター":"guide_creator","人事・採用":"guide_hr","サポート・CS":"guide_support",
+  "企画・PM":"guide_planner","経営・個人事業主":"guide_owner","情シス・IT":"guide_it"
+};
+
+/* ============ LP設計の生成（/api/lp 経由。キーはサーバー側で秘匿） ============ */
+async function generateSpec(ans){
+  const res=await fetch("/api/lp",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(ans)
+  });
+  if(!res.ok)throw new Error("api error");
+  const data=await res.json();
+  if(data.issue)issueFromServer=data.issue;
+  if(data.fallback||!data.spec)throw new Error("fallback");
+  const spec=data.spec;
+  if(!spec.hero||!spec.sections||spec.sections.length<3||!spec.cta)throw new Error("bad spec");
+  spec.sections.forEach(s=>{s.items=(s.items||[]).filter(id=>ITEMS[id]).slice(0,2)});
+  if(!ITEMS[spec.cta.main.id])spec.cta.main.id="start";
+  if(!ITEMS[spec.cta.sub.id])spec.cta.sub.id="uketsuke";
+  return spec;
+}
+
+/* フォールバック(APIに届かなくても必ず完走する) */
+function fallbackSpec(a){
+  const g=GUIDE_MAP[a.job];
+  const first= a.level==="ほぼ触ったことない"
+    ? {eyebrow:"START",title:"まず、5分さわってみる",lead:`${a.level}でも大丈夫。練習画面で体で覚えるのが最短です。`,items:["kyoshujo","start"]}
+    : a.want==="なにか作ってみたい"
+    ? {eyebrow:"PLAY",title:"遊びながら、作って覚える",lead:"COMIXAIは「あそべる教材」の宝庫。まずはRPGからどうぞ。",items:["quest","kyoshujo"]}
+    : {eyebrow:"WORK",title:"明日の仕事で、そのまま使う",lead:`${a.job}の現場で今日から使えるものを集めました。`,items:["prompts",g||"glossary"]};
+  const used=new Set(first.items);
+  const pool=["manga","emaki","prompts","glossary","quest","start",g].filter(x=>x&&!used.has(x));
+  const s2items=pool.slice(0,2);s2items.forEach(x=>used.add(x));
+  const s3items=pool.filter(x=>!used.has(x)).slice(0,2);
+  return {
+    hero:{label:`${a.job}のあなたへ`,catch:"AIを、面白く。",sub:`${a.want}あなたのために、COMIXAIの中から効くものだけ集めました。`},
+    diagnosis:`${a.job}・${a.level}。「${a.want}」熱が高まっている模様。`,
+    sections:[first,
+      {eyebrow:"READ",title:"マンガで、するっと理解",lead:"むずかしい話はマンガが早い。10分で読めます。",items:s2items.length?s2items:["manga","emaki"]},
+      {eyebrow:"MORE",title:"もっと深く、仕事に効かせる",lead:"基礎が済んだら、実務に直結するこの2つを。",items:s3items.length?s3items:["glossary","uketsuke"]}],
+    cta:{closing:"迷ったら、まず1つだけ。それで十分です。",
+      main:{id:a.want==="仕事を相談したい"?"uketsuke":"start",text:a.want==="仕事を相談したい"?"相談してみる":"はじめてみる"},
+      sub:{id:"manga",text:"マンガを読む"}}
+  };
+}
+
+/* ============ LP部品の生成 ============ */
+function mkSec(cls,label){
+  const d=document.createElement("section");
+  d.className="sec "+cls;
+  d.innerHTML=`<span class="wireLabel">${label}</span><div class="inner"></div>`;
+  page.appendChild(d);
+  return d;
+}
+function thumbHTML(it){
+  if(it.img)return `<div class="thumb"><img src="${it.img}" alt="" loading="lazy" onerror="this.remove()"></div>`;
+  return `<div class="thumb"><div class="slot">IMAGE SLOT<br>${esc(it.name)}</div></div>`;
+}
+function itemHTML(id){
+  const it=ITEMS[id];
+  return `<a class="item" href="${it.url}" target="_blank" data-ga="lp_item_click" data-ga-item="${id}">
+    ${thumbHTML(it)}
+    <div class="itxt"><span class="tag">${esc(it.tag)}</span><b>${esc(it.name)}</b><p>${esc(it.desc||"")}</p><span class="go">ひらく ▸</span></div>
+  </a>`;
+}
+async function placeItems(container){
+  const items=container.querySelectorAll(".item");
+  for(const el of items){
+    el.classList.add("placed");
+    await wait(420);
+  }
+}
+
+/* ============ ビルドシーケンス ============ */
+async function buildLP(spec,ans){
+  /* --- コマ割り(ワイヤー一括出現) --- */
+  const secHero=mkSec("hero","HERO — キャッチと看板");
+  const secDiag=mkSec("diag","診断メモ");
+  const secList=spec.sections.map((s,i)=>mkSec("list","SECTION "+(i+1)+" — "+(s.eyebrow||"")));
+  const secCta=mkSec("cta","CTA — 次の一歩");
+  const secFoot=mkSec("footer","奥付");
+  const all=[secHero,secDiag,...secList,secCta,secFoot];
+  for(const s of all){s.classList.add("show");await wait(180)}
+  await say("コマ割り、決まりました。上から実装していきます。");
+
+  /* --- HERO --- */
+  scrollToEl(secHero);
+  const hin=secHero.querySelector(".inner");
+  hin.innerHTML=`<span class="badge">${esc(spec.hero.label)}</span>
+    <h1 class="catch"></h1><p class="sub"></p>
+    <div class="heroImg"><video poster="${heroBase(ans.want)}.webp" autoplay muted loop playsinline preload="auto" aria-label="COMIXAI"><source src="${heroBase(ans.want)}.webm" type="video/webm"><source src="${heroBase(ans.want)}.mp4" type="video/mp4" onerror="var v=this.parentElement,i=document.createElement('img');i.src='${HERO_FALLBACK}';i.alt='COMIXAI';v.replaceWith(i)"></video></div>`;
+  secHero.classList.add("built");flash();
+  await typeInto(hin.querySelector(".catch"),spec.hero.catch,60);
+  hin.querySelector(".catch").innerHTML=`<span class="ul">${esc(spec.hero.catch)}</span>`;
+  await typeInto(hin.querySelector(".sub"),spec.hero.sub,26);
+  await wait(500);
+
+  /* --- 診断 --- */
+  const din=secDiag.querySelector(".inner");
+  din.innerHTML=`<p class="diagBox"><b>【診断】</b><span class="dtx"></span></p>`;
+  secDiag.classList.add("built");
+  await typeInto(din.querySelector(".dtx"),spec.diagnosis,30);
+  await wait(600);
+
+  /* --- 各セクション --- */
+  for(let i=0;i<spec.sections.length;i++){
+    const s=spec.sections[i],el=secList[i];
+    scrollToEl(el);
+    await wait(450);
+    const inn=el.querySelector(".inner");
+    inn.innerHTML=`<p class="eyebrow"><em>${esc(s.eyebrow||"SEC")}</em> — SECTION ${i+1}</p>
+      <h2 class="secTitle"></h2><p class="lead"></p>
+      <div class="items">${s.items.map(itemHTML).join("")}</div>`;
+    el.classList.add("built");
+    await typeInto(inn.querySelector(".secTitle"),s.title,55);
+    await typeInto(inn.querySelector(".lead"),s.lead,22);
+    await placeItems(inn);
+    await wait(400);
+  }
+
+  /* --- CTA --- */
+  scrollToEl(secCta);
+  await wait(450);
+  const cin=secCta.querySelector(".inner");
+  const m=ITEMS[spec.cta.main.id],sb=ITEMS[spec.cta.sub.id];
+  cin.innerHTML=`<p class="closing"></p>
+    <div class="ctaRow">
+      <a class="ctaBtn dark" href="${m.url}" target="_blank" data-ga="lp_cta_click" data-ga-item="${spec.cta.main.id}" data-ga-place="main">${esc(spec.cta.main.text)}</a>
+      <a class="ctaBtn" href="${sb.url}" target="_blank" data-ga="lp_cta_click" data-ga-item="${spec.cta.sub.id}" data-ga-place="sub">${esc(spec.cta.sub.text)}</a>
+    </div>`;
+  secCta.classList.add("built");
+  await typeInto(cin.querySelector(".closing"),spec.cta.closing,34);
+  for(const b of cin.querySelectorAll(".ctaBtn")){b.classList.add("placed");await wait(300)}
+  await wait(400);
+
+  /* --- 奥付+公開 --- */
+  const today=new Date();
+  const dstr=`${today.getFullYear()}.${String(today.getMonth()+1).padStart(2,"0")}.${String(today.getDate()).padStart(2,"0")}`;
+  /* 通し番号: サーバー採番（Upstash）。届かなければ乱数フォールバック */
+  const issue=issueFromServer||Math.floor(Math.random()*900)+100;
+
+  const fin=secFoot.querySelector(".inner");
+  fin.innerHTML=`<div class="okuzuke">
+      <div class="l"><b>COMIXAI — 世界に一冊のLP</b>
+        発行日 ${dstr} / ${esc(ans.job)}向け 第 ${issue} 号<br>
+        企画・執筆:吉川AI(comixai.dev) — AIを、面白く。わかりやすく。</div>
+      <div id="stamp">開通<small>PUBLISHED</small></div>
+    </div>
+    <a class="topLink" href="/" data-ga="lp_top_click">COMIXAI トップページへ ▸<small>あなたのLPに載せきれなかったコンテンツも、ぜんぶここに。</small></a>`;
+  secFoot.classList.add("built");
+  await wait(400);
+  scrollToEl(secFoot);
+  await wait(600);
+  flash();
+  $("#stamp").classList.add("on");
+  track("lp_publish",{job:ans.job,want:ans.want,issue:String(issue)});
+  await wait(800);
+
+  /* --- 開放 --- */
+  await say(`完成——第${issue}号、あなた専用LPの開通です。ここから先は、あなたのページ。ご自由にどうぞ。`);
+  site.classList.add("free");
+  const shareText=`COMIXAIの「白紙のLP」——3タップ答えたら、目の前で私専用のLPが組み上がりました(第${issue}号)。 #COMIXAI`;
+  $("#xBtn").href=`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent("https://comixai.dev/lp")}`;
+  $("#xBtn").classList.add("on");$("#againBtn").classList.add("on");
+  await wait(2600);
+  $("#bubbleWrap").classList.add("gone");
+  setTimeout(()=>{site.scrollTo({top:0,behavior:"smooth"})},900);
+}
+
+/* ============ メインフロー ============ */
+let issueFromServer=null;
+async function main(){
+  await wait(600);
+  await say("……あ、いらっしゃい。すみません、このLP——まだ白紙なんです。");
+  await wait(1300);
+  await say("あなたが誰か知らないのに、作れるわけがないので。3つ聞いたら、その場で作ります。");
+  await wait(1200);
+
+  await say("まず——お仕事は?");
+  const job=await pick(["営業","マーケティング","事務・バックオフィス","クリエイター","人事・採用","サポート・CS","企画・PM","経営・個人事業主","情シス・IT","学生・その他"]);
+  track("lp_answer",{step:"job",answer:job});
+  await say(`${job}。なるほど、主人公が決まりました。`);
+  await wait(400);
+
+  await say("AIとは、どれくらいの仲ですか?");
+  const level=await pick(["ほぼ触ったことない","たまに使う","毎日使ってる"]);
+  track("lp_answer",{step:"level",answer:level});
+  await say("ふむふむ。載せるものが絞れてきた。");
+  await wait(400);
+
+  await say("最後に——いま一番ほしいものは?");
+  const want=await pick(["基礎から学びたい","なにか作ってみたい","明日の仕事で使いたい","仕事を相談したい"]);
+  track("lp_answer",{step:"want",answer:want});
+
+  say("十分です。……設計に入ります。あなた専用の構成、コピー、順番。ぜんぶ今から決めます。");
+  /* 白紙を閉じて、トップページのスプラッシュ（墨色版）で設計待ち */
+  $("#blank").classList.add("gone");
+  const dz=$("#designing");
+  dz.hidden=false;requestAnimationFrame(()=>dz.classList.add("on"));
+
+  const ans={job,level,want};
+  let spec;
+  /* API応答が速くてもスプラッシュの実体化(0.8s)+呼吸が見える長さは出す */
+  const [got]=await Promise.all([
+    generateSpec(ans).catch(()=>null),
+    wait(1800)
+  ]);
+  spec=got||fallbackSpec(ans);
+  track("lp_generate",{result:got?"ai":"fallback"});
+  dz.classList.add("gone");
+  setTimeout(()=>{dz.hidden=true},500);
+
+  await buildLP(spec,ans);
+}
+
+/* 開始 */
+let begun=false;
+window.addEventListener("load",()=>{setTimeout(()=>{if(!begun){begun=true;main()}},300)});
+$("#againBtn").addEventListener("click",()=>location.reload());
+</script>
+</body>
+</html>

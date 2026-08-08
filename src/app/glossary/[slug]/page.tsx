@@ -7,6 +7,8 @@ import { ARTICLES, ARTICLES_POPULAR, type Tone } from "../../data";
 import { MANGA_SERIES } from "../../manga/data";
 import { WORK_DETAILS } from "../../works/data";
 import { TERMS, getTerm, type TermLink } from "../data";
+import { seoTitle, titleWidth } from "../../seo";
+import { GAMES } from "../../games";
 import { RECIPES } from "../../prompts/data";
 import { TermDiagram, hasDiagram } from "../diagrams";
 import ARTICLE_META from "../article-meta.json";
@@ -29,26 +31,6 @@ const ARTICLE_POOL = new Map(
   [...ARTICLES, ...ARTICLES_POPULAR].map((a) => [a.url, a])
 );
 
-/* 体験ゲームへのリンクをリッチカードにするための説明（llms.txtの紹介文と揃える） */
-const GAME_CARDS: Record<string, { title: string; desc: string }> = {
-  "/uso": { title: "AIのウソを、見抜け。", desc: "2つのAI回答、片方にウソが混ざっています。実際のAIがやらかす「ウソの型」を遊んで学べる全8問。" },
-  "/vibe": { title: "3分バイブコーディング", desc: "雑な一言でミニアプリが変形していくバイブコーディング体験。" },
-  "/agent": { title: "AIエージェントに任せてみた", desc: "任せ方で結末が分岐する、エージェント見守りシミュレーション。" },
-  "/shinjin": { title: "AI新人くんに指示を出せ", desc: "指示の抜けが「いい感じの事故」になるプロンプトエンジニアリング体験。" },
-  "/sodate": { title: "AIを育てよう", desc: "学習データでAIの人格が変わる、過学習体験の育成ゲーム。" },
-  "/slop": { title: "スロップ・スワイプ", desc: "低品質AIコンテンツを見抜くスワイプ鑑定ゲーム。" },
-  "/keibi": { title: "インジェクション・ディフェンス", desc: "プロンプトインジェクションの手口を体験する防衛ゲーム。" },
-  "/shacho": { title: "AI社長", desc: "マルチエージェントの分業設計を体験する経営ゲーム。段取りが、成果物を決める。" },
-  "/tsukue": { title: "AIの作業机", desc: "コンテキストエンジニアリングを体験する資料選びパズル。" },
-  "/nou": { title: "速い脳・遅い脳", desc: "推論モデルの使い分けを体験する仕分けゲーム。" },
-  "/gakuya": { title: "楽屋の台本", desc: "システムプロンプト設計を体験する接客シミュレーション。" },
-  "/shitsuke": { title: "AI調教師", desc: "人間の好みでAIを調教するRLHF体験ゲーム。" },
-  "/majin": { title: "魔神AIの願い方", desc: "字義どおりに願いを叶える魔神で学ぶアライメント体験ゲーム。" },
-  "/diet": { title: "AIダイエット", desc: "量子化の容量・品質・速度のトレードオフを体験する圧縮ゲーム。" },
-  "/otehon": { title: "お手本ひとつで", desc: "ゼロショット・フューショットの例示を体験するお手本選びゲーム。" },
-  "/undokai": { title: "AI運動会", desc: "ベンチマークスコアと実務のギャップを体験する勝者予想ゲーム。" },
-  "/gohobi": { title: "ご褒美で導け", desc: "報酬設計だけでAIを導く強化学習体験ゲーム。" },
-};
 
 function resolveLink(l: TermLink): RichLink {
   if (l.href.startsWith("/manga/")) {
@@ -63,7 +45,7 @@ function resolveLink(l: TermLink): RichLink {
     return { href: l.href, title: "【体験】AIは、文章をこう読む。", desc: "文章を打つと、その場でトークンに刻まれるのが見えるラボ。料金の目安や「作業机」の使用量も体験できます。", badge: "LAB", tone: "blue", external: false };
   }
   {
-    const g = GAME_CARDS[l.href];
+    const g = GAMES[l.href];
     if (g) return { href: l.href, title: `【ゲーム】${g.title}`, desc: g.desc, badge: "GAME", tone: "red", external: false };
   }
   if (l.href === "/history") {
@@ -102,8 +84,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = getTerm(slug);
   if (!t) return {};
   const title = `${t.term}とは？意味をわかりやすく解説`;
+  /* 用語名の長さは1語ずつ違う。「DX（デジタルトランスフォーメーション）」の
+     ように長い語だと、決まり文句とサイト名を足したところで検索結果では
+     切られてしまうので、短い言い回しから順に入るものを選ぶ。 */
+  const head =
+    [title, `${t.term}とは？わかりやすく解説`, `${t.term}とは？意味を解説`].find(
+      (s) => titleWidth(s) <= 30,
+    ) ?? `${t.term}とは？`;
   return {
-    title: `${title}｜AI用語集｜COMIXAI`,
+    title: seoTitle(head, "AI用語集", "COMIXAI"),
     description: t.short,
     keywords: [`${t.term}とは`, `${t.term} 意味`, `${t.term} わかりやすく`, "AI 用語集", "生成AI"],
     alternates: { canonical: `/glossary/${t.slug}` },
@@ -240,7 +229,7 @@ export default async function GlossaryTermPage({ params }: Props) {
 
             {/* —— 隠しコンテンツの扉（secretを持つ用語だけ） —— */}
             {t.secret && (
-              <a href={t.secret.href} style={{ textDecoration: "none", color: "inherit", display: "block", marginTop: 34 }}>
+              <a href={t.secret.href} data-ga="card_click" data-ga-place="glossary-secret" data-ga-path={t.secret.href} style={{ textDecoration: "none", color: "inherit", display: "block", marginTop: 34 }}>
                 <div
                   style={{
                     background: "var(--ink-900)",
@@ -272,7 +261,7 @@ export default async function GlossaryTermPage({ params }: Props) {
 
             {/* ツール系用語には「どれを使う？」比較への導線を出す */}
             {["chatgpt", "claude", "gemini", "perplexity", "microsoft-copilot"].includes(t.slug) && (
-              <a href="/compare" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 14, marginTop: 28, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "14px 18px", boxShadow: "var(--shadow-pop-sm)", flexWrap: "wrap" }}>
+              <a href="/compare" data-ga="card_click" data-ga-place="glossary-compare" data-ga-path="/compare" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 14, marginTop: 28, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "14px 18px", boxShadow: "var(--shadow-pop-sm)", flexWrap: "wrap" }}>
                 <span style={{ fontSize: 26, flex: "none" }}><i className="ph-bold ph-scales" /></span>
                 <span style={{ flex: "1 1 220px" }}>
                   <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15 }}>どれを使うか、迷ってる？</span>
@@ -313,7 +302,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                 <div style={{ display: "grid", gap: 14 }}>
                   {t.links.map((l) => {
                     const r = resolveLink(l);
-                    return <MediaLinkCard key={r.href} {...r} />;
+                    return <MediaLinkCard key={r.href} {...r} place="glossary-links" />;
                   })}
                 </div>
               </div>
@@ -341,7 +330,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                 <p style={{ margin: "0 0 12px", fontSize: 12.5, lineHeight: 1.8, color: "var(--text-muted)" }}>
                   週刊少年チャンピオンで連載経験のある漫画家が、Web制作の現場目線で執筆しています。
                 </p>
-                <a href="/profile" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
+                <a href="/profile" data-ga="nav_click" data-ga-place="glossary-author" data-ga-path="/profile" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
                   プロフィールを見る <i className="ph-bold ph-arrow-right" />
                 </a>
               </Card>
@@ -355,7 +344,7 @@ export default async function GlossaryTermPage({ params }: Props) {
                   </div>
                   <div style={{ display: "grid", gap: 8 }}>
                     {related.map((r) => (
-                      <a key={r.slug} href={`/glossary/${r.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--ink-900)", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "9px 14px", boxShadow: "var(--shadow-pop-sm)" }}>
+                      <a key={r.slug} href={`/glossary/${r.slug}`} data-ga="card_click" data-ga-place="glossary-related" data-ga-path={`/glossary/${r.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--ink-900)", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "9px 14px", boxShadow: "var(--shadow-pop-sm)" }}>
                         <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.term}</span>
                         <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", flex: "none" }} />
                       </a>

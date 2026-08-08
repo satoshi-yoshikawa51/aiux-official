@@ -3,7 +3,7 @@ import { Nav } from "../site-chrome";
 import UketsukeChat from "./chat";
 
 export const metadata: Metadata = {
-  title: "COMIXAI AI受付｜AIと話すだけで、お問い合わせが完成する｜COMIXAI",
+  title: "AI受付｜話すだけでお問い合わせが完成する｜COMIXAI",
   description:
     "AIがあなたの用件をヒアリングして、お問い合わせ内容を自動で整理。講演・寄稿・制作・取材のご相談は、チャットで話すだけでOK。Claude APIで作った、AIクリエイター吉川聡史への新しい問い合わせ窓口です。",
   keywords: ["AI 問い合わせ", "AIチャット 受付", "Claude API 活用事例", "AI受付", "チャットボット 問い合わせフォーム", "吉川聡史"],

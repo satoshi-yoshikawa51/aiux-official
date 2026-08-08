@@ -4,7 +4,7 @@
     "title": "Claude Coworkで業務改善を半自動化してみた～毎朝のAIニュース収集から改善提案まで～",
     "excerpt": "毎朝のAIニュース収集から、自分の業務をどう改善できるかの提案までを自動でCoworkにやってもらう試み。",
     "thumb": "https://assets.st-note.com/production/uploads/images/268115959/rectangle_large_type_2_248be67915a76bf17d40201d5d7563b5.png?fit=bounds&quality=85&width=1280",
-    "likes": 120,
+    "likes": 122,
     "badge": "AI実践",
     "tone": "blue"
   },
@@ -28,7 +28,7 @@
     "title": "【Fable 5】ClaudeCodeのスマホアプリ版で、通勤時間にニュースアプリをつくってみた",
     "excerpt": "Claude Codeのスマホアプリ版（Fable 5）で、通勤時間だけでニュースアプリを作ってみた記録。",
     "thumb": "https://assets.st-note.com/production/uploads/images/285110954/rectangle_large_type_2_8ea63c5cd0ad0bb88d1a118d1ad659a4.png?fit=bounds&quality=85&width=1280",
-    "likes": 62,
+    "likes": 64,
     "badge": "ClaudeCode",
     "tone": "blue"
   },
@@ -36,7 +36,7 @@
     "title": "手書きイラストを3Dゲームに！Claudeで作った一部始終",
     "excerpt": "手描きのイラストから、Claudeを使って3Dゲームを作り上げるまでの一部始終を公開。",
     "thumb": "https://assets.st-note.com/production/uploads/images/287386173/rectangle_large_type_2_1f7bc7d23bb8871d27d4bc8f23a638c5.png?fit=bounds&quality=85&width=1280",
-    "likes": 91,
+    "likes": 99,
     "badge": "3Dゲーム",
     "tone": "yellow"
   },
@@ -76,7 +76,7 @@
     "title": "企画(施策)の「承認フロー」を通すAI活用術｜Gemini × NotebookLM",
     "excerpt": "企画・施策の承認フローをスムーズに通すためのAI活用術を、Gemini × NotebookLMの組み合わせで。",
     "thumb": "https://assets.st-note.com/production/uploads/images/243019553/rectangle_large_type_2_0bea8a3fa731421fb2a817982eb7e19f.png?fit=bounds&quality=85&width=1280",
-    "likes": 135,
+    "likes": 136,
     "badge": "業務DX",
     "tone": "red"
   },
@@ -84,7 +84,7 @@
     "title": "【完全解説！】Midjourneyで作るアニメーションPV",
     "excerpt": "Midjourneyで生成したイラストを動かして、アニメーションPVに仕上げるまでの手順を完全解説。",
     "thumb": "https://assets.st-note.com/production/uploads/images/219870591/rectangle_large_type_2_53fff199eee0a728ba07bb3187dcba1d.png?fit=bounds&quality=85&width=1280",
-    "likes": 103,
+    "likes": 105,
     "badge": "Midjourney",
     "tone": "yellow"
   }

@@ -1,11 +1,11 @@
 {
   "_comment": "イベント公式サイトのOGP画像（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-29T22:34:26.588Z",
+  "updatedAt": "2026-08-07T22:09:15.485Z",
   "images": {
     "next-tokyo-2026": "https://assets.swoogo.com/uploads/full/6810224-69d5ae740cab5.png",
     "ai-hakurankai-summer-2026": "https://aismiley.co.jp/assets/img/ai_hakurankai/common/ogp.png",
     "openai-devday-2026": "https://devday.openai.com/images/devday/devday-2026-seo-og.png",
-    "ceatec-2026": "https://www.ceatec.com/app_asset/ogp_en/ogp2026.png",
+    "ceatec-2026": "https://www.ceatec.com/2026/asset2026/images/ogp_en.png",
     "github-universe-2026": "https://githubuniverse.com/og-image-26-2.png",
     "nextech-week-2026-autumn": "https://www.nextech-week.jp/content/dam/sitebuilder/rxjp/nextech-week/images/ja/hub/common/home/ntw_jp_hub_a_navi_img.png/_jcr_content/renditions/original",
     "ms-ignite-2026": "https://eventtools.event.microsoft.com/cdn/Ignite2026/Phase_1_Registration/OpenGraph/FY27_Ignite_Ph1_OpenGraph.png",

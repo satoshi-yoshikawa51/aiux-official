@@ -263,12 +263,16 @@ img {
   mask-image: radial-gradient(ellipse at center, transparent 32%, #000 48%, transparent 72%);
 }
 
-/* —— 用語チップ: ホバーで少し傾く遊び —— */
-.rv-stagger a {
-  transition: transform 0.16s var(--ease-pop);
-}
-.rv-stagger a:hover {
-  transform: rotate(-2deg) scale(1.05);
+/* —— 用語チップ: ホバーで少し傾く遊び ——
+   hover:hover で囲うこと。スマホ／タブレットは一度触れると :hover が
+   外れずに残るので、囲わないとカードが斜めのままスクロールする。 */
+@media (hover: hover) {
+  .rv-stagger a {
+    transition: transform 0.16s var(--ease-pop);
+  }
+  .rv-stagger a:hover {
+    transform: rotate(-2deg) scale(1.05);
+  }
 }
 
 /* Entrance & scroll reveal — transform/opacityのみ（レイアウトを動かさない）。
@@ -516,7 +520,8 @@ img {
   .hero-art {
     min-height: 300px !important;
   }
-  .roles-grid {
+  .roles-grid,
+  .guide-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
   .facts-grid {
@@ -745,7 +750,8 @@ img {
   }
 }
 @media (max-width: 560px) {
-  .roles-grid {
+  .roles-grid,
+  .guide-grid {
     grid-template-columns: 1fr 1fr !important;
   }
 }

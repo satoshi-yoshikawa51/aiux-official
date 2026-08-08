@@ -27,6 +27,8 @@ import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
 import { FEATURED_RECIPES } from "./prompts/data";
 import { GUIDES } from "./guide/data";
+import { RecordCard, RecordGrid, RECORD_TOTAL, TOP_RECORDS } from "./profile/record-ui";
+import { track } from "./ga";
 import { EVENTS, dateLabel, isPast } from "./calendar/events";
 import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
@@ -49,13 +51,15 @@ const fmtDate = (d?: string) => (d || "").replace(/-/g, ".");
 function HeroActionsLight() {
   return (
     <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-      <a href={NOTE} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+      <a href={NOTE} target="_blank" rel="noopener noreferrer" data-ga="cta_click" data-ga-place="hero-note" style={{ textDecoration: "none" }}>
         <Button variant="primary" size="lg" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
           noteでマンガを読む
         </Button>
       </a>
       <a
         href="#articles"
+        data-ga="cta_click"
+        data-ga-place="hero-articles"
         style={{
           textDecoration: "none",
           display: "inline-flex",
@@ -375,10 +379,84 @@ function Profile() {
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 30 }}>
-          <a href="/profile" style={{ textDecoration: "none" }}>
-            <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+        {/* 依頼のボタンは、この下の RECORD（実績）の末尾に置いている。
+            名乗り → 実績 → 依頼 の順にしたいので、ここでは頼まない。
+            節の締めのボタンは中央・lg がトップ全体のルール（記事・マガジン・
+            WORKS・用語集・プロンプト・RECORDが全部そう）。ここだけ
+            左寄せ・md で外れていた。 */}
+        <div style={{ marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          <a href="/profile" data-ga="cta_click" data-ga-place="top-profile" style={{ textDecoration: "none" }}>
+            <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               詳しいプロフィールを見る
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════ RECORD（登壇・監修の実績） ═══════════════
+   プロフィールの直後に置く。「5つの顔」と名乗った直後に、外部に
+   公開されている記録で裏を取る形にして、その流れのまま依頼へ送る。
+   トップに出すのは代表3件だけ。全件は /record にある。 */
+function Record() {
+  if (TOP_RECORDS.length === 0) return null;
+  return (
+    /* 背景は上のプロフィールと同じ黒ドット。名乗り→実績→依頼はひと続きの
+       話なので、ここで色を変えると別の話に見えてしまう。/profile の
+       RECORD も同じ配色にしてある。
+       上の縁取りは付けない。プロフィールと地続きの1枚に見せたいので、
+       境目を作らずドットだけ続ける。 */
+    <section
+      id="record"
+      style={{
+        background: "var(--ink-900)",
+        borderBottom: "var(--bw-bold) solid var(--ink-900)",
+        backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.3px, transparent 1.4px)",
+        backgroundSize: "13px 13px",
+      }}
+    >
+      {/* 上のプロフィールから続いているので、間はうっすら線で仕切るだけ。
+          区切りの太さは黒地の中で使っている FACTS の罫線に合わせる */}
+      <div style={{ maxWidth: PAGE, margin: "0 auto" }}>
+        <div style={{ borderTop: "1px solid rgba(244,236,221,0.18)" }} />
+      </div>
+      <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "52px 0 62px" }}>
+        {/* 黒地なので SectionHead は使えない（キッカー赤・見出し黒のため）。
+            プロフィール節と同じ配色（キッカー黄／見出し紙色）で組む */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700, marginBottom: 8 }}>
+            RECORD — 登壇・監修の実績
+          </div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(26px,3.4vw,36px)", margin: 0, lineHeight: 1.2, color: "var(--paper-50)" }}>
+              現場で、話してきたこと。
+            </h2>
+            <span style={{ fontFamily: "var(--font-hand)", color: "var(--paper-200)", fontSize: 16 }}>
+              公開されている記録を{RECORD_TOTAL}件
+            </span>
+          </div>
+        </div>
+        {/* rv-stagger では包まない。あれは用語チップ用で、中の <a> 全部に
+            「ホバーで傾く」が掛かる。スマホは一度触れると :hover が
+            残るので、カードが斜めのままスクロールしてしまう。
+            出現演出は RecordGrid の .articles-grid 側で効いている。 */}
+        <RecordGrid>
+          {TOP_RECORDS.map(({ card, group }) => (
+            <RecordCard key={card.url} card={card} group={group} place="top-record" />
+          ))}
+        </RecordGrid>
+        <div style={{ marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          {/* 黒地なので ink のボタンは使えない（背景と同じ色で消える） */}
+          <a href="/record" data-ga="cta_click" data-ga-place="top-record-all" style={{ textDecoration: "none" }}>
+            <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              実績をすべて見る（{RECORD_TOTAL}件）
+            </Button>
+          </a>
+          <a href="/profile#topics" data-ga="cta_click" data-ga-place="top-topics" style={{ textDecoration: "none" }}>
+            <Button variant="secondary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              登壇・執筆のご依頼
             </Button>
           </a>
         </div>
@@ -423,7 +501,7 @@ function Thumb({ a, h }: { a: Article; h: number | string }) {
 
 function ArticleCard({ a, mode }: { a: Article; mode: "new" | "popular" }) {
   return (
-    <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+    <a href={a.url} target="_blank" rel="noopener noreferrer" data-ga="card_click" data-ga-place={`articles-${mode}`} data-ga-path={a.url} style={{ textDecoration: "none", color: "inherit" }}>
       <Card variant="pop" hover padding={0} style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
         <Thumb a={a} h={150} />
         <div style={{ padding: "16px 16px 18px", display: "flex", flexDirection: "column", flex: 1 }}>
@@ -470,7 +548,7 @@ function Articles() {
         ))}
       </div>
       <div style={{ textAlign: "center", marginTop: 34 }}>
-        <a href={NOTE_ALL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+        <a href={NOTE_ALL} target="_blank" rel="noopener noreferrer" data-ga="cta_click" data-ga-place="articles-more" style={{ textDecoration: "none" }}>
           <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-up-right" />}>
             noteで記事一覧を見る
           </Button>
@@ -498,7 +576,7 @@ function Magazines() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 22 }} className="mag-grid">
           {MAGAZINES.map((m) => (
             <Card key={m.id} variant="pop" hover padding={0} style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
-              <a href={`/manga/${m.id}`} style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", flex: 1 }}>
+              <a href={`/manga/${m.id}`} data-ga="card_click" data-ga-place="magazines" data-ga-path={`/manga/${m.id}`} style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", flex: 1 }}>
                 <div style={{ position: "relative", aspectRatio: "900/300", borderBottom: "var(--bw-bold) solid var(--ink-900)", overflow: "hidden", background: toneBg(m.tone) }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={m.cover} alt={m.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -512,10 +590,10 @@ function Magazines() {
                 </div>
               </a>
               <div style={{ padding: "0 18px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                <a href={`/manga/${m.id}`} style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
+                <a href={`/manga/${m.id}`} data-ga="card_click" data-ga-place="magazines-link" data-ga-path={`/manga/${m.id}`} style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
                   シリーズ紹介を見る <i className="ph-bold ph-arrow-right" />
                 </a>
-                <a href={m.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--text-muted)" }}>
+                <a href={m.url} target="_blank" rel="noopener noreferrer" data-ga="card_click" data-ga-place="magazines-note" data-ga-path={m.url} style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--text-muted)" }}>
                   noteで読む <i className="ph-bold ph-arrow-up-right" />
                 </a>
               </div>
@@ -523,7 +601,7 @@ function Magazines() {
           ))}
         </div>
         <div style={{ textAlign: "center", marginTop: 34 }}>
-          <a href="/manga" style={{ textDecoration: "none" }}>
+          <a href="/manga" data-ga="cta_click" data-ga-place="magazines-more" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               連載シリーズ一覧を見る
             </Button>
@@ -556,14 +634,14 @@ function Works() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }} className="articles-grid">
               {items.map((w) => (
-                <WorkCard key={w.slug} work={w} />
+                <WorkCard key={w.slug} work={w} place="top-works" />
               ))}
             </div>
           </div>
         );
       })}
       <div style={{ textAlign: "center", marginTop: 4 }}>
-        <a href="/works" style={{ textDecoration: "none" }}>
+        <a href="/works" data-ga="cta_click" data-ga-place="works-more" style={{ textDecoration: "none" }}>
           <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
             つくったもの一覧を見る
           </Button>
@@ -593,6 +671,9 @@ function Glossary() {
             <a
               key={t.slug}
               href={`/glossary/${t.slug}`}
+              data-ga="card_click"
+              data-ga-place="top-glossary"
+              data-ga-path={`/glossary/${t.slug}`}
               style={{
                 textDecoration: "none",
                 fontFamily: "var(--font-heading)",
@@ -613,7 +694,7 @@ function Glossary() {
           ))}
         </div>
         <div style={{ textAlign: "center", marginTop: 34 }}>
-          <a href="/glossary" style={{ textDecoration: "none" }}>
+          <a href="/glossary" data-ga="cta_click" data-ga-place="glossary-more" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               AI用語集を見る
             </Button>
@@ -621,7 +702,7 @@ function Glossary() {
         </div>
 
         {/* —— AI用語力診断への導線（表紙動画つき） —— */}
-        <a href="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "40px auto 0" }}>
+        <a href="/quiz" data-ga="card_click" data-ga-place="top-quiz" data-ga-path="/quiz" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "40px auto 0" }}>
           <div
             className="quiz-banner"
             style={{
@@ -675,7 +756,7 @@ function Glossary() {
         </a>
 
         {/* —— AI歴史絵巻への導線（1950年のサムネつき） —— */}
-        <a href="/history" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "18px auto 0" }}>
+        <a href="/history" data-ga="card_click" data-ga-place="top-history" data-ga-path="/history" style={{ textDecoration: "none", color: "inherit", display: "block", maxWidth: 680, margin: "18px auto 0" }}>
           <div
             className="quiz-banner"
             style={{
@@ -745,7 +826,7 @@ function StartSection() {
     <section id="ai-start" style={{ maxWidth: PAGE, margin: "0 auto", padding: "62px 0 56px" }}>
       <SectionHead kicker="START — はじめての人へ" title="AI、何から始める？" hand="迷ったら、ここから" />
       <div style={{ maxWidth: 680, margin: "0 auto" }}>
-        <a href="/start" style={{ textDecoration: "none", color: "inherit" }}>
+        <a href="/start" data-ga="card_click" data-ga-place="top-start" data-ga-path="/start" style={{ textDecoration: "none", color: "inherit" }}>
           <Card variant="pop" padding={0} style={{ overflow: "hidden", height: "100%" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/start/hero.webp" alt="AIのはじめかた——？の山を越えて進むキャラクター" loading="lazy" style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)", display: "block" }} />
@@ -762,8 +843,8 @@ function StartSection() {
         </a>
       </div>
       <p style={{ margin: "16px 0 0", fontSize: 13.5, lineHeight: 1.9, color: "var(--text-muted)" }}>
-        使う前の不安には <a href="/faq" style={{ color: "var(--red-600)", fontWeight: 700 }}>AIのよくある質問</a>、
-        道具選びに迷ったら <a href="/compare" style={{ color: "var(--red-600)", fontWeight: 700 }}>ChatGPT・Claude・Gemini比較</a> を。あそんだ記録は <a href="/zukan" style={{ color: "var(--red-600)", fontWeight: 700 }}>COMIXAI図鑑</a> に刻まれます。
+        使う前の不安には <a href="/faq" data-ga="nav_click" data-ga-place="top-inline" data-ga-path="/faq" style={{ color: "var(--red-600)", fontWeight: 700 }}>AIのよくある質問</a>、
+        道具選びに迷ったら <a href="/compare" data-ga="nav_click" data-ga-place="top-inline" data-ga-path="/compare" style={{ color: "var(--red-600)", fontWeight: 700 }}>ChatGPT・Claude・Gemini比較</a> を。あそんだ記録は <a href="/zukan" data-ga="nav_click" data-ga-place="top-inline" data-ga-path="/zukan" style={{ color: "var(--red-600)", fontWeight: 700 }}>COMIXAI図鑑</a> に刻まれます。
       </p>
     </section>
   );
@@ -850,13 +931,13 @@ function NewsStrip() {
         >
           <div style={{ flex: "1 1 auto", minWidth: 0, display: "grid", gap: 8 }}>
             {topNews && (
-              <a href={topNews.url} target="_blank" rel="noopener noreferrer" style={rowStyle}>
+              <a href={topNews.url} target="_blank" rel="noopener noreferrer" data-ga="card_click" data-ga-place="news-strip" data-ga-path={topNews.url} style={rowStyle}>
                 {label(<><i className="ph-bold ph-newspaper" style={{ marginRight: 4 }} />今日の話題</>)}
                 <span style={textStyle}>{topNews.titleJa ?? topNews.title}</span>
               </a>
             )}
             {nextEvent && (
-              <a href="/calendar#calendar" style={rowStyle}>
+              <a href="/calendar#calendar" data-ga="card_click" data-ga-place="news-strip" data-ga-path="/calendar" style={rowStyle}>
                 {label(<><i className="ph-bold ph-calendar-blank" style={{ marginRight: 4 }} />イベント</>)}
                 <span style={textStyle}>
                   {nextEvent.title}
@@ -865,7 +946,7 @@ function NewsStrip() {
               </a>
             )}
           </div>
-          <a href="/calendar" style={{ textDecoration: "none", flex: "none" }}>
+          <a href="/calendar" data-ga="cta_click" data-ga-place="news-more" style={{ textDecoration: "none", flex: "none" }}>
             <Button variant="yellow" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>
               NEWS
             </Button>
@@ -899,6 +980,9 @@ function PromptRecipes() {
             <a
               key={r.slug}
               href={`/prompts/${r.slug}`}
+              data-ga="card_click"
+              data-ga-place="top-prompts"
+              data-ga-path={`/prompts/${r.slug}`}
               style={{
                 textDecoration: "none",
                 fontFamily: "var(--font-heading)",
@@ -926,14 +1010,18 @@ function PromptRecipes() {
         <p style={{ fontFamily: "var(--font-hand)", fontSize: 14.5, color: "var(--text-muted)", margin: "30px 0 12px" }}>
           自分の仕事に引きつけて読むなら、職種別ガイドから↓（全{GUIDES.length}職種）
         </p>
-        <div className="rv-stagger" style={{ display: "flex", gap: 12, flexWrap: "wrap", maxWidth: 1000 }}>
+        {/* 4枚でページ幅を使い切る。flexで maxWidth を掛けていたころは
+            4×250+gap が並びの maxWidth 1000 に収まらず241pxに縮み、
+            右端がページより80px手前で終わって他の節と揃わなかった。 */}
+        <div className="rv-stagger guide-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }}>
           {GUIDES.slice(0, 4).map((g) => (
             <a
               key={g.slug}
               href={`/guide/${g.slug}`}
+              data-ga="card_click"
+              data-ga-place="top-guide"
+              data-ga-path={`/guide/${g.slug}`}
               style={{
-                flex: "1 1 180px",
-                maxWidth: 250,
                 textDecoration: "none",
                 color: "inherit",
                 border: "var(--bw-line) solid var(--ink-900)",
@@ -950,7 +1038,9 @@ function PromptRecipes() {
                 loading="lazy"
                 style={{ display: "block", width: "100%", height: 96, objectFit: "cover", borderBottom: "var(--bw-line) solid var(--ink-900)" }}
               />
-              <span style={{ display: "block", padding: "9px 12px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, whiteSpace: "nowrap" }}>
+              {/* nowrap にすると、スマホの2列で「マーケティングの…」が
+                  はみ出して矢印が切れる。折り返させる（PCは1行のまま） */}
+              <span style={{ display: "block", padding: "9px 12px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 13.5, lineHeight: 1.5 }}>
                 <i className={"ph-bold " + g.icon} style={{ marginRight: 6, color: "var(--red-500)" }} />
                 {g.role.split("・")[0]}のAI活用
                 <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
@@ -959,12 +1049,12 @@ function PromptRecipes() {
           ))}
         </div>
         <div style={{ textAlign: "center", marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="/prompts" style={{ textDecoration: "none" }}>
+          <a href="/prompts" data-ga="cta_click" data-ga-place="prompts-more" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               プロンプト集を見る
             </Button>
           </a>
-          <a href="/guide" style={{ textDecoration: "none" }}>
+          <a href="/guide" data-ga="cta_click" data-ga-place="guide-more" style={{ textDecoration: "none" }}>
             <Button variant="secondary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               職種別ガイドを見る
             </Button>
@@ -1029,7 +1119,7 @@ function Social() {
               {Inner}
             </div>
           ) : (
-            <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+            <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" data-ga="social_click" data-ga-network={s.name} data-ga-place="top" style={{ textDecoration: "none", color: "inherit" }}>
               {Inner}
             </a>
           );
@@ -1037,7 +1127,7 @@ function Social() {
       </div>
 
       {/* YouTube チャンネル */}
-      <a href={YOUTUBE} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+      <a href={YOUTUBE} target="_blank" rel="noopener noreferrer" data-ga="social_click" data-ga-network="youtube" data-ga-place="top" style={{ textDecoration: "none", color: "inherit" }}>
         <div style={{ marginTop: 22, display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: 16, alignItems: "stretch" }} className="yt-grid">
           <div
             className="social-card"
@@ -1117,12 +1207,16 @@ const UKE_SPARKS: { left: number; top: number; size: number; color: string; dela
 function UketsukeFab() {
   const [state, setState] = React.useState<"hidden" | "pop" | "exiting" | "docked">("hidden");
   /* 透過webm（VP9アルファ）が再生できるブラウザだけ動画にする。
-     SafariはVP9を再生できてもアルファ非対応で黒背景になるため除外 */
+     SafariはVP9を再生できてもアルファ非対応で黒背景になるため除外。
+     Xアプリ等のiOS WKWebViewはUAに"Safari"を含まないので、iOS端末
+     そのものでも判定する（Mac風UAのiPadOSはタッチ点数で検出） */
   const [alphaVideo, setAlphaVideo] = React.useState(false);
   React.useEffect(() => {
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const ua = navigator.userAgent;
+    const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
     const v = document.createElement("video");
-    if (!isSafari && v.canPlayType('video/webm; codecs="vp9"')) setAlphaVideo(true);
+    if (!isIOS && !isSafari && v.canPlayType('video/webm; codecs="vp9"')) setAlphaVideo(true);
   }, []);
   const [sparkle, setSparkle] = React.useState(false);
 
@@ -1257,7 +1351,7 @@ function UketsukeFab() {
           <i className="ph-bold ph-x" />
         </button>
       </div>
-      <a href="/uketsuke" aria-label="AI受付をひらく" style={{ display: "block" }}>
+      <a href="/uketsuke" aria-label="AI受付をひらく" data-ga="cta_click" data-ga-place="uketsuke-fab" style={{ display: "block" }}>
         {/* React は muted 属性をSSRで落とすため video は生HTMLで埋め込む */}
         <span
           className="uke-fab-char"
@@ -1286,6 +1380,8 @@ function Contact() {
     const data = new FormData(form);
     if (!configured) {
       const body = `お名前: ${data.get("name")}\nメール: ${data.get("email")}\n\n${data.get("message")}`;
+      /* メーラーが開いた時点までしか分からないので、送信完了とは別の名前で送る */
+      track("contact_submit", { place: "top-contact", method: "mailto" });
       window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("【オフィシャルサイト】お問い合わせ")}&body=${encodeURIComponent(body)}`;
       return;
     }
@@ -1294,15 +1390,23 @@ function Contact() {
     try {
       const res = await fetch(FORMSPREE_ENDPOINT, { method: "POST", body: data, headers: { Accept: "application/json" } });
       if (res.ok) {
+        /* 「送信が通った」という事実だけを送る。氏名・メール・本文は絶対に
+           載せない（GAに個人情報を入れてはいけない）。
+           form_start はGA4の拡張計測が自動で送っているので、この
+           contact_submit と対にすると、書きかけて離脱した人数が分かる。 */
+        track("contact_submit", { place: "top-contact", method: "form" });
         setState("done");
         form.reset();
       } else {
         const j = await res.json().catch(() => ({}));
         setErr((j.errors && j.errors.map((x: { message: string }) => x.message).join(" / ")) || "送信に失敗しました。");
+        /* 失敗も数えないと、届いていないことに永遠に気づけない */
+        track("contact_error", { place: "top-contact", reason: "rejected" });
         setState("error");
       }
     } catch {
       setErr("通信エラーが発生しました。");
+      track("contact_error", { place: "top-contact", reason: "network" });
       setState("error");
     }
   }
@@ -1315,6 +1419,17 @@ function Contact() {
           <p style={{ fontSize: 15.5, lineHeight: 1.95, color: "var(--text-body)", maxWidth: 380 }}>
             講演・寄稿・制作・取材などのご相談はお気軽に。いただいたご相談には、メールにて返信いたします。
           </p>
+          <div style={{ marginTop: 12 }}>
+            <a
+              href="/profile#topics"
+              data-ga="nav_click"
+              data-ga-place="contact-topics"
+              data-ga-path="/profile#topics"
+              style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14, color: "var(--red-600)" }}
+            >
+              お話しできるテーマを見る <i className="ph-bold ph-arrow-right" />
+            </a>
+          </div>
           <div style={{ marginTop: 22 }}>
             <SpeechBubble variant="say" tail="bottom-left" style={{ fontSize: 16 }}>
               一緒に、AIを面白く！
@@ -1324,7 +1439,7 @@ function Contact() {
             <i className="ph-bold ph-envelope-simple" /> {CONTACT_EMAIL}
           </div>
           {/* AI受付への導線 */}
-          <a href="/uketsuke" style={{ textDecoration: "none", display: "block", marginTop: 20, maxWidth: 380 }}>
+          <a href="/uketsuke" data-ga="cta_click" data-ga-place="contact-uketsuke" style={{ textDecoration: "none", display: "block", marginTop: 20, maxWidth: 380 }}>
             <Card variant="pop" hover padding={16} style={{ background: "var(--yellow-400)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1419,6 +1534,7 @@ export default function Page() {
       <NewsStrip />
       <KyoshujoBanner />
       <Profile />
+      <Record />
       <Articles />
       <Magazines />
       <Works />

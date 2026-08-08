@@ -1,124 +1,123 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-07-29T22:34:18.520Z",
+  "updatedAt": "2026-08-07T22:09:04.902Z",
   "items": [
     {
-      "title": "Cyera agrees to acquire Oasis Security for $1B to safeguard proliferating AI agents",
-      "url": "https://techcrunch.com/2026/07/28/cyera-agrees-to-acquire-oasis-security-for-1b-to-safeguard-proliferating-ai-agents/",
+      "title": "New Mexico court orders Meta to pay additional $567M in child safety case",
+      "url": "https://techcrunch.com/2026/08/07/new-mexico-court-orders-meta-to-pay-additional-567m-in-child-safety-case/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-29T00:09:05.000Z",
-      "titleJa": "Cyera、急増する AI エージェントを保護するために Oasis Security を 10 億ドルで買収することに同意",
-      "image": "https://techcrunch.com/wp-content/uploads/2022/08/GettyImages-1197780051.jpg?resize=1200,800"
+      "date": "2026-08-07T11:40:37.000Z",
+      "titleJa": "ニューメキシコ州裁判所は児童安全訴訟でメタ社に追加の5億6,700万ドルの支払いを命じる",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/02/zuckerberg-LA-trial-2026-GettyImages-2261841364.jpg?w=1024"
     },
     {
-      "title": "顧客の声とナレッジ統合分析でAI化のポテンシャルを診断",
-      "url": "https://ascii.jp/elem/000/004/422/4422134/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-29T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/07/24/4505086/xl/42de09e1f10281b8.jpg"
-    },
-    {
-      "title": "令和8年熊本地震に関する「SNS災害情報集約マップAI」を緊急公開",
-      "url": "https://ascii.jp/elem/000/004/423/4423274/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-07-29T09:14:14.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "PFN「国産AI」で自衛隊を支援へ 防衛の作戦立案に利用 防衛装備庁の実証実験を受託",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/29/2000000272/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-29T06:38:33.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/29/2000000272/10001323/2048"
-    },
-    {
-      "title": "Hugging Face、AIエージェント侵入の技術詳細を公開──OpenAIモデルが4.5日で1万7600回の攻撃操作",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2607/29/2000000263/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-07-29T01:29:20.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2607/29/2000000263/10001250/2048"
-    },
-    {
-      "title": "Recursive Superintelligence signs $410M compute deal with Amazon",
-      "url": "https://techcrunch.com/2026/07/28/recursive-superintelligence-signs-400-compute-deal-with-amazon/",
-      "source": "TechCrunch",
+      "title": "OpenAI puts the brakes on a new model because it’s supposedly too powerful",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/976948/openai-astra-model-pause-critical-cyber-capabilities",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-07-28T13:19:17.000Z",
-      "titleJa": "Recursive Superintelligence が Amazon と 4 億 1,000 万ドルのコンピューティング契約を締結",
-      "image": "https://techcrunch.com/wp-content/uploads/2021/11/GettyImages-1236309559.jpg?w=1024"
+      "date": "2026-08-07T18:40:34.000Z",
+      "titleJa": "OpenAI、新モデルが強力すぎるとしてブレーキをかける",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/04/STK155_OPEN_AI_CVirginia_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "Gemini API Managed Agents: 3.6 Flash, hooks, and more",
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api-3-6-flash-hooks/",
-      "source": "Google AI（公式）",
+      "title": "ByteDance trains massive AI model in bid to rival Anthropic",
+      "url": "https://arstechnica.com/ai/2026/08/bytedance-trains-massive-ai-model-in-bid-to-rival-anthropic/",
+      "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-07-28T16:00:00.000Z",
-      "titleJa": "Gemini API 管理エージェント: 3.6 フラッシュ、フックなど",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/unnamed_2_vNnOv20.width-1300.png"
+      "date": "2026-08-07T13:29:22.000Z",
+      "titleJa": "ByteDance は Anthropic に対抗するために大規模な AI モデルをトレーニングします",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/bytedance-1152x648.jpg"
     },
     {
-      "title": "千代田区、Copilot全庁導入で月2000時間削減 10カ月でAIを根付かせた定着の仕掛け",
-      "url": "https://kn.itmedia.co.jp/kn/articles/2607/29/news042.html",
+      "title": "シャープ、通期純利益見通し170億円下方修正 円安など影響 AIサーバは9月に参入",
+      "url": "https://www.itmedia.co.jp/news/article/2608/07/2000000455/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-07-28T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/kn/articles/2607/29/cover_news042.jpg"
+      "date": "2026-08-07T10:34:01.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/07/2000000455/10002177/2048"
     },
     {
-      "title": "Google Cloud、AIが自律的にコードの脆弱性検出からサンドボックス内でのリスク検証、修正までを自動実行。「CodeMender」プレビュー公開",
-      "url": "https://www.publickey1.jp/blog/26/google_cloudaicodemender.html",
-      "source": "Publickey",
+      "title": "音楽生成AIのSuno、著作権問題を受け楽曲に「電子透かし」導入へ",
+      "url": "https://japan.cnet.com/article/35251421/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-07-28T15:54:06.000Z",
-      "image": "https://www.publickey1.jp/2026/codemender-pv01.jpg"
+      "date": "2026-08-07T07:33:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/07/d7f4ec59ad7f7a8c2411219aaf22ba47/GettyImages-2278960510_1280x960.jpg"
     },
     {
-      "title": "Claude、一部チャットがGoogle検索で“丸見え”に 過去には「ChatGPT」でも 漏えいの原因は？",
-      "url": "https://www.itmedia.co.jp/business/articles/2607/28/news089.html",
+      "title": "PFNの国産LLM「PLaMo 3.0 Prime」、さくらのAI推論基盤で提供開始 利用は申請制",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/07/2000000443/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-07-28T08:35:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2607/28/cover_news089.jpg"
+      "date": "2026-08-07T04:07:21.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/07/2000000443/10002112/2048"
     },
     {
-      "title": "マイクロソフト、エージェント型セキュリティシステム「Project Perception」を発表",
-      "url": "https://japan.zdnet.com/article/35251024/",
+      "title": "リコージャパン、営業支援AIで30年度に60億円へ ナレッジワークと提携",
+      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03334/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-07T02:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03334/Topm.JPG?20220512"
+    },
+    {
+      "title": "無料版「ChatGPT」で無限の会話が可能に、新モデル「GPT‑5.6 Luna」も開放",
+      "url": "https://japan.cnet.com/article/35251396/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-07T01:01:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/04/15/2a6b55cebde5827ed09ad7d3fe0f68bd/gptgpt-4_1280x960.jpg"
+    },
+    {
+      "title": "AI生成の脆弱性パッチの7割以上に問題あり--過信の危険性",
+      "url": "https://japan.zdnet.com/article/35251389/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-07-28T08:06:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/04/30/9289820572cd109e02537b9634846676/t/1280/960/d/260424_security_as_1280_1905924746.jpeg"
+      "date": "2026-08-07T00:27:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/07/0bfb54dfcd32929d9c48242ea7949dd2/gettyimages-2262157542_l.jpg"
     },
     {
-      "title": "Microsoft unveils AI security tools it says outperform competing platforms",
-      "url": "https://arstechnica.com/security/2026/07/microsoft-unveils-ai-security-tools-it-says-outperform-competing-platforms/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-07-27T21:56:14.000Z",
-      "titleJa": "Microsoft、競合プラットフォームを上回る性能を誇るAIセキュリティツールを発表",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/09/microsoft-logo-1024x648.jpg"
-    },
-    {
-      "title": "Verizon touts $1B dark fiber deal for Google data centers as first of many",
-      "url": "https://arstechnica.com/ai/2026/07/verizon-seeks-ai-profits-with-mini-data-centers-1b-dark-fiber-deal-with-google/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-07-27T18:48:41.000Z",
-      "titleJa": "Verizon、Google データセンター向けの 10 億ドルのダークファイバー契約を数ある契約の第一弾として宣伝",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/Verizon-Times-Square-Store-2560x1440.jpg"
-    },
-    {
-      "title": "Microsoft launches its first cybersecurity model, plus a new agentic cybersecurity system",
-      "url": "https://techcrunch.com/2026/07/27/microsoft-launches-its-first-cyber-model-and-a-new-agentic-cybersecurity-system/",
+      "title": "OpenAI’s new AI smart speaker will reportedly sell for between $300 and $400",
+      "url": "https://techcrunch.com/2026/08/06/openais-new-ai-smart-speaker-will-reportedly-sell-for-between-300-and-400/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-07-27T18:32:11.000Z",
-      "titleJa": "Microsoft が初のサイバーセキュリティ モデルと新しいエージェント サイバーセキュリティ システムを発表",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/IMG_4458.jpeg?resize=1200,900"
+      "date": "2026-08-06T22:43:53.000Z",
+      "titleJa": "OpenAIの新しいAIスマートスピーカーは300ドルから400ドルで販売されると報じられている",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-in-Seoul.jpg?w=1024"
+    },
+    {
+      "title": "Exclusive: Mirendil inks $100M+ Google Cloud deal to scale self-improving AI",
+      "url": "https://techcrunch.com/2026/08/06/exclusive-mirendil-inks-100m-google-cloud-deal-to-scale-self-improving-ai/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-06T13:00:00.000Z",
+      "titleJa": "独占記事: ミレンディル、自己改善型 AI を拡張するために 1 億ドル以上の Google Cloud 契約を結ぶ",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/04/GettyImages-2266466589.jpg?w=1024"
+    },
+    {
+      "title": "Improving GPT‑5.6 Sol in ChatGPT—and expanding access to GPT-5.6 Luna for free users",
+      "url": "https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-08-06T10:00:00.000Z",
+      "titleJa": "ChatGPT の GPT-5.6 Sol を改善し、無料ユーザー向けに GPT-5.6 Luna へのアクセスを拡大"
+    },
+    {
+      "title": "アドビ、「ChatGPT」内で制作が完結するプラグインを発表--「リサイズして」で自動適用",
+      "url": "https://japan.zdnet.com/article/35251369/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-06T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/06/93c4d1338f9b1e63344630c59c8475de/260806_adobe_l.jpg"
+    },
+    {
+      "title": "銀行なら3カ月→AIは1カ月 10万件のデータで「数千万円」を引き出した“データドリブン資金調達術”",
+      "url": "https://www.itmedia.co.jp/business/articles/2608/07/news011.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-06T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2608/07/cover_news011.jpg"
     }
   ]
 }
