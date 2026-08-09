@@ -37,7 +37,7 @@ import { F, FONT, POP, R, S, T } from '@/theme';
 
 export default function ReviewScreen() {
   const router = useRouter();
-  const { state, answerQuiz } = useProgress();
+  const { state, ready, answerQuiz } = useProgress();
   const review = useReview();
   const avatar = getAvatar(state.avatarId);
   const avatarRef = React.useRef<AvatarHandle>(null);
@@ -47,17 +47,24 @@ export default function ReviewScreen() {
   /* ▍出す問題は入ったときに決めて、そのまま動かさない
      答えるたびに useReview が引き直されるので、そのまま繋ぐと
      **正解した瞬間にその問題が一覧から消えて、画面が飛ぶ**。
-     開いたときの並びを1回だけ写し取る */
-  const [queue] = React.useState<QuizEntry[]>(() =>
-    review.due.length > 0 ? review.due : review.pending,
-  );
+     開いたときの並びを1回だけ写し取る。
+
+     ただし写すのは**記録を読み終えてから**。useState の初期値で
+     取ると、AsyncStorage がまだ空の1回目の描画で写してしまい、
+     いつ開いても「直すものは無い」になる（この画面を直接ひらいた
+     ときに実際そうなっていた）。null＝まだ写していない、の意 */
+  const [queue, setQueue] = React.useState<QuizEntry[] | null>(null);
+  React.useEffect(() => {
+    if (!ready || queue !== null) return;
+    setQueue(review.due.length > 0 ? review.due : review.pending);
+  }, [ready, queue, review]);
   const [i, setI] = React.useState(0);
   const [choice, setChoice] = React.useState<number | null>(null);
   const [right, setRight] = React.useState(0);
   const [misses, setMisses] = React.useState(0);
   const [done, setDone] = React.useState(false);
 
-  const entry = queue[i];
+  const entry = queue?.[i];
   const quiz = entry?.item;
 
   const answer = (n: number) => {
@@ -78,7 +85,7 @@ export default function ReviewScreen() {
 
   const goNext = () => {
     setChoice(null);
-    if (i + 1 < queue.length) setI((n) => n + 1);
+    if (i + 1 < (queue?.length ?? 0)) setI((n) => n + 1);
     else setDone(true);
   };
 
@@ -92,6 +99,10 @@ export default function ReviewScreen() {
       : choice === quiz?.answer
         ? v(REVIEW_VOICE.right)
         : v(REVIEW_VOICE.wrong);
+
+  /* 記録を読み終えるまでは、まだ何も出さない。ここで空の画面を出すと
+     一瞬「直すものは無い」が見えてから問題が出る、というちらつきになる */
+  if (queue === null) return <Screen tone="dots" edges={['bottom']}>{null}</Screen>;
 
   /* 直すものが1つも無いとき。ここに来る導線は出していないが、
      ブックマークや戻るで来ることはある */

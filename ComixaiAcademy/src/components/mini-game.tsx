@@ -908,6 +908,19 @@ function TokenPlay({
           </ScrollView>
         ) : null}
 
+        {/* ▍打つ前の空白を、そのままにしない
+            チップが出るまでここは真っ黒な空きだった。**画面の3分の2が
+            何も無いまま**だと、そこで何が起きる場所なのか分からない。
+            起きることを先に言っておく（打てば消える） */}
+        {!chips.length ? (
+          <View style={{ alignItems: 'center', gap: 8, paddingVertical: S.xxl }}>
+            <Icon name="pen" size={26} color={C.ink700} />
+            <Text style={[F.hand, { fontSize: 12.5, color: C.ink300, textAlign: 'center' }]}>
+              打つと、ここに「AIから見た区切り」が出ます
+            </Text>
+          </View>
+        ) : null}
+
         {/* 割れ方。サイトのトークナイザーと同じで、増えたぶんだけ左から跳ねて出る */}
         {chips.length ? (
           <View style={{ gap: 6 }}>
@@ -1055,6 +1068,34 @@ function AiPromptPlay({
         </SlideIn>
 
         {busy ? <Thinking /> : null}
+
+        {/* 渡す前の空白にも、何を見られるのかを置いておく。
+            採点の観点が分からないまま書かせると、当てにいく遊びになる */}
+        {!busy && !result ? (
+          <View style={{ alignItems: 'center', gap: 8, paddingVertical: S.lg }}>
+            <Text style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: 1.5, color: C.ink300 }}>
+              WHAT GETS SCORED
+            </Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 5, justifyContent: 'center' }}>
+              {['役割', '目的', '条件', '出力形式'].map((m) => (
+                <View
+                  key={m}
+                  style={{
+                    borderWidth: BW.hair,
+                    borderColor: C.ink700,
+                    borderRadius: R.full,
+                    paddingHorizontal: 9,
+                    paddingVertical: 3,
+                  }}>
+                  <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, color: C.ink300 }}>{m}</Text>
+                </View>
+              ))}
+            </View>
+            <Text style={[F.hand, { fontSize: 12.5, color: C.ink300, textAlign: 'center' }]}>
+              渡すと、AIの返しと指示の両方が採点されます
+            </Text>
+          </View>
+        ) : null}
 
         {result ? (
           <SlideIn from="bottom" distance={18} duration={340} style={{ gap: S.md }}>

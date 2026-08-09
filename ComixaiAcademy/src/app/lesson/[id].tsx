@@ -218,6 +218,14 @@ export default function LessonScreen() {
         label={quizIndex + 1 < lesson.quiz.length ? 'つぎの問題' : '結果を見る'}
         onPress={goNextQuiz}
       />
+    ) : phase === 'result' ? (
+      /* 結果は修了→バッジ→称号と縦に伸びるので、次の1本への口が
+         画面の外に出る。ここだけは下に貼り付けておく */
+      nextLesson ? (
+        <Button label="次のレッスンへ" onPress={() => router.replace(`/lesson/${nextLesson.id}`)} />
+      ) : (
+        <Button label="ホームに戻る" onPress={() => router.replace('/')} />
+      )
     ) : undefined;
 
   const copy = async (text: string) => {
@@ -525,22 +533,20 @@ export default function LessonScreen() {
 
             {/* ———— 次にやること ————
                  ほぼ黒に沈めたコマに入れて、黄色いピルで印を付ける（ホームと同じ） */}
+            {/* ▍先へ進むボタンは下の帯に置いてある
+                 修了・バッジ・称号と続くので、ここは画面のいちばん下になる。
+                 一覧の末尾に置くとスクロールしないと見つからない
+                 （実際、狭い端末では「次のレッスンへ」が画面の外にいた） */}
             <Cassette>
               {nextLesson ? (
-                <>
-                  <Row gap={8}>
-                    <Pill label="NEXT" />
-                    <Text
-                      style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
-                      numberOfLines={1}>
-                      {nextLesson.title}
-                    </Text>
-                  </Row>
-                  <Button
-                    label="次のレッスンへ"
-                    onPress={() => router.replace(`/lesson/${nextLesson.id}`)}
-                  />
-                </>
+                <Row gap={8}>
+                  <Pill label="NEXT" />
+                  <Text
+                    style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
+                    numberOfLines={1}>
+                    {nextLesson.title}
+                  </Text>
+                </Row>
               ) : (
                 <Row gap={8}>
                   <Icon name="trophy" size={18} color={C.paper50} />
