@@ -21,7 +21,7 @@ const SITE = 'https://comixai.dev';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { state, setAvatar, setRole, setSoundOn, reset } = useProgress();
+  const { state, setAvatar, setRole, setSoundOn, setMusicOn, reset } = useProgress();
   const stats = useStats();
   const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
@@ -135,6 +135,47 @@ export default function SettingsScreen() {
                   color: state.soundOn ? C.paper0 : T.muted,
                 }}>
                 {state.soundOn ? 'オン' : 'オフ'}
+              </Text>
+            </View>
+          </Tap>
+        </Row>
+
+        {/* ▍BGMは効果音と別のスイッチにする
+             「正解の音は欲しいが、曲はいらない」は普通の要望。
+             1つのスイッチに束ねると、そのために両方失うことになる */}
+        <View style={{ height: 1, backgroundColor: T.borderSoft }} />
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Row gap={8} style={{ flex: 1 }}>
+            <Icon name="play" size={18} color={T.text} />
+            <View style={{ flex: 1 }}>
+              <Text style={F.strong}>BGM</Text>
+              <Text style={F.tiny}>
+                ホーム・レッスン・ミニゲームで場面ごとの曲が流れます
+              </Text>
+            </View>
+          </Row>
+          <Tap
+            onPress={() => setMusicOn(!state.musicOn)}
+            sparks={false}
+            sound={state.musicOn ? 'none' : 'tap'}>
+            <View
+              style={{
+                borderWidth: BW.bold,
+                borderColor: T.border,
+                borderRadius: R.full,
+                backgroundColor: state.musicOn ? T.accent : T.sunk,
+                paddingHorizontal: S.md,
+                paddingVertical: 7,
+                minWidth: 64,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: FONT.heading,
+                  fontSize: 13,
+                  color: state.musicOn ? C.paper0 : T.muted,
+                }}>
+                {state.musicOn ? 'オン' : 'オフ'}
               </Text>
             </View>
           </Tap>
