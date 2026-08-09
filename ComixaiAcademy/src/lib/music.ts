@@ -43,9 +43,6 @@ const FADE_STEP = 40;
 const players = new Map<MusicTrack, AudioPlayer>();
 let current: MusicTrack | null = null;
 let enabled = true;
-/* Webの自動再生規制で始められなかった曲。次のタップで再開する */
-let pending: MusicTrack | null = null;
-let fadeTimer: ReturnType<typeof setInterval> | null = null;
 
 function playerOf(track: MusicTrack): AudioPlayer {
   let p = players.get(track);
@@ -59,26 +56,42 @@ function playerOf(track: MusicTrack): AudioPlayer {
 }
 
 /* ▍Webの自動再生規制
-   ページを開いた直後は play() が拒否される。ユーザーが1回でも触れば
-   解禁されるので、**最初のタップで再挑戦する**係をここで仕込む。
-   capture で拾うのは、アプリ側が stopPropagation しても届くように */
+   ページを開いた直後の play() は拒否される。しかも**拒否は
+   expo-audio の中で握り潰されて、外から成否が見えない**
+   （.playing での判定は当てにならず、実機で「タップしても無音」に
+   なった）。なので判定はあきらめて、**タップのたびに play() を
+   呼び直す**。再生中のプレイヤーへの play() は無害な空振りなので、
+   これがいちばん壊れにくい */
 if (Platform.OS === 'web' && typeof document !== 'undefined') {
-  const retry = () => {
-    if (pending && enabled) {
-      const t = pending;
-      pending = null;
-      playMusic(t);
-    }
-  };
-  document.addEventListener('pointerdown', retry, { capture: true });
+  document.addEventListener(
+    'pointerdown',
+    () => {
+      if (!enabled || !current) return;
+      try {
+        const p = playerOf(current);
+        p.play();
+        if (p.volume < VOLUME - 0.001) fadeTo(p, VOLUME);
+      } catch {
+        /* 鳴らなくても学習は進む */
+      }
+    },
+    /* capture＝アプリ側が stopPropagation しても届くように */
+    { capture: true },
+  );
 }
 
+/* フェードのタイマーは**プレイヤーごと**に持つ。1本を共有すると、
+   前の曲のフェードアウト中に次の曲のフェードが始まった瞬間、
+   前の曲の残りが取り消されて「半分の音量で鳴りっぱなし」になる */
+const fadeTimers = new Map<AudioPlayer, ReturnType<typeof setInterval>>();
+
 function fadeTo(p: AudioPlayer, to: number, then?: () => void) {
-  if (fadeTimer) clearInterval(fadeTimer);
+  const old = fadeTimers.get(p);
+  if (old) clearInterval(old);
   const from = p.volume;
   const steps = Math.max(1, Math.round(FADE_MS / FADE_STEP));
   let i = 0;
-  fadeTimer = setInterval(() => {
+  const timer = setInterval(() => {
     i += 1;
     try {
       p.volume = from + ((to - from) * i) / steps;
@@ -86,11 +99,12 @@ function fadeTo(p: AudioPlayer, to: number, then?: () => void) {
       /* 破棄済みなら止めるだけ */
     }
     if (i >= steps) {
-      if (fadeTimer) clearInterval(fadeTimer);
-      fadeTimer = null;
+      clearInterval(timer);
+      if (fadeTimers.get(p) === timer) fadeTimers.delete(p);
       then?.();
     }
   }, FADE_STEP);
+  fadeTimers.set(p, timer);
 }
 
 /**
@@ -114,14 +128,11 @@ export function playMusic(track: MusicTrack) {
         next.seekTo(0).catch(() => {});
         next.volume = 0;
         next.play();
-        /* play() の拒否は同期では分からないことがある。少し待って
-           進んでいなければ、次のタップに回す */
+        /* ここで拒否されていても気にしない。Webなら上の
+           pointerdown 係が、次のタップで立ち上げ直す */
         fadeTo(next, VOLUME);
-        setTimeout(() => {
-          if (current === track && !next.playing) pending = track;
-        }, 300);
       } catch {
-        pending = track;
+        /* 鳴らなくても学習は進む */
       }
     };
     if (prev && prev !== next && prev.playing) {
@@ -156,7 +167,6 @@ export function resumeMusic() {
 
 /** 全部止める（アプリがバックグラウンドへ行くときなど） */
 export function stopMusic() {
-  pending = null;
   for (const p of players.values()) {
     try {
       p.pause();
