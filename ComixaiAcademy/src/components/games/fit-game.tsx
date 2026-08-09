@@ -22,6 +22,7 @@ import { Bump, PopIn, useSparkBurst, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
+import { playSound } from '@/lib/sound';
 import { GameButton, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
@@ -163,6 +164,7 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
             /* 過不足があったら、そこで1ミス。**外したことを数えないと、
                何度でも当てにいけてしまう** */
             if (!ok) {
+              playSound('wrong');
               const n = misses + 1;
               setMisses(n);
               if (n > allow) setFailed(true);

@@ -18,7 +18,7 @@ import { LessonInteractiveCard } from '@/components/lesson-interactive';
 import { MissTag, QuizChoices, QuizExplain } from '@/components/quiz';
 import { RankUpScreen } from '@/components/rank-up';
 import { hasTerm, TermHint, TermText } from '@/components/term-text';
-import { SlideIn } from '@/components/motion';
+import { SlideIn, Stamp } from '@/components/motion';
 import {
   Badge,
   Bubble,
@@ -30,12 +30,13 @@ import {
   Row,
   Screen,
 } from '@/components/ui';
+import { playSound } from '@/lib/sound';
 import { getAvatar } from '@/data/avatars';
 import { getBadge, prevTitle, titleSay, type Title } from '@/data/badges';
 import { COURSES, getLesson, lessonCards, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { LESSON_VOICE, say as voice } from '@/data/voice';
-import { useProgress } from '@/store/progress';
+import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 type Phase = 'cards' | 'quiz' | 'result';
@@ -45,6 +46,7 @@ export default function LessonScreen() {
   const router = useRouter();
   const navigation = useNavigation();
   const { state, completeLesson, answerQuiz } = useProgress();
+  const stats = useStats();
   const { width } = useWindowDimensions();
 
   const avatarRef = React.useRef<AvatarHandle>(null);
@@ -111,6 +113,11 @@ export default function LessonScreen() {
     /* 称号が上がったら、結果を読ませる前に演出を差し込む。
        ここでしか上がらないものなので、結果画面のカード1枚では軽すぎる */
     if (r.newTitle) setRankUp(r.newTitle);
+    /* ▍音は「いちばん大きい出来事」だけ鳴らす
+       修了・バッジ・昇格が同時に起きるので、全部鳴らすと濁る。
+       昇格があるなら昇格の音は演出側（rank-up.tsx）が鳴らすので、
+       ここは鳴らさない */
+    if (!r.newTitle) playSound(r.newBadges.length > 0 ? 'badge' : 'finish');
     avatarRef.current?.play(misses === 0 ? 'laugh' : 'bow');
     avatarRef.current?.emote(misses === 0 ? 'sparkle' : 'bulb');
   }, [phase, found, misses, completeLesson]);
@@ -126,6 +133,10 @@ export default function LessonScreen() {
   const { lesson, course } = found;
   const quiz = lesson.quiz[quizIndex];
   const stageW = Math.min(width * 0.4, 165);
+
+  /* このレッスンでコースが埋まったか。結果に締めを出すのに使う */
+  const clearedCourse =
+    phase === 'result' && !!found && found.course.lessons.every((l) => state.done[l.id]);
 
   const nextLesson = (() => {
     const all = COURSES.flatMap((c) => c.lessons);
@@ -151,7 +162,11 @@ export default function LessonScreen() {
         ok ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Warning,
       ).catch(() => {});
     }
-    avatarRef.current?.play(ok ? 'laugh' : 'worried');
+    playSound(ok ? 'right' : 'wrong');
+    /* ▍モーションを11種ぜんぶ使う
+       正解と不正解しか出し分けていなかったので、**続けて当てたときだけ
+       笑わせる**。毎回笑うと、笑ったことの意味が無くなる */
+    avatarRef.current?.play(ok ? (misses === 0 ? 'laugh' : 'wave') : 'worried');
     avatarRef.current?.emote(ok ? 'sparkle' : 'bang');
   };
 
@@ -349,6 +364,49 @@ export default function LessonScreen() {
                 クイズ {lesson.quiz.length - misses} / {lesson.quiz.length} 問正解
               </Badge>
             </Panel>
+
+            {/* ———— コース修了 ————
+                 コースを終えたのに、バッジ1個ぶんの扱いしか無かった。
+                 4本通した重みが、1本終えたのと同じ見た目では釣り合わない。
+                 判子を落として、通った本数を並べて見せる */}
+            {clearedCourse ? (
+              <Stamp tilt={-2}>
+                <Card tone="ink" contentStyle={{ gap: S.sm, alignItems: 'center', paddingVertical: S.lg }}>
+                  <Text style={[F.kicker, { color: C.yellow400 }]}>COURSE CLEAR</Text>
+                  <Row gap={8}>
+                    <Icon name={course.icon} size={26} color={C.yellow400} />
+                    <Text style={{ fontFamily: FONT.display, fontSize: 22, color: C.paper50 }}>
+                      {course.title}
+                    </Text>
+                  </Row>
+                  <View style={{ gap: 4, alignSelf: 'stretch', paddingHorizontal: S.md }}>
+                    {course.lessons.map((l) => (
+                      <Row key={l.id} gap={7}>
+                        <Icon name="check" size={12} color={T.ok} />
+                        <Text style={[F.tiny, { color: C.paper100, flex: 1 }]} numberOfLines={1}>
+                          {l.title}
+                        </Text>
+                      </Row>
+                    ))}
+                  </View>
+                </Card>
+              </Stamp>
+            ) : null}
+
+            {/* ———— 続いている日数 ————
+                 数えているのに、ホームに小さく出るだけだった。
+                 **伸びたその日にだけ**出す。毎回出すと数字が景色になる */}
+            {stats.streak >= 2 ? (
+              <Card tone="warn" variant="flat" contentStyle={{ padding: S.md }}>
+                <Row gap={8}>
+                  <Icon name="fire" size={22} color={T.accent} />
+                  <Text style={[F.strong, { flex: 1 }]}>{stats.streak}日 連続</Text>
+                  <Text style={F.tiny}>
+                    {stats.streak >= 7 ? '一週間、続いた' : `あと${7 - stats.streak}日で一週間`}
+                  </Text>
+                </Row>
+              </Card>
+            ) : null}
 
             {result?.newBadges.length ? (
               <Card tone="accent">

@@ -11,17 +11,17 @@ import { Pressable, Text, View } from 'react-native';
 import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
 import { Spotlight } from '@/components/spotlight';
-import { Badge, Card, Cassette, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
+import { Badge, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { AVATARS, getAvatar, isReady } from '@/data/avatars';
 import { getRole } from '@/data/roles';
 import { useProgress, useStats } from '@/store/progress';
-import { C, F, FONT, R, S, T } from '@/theme';
+import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 const SITE = 'https://comixai.dev';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { state, setAvatar, setRole, reset } = useProgress();
+  const { state, setAvatar, setRole, setSoundOn, reset } = useProgress();
   const stats = useStats();
   const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
@@ -97,6 +97,49 @@ export default function SettingsScreen() {
         </Row>
         <RolePicker value={state.roleId} onPick={setRole} />
       </View>
+
+      {/* ———— 音 ————
+           触覚と同じで、あれば嬉しく無くても困らないもの。
+           **既定はオン**だが、電車で開く人のために切れるようにしておく */}
+      <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Row gap={8} style={{ flex: 1 }}>
+            <Icon name="sparkle" size={18} color={T.text} />
+            <View style={{ flex: 1 }}>
+              <Text style={F.strong}>効果音</Text>
+              <Text style={F.tiny}>
+                正解・クリア・昇格で鳴ります。端末を消音にしていれば鳴りません
+              </Text>
+            </View>
+          </Row>
+          <Tap
+            onPress={() => setSoundOn(!state.soundOn)}
+            sparks={false}
+            /* 切るときに音が鳴ると滑稽なので、押した音も止める */
+            sound={state.soundOn ? 'none' : 'tap'}>
+            <View
+              style={{
+                borderWidth: BW.bold,
+                borderColor: T.border,
+                borderRadius: R.full,
+                backgroundColor: state.soundOn ? T.accent : T.sunk,
+                paddingHorizontal: S.md,
+                paddingVertical: 7,
+                minWidth: 64,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: FONT.heading,
+                  fontSize: 13,
+                  color: state.soundOn ? C.paper0 : T.muted,
+                }}>
+                {state.soundOn ? 'オン' : 'オフ'}
+              </Text>
+            </View>
+          </Tap>
+        </Row>
+      </Panel>
 
       {/* 記録 */}
       <Cassette>

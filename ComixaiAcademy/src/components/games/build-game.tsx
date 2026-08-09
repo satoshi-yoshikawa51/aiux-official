@@ -23,6 +23,7 @@ import { PopIn, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
+import { playSound } from '@/lib/sound';
 import { GameButton, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
@@ -46,6 +47,7 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
 
   const decide = () => {
     if (weakSlots.length > allow) {
+      playSound('wrong');
       setFailed(weakSlots);
       return;
     }

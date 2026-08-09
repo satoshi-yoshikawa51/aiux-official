@@ -61,6 +61,7 @@ import { SortPlay } from '@/components/games/sort-game';
 import { sinkFlat, Tone } from '@/components/ui';
 import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
+import { playClear, playSound } from '@/lib/sound';
 import { loadTokenizer, toChips, type TokenChip } from '@/lib/tokenizer';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
@@ -186,6 +187,11 @@ export function MiniGame({
   /* タイルが画面を覆い終わったか。覆うまでは中身を出さない */
   const [covered, setCovered] = React.useState(false);
 
+  /* タイルが走り出すのと同時に、駆け上がる音。**覆い終わってからだと遅い** */
+  React.useEffect(() => {
+    playSound('start');
+  }, []);
+
   /* タイトルは自動で終わる。押したら飛ばせる。
      数え始めるのは**タイルが覆い終わってから**。先に数え始めると、
      タイルを見ているあいだにタイトルの持ち時間が減っていく */
@@ -204,6 +210,7 @@ export function MiniGame({
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       }
       setScore(s);
+      playClear(starsOf(s.misses));
       onCleared(s);
       setPhase('clear');
     },

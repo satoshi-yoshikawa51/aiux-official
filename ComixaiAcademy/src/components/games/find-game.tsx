@@ -20,6 +20,7 @@ import { PopIn, useSparkBurst, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
+import { playSound } from '@/lib/sound';
 import { GameButton, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
@@ -43,11 +44,16 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
   const tap = (i: number, x: number, y: number) => {
     if (picked.includes(i) || cleared || failed) return;
     setPicked((v) => [...v, i]);
-    if (spec.lines[i].bad) burst(x, y, 1.3);
+    if (spec.lines[i].bad) {
+      playSound('right');
+      burst(x, y, 1.3);
+      return;
+    }
     /* ▍外した瞬間に止める
        全部見つけてから「実は外れが3つありました」と言われても、
        どれが外れだったのか分からない。押したその場で終わりにする */
-    else if (wrong.length + 1 > allow) setFailed(true);
+    playSound('wrong');
+    if (wrong.length + 1 > allow) setFailed(true);
   };
 
   const retry = () => {

@@ -25,6 +25,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
 
+import type { SoundName } from '@/lib/sound';
 import { useTap } from '@/components/motion';
 import { useTutorial } from '@/store/tutorial';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
@@ -531,6 +532,8 @@ export function Tap({
   sparks = true,
   scale = 0.94,
   hitSlop,
+  /** 鳴らす音を変える／黙らせる。音を切る口そのものなど */
+  sound,
   style,
 }: {
   children: React.ReactNode;
@@ -539,9 +542,10 @@ export function Tap({
   sparks?: boolean;
   scale?: number;
   hitSlop?: number;
+  sound?: SoundName | 'none';
   style?: StyleProp<ViewStyle>;
 }) {
-  const { pressed, onPressIn, onPressOut } = useTap({ sparks });
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks, sound });
   return (
     <Pressable
       disabled={disabled}

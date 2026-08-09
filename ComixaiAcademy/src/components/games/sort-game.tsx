@@ -23,6 +23,7 @@ import { Bump, PopIn, SlideIn, useSparkBurst } from '@/components/motion';
 import type { LessonInteractive, SortItem } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
+import { playSound } from '@/lib/sound';
 import { GameButton } from './parts';
 import { useGameClock, type GameScore } from './score';
 
@@ -54,6 +55,7 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
     setLast(j);
     setDone((v) => [...v, j]);
     setAt((n) => n + 1);
+    playSound(ok ? 'right' : 'wrong');
     if (ok) burst(x, y, 1.2);
   };
 

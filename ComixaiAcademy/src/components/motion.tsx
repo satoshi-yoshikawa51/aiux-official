@@ -11,6 +11,7 @@
    transform と opacity だけを動かしているので、
    `useNativeDriver` を切ってもWebで問題なく動く。
    ============================================================ */
+import { playSound, type SoundName } from '@/lib/sound';
 import * as Haptics from 'expo-haptics';
 import React from 'react';
 import {
@@ -427,6 +428,8 @@ export function useTap({
   sparks = true,
   /** 触覚の強さ。既定は Medium（Light は画面を見ていないと分からない） */
   haptic = 'medium' as 'light' | 'medium' | 'none',
+  /** 鳴らす音。押した音を変えたいところだけ渡す。'none' で黙る */
+  sound = 'tap' as SoundName | 'none',
 } = {}) {
   const burst = useSparkBurst();
   const { pressed, onPressIn: sink, onPressOut } = usePressFeel();
@@ -434,6 +437,11 @@ export function useTap({
   const onPressIn = React.useCallback(
     (e: GestureResponderEvent) => {
       sink();
+      /* ▍音も触覚と同じ場所で配る
+         押せるものは全部このフックを通っているので、ここに置けば
+         **一部だけ鳴らない**が起きない。鳴らないことは異常にしない
+         （設定・端末・自動再生規制。→ lib/sound.ts） */
+      if (sound && sound !== 'none') playSound(sound);
       if (Platform.OS !== 'web' && haptic !== 'none') {
         const style =
           haptic === 'light' ? Haptics.ImpactFeedbackStyle.Light : Haptics.ImpactFeedbackStyle.Medium;
@@ -445,7 +453,7 @@ export function useTap({
       const { pageX, pageY } = e.nativeEvent;
       if (pageX || pageY) burst(pageX, pageY, scale);
     },
-    [sink, burst, scale, sparks, haptic],
+    [sink, burst, scale, sparks, haptic, sound],
   );
 
   return { pressed, onPressIn, onPressOut };

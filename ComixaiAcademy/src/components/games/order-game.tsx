@@ -19,6 +19,7 @@ import { PopIn, useSparkBurst, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
+import { playSound } from '@/lib/sound';
 import { GameButton, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
@@ -45,9 +46,11 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
     if (i === placed.length) {
       setSlip(null);
       setPlaced((v) => [...v, i]);
+      playSound('right');
       burst(x, y, 1.1);
     } else {
       setSlip(i);
+      playSound('wrong');
       const n = misses + 1;
       setMisses(n);
       if (n > allow) setFailed(true);

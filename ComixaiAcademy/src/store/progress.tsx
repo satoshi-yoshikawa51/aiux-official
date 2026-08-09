@@ -15,6 +15,7 @@ import React from 'react';
 import { BADGES, titleFor, type Title } from '@/data/badges';
 import { ALL_LESSONS, COURSES, getQuiz, type QuizEntry } from '@/data/courses';
 import type { RoleId } from '@/data/types';
+import { setSoundEnabled } from '@/lib/sound';
 
 const KEY = 'comixai-academy-v1';
 
@@ -91,6 +92,8 @@ export interface ProgressState {
   quiz: Record<string, QuizRecord>;
   /** ミニゲームの自己ベスト。キーは レッスンID（1レッスン1ゲーム） */
   games: Record<string, GameRecord>;
+  /** 効果音を鳴らすか。既定はオン（→ lib/sound.ts） */
+  soundOn: boolean;
   /** 先生によるアプリ案内を見終えた（またはとばした）か */
   seenTutorial: boolean;
 }
@@ -109,6 +112,7 @@ const EMPTY: ProgressState = {
   seenTutorial: false,
   quiz: {},
   games: {},
+  soundOn: true,
 };
 
 /* ———————————————— 日付ユーティリティ ———————————————— */
@@ -191,6 +195,8 @@ interface Ctx {
   answerQuiz: (quizId: string, correct: boolean) => void;
   /** ミニゲームを通したことを記録する。★が伸びたときだけ中身を書き換える */
   recordGame: (lessonId: string, stars: number, misses: number, ms: number) => void;
+  /** 効果音のオン・オフ */
+  setSoundOn: (on: boolean) => void;
   markTitleSeen: () => void;
   markOpeningSeen: () => void;
   markIntroSeen: () => void;
@@ -237,6 +243,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
           }
         }
         const next = added ? { ...loaded, badges } : loaded;
+        /* 保存してある設定を、鳴らす側の旗に流し込む */
+        setSoundEnabled(next.soundOn);
         setState(next);
         if (added) AsyncStorage.setItem(KEY, JSON.stringify(next)).catch(() => {});
       })
@@ -346,6 +354,17 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
+  /* ▍鳴らす側は毎回ストアを見ない
+     playSound はボタンの中から呼ばれるので、Contextを引かせたくない。
+     設定が変わったときにだけ、モジュール側の旗を書き換える */
+  const setSoundOn = React.useCallback(
+    (on: boolean) => {
+      setSoundEnabled(on);
+      persist({ ...ref.current, soundOn: on });
+    },
+    [persist],
+  );
+
   const markTitleSeen = React.useCallback(() => {
     const t = titleFor(Object.keys(ref.current.badges).length);
     persist({ ...ref.current, seenTitle: t.name });
@@ -382,6 +401,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       completeLesson,
       answerQuiz,
       recordGame,
+      setSoundOn,
       markTitleSeen,
       markOpeningSeen,
       markIntroSeen,
@@ -396,6 +416,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       completeLesson,
       answerQuiz,
       recordGame,
+      setSoundOn,
       markTitleSeen,
       markOpeningSeen,
       markIntroSeen,

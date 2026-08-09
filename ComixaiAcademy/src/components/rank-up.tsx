@@ -37,6 +37,7 @@ import Svg, { Path } from 'react-native-svg';
 
 import { Icon } from '@/components/icons';
 import { SparkLayer, useSparkBurst } from '@/components/motion';
+import { playSound } from '@/lib/sound';
 import { Bubble } from '@/components/ui';
 import { titleSay, type Title } from '@/data/badges';
 import { useProgress } from '@/store/progress';
@@ -357,6 +358,8 @@ function Stage({ from, to, onDone }: { from: Title | null; to: Title; onDone: ()
     if (Platform.OS !== 'web') {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     }
+    /* アプリでいちばん長い音。ここでしか鳴らさない */
+    playSound('rankup');
   }, [flash]);
 
   /* 段取りを進めるタイマー。触られたら止めて最後まで飛ばす */
