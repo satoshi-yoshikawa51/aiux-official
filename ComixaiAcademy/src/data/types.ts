@@ -86,6 +86,19 @@ export interface BuildSlot {
     name: string;
     /** これを選んだときに出力がどう変わるか（1〜2行） */
     result: string;
+    /* ▍弱い札。**これを選んだまま決めると1ミス**
+
+       もとは何を選んでも必ずCLEARだった。負けられないゲームにCLEARの
+       スタンプを出すと、スタンプのほうの値打ちが下がる。
+
+       「いちばん良い札」ではなく「弱い札」に印を付けているのは、
+       **良い選び方は1つとは限らない**から。基本の回（basics-2）では
+       「同僚向け」でも「取引先向け」でも正解で、まずいのは
+       「（指定しない）」だけ。そこだけを外れにする。
+
+       外れの札も押せる。**押して結果を読むのがこの体験の中身**なので、
+       触って比べてから決められる。ミスになるのは決めた瞬間だけ。 */
+    weak?: boolean;
   }[];
 }
 
@@ -123,6 +136,8 @@ export type LessonInteractive =
       brief: string;
       /** 文書の行。危ない行は bad を立てる */
       lines: { text: string; bad?: boolean; why?: string }[];
+      /** 何回まで外して通れるか。省略すると1回 */
+      allow?: number;
     }
   | {
       kind: 'build';
@@ -130,6 +145,8 @@ export type LessonInteractive =
       slots: BuildSlot[];
       /** 全部選び終わったときに出す締め */
       wrap: string;
+      /** 何回まで外して通れるか。省略すると1軸まで */
+      allow?: number;
     }
   | {
       kind: 'order';
@@ -137,6 +154,8 @@ export type LessonInteractive =
       /** **正しい順に書く**。画面には並べ替えて出す */
       steps: OrderStep[];
       wrap: string;
+      /** 何回まで外して通れるか。省略すると2回（順番は当てにいきにくいので少し甘め） */
+      allow?: number;
     }
   | {
       kind: 'fit';
@@ -144,6 +163,8 @@ export type LessonInteractive =
       /** 机の広さ */
       capacity: number;
       items: FitItem[];
+      /** 何回まで外して通れるか。省略すると1回 */
+      allow?: number;
     }
   | {
       kind: 'tokenizer';

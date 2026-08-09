@@ -20,14 +20,20 @@ import { PopIn, useSparkBurst, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
-import { GameButton } from './parts';
+import { GameButton, TryAgain } from './parts';
+import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'find' }>;
 
-export function FindPlay({ spec, onClear }: { spec: Spec; onClear: () => void }) {
+export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
+  const elapsed = useGameClock();
   /* 押した行（当たり・外れの両方） */
   const [picked, setPicked] = React.useState<number[]>([]);
+  /* 外しすぎた。やり直すまで下の札を出しておく */
+  const [failed, setFailed] = React.useState(false);
+  /* 何回まで外して通れるか。書いていなければ1回 */
+  const allow = spec.allow ?? 1;
 
   const bad = spec.lines.map((l, i) => (l.bad ? i : -1)).filter((i) => i >= 0);
   const hit = picked.filter((i) => spec.lines[i].bad);
@@ -35,9 +41,18 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: () => void })
   const cleared = hit.length === bad.length;
 
   const tap = (i: number, x: number, y: number) => {
-    if (picked.includes(i) || cleared) return;
+    if (picked.includes(i) || cleared || failed) return;
     setPicked((v) => [...v, i]);
     if (spec.lines[i].bad) burst(x, y, 1.3);
+    /* ▍外した瞬間に止める
+       全部見つけてから「実は外れが3つありました」と言われても、
+       どれが外れだったのか分からない。押したその場で終わりにする */
+    else if (wrong.length + 1 > allow) setFailed(true);
+  };
+
+  const retry = () => {
+    setPicked([]);
+    setFailed(false);
   };
 
   return (
@@ -48,7 +63,7 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: () => void })
         </Text>
         {wrong.length > 0 ? (
           <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.red500 }}>
-            MISS {wrong.length}
+            MISS {wrong.length} / {allow}
           </Text>
         ) : null}
       </View>
@@ -91,9 +106,19 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: () => void })
         </PopIn>
       ))}
 
-      {cleared ? (
+      {failed ? (
         <PopIn>
-          <GameButton label="これで決める" onPress={onClear} />
+          <TryAgain
+            reason={`関係のない行を${wrong.length}つ摘発しました。危ないのは「読んだAIへの命令になっている行」だけです。`}
+            onRetry={retry}
+          />
+        </PopIn>
+      ) : cleared ? (
+        <PopIn>
+          <GameButton
+            label="これで決める"
+            onPress={() => onClear({ misses: wrong.length, allow, ms: elapsed() })}
+          />
         </PopIn>
       ) : (
         <Text style={[F.hand, { fontSize: 12.5, color: C.ink300 }]}>{spec.brief}</Text>

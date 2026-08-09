@@ -280,7 +280,11 @@ export default function LessonScreen() {
               </View>
             ) : null}
             {view.interactive ? (
-              <LessonInteractiveCard spec={view.interactive} onDone={onInteractiveDone} />
+              <LessonInteractiveCard
+                spec={view.interactive}
+                lessonId={lesson.id}
+                onDone={onInteractiveDone}
+              />
             ) : null}
             <Button
               label={

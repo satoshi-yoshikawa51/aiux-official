@@ -22,14 +22,21 @@ import { Bump, PopIn, useSparkBurst, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
-import { GameButton } from './parts';
+import { GameButton, TryAgain } from './parts';
+import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'fit' }>;
 
-export function FitPlay({ spec, onClear }: { spec: Spec; onClear: () => void }) {
+export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
+  const elapsed = useGameClock();
   const [on, setOn] = React.useState<number[]>([]);
   const [checked, setChecked] = React.useState(false);
+  /* 外して渡した回数。ここがミスの数になる */
+  const [misses, setMisses] = React.useState(0);
+  const [failed, setFailed] = React.useState(false);
+  /* この型はいちばん難しい（過不足なしを当てる）ので、ほかより甘くする */
+  const allow = spec.allow ?? 2;
 
   const used = on.reduce((a, i) => a + spec.items[i].cost, 0);
   const over = used > spec.capacity;
@@ -38,6 +45,7 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: () => void }) 
   const ok = !over && missing.length === 0 && junk.length === 0;
 
   const toggle = (i: number, x: number, y: number) => {
+    if (failed) return;
     setChecked(false);
     setOn((v) => (v.includes(i) ? v.filter((n) => n !== i) : [...v, i]));
     if (!on.includes(i)) burst(x, y, 0.9);
@@ -130,10 +138,38 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: () => void }) 
         </PopIn>
       ) : null}
 
-      {ok && checked ? (
-        <GameButton label="これで決める" onPress={onClear} />
+      {failed ? (
+        <PopIn>
+          <TryAgain
+            reason={`${misses}回とも過不足がありました。載せるのは「この仕事に要るもの」だけです。関係のない資料は、机を埋めるだけでなく話を逸らします。`}
+            onRetry={() => {
+              setOn([]);
+              setChecked(false);
+              setMisses(0);
+              setFailed(false);
+            }}
+          />
+        </PopIn>
+      ) : ok && checked ? (
+        <GameButton
+          label="これで決める"
+          onPress={() => onClear({ misses, allow, ms: elapsed() })}
+        />
       ) : (
-        <GameButton label="これで渡す" onPress={() => setChecked(true)} disabled={on.length === 0} />
+        <GameButton
+          label="これで渡す"
+          onPress={() => {
+            setChecked(true);
+            /* 過不足があったら、そこで1ミス。**外したことを数えないと、
+               何度でも当てにいけてしまう** */
+            if (!ok) {
+              const n = misses + 1;
+              setMisses(n);
+              if (n > allow) setFailed(true);
+            }
+          }}
+          disabled={on.length === 0}
+        />
       )}
     </View>
   );

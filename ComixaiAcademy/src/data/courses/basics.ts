@@ -198,6 +198,7 @@ export const BASICS: Course = {
                 options: [
                   {
                     name: '（指定しない）',
+                    weak: true,
                     result:
                       '社内向けとも社外向けともつかない、宙に浮いた文が返ってきます。「関係者各位」で始まって、誰も自分ごとにできません。',
                   },
@@ -216,6 +217,7 @@ export const BASICS: Course = {
                 options: [
                   {
                     name: '（指定しない）',
+                    weak: true,
                     result: 'だいたい5〜6段落の文章で返ってきます。読むのに時間がかかります。',
                   },
                   {
@@ -233,6 +235,7 @@ export const BASICS: Course = {
                 options: [
                   {
                     name: '（指定しない）',
+                    weak: true,
                     result: '長くなりがちです。丁寧に書こうとして、要点が埋まります。',
                   },
                   {

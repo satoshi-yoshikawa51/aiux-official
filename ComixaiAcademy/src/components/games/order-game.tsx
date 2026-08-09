@@ -19,12 +19,19 @@ import { PopIn, useSparkBurst, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
-import { GameButton } from './parts';
+import { GameButton, TryAgain } from './parts';
+import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'order' }>;
 
-export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: () => void }) {
+export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
+  const elapsed = useGameClock();
+  /* 外した回数。もとは間違えても札が消えないので、総当たりで必ず解けた */
+  const [misses, setMisses] = React.useState(0);
+  const [failed, setFailed] = React.useState(false);
+  /* 順番は当てにいきにくいので、ほかより少し甘くする */
+  const allow = spec.allow ?? 2;
   /* 押した順（spec.steps の添字） */
   const [placed, setPlaced] = React.useState<number[]>([]);
   /* いま間違えた札。次に何か押すまで出しておく */
@@ -33,7 +40,7 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: () => void }
   const done = placed.length === spec.steps.length;
 
   const tap = (i: number, x: number, y: number) => {
-    if (placed.includes(i) || done) return;
+    if (placed.includes(i) || done || failed) return;
     /* 正解は「まだ置いていないうちで、いちばん順番が早いもの」 */
     if (i === placed.length) {
       setSlip(null);
@@ -41,6 +48,9 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: () => void }
       burst(x, y, 1.1);
     } else {
       setSlip(i);
+      const n = misses + 1;
+      setMisses(n);
+      if (n > allow) setFailed(true);
     }
   };
 
@@ -106,8 +116,22 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: () => void }
         </PopIn>
       ) : null}
 
+      {failed ? (
+        <PopIn>
+          <TryAgain
+            reason={`順番を${misses}回外しました。ここは「前の工程が終わっていないと、次はできない」でつながっています。上から読み直してみてください。`}
+            onRetry={() => {
+              setPlaced([]);
+              setSlip(null);
+              setMisses(0);
+              setFailed(false);
+            }}
+          />
+        </PopIn>
+      ) : null}
+
       {/* まだ置いていない札 */}
-      {!done ? (
+      {!done && !failed ? (
         <View style={{ gap: 6, marginTop: S.xs }}>
           <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 1.5, color: C.ink300 }}>
             つぎにやることは？
@@ -127,7 +151,10 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: () => void }
         <PopIn>
           <View style={{ gap: S.md }}>
             <Text style={[F.hand, { fontSize: 13, color: C.yellow400 }]}>{spec.wrap}</Text>
-            <GameButton label="これで決める" onPress={onClear} />
+            <GameButton
+              label="これで決める"
+              onPress={() => onClear({ misses, allow, ms: elapsed() })}
+            />
           </View>
         </PopIn>
       )}

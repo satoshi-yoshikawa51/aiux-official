@@ -23,14 +23,34 @@ import { PopIn, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
-import { GameButton } from './parts';
+import { GameButton, TryAgain } from './parts';
+import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'build' }>;
 
-export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: () => void }) {
+export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
+  const elapsed = useGameClock();
   /* 軸ごとに「何番目を選んだか」。未選択は -1 */
   const [chosen, setChosen] = React.useState<number[]>(() => spec.slots.map(() => -1));
+  const [failed, setFailed] = React.useState<string[] | null>(null);
   const all = chosen.every((c) => c >= 0);
+  /* 何軸まで弱い札のままで通れるか。書いていなければ1軸 */
+  const allow = spec.allow ?? 1;
+
+  /* ▍ミスは「決めた瞬間」だけ数える
+     押して結果を読むのがこの体験の中身なので、触るのは自由。
+     弱い札を選んだまま決めた軸の数だけがミスになる */
+  const weakSlots = spec.slots
+    .map((slot, i) => (chosen[i] >= 0 && slot.options[chosen[i]].weak ? slot.label : null))
+    .filter((x): x is string => x !== null);
+
+  const decide = () => {
+    if (weakSlots.length > allow) {
+      setFailed(weakSlots);
+      return;
+    }
+    onClear({ misses: weakSlots.length, allow, ms: elapsed() });
+  };
 
   return (
     <View style={{ gap: S.lg }}>
@@ -51,7 +71,10 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: () => void }
                 key={o.name}
                 label={o.name}
                 on={chosen[si] === oi}
-                onPress={() => setChosen((v) => v.map((c, i) => (i === si ? oi : c)))}
+                onPress={() => {
+                  setFailed(null);
+                  setChosen((v) => v.map((c, i) => (i === si ? oi : c)));
+                }}
               />
             ))}
           </View>
@@ -76,11 +99,18 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: () => void }
         </View>
       ))}
 
-      {all ? (
+      {failed ? (
+        <PopIn>
+          <TryAgain
+            reason={`「${failed.join('」「')}」が弱いままです。札を押すと、どう変わるかがその場で出ます。読み比べてから決めてください。`}
+            onRetry={() => setFailed(null)}
+          />
+        </PopIn>
+      ) : all ? (
         <PopIn>
           <View style={{ gap: S.md }}>
             <Text style={[F.hand, { fontSize: 13, color: C.yellow400 }]}>{spec.wrap}</Text>
-            <GameButton label="これで決める" onPress={onClear} />
+            <GameButton label="これで決める" onPress={decide} />
           </View>
         </PopIn>
       ) : (

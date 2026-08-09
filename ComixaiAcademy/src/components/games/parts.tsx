@@ -73,3 +73,43 @@ export function GameButton({
     </Pressable>
   );
 }
+
+/* ============================================================
+   外したときの札。**通らなかったことを、その場で言う。**
+
+   もとは「見つける」「組み立てる」「並べる」の3つに合否が無く、
+   何を選んでも通っていた。負けられないゲームにCLEARのスタンプを出すと、
+   スタンプのほうの値打ちが下がる。
+
+   ここで大事なのは、**何を外したのかを具体的に言うこと**。
+   「もう一度」とだけ出すと、当てにいく遊びになる。
+   ============================================================ */
+export function TryAgain({
+  reason,
+  onRetry,
+}: {
+  /** 何が足りなかったのか。1〜2行で具体的に */
+  reason: string;
+  onRetry: (x: number, y: number) => void;
+}) {
+  return (
+    <View style={{ gap: S.md }}>
+      <View
+        style={{
+          borderWidth: BW.bold,
+          borderColor: C.red500,
+          borderRadius: R.md,
+          padding: S.md,
+          gap: 6,
+        }}>
+        <Text style={{ fontFamily: FONT.display, fontSize: 20, color: C.red500, letterSpacing: 1 }}>
+          TRY AGAIN
+        </Text>
+        <Text style={{ fontFamily: FONT.body, fontSize: 13.5, lineHeight: 22, color: C.paper100 }}>
+          {reason}
+        </Text>
+      </View>
+      <GameButton label="もう一度" onPress={onRetry} />
+    </View>
+  );
+}

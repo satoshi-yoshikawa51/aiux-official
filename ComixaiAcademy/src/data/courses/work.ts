@@ -277,6 +277,7 @@ export const WORK: Course = {
                 options: [
                   {
                     name: 'プロンプト2',
+                    weak: true,
                     result:
                       '3枚たまった時点で、どれが何だったか分からなくなります。探せない型は使われません。',
                   },
@@ -295,6 +296,7 @@ export const WORK: Course = {
                 options: [
                   {
                     name: '前の相手のまま残す',
+                    weak: true,
                     result:
                       '直し忘れが必ず起きます。前の会社名が入ったまま送る事故は、これが原因です。',
                   },
@@ -313,6 +315,7 @@ export const WORK: Course = {
                 options: [
                   {
                     name: '書かない',
+                    weak: true,
                     result: '毎回ちがう長さと硬さで返ってきます。型にした意味がありません。',
                   },
                   {

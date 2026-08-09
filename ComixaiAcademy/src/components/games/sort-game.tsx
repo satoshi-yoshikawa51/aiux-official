@@ -24,6 +24,7 @@ import type { LessonInteractive, SortItem } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { GameButton } from './parts';
+import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'sort' }>;
 
@@ -33,8 +34,9 @@ interface Judged {
   ok: boolean;
 }
 
-export function SortPlay({ spec, onClear }: { spec: Spec; onClear: () => void }) {
+export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
+  const elapsed = useGameClock();
   const [at, setAt] = React.useState(0);
   const [done, setDone] = React.useState<Judged[]>([]);
   /* 直前の1枚の判定。次の札が出るまで出しっぱなしにする */
@@ -107,7 +109,10 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: () => void })
 
         <View style={{ gap: S.sm, marginTop: S.xs }}>
           {passed ? (
-            <GameButton label="これで決める" onPress={onClear} />
+            <GameButton
+              label="これで決める"
+              onPress={() => onClear({ misses, allow: spec.allow, ms: elapsed() })}
+            />
           ) : (
             <GameButton
               label="もう一度"

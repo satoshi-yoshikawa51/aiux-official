@@ -42,6 +42,24 @@ const REVIEW_STEP_DAYS = [1, 3, 7];
 export const REVIEW_GRADUATE = REVIEW_STEP_DAYS.length;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
+/* ▍ゲームの自己ベスト
+
+   通ったかどうかしか残していなかったので、2回目に遊んでも前より
+   良くなったのか分からなかった。「もう一度あそぶ」ボタンはあるのに、
+   もう一度やる理由が無い状態。★とタイムを残して、それを作る。
+
+   **同点は更新にしない。** 毎回「更新」が出ると、その言葉が軽くなる。 */
+export interface GameRecord {
+  /** いちばん良かった★（1〜3） */
+  stars: number;
+  /** そのときのミス数 */
+  misses: number;
+  /** そのときのタイム(ms)。0＝測っていない */
+  ms: number;
+  /** 遊んだ回数 */
+  plays: number;
+}
+
 export interface QuizRecord {
   /** 次に出す時刻(ms)。0＝卒業（もう出さない） */
   due: number;
@@ -71,6 +89,8 @@ export interface ProgressState {
   seenIntro: boolean;
   /** 間違えた問題の記録。キーは QuizItem.id（→ 下の「復習」） */
   quiz: Record<string, QuizRecord>;
+  /** ミニゲームの自己ベスト。キーは レッスンID（1レッスン1ゲーム） */
+  games: Record<string, GameRecord>;
   /** 先生によるアプリ案内を見終えた（またはとばした）か */
   seenTutorial: boolean;
 }
@@ -88,6 +108,7 @@ const EMPTY: ProgressState = {
   seenIntro: false,
   seenTutorial: false,
   quiz: {},
+  games: {},
 };
 
 /* ———————————————— 日付ユーティリティ ———————————————— */
@@ -168,6 +189,8 @@ interface Ctx {
   completeLesson: (lessonId: string, perfect: boolean) => CompletionResult;
   /** 1問答えたことを記録する。本編のクイズからも復習からも呼ぶ */
   answerQuiz: (quizId: string, correct: boolean) => void;
+  /** ミニゲームを通したことを記録する。★が伸びたときだけ中身を書き換える */
+  recordGame: (lessonId: string, stars: number, misses: number, ms: number) => void;
   markTitleSeen: () => void;
   markOpeningSeen: () => void;
   markIntroSeen: () => void;
@@ -311,6 +334,18 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
+  const recordGame = React.useCallback(
+    (lessonId: string, stars: number, misses: number, ms: number) => {
+      const prev = ref.current.games[lessonId];
+      const better = !prev || stars > prev.stars || (stars === prev.stars && ms > 0 && ms < prev.ms);
+      const next: GameRecord = better
+        ? { stars, misses, ms, plays: (prev?.plays ?? 0) + 1 }
+        : { ...prev, plays: prev.plays + 1 };
+      persist({ ...ref.current, games: { ...ref.current.games, [lessonId]: next } });
+    },
+    [persist],
+  );
+
   const markTitleSeen = React.useCallback(() => {
     const t = titleFor(Object.keys(ref.current.badges).length);
     persist({ ...ref.current, seenTitle: t.name });
@@ -346,6 +381,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       setRole,
       completeLesson,
       answerQuiz,
+      recordGame,
       markTitleSeen,
       markOpeningSeen,
       markIntroSeen,
@@ -359,6 +395,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       setRole,
       completeLesson,
       answerQuiz,
+      recordGame,
       markTitleSeen,
       markOpeningSeen,
       markIntroSeen,

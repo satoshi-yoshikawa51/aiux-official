@@ -194,6 +194,7 @@ export const PROMPT: Course = {
                 options: [
                   {
                     name: 'もう一度お願い',
+                    weak: true,
                     result: '似たような5案が、また出てきます。何も伝えていないので、当然です。',
                   },
                   {
@@ -213,6 +214,7 @@ export const PROMPT: Course = {
                 options: [
                   {
                     name: 'もっと良くして',
+                    weak: true,
                     result: '「良い」の中身が無いので、飾りが増えるだけです。長くなって終わります。',
                   },
                   {
@@ -389,6 +391,7 @@ export const PROMPT: Course = {
                 options: [
                   {
                     name: '（指定しない）',
+                    weak: true,
                     result:
                       '「良い取り組みだと思います。社内のコミュニケーションが活性化しそうですね。導入を検討する価値はあります。」——当たり障りがない。褒めて終わる。',
                   },
@@ -414,6 +417,7 @@ export const PROMPT: Course = {
                 options: [
                   {
                     name: '感想をもらう',
+                    weak: true,
                     result: '良いところが並びます。読んで気持ちはいいですが、企画は1ミリも良くなりません。',
                   },
                   {
@@ -433,6 +437,7 @@ export const PROMPT: Course = {
                 options: [
                   {
                     name: '文章で',
+                    weak: true,
                     result: '読み物として返ってきます。要点を探すのに、もう一度読み直すことになります。',
                   },
                   {

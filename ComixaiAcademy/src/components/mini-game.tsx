@@ -50,6 +50,13 @@ import { BuildPlay } from '@/components/games/build-game';
 import { FindPlay } from '@/components/games/find-game';
 import { FitPlay } from '@/components/games/fit-game';
 import { OrderPlay } from '@/components/games/order-game';
+import {
+  allowLabel,
+  starsOf,
+  timeLabel,
+  useGameClock,
+  type GameScore,
+} from '@/components/games/score';
 import { SortPlay } from '@/components/games/sort-game';
 import { sinkFlat, Tone } from '@/components/ui';
 import type { LessonInteractive } from '@/data/types';
@@ -81,7 +88,7 @@ export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
     name: '仕分け',
     icon: 'target',
     rule: '2つの箱に振り分ける',
-    how: '流れてくる1枚を、左右どちらの箱に入れるか決めます',
+    how: '1枚ずつ出てくる札を、左右どちらの箱に入れるか決めます',
   },
   find: {
     name: '検問',
@@ -129,19 +136,53 @@ export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
 
 type Phase = 'title' | 'play' | 'clear';
 
+/* 何回まで外して通れるか。ゲームごとの既定値はここに1か所だけ置く。
+   タイトル画面と入口カードが、始める前にこれを出す
+   （同じ「MINI GAME」の看板で難度が3段階違うのに、
+   プレイヤーからは見えない、というのが元の状態だった） */
+export function allowOf(spec: LessonInteractive): number {
+  switch (spec.kind) {
+    case 'sort':
+      return spec.allow;
+    case 'find':
+      return spec.allow ?? 1;
+    case 'build':
+      return spec.allow ?? 1;
+    case 'order':
+      return spec.allow ?? 2;
+    case 'fit':
+      return spec.allow ?? 2;
+    case 'ai-prompt':
+      return 2;
+    default:
+      /* 合否の無いもの（トークナイザー）と、通るまで書き直せるもの */
+      return 0;
+  }
+}
+
+/** ★の出ないゲーム。ここに入るものは成績を記録しない */
+export function hasStars(kind: LessonInteractive['kind']): boolean {
+  return kind !== 'tokenizer' && kind !== 'token-budget';
+}
+
 export function MiniGame({
   spec,
   onClose,
   onCleared,
+  best = null,
 }: {
   spec: LessonInteractive;
   onClose: () => void;
-  /** 合否のあるゲームを通ったとき。レッスン側の通せんぼを解く */
-  onCleared: () => void;
+  /** これまでの自己ベストの★。無ければ null。クリア画面で更新を出す */
+  best?: number | null;
+  /** 合否のあるゲームを通ったとき。レッスン側の通せんぼを解き、成績を記録する */
+  onCleared: (score: GameScore) => void;
 }) {
   const insets = useSafeAreaInsets();
   const g = GAME[spec.kind];
   const [phase, setPhase] = React.useState<Phase>('title');
+  /* やり直すたびに増やす。中身のstateを丸ごと作り直すための鍵 */
+  const [round, setRound] = React.useState(0);
   /* タイルが画面を覆い終わったか。覆うまでは中身を出さない */
   const [covered, setCovered] = React.useState(false);
 
@@ -154,13 +195,29 @@ export function MiniGame({
     return () => clearTimeout(t);
   }, [phase, covered]);
 
-  const clear = React.useCallback(() => {
-    if (Platform.OS !== 'web') {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    }
-    onCleared();
-    setPhase('clear');
-  }, [onCleared]);
+  /* 通ったときの成績。★の数と自己ベストの判定に使う */
+  const [score, setScore] = React.useState<GameScore | null>(null);
+
+  const clear = React.useCallback(
+    (s: GameScore) => {
+      if (Platform.OS !== 'web') {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+      }
+      setScore(s);
+      onCleared(s);
+      setPhase('clear');
+    },
+    [onCleared],
+  );
+
+  /* ▍もう一度やる口を、クリア画面に置く
+     ★3を取りにいく人と、外して悔しい人の両方がここで戻る。
+     ラウンドの鍵を進めて中身を作り直す（同じ画面のまま state だけ消す） */
+  const retry = React.useCallback(() => {
+    setScore(null);
+    setRound((r) => r + 1);
+    setPhase('play');
+  }, []);
 
   /* ▍入りはタイル。Modal の fade は使わない
      ふわっと重なると、レッスンの上にもう1枚乗ったようにしか見えない。
@@ -184,34 +241,34 @@ export function MiniGame({
           {/* 地は黒＋白い網点。紙（レッスン）と地続きに見せない */}
           <Tone tone="dots-light" style={{ flex: 1 }}>
             {phase === 'title' ? (
-              <TitleScreen meta={g} onSkip={() => setPhase('play')} />
+              <TitleScreen meta={g} allow={allowOf(spec)} onSkip={() => setPhase('play')} />
             ) : (
               <View style={{ flex: 1, paddingTop: insets.top }}>
                 <GameBar meta={g} onClose={onClose} />
                 {phase === 'clear' ? (
-                  <ClearScreen meta={g} onClose={onClose} />
+                  <ClearScreen meta={g} score={score} best={best} onClose={onClose} onRetry={retry} />
                 ) : spec.kind === 'sort' ? (
                   <GameScroll>
-                    <SortPlay spec={spec} onClear={clear} />
+                    <SortPlay key={round} spec={spec} onClear={clear} />
                   </GameScroll>
                 ) : spec.kind === 'find' ? (
                   <GameScroll>
-                    <FindPlay spec={spec} onClear={clear} />
+                    <FindPlay key={round} spec={spec} onClear={clear} />
                   </GameScroll>
                 ) : spec.kind === 'build' ? (
                   <GameScroll>
-                    <BuildPlay spec={spec} onClear={clear} />
+                    <BuildPlay key={round} spec={spec} onClear={clear} />
                   </GameScroll>
                 ) : spec.kind === 'order' ? (
                   <GameScroll>
-                    <OrderPlay spec={spec} onClear={clear} />
+                    <OrderPlay key={round} spec={spec} onClear={clear} />
                   </GameScroll>
                 ) : spec.kind === 'fit' ? (
                   <GameScroll>
-                    <FitPlay spec={spec} onClear={clear} />
+                    <FitPlay key={round} spec={spec} onClear={clear} />
                   </GameScroll>
                 ) : spec.kind === 'ai-prompt' ? (
-                  <AiPromptPlay spec={spec} onClear={clear} />
+                  <AiPromptPlay key={round} spec={spec} onClear={clear} />
                 ) : (
                   <TokenPlay
                     spec={spec}
@@ -220,7 +277,8 @@ export function MiniGame({
                        CLEAR画面は出さないが、**遊んだ印は付ける**ので
                        レッスンに戻ったとき入口にCLEARが出る */
                     onFinish={() => {
-                      onCleared();
+                      /* 合否の無いゲーム。★は出さないので満点で通す */
+                      onCleared({ misses: 0, allow: 0, ms: 0 });
                       onClose();
                     }}
                   />
@@ -252,7 +310,17 @@ function GameScroll({ children }: { children: React.ReactNode }) {
    読ませるためではなく、**画面が切り替わったことを分からせる**ため。
    だから短い。1.7秒で勝手に終わるし、押せばすぐ飛ぶ。 */
 
-function TitleScreen({ meta, onSkip }: { meta: GameMeta; onSkip: () => void }) {
+function TitleScreen({
+  meta,
+  allow,
+  onSkip,
+}: {
+  meta: GameMeta;
+  allow: number;
+  onSkip: () => void;
+}) {
+  /* 合否の無いゲームには出さない */
+  const allowStars = allow > 0;
   /* 黄色い下線が左から伸びる。名前が着地したあとに走らせる */
   const line = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
@@ -306,6 +374,35 @@ function TitleScreen({ meta, onSkip }: { meta: GameMeta; onSkip: () => void }) {
           {meta.how}
         </Text>
       </SlideIn>
+
+      {/* ▍難度は、始める前に言う
+          同じ「MINI GAME」の看板で、通れるミスの数が0〜2までばらついている。
+          プレイヤーから見えないと、厳しいほうが理不尽に感じる */}
+      {allow > 0 || allowStars ? (
+        <SlideIn from="bottom" distance={14} duration={340} delay={760}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 8,
+              borderWidth: BW.line,
+              borderColor: C.ink700,
+              borderRadius: R.full,
+              paddingHorizontal: S.md,
+              paddingVertical: 6,
+              marginTop: S.xs,
+            }}>
+            <Icon name="bang" size={12} color={C.red500} />
+            <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 0.8, color: C.paper100 }}>
+              {allowLabel(allow)}
+            </Text>
+            <Icon name="star" size={12} color={C.yellow400} />
+            <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 0.8, color: C.paper100 }}>
+              ノーミスで★3
+            </Text>
+          </View>
+        </SlideIn>
+      ) : null}
 
       <SlideIn from="bottom" distance={10} duration={300} delay={1000} style={{ marginTop: S.lg }}>
         <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 2, color: C.ink300 }}>
@@ -371,18 +468,36 @@ function QuitButton({ onPress }: { onPress: () => void }) {
 
 /* ———————————————— 通ったあと ———————————————— */
 
-function ClearScreen({ meta, onClose }: { meta: GameMeta; onClose: () => void }) {
-  /* スタンプが落ちた瞬間から、3回に分けて星を散らす。
-     1回だけだと一瞬で消えて、通した手ごたえにならない。
-     位置はCLEARの字のあたり＝画面のまんなかを少し上 */
+function ClearScreen({
+  meta,
+  score,
+  best,
+  onClose,
+  onRetry,
+}: {
+  meta: GameMeta;
+  score: GameScore | null;
+  /** これまでの自己ベストの★ */
+  best: number | null;
+  onClose: () => void;
+  onRetry: () => void;
+}) {
+  /* スタンプが落ちた瞬間から星を散らす。**★3のときだけ多く撒く**。
+     毎回同じだけ撒くと、通したこと自体の重みが一定になってしまう */
   const burst = useSparkBurst();
   const { width, height } = useWindowDimensions();
+  const stars = score ? starsOf(score.misses) : 3;
+  const perfect = stars >= 3;
+  /* 自己ベストを更新したか。**同点は更新にしない**（毎回出ると意味が薄れる） */
+  const renewed = best !== null && stars > best;
+
   React.useEffect(() => {
-    const ids = [260, 780, 1300].map((ms) =>
-      setTimeout(() => burst(width / 2, height / 2 - 40, 2.2), ms),
+    const times = perfect ? [260, 620, 980, 1340] : [260, 900];
+    const ids = times.map((ms) =>
+      setTimeout(() => burst(width / 2, height / 2 - 60, perfect ? 2.6 : 1.8), ms),
     );
     return () => ids.forEach(clearTimeout);
-  }, [burst, width, height]);
+  }, [burst, width, height, perfect]);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: S.xl, gap: S.md }}>
@@ -400,13 +515,54 @@ function ClearScreen({ meta, onClose }: { meta: GameMeta; onClose: () => void })
           </Text>
         </View>
       </Stamp>
-      <SlideIn from="bottom" distance={14} delay={420}>
+
+      {/* ★。ミスの数だけで決まる（タイムでは変わらない） */}
+      {score ? (
+        <SlideIn from="bottom" distance={14} delay={340}>
+          <View style={{ flexDirection: 'row', gap: 6 }}>
+            {[0, 1, 2].map((i) => (
+              <Icon
+                key={i}
+                name="star"
+                size={30}
+                color={i < stars ? C.yellow400 : C.ink700}
+              />
+            ))}
+          </View>
+        </SlideIn>
+      ) : null}
+
+      <SlideIn from="bottom" distance={14} delay={460}>
         <Text style={[F.hand, { fontSize: 15, color: C.paper100, textAlign: 'center' }]}>
-          {meta.name}、突破。
+          {perfect ? `${meta.name}、ノーミス突破。` : `${meta.name}、突破。`}
         </Text>
       </SlideIn>
-      <SlideIn from="bottom" distance={14} delay={620} style={{ marginTop: S.md }}>
+
+      {/* 成績。タイムは記録としてだけ出す（★には効かない） */}
+      {score ? (
+        <SlideIn from="bottom" distance={14} delay={560}>
+          <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.ink300, letterSpacing: 0.6 }}>
+            MISS {score.misses} / {score.allow}
+            {score.ms > 0 ? `   ${timeLabel(score.ms)}` : ''}
+          </Text>
+        </SlideIn>
+      ) : null}
+
+      {renewed ? (
+        <SlideIn from="bottom" distance={14} delay={660}>
+          <Text style={{ fontFamily: FONT.heading, fontSize: 13, color: C.yellow400 }}>
+            自己ベスト更新
+          </Text>
+        </SlideIn>
+      ) : null}
+
+      <SlideIn from="bottom" distance={14} delay={760} style={{ marginTop: S.md, gap: S.sm }}>
         <GameButton label="レッスンに戻る" onPress={onClose} />
+        {/* ▍★3でないときだけ、もう一度を目立たせる
+            満点で終えた人にやり直しを勧めても意味がない */}
+        {!perfect ? (
+          <GameButton label="★3をねらう" tone="ghost" onPress={onRetry} />
+        ) : null}
       </SlideIn>
     </View>
   );
@@ -569,7 +725,7 @@ function TokenPlay({
 }: {
   spec: Extract<LessonInteractive, { kind: 'tokenizer' | 'token-budget' }>;
   /** 合否のあるゲームを通った（CLEAR画面へ） */
-  onClear: () => void;
+  onClear: (score: GameScore) => void;
   /** 合否の無いゲームを見終わった（そのまま閉じる） */
   onFinish: () => void;
 }) {
@@ -777,7 +933,12 @@ function TokenPlay({
         }}>
         {budget ? <Gauge count={count} min={budget.min} max={budget.max} ok={ok} /> : null}
         {budget ? (
-          <GameButton label={ok ? 'これで決める' : '収めると押せる'} onPress={onClear} disabled={!ok} />
+          <GameButton
+            label={ok ? 'これで決める' : '収めると押せる'}
+            /* 収まるまで押せないので、外しようがない。★は出さない */
+            onPress={() => onClear({ misses: 0, allow: 0, ms: 0 })}
+            disabled={!ok}
+          />
         ) : (
           <GameButton label="わかった" onPress={onFinish} />
         )}
@@ -793,11 +954,14 @@ function AiPromptPlay({
   onClear,
 }: {
   spec: Extract<LessonInteractive, { kind: 'ai-prompt' }>;
-  onClear: () => void;
+  onClear: (score: GameScore) => void;
 }) {
+  const elapsed = useGameClock();
   const [text, setText] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [result, setResult] = React.useState<GradeResult | null>(null);
+  /* 届かなかった回数。1発で通せば★3 */
+  const [misses, setMisses] = React.useState(0);
   const passed = !!result && result.score >= spec.pass;
 
   const submit = async () => {
@@ -807,6 +971,7 @@ function AiPromptPlay({
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
     const r = await gradePrompt(spec.exerciseId, text.trim());
     setResult(r);
+    if (r.score < spec.pass) setMisses((n) => n + 1);
     setBusy(false);
     if (Platform.OS !== 'web') {
       Haptics.notificationAsync(
@@ -969,7 +1134,12 @@ function AiPromptPlay({
           disabled={busy || text.trim().length < 5}
           tone={passed ? 'ghost' : 'yellow'}
         />
-        {passed ? <GameButton label="これで決める" onPress={onClear} /> : null}
+        {passed ? (
+          <GameButton
+            label="これで決める"
+            onPress={() => onClear({ misses, allow: 2, ms: elapsed() })}
+          />
+        ) : null}
       </View>
     </View>
   );

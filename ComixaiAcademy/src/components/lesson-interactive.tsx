@@ -24,24 +24,33 @@ import React from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { GAME, MiniGame } from '@/components/mini-game';
+import { allowLabel, starsOf } from '@/components/games/score';
+import { allowOf, GAME, hasStars, MiniGame } from '@/components/mini-game';
 import { SlideIn, useTap } from '@/components/motion';
 import { Row, sinkFlat } from '@/components/ui';
 import type { LessonInteractive } from '@/data/types';
+import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 export function LessonInteractiveCard({
   spec,
+  lessonId,
   onDone,
 }: {
   spec: LessonInteractive;
+  /** 自己ベストを引くための鍵（1レッスン1ゲーム） */
+  lessonId: string;
   /** 合否のあるゲームを通ったときに true で呼ぶ */
   onDone?: (ok: boolean) => void;
 }) {
   const g = GAME[spec.kind];
+  const { state, recordGame } = useProgress();
   const [open, setOpen] = React.useState(false);
   const [cleared, setCleared] = React.useState(false);
   const { pressed, onPressIn, onPressOut } = useTap();
+  const best = state.games[lessonId] ?? null;
+  const scored = hasStars(spec.kind);
+  const allow = allowOf(spec);
 
   const start = () => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
@@ -69,13 +78,38 @@ export function LessonInteractiveCard({
               style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: 1.4, color: C.yellow400 }}>
               MINI GAME
             </Text>
-            {cleared ? (
+            {/* ▍自己ベストは入口に出す
+                ここに出ていないと、もう一度やる理由が生まれない。
+                まだ通していないゲームには、代わりに難度を出す */}
+            {scored && best ? (
+              <Row gap={3} style={{ marginLeft: 'auto' }}>
+                {[0, 1, 2].map((i) => (
+                  <Icon
+                    key={i}
+                    name="star"
+                    size={13}
+                    color={i < best.stars ? C.yellow400 : C.ink700}
+                  />
+                ))}
+              </Row>
+            ) : cleared ? (
               <Row gap={4} style={{ marginLeft: 'auto' }}>
                 <Icon name="check" size={13} color={T.ok} />
                 <Text style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: 1, color: T.ok }}>
                   CLEAR
                 </Text>
               </Row>
+            ) : scored && allow > 0 ? (
+              <Text
+                style={{
+                  fontFamily: FONT.mono,
+                  fontSize: 9.5,
+                  letterSpacing: 0.8,
+                  color: C.ink300,
+                  marginLeft: 'auto',
+                }}>
+                {allowLabel(allow)}
+              </Text>
             ) : null}
           </Row>
 
@@ -107,7 +141,11 @@ export function LessonInteractiveCard({
                     letterSpacing: 0.4,
                     color: cleared ? C.paper50 : C.paper0,
                   }}>
-                  {cleared ? 'もう一度あそぶ' : 'ゲームをはじめる'}
+                  {best && best.stars < 3
+                    ? '★3をねらう'
+                    : cleared || best
+                      ? 'もう一度あそぶ'
+                      : 'ゲームをはじめる'}
                 </Text>
                 <Icon name="play" size={12} color={cleared ? C.paper50 : C.paper0} />
               </Row>
@@ -120,8 +158,10 @@ export function LessonInteractiveCard({
         <MiniGame
           spec={spec}
           onClose={() => setOpen(false)}
-          onCleared={() => {
+          best={scored ? (best?.stars ?? null) : null}
+          onCleared={(score) => {
             setCleared(true);
+            if (scored) recordGame(lessonId, starsOf(score.misses), score.misses, score.ms);
             onDone?.(true);
           }}
         />
