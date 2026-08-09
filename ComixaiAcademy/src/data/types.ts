@@ -123,6 +123,9 @@ export interface FitItem {
 export type LessonInteractive =
   | {
       kind: 'sort';
+      /** 何をどう仕分けるのか（1行）。**ゲーム中ずっと出しておく**。
+          無いと、札と箱だけが並んで「何をしていいか分からない」画面になる */
+      brief: string;
       /** 左右の箱の名前。左＝right:false、右＝right:true */
       left: string;
       right: string;

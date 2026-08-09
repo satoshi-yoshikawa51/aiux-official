@@ -163,23 +163,31 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
 
   return (
     <GameFrame
-      /* 見るものは札1枚だけなので、上下まんなかに置く */
-      center
       /* ▍箱は下に貼り付ける
          札とセットで縦に流していたので、**札が短い回では箱が画面の
          まんなかに来て、下半分が空いていた**。どの回でも同じ場所に
-         あるほうが、続けて振り分けるときに手が迷わない */
+         あるほうが、続けて振り分けるときに手が迷わない。
+
+         ▍2つの箱は同じ見た目にする
+         片方だけ黄色にすると「押してほしいほう」に見えて、
+         答えがそちらに寄る。当てさせるゲームなので、重みを揃える */
       footer={
         <View style={{ flexDirection: 'row', gap: S.sm }}>
           <Catcher on={flying?.dir === -1} style={{ flex: 1 }}>
             <GameButton label={spec.left} tone="ghost" onPress={(x, y) => answer(false, x, y)} />
           </Catcher>
           <Catcher on={flying?.dir === 1} style={{ flex: 1 }}>
-            <GameButton label={spec.right} onPress={(x, y) => answer(true, x, y)} />
+            <GameButton label={spec.right} tone="ghost" onPress={(x, y) => answer(true, x, y)} />
           </Catcher>
         </View>
       }>
     <View style={{ gap: S.md }}>
+      {/* ▍何をするゲームなのかを、ずっと出しておく
+          タイトル画面の1行は数秒で消える。読み飛ばした人が札と箱だけを
+          前に「何をしていいか分からない」になっていた（実機で報告あり）。
+          お題は消さない */}
+      <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
+
       {/* 残り枚数と、間違えられる残り */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.ink300 }}>

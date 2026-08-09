@@ -154,7 +154,20 @@ export default function LessonScreen() {
 
   const { lesson, course } = found;
   const quiz = lesson.quiz[quizIndex];
-  const stageW = Math.min(width * 0.4, 165);
+
+  /* ▍締めの1枚（セリフしか無いカード）
+     多くのレッスンが「セリフ＋お辞儀」で終わる。ここで空の白コマを
+     出すと、番号だけの白い箱＝壊れた画面にしか見えない（実機で報告あり）。
+     コマは出さず、そのぶんキャラを大きくして「幕」として見せる */
+  const closing =
+    phase === 'cards' &&
+    !!view &&
+    !view.heading &&
+    !view.body &&
+    !view.bullets?.length &&
+    !view.prompt &&
+    !view.interactive;
+  const stageW = closing ? Math.min(width * 0.52, 215) : Math.min(width * 0.4, 165);
 
   /* このレッスンでコースが埋まったか。結果に締めを出すのに使う */
   const clearedCourse =
@@ -335,7 +348,7 @@ export default function LessonScreen() {
         </Row>
 
         {/* ———— 本文カード ———— */}
-        {phase === 'cards' && view ? (
+        {phase === 'cards' && view && !closing ? (
           /* ▍カードが変わったことを動きで見せる
              key を付けてあるので、送るたびに作り直されて入りの動きが走る。
              **出は動かしていない**——中身を差し替えるまでの待ちが要って、

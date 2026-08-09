@@ -26,26 +26,15 @@ import { BW, C, FONT, R, S } from '@/theme';
 export function GameFrame({
   children,
   footer,
-  center = false,
 }: {
   children: React.ReactNode;
   /** 下に貼り付けるもの。決める口が無い場面では省く */
   footer?: React.ReactNode;
-  /** 中身が短い回だけ、上下まんなかに置く。
-      1枚ずつ札を見せるゲーム（仕分け）のように、**見るものが1つしか
-      無い**場面用。伸びる一覧に使うと、増えるたびに位置が動いて読みにくい */
-  center?: boolean;
 }) {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
-        contentContainerStyle={{
-          padding: S.lg,
-          paddingBottom: footer ? S.lg : S.xxl,
-          /* 中身が画面より短いときだけ効く。長いときは伸びるだけで
-             位置は変わらない（flexGrow なので縮まない） */
-          ...(center ? { flexGrow: 1, justifyContent: 'center' as const } : null),
-        }}
+        contentContainerStyle={{ padding: S.lg, paddingBottom: footer ? S.lg : S.xxl }}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled">
         {children}
