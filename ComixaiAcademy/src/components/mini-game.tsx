@@ -747,6 +747,20 @@ function Gauge({ count, min, max, ok }: { count: number; min: number; max: numbe
 
 /* ———————————————— トークン系のプレイ画面 ———————————————— */
 
+/* 凡例に置く、本物と同じ見た目の小さなチップ。
+   「漢字 2」のように末尾へ数字を渡すと、本物と同じ黄色の小さな数字になる */
+function LegendChip({ bg, fg, label }: { bg: string; fg: string; label: string }) {
+  const [text, n] = label.split(' ');
+  return (
+    <View style={{ backgroundColor: bg, borderRadius: R.xs, paddingHorizontal: 5, paddingVertical: 2 }}>
+      <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: fg }}>
+        {text}
+        {n ? <Text style={{ fontSize: 8, color: C.yellow400 }}> {n}</Text> : null}
+      </Text>
+    </View>
+  );
+}
+
 function TokenPlay({
   spec,
   onClear,
@@ -927,6 +941,20 @@ function TokenPlay({
             <Text style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: 1.5, color: C.yellow400 }}>
               AI SEES
             </Text>
+            {/* ▍凡例はチップの隣に置く
+                白と赤の意味は、直前のカードでしか言っていなかった。
+                読み飛ばしてゲームに入ると、色の意味が分からないまま
+                眺めることになる。**見る場所に、見方を書いておく** */}
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}>
+              <LegendChip bg={C.paper50} fg={C.ink900} label="あ" />
+              <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.ink300 }}>
+                ＝1トークン
+              </Text>
+              <LegendChip bg={C.red500} fg={C.paper0} label="漢字 2" />
+              <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.ink300 }}>
+                ＝数字ぶんのトークンで1つ
+              </Text>
+            </View>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
               {chips.map((c, i) => {
                 const isNew = i >= prevChips.current;
