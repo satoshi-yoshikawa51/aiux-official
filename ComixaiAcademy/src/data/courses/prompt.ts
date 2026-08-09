@@ -454,6 +454,22 @@ export const PROMPT: Course = {
           motion: 'laugh',
           emote: 'sparkle',
         },
+        {
+          say: '役割を使うのは、ここからが本番だ。自分で書いて渡してみろ。',
+          motion: 'arms-crossed',
+          emote: 'target',
+          heading: '書いて、渡してみる',
+          body: '役割を与えて、自分の企画か文章の弱点を洗い出させる指示を書いてください。本物のAIに渡して、指示そのものを採点します。通らなくても先に進めます。',
+          interactive: {
+            kind: 'ai-prompt',
+            exerciseId: 'prompt-role',
+            brief: '役割を与えて、自分の企画や文章の弱点を洗い出させる指示を書く',
+            pass: 70,
+            presets: [
+              'あなたは辛口だが的確な編集者です。次の企画に対して、読者が離脱しそうな箇所と設定の矛盾を、褒めずに5点だけ指摘してください。改善案は要りません。\n\n【企画】',
+            ],
+          },
+        },
       ],
       quiz: [
         {
