@@ -140,11 +140,14 @@ export function PopIn({
 
 export function Bump({
   value,
+  /** どこまで大きくなるか。小さい部品ほど控えめにする */
+  scale = 1.28,
   children,
   style,
 }: {
   /** これが変わるたびに跳ねる */
   value: number | string;
+  scale?: number;
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
 }) {
@@ -172,7 +175,7 @@ export function Bump({
     <Animated.View
       style={[
         style,
-        { transform: [{ scale: t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [1, 1.28, 1] }) }] },
+        { transform: [{ scale: t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [1, scale, 1] }) }] },
       ]}>
       {children}
     </Animated.View>
@@ -188,10 +191,15 @@ export function Stamp({
   children,
   /** 傾き（度） */
   tilt = -8,
+  /** どこから落ちてくるか（倍率）。小さい判子ほど落差を控えめにする */
+  from = 2.2,
+  duration = 420,
   style,
 }: {
   children: React.ReactNode;
   tilt?: number;
+  from?: number;
+  duration?: number;
   style?: StyleProp<ViewStyle>;
 }) {
   const t = React.useRef(new Animated.Value(0)).current;
@@ -199,13 +207,13 @@ export function Stamp({
   React.useEffect(() => {
     const a = Animated.timing(t, {
       toValue: 1,
-      duration: 420,
+      duration,
       easing: Easing.out(Easing.back(3)),
       useNativeDriver: NATIVE,
     });
     a.start();
     return () => a.stop();
-  }, [t]);
+  }, [t, duration]);
 
   return (
     <Animated.View
@@ -214,7 +222,7 @@ export function Stamp({
         {
           opacity: t.interpolate({ inputRange: [0, 0.3, 1], outputRange: [0, 1, 1] }),
           transform: [
-            { scale: t.interpolate({ inputRange: [0, 1], outputRange: [2.2, 1] }) },
+            { scale: t.interpolate({ inputRange: [0, 1], outputRange: [from, 1] }) },
             { rotate: `${tilt}deg` },
           ],
         },

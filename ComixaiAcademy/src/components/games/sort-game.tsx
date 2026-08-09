@@ -16,7 +16,7 @@
    考えるより当てにいくようになる。外した札は最後にまとめて見せる。
    ============================================================ */
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Animated, Easing, Platform, Text, useWindowDimensions, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { Bump, PopIn, SlideIn, useSparkBurst } from '@/components/motion';
@@ -35,28 +35,57 @@ interface Judged {
   ok: boolean;
 }
 
+/* 札が箱に入るまでの時間。**伸ばさない**。
+   ここが長いと、6枚さばくあいだずっと待たされることになる */
+const FLY_MS = 300;
+const NATIVE = Platform.OS !== 'web';
+
 export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
   const elapsed = useGameClock();
+  const { width } = useWindowDimensions();
   const [at, setAt] = React.useState(0);
   const [done, setDone] = React.useState<Judged[]>([]);
   /* 直前の1枚の判定。次の札が出るまで出しっぱなしにする */
   const [last, setLast] = React.useState<Judged | null>(null);
 
-  const item = spec.items[at];
+  /* ▍札が「箱に入る」ところを見せる
+     もとは押した瞬間に消えて次が出るだけで、**振り分けた手ごたえが
+     どこにも無かった**。左右どちらに入れたのかも、絵として残らない。
+     飛んでいるあいだは古い札を出したままにして、着いてから次を配る。 */
+  const fly = React.useRef(new Animated.Value(0)).current;
+  const [flying, setFlying] = React.useState<{ judged: Judged; dir: -1 | 1 } | null>(null);
+
+  const item = flying ? flying.judged.item : spec.items[at];
   const misses = done.filter((d) => !d.ok).length;
   const finished = at >= spec.items.length;
   const passed = finished && misses <= spec.allow;
 
   const answer = (toRight: boolean, x: number, y: number) => {
-    if (!item) return;
+    /* 飛んでいる最中は受け付けない。連打で2枚まとめて飛ぶのを防ぐ */
+    if (!item || flying) return;
     const ok = toRight === item.right;
     const j = { item, ok };
-    setLast(j);
-    setDone((v) => [...v, j]);
-    setAt((n) => n + 1);
     playSound(ok ? 'right' : 'wrong');
     if (ok) burst(x, y, 1.2);
+
+    setFlying({ judged: j, dir: toRight ? 1 : -1 });
+    fly.setValue(0);
+    Animated.timing(fly, {
+      toValue: 1,
+      duration: FLY_MS,
+      /* 投げたものが落ちる感じ。等速だと紙が滑って見える */
+      easing: Easing.in(Easing.quad),
+      useNativeDriver: NATIVE,
+    }).start(({ finished }) => {
+      if (!finished) return;
+      /* 着いてから判定を出す。飛ぶ前に出すと、答えが先に見えてしまう */
+      setLast(j);
+      setDone((v) => [...v, j]);
+      setAt((n) => n + 1);
+      setFlying(null);
+      fly.setValue(0);
+    });
   };
 
   if (finished) {
@@ -162,34 +191,100 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
         </PopIn>
       ) : null}
 
-      {/* いま見る1枚。**紙の色にして、黒地から浮かせる** */}
+      {/* いま見る1枚。**紙の色にして、黒地から浮かせる**。
+          答えると、選んだ箱のほうへ落ちていく */}
       <PopIn key={`card${at}`}>
-        <View
+        <Animated.View
           style={{
-            backgroundColor: C.paper0,
-            borderWidth: BW.bold,
-            borderColor: C.ink900,
-            borderRadius: R.md,
-            padding: S.lg,
-            minHeight: 132,
-            justifyContent: 'center',
+            opacity: fly.interpolate({ inputRange: [0, 0.75, 1], outputRange: [1, 0.9, 0] }),
+            transform: [
+              {
+                translateX: fly.interpolate({
+                  inputRange: [0, 1],
+                  /* 画面の外まで。箱の向こうへ抜けたように見せる */
+                  outputRange: [0, (flying?.dir ?? 1) * width * 0.85],
+                }),
+              },
+              {
+                /* 少し持ち上がってから落ちる。まっすぐ横だと紙に見えない */
+                translateY: fly.interpolate({
+                  inputRange: [0, 0.35, 1],
+                  outputRange: [0, -18, 46],
+                }),
+              },
+              {
+                rotate: fly.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ['0deg', `${(flying?.dir ?? 1) * 16}deg`],
+                }),
+              },
+              { scale: fly.interpolate({ inputRange: [0, 1], outputRange: [1, 0.82] }) },
+            ],
           }}>
-          <Text style={{ fontFamily: FONT.body, fontSize: 15, lineHeight: 25, color: C.ink900 }}>
-            {item.text}
-          </Text>
-        </View>
+          <View
+            style={{
+              backgroundColor: C.paper0,
+              borderWidth: BW.bold,
+              /* 入れた瞬間だけ縁が色づく。当たりは黄、外れは赤 */
+              borderColor: flying ? (flying.judged.ok ? C.yellow400 : C.red500) : C.ink900,
+              borderRadius: R.md,
+              padding: S.lg,
+              minHeight: 132,
+              justifyContent: 'center',
+            }}>
+            <Text style={{ fontFamily: FONT.body, fontSize: 15, lineHeight: 25, color: C.ink900 }}>
+              {item.text}
+            </Text>
+          </View>
+        </Animated.View>
       </PopIn>
 
-      {/* 左右の箱。押した指のところから星が出る */}
+      {/* 左右の箱。押した指のところから星が出る。
+          札が入っていく側の箱は、受け止めるように光る */}
       <View style={{ flexDirection: 'row', gap: S.sm }}>
-        <GameButton
-          label={spec.left}
-          tone="ghost"
-          style={{ flex: 1 }}
-          onPress={(x, y) => answer(false, x, y)}
-        />
-        <GameButton label={spec.right} style={{ flex: 1 }} onPress={(x, y) => answer(true, x, y)} />
+        <Catcher on={flying?.dir === -1} style={{ flex: 1 }}>
+          <GameButton label={spec.left} tone="ghost" onPress={(x, y) => answer(false, x, y)} />
+        </Catcher>
+        <Catcher on={flying?.dir === 1} style={{ flex: 1 }}>
+          <GameButton label={spec.right} onPress={(x, y) => answer(true, x, y)} />
+        </Catcher>
       </View>
     </View>
+  );
+}
+
+/* 札を受け止める側の箱。入ってくるあいだだけ、ぐっと持ち上がる。
+   **どちらに入れたのか**を絵で残すのが役目 */
+function Catcher({
+  on,
+  style,
+  children,
+}: {
+  on: boolean;
+  style?: React.ComponentProps<typeof View>['style'];
+  children: React.ReactNode;
+}) {
+  const v = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    Animated.timing(v, {
+      toValue: on ? 1 : 0,
+      duration: on ? 140 : 220,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: NATIVE,
+    }).start();
+  }, [on, v]);
+  return (
+    <Animated.View
+      style={[
+        style,
+        {
+          transform: [
+            { translateY: v.interpolate({ inputRange: [0, 1], outputRange: [0, -6] }) },
+            { scale: v.interpolate({ inputRange: [0, 1], outputRange: [1, 1.04] }) },
+          ],
+        },
+      ]}>
+      {children}
+    </Animated.View>
   );
 }

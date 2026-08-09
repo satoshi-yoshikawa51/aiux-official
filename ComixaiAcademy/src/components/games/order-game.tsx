@@ -15,7 +15,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { PopIn, useSparkBurst, useTap } from '@/components/motion';
+import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
@@ -68,10 +68,17 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
     <View style={{ gap: S.md }}>
       <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
 
-      {/* 組み上がった順番 */}
+      {/* ———— 組み上がった順番 ————
+           **下から押し上げるように積む**。もとはその場でポンと出るだけで、
+           「工程が積み上がっていく」絵になっていなかった。
+           いちばん新しい1枚だけ、少し大きめに入ってくる */}
       <View style={{ gap: 6 }}>
         {placed.map((si, n) => (
-          <PopIn key={si}>
+          <SlideIn
+            key={si}
+            from="bottom"
+            distance={n === placed.length - 1 ? 22 : 0}
+            duration={n === placed.length - 1 ? 280 : 0}>
             <View
               style={{
                 flexDirection: 'row',
@@ -90,8 +97,14 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
               <Text style={{ fontFamily: FONT.body, fontSize: 13.5, color: C.ink900, flex: 1 }}>
                 {spec.steps[si].name}
               </Text>
+              {/* 積んだ印。いちばん新しい1枚に判子を落とす */}
+              {n === placed.length - 1 ? (
+                <Stamp tilt={-10} from={1.8} duration={240}>
+                  <Icon name="check" size={14} color={C.ink900} />
+                </Stamp>
+              ) : null}
             </View>
-          </PopIn>
+          </SlideIn>
         ))}
       </View>
 

@@ -15,7 +15,7 @@
    容量だけ見ると「軽いものだけ載せる」が最適解になってしまう。
    ============================================================ */
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Animated, Easing, Platform, Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { Bump, PopIn, useSparkBurst, useTap } from '@/components/motion';
@@ -27,6 +27,8 @@ import { GameButton, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'fit' }>;
+
+const NATIVE = Platform.OS !== 'web';
 
 export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
@@ -54,12 +56,40 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
 
   const pct = Math.min(100, Math.round((used / spec.capacity) * 100));
 
+  /* 埋まり具合を滑らかに動かす。載せた瞬間に伸び、降ろすと縮む */
+  const fill = React.useRef(new Animated.Value(pct)).current;
+  React.useEffect(() => {
+    Animated.timing(fill, {
+      toValue: pct,
+      duration: 260,
+      easing: Easing.out(Easing.cubic),
+      /* 幅（%）はネイティブドライバに載らない */
+      useNativeDriver: false,
+    }).start();
+  }, [pct, fill]);
+
+  /* はみ出した瞬間だけ、机を揺らす。数字の色が変わるだけでは弱い */
+  const shake = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    if (!over) return;
+    shake.setValue(0);
+    Animated.sequence([
+      Animated.timing(shake, { toValue: 1, duration: 55, useNativeDriver: NATIVE }),
+      Animated.timing(shake, { toValue: -1, duration: 55, useNativeDriver: NATIVE }),
+      Animated.timing(shake, { toValue: 0, duration: 55, useNativeDriver: NATIVE }),
+    ]).start();
+  }, [over, shake]);
+
   return (
     <View style={{ gap: S.md }}>
       <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
 
       {/* 机の埋まり具合 */}
-      <View style={{ gap: 6 }}>
+      <Animated.View
+        style={{
+          gap: 6,
+          transform: [{ translateX: shake.interpolate({ inputRange: [-1, 1], outputRange: [-7, 7] }) }],
+        }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
           <Bump value={used}>
             <Text
@@ -75,6 +105,10 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
             つくえの広さ {spec.capacity}
           </Text>
         </View>
+        {/* ▍机が埋まっていくところを見せる
+             もとは幅が瞬間で切り替わるだけで、**載せた・降ろしたが
+             絵にならなかった**。伸び縮みさせると、資料が場所を取っている
+             感じが出る。幅はネイティブドライバに載らないので false */}
         <View
           style={{
             height: 14,
@@ -84,9 +118,9 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
             borderColor: over ? C.red500 : C.ink700,
             overflow: 'hidden',
           }}>
-          <View
+          <Animated.View
             style={{
-              width: `${pct}%`,
+              width: fill.interpolate({ inputRange: [0, 100], outputRange: ['0%', '100%'] }),
               height: '100%',
               backgroundColor: over ? C.red500 : C.yellow400,
             }}
@@ -97,7 +131,7 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
             机からはみ出しています。古いものから忘れられます。
           </Text>
         ) : null}
-      </View>
+      </Animated.View>
 
       {/* 載せる資料 */}
       <View style={{ gap: 6 }}>

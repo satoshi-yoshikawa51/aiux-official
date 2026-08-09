@@ -19,7 +19,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { PopIn, useTap } from '@/components/motion';
+import { Bump, PopIn, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
@@ -127,8 +127,12 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
 /* 部品の札。選ぶと黄色く反転する */
 function PartChip({ label, on, onPress }: { label: string; on: boolean; onPress: () => void }) {
   const { pressed, onPressIn, onPressOut } = useTap({ scale: 0.8 });
+  /* ▍選んだ札は「はまる」
+     色が変わるだけだと選択に見えて、部品を組んでいる感じが出ない。
+     選ばれた瞬間だけ、いちど大きくなってから収まる（Bump） */
   return (
     <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress}>
+      <Bump value={on ? 1 : 0} scale={1.14}>
       <View
         style={{
           backgroundColor: on ? C.yellow400 : pressed ? C.ink800 : 'transparent',
@@ -148,6 +152,7 @@ function PartChip({ label, on, onPress }: { label: string; on: boolean; onPress:
           {label}
         </Text>
       </View>
+      </Bump>
     </Pressable>
   );
 }

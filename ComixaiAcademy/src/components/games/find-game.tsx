@@ -16,7 +16,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { PopIn, useSparkBurst, useTap } from '@/components/motion';
+import { PopIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
 import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
@@ -167,8 +167,28 @@ function FindLine({
         <Text style={{ fontFamily: FONT.body, fontSize: 13.5, lineHeight: 22, color: C.ink900, flex: 1 }}>
           {text}
         </Text>
+        {/* ▍摘発は判子で押す
+             色が変わるだけだと「選んだ」にしか見えない。**捕まえた**という
+             絵にしたいので、斜めの判子を落とす（マンガの記号） */}
         {state !== 'plain' ? (
-          <Icon name={state === 'hit' ? 'check' : 'close'} size={13} color={C.ink900} />
+          <Stamp tilt={state === 'hit' ? -8 : 6} from={1.9} duration={220}>
+            <View
+              style={{
+                borderWidth: BW.line,
+                borderColor: C.ink900,
+                borderRadius: R.xs,
+                paddingHorizontal: 5,
+                paddingVertical: 1,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 3,
+              }}>
+              <Icon name={state === 'hit' ? 'check' : 'close'} size={10} color={C.ink900} />
+              <Text style={{ fontFamily: FONT.mono, fontSize: 9, color: C.ink900, letterSpacing: 0.5 }}>
+                {state === 'hit' ? 'HIT' : 'MISS'}
+              </Text>
+            </View>
+          </Stamp>
         ) : null}
       </View>
     </Pressable>
