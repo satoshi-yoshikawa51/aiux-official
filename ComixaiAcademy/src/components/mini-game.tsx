@@ -85,51 +85,56 @@ export interface GameMeta {
   how: string;
 }
 
+/* ▍名前は「何をするゲームか」がそのまま分かる形にする
+   もとは「仕分け」「指示を組む」のような名詞で、**遊びの種類は
+   分かっても、何をしたら正解なのかが伝わらなかった**（実機で
+   「これどういう意図？何したら正解？」の声）。タイトル画面でも
+   上の帯でも、名前だけで目的が立つように「〜しよう」で揃える */
 export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
   sort: {
-    name: '仕分け',
+    name: '正しく仕分けよう',
     icon: 'target',
-    rule: '2つの箱に振り分ける',
+    rule: '札を2つの箱に振り分ける',
     how: '1枚ずつ出てくる札を、左右どちらの箱に入れるか決めます',
   },
   find: {
-    name: '検問',
+    name: '危ない行を見つけよう',
     icon: 'shield',
-    rule: '危ない行を見つける',
+    rule: '文書を検問する',
     how: '文書を読んで、あやしい行をタップして摘発します',
   },
   build: {
-    name: '指示を組む',
+    name: 'AIに適切な指示を出そう',
     icon: 'hammer',
-    rule: '部品を選んで指示にする',
+    rule: '部品を選んで指示を強くする',
     how: '札を選ぶたびに、AIの返しがその場で変わります',
   },
   order: {
-    name: '手順を組む',
+    name: '正しい順に並べよう',
     icon: 'compass',
-    rule: '正しい順に並べる',
+    rule: '仕事の手順を組む',
     how: '「つぎにやること」を選んでいくと、手順が組み上がります',
   },
   fit: {
-    name: 'つくえの上',
+    name: '要るものだけ載せよう',
     icon: 'folder',
-    rule: '限られた広さに詰める',
+    rule: 'AIの机は広さに限りがある',
     how: 'AIの作業机は狭い。要るものだけを載せてください',
   },
   tokenizer: {
-    name: 'トークナイザー',
+    name: 'AIの目で見てみよう',
     icon: 'pen',
-    rule: 'AIの切れ目を見る',
+    rule: '文章の切れ目をのぞく',
     how: '好きに打つと、AIから見た区切りが出ます。合否はありません',
   },
   'token-budget': {
-    name: 'トークン収め',
+    name: 'トークンを枠に収めよう',
     icon: 'target',
-    rule: '決められた幅に収める',
+    rule: '書いて削って幅に収める',
     how: '書いて削って、決められたトークン数に収めてください',
   },
   'ai-prompt': {
-    name: 'AIに指示を出す',
+    name: '本物のAIに指示を出そう',
     icon: 'bulb',
     rule: '書いて、渡して、採点される',
     how: '本物のAIに指示を渡します。返ってきたものと指示が採点されます',
@@ -555,8 +560,10 @@ function ClearScreen({
       ) : null}
 
       <SlideIn from="bottom" distance={14} delay={460}>
+        {/* ゲーム名は上の帯に出ている。「〜しよう、突破」だと文が
+            ねじれるので、ここでは名前を繰り返さない */}
         <Text style={[F.hand, { fontSize: 15, color: C.paper100, textAlign: 'center' }]}>
-          {perfect ? `${meta.name}、ノーミス突破。` : `${meta.name}、突破。`}
+          {perfect ? 'ノーミスで突破。' : '突破した。'}
         </Text>
       </SlideIn>
 

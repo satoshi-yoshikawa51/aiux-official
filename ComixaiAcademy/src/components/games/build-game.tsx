@@ -64,7 +64,16 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
         ) : undefined
       }>
     <View style={{ gap: S.lg }}>
-      <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
+      {/* ▍お題と「何をしたら正解か」を、最初に両方言う
+          お題（場面）だけだと、押して何が起きるのか・どうなれば
+          合格なのかが分からない（実機で「これどういう意図？
+          何したら正解？」の声）。仕組みと合格条件はここに固定で書く */}
+      <View style={{ gap: 6 }}>
+        <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
+        <Text style={[F.hand, { fontSize: 12.5, lineHeight: 20, color: C.ink300 }]}>
+          札を押すと、AIの返しがその場で変わります。読み比べて、いちばん効く組み合わせにして「これで決める」。あいまいな札のまま決めるとミスです。
+        </Text>
+      </View>
 
       {spec.slots.map((slot, si) => (
         <View key={slot.label} style={{ gap: S.sm }}>
