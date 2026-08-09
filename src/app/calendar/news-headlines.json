@@ -1,7 +1,31 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-08T21:59:21.336Z",
+  "updatedAt": "2026-08-09T22:01:22.085Z",
   "items": [
+    {
+      "title": "シャープ、コスト高で通期下方修正も、最終黒字確保--AIサーバーで反転攻勢へ",
+      "url": "https://japan.zdnet.com/article/35251435/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-09T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/08/5ddf3065362df31d6d3b738ccc38d0fb/260807_sharp_l.jpg"
+    },
+    {
+      "title": "シャープが2026年9月からAIサーバ事業を開始、2026年度業績は円安で下方修正",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2608/10/news042.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-09T21:15:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2608/10/cover_news042.jpg"
+    },
+    {
+      "title": "「Agent Plugins 1.0.0」発表、異なるAIエージェント間でもスキルやMCPサーバ設定が共通化へ。マイクロソフト、OpenAI、AWS、Googleらがサポート",
+      "url": "https://www.publickey1.jp/blog/26/agent_plugins_100aimcpopenaiawsgoogle.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-09T15:19:33.000Z",
+      "image": "https://www.publickey1.jp/2026/agentplugins-v100-01.png"
+    },
     {
       "title": "OpenAI acquires presentation startup NextSlide",
       "url": "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/",
@@ -38,16 +62,6 @@
       "image": "https://techcrunch.com/wp-content/uploads/2026/02/zuckerberg-LA-trial-2026-GettyImages-2261841364.jpg?w=1024"
     },
     {
-      "title": "本物と偽物を混ぜた演奏も。エリック・サティ様式の自動生成アプリ「無限サティ機関」をClaude Codeで作って公開した（CloseBox） | テクノエッジ TechnoEdge",
-      "url": "https://www.techno-edge.net/article/2026/08/08/5373.html",
-      "source": "テクノエッジ",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 150,
-      "date": "2026-08-07T23:18:57.000Z",
-      "image": "https://www.techno-edge.net/imgs/ogp_f/33426.png"
-    },
-    {
       "title": "OpenAI、次期モデル「Astra」の一部開発を停止 「Critical」級サイバー能力の可能性否定できず",
       "url": "https://www.itmedia.co.jp/news/article/2608/08/2000000459/",
       "source": "ITmedia AI＋",
@@ -63,6 +77,15 @@
       "date": "2026-08-07T18:40:34.000Z",
       "titleJa": "OpenAI、新モデルが強力すぎるとしてブレーキをかける",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/04/STK155_OPEN_AI_CVirginia_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "ByteDance trains massive AI model in bid to rival Anthropic",
+      "url": "https://arstechnica.com/ai/2026/08/bytedance-trains-massive-ai-model-in-bid-to-rival-anthropic/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-08-07T13:29:22.000Z",
+      "titleJa": "ByteDance は Anthropic に対抗するために大規模な AI モデルをトレーニングします",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/bytedance-1152x648.jpg"
     },
     {
       "title": "シャープ、通期純利益見通し170億円下方修正 円安など影響 AIサーバは9月に参入",
@@ -81,28 +104,12 @@
       "image": "https://japan.cnet.com/storage/2026/08/07/d7f4ec59ad7f7a8c2411219aaf22ba47/GettyImages-2278960510_1280x960.jpg"
     },
     {
-      "title": "PFNの国産LLM「PLaMo 3.0 Prime」、さくらのAI推論基盤で提供開始 利用は申請制",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/07/2000000443/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-07T04:07:21.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/07/2000000443/10002112/2048"
-    },
-    {
       "title": "リコージャパン、営業支援AIで30年度に60億円へ ナレッジワークと提携",
       "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03334/",
       "source": "日経クロステック",
       "lang": "ja",
       "date": "2026-08-07T02:00:00.000Z",
       "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03334/Topm.JPG?20220512"
-    },
-    {
-      "title": "無料版「ChatGPT」で無限の会話が可能に、新モデル「GPT‑5.6 Luna」も開放",
-      "url": "https://japan.cnet.com/article/35251396/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-07T01:01:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/04/15/2a6b55cebde5827ed09ad7d3fe0f68bd/gptgpt-4_1280x960.jpg"
     },
     {
       "title": "OpenAI’s new AI smart speaker will reportedly sell for between $300 and $400",
@@ -112,14 +119,6 @@
       "date": "2026-08-06T22:43:53.000Z",
       "titleJa": "OpenAIの新しいAIスマートスピーカーは300ドルから400ドルで販売されると報じられている",
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-in-Seoul.jpg?w=1024"
-    },
-    {
-      "title": "Improving GPT‑5.6 Sol in ChatGPT—and expanding access to GPT-5.6 Luna for free users",
-      "url": "https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-08-06T10:00:00.000Z",
-      "titleJa": "ChatGPT の GPT-5.6 Sol を改善し、無料ユーザー向けに GPT-5.6 Luna へのアクセスを拡大"
     }
   ]
 }
