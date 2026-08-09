@@ -45,7 +45,22 @@ export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const navigation = useNavigation();
-  const { state, completeLesson, answerQuiz } = useProgress();
+  const { state, ready, completeLesson, answerQuiz, markTutorialSeen } = useProgress();
+
+  /* ▍レッスンを開いたら、ホームの案内は「見た」ことにする
+     ふつうの操作では案内中に画面へ触れない（(tabs)/_layout.tsx が
+     全面を止めている）が、**Webで共有されたレッスンURLを直接ひらく**と
+     案内を素通りできる。その人が次にホームへ来たとき、もうレッスンを
+     終えているのに案内が1/6から始まるのは変なので、ここで印を立てる。
+     レッスンを開いた時点で、案内の役目は終わっている。
+     ready を待つのは復習画面と同じ理由——読み込み前に書くと、
+     空の記録に上書き保存してしまう */
+  const tutMarked = React.useRef(false);
+  React.useEffect(() => {
+    if (!ready || tutMarked.current || state.seenTutorial) return;
+    tutMarked.current = true;
+    markTutorialSeen();
+  }, [ready, state.seenTutorial, markTutorialSeen]);
   const stats = useStats();
   const { width } = useWindowDimensions();
 
