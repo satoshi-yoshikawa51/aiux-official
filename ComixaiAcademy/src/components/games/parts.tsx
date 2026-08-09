@@ -6,10 +6,65 @@
    「色が変わって少し縮む」で押した手ごたえを出している。
    ============================================================ */
 import React from 'react';
-import { Pressable, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, ScrollView, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { useTap } from '@/components/motion';
 import { BW, C, FONT, R, S } from '@/theme';
+
+/* ============================================================
+   ゲーム1本ぶんの器。**押して決める口は、下に貼り付ける。**
+
+   もとは中身をぜんぶ縦に流していただけなので、札が少ない回では
+   「これで決める」が画面の上のほうに残り、**下の3分の2が丸ごと
+   空いていた**。親指の届くところに無いうえ、画面のどこを見れば
+   いいのかも回ごとに変わる。
+
+   打つゲーム（トークン収め・AIに指示を出す）は前から下に帯を
+   持っていたので、残りもそちらに揃える。帯があるぶんの高さは
+   本文の下に自動で空くので、隠れない。
+   ============================================================ */
+export function GameFrame({
+  children,
+  footer,
+  center = false,
+}: {
+  children: React.ReactNode;
+  /** 下に貼り付けるもの。決める口が無い場面では省く */
+  footer?: React.ReactNode;
+  /** 中身が短い回だけ、上下まんなかに置く。
+      1枚ずつ札を見せるゲーム（仕分け）のように、**見るものが1つしか
+      無い**場面用。伸びる一覧に使うと、増えるたびに位置が動いて読みにくい */
+  center?: boolean;
+}) {
+  return (
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        contentContainerStyle={{
+          padding: S.lg,
+          paddingBottom: footer ? S.lg : S.xxl,
+          /* 中身が画面より短いときだけ効く。長いときは伸びるだけで
+             位置は変わらない（flexGrow なので縮まない） */
+          ...(center ? { flexGrow: 1, justifyContent: 'center' as const } : null),
+        }}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
+        {children}
+      </ScrollView>
+      {footer ? (
+        <View
+          style={{
+            borderTopWidth: BW.line,
+            borderTopColor: C.ink800,
+            backgroundColor: C.ink900,
+            padding: S.lg,
+            gap: S.sm,
+          }}>
+          {footer}
+        </View>
+      ) : null}
+    </View>
+  );
+}
 
 export function GameButton({
   label,
@@ -35,6 +90,9 @@ export function GameButton({
       onPressOut={onPressOut}
       onPress={(e) => onPress(e.nativeEvent.pageX, e.nativeEvent.pageY)}
       disabled={disabled}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: !!disabled }}
       style={style}>
       <View
         style={{
@@ -83,33 +141,27 @@ export function GameButton({
 
    ここで大事なのは、**何を外したのかを具体的に言うこと**。
    「もう一度」とだけ出すと、当てにいく遊びになる。
+
+   ▍「もう一度」の口はここに置かない
+   決める口はぜんぶ下の帯（GameFrame の footer）に集めてある。
+   ここは**読ませる札**で、押すところは下、と場所を分ける。
    ============================================================ */
-export function TryAgain({
-  reason,
-  onRetry,
-}: {
-  /** 何が足りなかったのか。1〜2行で具体的に */
-  reason: string;
-  onRetry: (x: number, y: number) => void;
-}) {
+export function TryAgain({ reason }: { /** 何が足りなかったのか。1〜2行で具体的に */ reason: string }) {
   return (
-    <View style={{ gap: S.md }}>
-      <View
-        style={{
-          borderWidth: BW.bold,
-          borderColor: C.red500,
-          borderRadius: R.md,
-          padding: S.md,
-          gap: 6,
-        }}>
-        <Text style={{ fontFamily: FONT.display, fontSize: 20, color: C.red500, letterSpacing: 1 }}>
-          TRY AGAIN
-        </Text>
-        <Text style={{ fontFamily: FONT.body, fontSize: 13.5, lineHeight: 22, color: C.paper100 }}>
-          {reason}
-        </Text>
-      </View>
-      <GameButton label="もう一度" onPress={onRetry} />
+    <View
+      style={{
+        borderWidth: BW.bold,
+        borderColor: C.red500,
+        borderRadius: R.md,
+        padding: S.md,
+        gap: 6,
+      }}>
+      <Text style={{ fontFamily: FONT.display, fontSize: 20, color: C.red500, letterSpacing: 1 }}>
+        TRY AGAIN
+      </Text>
+      <Text style={{ fontFamily: FONT.body, fontSize: 13.5, lineHeight: 22, color: C.paper100 }}>
+        {reason}
+      </Text>
     </View>
   );
 }

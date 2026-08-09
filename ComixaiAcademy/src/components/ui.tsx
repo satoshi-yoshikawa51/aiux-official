@@ -464,7 +464,13 @@ export function Pill({ label, style }: { label: string; style?: StyleProp<ViewSt
         },
         style,
       ]}>
-      <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 1, color: C.ink900 }}>
+      {/* ▍ここだけ文字の拡大に上限をつける
+          端末の文字サイズ設定は本文には効かせたい。ただし丸い札の中の
+          2〜3文字（NEXT / REVIEW）は、2倍まで伸びると札が折り返して
+          隣の見出しを押し出す。**中身が飾りのものだけ**頭打ちにする */}
+      <Text
+        maxFontSizeMultiplier={1.3}
+        style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 1, color: C.ink900 }}>
         {label}
       </Text>
     </View>
@@ -639,6 +645,11 @@ export function Button({
       onPressIn={onPressIn}
       onPressOut={onPressOut}
       onPress={onPress}
+      /* 読み上げに「ボタン」と「押せるかどうか」を渡す。
+         中の Text は Pressable の中に埋もれるので、名前は明示する */
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: !!disabled }}
       style={style}>
       {flat ? (
         <View style={sinkFlat(pressed && !disabled)}>{face}</View>
@@ -691,7 +702,10 @@ export function Badge({
         },
         style,
       ]}>
-      <Text style={{ fontFamily: FONT.heading, fontSize: 12, color: t.fg, letterSpacing: 0.3 }}>
+      {/* 札の中は「修了」「職種別」のような短い印。Pill と同じ理由で頭打ち */}
+      <Text
+        maxFontSizeMultiplier={1.3}
+        style={{ fontFamily: FONT.heading, fontSize: 12, color: t.fg, letterSpacing: 0.3 }}>
         {children}
       </Text>
     </View>
@@ -806,7 +820,13 @@ export function Bubble({
 export function Progress({ value, total }: { value: number; total: number }) {
   const pct = total > 0 ? Math.min(100, Math.round((value / total) * 100)) : 0;
   return (
-    <View style={styles.barTrack}>
+    /* 進み具合は色の長さでしか出ていないので、読み上げには数で渡す */
+    <View
+      style={styles.barTrack}
+      accessible
+      accessibilityRole="progressbar"
+      accessibilityLabel={`${total}本中 ${value}本`}
+      accessibilityValue={{ min: 0, max: total, now: value }}>
       <View style={[styles.barFill, { width: `${pct}%` }]} />
     </View>
   );
@@ -841,7 +861,16 @@ export function PressCard({
   const { pressed, onPressIn, onPressOut } = useTap();
   const down = pressed && !disabled;
   return (
-    <Pressable disabled={disabled} onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress}>
+    <Pressable
+      disabled={disabled}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      /* 名前は中の文字がそのまま読まれる（レッスン名・職種名など）。
+         ここで渡すのは「押せる」「いま選ばれている」だけ */
+      accessible
+      accessibilityRole="button"
+      accessibilityState={{ disabled: !!disabled, selected: !!selected }}>
       <Pop
         offset={down ? 0 : POP.sm}
         radius={R.md}

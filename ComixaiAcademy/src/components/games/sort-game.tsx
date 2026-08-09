@@ -24,7 +24,7 @@ import type { LessonInteractive, SortItem } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton } from './parts';
+import { GameButton, GameFrame } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'sort' }>;
@@ -90,6 +90,24 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
 
   if (finished) {
     return (
+      <GameFrame
+        footer={
+          passed ? (
+            <GameButton
+              label="これで決める"
+              onPress={() => onClear({ misses, allow: spec.allow, ms: elapsed() })}
+            />
+          ) : (
+            <GameButton
+              label="もう一度"
+              onPress={() => {
+                setAt(0);
+                setDone([]);
+                setLast(null);
+              }}
+            />
+          )
+        }>
       <View style={{ gap: S.md }}>
         <PopIn>
           <View
@@ -138,28 +156,29 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
             </SlideIn>
           ))}
 
-        <View style={{ gap: S.sm, marginTop: S.xs }}>
-          {passed ? (
-            <GameButton
-              label="これで決める"
-              onPress={() => onClear({ misses, allow: spec.allow, ms: elapsed() })}
-            />
-          ) : (
-            <GameButton
-              label="もう一度"
-              onPress={() => {
-                setAt(0);
-                setDone([]);
-                setLast(null);
-              }}
-            />
-          )}
-        </View>
       </View>
+      </GameFrame>
     );
   }
 
   return (
+    <GameFrame
+      /* 見るものは札1枚だけなので、上下まんなかに置く */
+      center
+      /* ▍箱は下に貼り付ける
+         札とセットで縦に流していたので、**札が短い回では箱が画面の
+         まんなかに来て、下半分が空いていた**。どの回でも同じ場所に
+         あるほうが、続けて振り分けるときに手が迷わない */
+      footer={
+        <View style={{ flexDirection: 'row', gap: S.sm }}>
+          <Catcher on={flying?.dir === -1} style={{ flex: 1 }}>
+            <GameButton label={spec.left} tone="ghost" onPress={(x, y) => answer(false, x, y)} />
+          </Catcher>
+          <Catcher on={flying?.dir === 1} style={{ flex: 1 }}>
+            <GameButton label={spec.right} onPress={(x, y) => answer(true, x, y)} />
+          </Catcher>
+        </View>
+      }>
     <View style={{ gap: S.md }}>
       {/* 残り枚数と、間違えられる残り */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -239,17 +258,8 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
         </Animated.View>
       </PopIn>
 
-      {/* 左右の箱。押した指のところから星が出る。
-          札が入っていく側の箱は、受け止めるように光る */}
-      <View style={{ flexDirection: 'row', gap: S.sm }}>
-        <Catcher on={flying?.dir === -1} style={{ flex: 1 }}>
-          <GameButton label={spec.left} tone="ghost" onPress={(x, y) => answer(false, x, y)} />
-        </Catcher>
-        <Catcher on={flying?.dir === 1} style={{ flex: 1 }}>
-          <GameButton label={spec.right} onPress={(x, y) => answer(true, x, y)} />
-        </Catcher>
-      </View>
     </View>
+    </GameFrame>
   );
 }
 

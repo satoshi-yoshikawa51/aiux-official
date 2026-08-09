@@ -21,7 +21,7 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, TryAgain } from './parts';
+import { GameButton, GameFrame, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'find' }>;
@@ -62,6 +62,17 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
   };
 
   return (
+    <GameFrame
+      footer={
+        failed ? (
+          <GameButton label="もう一度" onPress={retry} />
+        ) : cleared ? (
+          <GameButton
+            label="これで決める"
+            onPress={() => onClear({ misses: wrong.length, allow, ms: elapsed() })}
+          />
+        ) : undefined
+      }>
     <View style={{ gap: S.md }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.yellow400 }}>
@@ -116,20 +127,13 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
         <PopIn>
           <TryAgain
             reason={`関係のない行を${wrong.length}つ摘発しました。危ないのは「読んだAIへの命令になっている行」だけです。`}
-            onRetry={retry}
           />
         </PopIn>
-      ) : cleared ? (
-        <PopIn>
-          <GameButton
-            label="これで決める"
-            onPress={() => onClear({ misses: wrong.length, allow, ms: elapsed() })}
-          />
-        </PopIn>
-      ) : (
+      ) : cleared ? null : (
         <Text style={[F.hand, { fontSize: 12.5, color: C.ink300 }]}>{spec.brief}</Text>
       )}
     </View>
+    </GameFrame>
   );
 }
 

@@ -38,6 +38,12 @@ const OPTICAL: Partial<Record<IconName, number>> = {
 /**
  * アイコン1つ。拡大縮小は viewBox を広げ／狭めて行う
  * （transform を使わないので、どの環境でも同じ結果になる）
+ *
+ * ▍読み上げには出さない
+ * このアプリのアイコンは**すべて隣の文字の言い換え**で、単独で意味を
+ * 持つものは置いていない（「修了」の横のチェック、コース名の横の印など）。
+ * 読み上げに出すと、同じことを2回聞かされる。図形として無名のまま
+ * 読まれる環境もあるので、まとめて伏せておく。
  */
 export function Icon({
   name,
@@ -54,7 +60,12 @@ export function Icon({
   const vb = 24 / s;
   const min = 12 - vb / 2;
   return (
-    <Svg width={size} height={size} viewBox={`${min} ${min} ${vb} ${vb}`}>
+    <Svg
+      width={size}
+      height={size}
+      viewBox={`${min} ${min} ${vb} ${vb}`}
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants">
       <Path d={ICON_PATHS[name]} fill={color} fillRule="evenodd" opacity={opacity} />
     </Svg>
   );

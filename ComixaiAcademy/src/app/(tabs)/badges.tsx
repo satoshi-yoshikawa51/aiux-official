@@ -71,7 +71,50 @@ export default function BadgesScreen() {
         </Cassette>
       )}
 
-      {/* 称号の階段 */}
+      {/* ▍タブの名前が「バッジ」なので、バッジを先に出す
+           もとは称号の階段が先に来ていて、**開いて最初に見えるのが称号**、
+           肝心のバッジは折り返しの下だった。称号はバッジの数で決まる
+           結果なので、集めているものを先に見せる */
+      }
+      {/* バッジ一覧 */}
+      <View style={{ gap: S.md }}>
+        <Text style={F.h1}>獲得したバッジ</Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: S.md }}>
+          {BADGES.map((b) => {
+            const got = !!state.badges[b.id];
+            return got ? (
+              /* 紙そのものに網点が敷いてあるので、獲得済みのコマは白のまま抜く
+                 （ここにも網点を足すと、地と見分けが付かなくなる） */
+              <Panel key={b.id} style={{ width: '46%' }} contentStyle={{ gap: 4, padding: S.md }}>
+                <Icon name={b.icon} size={28} color={T.text} />
+                <Text style={[F.strong, { fontSize: 14 }]}>{b.name}</Text>
+                <Text style={F.tiny}>{b.desc}</Text>
+              </Panel>
+            ) : (
+              <View
+                key={b.id}
+                style={{
+                  width: '46%',
+                  backgroundColor: T.sunk,
+                  borderWidth: BW.hair,
+                  borderColor: T.borderSoft,
+                  borderRadius: R.sm,
+                  padding: S.md,
+                  gap: 4,
+                  marginRight: POP.md,
+                  marginBottom: POP.md,
+                }}>
+                <Icon name="lock" size={26} color={T.disabled} opacity={0.6} />
+                <Text style={[F.strong, { fontSize: 14, color: T.disabled }]}>？？？</Text>
+                <Text style={F.tiny}>{b.hint}</Text>
+              </View>
+            );
+          })}
+        </View>
+        <Text style={F.hand}>記録はこの端末の中だけに残ります。アカウントもサーバーも使いません。</Text>
+      </View>
+
+      {/* 称号の階段（バッジの数で決まる結果なので、あとに置く） */}
       <View style={{ gap: S.sm }}>
         <Text style={F.h1}>称号</Text>
         {TITLES.map((t) => {
@@ -116,43 +159,6 @@ export default function BadgesScreen() {
         })}
       </View>
 
-      {/* バッジ一覧 */}
-      <View style={{ gap: S.md }}>
-        <Text style={F.h1}>獲得したバッジ</Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: S.md }}>
-          {BADGES.map((b) => {
-            const got = !!state.badges[b.id];
-            return got ? (
-              /* 紙そのものに網点が敷いてあるので、獲得済みのコマは白のまま抜く
-                 （ここにも網点を足すと、地と見分けが付かなくなる） */
-              <Panel key={b.id} style={{ width: '46%' }} contentStyle={{ gap: 4, padding: S.md }}>
-                <Icon name={b.icon} size={28} color={T.text} />
-                <Text style={[F.strong, { fontSize: 14 }]}>{b.name}</Text>
-                <Text style={F.tiny}>{b.desc}</Text>
-              </Panel>
-            ) : (
-              <View
-                key={b.id}
-                style={{
-                  width: '46%',
-                  backgroundColor: T.sunk,
-                  borderWidth: BW.hair,
-                  borderColor: T.borderSoft,
-                  borderRadius: R.sm,
-                  padding: S.md,
-                  gap: 4,
-                  marginRight: POP.md,
-                  marginBottom: POP.md,
-                }}>
-                <Icon name="lock" size={26} color={T.disabled} opacity={0.6} />
-                <Text style={[F.strong, { fontSize: 14, color: T.disabled }]}>？？？</Text>
-                <Text style={F.tiny}>{b.hint}</Text>
-              </View>
-            );
-          })}
-        </View>
-        <Text style={F.hand}>記録はこの端末の中だけに残ります。アカウントもサーバーも使いません。</Text>
-      </View>
     </Screen>
   );
 }

@@ -9,15 +9,28 @@
    ▍答えたあとは押せない
    選び直せると、正解を見てから当てたことにできてしまう。復習の記録が
    意味を持つのは「一発で選んだかどうか」なので、そこは閉じる。
+
+   ▍答えた瞬間に、余韻を置く
+   もとは押した瞬間に色と記号が**同時に差し替わるだけ**で、
+   「答えた」という手ごたえがどこにも出ていなかった。ここでは
+   ・選んだ行がひと呼吸ふくらむ
+   ・外したときは、正解の行が**少し遅れて**起き上がる
+   ・○×は判子のように出る／解説はそのあとに滑り込む
+   の順に時間差をつけて、目線が「選んだ行 → 正解 → 解説」と動くようにした。
    ============================================================ */
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Animated, Easing, Platform, Pressable, Text, View } from 'react-native';
 
-import { useTap } from '@/components/motion';
+import { PopIn, SlideIn, useTap } from '@/components/motion';
 import { TermText } from '@/components/term-text';
 import { Badge, Card, Pop, Row, sinkFlat } from '@/components/ui';
 import type { QuizItem } from '@/data/types';
 import { BW, F, FONT, POP, R, S, T } from '@/theme';
+
+const NATIVE = Platform.OS !== 'web';
+
+/** 正解の行を起こすまでの間。選んだ行のふくらみが収まってから */
+const LATE_MS = 240;
 
 export function QuizChoice({
   label,
@@ -38,14 +51,61 @@ export function QuizChoice({
 }) {
   const { pressed, onPressIn, onPressOut } = useTap();
   const down = pressed && !revealed;
+  /* この行が「立つ」側か。選んだ行と、正解の行だけ */
+  const lifts = revealed && (isAnswer || isPicked);
+  /* 外した人の目を正解へ運ぶぶんだけ遅らせる。
+     自分で選んだ行は、押した指に応えて即ふくらむ */
+  const delay = isPicked ? 0 : LATE_MS;
+
+  /* 立ち上がりの一発だけ。**答えたあと、ずっと動かさない**
+     （動き続けると解説を読むほうへ目が移らない） */
+  const lit = React.useRef(new Animated.Value(0)).current;
+  const done = React.useRef(false);
+  React.useEffect(() => {
+    if (!lifts || done.current) return;
+    done.current = true;
+    const a = Animated.timing(lit, {
+      toValue: 1,
+      duration: 420,
+      delay,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: NATIVE,
+    });
+    a.start();
+    return () => a.stop();
+  }, [lifts, delay, lit]);
+
   return (
-    <Pressable disabled={revealed} onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress}>
-      <Pop offset={revealed && (isAnswer || isPicked) ? POP.sm : 0} radius={R.sm} reserve={false}>
+    <Pressable
+      disabled={revealed}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      /* ○×は記号なので、読み上げには言葉で渡す。
+         色と記号だけで正誤を出していると、そこが丸ごと落ちる */
+      accessibilityRole="button"
+      accessibilityLabel={
+        revealed ? `${isAnswer ? '正解' : isPicked ? 'あなたの答え' : ''} ${label}`.trim() : label
+      }
+      accessibilityState={{ disabled: revealed, selected: isPicked }}>
+      <Animated.View
+        style={{
+          transform: [
+            {
+              scale: lit.interpolate({
+                inputRange: [0, 0.4, 1],
+                /* 大きく張ると隣の行にぶつかるので、ほんの少しだけ */
+                outputRange: [1, isPicked ? 1.025 : 1.04, 1],
+              }),
+            },
+          ],
+        }}>
+      <Pop offset={lifts ? POP.sm : 0} radius={R.sm} reserve={false}>
         <View
           style={[
             {
               backgroundColor: down ? T.sunk : bg,
-              borderWidth: revealed && (isAnswer || isPicked) ? BW.bold : BW.line,
+              borderWidth: lifts ? BW.bold : BW.line,
               borderColor: revealed && !isAnswer && !isPicked ? T.borderSoft : T.border,
               borderRadius: R.sm,
               padding: S.md,
@@ -54,22 +114,41 @@ export function QuizChoice({
             sinkFlat(down, 0.97),
           ]}>
           <Row gap={S.sm} style={{ alignItems: 'flex-start' }}>
-            <Text
-              style={{
-                fontFamily: FONT.display,
-                fontSize: 15,
-                lineHeight: 26,
-                color: revealed && isAnswer ? T.ok : T.muted,
-                width: 16,
-              }}>
-              {mark}
-            </Text>
+            {/* ○×は判子のように出す。伏せているあいだの A/B/C は静かに置く */}
+            <MarkSlot pop={lifts} delay={delay}>
+              <Text
+                style={{
+                  fontFamily: FONT.display,
+                  fontSize: 15,
+                  lineHeight: 26,
+                  color: revealed && isAnswer ? T.ok : T.muted,
+                  width: 16,
+                }}>
+                {mark}
+              </Text>
+            </MarkSlot>
             <Text style={[F.body, { flex: 1 }]}>{label}</Text>
           </Row>
         </View>
       </Pop>
+      </Animated.View>
     </Pressable>
   );
+}
+
+/* ○×だけ跳ねさせる小さな器。伏せているあいだは素通し
+   （PopIn を常に噛ませると、問題が変わるたびに記号がいちいち跳ねる） */
+function MarkSlot({
+  pop,
+  delay,
+  children,
+}: {
+  pop: boolean;
+  delay: number;
+  children: React.ReactNode;
+}) {
+  if (!pop) return <>{children}</>;
+  return <PopIn delay={delay}>{children}</PopIn>;
 }
 
 /** 選択肢いちれつ。choice が null のあいだは伏せたまま */
@@ -108,13 +187,17 @@ export function QuizChoices({
 /** 答えたあとに出る解説。正解なら緑、外したら赤 */
 export function QuizExplain({ quiz, choice }: { quiz: QuizItem; choice: number }) {
   return (
-    <Card
-      tone={choice === quiz.answer ? 'ok' : 'warn'}
-      variant="flat"
-      contentStyle={{ padding: S.md }}>
-      {/* 解説にも用語が出る。ここで詰まると、そのまま次に進んでしまう */}
-      <TermText style={F.body}>{quiz.explanation}</TermText>
-    </Card>
+    /* 選択肢が立ち終わってから滑り込む。同時に出すと、
+       目線が解説へ流れて**自分がどれを選んだのか**を見ないまま進む */
+    <SlideIn from="bottom" distance={14} duration={320} delay={LATE_MS + 180}>
+      <Card
+        tone={choice === quiz.answer ? 'ok' : 'warn'}
+        variant="flat"
+        contentStyle={{ padding: S.md }}>
+        {/* 解説にも用語が出る。ここで詰まると、そのまま次に進んでしまう */}
+        <TermText style={F.body}>{quiz.explanation}</TermText>
+      </Card>
+    </SlideIn>
   );
 }
 

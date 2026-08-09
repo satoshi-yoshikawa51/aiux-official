@@ -42,6 +42,15 @@ interface Props {
   avatar: AvatarDef;
   width: number;
   height: number;
+  /* ▍カメラを少し引く（1＝台帳どおり／1.2＝2割引く）
+
+     画角は台帳（avatars.ts の view）で決めていて、**立っている姿に
+     ちょうど合わせてある**。そのため laugh（のけぞって笑う）や bow
+     （お辞儀）のように大きく動くモーションだと、**頭が枠の上で切れる**。
+     レッスンとクイズの枠は小さいので、そこで目立って出ていた。
+
+     ホームは大きく見せたいので1のまま。芝居をさせる小さい枠だけ引く。 */
+  zoom?: number;
   /** モデルの読み込みが終わったら呼ばれる */
   onReady?: () => void;
 }
@@ -93,7 +102,7 @@ async function readArrayBuffer(mod: number): Promise<ArrayBuffer> {
 }
 
 export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
-  { avatar, width, height, onReady },
+  { avatar, width, height, zoom = 1, onReady },
   ref,
 ) {
   const mixerRef = React.useRef<THREE.AnimationMixer | null>(null);
@@ -176,8 +185,13 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         const aspect = gl.drawingBufferWidth / gl.drawingBufferHeight;
         const view = model.view;
         const camera = new THREE.PerspectiveCamera(view.fov, aspect, 0.05, 20);
-        camera.position.set(...view.camera);
-        camera.lookAt(...view.target);
+        /* 見ている点からの距離を zoom 倍にする。**画角ではなく位置で引く**——
+           fov を広げると、そのぶん背景（＝透過）の面積だけが増えて
+           キャラは小さくなるが、切れる位置は変わらない */
+        const target = new THREE.Vector3(...view.target);
+        const eye = new THREE.Vector3(...view.camera);
+        camera.position.copy(target.clone().add(eye.clone().sub(target).multiplyScalar(zoom)));
+        camera.lookAt(target);
 
         const [buffer, texture] = await Promise.all([
           readArrayBuffer(model.glb),
@@ -247,7 +261,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         setStatus('failed');
       }
     },
-    [model, onReady, playByName],
+    [model, onReady, playByName, zoom],
   );
 
   /* GLBがまだ無いアバター、または読み込みに失敗したとき */
@@ -261,12 +275,24 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
   }
 
   return (
-    <View style={[styles.host, { width, height }]} pointerEvents="none">
+    /* 読み上げには「誰がいるか」だけを1つの塊で渡す。中のキャンバスは
+       名前の無い図として読まれるだけなので、外側で名前を付けて畳む
+       （セリフは隣のフキダシが文字で持っている） */
+    <View
+      style={[styles.host, { width, height }]}
+      pointerEvents="none"
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel={avatar.name}>
       {/* カメラの画角と描画サイズは onContextCreate の1回しか決まらない。
           あとから幅・高さが変わっても追従しないので、**そのときは作り直す**。
           追従しないままだと、古い寸法で焼いた絵が新しい枠に貼られて
           頭が切れる（狭い端末でフキダシの実測後に枠が縮むと起きた）。 */}
-      <GLView key={`${width}x${height}`} style={{ width, height }} onContextCreate={onContextCreate} />
+      <GLView
+        key={`${width}x${height}x${zoom}`}
+        style={{ width, height }}
+        onContextCreate={onContextCreate}
+      />
       {status === 'loading' && (
         <View style={styles.overlay}>
           <ActivityIndicator color={T.muted} />

@@ -95,6 +95,14 @@ export default function HomeScreen() {
      合計が中身の高さを超え、**フキダシが上へ押し出されてキャラに
      かぶる**。セリフは長さが変わるので、割合では当てられない。
      測ってから引く。 */
+  /* ▍いちばん高かったフキダシに合わせて、そこで止める
+     もとは「いまのフキダシの高さ」から引いていたので、**セリフが1行
+     増えるたびにキャラが縮んだ**。案内が終わった瞬間にも大きくなる。
+     同じキャラの背丈が画面の中で変わるのは、それだけで違和感になる。
+
+     出た高さの最大を覚えて下限にすると、1周した時点で動かなくなる
+     （opening.tsx のコマの高さと同じ手）。決め打ちにしないのは、
+     端末の幅でも文字サイズ設定でも変わるため */
   const [bubbleH, setBubbleH] = React.useState(0);
   const avatarMax = area > 0 && bubbleH > 0 ? Math.max(0, area - bubbleH - S.sm) : undefined;
 
@@ -212,7 +220,11 @@ export default function HomeScreen() {
         <View
           style={{ flex: 1, justifyContent: 'flex-end', gap: S.sm }}
           onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
-          <View onLayout={(e) => setBubbleH(e.nativeEvent.layout.height)}>
+          <View
+            onLayout={(e) => {
+              const h = Math.ceil(e.nativeEvent.layout.height);
+              setBubbleH((prev) => (h > prev ? h : prev));
+            }}>
             <Bubble
               text={greeting}
               compact={tight}

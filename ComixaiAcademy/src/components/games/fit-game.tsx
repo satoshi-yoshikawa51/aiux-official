@@ -23,7 +23,7 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, TryAgain } from './parts';
+import { GameButton, GameFrame, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'fit' }>;
@@ -80,7 +80,40 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
     ]).start();
   }, [over, shake]);
 
+  const hand = () => {
+    setChecked(true);
+    /* 過不足があったら、そこで1ミス。**外したことを数えないと、
+       何度でも当てにいけてしまう** */
+    if (!ok) {
+      playSound('wrong');
+      const n = misses + 1;
+      setMisses(n);
+      if (n > allow) setFailed(true);
+    }
+  };
+
   return (
+    <GameFrame
+      footer={
+        failed ? (
+          <GameButton
+            label="もう一度"
+            onPress={() => {
+              setOn([]);
+              setChecked(false);
+              setMisses(0);
+              setFailed(false);
+            }}
+          />
+        ) : ok && checked ? (
+          <GameButton
+            label="これで決める"
+            onPress={() => onClear({ misses, allow, ms: elapsed() })}
+          />
+        ) : (
+          <GameButton label="これで渡す" onPress={hand} disabled={on.length === 0} />
+        )
+      }>
     <View style={{ gap: S.md }}>
       <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
 
@@ -177,37 +210,11 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
         <PopIn>
           <TryAgain
             reason={`${misses}回とも過不足がありました。載せるのは「この仕事に要るもの」だけです。関係のない資料は、机を埋めるだけでなく話を逸らします。`}
-            onRetry={() => {
-              setOn([]);
-              setChecked(false);
-              setMisses(0);
-              setFailed(false);
-            }}
           />
         </PopIn>
-      ) : ok && checked ? (
-        <GameButton
-          label="これで決める"
-          onPress={() => onClear({ misses, allow, ms: elapsed() })}
-        />
-      ) : (
-        <GameButton
-          label="これで渡す"
-          onPress={() => {
-            setChecked(true);
-            /* 過不足があったら、そこで1ミス。**外したことを数えないと、
-               何度でも当てにいけてしまう** */
-            if (!ok) {
-              playSound('wrong');
-              const n = misses + 1;
-              setMisses(n);
-              if (n > allow) setFailed(true);
-            }
-          }}
-          disabled={on.length === 0}
-        />
-      )}
+      ) : null}
     </View>
+    </GameFrame>
   );
 }
 

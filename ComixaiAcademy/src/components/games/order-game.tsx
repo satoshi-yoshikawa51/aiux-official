@@ -20,7 +20,7 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, TryAgain } from './parts';
+import { GameButton, GameFrame, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'order' }>;
@@ -64,7 +64,25 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
     [spec.steps],
   );
 
+  const retry = () => {
+    setPlaced([]);
+    setSlip(null);
+    setMisses(0);
+    setFailed(false);
+  };
+
   return (
+    <GameFrame
+      footer={
+        failed ? (
+          <GameButton label="もう一度" onPress={retry} />
+        ) : done ? (
+          <GameButton
+            label="これで決める"
+            onPress={() => onClear({ misses, allow, ms: elapsed() })}
+          />
+        ) : undefined
+      }>
     <View style={{ gap: S.md }}>
       <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
 
@@ -136,12 +154,6 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
         <PopIn>
           <TryAgain
             reason={`順番を${misses}回外しました。ここは「前の工程が終わっていないと、次はできない」でつながっています。上から読み直してみてください。`}
-            onRetry={() => {
-              setPlaced([]);
-              setSlip(null);
-              setMisses(0);
-              setFailed(false);
-            }}
           />
         </PopIn>
       ) : null}
@@ -165,16 +177,11 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
         </View>
       ) : (
         <PopIn>
-          <View style={{ gap: S.md }}>
-            <Text style={[F.hand, { fontSize: 13, color: C.yellow400 }]}>{spec.wrap}</Text>
-            <GameButton
-              label="これで決める"
-              onPress={() => onClear({ misses, allow, ms: elapsed() })}
-            />
-          </View>
+          <Text style={[F.hand, { fontSize: 13, color: C.yellow400 }]}>{spec.wrap}</Text>
         </PopIn>
       )}
     </View>
+    </GameFrame>
   );
 }
 

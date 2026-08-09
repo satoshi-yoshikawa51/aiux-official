@@ -24,7 +24,7 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, TryAgain } from './parts';
+import { GameButton, GameFrame, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'build' }>;
@@ -55,6 +55,14 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
   };
 
   return (
+    <GameFrame
+      footer={
+        failed ? (
+          <GameButton label="もう一度" onPress={() => setFailed(null)} />
+        ) : all ? (
+          <GameButton label="これで決める" onPress={decide} />
+        ) : undefined
+      }>
     <View style={{ gap: S.lg }}>
       <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
 
@@ -105,15 +113,11 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
         <PopIn>
           <TryAgain
             reason={`「${failed.join('」「')}」が弱いままです。札を押すと、どう変わるかがその場で出ます。読み比べてから決めてください。`}
-            onRetry={() => setFailed(null)}
           />
         </PopIn>
       ) : all ? (
         <PopIn>
-          <View style={{ gap: S.md }}>
-            <Text style={[F.hand, { fontSize: 13, color: C.yellow400 }]}>{spec.wrap}</Text>
-            <GameButton label="これで決める" onPress={decide} />
-          </View>
+          <Text style={[F.hand, { fontSize: 13, color: C.yellow400 }]}>{spec.wrap}</Text>
         </PopIn>
       ) : (
         <Text style={[F.hand, { fontSize: 12.5, color: C.ink300 }]}>
@@ -121,6 +125,7 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
         </Text>
       )}
     </View>
+    </GameFrame>
   );
 }
 

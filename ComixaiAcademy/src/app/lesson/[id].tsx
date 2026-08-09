@@ -10,7 +10,7 @@ import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import React from 'react';
-import { Platform, Text, View, useWindowDimensions } from 'react-native';
+import { Modal, Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
@@ -70,6 +70,28 @@ export default function LessonScreen() {
   React.useLayoutEffect(() => {
     navigation.setOptions({ title: found?.lesson.title ?? 'レッスン' });
   }, [navigation, found?.lesson.title]);
+
+  /* ▍途中で戻ると、この回はまるごと消える
+     レッスンの進み具合はどこにも保存していない（修了したときだけ記録する）。
+     なのに黙って戻れてしまい、**5枚読んだ人が何も残らずに出ていく**
+     ことがあった。1回だけ引き止める。 */
+  const [leaving, setLeaving] = React.useState<null | (() => void)>(null);
+  /* 一度「やめる」を選んだあとは、素通しする（でないと自分で出した
+     dispatch をもう一度つかまえて、永久に出られなくなる） */
+  const leftRef = React.useRef(false);
+  React.useEffect(() => {
+    const sub = navigation.addListener('beforeRemove', (e: { preventDefault: () => void; data: { action: unknown } }) => {
+      /* 読み始めたばかり・もう終えている人は止めない */
+      if (phase === 'result' || (phase === 'cards' && cardIndex === 0)) return;
+      if (leftRef.current) return;
+      e.preventDefault();
+      setLeaving(() => () => {
+        leftRef.current = true;
+        navigation.dispatch(e.data.action as never);
+      });
+    });
+    return sub;
+  }, [navigation, phase, cardIndex]);
 
   /* 職種の1枚は最後に足される（→ courses/index.ts の lessonCards）。
      以降の枚数の数え方は、すべてこの cards を見ること。
@@ -176,6 +198,28 @@ export default function LessonScreen() {
     else setPhase('result');
   };
 
+  /* 下に貼り付ける口。場面ごとに中身が変わる。
+     クイズは答えるまで出さない（先に押せると、読まずに飛ばせてしまう） */
+  const footer =
+    phase === 'cards' ? (
+      <Button
+        label={
+          !canAdvance
+            ? 'ゲームをクリアすると進める'
+            : cardIndex + 1 < cards.length
+              ? 'つぎへ'
+              : 'クイズへ'
+        }
+        disabled={!canAdvance}
+        onPress={goNextCard}
+      />
+    ) : phase === 'quiz' && choice !== null ? (
+      <Button
+        label={quizIndex + 1 < lesson.quiz.length ? 'つぎの問題' : '結果を見る'}
+        onPress={goNextQuiz}
+      />
+    ) : undefined;
+
   const copy = async (text: string) => {
     await Clipboard.setStringAsync(text);
     setCopied(true);
@@ -197,9 +241,48 @@ export default function LessonScreen() {
           ? v(LESSON_VOICE.resultPerfect)
           : v(LESSON_VOICE.resultDone);
 
+  const confirmLeave = leaving ? (
+    <Modal visible transparent animationType="fade" onRequestClose={() => setLeaving(null)}>
+      <Pressable
+        onPress={() => setLeaving(null)}
+        style={{
+          flex: 1,
+          backgroundColor: 'rgba(20,17,15,0.55)',
+          justifyContent: 'center',
+          padding: S.lg,
+        }}>
+        <Pressable onPress={() => {}}>
+          <Panel contentStyle={{ gap: S.sm, padding: S.lg }}>
+            <Text style={F.h1}>ここでやめる？</Text>
+            <Text style={F.body}>
+              途中までの進み具合は残りません。次に開いたときは、また1枚目からになります。
+            </Text>
+            <Row gap={S.sm} style={{ marginTop: S.xs }}>
+              <View style={{ flex: 1 }}>
+                <Button label="つづける" onPress={() => setLeaving(null)} />
+              </View>
+              {/* やめる口には星を出さない（祝うところではない） */}
+              <Button label="やめる" variant="secondary" onPress={leaving} />
+            </Row>
+          </Panel>
+        </Pressable>
+      </Pressable>
+    </Modal>
+  ) : null;
+
   return (
     /* 上は Stack のヘッダーが安全領域を飲んでいるので、ここでは下だけ見る */
-    <Screen edges={['bottom']} tone="dots" style={{ gap: S.lg, paddingBottom: S.xxl }}>
+    <Screen
+      edges={['bottom']}
+      tone="dots"
+      style={{ gap: S.lg, paddingBottom: S.xxl }}
+      /* ▍先へ進む口は、下に貼り付ける
+         カードの中に置いていたので、**本文が短い回ではボタンが画面の
+         まんなかに来て、下半分が丸ごと空いていた**。親指の届くところに
+         無いのがいちばん効く（→ ui.tsx の Screen footer）。
+         貼ったぶんの高さは本文の下に自動で空くので、隠れない */
+      footer={footer}>
+      {confirmLeave}
       <>
         {/* 進み具合 */}
         <Row gap={3}>
@@ -230,7 +313,14 @@ export default function LessonScreen() {
 
         {/* 先生とセリフ（横並び） */}
         <Row gap={S.sm} style={{ alignItems: 'flex-end' }}>
-          <Avatar3D ref={avatarRef} avatar={avatar} width={stageW} height={Math.round(stageW * 1.25)} />
+          <Avatar3D
+            ref={avatarRef}
+            avatar={avatar}
+            width={stageW}
+            height={Math.round(stageW * 1.25)}
+            /* 笑う・お辞儀するで頭が枠から出るので、少し引く */
+            zoom={1.18}
+          />
           <View style={{ flex: 1, paddingBottom: S.lg }}>
             <Bubble text={say} style={{ marginRight: POP.sm }} />
           </View>
@@ -301,17 +391,6 @@ export default function LessonScreen() {
                 onDone={onInteractiveDone}
               />
             ) : null}
-            <Button
-              label={
-                !canAdvance
-                  ? 'ゲームをクリアすると進める'
-                  : cardIndex + 1 < cards.length
-                    ? 'つぎへ'
-                    : 'クイズへ'
-              }
-              disabled={!canAdvance}
-              onPress={goNextCard}
-            />
           </Panel>
           </SlideIn>
         ) : null}
@@ -331,10 +410,7 @@ export default function LessonScreen() {
             {choice !== null ? (
               <View style={{ gap: S.md, marginTop: S.xs }}>
                 <QuizExplain quiz={quiz} choice={choice} />
-                <Button
-                  label={quizIndex + 1 < lesson.quiz.length ? 'つぎの問題' : '結果を見る'}
-                  onPress={goNextQuiz}
-                />
+
               </View>
             ) : null}
           </Panel>

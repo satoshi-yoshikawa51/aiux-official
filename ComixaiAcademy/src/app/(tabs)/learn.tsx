@@ -110,22 +110,12 @@ export default function LearnScreen() {
 
       {/* ———— つづき ————
            いちばん押してほしいものを、ほぼ黒に沈めたコマに入れる（ホームと同じ） */}
-      {next ? (
-        <Cassette>
-          <Row gap={8}>
-            <Pill label="NEXT" />
-            <Icon name={next.course.icon} size={18} color={C.paper50} />
-            <Text style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]} numberOfLines={1}>
-              {next.lesson.title}
-            </Text>
-          </Row>
-          <Button
-            label={`つづきから（${next.lesson.minutes}分）`}
-            size="sm"
-            onPress={() => router.push(`/lesson/${next.lesson.id}`)}
-          />
-        </Cassette>
-      ) : (
+      {/* ▍ここに「次の1本」のカセットは置かない
+           ホームの赤いボタンと行き先が同じで、**同じ画面の中に「次」が
+           2つある**状態だった。この画面の役目はコースを見渡すことなので、
+           次の1本は下の一覧で黄色いリングが指している（learn-next）。
+           ここに出すのは、コース全体の進み具合だけでいい */}
+      {!next ? (
         <Cassette>
           <Row gap={8}>
             <Icon name="trophy" size={18} color={C.paper50} />
@@ -134,7 +124,7 @@ export default function LearnScreen() {
             </Text>
           </Row>
         </Cassette>
-      )}
+      ) : null}
 
       {COURSES.map((course, ci) => {
         const doneCount = course.lessons.filter((l) => state.done[l.id]).length;

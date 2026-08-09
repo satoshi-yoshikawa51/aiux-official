@@ -185,6 +185,8 @@ export function MiniGame({
   const [phase, setPhase] = React.useState<Phase>('title');
   /* やり直すたびに増やす。中身のstateを丸ごと作り直すための鍵 */
   const [round, setRound] = React.useState(0);
+  /* 「やめる」を押したあとの確認 */
+  const [asking, setAsking] = React.useState(false);
   /* タイルが画面を覆い終わったか。覆うまでは中身を出さない */
   const [covered, setCovered] = React.useState(false);
 
@@ -248,33 +250,56 @@ export function MiniGame({
         <View style={{ flex: 1, backgroundColor: C.ink900 }}>
           {/* 地は黒＋白い網点。紙（レッスン）と地続きに見せない */}
           <Tone tone="dots-light" style={{ flex: 1 }}>
+            {asking ? (
+              <View
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  backgroundColor: 'rgba(20,17,15,0.8)',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: S.xl,
+                  gap: S.md,
+                  zIndex: 10,
+                }}>
+                <Text style={{ fontFamily: FONT.display, fontSize: 22, color: C.paper0 }}>
+                  やめる？
+                </Text>
+                <Text
+                  style={[F.hand, { fontSize: 13.5, color: C.paper100, textAlign: 'center' }]}>
+                  {phase === 'clear'
+                    ? '成績は記録してあります。'
+                    : '途中までの成績は残りません。'}
+                </Text>
+                <View style={{ alignSelf: 'stretch', gap: S.sm, marginTop: S.sm }}>
+                  <GameButton label="つづける" onPress={() => setAsking(false)} />
+                  <GameButton label="レッスンに戻る" tone="ghost" onPress={onClose} />
+                </View>
+              </View>
+            ) : null}
             {phase === 'title' ? (
               <TitleScreen meta={g} allow={allowOf(spec)} onSkip={() => setPhase('play')} />
             ) : (
               <View style={{ flex: 1, paddingTop: insets.top }}>
-                <GameBar meta={g} onClose={onClose} />
+                {/* ▍途中でやめるときは一度きく
+                     文字リンク1つで即終了だった。ゲームの成績は通すまで
+                     残らないので、誤タップの取り返しがつかない */}
+                <GameBar meta={g} onClose={() => setAsking(true)} />
                 {phase === 'clear' ? (
                   <ClearScreen meta={g} score={score} best={best} onClose={onClose} onRetry={retry} />
                 ) : spec.kind === 'sort' ? (
-                  <GameScroll>
-                    <SortPlay key={round} spec={spec} onClear={clear} />
-                  </GameScroll>
+                  <SortPlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'find' ? (
-                  <GameScroll>
-                    <FindPlay key={round} spec={spec} onClear={clear} />
-                  </GameScroll>
+                  <FindPlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'build' ? (
-                  <GameScroll>
-                    <BuildPlay key={round} spec={spec} onClear={clear} />
-                  </GameScroll>
+                  <BuildPlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'order' ? (
-                  <GameScroll>
-                    <OrderPlay key={round} spec={spec} onClear={clear} />
-                  </GameScroll>
+                  <OrderPlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'fit' ? (
-                  <GameScroll>
-                    <FitPlay key={round} spec={spec} onClear={clear} />
-                  </GameScroll>
+                  <FitPlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'ai-prompt' ? (
                   <AiPromptPlay key={round} spec={spec} onClear={clear} />
                 ) : (
@@ -298,19 +323,6 @@ export function MiniGame({
         </SparkLayer>
       )}
     </Modal>
-  );
-}
-
-/* 指1本のゲーム共通の器。中身が縦に伸びるので、スクロールさせる。
-   下は少し多めに空ける（決めるボタンが画面の縁に貼り付くと押しにくい） */
-function GameScroll({ children }: { children: React.ReactNode }) {
-  return (
-    <ScrollView
-      contentContainerStyle={{ padding: S.lg, paddingBottom: S.xxl }}
-      showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps="handled">
-      {children}
-    </ScrollView>
   );
 }
 
@@ -460,6 +472,8 @@ function QuitButton({ onPress }: { onPress: () => void }) {
       onPressOut={onPressOut}
       onPress={onPress}
       hitSlop={10}
+      accessibilityRole="button"
+      accessibilityLabel="やめる"
       style={{ paddingVertical: 6, paddingHorizontal: 4 }}>
       <Text
         style={{
@@ -596,7 +610,14 @@ function GameButton({
   const down = pressed && !disabled;
 
   return (
-    <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress} disabled={disabled}>
+    <Pressable
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      disabled={disabled}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: !!disabled }}>
       <View
         style={{
           /* 押しているあいだは一段沈んだ黄色に。黒地なので、

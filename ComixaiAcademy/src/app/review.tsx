@@ -137,7 +137,14 @@ export default function ReviewScreen() {
       </Row>
 
       <Row gap={S.sm} style={{ alignItems: 'flex-end' }}>
-        <Avatar3D ref={avatarRef} avatar={avatar} width={stageW} height={Math.round(stageW * 1.25)} />
+        <Avatar3D
+            ref={avatarRef}
+            avatar={avatar}
+            width={stageW}
+            height={Math.round(stageW * 1.25)}
+            /* 笑う・お辞儀するで頭が枠から出るので、少し引く */
+            zoom={1.18}
+          />
         <View style={{ flex: 1, paddingBottom: S.lg }}>
           <Bubble text={say} style={{ marginRight: POP.sm }} />
         </View>
