@@ -15,24 +15,20 @@ import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
+import { Spotlight } from '@/components/spotlight';
+import { useSparkBurst } from '@/components/motion';
 import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
-import { useProgress, useStats } from '@/store/progress';
-import { C, F, FONT, S } from '@/theme';
+import { smallTalkFor } from '@/data/voice';
+import { useProgress, useReview, useStats, useToday } from '@/store/progress';
+import { useTutorial } from '@/store/tutorial';
+import { C, F, FONT, R, S, T } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
-const SMALL_TALK: { say: string; motion: AvatarMotion; emote?: IconName }[] = [
-  { say: '……なんだ。用が無いなら、手を動かせ。', motion: 'arms-crossed' },
-  { say: '休憩か。まあ、詰め込みすぎても入らないからな。', motion: 'idle-b' },
-  { say: '1日1本で十分だ。続けるほうが難しい。', motion: 'explain' },
-  { say: 'わからんところは、飛ばしていい。あとで戻れ。', motion: 'wave' },
-  { say: '……そんなに見るな。', motion: 'worried', emote: 'bang' },
-  { say: 'よし、いい顔になってきた。', motion: 'laugh', emote: 'sparkle' },
-];
 
 /* アバターの見た目の縦横比（高さ ÷ 幅）。
 
@@ -55,6 +51,14 @@ export default function HomeScreen() {
   const router = useRouter();
   const { state } = useProgress();
   const stats = useStats();
+  /* 期限が来ている復習の数。0なら何も出さない（→ app/review.tsx） */
+  const due = useReview().due.length;
+  /* 今日ぶんを終えているか。終えていたら、カセットの見た目を締める */
+  const { doneToday } = useToday();
+  /* 案内中はセリフをこちらのフキダシに出す。**先生が2か所で
+     同時にしゃべらないため**（→ store/tutorial.tsx の voice） */
+  const tutorial = useTutorial();
+  const guiding = tutorial.active && tutorial.step?.voice === 'avatar';
 
   const avatarRef = React.useRef<AvatarHandle>(null);
   const avatar = getAvatar(state.avatarId);
@@ -91,6 +95,14 @@ export default function HomeScreen() {
      合計が中身の高さを超え、**フキダシが上へ押し出されてキャラに
      かぶる**。セリフは長さが変わるので、割合では当てられない。
      測ってから引く。 */
+  /* ▍いちばん高かったフキダシに合わせて、そこで止める
+     もとは「いまのフキダシの高さ」から引いていたので、**セリフが1行
+     増えるたびにキャラが縮んだ**。案内が終わった瞬間にも大きくなる。
+     同じキャラの背丈が画面の中で変わるのは、それだけで違和感になる。
+
+     出た高さの最大を覚えて下限にすると、1周した時点で動かなくなる
+     （opening.tsx のコマの高さと同じ手）。決め打ちにしないのは、
+     端末の幅でも文字サイズ設定でも変わるため */
   const [bubbleH, setBubbleH] = React.useState(0);
   const avatarMax = area > 0 && bubbleH > 0 ? Math.max(0, area - bubbleH - S.sm) : undefined;
 
@@ -128,15 +140,22 @@ export default function HomeScreen() {
   const [talk, setTalk] = React.useState<string | null>(null);
 
   const greeting = React.useMemo(() => {
+    if (guiding) return tutorial.step?.say ?? '';
     if (talk) return talk;
     if (!next) return 'ぜんぶ終わったな。……よくやった。あとは現場で使え。';
     if (stats.doneCount === 0) return `${role?.name ?? ''}か。なら、話が早い。まず1本やってみろ。`;
     if (stats.streak >= 3) return `${stats.streak}日続いてるな。……その調子だ。`;
     return `次は「${next.lesson.title}」だ。`;
-  }, [talk, next, stats.doneCount, stats.streak, role?.name]);
+  }, [guiding, tutorial.step, talk, next, stats.doneCount, stats.streak, role?.name]);
+
+  const burst = useSparkBurst();
 
   const poke = () => {
-    const pick = SMALL_TALK[Math.floor(Math.random() * SMALL_TALK.length)];
+    /* 案内中はつつかせない。雑談で案内のセリフを上書きしてしまう */
+    if (guiding) return;
+    /* 小話は相棒ごと。書けていない相棒は先生のものが出る（data/voice.ts） */
+    const talks = smallTalkFor(state.avatarId);
+    const pick = talks[Math.floor(Math.random() * talks.length)];
     setTalk(pick.say);
     avatarRef.current?.play(pick.motion);
     if (pick.emote) avatarRef.current?.emote(pick.emote);
@@ -149,6 +168,11 @@ export default function HomeScreen() {
      背の低い画面では帯も詰める。568の画面で85は取りすぎで、
      そのぶんがまるごとアバターの取り分から引かれていた */
   const header = (
+    /* チュートリアルの1歩目で囲われる。帯そのものではなく中身を囲うと、
+       ステータスバーぶんの余白まで黄色くならない。
+       帯は画面の端まであるので、枠を8px内側に置いて**内から端へ**飛ばす
+       （外へ飛ばすと画面の外に出て、輪の左右が切れる） */
+    <Spotlight name="home-head" radius={R.sm} inset={8} room={8}>
     <ScreenHead
       compact={short}
       size="md"
@@ -168,6 +192,7 @@ export default function HomeScreen() {
          （同じ画面に別の意味のNEXTが2つ出る）。あと何個で上がるかを出す */
       noteRight={upcoming ? `あと${upcoming.need - stats.badgeCount}で ${upcoming.name}` : 'MAX'}
     />
+    </Spotlight>
   );
 
   return (
@@ -195,7 +220,11 @@ export default function HomeScreen() {
         <View
           style={{ flex: 1, justifyContent: 'flex-end', gap: S.sm }}
           onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
-          <View onLayout={(e) => setBubbleH(e.nativeEvent.layout.height)}>
+          <View
+            onLayout={(e) => {
+              const h = Math.ceil(e.nativeEvent.layout.height);
+              setBubbleH((prev) => (h > prev ? h : prev));
+            }}>
             <Bubble
               text={greeting}
               compact={tight}
@@ -206,6 +235,12 @@ export default function HomeScreen() {
           {/* アバターの置き場は縦横比で決める（flex:1 だと余った高さを全部
               取ってしまい、フキダシがキャラから離れる）。 */}
           <Pressable
+            /* つついたところから星。沈めたりはしない（本人が動いて返事をする） */
+            onPressIn={(e) => {
+              if (guiding) return;
+              const { pageX, pageY } = e.nativeEvent;
+              if (pageX || pageY) burst(pageX, pageY, 1.4);
+            }}
             onPress={poke}
             onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
             style={{
@@ -227,26 +262,73 @@ export default function HomeScreen() {
            出るのはこの上。コマ番号（左上の黒い角）はやめて、行の頭に
            黄色いピルを置く（角に重ねるとコースのアイコンとぶつかる） */}
       {next ? (
+        <Spotlight name="home-next">
         <Cassette compact={short}>
+          {/* ▍今日ぶんが終わったら、そう言って締める
+              終わりが無いと、いつやめていいのか分からない。
+              **黄色いピルは「次にやること」の印**なので、今日ぶんを
+              終えたら外す（外さないと、まだ残っているように見える） */}
           <Row gap={8}>
-            <Pill label="NEXT" />
+            {doneToday ? (
+              <Icon name="check" size={16} color={T.ok} />
+            ) : (
+              <Pill label="NEXT" />
+            )}
             <Icon name={next.course.icon} size={18} color={C.paper50} />
             <Text
               style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
               numberOfLines={1}>
-              {next.lesson.title}
+              {doneToday ? '今日のぶんは終わり' : next.lesson.title}
             </Text>
           </Row>
-          <Button
-            label={`はじめる（${next.lesson.minutes}分・クイズ${next.lesson.quiz.length}問）`}
-            size="sm"
-            onPress={() => router.push(`/lesson/${next.lesson.id}`)}
-          />
+          {/* ▍復習は、行を増やさずに横へ足す
+              ホームは1画面に収める作りなので、カセットに行を足すと
+              そのぶんアバターが縮む。**同じ行に並べる**なら高さは変わらない */}
+          <Row gap={S.sm}>
+            <View style={{ flex: 1 }}>
+              <Button
+                label={
+                  doneToday
+                    ? `もう1本やる（${next.lesson.minutes}分）`
+                    : due > 0
+                      ? `はじめる（${next.lesson.minutes}分）`
+                      : `はじめる（${next.lesson.minutes}分・クイズ${next.lesson.quiz.length}問）`
+                }
+                variant={doneToday ? 'secondary' : 'primary'}
+                size="sm"
+                onPress={() => router.push(`/lesson/${next.lesson.id}`)}
+              />
+            </View>
+            {due > 0 ? (
+              <Button
+                label={`復習 ${due}`}
+                variant="yellow"
+                size="sm"
+                onPress={() => router.push('/review')}
+              />
+            ) : null}
+          </Row>
         </Cassette>
+        </Spotlight>
       ) : (
-        <Panel contentStyle={{ padding: S.md, gap: S.xs }}>
+        <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
           <Text style={F.h2}>全課程、修了</Text>
-          <Text style={F.small}>やり直したいレッスンは「まなぶ」から開ける。</Text>
+          <Text style={F.small}>やり直したいレッスンは「まなぶ」から開けます。</Text>
+          {/* 締めは何度でも見られるようにしておく。
+              1回しか見られない画面は、撮ることもできない */}
+          <Row gap={S.sm}>
+            <View style={{ flex: 1 }}>
+              <Button label="修了の記録" size="sm" onPress={() => router.push('/ending')} />
+            </View>
+            {due > 0 ? (
+              <Button
+                label={`復習 ${due}`}
+                variant="yellow"
+                size="sm"
+                onPress={() => router.push('/review')}
+              />
+            ) : null}
+          </Row>
         </Panel>
       )}
     </Screen>

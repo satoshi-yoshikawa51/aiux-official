@@ -29,14 +29,64 @@ import { F, T } from '@/theme';
 export interface AvatarHandle {
   play: (motion: AvatarMotion) => void;
   emote: (icon: IconName) => void;
+  /**
+   * 体の向きを変える（ラジアン、Y軸まわり）。0＝正面。
+   * **すぐには向かない。** 描画ループが毎フレーム少しずつ寄せるので、
+   * 呼ぶのは1回でよく、あとは勝手に回りきる。
+   * 歩いて登場して正面を向く、のような演出に使う（onboarding/intro.tsx）。
+   */
+  face: (yaw: number) => void;
 }
 
 interface Props {
   avatar: AvatarDef;
   width: number;
   height: number;
+  /* ▍カメラを少し引く（1＝台帳どおり／1.2＝2割引く）
+
+     画角は台帳（avatars.ts の view）で決めていて、**立っている姿に
+     ちょうど合わせてある**。そのため laugh（のけぞって笑う）や bow
+     （お辞儀）のように大きく動くモーションだと、**頭が枠の上で切れる**。
+     レッスンとクイズの枠は小さいので、そこで目立って出ていた。
+
+     ホームは大きく見せたいので1のまま。芝居をさせる小さい枠だけ引く。 */
+  zoom?: number;
   /** モデルの読み込みが終わったら呼ばれる */
   onReady?: () => void;
+}
+
+/* ============================================================
+   ▍歩きは「その場で足踏み」に直してから使う
+
+   walk には**前進が焼き込まれている**（Rootの位置が2.4秒で1.12ユニット動く。
+   しかも先頭が -0.98 なので、再生した瞬間に真横へ1ユニットずれる）。
+   そのまま流すと、キャラが自分の枠から出ていって **canvas の端で切れる**。
+   一幕（app/intro.tsx）で「出てくるとき右が切れる」として実際に出た。
+
+   移動は画面側（枠ごと translateX で動かす）が受け持つので、ここでは
+   Rootの位置の track だけ落とす。**足の運びや腰の上下は残す**ので、
+   歩き方は変わらない。
+
+   落とすのは**大きく動くものだけ**。待機や説明のRootにも数センチの揺れが
+   入っていて、それは芝居なので残す。閾値はwalk（1.12）と待機（0.12）の
+   あいだを取ってある。新しいモーションを足しても勝手に効く。 */
+const TRAVEL = 0.3;
+
+function stripTravel(clip: THREE.AnimationClip) {
+  clip.tracks = clip.tracks.filter((t) => {
+    if (t.name !== 'Root.position') return true;
+    /* 3成分ずつ入っているので、軸ごとに振れ幅を見る */
+    for (let axis = 0; axis < 3; axis++) {
+      let lo = Infinity;
+      let hi = -Infinity;
+      for (let i = axis; i < t.values.length; i += 3) {
+        if (t.values[i] < lo) lo = t.values[i];
+        if (t.values[i] > hi) hi = t.values[i];
+      }
+      if (hi - lo > TRAVEL) return false;
+    }
+    return true;
+  });
 }
 
 /** アセットをArrayBufferとして読む（fetch(file://)に頼らない） */
@@ -52,7 +102,7 @@ async function readArrayBuffer(mod: number): Promise<ArrayBuffer> {
 }
 
 export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
-  { avatar, width, height, onReady },
+  { avatar, width, height, zoom = 1, onReady },
   ref,
 ) {
   const mixerRef = React.useRef<THREE.AnimationMixer | null>(null);
@@ -60,6 +110,9 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
   const currentRef = React.useRef<THREE.AnimationAction | null>(null);
   const emoteTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const disposedRef = React.useRef(false);
+  /* 体の向き。root＝いま向いている角度、want＝向きたい角度 */
+  const rootRef = React.useRef<THREE.Object3D | null>(null);
+  const yawRef = React.useRef(0);
   /* GLコンテキストの世代。枠の寸法が変わるとGLViewを作り直すので、
      **古い描画ループを止める**ために使う。止めないと、破棄済みの
      コンテキストに render して落ちる */
@@ -97,6 +150,13 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         if (emoteTimer.current) clearTimeout(emoteTimer.current);
         emoteTimer.current = setTimeout(() => setEmoteIcon(null), 1800);
       },
+      face: (yaw: number) => {
+        yawRef.current = yaw;
+        /* まだ読み込み中なら、出てきたときにこの向きで立たせる */
+        if (rootRef.current && Math.abs(rootRef.current.rotation.y - yaw) > Math.PI) {
+          rootRef.current.rotation.y = yaw;
+        }
+      },
     }),
     [playByName],
   );
@@ -125,8 +185,13 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         const aspect = gl.drawingBufferWidth / gl.drawingBufferHeight;
         const view = model.view;
         const camera = new THREE.PerspectiveCamera(view.fov, aspect, 0.05, 20);
-        camera.position.set(...view.camera);
-        camera.lookAt(...view.target);
+        /* 見ている点からの距離を zoom 倍にする。**画角ではなく位置で引く**——
+           fov を広げると、そのぶん背景（＝透過）の面積だけが増えて
+           キャラは小さくなるが、切れる位置は変わらない */
+        const target = new THREE.Vector3(...view.target);
+        const eye = new THREE.Vector3(...view.camera);
+        camera.position.copy(target.clone().add(eye.clone().sub(target).multiplyScalar(zoom)));
+        camera.lookAt(target);
 
         const [buffer, texture] = await Promise.all([
           readArrayBuffer(model.glb),
@@ -158,10 +223,13 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         });
 
         scene.add(gltf.scene);
+        rootRef.current = gltf.scene;
+        gltf.scene.rotation.y = yawRef.current;
 
         const mixer = new THREE.AnimationMixer(gltf.scene);
         mixerRef.current = mixer;
         for (const clip of gltf.animations) {
+          stripTravel(clip);
           actionsRef.current[clip.name] = mixer.clipAction(clip);
         }
         /* ワンショットのモーションが終わったら待機に戻す */
@@ -175,7 +243,15 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         const loop = () => {
           if (disposedRef.current || genRef.current !== gen) return;
           requestAnimationFrame(loop);
-          mixer.update(clock.getDelta());
+          const dt = clock.getDelta();
+          mixer.update(dt);
+          /* 向きたい角度へ、毎フレーム少しずつ寄せる。
+             一気に代入すると、歩きながらパッと反転して人形に見える */
+          const root = rootRef.current;
+          if (root) {
+            const d = yawRef.current - root.rotation.y;
+            root.rotation.y += Math.abs(d) < 0.002 ? d : d * Math.min(1, dt * 7);
+          }
           renderer.render(scene, camera);
           gl.endFrameEXP();
         };
@@ -185,7 +261,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         setStatus('failed');
       }
     },
-    [model, onReady, playByName],
+    [model, onReady, playByName, zoom],
   );
 
   /* GLBがまだ無いアバター、または読み込みに失敗したとき */
@@ -199,12 +275,24 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
   }
 
   return (
-    <View style={[styles.host, { width, height }]} pointerEvents="none">
+    /* 読み上げには「誰がいるか」だけを1つの塊で渡す。中のキャンバスは
+       名前の無い図として読まれるだけなので、外側で名前を付けて畳む
+       （セリフは隣のフキダシが文字で持っている） */
+    <View
+      style={[styles.host, { width, height }]}
+      pointerEvents="none"
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel={avatar.name}>
       {/* カメラの画角と描画サイズは onContextCreate の1回しか決まらない。
           あとから幅・高さが変わっても追従しないので、**そのときは作り直す**。
           追従しないままだと、古い寸法で焼いた絵が新しい枠に貼られて
           頭が切れる（狭い端末でフキダシの実測後に枠が縮むと起きた）。 */}
-      <GLView key={`${width}x${height}`} style={{ width, height }} onContextCreate={onContextCreate} />
+      <GLView
+        key={`${width}x${height}x${zoom}`}
+        style={{ width, height }}
+        onContextCreate={onContextCreate}
+      />
       {status === 'loading' && (
         <View style={styles.overlay}>
           <ActivityIndicator color={T.muted} />

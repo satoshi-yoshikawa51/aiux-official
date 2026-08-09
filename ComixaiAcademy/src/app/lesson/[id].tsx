@@ -10,16 +10,33 @@ import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import React from 'react';
-import { Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { Modal, Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
-import { Badge, Bubble, Button, Card, Cassette, Panel, Pill, Pop, Row, Screen } from '@/components/ui';
+import { LessonInteractiveCard } from '@/components/lesson-interactive';
+import { MissTag, QuizChoices, QuizExplain } from '@/components/quiz';
+import { RankUpScreen } from '@/components/rank-up';
+import { hasTerm, TermHint, TermText } from '@/components/term-text';
+import { SlideIn, Stamp } from '@/components/motion';
+import {
+  Badge,
+  Bubble,
+  Button,
+  Card,
+  Cassette,
+  Panel,
+  Pill,
+  Row,
+  Screen,
+} from '@/components/ui';
+import { playSound } from '@/lib/sound';
 import { getAvatar } from '@/data/avatars';
-import { getBadge, type Title } from '@/data/badges';
-import { COURSES, getLesson, resolveCard } from '@/data/courses';
+import { getBadge, prevTitle, titleSay, type Title } from '@/data/badges';
+import { COURSES, getLesson, lessonCards, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
-import { useProgress } from '@/store/progress';
+import { LESSON_VOICE, say as voice } from '@/data/voice';
+import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 type Phase = 'cards' | 'quiz' | 'result';
@@ -28,7 +45,23 @@ export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const navigation = useNavigation();
-  const { state, completeLesson } = useProgress();
+  const { state, ready, completeLesson, answerQuiz, markTutorialSeen } = useProgress();
+
+  /* ▍レッスンを開いたら、ホームの案内は「見た」ことにする
+     ふつうの操作では案内中に画面へ触れない（(tabs)/_layout.tsx が
+     全面を止めている）が、**Webで共有されたレッスンURLを直接ひらく**と
+     案内を素通りできる。その人が次にホームへ来たとき、もうレッスンを
+     終えているのに案内が1/6から始まるのは変なので、ここで印を立てる。
+     レッスンを開いた時点で、案内の役目は終わっている。
+     ready を待つのは復習画面と同じ理由——読み込み前に書くと、
+     空の記録に上書き保存してしまう */
+  const tutMarked = React.useRef(false);
+  React.useEffect(() => {
+    if (!ready || tutMarked.current || state.seenTutorial) return;
+    tutMarked.current = true;
+    markTutorialSeen();
+  }, [ready, state.seenTutorial, markTutorialSeen]);
+  const stats = useStats();
   const { width } = useWindowDimensions();
 
   const avatarRef = React.useRef<AvatarHandle>(null);
@@ -42,28 +75,86 @@ export default function LessonScreen() {
   const [choice, setChoice] = React.useState<number | null>(null);
   const [misses, setMisses] = React.useState(0);
   const [copied, setCopied] = React.useState(false);
+  /* 合否のある体験カードを通過したか。カードを送るたびに戻す */
+  const [cleared, setCleared] = React.useState(false);
   const [result, setResult] = React.useState<{ newBadges: string[]; newTitle: Title | null } | null>(null);
+  /* ランクアップの演出を出しているあいだ。**結果画面より前に**割り込ませる */
+  const [rankUp, setRankUp] = React.useState<Title | null>(null);
   const savedRef = React.useRef(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({ title: found?.lesson.title ?? 'レッスン' });
   }, [navigation, found?.lesson.title]);
 
-  const card = found ? found.lesson.cards[cardIndex] : undefined;
-  const view = React.useMemo(() => (card ? resolveCard(card, state.roleId) : null), [card, state.roleId]);
+  /* ▍途中で戻ると、この回はまるごと消える
+     レッスンの進み具合はどこにも保存していない（修了したときだけ記録する）。
+     なのに黙って戻れてしまい、**5枚読んだ人が何も残らずに出ていく**
+     ことがあった。1回だけ引き止める。 */
+  const [leaving, setLeaving] = React.useState<null | (() => void)>(null);
+  /* 一度「やめる」を選んだあとは、素通しする（でないと自分で出した
+     dispatch をもう一度つかまえて、永久に出られなくなる） */
+  const leftRef = React.useRef(false);
+  React.useEffect(() => {
+    const sub = navigation.addListener('beforeRemove', (e: { preventDefault: () => void; data: { action: unknown } }) => {
+      /* 読み始めたばかり・もう終えている人は止めない */
+      if (phase === 'result' || (phase === 'cards' && cardIndex === 0)) return;
+      if (leftRef.current) return;
+      e.preventDefault();
+      setLeaving(() => () => {
+        leftRef.current = true;
+        navigation.dispatch(e.data.action as never);
+      });
+    });
+    return sub;
+  }, [navigation, phase, cardIndex]);
+
+  /* 職種の1枚は最後に足される（→ courses/index.ts の lessonCards）。
+     以降の枚数の数え方は、すべてこの cards を見ること。
+     lesson.cards を直接数えると、最後の1枚ぶんだけ点がずれる */
+  const cards = React.useMemo(
+    () => (found ? lessonCards(found.lesson, state.roleId) : []),
+    [found, state.roleId],
+  );
+  const card = cards[cardIndex];
+  const view = React.useMemo(
+    () => (card ? resolveCard(card, state.roleId, state.avatarId) : null),
+    [card, state.roleId, state.avatarId],
+  );
 
   React.useEffect(() => {
     if (phase !== 'cards' || !view) return;
     setCopied(false);
+    setCleared(false);
     avatarRef.current?.play(view.motion ?? 'explain');
     if (view.emote) avatarRef.current?.emote(view.emote);
   }, [phase, view]);
+
+  /* 通せんぼをするのは token-budget だけ。
+     トークン数は誰がやっても同じ答えになるので、必ず抜けられる。
+     ai-prompt の点はAIの判断で揺れるので、**揺れるもので止めない** */
+  const gated = view?.interactive?.kind === 'token-budget';
+  const canAdvance = !gated || cleared;
+
+  const onInteractiveDone = React.useCallback((ok: boolean) => {
+    if (!ok) return;
+    setCleared(true);
+    avatarRef.current?.play('laugh');
+    avatarRef.current?.emote('sparkle');
+  }, []);
 
   React.useEffect(() => {
     if (phase !== 'result' || savedRef.current || !found) return;
     savedRef.current = true;
     const r = completeLesson(found.lesson.id, misses === 0);
     setResult(r);
+    /* 称号が上がったら、結果を読ませる前に演出を差し込む。
+       ここでしか上がらないものなので、結果画面のカード1枚では軽すぎる */
+    if (r.newTitle) setRankUp(r.newTitle);
+    /* ▍音は「いちばん大きい出来事」だけ鳴らす
+       修了・バッジ・昇格が同時に起きるので、全部鳴らすと濁る。
+       昇格があるなら昇格の音は演出側（rank-up.tsx）が鳴らすので、
+       ここは鳴らさない */
+    if (!r.newTitle) playSound(r.newBadges.length > 0 ? 'badge' : 'finish');
     avatarRef.current?.play(misses === 0 ? 'laugh' : 'bow');
     avatarRef.current?.emote(misses === 0 ? 'sparkle' : 'bulb');
   }, [phase, found, misses, completeLesson]);
@@ -78,7 +169,24 @@ export default function LessonScreen() {
 
   const { lesson, course } = found;
   const quiz = lesson.quiz[quizIndex];
-  const stageW = Math.min(width * 0.4, 165);
+
+  /* ▍締めの1枚（セリフしか無いカード）
+     多くのレッスンが「セリフ＋お辞儀」で終わる。ここで空の白コマを
+     出すと、番号だけの白い箱＝壊れた画面にしか見えない（実機で報告あり）。
+     コマは出さず、そのぶんキャラを大きくして「幕」として見せる */
+  const closing =
+    phase === 'cards' &&
+    !!view &&
+    !view.heading &&
+    !view.body &&
+    !view.bullets?.length &&
+    !view.prompt &&
+    !view.interactive;
+  const stageW = closing ? Math.min(width * 0.52, 215) : Math.min(width * 0.4, 165);
+
+  /* このレッスンでコースが埋まったか。結果に締めを出すのに使う */
+  const clearedCourse =
+    phase === 'result' && !!found && found.course.lessons.every((l) => state.done[l.id]);
 
   const nextLesson = (() => {
     const all = COURSES.flatMap((c) => c.lessons);
@@ -87,7 +195,7 @@ export default function LessonScreen() {
   })();
 
   const goNextCard = () => {
-    if (cardIndex + 1 < lesson.cards.length) setCardIndex((n) => n + 1);
+    if (cardIndex + 1 < cards.length) setCardIndex((n) => n + 1);
     else setPhase(lesson.quiz.length > 0 ? 'quiz' : 'result');
   };
 
@@ -96,12 +204,19 @@ export default function LessonScreen() {
     setChoice(i);
     const ok = i === quiz.answer;
     if (!ok) setMisses((n) => n + 1);
+    /* 間違えた問題は控えておいて、日を置いてもう一度出す（→ app/review.tsx）。
+       ここで記録しないと「間違えたことに気づいて終わり」になる */
+    answerQuiz(quiz.id, ok);
     if (Platform.OS !== 'web') {
       Haptics.notificationAsync(
         ok ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Warning,
       ).catch(() => {});
     }
-    avatarRef.current?.play(ok ? 'laugh' : 'worried');
+    playSound(ok ? 'right' : 'wrong');
+    /* ▍モーションを11種ぜんぶ使う
+       正解と不正解しか出し分けていなかったので、**続けて当てたときだけ
+       笑わせる**。毎回笑うと、笑ったことの意味が無くなる */
+    avatarRef.current?.play(ok ? (misses === 0 ? 'laugh' : 'wave') : 'worried');
     avatarRef.current?.emote(ok ? 'sparkle' : 'bang');
   };
 
@@ -111,32 +226,103 @@ export default function LessonScreen() {
     else setPhase('result');
   };
 
+  /* 下に貼り付ける口。場面ごとに中身が変わる。
+     クイズは答えるまで出さない（先に押せると、読まずに飛ばせてしまう） */
+  const footer =
+    phase === 'cards' ? (
+      <Button
+        label={
+          !canAdvance
+            ? 'ゲームをクリアすると進める'
+            : cardIndex + 1 < cards.length
+              ? 'つぎへ'
+              : 'クイズへ'
+        }
+        disabled={!canAdvance}
+        onPress={goNextCard}
+      />
+    ) : phase === 'quiz' && choice !== null ? (
+      <Button
+        label={quizIndex + 1 < lesson.quiz.length ? 'つぎの問題' : '結果を見る'}
+        onPress={goNextQuiz}
+      />
+    ) : phase === 'result' ? (
+      /* 結果は修了→バッジ→称号と縦に伸びるので、次の1本への口が
+         画面の外に出る。ここだけは下に貼り付けておく */
+      nextLesson ? (
+        <Button label="次のレッスンへ" onPress={() => router.replace(`/lesson/${nextLesson.id}`)} />
+      ) : (
+        <Button label="ホームに戻る" onPress={() => router.replace('/')} />
+      )
+    ) : undefined;
+
   const copy = async (text: string) => {
     await Clipboard.setStringAsync(text);
     setCopied(true);
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
   };
 
+  /* セリフは相棒で変わる。書けていない相棒は先生の言葉に落ちる（data/voice.ts） */
+  const v = (line: Parameters<typeof voice>[0]) => voice(line, state.avatarId);
   const say =
     phase === 'cards'
       ? (view?.say ?? '')
       : phase === 'quiz'
         ? choice === null
-          ? '確認だ。ここだけ間違えるな。'
+          ? v(LESSON_VOICE.quizAsk)
           : choice === quiz.answer
-            ? 'そうだ。わかってるじゃないか。'
-            : '違う。……まあ、ここで間違えておけ。'
+            ? v(LESSON_VOICE.quizRight)
+            : v(LESSON_VOICE.quizWrong)
         : misses === 0
-          ? 'ノーミスか。文句なしだ。'
-          : '終わりだ。間違えたところは、あとで戻ればいい。';
+          ? v(LESSON_VOICE.resultPerfect)
+          : v(LESSON_VOICE.resultDone);
+
+  const confirmLeave = leaving ? (
+    <Modal visible transparent animationType="fade" onRequestClose={() => setLeaving(null)}>
+      <Pressable
+        onPress={() => setLeaving(null)}
+        style={{
+          flex: 1,
+          backgroundColor: 'rgba(20,17,15,0.55)',
+          justifyContent: 'center',
+          padding: S.lg,
+        }}>
+        <Pressable onPress={() => {}}>
+          <Panel contentStyle={{ gap: S.sm, padding: S.lg }}>
+            <Text style={F.h1}>ここでやめる？</Text>
+            <Text style={F.body}>
+              途中までの進み具合は残りません。次に開いたときは、また1枚目からになります。
+            </Text>
+            <Row gap={S.sm} style={{ marginTop: S.xs }}>
+              <View style={{ flex: 1 }}>
+                <Button label="つづける" onPress={() => setLeaving(null)} />
+              </View>
+              {/* やめる口には星を出さない（祝うところではない） */}
+              <Button label="やめる" variant="secondary" onPress={leaving} />
+            </Row>
+          </Panel>
+        </Pressable>
+      </Pressable>
+    </Modal>
+  ) : null;
 
   return (
     /* 上は Stack のヘッダーが安全領域を飲んでいるので、ここでは下だけ見る */
-    <Screen edges={['bottom']} tone="dots" style={{ gap: S.lg, paddingBottom: S.xxl }}>
+    <Screen
+      edges={['bottom']}
+      tone="dots"
+      style={{ gap: S.lg, paddingBottom: S.xxl }}
+      /* ▍先へ進む口は、下に貼り付ける
+         カードの中に置いていたので、**本文が短い回ではボタンが画面の
+         まんなかに来て、下半分が丸ごと空いていた**。親指の届くところに
+         無いのがいちばん効く（→ ui.tsx の Screen footer）。
+         貼ったぶんの高さは本文の下に自動で空くので、隠れない */
+      footer={footer}>
+      {confirmLeave}
       <>
         {/* 進み具合 */}
         <Row gap={3}>
-          {lesson.cards.map((_, i) => (
+          {cards.map((_, i) => (
             <View
               key={i}
               style={{
@@ -163,17 +349,32 @@ export default function LessonScreen() {
 
         {/* 先生とセリフ（横並び） */}
         <Row gap={S.sm} style={{ alignItems: 'flex-end' }}>
-          <Avatar3D ref={avatarRef} avatar={avatar} width={stageW} height={Math.round(stageW * 1.25)} />
+          <Avatar3D
+            ref={avatarRef}
+            avatar={avatar}
+            width={stageW}
+            height={Math.round(stageW * 1.25)}
+            /* 笑う・お辞儀するで頭が枠から出るので、少し引く */
+            zoom={1.18}
+          />
           <View style={{ flex: 1, paddingBottom: S.lg }}>
             <Bubble text={say} style={{ marginRight: POP.sm }} />
           </View>
         </Row>
 
         {/* ———— 本文カード ———— */}
-        {phase === 'cards' && view ? (
+        {phase === 'cards' && view && !closing ? (
+          /* ▍カードが変わったことを動きで見せる
+             key を付けてあるので、送るたびに作り直されて入りの動きが走る。
+             **出は動かしていない**——中身を差し替えるまでの待ちが要って、
+             送りのテンポが落ちるため */
+          <SlideIn key={`c${cardIndex}`}>
           <Panel number={String(cardIndex + 1)} contentStyle={{ paddingTop: S.xl + S.sm, gap: S.md }}>
             {view.heading ? <Text style={F.h1}>{view.heading}</Text> : null}
-            {view.body ? <Text style={F.body}>{view.body}</Text> : null}
+            {/* 本文と箇条書きの中の用語は押せる（→ components/term-text.tsx）。
+                初出の回で説明していても、あとの回で出てきたときに
+                戻る手段が無いと、そこで置いていかれる */}
+            {view.body ? <TermText style={F.body}>{view.body}</TermText> : null}
             {view.bullets?.length ? (
               <View style={{ gap: 8 }}>
                 {view.bullets.map((b, i) => (
@@ -181,11 +382,14 @@ export default function LessonScreen() {
                     <View style={{ paddingTop: 9 }}>
                       <Icon name="play" size={9} color={T.accent} />
                     </View>
-                    <Text style={[F.body, { flex: 1 }]}>{b}</Text>
+                    <TermText style={[F.body, { flex: 1 }]}>{b}</TermText>
                   </Row>
                 ))}
               </View>
             ) : null}
+            {/* 押せることに気づかないと意味が無いので、用語のあるカードだけ
+                一度だけ案内を出す */}
+            {hasTerm(view.body) || view.bullets?.some(hasTerm) ? <TermHint /> : null}
             {view.prompt ? (
               <View style={{ gap: S.sm }}>
                 <Row gap={6}>
@@ -216,81 +420,43 @@ export default function LessonScreen() {
                 />
               </View>
             ) : null}
-            <Button
-              label={cardIndex + 1 < lesson.cards.length ? 'つぎへ' : 'クイズへ'}
-              onPress={goNextCard}
-            />
+            {view.interactive ? (
+              <LessonInteractiveCard
+                spec={view.interactive}
+                lessonId={lesson.id}
+                onDone={onInteractiveDone}
+              />
+            ) : null}
           </Panel>
+          </SlideIn>
         ) : null}
 
         {/* ———— クイズ ———— */}
         {phase === 'quiz' ? (
+          <SlideIn key={`q${quizIndex}`}>
           <Panel tone="lines" contentStyle={{ gap: S.md }}>
             <Row style={{ justifyContent: 'space-between' }}>
               <Text style={F.kicker}>
                 QUIZ {quizIndex + 1} / {lesson.quiz.length}
               </Text>
-              {misses > 0 ? (
-                <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>MISS {misses}</Text>
-              ) : (
-                <Badge tone="green">ノーミス継続</Badge>
-              )}
+              <MissTag misses={misses} />
             </Row>
             <Text style={F.h1}>{quiz.q}</Text>
-            <View style={{ gap: S.sm }}>
-              {quiz.choices.map((c, i) => {
-                const revealed = choice !== null;
-                const isAnswer = i === quiz.answer;
-                const isPicked = i === choice;
-                const bg = !revealed ? T.surface : isAnswer ? T.okSoft : isPicked ? T.accentSoft : T.surface;
-                const mark = revealed ? (isAnswer ? '○' : isPicked ? '×' : ' ') : String.fromCharCode(65 + i);
-                return (
-                  <Pressable key={i} onPress={() => answer(i)} disabled={revealed}>
-                    <Pop offset={revealed && (isAnswer || isPicked) ? POP.sm : 0} radius={R.sm} reserve={false}>
-                      <View
-                        style={{
-                          backgroundColor: bg,
-                          borderWidth: revealed && (isAnswer || isPicked) ? BW.bold : BW.line,
-                          borderColor: revealed && !isAnswer && !isPicked ? T.borderSoft : T.border,
-                          borderRadius: R.sm,
-                          padding: S.md,
-                        }}>
-                        <Row gap={S.sm} style={{ alignItems: 'flex-start' }}>
-                          <Text
-                            style={{
-                              fontFamily: FONT.display,
-                              fontSize: 15,
-                              lineHeight: 26,
-                              color: revealed && isAnswer ? T.ok : T.muted,
-                              width: 16,
-                            }}>
-                            {mark}
-                          </Text>
-                          <Text style={[F.body, { flex: 1 }]}>{c}</Text>
-                        </Row>
-                      </View>
-                    </Pop>
-                  </Pressable>
-                );
-              })}
-            </View>
+            <QuizChoices quiz={quiz} choice={choice} onPick={answer} />
             {choice !== null ? (
               <View style={{ gap: S.md, marginTop: S.xs }}>
-                <Card tone={choice === quiz.answer ? 'ok' : 'warn'} variant="flat" contentStyle={{ padding: S.md }}>
-                  <Text style={F.body}>{quiz.explanation}</Text>
-                </Card>
-                <Button
-                  label={quizIndex + 1 < lesson.quiz.length ? 'つぎの問題' : '結果を見る'}
-                  onPress={goNextQuiz}
-                />
+                <QuizExplain quiz={quiz} choice={choice} />
+
               </View>
             ) : null}
           </Panel>
+          </SlideIn>
         ) : null}
 
         {/* ———— 結果 ———— */}
         {phase === 'result' ? (
-          <View style={{ gap: S.lg }}>
+          /* 締めは下から持ち上げる。横に流すと「まだ続く」ように見える */
+          <SlideIn from="bottom" distance={24} duration={380} style={{ gap: S.lg }}>
             {/* 紙そのものに網点が敷いてあるので、このコマは白のまま抜く */}
             <Panel tilt={-1} contentStyle={{ gap: S.sm, alignItems: 'center', paddingVertical: S.xl }}>
               <Row gap={6}>
@@ -310,6 +476,49 @@ export default function LessonScreen() {
                 クイズ {lesson.quiz.length - misses} / {lesson.quiz.length} 問正解
               </Badge>
             </Panel>
+
+            {/* ———— コース修了 ————
+                 コースを終えたのに、バッジ1個ぶんの扱いしか無かった。
+                 4本通した重みが、1本終えたのと同じ見た目では釣り合わない。
+                 判子を落として、通った本数を並べて見せる */}
+            {clearedCourse ? (
+              <Stamp tilt={-2}>
+                <Card tone="ink" contentStyle={{ gap: S.sm, alignItems: 'center', paddingVertical: S.lg }}>
+                  <Text style={[F.kicker, { color: C.yellow400 }]}>COURSE CLEAR</Text>
+                  <Row gap={8}>
+                    <Icon name={course.icon} size={26} color={C.yellow400} />
+                    <Text style={{ fontFamily: FONT.display, fontSize: 22, color: C.paper50 }}>
+                      {course.title}
+                    </Text>
+                  </Row>
+                  <View style={{ gap: 4, alignSelf: 'stretch', paddingHorizontal: S.md }}>
+                    {course.lessons.map((l) => (
+                      <Row key={l.id} gap={7}>
+                        <Icon name="check" size={12} color={T.ok} />
+                        <Text style={[F.tiny, { color: C.paper100, flex: 1 }]} numberOfLines={1}>
+                          {l.title}
+                        </Text>
+                      </Row>
+                    ))}
+                  </View>
+                </Card>
+              </Stamp>
+            ) : null}
+
+            {/* ———— 続いている日数 ————
+                 数えているのに、ホームに小さく出るだけだった。
+                 **伸びたその日にだけ**出す。毎回出すと数字が景色になる */}
+            {stats.streak >= 2 ? (
+              <Card tone="warn" variant="flat" contentStyle={{ padding: S.md }}>
+                <Row gap={8}>
+                  <Icon name="fire" size={22} color={T.accent} />
+                  <Text style={[F.strong, { flex: 1 }]}>{stats.streak}日 連続</Text>
+                  <Text style={F.tiny}>
+                    {stats.streak >= 7 ? '一週間、続いた' : `あと${7 - stats.streak}日で一週間`}
+                  </Text>
+                </Row>
+              </Card>
+            ) : null}
 
             {result?.newBadges.length ? (
               <Card tone="accent">
@@ -337,28 +546,35 @@ export default function LessonScreen() {
                   <Icon name={result.newTitle.icon} size={32} color={C.paper0} />
                   <Text style={[F.title, { color: C.paper50, flex: 1 }]}>{result.newTitle.name}</Text>
                 </Row>
-                <Text style={[F.hand, { color: C.paper100 }]}>「{result.newTitle.say}」</Text>
+                <Text style={[F.hand, { color: C.paper100 }]}>
+                  「{titleSay(result.newTitle, state.avatarId)}」
+                </Text>
               </Card>
+            ) : null}
+
+            {/* ▍最後の1本を終えた人は、締めへ送る
+                 「全課程、修了」がバッジ1個で流れていくのは、
+                 14コマの絵巻で始めたアプリの終わり方として軽すぎる */}
+            {result?.newBadges.includes('all-clear') ? (
+              <Button label="修了の記録を見る" onPress={() => router.push('/ending')} />
             ) : null}
 
             {/* ———— 次にやること ————
                  ほぼ黒に沈めたコマに入れて、黄色いピルで印を付ける（ホームと同じ） */}
+            {/* ▍先へ進むボタンは下の帯に置いてある
+                 修了・バッジ・称号と続くので、ここは画面のいちばん下になる。
+                 一覧の末尾に置くとスクロールしないと見つからない
+                 （実際、狭い端末では「次のレッスンへ」が画面の外にいた） */}
             <Cassette>
               {nextLesson ? (
-                <>
-                  <Row gap={8}>
-                    <Pill label="NEXT" />
-                    <Text
-                      style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
-                      numberOfLines={1}>
-                      {nextLesson.title}
-                    </Text>
-                  </Row>
-                  <Button
-                    label="次のレッスンへ"
-                    onPress={() => router.replace(`/lesson/${nextLesson.id}`)}
-                  />
-                </>
+                <Row gap={8}>
+                  <Pill label="NEXT" />
+                  <Text
+                    style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
+                    numberOfLines={1}>
+                    {nextLesson.title}
+                  </Text>
+                </Row>
               ) : (
                 <Row gap={8}>
                   <Icon name="trophy" size={18} color={C.paper50} />
@@ -369,7 +585,14 @@ export default function LessonScreen() {
               )}
               <Button label="ホームに戻る" variant="secondary" onPress={() => router.replace('/')} />
             </Cassette>
-          </View>
+          </SlideIn>
+        ) : null}
+
+        {/* ———— 称号ランクアップ ————
+             結果を読ませる前に全画面で割り込む。閉じるまで結果は裏にいる。
+             ここでしか上がらないご褒美なので、カード1枚では軽すぎた */}
+        {rankUp ? (
+          <RankUpScreen from={prevTitle(rankUp)} to={rankUp} onDone={() => setRankUp(null)} />
         ) : null}
       </>
     </Screen>

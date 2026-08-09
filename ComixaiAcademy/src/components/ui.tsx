@@ -8,7 +8,6 @@
    方式にしている。これなら iOS / Android / Web で同じ絵が出る。
    ============================================================ */
 import { Asset } from 'expo-asset';
-import * as Haptics from 'expo-haptics';
 import React from 'react';
 import {
   Image,
@@ -26,6 +25,9 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets, type Edge } from 'react-native-safe-area-context';
 
+import type { SoundName } from '@/lib/sound';
+import { useTap } from '@/components/motion';
+import { useTutorial } from '@/store/tutorial';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 const TONE_DOTS = require('@/assets/images/tone-dots.png');
@@ -120,6 +122,11 @@ export function Screen({
   tone = 'none',
   /** 網点の濃さ。薄くしたいときだけ 0.5 くらいを渡す */
   toneOpacity = 1,
+  /** 画面下に貼り付けて動かさない帯。**先に進むボタン専用**。
+      長い一覧の末尾にボタンを置くと、スクロールしないと見つからない
+      （相棒えらびで実際に「どこで決めるのか分からない」が起きた）。
+      ここに置いたぶんの高さは本文の下に自動で空ける */
+  footer,
   style,
 }: {
   children: React.ReactNode;
@@ -128,26 +135,46 @@ export function Screen({
   scroll?: boolean;
   tone?: ToneKind;
   toneOpacity?: number;
+  footer?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
 }) {
   const insets = useSafeAreaInsets();
+  /* 固定帯の高さは中身しだいなので、置いてから測る。
+     決め打ちにすると、文字の大きさ設定を上げた端末で本文が隠れる */
+  const [footerH, setFooterH] = React.useState(0);
   /* タブバーは内容に覆いかぶさらないので、下は素の余白でよい。
      スクロールする画面だけ、最後の要素が窮屈に見えないよう少し多めに取る */
   const bottomPad = scroll ? S.xxl : S.lg;
 
+  /* ———— 案内パネルのぶんだけ下を空ける ————
+     案内中はタブバーの上に説明のパネルが浮いている。**空けないと、
+     案内が指している当のものをパネルが隠す**（ホームのカセットで実際に
+     起きた）。paddingBottom ではなく高さのある箱を足しているのは、
+     この下の style で padding をまるごと上書きしている画面があるため。
+     光は枠の外へ14px出るので、そのぶんも足しておく */
+  const { active: guiding, panelH } = useTutorial();
+  const reserve = guiding && panelH > 0 ? panelH + S.lg : 0;
+
   /* 帯があるときは、帯自身がステータスバーぶんを飲み込むので
      SafeAreaView に上を任せない（任せると帯の上に紙の余白が出る） */
   const safeEdges = header ? edges.filter((e) => e !== 'top') : edges;
+
+  /* 案内パネルと固定帯、どちらのぶんも下に空ける。
+     空けないと、いちばん下の項目が帯の裏に隠れて**選べないように見える** */
+  const spacerH = reserve + footerH;
+  const spacer = spacerH > 0 ? <View style={{ height: spacerH }} /> : null;
 
   const body = scroll ? (
     <ScrollView
       contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
       showsVerticalScrollIndicator={false}>
       {children}
+      {spacer}
     </ScrollView>
   ) : (
     <View style={[{ flex: 1 }, styles.screenPad, { paddingBottom: bottomPad }, style]}>
       {children}
+      {spacer}
     </View>
   );
 
@@ -162,6 +189,27 @@ export function Screen({
           <Tone tone={tone} style={[StyleSheet.absoluteFill, { opacity: toneOpacity }]} />
         )}
         {body}
+
+        {/* 固定帯。紙と同じ色で塗り、上に線を引いて「ここから下は別」を出す。
+            透かすと本文の文字が透けて読めなくなる */}
+        {footer ? (
+          <View
+            onLayout={(e) => setFooterH(e.nativeEvent.layout.height)}
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: T.bg,
+              borderTopWidth: BW.line,
+              borderTopColor: T.border,
+              paddingHorizontal: S.lg,
+              paddingTop: S.md,
+              paddingBottom: S.md,
+            }}>
+            {footer}
+          </View>
+        ) : null}
       </View>
     </SafeAreaView>
   );
@@ -303,6 +351,7 @@ export function Panel({
   caption,
   tilt = 0,
   fill = false,
+  shrink = false,
   style,
   contentStyle,
 }: {
@@ -324,6 +373,11 @@ export function Panel({
   tilt?: number;
   /** 縦に余っている分を埋める（1画面に収める画面で使う） */
   fill?: boolean;
+  /** 縦が足りないときに縮んでよい。
+      RNの既定は flexShrink: 0 なので、**途中のViewが1つでも縮まないと
+      いちばん内側の flexShrink は効かない**。背の低い端末で
+      1画面に収めたいコマは、これを立てて道をつなぐ */
+  shrink?: boolean;
   style?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
 }) {
@@ -336,6 +390,7 @@ export function Panel({
         borderRadius: R.sm,
         overflow: 'hidden',
         ...(fill ? { flex: 1 } : null),
+        ...(shrink ? { flexShrink: 1 } : null),
       }}>
       {bg ? (
         <>
@@ -375,7 +430,12 @@ export function Panel({
   return (
     <Pop
       radius={R.sm}
-      style={[fill && { flex: 1 }, tilt ? { transform: [{ rotate: `${tilt}deg` }] } : null, style]}>
+      style={[
+        fill && { flex: 1 },
+        shrink && { flexShrink: 1 },
+        tilt ? { transform: [{ rotate: `${tilt}deg` }] } : null,
+        style,
+      ]}>
       {inner}
     </Pop>
   );
@@ -404,7 +464,13 @@ export function Pill({ label, style }: { label: string; style?: StyleProp<ViewSt
         },
         style,
       ]}>
-      <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 1, color: C.ink900 }}>
+      {/* ▍ここだけ文字の拡大に上限をつける
+          端末の文字サイズ設定は本文には効かせたい。ただし丸い札の中の
+          2〜3文字（NEXT / REVIEW）は、2倍まで伸びると札が折り返して
+          隣の見出しを押し出す。**中身が飾りのものだけ**頭打ちにする */}
+      <Text
+        maxFontSizeMultiplier={1.3}
+        style={{ fontFamily: FONT.mono, fontSize: 10.5, letterSpacing: 1, color: C.ink900 }}>
         {label}
       </Text>
     </View>
@@ -436,6 +502,69 @@ export function Cassette({
   );
 }
 
+/* ———————————————— 押した見た目 ————————————————
+   **押せるものは全部、この2つのどちらかに揃える**。
+   一部だけ返事があると、返事のないものが「効かない」ように見える。
+
+   配線（沈み・触覚・星）は motion.tsx の useTap が持っている。
+   ここにあるのは見た目だけ。 */
+
+/** ベタ影のあるもの用。影の位置まで丸ごと落ちる。
+    使う側は影のずらし量も `down ? 0 : POP.sm` にすること */
+export const sinkPop = (down: boolean, depth: number = POP.sm) => ({
+  transform: [
+    { translateX: down ? depth : 0 },
+    { translateY: down ? depth : 0 },
+    { scale: down ? 0.98 : 1 },
+  ],
+});
+
+/** 影のない平らなもの用（タブ・チップ・文字だけのもの）。
+    落ちる先が無いので、きゅっと縮めて返事にする。
+    **横に広いものほど控えめに**（画面幅いっぱいの行を0.92で縮めると、
+    25pxも痩せてガタつく）。小さいものは 0.92、横長の行は 0.97 くらい */
+export const sinkFlat = (down: boolean, scale = 0.92) => ({
+  transform: [{ scale: down ? scale : 1 }],
+});
+
+/** 押した返事つきの Pressable。中身が押下状態を要らないとき用の手軽版。
+    ベタ影を持たない「文字だけの押せるところ」（設定の項目、リンク、
+    チュートリアルの とばす／つぎへ など）はこれで包む */
+export function Tap({
+  children,
+  onPress,
+  disabled,
+  /** 星を出さない。消す・やめる など、**押して気持ちよくしたくない**ところ */
+  sparks = true,
+  scale = 0.94,
+  hitSlop,
+  /** 鳴らす音を変える／黙らせる。音を切る口そのものなど */
+  sound,
+  style,
+}: {
+  children: React.ReactNode;
+  onPress: () => void;
+  disabled?: boolean;
+  sparks?: boolean;
+  scale?: number;
+  hitSlop?: number;
+  sound?: SoundName | 'none';
+  style?: StyleProp<ViewStyle>;
+}) {
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks, sound });
+  return (
+    <Pressable
+      disabled={disabled}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      hitSlop={hitSlop}
+      style={style}>
+      <View style={sinkFlat(pressed && !disabled, scale)}>{children}</View>
+    </Pressable>
+  );
+}
+
 /* ———————————————— ボタン ———————————————— */
 
 type BtnVariant = 'primary' | 'secondary' | 'ink' | 'ghost' | 'yellow';
@@ -446,6 +575,17 @@ const BTN: Record<BtnVariant, { bg: string; fg: string; border: string }> = {
   ink: { bg: C.ink900, fg: C.paper50, border: T.border },
   ghost: { bg: 'transparent', fg: C.ink900, border: 'transparent' },
   yellow: { bg: C.yellow400, fg: C.ink900, border: T.border },
+};
+
+/* 押しているあいだの地の色。スマホは指がボタンを覆うので、
+   沈めるだけでは伝わらない。**指の外にはみ出している縁の色が変わる**のが
+   いちばん確実に見える。サイトのホバー色（ds.tsx）と同じ考え方 */
+const BTN_PRESS: Record<BtnVariant, string> = {
+  primary: T.accentPress,
+  secondary: C.paper100,
+  ink: C.ink800,
+  ghost: 'transparent',
+  yellow: C.yellow200,
 };
 
 export function Button({
@@ -463,7 +603,8 @@ export function Button({
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
-  const [pressed, setPressed] = React.useState(false);
+  /* 沈み・触覚・星をまとめて（motion.tsx の useTap） */
+  const { pressed, onPressIn, onPressOut } = useTap({ scale: size === 'lg' ? 1.2 : 1 });
   /* 押せないボタンは**薄くせず、色を落とす**。全体を半透明にすると、
      紙に敷いた網点がボタンを透けて出てきて汚れて見える */
   const v = disabled
@@ -475,12 +616,15 @@ export function Button({
     lg: { fontSize: 18, py: 16, px: 28, radius: R.md },
   }[size];
   const flat = variant === 'ghost';
-  const offset = flat || disabled ? 0 : pressed ? 1 : POP.sm;
+  const down = pressed && !disabled && !flat;
+  /* 押したら影を**0まで潰す**＝ボタンが影の位置まで落ちきる。
+     サイトは1px残すが、スマホでは残すと落ちたのか分からない */
+  const offset = flat || disabled ? 0 : down ? 0 : POP.sm;
 
   const face = (
     <View
       style={{
-        backgroundColor: v.bg,
+        backgroundColor: down ? BTN_PRESS[variant] : v.bg,
         borderWidth: BW.bold,
         borderColor: v.border,
         borderRadius: dims.radius,
@@ -498,21 +642,22 @@ export function Button({
   return (
     <Pressable
       disabled={disabled}
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
-      onPress={() => {
-        if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
-        onPress();
-      }}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      /* 読み上げに「ボタン」と「押せるかどうか」を渡す。
+         中の Text は Pressable の中に埋もれるので、名前は明示する */
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: !!disabled }}
       style={style}>
       {flat ? (
-        face
+        <View style={sinkFlat(pressed && !disabled)}>{face}</View>
       ) : (
-        /* 押している間は影が縮んで、ボタン自体が沈む（サイトと同じ挙動） */
+        /* 押すと影が消え、ボタンが影のあった位置まで丸ごと落ちる。
+           わずかに縮めているのは、指で隠れていても縁の動きで分かるように */
         <Pop offset={offset} radius={dims.radius} reserve={false} style={{ marginBottom: POP.sm }}>
-          <View style={{ transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }] }}>
-            {face}
-          </View>
+          <View style={sinkPop(down)}>{face}</View>
         </Pop>
       )}
     </Pressable>
@@ -557,7 +702,10 @@ export function Badge({
         },
         style,
       ]}>
-      <Text style={{ fontFamily: FONT.heading, fontSize: 12, color: t.fg, letterSpacing: 0.3 }}>
+      {/* 札の中は「修了」「職種別」のような短い印。Pill と同じ理由で頭打ち */}
+      <Text
+        maxFontSizeMultiplier={1.3}
+        style={{ fontFamily: FONT.heading, fontSize: 12, color: t.fg, letterSpacing: 0.3 }}>
         {children}
       </Text>
     </View>
@@ -672,7 +820,13 @@ export function Bubble({
 export function Progress({ value, total }: { value: number; total: number }) {
   const pct = total > 0 ? Math.min(100, Math.round((value / total) * 100)) : 0;
   return (
-    <View style={styles.barTrack}>
+    /* 進み具合は色の長さでしか出ていないので、読み上げには数で渡す */
+    <View
+      style={styles.barTrack}
+      accessible
+      accessibilityRole="progressbar"
+      accessibilityLabel={`${total}本中 ${value}本`}
+      accessibilityValue={{ min: 0, max: total, now: value }}>
       <View style={[styles.barFill, { width: `${pct}%` }]} />
     </View>
   );
@@ -704,15 +858,21 @@ export function PressCard({
   selected?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
-  const [pressed, setPressed] = React.useState(false);
+  const { pressed, onPressIn, onPressOut } = useTap();
+  const down = pressed && !disabled;
   return (
     <Pressable
       disabled={disabled}
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
-      onPress={onPress}>
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      /* 名前は中の文字がそのまま読まれる（レッスン名・職種名など）。
+         ここで渡すのは「押せる」「いま選ばれている」だけ */
+      accessible
+      accessibilityRole="button"
+      accessibilityState={{ disabled: !!disabled, selected: !!selected }}>
       <Pop
-        offset={pressed ? 1 : POP.sm}
+        offset={down ? 0 : POP.sm}
         radius={R.md}
         color={disabled ? T.borderSoft : T.border}
         reserve={false}
@@ -723,14 +883,14 @@ export function PressCard({
               /* 使えないカードも**地は不透明のまま**にする。
                  Pressable 全体を薄くすると、紙に敷いた網点がカードを
                  透けて出てきて汚れて見える。薄くするのは中身だけ */
-              backgroundColor: disabled ? T.sunk : selected ? T.accentSoft : T.surface,
+              backgroundColor: disabled ? T.sunk : down ? T.sunk : selected ? T.accentSoft : T.surface,
               borderWidth: selected ? BW.bold : BW.line,
               borderColor: disabled ? T.borderSoft : T.border,
               borderRadius: R.md,
               padding: S.md,
-              transform: [{ translateX: pressed ? 2 : 0 }, { translateY: pressed ? 2 : 0 }],
             },
             style,
+            sinkPop(down),
           ]}>
           <View style={{ opacity: disabled ? 0.45 : 1 }}>{children}</View>
         </View>

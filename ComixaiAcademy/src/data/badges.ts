@@ -8,6 +8,8 @@
    ============================================================ */
 import type { IconName } from '@/components/icons';
 
+import type { AvatarId, ByAvatar } from './types';
+
 export interface Badge {
   id: string;
   icon: IconName;
@@ -117,6 +119,56 @@ export const BADGES: Badge[] = [
     desc: 'すべてのレッスンを修了した',
     hint: '最後の1本まで、残さず',
   },
+
+  /* ———— ここから下は、あとから足したもの ————
+     もとは14個しかなく、しかも**開始5分で4個入る**偏った配り方だった。
+     10本目あたりが完全な無報酬地帯になっていたので、そこを埋める。
+
+     ▍作った仕組みには、ちゃんと報酬を付ける
+     ★も復習も、遊びとしては作ったのにバッジが1つも無かった。
+     やったことが台帳に載らないと、やる理由が育たない。 */
+  {
+    id: 'star-first',
+    icon: 'star',
+    name: 'はじめての★3',
+    desc: 'ミニゲームをノーミスで通した',
+    hint: '一度も外さずに通せるか',
+  },
+  {
+    id: 'star-5',
+    icon: 'twinkle',
+    name: '★3を5本',
+    desc: '5つのミニゲームで★3を取った',
+    hint: 'まぐれでない、を証明する回数',
+  },
+  {
+    id: 'star-all',
+    icon: 'target',
+    name: '全★3',
+    desc: '★のつくミニゲームすべてで★3を取った',
+    hint: '1つ残らず、ノーミスで',
+  },
+  {
+    id: 'review-first',
+    icon: 'check',
+    name: '直した',
+    desc: '間違えた問題を1つ、復習で卒業させた',
+    hint: '間違えたままにしない',
+  },
+  {
+    id: 'review-10',
+    icon: 'rotate',
+    name: '弱点つぶし',
+    desc: '復習で10問を卒業させた',
+    hint: '外したぶんを、10問ぶん直す',
+  },
+  {
+    id: 'perfect-all',
+    icon: 'crown',
+    name: '無傷',
+    desc: 'すべてのレッスンをノーミスで修了した',
+    hint: '全課程を、1問も落とさずに',
+  },
 ];
 
 export const BADGE_COUNT = BADGES.length;
@@ -132,19 +184,47 @@ export interface Title {
   need: number;
   name: string;
   icon: IconName;
-  /** 昇格したときに先生が言うひとこと */
+  /** 昇格したときのひとこと。全画面の演出で読ませる山場のセリフ */
   say: string;
+  /** 相棒別の書き分け。**未記入なら say（＝先生の言葉）に落ちる** */
+  sayByAvatar?: ByAvatar<string>;
 }
 
-/** 上から順に、条件を満たす最上位が現在の称号になる */
+/** 昇格のひとことを、選んでいる相棒の口調で返す */
+export function titleSay(title: Title, avatarId: AvatarId | null): string {
+  if (avatarId && title.sayByAvatar?.[avatarId] !== undefined) return title.sayByAvatar[avatarId];
+  return title.say;
+}
+
+/** 上から順に、条件を満たす最上位が現在の称号になる。
+
+    ▍最初の1本で必ず1つ上がるようにしてある
+    オンボーディング（アバターと職種を決める）だけで2つ入るので、
+    2で上がる作りにすると**レッスンを1本もやる前に昇格が済んでしまい**、
+    最初のランクアップ演出が「AI研修生 → AIの相棒」になっていた。
+    見習いの幅を3まで広げて、1本目を通した時点（first-lesson で3つ目）に
+    「AI見習い → AI研修生」が来るようにしている。
+
+    ▍最上位は「やり込みだけで届く」ところに置く
+    もとは全20個…ではなく全14個で、最上位が14＝**全部**だった。つまり
+    `streak-7`（7日連続）が必須で、**1日で17本やり切ったヘビーユーザーでも
+    7日目まで AIマスター になれない**。頑張った人ほど「あと2個」の中身が
+    待ち時間だと気づいて萎える作りだった。
+
+    いまは20個あり、**1日で取り切れるのは16個**（連続日数2つと復習2つは、
+    日をまたがないと取れない）。最上位をちょうど16に置いてあるので、
+    やり込めばその日のうちに届く。残る4つは称号の先にあるコレクション。
+
+    **バッジを増やすときは、ここの数字も見直すこと。** 増やしたぶん
+    最上位が相対的に緩くなる（分母だけ増えて分子は据え置きになる）。 */
 export const TITLES: Title[] = [
   { need: 0, icon: 'egg', name: 'AI見習い', say: 'まあ、そこからだな。' },
-  { need: 2, icon: 'learn', name: 'AI研修生', say: '研修生に上げておく。まだ何も覚えてないが。' },
-  { need: 4, icon: 'buddy', name: 'AIの相棒', say: '相棒、か。悪くない響きだ。' },
-  { need: 6, icon: 'hammer', name: 'AI使い', say: '道具として使えてる。ここからが面白い。' },
-  { need: 9, icon: 'cap', name: 'AI職人', say: '職人だ。人に教えられる域に入った。' },
-  { need: 12, icon: 'trophy', name: 'AI師範', say: '師範。……もう私が教えることは、そう多くない。' },
-  { need: 14, icon: 'crown', name: 'AIマスター', say: 'よくやった。ここまで来たやつは、そういない。' },
+  { need: 3, icon: 'learn', name: 'AI研修生', say: '研修生に上げておく。まだ何も覚えてないが。' },
+  { need: 6, icon: 'buddy', name: 'AIの相棒', say: '相棒、か。悪くない響きだ。' },
+  { need: 9, icon: 'hammer', name: 'AI使い', say: '道具として使えてる。ここからが面白い。' },
+  { need: 11, icon: 'cap', name: 'AI職人', say: '職人だ。人に教えられる域に入った。' },
+  { need: 13, icon: 'trophy', name: 'AI師範', say: '師範。……もう私が教えることは、そう多くない。' },
+  { need: 16, icon: 'crown', name: 'AIマスター', say: 'よくやった。ここまで来たやつは、そういない。' },
 ];
 
 export function titleFor(badgeCount: number): Title {
@@ -156,4 +236,11 @@ export function titleFor(badgeCount: number): Title {
 /** 次の称号（最高位ならnull） */
 export function nextTitle(badgeCount: number): Title | null {
   return TITLES.find((t) => t.need > badgeCount) ?? null;
+}
+
+/** ひとつ前の称号（いちばん下ならnull）。
+    ランクアップの演出で「どこから上がったか」を出すのに使う */
+export function prevTitle(title: Title): Title | null {
+  const i = TITLES.findIndex((t) => t.name === title.name);
+  return i > 0 ? TITLES[i - 1] : null;
 }

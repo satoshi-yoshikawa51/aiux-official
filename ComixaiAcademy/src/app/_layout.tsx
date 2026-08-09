@@ -7,12 +7,14 @@ import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { SparkLayer } from '@/components/motion';
+import { TermSheetProvider } from '@/components/term-text';
 import { ProgressProvider, useProgress } from '@/store/progress';
 import { C, FONT, T } from '@/theme';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-/** アバターと職種が決まるまでは、オンボーディングから出さない */
+/** オープニング → アバター → 職種、が決まるまでは先に進ませない */
 function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; children: React.ReactNode }) {
   const { state, ready } = useProgress();
   const segments = useSegments() as string[];
@@ -22,15 +24,38 @@ function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; child
     if (!ready || !fontsReady) return;
     SplashScreen.hideAsync().catch(() => {});
 
+    const inOpening = segments[0] === 'opening';
     const inOnboarding = segments[0] === 'onboarding';
-    if (!state.avatarId) {
+    const inIntro = segments[0] === 'intro';
+    /* 初回だけ絵巻を見せる。ここでアバターのGLBを先読みするので、
+       飛ばしてもホームで待たされない（opening.tsx を参照） */
+    if (!state.seenOpening) {
+      if (!inOpening) router.replace('/opening');
+    } else if (inOpening) {
+      router.replace(state.avatarId ? '/' : '/onboarding/avatar');
+    } else if (!state.avatarId) {
       if (segments[1] !== 'avatar') router.replace('/onboarding/avatar');
     } else if (!state.roleId) {
       if (segments[1] !== 'role') router.replace('/onboarding/role');
-    } else if (inOnboarding) {
+    } else if (!state.seenIntro) {
+      /* 職種まで決まったら、ホームの前に一幕はさむ（app/intro.tsx）。
+         **行き先の判断はここ1か所に寄せる。** 職種の画面から直接
+         intro へ飛ばすと、この効果の「終わっていたらホームへ」と
+         競り合って、どちらが後に走るかで行き先が変わる */
+      if (!inIntro) router.replace('/intro');
+    } else if (inOnboarding || inIntro) {
       router.replace('/');
     }
-  }, [ready, fontsReady, state.avatarId, state.roleId, segments, router]);
+  }, [
+    ready,
+    fontsReady,
+    state.seenOpening,
+    state.avatarId,
+    state.roleId,
+    state.seenIntro,
+    segments,
+    router,
+  ]);
 
   return <>{children}</>;
 }
@@ -51,6 +76,13 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <ProgressProvider>
+          {/* ボタンを押したときの星は、ここが全画面ぶんまとめて描く。
+              ボタンの中で描くと、押した拍子に画面が切り替わる／ボタンが
+              作り直されるたびに星まで消えてしまう（motion.tsx を参照）。
+              ※ ミニゲームは Modal＝別の窓なので、あちらは自前で層を持つ */}
+          <SparkLayer>
+          {/* 本文の用語を押したときの説明。窓を増やさないよう根元に1枚だけ持つ */}
+          <TermSheetProvider>
           <OnboardingGate ready={fontsReady}>
             {/* どの画面も上端は黒ベタ（帯 or Stackのヘッダー）なので、
                 ステータスバーの文字は白でないと読めない */}
@@ -66,11 +98,18 @@ export default function RootLayout() {
                 contentStyle: { backgroundColor: T.bg },
               }}>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="opening" options={{ headerShown: false }} />
               <Stack.Screen name="onboarding/avatar" options={{ headerShown: false }} />
               <Stack.Screen name="onboarding/role" options={{ headerShown: false }} />
+              <Stack.Screen name="intro" options={{ headerShown: false }} />
               <Stack.Screen name="lesson/[id]" options={{ title: '', headerBackTitle: '戻る' }} />
+              <Stack.Screen name="review" options={{ title: '復習', headerBackTitle: '戻る' }} />
+              <Stack.Screen name="sheet" options={{ headerShown: false }} />
+              <Stack.Screen name="ending" options={{ headerShown: false }} />
             </Stack>
           </OnboardingGate>
+          </TermSheetProvider>
+          </SparkLayer>
         </ProgressProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

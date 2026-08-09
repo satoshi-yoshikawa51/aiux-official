@@ -6,37 +6,38 @@
 import { useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Alert, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
-import { Badge, Card, Cassette, PressCard, Row, Screen, ScreenHead } from '@/components/ui';
+import { Spotlight } from '@/components/spotlight';
+import { Badge, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { AVATARS, getAvatar, isReady } from '@/data/avatars';
 import { getRole } from '@/data/roles';
 import { useProgress, useStats } from '@/store/progress';
-import { C, F, FONT, S, T } from '@/theme';
+import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 const SITE = 'https://comixai.dev';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { state, setAvatar, setRole, reset } = useProgress();
+  const { state, setAvatar, setRole, setSoundOn, reset } = useProgress();
   const stats = useStats();
   const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
 
-  const confirmReset = () => {
-    Alert.alert('記録をぜんぶ消す', 'レッスンの修了・バッジ・称号がすべて初期化される。取り消せない。', [
-      { text: 'やめる', style: 'cancel' },
-      {
-        text: '消す',
-        style: 'destructive',
-        onPress: () => {
-          reset();
-          router.replace('/onboarding/avatar');
-        },
-      },
-    ]);
+  /* ▍確認は画面の中で出す。Alert.alert は使わない
+     react-native-web の Alert は **中身が空のメソッド**で、
+     Webでは押しても何も起きない（このアプリはWebでも配っている）。
+     出す／出さないが端末で変わってしまうので、自前の2段階にする */
+  const [asking, setAsking] = React.useState(false);
+
+  const doReset = () => {
+    setAsking(false);
+    reset();
+    /* オープニングから通し直す。ルートの振り分けも同じ判断をするが、
+       ここで先に飛ばしておくと1フレームぶん待たない */
+    router.replace('/opening');
   };
 
   const header = (
@@ -44,7 +45,7 @@ export default function SettingsScreen() {
       kicker="SETTINGS"
       title="せってい"
       note={`${avatar.name} ・ ${role?.name ?? '職種えらび中'}`}
-      noteRight="いつでも変えられる"
+      noteRight="いつでも変えられます"
     />
   );
 
@@ -52,10 +53,16 @@ export default function SettingsScreen() {
     <Screen header={header} tone="dots">
       {/* アバター */}
       <View style={{ gap: S.md }}>
-        <Row style={{ justifyContent: 'space-between' }}>
-          <Text style={F.h1}>アバター</Text>
-          <Text style={F.hand}>いま：{avatar.name}</Text>
-        </Row>
+        {/* ▍囲うのは**見出しだけ**にする
+            節そのものを囲うと、アバター5枚で画面の高さを超えてしまい、
+            「枠」ではなくページの縁に見える（職種の節はもっと長い）。
+            どこの話かが分かればいいので、見出しに絞る */}
+        <Spotlight name="settings-avatar" radius={R.xs} inset={-6} room={8}>
+          <Row style={{ justifyContent: 'space-between' }}>
+            <Text style={F.h1}>アバター</Text>
+            <Text style={F.hand}>いま：{avatar.name}</Text>
+          </Row>
+        </Spotlight>
         {AVATARS.map((a) => {
           const selected = a.id === state.avatarId;
           const ready = isReady(a);
@@ -82,12 +89,57 @@ export default function SettingsScreen() {
 
       {/* 職種 */}
       <View style={{ gap: S.md }}>
+        {/* ここは案内で光らせない。アバター5枚ぶん下にあってフキダシの
+            下敷きになるため（→ store/tutorial.tsx の5歩目） */}
         <Row style={{ justifyContent: 'space-between' }}>
           <Text style={F.h1}>職種</Text>
-          <Text style={F.hand}>変えると内容が変わる</Text>
+          <Text style={F.hand}>変えると、レッスンの内容が変わります</Text>
         </Row>
         <RolePicker value={state.roleId} onPick={setRole} />
       </View>
+
+      {/* ———— 音 ————
+           触覚と同じで、あれば嬉しく無くても困らないもの。
+           **既定はオン**だが、電車で開く人のために切れるようにしておく */}
+      <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Row gap={8} style={{ flex: 1 }}>
+            <Icon name="sparkle" size={18} color={T.text} />
+            <View style={{ flex: 1 }}>
+              <Text style={F.strong}>効果音</Text>
+              <Text style={F.tiny}>
+                正解・クリア・昇格で鳴ります。端末を消音にしていれば鳴りません
+              </Text>
+            </View>
+          </Row>
+          <Tap
+            onPress={() => setSoundOn(!state.soundOn)}
+            sparks={false}
+            /* 切るときに音が鳴ると滑稽なので、押した音も止める */
+            sound={state.soundOn ? 'none' : 'tap'}>
+            <View
+              style={{
+                borderWidth: BW.bold,
+                borderColor: T.border,
+                borderRadius: R.full,
+                backgroundColor: state.soundOn ? T.accent : T.sunk,
+                paddingHorizontal: S.md,
+                paddingVertical: 7,
+                minWidth: 64,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: FONT.heading,
+                  fontSize: 13,
+                  color: state.soundOn ? C.paper0 : T.muted,
+                }}>
+                {state.soundOn ? 'オン' : 'オフ'}
+              </Text>
+            </View>
+          </Tap>
+        </Row>
+      </Panel>
 
       {/* 記録 */}
       <Cassette>
@@ -97,27 +149,51 @@ export default function SettingsScreen() {
           {stats.streak}
         </Text>
         <Text style={[F.hand, { color: C.ink300 }]}>
-          この端末の中だけに保存される。アプリを消すと一緒に消える。
+          この端末の中だけに保存されます。アプリを消すと一緒に消えます。
         </Text>
         {/* 消すのは取り消せないので、赤いボタンの見た目にはしない。
             黒の上では red500 が沈むので、文字は red100 で出す */}
-        <Pressable onPress={confirmReset} style={{ paddingVertical: S.sm }}>
-          <Row gap={6}>
-            <Icon name="bang" size={15} color={C.red100} />
-            <Text style={[F.strong, { color: C.red100 }]}>記録をぜんぶ消す</Text>
-          </Row>
-        </Pressable>
+        {asking ? (
+          <View style={{ gap: S.sm, paddingTop: S.xs }}>
+            <Text style={[F.strong, { color: C.paper50 }]}>
+              ぜんぶ消して、オープニングからやり直す。いいか？
+            </Text>
+            {/* 取り消せない操作なので、2つの文字は離しておく。
+                指で押すものが並ぶと、隣を巻き込む */}
+            <Row gap={S.xl}>
+              <Tap onPress={() => setAsking(false)} sparks={false} style={{ paddingVertical: S.sm }}>
+                <Text style={[F.strong, { color: C.paper100 }]}>やめる</Text>
+              </Tap>
+              {/* 記録が消える口。**星は出さない**（祝うところではない） */}
+              <Tap onPress={doReset} sparks={false} style={{ paddingVertical: S.sm }}>
+                <Row gap={6}>
+                  <Icon name="bang" size={15} color={C.red100} />
+                  <Text style={[F.strong, { color: C.red100 }]}>消す</Text>
+                </Row>
+              </Tap>
+            </Row>
+          </View>
+        ) : (
+          <Tap onPress={() => setAsking(true)} sparks={false} scale={0.97} style={{ paddingVertical: S.sm }}>
+            <Row gap={6}>
+              <Icon name="bang" size={15} color={C.red100} />
+              <Text style={[F.strong, { color: C.red100 }]}>
+                記録をぜんぶ消す（オープニングからやり直します）
+              </Text>
+            </Row>
+          </Tap>
+        )}
       </Cassette>
 
       {/* リンク */}
       <Card>
         <Text style={F.h1}>このアプリについて</Text>
         <Text style={F.body}>
-          COMIXAI（comixai.dev）の用語集・職種別ガイド・プロンプト集をもとにした学習アプリ。
+          COMIXAI（comixai.dev）の用語集・職種別ガイド・プロンプト集をもとにした学習アプリです。
         </Text>
-        <Pressable onPress={() => WebBrowser.openBrowserAsync(SITE)} style={{ paddingVertical: S.xs }}>
+        <Tap onPress={() => WebBrowser.openBrowserAsync(SITE)} style={{ paddingVertical: S.xs }}>
           <Text style={[F.strong, { color: T.link }]}>COMIXAI を開く →</Text>
-        </Pressable>
+        </Tap>
       </Card>
     </Screen>
   );

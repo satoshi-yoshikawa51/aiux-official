@@ -21,7 +21,9 @@ export default function AvatarPickScreen() {
 
   const [picked, setPicked] = React.useState<string>(DEFAULT_AVATAR_ID);
   const avatar = getAvatar(picked);
-  const stageW = Math.min(width - S.lg * 4 - POP.md, 300);
+  /* コマを気持ち小さくして、**一覧の1枚目が折り返しの上に覗く**ようにする。
+     ここが画面いっぱいだと、下に選べる相棒が並んでいることに気づけない */
+  const stageW = Math.min(width - S.lg * 4 - POP.md, 250);
 
   const decide = () => {
     setAvatar(picked);
@@ -36,9 +38,14 @@ export default function AvatarPickScreen() {
         <ScreenHead
           pill="STEP 1 / 2"
           title="誰と学ぶ？"
-          note="ホーム画面にずっといる相棒"
-          noteRight="あとから変えられる"
+          note={`${AVATARS.length}人から選べます`}
+          noteRight="あとから変えられます"
         />
+      }
+      /* 決める口は下に貼り付けておく。一覧の末尾に置くと、
+         スクロールしないと見つからない */
+      footer={
+        <Button label="この相棒にする" size="lg" onPress={decide} disabled={!isReady(avatar)} />
       }>
       <Panel caption={avatar.tagline} contentStyle={{ alignItems: 'center', paddingBottom: S.xl + S.sm }}>
         <Avatar3D key={avatar.id} avatar={avatar} width={stageW} height={Math.round(stageW * 0.95)} />
@@ -70,10 +77,8 @@ export default function AvatarPickScreen() {
       </View>
 
       <Text style={F.hand}>
-        「準備中」は3Dモデルを追加すると選べるようになる（手順はREADME）
+        「準備中」の相棒は、3Dモデルを追加すると選べるようになります
       </Text>
-
-      <Button label="この相棒にする" size="lg" onPress={decide} disabled={!isReady(avatar)} />
     </Screen>
   );
 }
