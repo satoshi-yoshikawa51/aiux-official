@@ -21,6 +21,7 @@ import {
   type QuizEntry,
 } from '@/data/courses';
 import type { RoleId } from '@/data/types';
+import { setMusicEnabled } from '@/lib/music';
 import { setSoundEnabled } from '@/lib/sound';
 
 const KEY = 'comixai-academy-v1';
@@ -100,6 +101,9 @@ export interface ProgressState {
   games: Record<string, GameRecord>;
   /** 効果音を鳴らすか。既定はオン（→ lib/sound.ts） */
   soundOn: boolean;
+  /** BGMを鳴らすか。既定はオン（→ lib/music.ts）。
+      効果音と分けるのは、「音は欲しいが曲はいらない」人が多いため */
+  musicOn: boolean;
   /** 先生によるアプリ案内を見終えた（またはとばした）か */
   seenTutorial: boolean;
 }
@@ -119,6 +123,7 @@ const EMPTY: ProgressState = {
   quiz: {},
   games: {},
   soundOn: true,
+  musicOn: true,
 };
 
 /* ———————————————— 日付ユーティリティ ———————————————— */
@@ -217,6 +222,8 @@ interface Ctx {
   recordGame: (lessonId: string, stars: number, misses: number, ms: number) => void;
   /** 効果音のオン・オフ */
   setSoundOn: (on: boolean) => void;
+  /** BGMのオン・オフ */
+  setMusicOn: (on: boolean) => void;
   markTitleSeen: () => void;
   markOpeningSeen: () => void;
   markIntroSeen: () => void;
@@ -265,6 +272,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         const next = added ? { ...loaded, badges } : loaded;
         /* 保存してある設定を、鳴らす側の旗に流し込む */
         setSoundEnabled(next.soundOn);
+        setMusicEnabled(next.musicOn);
         setState(next);
         if (added) AsyncStorage.setItem(KEY, JSON.stringify(next)).catch(() => {});
       })
@@ -385,6 +393,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
+  const setMusicOn = React.useCallback(
+    (on: boolean) => {
+      setMusicEnabled(on);
+      persist({ ...ref.current, musicOn: on });
+    },
+    [persist],
+  );
+
   const markTitleSeen = React.useCallback(() => {
     const t = titleFor(Object.keys(ref.current.badges).length);
     persist({ ...ref.current, seenTitle: t.name });
@@ -422,6 +438,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       answerQuiz,
       recordGame,
       setSoundOn,
+      setMusicOn,
       markTitleSeen,
       markOpeningSeen,
       markIntroSeen,
@@ -437,6 +454,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       answerQuiz,
       recordGame,
       setSoundOn,
+      setMusicOn,
       markTitleSeen,
       markOpeningSeen,
       markIntroSeen,

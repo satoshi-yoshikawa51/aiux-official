@@ -62,6 +62,7 @@ import { sinkFlat, Tone } from '@/components/ui';
 import { SCORED_KINDS } from '@/data/courses';
 import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
+import { playMusic } from '@/lib/music';
 import { playClear, playSound } from '@/lib/sound';
 import { loadTokenizer, toChips, type TokenChip } from '@/lib/tokenizer';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
@@ -198,6 +199,15 @@ export function MiniGame({
   /* タイルが走り出すのと同時に、駆け上がる音。**覆い終わってからだと遅い** */
   React.useEffect(() => {
     playSound('start');
+  }, []);
+
+  /* ▍BGMをゲームの曲に替える
+     ここは Modal＝別の窓なので、場面を見ている係（_layout.tsx の
+     MusicDirector）からは見えない。開いたら自分で替えて、
+     閉じるときに home の曲へ返す */
+  React.useEffect(() => {
+    playMusic('game');
+    return () => playMusic('home');
   }, []);
 
   /* タイトルは自動で終わる。押したら飛ばせる。

@@ -4,11 +4,13 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { SparkLayer } from '@/components/motion';
 import { TermSheetProvider } from '@/components/term-text';
+import { playMusic, resumeMusic, stopMusic } from '@/lib/music';
 import { ProgressProvider, useProgress } from '@/store/progress';
 import { C, FONT, T } from '@/theme';
 
@@ -60,6 +62,34 @@ function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; child
   return <>{children}</>;
 }
 
+/* ▍場面にBGMを付ける係
+   曲は「画面」ではなく「場面」に付ける。絵巻（opening）だけ専用曲、
+   それ以外はぜんぶ home の曲。ミニゲームは Modal＝路上に出ないので、
+   あちらは mini-game.tsx が自分で game の曲に替える。
+
+   ready を待つのは、保存された「BGMオフ」を読み込む前に
+   鳴らし始めないため。バックグラウンドでは止める（BGMが
+   ポケットの中で鳴り続けるのは事故）。 */
+function MusicDirector() {
+  const { ready } = useProgress();
+  const segments = useSegments() as string[];
+
+  React.useEffect(() => {
+    if (!ready) return;
+    playMusic(segments[0] === 'opening' ? 'opening' : 'home');
+  }, [ready, segments]);
+
+  React.useEffect(() => {
+    const sub = AppState.addEventListener('change', (st) => {
+      if (st === 'active') resumeMusic();
+      else stopMusic();
+    });
+    return () => sub.remove();
+  }, []);
+
+  return null;
+}
+
 export default function RootLayout() {
   /* サイトと同じ書体。日本語フォントはサブセット済み（tools/subset-fonts.mjs） */
   const [fontsReady] = useFonts({
@@ -84,6 +114,7 @@ export default function RootLayout() {
           {/* 本文の用語を押したときの説明。窓を増やさないよう根元に1枚だけ持つ */}
           <TermSheetProvider>
           <OnboardingGate ready={fontsReady}>
+            <MusicDirector />
             {/* どの画面も上端は黒ベタ（帯 or Stackのヘッダー）なので、
                 ステータスバーの文字は白でないと読めない */}
             <StatusBar style="light" />
