@@ -13,7 +13,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
 import { BADGES, titleFor, type Title } from '@/data/badges';
-import { ALL_LESSONS, COURSES, getQuiz, type QuizEntry } from '@/data/courses';
+import {
+  ALL_LESSONS,
+  COURSES,
+  getQuiz,
+  STARRED_LESSON_IDS,
+  type QuizEntry,
+} from '@/data/courses';
 import type { RoleId } from '@/data/types';
 import { setSoundEnabled } from '@/lib/sound';
 
@@ -169,6 +175,20 @@ export function evaluateBadges(s: ProgressState): string[] {
   add('streak-7', streak >= 7);
   add('half', doneCount >= Math.ceil(ALL_LESSONS.length / 2));
   add('all-clear', doneCount >= ALL_LESSONS.length);
+
+  /* ★（ミニゲームの成績）。★の付かないレッスンは分母に入れない
+     （入れると「全★3」が永久に達成できない条件になる） */
+  const star3 = STARRED_LESSON_IDS.filter((id) => (s.games[id]?.stars ?? 0) >= 3).length;
+  add('star-first', star3 >= 1);
+  add('star-5', star3 >= 5);
+  add('star-all', star3 >= STARRED_LESSON_IDS.length);
+
+  /* 復習。卒業＝日をまたいで3回続けて正解した問題 */
+  const graduated = Object.values(s.quiz).filter((r) => r.due === 0).length;
+  add('review-first', graduated >= 1);
+  add('review-10', graduated >= 10);
+
+  add('perfect-all', perfectCount >= ALL_LESSONS.length);
 
   // 台帳に無いIDが紛れていないかの保険（開発中のtypo対策）
   const known = new Set(BADGES.map((b) => b.id));
@@ -435,6 +455,15 @@ export function useProgress(): Ctx {
 }
 
 /* ———————————————— 画面から使う派生値 ———————————————— */
+
+/* ▍今日やったか
+   「1日1本で十分だ」と先生が言うのに、今日やったかどうかの表示も、
+   今日ぶんを終えた締めも無かった。連続日数だけが裏で数えられていて、
+   **1日という単位がアプリのどこにも無い**状態だった。 */
+export function useToday(): { doneToday: boolean } {
+  const { state } = useProgress();
+  return { doneToday: state.days.includes(today()) };
+}
 
 export function useStats() {
   const { state } = useProgress();

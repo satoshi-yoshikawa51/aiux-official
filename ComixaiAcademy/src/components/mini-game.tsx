@@ -59,6 +59,7 @@ import {
 } from '@/components/games/score';
 import { SortPlay } from '@/components/games/sort-game';
 import { sinkFlat, Tone } from '@/components/ui';
+import { SCORED_KINDS } from '@/data/courses';
 import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
 import { playClear, playSound } from '@/lib/sound';
@@ -161,9 +162,9 @@ export function allowOf(spec: LessonInteractive): number {
   }
 }
 
-/** ★の出ないゲーム。ここに入るものは成績を記録しない */
+/** ★の出るゲームか。台帳は data/courses（バッジの判定と同じものを見る） */
 export function hasStars(kind: LessonInteractive['kind']): boolean {
-  return kind !== 'tokenizer' && kind !== 'token-budget';
+  return SCORED_KINDS.includes(kind);
 }
 
 export function MiniGame({

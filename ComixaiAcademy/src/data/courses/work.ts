@@ -12,6 +12,7 @@ export const WORK: Course = {
   title: '最初の一週間',
   desc: 'あなたの職種で、どこから手をつけるか。順番を間違えなければ失敗しにくい。',
   kind: 'role',
+  needs: 'basics',
   badgeId: 'course-work',
   lessons: [
     {

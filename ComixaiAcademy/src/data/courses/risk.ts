@@ -11,6 +11,7 @@ export const RISK: Course = {
   title: '事故らないAI',
   desc: '便利さより先に、これを知っておく。3本だけ、真面目な話をする。',
   kind: 'common',
+  needs: 'basics',
   badgeId: 'course-risk',
   lessons: [
     {

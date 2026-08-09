@@ -8,6 +8,7 @@ import type {
   ByAvatar,
   AvatarId,
   QuizItem,
+  LessonInteractive,
 } from '../types';
 import { BASICS } from './basics';
 import { WORK } from './work';
@@ -132,3 +133,22 @@ export function lessonCards(lesson: Lesson, role: RoleId | null): LessonCard[] {
     },
   ];
 }
+
+/* ———————————————— ★の付くゲームを持つレッスン ————————————————
+   合否の無いもの（トークナイザー）と、収まるまで押せないもの
+   （トークン収め）には★が付かない。バッジの「全部★3」を数えるとき、
+   そこを分母に入れると**永久に達成できない条件**になる。
+
+   mini-game.tsx の hasStars もここを見る（判定を2か所に置かない）。 */
+export const SCORED_KINDS: LessonInteractive['kind'][] = [
+  'sort',
+  'find',
+  'build',
+  'order',
+  'fit',
+  'ai-prompt',
+];
+
+export const STARRED_LESSON_IDS: string[] = ALL_LESSONS.filter((l) =>
+  l.cards.some((c) => c.interactive && SCORED_KINDS.includes(c.interactive.kind)),
+).map((l) => l.id);

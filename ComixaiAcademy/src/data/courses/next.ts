@@ -11,6 +11,7 @@ export const NEXT: Course = {
   title: 'これからのAI',
   desc: '一問一答の次に来る話。ここまで来たら、もう詳しい人の側だ。',
   kind: 'common',
+  needs: 'basics',
   badgeId: 'course-next',
   lessons: [
     {

@@ -24,9 +24,9 @@ import { COURSES } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
 import { smallTalkFor } from '@/data/voice';
-import { useProgress, useReview, useStats } from '@/store/progress';
+import { useProgress, useReview, useStats, useToday } from '@/store/progress';
 import { useTutorial } from '@/store/tutorial';
-import { C, F, FONT, R, S } from '@/theme';
+import { C, F, FONT, R, S, T } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
 
@@ -53,6 +53,8 @@ export default function HomeScreen() {
   const stats = useStats();
   /* 期限が来ている復習の数。0なら何も出さない（→ app/review.tsx） */
   const due = useReview().due.length;
+  /* 今日ぶんを終えているか。終えていたら、カセットの見た目を締める */
+  const { doneToday } = useToday();
   /* 案内中はセリフをこちらのフキダシに出す。**先生が2か所で
      同時にしゃべらないため**（→ store/tutorial.tsx の voice） */
   const tutorial = useTutorial();
@@ -250,13 +252,21 @@ export default function HomeScreen() {
       {next ? (
         <Spotlight name="home-next">
         <Cassette compact={short}>
+          {/* ▍今日ぶんが終わったら、そう言って締める
+              終わりが無いと、いつやめていいのか分からない。
+              **黄色いピルは「次にやること」の印**なので、今日ぶんを
+              終えたら外す（外さないと、まだ残っているように見える） */}
           <Row gap={8}>
-            <Pill label="NEXT" />
+            {doneToday ? (
+              <Icon name="check" size={16} color={T.ok} />
+            ) : (
+              <Pill label="NEXT" />
+            )}
             <Icon name={next.course.icon} size={18} color={C.paper50} />
             <Text
               style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
               numberOfLines={1}>
-              {next.lesson.title}
+              {doneToday ? '今日のぶんは終わり' : next.lesson.title}
             </Text>
           </Row>
           {/* ▍復習は、行を増やさずに横へ足す
@@ -266,10 +276,13 @@ export default function HomeScreen() {
             <View style={{ flex: 1 }}>
               <Button
                 label={
-                  due > 0
-                    ? `はじめる（${next.lesson.minutes}分）`
-                    : `はじめる（${next.lesson.minutes}分・クイズ${next.lesson.quiz.length}問）`
+                  doneToday
+                    ? `もう1本やる（${next.lesson.minutes}分）`
+                    : due > 0
+                      ? `はじめる（${next.lesson.minutes}分）`
+                      : `はじめる（${next.lesson.minutes}分・クイズ${next.lesson.quiz.length}問）`
                 }
+                variant={doneToday ? 'secondary' : 'primary'}
                 size="sm"
                 onPress={() => router.push(`/lesson/${next.lesson.id}`)}
               />
@@ -289,9 +302,21 @@ export default function HomeScreen() {
         <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
           <Text style={F.h2}>全課程、修了</Text>
           <Text style={F.small}>やり直したいレッスンは「まなぶ」から開けます。</Text>
-          {due > 0 ? (
-            <Button label={`復習する（${due}問）`} size="sm" onPress={() => router.push('/review')} />
-          ) : null}
+          {/* 締めは何度でも見られるようにしておく。
+              1回しか見られない画面は、撮ることもできない */}
+          <Row gap={S.sm}>
+            <View style={{ flex: 1 }}>
+              <Button label="修了の記録" size="sm" onPress={() => router.push('/ending')} />
+            </View>
+            {due > 0 ? (
+              <Button
+                label={`復習 ${due}`}
+                variant="yellow"
+                size="sm"
+                onPress={() => router.push('/review')}
+              />
+            ) : null}
+          </Row>
         </Panel>
       )}
     </Screen>

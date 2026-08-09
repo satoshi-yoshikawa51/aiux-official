@@ -11,6 +11,7 @@ export const PROMPT: Course = {
   title: 'プロンプト道場',
   desc: '同じAIから、良い答えを引き出す。手を動かして覚える4本。',
   kind: 'role',
+  needs: 'basics',
   badgeId: 'course-prompt',
   lessons: [
     {

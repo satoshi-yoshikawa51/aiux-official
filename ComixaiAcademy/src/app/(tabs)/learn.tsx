@@ -139,12 +139,26 @@ export default function LearnScreen() {
       {COURSES.map((course, ci) => {
         const doneCount = course.lessons.filter((l) => state.done[l.id]).length;
         const cleared = doneCount === course.lessons.length;
+        /* ▍前提のコースが終わっていないときは、開ける前に言う
+             鍵はかけない（知っている人まで足止めするので）。
+             基礎を飛ばして RAG に行くと迷子になる、というだけの話 */
+        const needs = course.needs ? COURSES.find((c) => c.id === course.needs) : undefined;
+        const needsFirst =
+          !!needs && !needs.lessons.every((l) => state.done[l.id]) && doneCount === 0;
         return (
           <Panel
             key={course.id}
             number={String(ci + 1)}
             tone={cleared ? 'lines' : 'none'}
             contentStyle={{ paddingTop: S.xl + S.sm, gap: S.md }}>
+            {needsFirst ? (
+              <Row gap={6}>
+                <Icon name="bang" size={13} color={T.muted} />
+                <Text style={[F.tiny, { flex: 1 }]}>
+                  先に「{needs?.title}」を終えておくと、ここが分かりやすくなります
+                </Text>
+              </Row>
+            ) : null}
             <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <View style={{ flex: 1, gap: 4 }}>
                 <Row gap={6}>

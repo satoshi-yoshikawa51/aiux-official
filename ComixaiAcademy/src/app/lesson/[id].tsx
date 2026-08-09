@@ -440,6 +440,13 @@ export default function LessonScreen() {
               </Card>
             ) : null}
 
+            {/* ▍最後の1本を終えた人は、締めへ送る
+                 「全課程、修了」がバッジ1個で流れていくのは、
+                 14コマの絵巻で始めたアプリの終わり方として軽すぎる */}
+            {result?.newBadges.includes('all-clear') ? (
+              <Button label="修了の記録を見る" onPress={() => router.push('/ending')} />
+            ) : null}
+
             {/* ———— 次にやること ————
                  ほぼ黒に沈めたコマに入れて、黄色いピルで印を付ける（ホームと同じ） */}
             <Cassette>
