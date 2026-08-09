@@ -7,9 +7,11 @@
    ・効果音は押した瞬間、BGMは**場面**に付く（画面が変わったら曲が変わる）
 
    ▍曲は3枠だけ
-   opening（絵巻）／home（ホーム・レッスン、いちばん長く聴く）／
-   game（ミニゲーム中）。細かく分けるほど切り替わりが増えて、
-   曲の切れ目のほうがうるさくなる。迷ったら home に寄せる。
+   home（ホーム・タブまわり）／lesson（レッスン・復習）／
+   game（ミニゲーム中）。割り当ては曲を用意した人の指定どおり：
+   ホーム＝午後のカフェ、レッスン＝アフタヌーンティー、
+   ゲーム＝light_song。オープニングや持ち帰りなど、どれでもない
+   場面は home に寄せる（細かく分けるほど切れ目がうるさくなる）。
 
    ▍音源はユーザー提供（assets/music/）
    効果音と違って合成ではない。差し替えはファイルを置き換えるだけ。
@@ -25,11 +27,11 @@
 import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
 import { Platform } from 'react-native';
 
-export type MusicTrack = 'opening' | 'home' | 'game';
+export type MusicTrack = 'home' | 'lesson' | 'game';
 
 const FILES: Record<MusicTrack, number> = {
-  opening: require('@/assets/music/opening.mp3'),
   home: require('@/assets/music/home.mp3'),
+  lesson: require('@/assets/music/lesson.mp3'),
   game: require('@/assets/music/game.mp3'),
 };
 

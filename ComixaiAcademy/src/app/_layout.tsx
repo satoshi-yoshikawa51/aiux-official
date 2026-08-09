@@ -63,9 +63,10 @@ function OnboardingGate({ ready: fontsReady, children }: { ready: boolean; child
 }
 
 /* ▍場面にBGMを付ける係
-   曲は「画面」ではなく「場面」に付ける。絵巻（opening）だけ専用曲、
-   それ以外はぜんぶ home の曲。ミニゲームは Modal＝路上に出ないので、
-   あちらは mini-game.tsx が自分で game の曲に替える。
+   曲は「画面」ではなく「場面」に付ける。レッスンと復習は lesson の曲、
+   それ以外（ホーム・タブ・オープニング・持ち帰りなど）は home の曲。
+   ミニゲームは Modal＝路上に出ないので、あちらは mini-game.tsx が
+   自分で game の曲に替える。
 
    ready を待つのは、保存された「BGMオフ」を読み込む前に
    鳴らし始めないため。バックグラウンドでは止める（BGMが
@@ -76,7 +77,8 @@ function MusicDirector() {
 
   React.useEffect(() => {
     if (!ready) return;
-    playMusic(segments[0] === 'opening' ? 'opening' : 'home');
+    const inLesson = segments[0] === 'lesson' || segments[0] === 'review';
+    playMusic(inLesson ? 'lesson' : 'home');
   }, [ready, segments]);
 
   React.useEffect(() => {

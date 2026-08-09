@@ -204,10 +204,10 @@ export function MiniGame({
   /* ▍BGMをゲームの曲に替える
      ここは Modal＝別の窓なので、場面を見ている係（_layout.tsx の
      MusicDirector）からは見えない。開いたら自分で替えて、
-     閉じるときに home の曲へ返す */
+     閉じるときにレッスンの曲へ返す（ゲームはレッスンからしか開かない） */
   React.useEffect(() => {
     playMusic('game');
-    return () => playMusic('home');
+    return () => playMusic('lesson');
   }, []);
 
   /* タイトルは自動で終わる。押したら飛ばせる。
