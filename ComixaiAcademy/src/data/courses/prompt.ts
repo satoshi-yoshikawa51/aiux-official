@@ -21,7 +21,7 @@ export const PROMPT: Course = {
       summary: '「いい感じにして」がなぜダメか、並べれば一目でわかる。',
       cards: [
         {
-          say: 'まず、よくある頼み方を見てもらう。心当たりがあっても顔に出すな。',
+          say: 'まず、よくある頼み方を見てもらう。心当たりがあっても、顔には出さないで。',
           motion: 'arms-crossed',
           heading: '悪い例',
           bodyByRole: {
@@ -38,13 +38,13 @@ export const PROMPT: Course = {
           body: '「この文章、いい感じにして」',
         },
         {
-          say: 'これで返ってくるのは、誰にでも当てはまる平均点の文章だ。当たり前だな。相手は何も知らないんだから。',
+          say: 'これで返ってくるのは、誰にでも当てはまる平均点の文章。当たり前でしょ、相手は何も知らないんだから。',
           motion: 'explain',
           heading: '足りないもの',
           bullets: ['誰に向けたものか', 'どんな状況で使うのか', '守ってほしい条件', 'どんな形で返してほしいか'],
         },
         {
-          say: '直すとこうなる。長い、と思ったか？ 長いんじゃない、必要なだけ書いてあるんだ。',
+          say: '直すとこうなる。長い、と思った？ 長いんじゃなくて、必要なだけ書いてあるの。',
           motion: 'explain',
           emote: 'bulb',
           heading: '直した例',
@@ -72,7 +72,7 @@ export const PROMPT: Course = {
           },
         },
         {
-          say: 'そこまで分かったなら、自分で書いてみろ。おれが本物のAIに渡して、結果ごと採点してやる。',
+          say: 'そこまで分かったなら、自分で書いてみて。私が本物のAIに渡して、結果ごと採点してあげる。',
           motion: 'arms-crossed',
           emote: 'target',
           heading: '書いて、渡してみる',
@@ -86,7 +86,7 @@ export const PROMPT: Course = {
           },
         },
         {
-          say: '一度書けば、次からは中身を差し替えるだけだ。書くのは今日だけでいい。',
+          say: '一度書けば、次からは中身を差し替えるだけ。書くのは今日だけでいい。',
           motion: 'laugh',
         },
       ],
@@ -160,7 +160,7 @@ export const PROMPT: Course = {
       summary: '最初の答えは下書き。二手目・三手目のほうが大事。',
       cards: [
         {
-          say: '一回で完璧な答えが出ると思うな。会話なんだから、詰めればいい。',
+          say: '一回で完璧な答えが出るとは思わないこと。会話なんだから、詰めればいい。',
           motion: 'explain',
           heading: '追い込みの定番フレーズ',
           bullets: [
@@ -172,7 +172,7 @@ export const PROMPT: Course = {
           ],
         },
         {
-          say: '特に効くのが、AIに自分の答えを批判させるやつだ。素直に穴を教えてくる。',
+          say: '特に効くのが、AIに自分の答えを批判させるやり方。素直に穴を教えてくるから。',
           motion: 'arms-crossed',
           emote: 'bulb',
           heading: '自己批判させる',
@@ -180,7 +180,7 @@ export const PROMPT: Course = {
             'いま出してくれた案について、提出前に指摘されそうな点を、厳しい立場から5つ挙げてください。そのうえで、指摘に耐えられるように直した版を出してください。',
         },
         {
-          say: '一手目は下書きだ。二手目で何を言うかで決まる。',
+          say: '一手目は下書き。二手目で何を言うかで決まる。',
           motion: 'arms-crossed',
           emote: 'target',
           heading: '二手目を選ぶ',
@@ -232,7 +232,7 @@ export const PROMPT: Course = {
           },
         },
         {
-          say: 'それと、答えが気に入らないときは「やり直して」より「どこが違うか」を言え。',
+          say: 'それと、答えが気に入らないときは「やり直して」より「どこが違うか」を言って。',
           motion: 'worried',
           heading: 'ダメ出しのコツ',
           bodyByRole: {
@@ -319,7 +319,7 @@ export const PROMPT: Course = {
       summary: '「あなたは〇〇です」の一行が、想像以上に効く。',
       cards: [
         {
-          say: '冒頭に役割を書け。それだけで、語彙も視点も切り替わる。',
+          say: '冒頭に役割を書いて。それだけで、語彙も視点も切り替わる。',
           motion: 'explain',
           heading: 'なぜ効くのか',
           body: 'LLMは「その役割の人が書きそうな文章」に寄せて出力します。専門用語の選び方、何を省略するか、どこを心配するか——役割の指定は、そのすべてを一行で決めてしまう強力なスイッチです。',
@@ -377,7 +377,7 @@ export const PROMPT: Course = {
           },
         },
         {
-          say: '役割を差し替えてみろ。同じ企画が、別の顔を見せる。',
+          say: '役割を差し替えてみて。同じ企画が、別の顔を見せるから。',
           motion: 'arms-crossed',
           emote: 'target',
           heading: '役割を差し替える',
@@ -456,12 +456,12 @@ export const PROMPT: Course = {
           },
         },
         {
-          say: '同じネタでも、役割を変えて3回聞け。3人分の意見がタダで手に入る。',
+          say: '同じネタでも、役割を変えて3回聞いてみて。3人分の意見がタダで手に入る。',
           motion: 'laugh',
           emote: 'sparkle',
         },
         {
-          say: '役割を使うのは、ここからが本番だ。自分で書いて渡してみろ。',
+          say: '役割はここからが本番。自分で書いて渡してみて。',
           motion: 'arms-crossed',
           emote: 'target',
           heading: '書いて、渡してみる',
@@ -547,7 +547,7 @@ export const PROMPT: Course = {
       summary: '職種別の実戦テンプレ。コピーして、あとは埋めるだけ。',
       cards: [
         {
-          say: '御託は終わりだ。持って帰るやつを渡す。',
+          say: '御託はここまで。持って帰るものを渡すね。',
           motion: 'wave',
           heading: '1枚目：書く',
           prompt:
@@ -574,7 +574,7 @@ export const PROMPT: Course = {
           },
         },
         {
-          say: '2枚目。調べるときのやつだ。裏取りを忘れるなよ。',
+          say: '2枚目。調べるときの型。裏取りは忘れないで。',
           motion: 'explain',
           heading: '2枚目：調べる',
           prompt:
@@ -601,7 +601,7 @@ export const PROMPT: Course = {
           },
         },
         {
-          say: '3枚目。これが一番使う。人に見せる前の最終チェックだ。',
+          say: '3枚目。これが一番使う。人に見せる前の最終チェック。',
           motion: 'arms-crossed',
           emote: 'bang',
           heading: '3枚目：詰める',
@@ -609,7 +609,7 @@ export const PROMPT: Course = {
             'これから提出する下記の内容について、厳しい立場から指摘を5つ挙げてください。\n条件：褒めない／改善案は不要／事実関係の怪しい箇所を最優先で\n出力形式：重要な順に箇条書き\n\n【内容】',
         },
         {
-          say: '型は持ってるだけじゃ意味がない。どれを出すかだ。',
+          say: '型は持ってるだけじゃ意味がない。どれを出すか、で決まる。',
           motion: 'explain',
           emote: 'pen',
           heading: 'どの型を出すか',
@@ -655,7 +655,7 @@ export const PROMPT: Course = {
           },
         },
         {
-          say: 'ここまでやれば、もう道具として使えてる。あとは毎日だ。',
+          say: 'ここまでやれば、もう道具として使えてる。あとは毎日ね。',
           motion: 'bow',
         },
       ],

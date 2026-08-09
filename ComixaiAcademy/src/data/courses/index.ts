@@ -56,7 +56,7 @@ export function pickAvatar<Tvalue>(
 
     ▍セリフは「相棒 → 職種 → 共通」の順で見る
     フキダシは**誰がしゃべっているか**が先に立つので、相棒別があれば勝つ。
-    職種別（sayByRole）は「あんたの仕事は〜」と相手の仕事に触れる回で
+    職種別（sayByRole）は「あなたの仕事は〜」と相手の仕事に触れる回で
     使っているものなので、そういう回に相棒別を書くときは、
     **仕事に触れない言い回しにするか、書かずに職種別へ譲る**こと。 */
 export function resolveCard(card: LessonCard, role: RoleId | null, avatarId: AvatarId | null = null) {
@@ -125,7 +125,7 @@ export function lessonCards(lesson: Lesson, role: RoleId | null): LessonCard[] {
     ...lesson.cards,
     {
       /* セリフは職種に触れない。触れると roleNote と同じことを二度言う */
-      say: 'ここまでは全員に同じ話をした。あんたの現場だと、こうなる。',
+      say: 'ここまでは全員に同じ話をした。あなたの現場だと、こうなる。',
       motion: 'explain',
       emote: 'compass',
       heading: 'あなたの現場だと',

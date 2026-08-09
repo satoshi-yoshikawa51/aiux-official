@@ -16,6 +16,15 @@
    ▍書くときの指針は avatars.ts の personality
    先輩＝テンション高め・タメ口寄り／後輩＝敬語・素直・質問が多い／
    師匠＝老練・比喩多め・結論を先に言わない／相棒＝無感情・簡潔・数字で語る。
+
+   ▍先生はサイトの「Claude教習所」と同一人物
+   人物定義はサイト側（src/app/claude-app/courses.ts の冒頭）が原典：
+   **ちょっとぶっきらぼうで口数少なめ、でも要所ではちゃんと褒めて、
+   最後は優しく送り出す女性上司。**
+   一人称「私」・二人称「あなた」・指示は「〜して」のテ形・
+   語尾は「〜ね」「〜よ」「〜でしょ」。労いは照れ隠し気味に
+   （「…飲み込み、早いじゃない。」）。**「おれ」「あんた」「〜しろ」の
+   男性口調は書かない**——一度そうなって全部書き直している。
    ============================================================ */
 import type { AvatarMotion } from '@/avatar/motions';
 import type { IconName } from '@/components/icons';
@@ -41,7 +50,7 @@ export function say(line: Line, avatarId: AvatarId | null): string {
 
 export const INTRO_VOICE = {
   greet: {
-    common: 'その仕事なら、教えることは決まった。……が、AIの前に、まずはこのアプリの使い方からだ。',
+    common: 'その仕事なら、教えることは決まった。……でもAIの前に、まずはこのアプリの使い方から。',
   } as Line,
 };
 
@@ -51,15 +60,15 @@ export const INTRO_VOICE = {
 
 export const LESSON_VOICE = {
   /** クイズを出すとき */
-  quizAsk: { common: '確認だ。ここだけ間違えるな。' } as Line,
+  quizAsk: { common: '確認するよ。ここだけは外さないで。' } as Line,
   /** 正解したとき */
-  quizRight: { common: 'そうだ。わかってるじゃないか。' } as Line,
+  quizRight: { common: 'そう。わかってるじゃない。' } as Line,
   /** 間違えたとき */
-  quizWrong: { common: '違う。……まあ、ここで間違えておけ。' } as Line,
+  quizWrong: { common: '違う。……まあ、間違えるなら今のうちよ。' } as Line,
   /** ノーミスで終えたとき */
-  resultPerfect: { common: 'ノーミスか。文句なしだ。' } as Line,
+  resultPerfect: { common: 'ノーミス。……文句なしじゃない。' } as Line,
   /** どこか間違えて終えたとき */
-  resultDone: { common: '終わりだ。間違えたところは、あとで戻ればいい。' } as Line,
+  resultDone: { common: '終わり。間違えたところは、あとで戻ればいい。' } as Line,
 };
 
 /* ———————————————— 復習 ————————————————
@@ -69,15 +78,15 @@ export const LESSON_VOICE = {
 
 export const REVIEW_VOICE = {
   /** 問題を出すとき */
-  ask: { common: '前に外したやつだ。今度はどうだ。' } as Line,
+  ask: { common: '前に外した問題。今度はどう？' } as Line,
   /** 正解したとき */
-  right: { common: 'よし。もう間違えないな。' } as Line,
+  right: { common: 'よし。もう間違えないね。' } as Line,
   /** また間違えたとき */
-  wrong: { common: 'まだだな。ここは、もう一度出す。' } as Line,
+  wrong: { common: 'まだね。ここは、もう一度出すよ。' } as Line,
   /** 全問正解で終えたとき */
-  allRight: { common: '全部だ。前に外したとは思えんな。' } as Line,
+  allRight: { common: '全部正解。前に外したとは思えないじゃない。' } as Line,
   /** どこか間違えて終えたとき */
-  wrapUp: { common: '残ったぶんは、また持ってくる。逃がさん。' } as Line,
+  wrapUp: { common: '残ったぶんは、また持ってくる。逃がさないよ。' } as Line,
 };
 
 /* ———————————————— 締め ————————————————
@@ -87,7 +96,7 @@ export const REVIEW_VOICE = {
 export const ENDING_VOICE = {
   close: {
     common:
-      '……終わったな。ここまで来たやつは、そういない。あとは現場で使え。使わなけりゃ、全部落ちる。',
+      '……終わったね。ここまで来る人は、そういない。あとは現場で使って。使わないと、全部落ちるから。',
   } as Line,
 };
 
@@ -103,11 +112,11 @@ export interface SmallTalk {
 }
 
 const SENSEI_TALK: SmallTalk[] = [
-  { say: '……なんだ。用が無いなら、手を動かせ。', motion: 'arms-crossed' },
-  { say: '休憩か。まあ、詰め込みすぎても入らないからな。', motion: 'idle-b' },
-  { say: '1日1本で十分だ。続けるほうが難しい。', motion: 'explain' },
-  { say: 'わからんところは、飛ばしていい。あとで戻れ。', motion: 'wave' },
-  { say: '……そんなに見るな。', motion: 'worried', emote: 'bang' },
+  { say: '……なに？ 用が無いなら、手を動かして。', motion: 'arms-crossed' },
+  { say: '休憩？ まあ、詰め込みすぎても入らないからね。', motion: 'idle-b' },
+  { say: '1日1本で十分。続けるほうが難しいんだから。', motion: 'explain' },
+  { say: 'わからないところは、飛ばしていい。あとで戻って。', motion: 'wave' },
+  { say: '……そんなに見ないの。', motion: 'worried', emote: 'bang' },
   { say: 'よし、いい顔になってきた。', motion: 'laugh', emote: 'sparkle' },
 ];
 
