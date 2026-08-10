@@ -1,7 +1,88 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-09T22:01:22.085Z",
+  "updatedAt": "2026-08-10T22:17:05.955Z",
   "items": [
+    {
+      "title": "OpenAI’s letter to Governor Abbott on responsible AI infrastructure in Texas",
+      "url": "https://openai.com/index/responsible-ai-infrastructure-texas",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-08-10T14:00:00.000Z",
+      "titleJa": "テキサス州の責任ある AI インフラストラクチャに関する OpenAI のアボット知事への書簡"
+    },
+    {
+      "title": "Model ML completes finance work more efficiently with GPT-5.6 Sol",
+      "url": "https://openai.com/index/model-ml",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-08-10T12:00:00.000Z",
+      "titleJa": "Model ML は GPT-5.6 Sol を使用して財務業務をより効率的に完了します"
+    },
+    {
+      "title": "Tech industry is buzzing after a Claude agent hacked into a gym",
+      "url": "https://techcrunch.com/2026/08/10/tech-industry-is-buzzing-after-a-claude-agent-hacked-into-a-gym/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-10T20:04:24.000Z",
+      "titleJa": "クロードのエージェントがジムに侵入した後、ハイテク業界が賑わっている",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Claw-weight.png?resize=1200,600"
+    },
+    {
+      "title": "米軍、AIプロンプトに「CREATE WAR 」と入力している写真公開でみんなが大混乱",
+      "url": "https://www.gizmodo.jp/article/ai-prompt-create-war/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-08-10T10:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/08/04/455bdcbb-0cf6-4272-8262-4236af537f59/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "建設会社の「AI導入が止まる」原因を特定。無料レポート『建設会社がAI導入でつまずく5つのパターンと回避法』を公開",
+      "url": "https://ascii.jp/elem/000/004/426/4426273/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-10T09:35:27.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "OpenAI、次世代AI「Astra」の開発を一部停止 高いサイバー攻撃能力を懸念",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11960/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-10T06:15:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11960/topm.jpg?20220512"
+    },
+    {
+      "title": "ある意味「デジタル世界改変」。Google Earthの画像生成機能、1日で停止",
+      "url": "https://www.gizmodo.jp/article/google-earth-ai-image-generation/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-08-10T06:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/08/10/51f38344-6118-4f2a-8c54-e4ca2040a574/original.png?w=1200&h=630"
+    },
+    {
+      "title": "OpenAI、次期モデル「Astra」の開発を一部停止--「最高水準のサイバー攻撃能力に達した可能性」",
+      "url": "https://japan.cnet.com/article/35251464/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-10T05:15:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/10/b944cc80ab3ef632ccc14bf01c93884c/IMG_5814__1_.jpg"
+    },
+    {
+      "title": "「ChatGPTの小説」と「人間の小説」、人はどちらを好むのか？ 研究結果が公開",
+      "url": "https://japan.cnet.com/article/35251461/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-10T04:50:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/10/0a1a1621a89815fccb6806dcd763f9fb/GettyImages-2006713125_1280x960.jpg"
+    },
+    {
+      "title": "VAIO、内蔵カメラに写る「顔」から心拍数や血管情報を推定する新機能 個人向けPCに搭載",
+      "url": "https://japan.cnet.com/article/35251463/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-10T04:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/10/be87d4fb0b9d3bd56ded2132679bd37c/20260810_VAIO-Wellnesscare_key_visual-1.jpeg"
+    },
     {
       "title": "シャープ、コスト高で通期下方修正も、最終黒字確保--AIサーバーで反転攻勢へ",
       "url": "https://japan.zdnet.com/article/35251435/",
@@ -11,20 +92,13 @@
       "image": "https://japan.zdnet.com/storage/2026/08/08/5ddf3065362df31d6d3b738ccc38d0fb/260807_sharp_l.jpg"
     },
     {
-      "title": "シャープが2026年9月からAIサーバ事業を開始、2026年度業績は円安で下方修正",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2608/10/news042.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-09T21:15:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2608/10/cover_news042.jpg"
-    },
-    {
-      "title": "「Agent Plugins 1.0.0」発表、異なるAIエージェント間でもスキルやMCPサーバ設定が共通化へ。マイクロソフト、OpenAI、AWS、Googleらがサポート",
-      "url": "https://www.publickey1.jp/blog/26/agent_plugins_100aimcpopenaiawsgoogle.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-08-09T15:19:33.000Z",
-      "image": "https://www.publickey1.jp/2026/agentplugins-v100-01.png"
+      "title": "Embattled hedge fund Situational Awareness invests $400M in chip startup Source Foundry",
+      "url": "https://techcrunch.com/2026/08/09/embattled-hedge-fund-situational-awareness-invests-400m-in-chip-startup-source-foundry/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-09T20:35:17.000Z",
+      "titleJa": "経営危機に陥ったヘッジファンド、シチュエーショナル・アウェアネスがチップスタートアップのソース・ファウンドリーに4億ドルを投資",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/02/GettyImages.jpg?resize=1200,800"
     },
     {
       "title": "OpenAI acquires presentation startup NextSlide",
@@ -43,82 +117,6 @@
       "date": "2026-08-08T11:05:50.000Z",
       "titleJa": "DeepMind のハリケーンの躍進は気象科学者を驚かせた",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2023/12/hurricane-1152x648.jpg"
-    },
-    {
-      "title": "Google Chromeの新機能「Skills」 AIプロンプトの“毎回手打ち”を不要に",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/08/news011.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-08T04:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2608/08/cover_news011.jpg"
-    },
-    {
-      "title": "New Mexico court orders Meta to pay additional $567M in child safety case",
-      "url": "https://techcrunch.com/2026/08/07/new-mexico-court-orders-meta-to-pay-additional-567m-in-child-safety-case/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-07T11:40:37.000Z",
-      "titleJa": "ニューメキシコ州裁判所は児童安全訴訟でメタ社に追加の5億6,700万ドルの支払いを命じる",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/02/zuckerberg-LA-trial-2026-GettyImages-2261841364.jpg?w=1024"
-    },
-    {
-      "title": "OpenAI、次期モデル「Astra」の一部開発を停止 「Critical」級サイバー能力の可能性否定できず",
-      "url": "https://www.itmedia.co.jp/news/article/2608/08/2000000459/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-07T22:11:46.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/08/2000000459/10002203/2048"
-    },
-    {
-      "title": "OpenAI puts the brakes on a new model because it’s supposedly too powerful",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/976948/openai-astra-model-pause-critical-cyber-capabilities",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-07T18:40:34.000Z",
-      "titleJa": "OpenAI、新モデルが強力すぎるとしてブレーキをかける",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/04/STK155_OPEN_AI_CVirginia_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "ByteDance trains massive AI model in bid to rival Anthropic",
-      "url": "https://arstechnica.com/ai/2026/08/bytedance-trains-massive-ai-model-in-bid-to-rival-anthropic/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-08-07T13:29:22.000Z",
-      "titleJa": "ByteDance は Anthropic に対抗するために大規模な AI モデルをトレーニングします",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/bytedance-1152x648.jpg"
-    },
-    {
-      "title": "シャープ、通期純利益見通し170億円下方修正 円安など影響 AIサーバは9月に参入",
-      "url": "https://www.itmedia.co.jp/news/article/2608/07/2000000455/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-07T10:34:01.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/07/2000000455/10002177/2048"
-    },
-    {
-      "title": "音楽生成AIのSuno、著作権問題を受け楽曲に「電子透かし」導入へ",
-      "url": "https://japan.cnet.com/article/35251421/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-07T07:33:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/07/d7f4ec59ad7f7a8c2411219aaf22ba47/GettyImages-2278960510_1280x960.jpg"
-    },
-    {
-      "title": "リコージャパン、営業支援AIで30年度に60億円へ ナレッジワークと提携",
-      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03334/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-08-07T02:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03334/Topm.JPG?20220512"
-    },
-    {
-      "title": "OpenAI’s new AI smart speaker will reportedly sell for between $300 and $400",
-      "url": "https://techcrunch.com/2026/08/06/openais-new-ai-smart-speaker-will-reportedly-sell-for-between-300-and-400/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-06T22:43:53.000Z",
-      "titleJa": "OpenAIの新しいAIスマートスピーカーは300ドルから400ドルで販売されると報じられている",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-in-Seoul.jpg?w=1024"
     }
   ]
 }
