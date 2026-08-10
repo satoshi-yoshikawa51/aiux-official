@@ -1,9 +1,9 @@
 {
   "_comment": "各シリーズの収録エピソード。scripts/fetch-manga-episodes.mjs がnoteから自動生成する（手動で追記してもよい）。desc は note-article-meta.json の excerpt が優先される。",
-  "generatedAt": "2026-08-03",
+  "generatedAt": "2026-08-10",
   "series": {
     "wakaru": {
-      "updatedAt": "2026-08-03",
+      "updatedAt": "2026-08-10",
       "episodes": [
         {
           "title": "マンガでわかる！AI活用 第1話：「生成AIとは？」",
@@ -12,7 +12,7 @@
           "no": 1,
           "date": "2024-09-02",
           "thumb": "https://assets.st-note.com/production/uploads/images/152747436/rectangle_large_type_2_c5040904ab93143ada337a3054b1120a.png?width=800",
-          "likes": 390
+          "likes": 393
         },
         {
           "title": "マンガでわかる！AI活用 第2話：「タイトル未定」",
@@ -21,7 +21,7 @@
           "no": 2,
           "date": "2024-09-09",
           "thumb": "https://assets.st-note.com/production/uploads/images/153596667/rectangle_large_type_2_1695a10f73e47f8f078fa586782b7fd5.png?width=800",
-          "likes": 183
+          "likes": 184
         },
         {
           "title": "マンガでわかる！AI活用 第3話：「RAGとファインチューニング」",
@@ -30,7 +30,7 @@
           "no": 3,
           "date": "2024-09-17",
           "thumb": "https://assets.st-note.com/production/uploads/images/154542114/rectangle_large_type_2_24f4f59647fa4290d420221b09a347d1.png?width=800",
-          "likes": 201
+          "likes": 202
         },
         {
           "title": "マンガでわかる！AI活用 第4話：「7ページで解説！AIアプリ制作」",
@@ -39,7 +39,7 @@
           "no": 4,
           "date": "2024-11-10",
           "thumb": "https://assets.st-note.com/production/uploads/images/161279677/rectangle_large_type_2_bbb52d0e3ddcd8c629055fcd8f8c8d03.png?width=800",
-          "likes": 245
+          "likes": 247
         },
         {
           "title": "マンガでわかる！AI活用 第5話：「AI時代のものづくり」",
@@ -48,7 +48,7 @@
           "no": 5,
           "date": "2025-01-01",
           "thumb": "https://assets.st-note.com/production/uploads/images/168210375/rectangle_large_type_2_3c70c65ab72def9625ba12f236ed183d.png?width=800",
-          "likes": 238
+          "likes": 239
         },
         {
           "title": "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」",
@@ -57,7 +57,7 @@
           "no": 6,
           "date": "2025-03-09",
           "thumb": "https://assets.st-note.com/production/uploads/images/178188346/rectangle_large_type_2_1a3b426cb0bc9ec0973cbf59b2455313.png?width=800",
-          "likes": 221
+          "likes": 223
         },
         {
           "title": "マンガでわかる！AI活用 第7話：「AIワークフロー」",
@@ -66,7 +66,7 @@
           "no": 7,
           "date": "2025-04-06",
           "thumb": "https://assets.st-note.com/production/uploads/images/182782634/rectangle_large_type_2_36f28703c3da5f3ed014c791f5981439.png?width=800",
-          "likes": 97
+          "likes": 98
         }
       ]
     },
@@ -130,7 +130,7 @@
       ]
     },
     "honshitsu": {
-      "updatedAt": "2026-08-03",
+      "updatedAt": "2026-08-10",
       "episodes": [
         {
           "title": "AI時代の「流行」と「本質」：序章_AI時代にAIを叫ぶ",
@@ -138,7 +138,7 @@
           "url": "https://note.com/aiux_unite/n/nff496f7dcb30",
           "date": "2025-11-30",
           "thumb": "https://assets.st-note.com/production/uploads/images/234391578/rectangle_large_type_2_16f5322764bba3c85123b46d58b5d31a.png?width=800",
-          "likes": 148
+          "likes": 147
         },
         {
           "title": "AI時代の「流行」と「本質」：AIの先にあるべきもの",
@@ -146,7 +146,7 @@
           "url": "https://note.com/aiux_unite/n/na87618c2923d",
           "date": "2026-01-05",
           "thumb": "https://assets.st-note.com/production/uploads/images/241595402/rectangle_large_type_2_a064de6ee4a40431b78183268d658ed0.png?width=800",
-          "likes": 170
+          "likes": 171
         },
         {
           "title": "Gemini使ってトルコ・スペイン一人旅 ②バルセロナ編",
