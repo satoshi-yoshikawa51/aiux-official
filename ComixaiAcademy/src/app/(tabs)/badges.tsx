@@ -79,7 +79,11 @@ export default function BadgesScreen() {
       {/* バッジ一覧 */}
       <View style={{ gap: S.md }}>
         <Text style={F.h1}>獲得したバッジ</Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: S.md }}>
+        {/* ▍alignItems は flex-start にする
+             既定（stretch）だと、隣のコマが3行のとき2行のコマの**外枠だけが
+             引き伸ばされて、ベタ影が白いコマの下に黒い面として露出する**
+             （実機で「デザイン崩れ」の報告）。コマは自分の高さのままにする */}
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: S.md, alignItems: 'flex-start' }}>
           {BADGES.map((b) => {
             const got = !!state.badges[b.id];
             return got ? (

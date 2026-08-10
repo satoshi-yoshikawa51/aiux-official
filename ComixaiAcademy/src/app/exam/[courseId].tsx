@@ -59,6 +59,9 @@ export default function ExamScreen() {
   /* 入場の幕（流れ星の海）。どくまで下の入口は触れない */
   const [entering, setEntering] = React.useState(true);
   const [queue, setQueue] = React.useState<QuizItem[]>([]);
+  /* 選択肢の並びを本編とずらす種。受験のたびに引き直す
+     （本編と同じ並びだと、位置で覚えた答えがそのまま通る） */
+  const [salt, setSalt] = React.useState('exam');
   const [i, setI] = React.useState(0);
   const [choice, setChoice] = React.useState<number | null>(null);
   const [misses, setMisses] = React.useState(0);
@@ -79,6 +82,7 @@ export default function ExamScreen() {
       [pool[n], pool[j]] = [pool[j], pool[n]];
     }
     setQueue(pool.slice(0, EXAM_SIZE));
+    setSalt(Math.random().toString(36).slice(2));
     setI(0);
     setChoice(null);
     setMisses(0);
@@ -255,7 +259,7 @@ export default function ExamScreen() {
               <MissTag misses={misses} />
             </Row>
             <Text style={F.h1}>{quiz.q}</Text>
-            <QuizChoices quiz={quiz} choice={choice} onPick={answer} />
+            <QuizChoices quiz={quiz} choice={choice} onPick={answer} shuffleSalt={salt} />
             {choice !== null ? <QuizExplain quiz={quiz} choice={choice} /> : null}
           </Panel>
         </SlideIn>

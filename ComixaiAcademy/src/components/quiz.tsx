@@ -161,11 +161,17 @@ function MarkSlot({
    ▍混ぜ方は問題idで決める（毎回ランダムにしない）
    同じ問題は本編でも復習でも、いつ開いても同じ並びで出す。
    並びが毎回変わると「前はCだった」という覚え方まで壊れてしまうし、
-   間違えた問題を復習で見たとき、別の問題に見える */
-function shuffledOrder(quiz: QuizItem): number[] {
+   間違えた問題を復習で見たとき、別の問題に見える。
+
+   ▍修了試験だけは salt で並びを変える
+   本編と同じ並びだと「位置で覚えた答え」がそのまま通ってしまう
+   （実機で「順番も同じで簡単すぎる」の指摘）。試験は受験ごとの
+   salt を渡してきて、本編とも前回の受験とも違う並びにする */
+function shuffledOrder(quiz: QuizItem, salt = ''): number[] {
   /* idから種を作る（文字列ハッシュ） */
+  const key = quiz.id + salt;
   let seed = 0;
-  for (let i = 0; i < quiz.id.length; i++) seed = (seed * 31 + quiz.id.charCodeAt(i)) >>> 0;
+  for (let i = 0; i < key.length; i++) seed = (seed * 31 + key.charCodeAt(i)) >>> 0;
   const rand = () => {
     /* mulberry32。端末やビルドが変わっても同じ列になる */
     seed = (seed + 0x6d2b79f5) >>> 0;
@@ -189,12 +195,15 @@ export function QuizChoices({
   quiz,
   choice,
   onPick,
+  shuffleSalt,
 }: {
   quiz: QuizItem;
   choice: number | null;
   onPick: (i: number) => void;
+  /** 並びを本編とずらしたいとき（修了試験）だけ渡す。受験ごとに変える */
+  shuffleSalt?: string;
 }) {
-  const order = React.useMemo(() => shuffledOrder(quiz), [quiz]);
+  const order = React.useMemo(() => shuffledOrder(quiz, shuffleSalt), [quiz, shuffleSalt]);
   return (
     <View style={{ gap: S.sm }}>
       {order.map((i, at) => {
