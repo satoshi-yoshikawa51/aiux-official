@@ -11,6 +11,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SparkLayer } from '@/components/motion';
 import { TermSheetProvider } from '@/components/term-text';
 import { playMusic, resumeMusic, stopMusic } from '@/lib/music';
+import { preloadSounds } from '@/lib/sound';
 import { ProgressProvider, useProgress } from '@/store/progress';
 import { C, FONT, T } from '@/theme';
 
@@ -77,7 +78,8 @@ function MusicDirector() {
 
   React.useEffect(() => {
     if (!ready) return;
-    const inLesson = segments[0] === 'lesson' || segments[0] === 'review';
+    const inLesson =
+      segments[0] === 'lesson' || segments[0] === 'review' || segments[0] === 'exam';
     playMusic(inLesson ? 'lesson' : 'home');
   }, [ready, segments]);
 
@@ -101,6 +103,11 @@ export default function RootLayout() {
     [FONT.hand]: require('@/assets/fonts/YuseiMagic-Regular.ttf'),
     [FONT.mono]: require('@/assets/fonts/JetBrainsMono-Bold.ttf'),
   });
+
+  /* 効果音を先に読み込む。押された瞬間に読み込むと初回だけ遅れて鳴る */
+  React.useEffect(() => {
+    preloadSounds();
+  }, []);
 
   if (!fontsReady) return null;
 
@@ -137,6 +144,7 @@ export default function RootLayout() {
               <Stack.Screen name="intro" options={{ headerShown: false }} />
               <Stack.Screen name="lesson/[id]" options={{ title: '', headerBackTitle: '戻る' }} />
               <Stack.Screen name="review" options={{ title: '復習', headerBackTitle: '戻る' }} />
+              <Stack.Screen name="exam/[courseId]" options={{ title: '修了試験', headerBackTitle: '戻る' }} />
               <Stack.Screen name="sheet" options={{ headerShown: false }} />
               <Stack.Screen name="ending" options={{ headerShown: false }} />
             </Stack>

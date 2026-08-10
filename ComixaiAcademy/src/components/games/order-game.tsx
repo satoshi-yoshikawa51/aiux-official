@@ -84,7 +84,7 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
         ) : undefined
       }>
     <View style={{ gap: S.md }}>
-      <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
+      <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
 
       {/* ———— 組み上がった順番 ————
            **下から押し上げるように積む**。もとはその場でポンと出るだけで、
@@ -194,7 +194,8 @@ function StepChip({
   wrong: boolean;
   onPress: (x: number, y: number) => void;
 }) {
-  const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light' });
+  /* タップ音は消す。押した瞬間に判定音（right/wrong）が鳴るため（仕分けと同じ理由） */
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light', sound: 'none' });
   return (
     <Pressable
       onPressIn={onPressIn}

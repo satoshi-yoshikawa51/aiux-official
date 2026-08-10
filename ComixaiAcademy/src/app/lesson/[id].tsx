@@ -15,6 +15,7 @@ import { Modal, Platform, Pressable, Text, View, useWindowDimensions } from 'rea
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { LessonInteractiveCard } from '@/components/lesson-interactive';
+import { LessonTitle } from '@/components/lesson-title';
 import { MissTag, QuizChoices, QuizExplain } from '@/components/quiz';
 import { RankUpScreen } from '@/components/rank-up';
 import { hasTerm, TermHint, TermText } from '@/components/term-text';
@@ -70,6 +71,8 @@ export default function LessonScreen() {
   const found = getLesson(String(id));
 
   const [phase, setPhase] = React.useState<Phase>('cards');
+  /* 開いた直後の扉ページ（「1-2 タイトル」）。どくまで本文は触れない */
+  const [showTitle, setShowTitle] = React.useState(true);
   const [cardIndex, setCardIndex] = React.useState(0);
   const [quizIndex, setQuizIndex] = React.useState(0);
   const [choice, setChoice] = React.useState<number | null>(null);
@@ -129,10 +132,15 @@ export default function LessonScreen() {
     if (view.emote) avatarRef.current?.emote(view.emote);
   }, [phase, view]);
 
-  /* 通せんぼをするのは token-budget だけ。
-     トークン数は誰がやっても同じ答えになるので、必ず抜けられる。
-     ai-prompt の点はAIの判断で揺れるので、**揺れるもので止めない** */
-  const gated = view?.interactive?.kind === 'token-budget';
+  /* ▍体験カードは全部、やらないと先へ進めない
+     もとは token-budget だけが通せんぼで、他のゲームは素通りできた。
+     すると「やってもやらなくてもクリアになる」ので、遊ばれない
+     （実機で指摘。読むだけで修了が積み上がっていた）。
+     試験（ゲーム）を通ることを修了の条件にする。
+     合否の無いトークナイザーも「わかった」まで見れば通る。
+     ai-prompt はAIの採点が使えないとき簡易採点に降格する（lib/grade.ts）
+     ので、電波が無くても必ず抜けられる */
+  const gated = !!view?.interactive;
   const canAdvance = !gated || cleared;
 
   const onInteractiveDone = React.useCallback((ok: boolean) => {
@@ -169,6 +177,11 @@ export default function LessonScreen() {
 
   const { lesson, course } = found;
   const quiz = lesson.quiz[quizIndex];
+
+  /* 扉ページに出す「1-2」の番号。章＝コースの並び順、本＝コース内の並び順 */
+  const lessonNo = `${COURSES.findIndex((c) => c.id === course.id) + 1}-${
+    course.lessons.findIndex((l) => l.id === lesson.id) + 1
+  }`;
 
   /* ▍締めの1枚（セリフしか無いカード）
      多くのレッスンが「セリフ＋お辞儀」で終わる。ここで空の白コマを
@@ -233,7 +246,9 @@ export default function LessonScreen() {
       <Button
         label={
           !canAdvance
-            ? 'ゲームをクリアすると進める'
+            ? view?.interactive?.kind === 'tokenizer'
+              ? 'ゲームをためすと進める'
+              : 'ゲームをクリアすると進める'
             : cardIndex + 1 < cards.length
               ? 'つぎへ'
               : 'クイズへ'
@@ -248,8 +263,14 @@ export default function LessonScreen() {
       />
     ) : phase === 'result' ? (
       /* 結果は修了→バッジ→称号と縦に伸びるので、次の1本への口が
-         画面の外に出る。ここだけは下に貼り付けておく */
-      nextLesson ? (
+         画面の外に出る。ここだけは下に貼り付けておく。
+
+         ▍コースを埋めた回は、次のレッスンより先に修了試験
+         前は「次のレッスンへ」が次の章の1本目を指していて、
+         章の締め（試験と花火）に気づかないまま素通りしていた（実機で指摘） */
+      clearedCourse && !state.exams[course.id] ? (
+        <Button label="修了試験へ" onPress={() => router.push(`/exam/${course.id}`)} />
+      ) : nextLesson ? (
         <Button label="次のレッスンへ" onPress={() => router.replace(`/lesson/${nextLesson.id}`)} />
       ) : (
         <Button label="ホームに戻る" onPress={() => router.replace('/')} />
@@ -307,7 +328,8 @@ export default function LessonScreen() {
   ) : null;
 
   return (
-    /* 上は Stack のヘッダーが安全領域を飲んでいるので、ここでは下だけ見る */
+    <View style={{ flex: 1 }}>
+    {/* 上は Stack のヘッダーが安全領域を飲んでいるので、ここでは下だけ見る */}
     <Screen
       edges={['bottom']}
       tone="dots"
@@ -358,7 +380,9 @@ export default function LessonScreen() {
             zoom={1.18}
           />
           <View style={{ flex: 1, paddingBottom: S.lg }}>
-            <Bubble text={say} style={{ marginRight: POP.sm }} />
+            {/* しっぽは左のキャラへ向ける。下向きだと、画面の下から
+                しゃべっているように見える（実機で報告あり） */}
+            <Bubble text={say} tail="left" style={{ marginRight: POP.sm }} />
           </View>
         </Row>
 
@@ -475,6 +499,18 @@ export default function LessonScreen() {
               <Badge tone="ink">
                 クイズ {lesson.quiz.length - misses} / {lesson.quiz.length} 問正解
               </Badge>
+              {/* ▍間違えても修了になる理由を、その場で言う
+                   「1問しか正解してないのにクリアになった。なんで？」と
+                   なっていた（実機で指摘）。間違いは無かったことに
+                   なるのではなく、復習に回って日を置いて戻ってくる */}
+              {misses > 0 ? (
+                <Row gap={6} style={{ paddingHorizontal: S.sm }}>
+                  <Icon name="rotate" size={13} color={T.muted} />
+                  <Text style={[F.tiny, { flex: 1 }]}>
+                    まちがえた{misses}問は「まなぶ」の復習に入りました。日を置いて、もう一度出ます。
+                  </Text>
+                </Row>
+              ) : null}
             </Panel>
 
             {/* ———— コース修了 ————
@@ -501,6 +537,8 @@ export default function LessonScreen() {
                       </Row>
                     ))}
                   </View>
+                  {/* 章の締め（修了試験）への口は下の帯と NEXT のカセットが持つ。
+                       ここに黄色いボタンを足すと、1画面に「次」が2つになる */}
                 </Card>
               </Stamp>
             ) : null}
@@ -566,7 +604,18 @@ export default function LessonScreen() {
                  一覧の末尾に置くとスクロールしないと見つからない
                  （実際、狭い端末では「次のレッスンへ」が画面の外にいた） */}
             <Cassette>
-              {nextLesson ? (
+              {clearedCourse && !state.exams[course.id] ? (
+                /* コースを埋めた回の「次」は修了試験。次の章の1本目ではない */
+                <Row gap={8}>
+                  <Pill label="NEXT" />
+                  <Icon name="trophy" size={16} color={C.paper50} />
+                  <Text
+                    style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
+                    numberOfLines={1}>
+                    修了試験（{course.title}）
+                  </Text>
+                </Row>
+              ) : nextLesson ? (
                 <Row gap={8}>
                   <Pill label="NEXT" />
                   <Text
@@ -596,5 +645,20 @@ export default function LessonScreen() {
         ) : null}
       </>
     </Screen>
+
+    {/* ———— 扉ページ ————
+         開いた直後に「1-2 タイトル」をひと呼吸だけ。紙のトーンのまま
+         出すので、ゲーム（黒タイル）の入りとは間違えない */}
+    {showTitle ? (
+      <LessonTitle
+        no={lessonNo}
+        title={lesson.title}
+        minutes={lesson.minutes}
+        quizCount={lesson.quiz.length}
+        icon={course.icon}
+        onDone={() => setShowTitle(false)}
+      />
+    ) : null}
+    </View>
   );
 }

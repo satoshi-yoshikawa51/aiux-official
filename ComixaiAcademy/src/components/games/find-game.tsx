@@ -130,7 +130,7 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
           />
         </PopIn>
       ) : cleared ? null : (
-        <Text style={[F.hand, { fontSize: 12.5, color: C.ink300 }]}>{spec.brief}</Text>
+        <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
       )}
     </View>
     </GameFrame>
@@ -149,7 +149,9 @@ function FindLine({
   last: boolean;
   onPress: (x: number, y: number) => void;
 }) {
-  const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light' });
+  /* タップ音は消す。押した結果の判定音（right/wrong）と同時に鳴ると、
+     判定音のほうがかき消される（仕分けと同じ理由） */
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light', sound: 'none' });
   const bg =
     state === 'hit' ? C.yellow400 : state === 'wrong' ? C.red50 : pressed ? C.paper100 : C.paper0;
   return (

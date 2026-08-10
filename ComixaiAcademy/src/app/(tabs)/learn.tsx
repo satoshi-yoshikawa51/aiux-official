@@ -225,6 +225,45 @@ export default function LearnScreen() {
                   <View key={lesson.id}>{card}</View>
                 );
               })}
+
+              {/* ———— 修了試験 ————
+                   章の締め。全レッスンを終えると開く。合格すると花火が上がる。
+                   終わっていないうちから見せておく（目標が先に見えるように）が、
+                   押せるのは開いてから */}
+              {(() => {
+                const examPassed = !!state.exams[course.id];
+                /* 出題数と合格ラインは試験画面（app/exam/[courseId].tsx）と同じ式。
+                   コースの持ち問題が10未満なら全問出す */
+                const examTotal = Math.min(10, course.lessons.reduce((n, l) => n + l.quiz.length, 0));
+                const examAllow = Math.max(1, Math.round(examTotal * 0.2));
+                return (
+                  <PressCard
+                    disabled={!cleared}
+                    onPress={() => router.push(`/exam/${course.id}`)}
+                    style={{ backgroundColor: examPassed ? T.sunk : T.surface }}>
+                    <Row style={{ justifyContent: 'space-between' }}>
+                      <Row gap={S.md} style={{ flex: 1 }}>
+                        <Icon name="trophy" size={17} color={examPassed ? T.ok : T.muted} />
+                        <View style={{ flex: 1, gap: 2 }}>
+                          <Text style={[F.strong, { fontSize: 14.5 }]}>修了試験</Text>
+                          <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
+                            {examPassed
+                              ? '合格ずみ ・ 受け直せます'
+                              : cleared
+                                ? `全${examTotal}問 ・ ${examTotal - examAllow}問正解で合格`
+                                : '全レッスンを終えると開く'}
+                          </Text>
+                        </View>
+                      </Row>
+                      <Icon
+                        name={examPassed ? 'perfect' : cleared ? 'play' : 'lock'}
+                        size={17}
+                        color={examPassed ? T.ok : cleared ? T.accent : T.muted}
+                      />
+                    </Row>
+                  </PressCard>
+                );
+              })()}
             </View>
           </Panel>
         );

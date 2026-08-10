@@ -60,7 +60,8 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
         failed ? (
           <GameButton label="もう一度" onPress={() => setFailed(null)} />
         ) : all ? (
-          <GameButton label="これで決める" onPress={decide} />
+          /* タップ音は消す。弱い札のまま決めたとき wrong が同時に鳴るため */
+          <GameButton label="これで決める" sound="none" onPress={decide} />
         ) : undefined
       }>
     <View style={{ gap: S.lg }}>
@@ -69,7 +70,7 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
           合格なのかが分からない（実機で「これどういう意図？
           何したら正解？」の声）。仕組みと合格条件はここに固定で書く */}
       <View style={{ gap: 6 }}>
-        <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
+        <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
         <Text style={[F.hand, { fontSize: 12.5, lineHeight: 20, color: C.ink300 }]}>
           札を押すと、AIの返しがその場で変わります。読み比べて、いちばん効く組み合わせにして「これで決める」。あいまいな札のまま決めるとミスです。
         </Text>
