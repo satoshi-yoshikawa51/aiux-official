@@ -175,11 +175,13 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
          答えがそちらに寄る。当てさせるゲームなので、重みを揃える */
       footer={
         <View style={{ flexDirection: 'row', gap: S.sm }}>
+          {/* 箱のタップ音は消す。判定音（right/wrong）と同時に鳴ると、
+              判定音がかき消されて「正解しても鳴らない」ように聞こえる */}
           <Catcher on={flying?.dir === -1} style={{ flex: 1 }}>
-            <GameButton label={spec.left} tone="ghost" onPress={(x, y) => answer(false, x, y)} />
+            <GameButton label={spec.left} tone="ghost" sound="none" onPress={(x, y) => answer(false, x, y)} />
           </Catcher>
           <Catcher on={flying?.dir === 1} style={{ flex: 1 }}>
-            <GameButton label={spec.right} tone="ghost" onPress={(x, y) => answer(true, x, y)} />
+            <GameButton label={spec.right} tone="ghost" sound="none" onPress={(x, y) => answer(true, x, y)} />
           </Catcher>
         </View>
       }>

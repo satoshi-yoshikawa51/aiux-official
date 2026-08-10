@@ -263,8 +263,14 @@ export default function LessonScreen() {
       />
     ) : phase === 'result' ? (
       /* 結果は修了→バッジ→称号と縦に伸びるので、次の1本への口が
-         画面の外に出る。ここだけは下に貼り付けておく */
-      nextLesson ? (
+         画面の外に出る。ここだけは下に貼り付けておく。
+
+         ▍コースを埋めた回は、次のレッスンより先に修了試験
+         前は「次のレッスンへ」が次の章の1本目を指していて、
+         章の締め（試験と花火）に気づかないまま素通りしていた（実機で指摘） */
+      clearedCourse && !state.exams[course.id] ? (
+        <Button label="修了試験へ" onPress={() => router.push(`/exam/${course.id}`)} />
+      ) : nextLesson ? (
         <Button label="次のレッスンへ" onPress={() => router.replace(`/lesson/${nextLesson.id}`)} />
       ) : (
         <Button label="ホームに戻る" onPress={() => router.replace('/')} />
@@ -531,16 +537,8 @@ export default function LessonScreen() {
                       </Row>
                     ))}
                   </View>
-                  {/* コースを埋めた足で、そのまま章の締めへ。
-                       試験に受かると花火が上がる（→ app/exam/[courseId].tsx） */}
-                  {!state.exams[course.id] ? (
-                    <Button
-                      label="修了試験にすすむ"
-                      variant="yellow"
-                      onPress={() => router.push(`/exam/${course.id}`)}
-                      style={{ alignSelf: 'stretch', marginTop: S.xs }}
-                    />
-                  ) : null}
+                  {/* 章の締め（修了試験）への口は下の帯と NEXT のカセットが持つ。
+                       ここに黄色いボタンを足すと、1画面に「次」が2つになる */}
                 </Card>
               </Stamp>
             ) : null}
@@ -606,7 +604,18 @@ export default function LessonScreen() {
                  一覧の末尾に置くとスクロールしないと見つからない
                  （実際、狭い端末では「次のレッスンへ」が画面の外にいた） */}
             <Cassette>
-              {nextLesson ? (
+              {clearedCourse && !state.exams[course.id] ? (
+                /* コースを埋めた回の「次」は修了試験。次の章の1本目ではない */
+                <Row gap={8}>
+                  <Pill label="NEXT" />
+                  <Icon name="trophy" size={16} color={C.paper50} />
+                  <Text
+                    style={[F.strong, { fontSize: 14.5, flex: 1, color: C.paper50 }]}
+                    numberOfLines={1}>
+                    修了試験（{course.title}）
+                  </Text>
+                </Row>
+              ) : nextLesson ? (
                 <Row gap={8}>
                   <Pill label="NEXT" />
                   <Text

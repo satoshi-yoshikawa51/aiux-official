@@ -9,6 +9,7 @@ import React from 'react';
 import { Pressable, ScrollView, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { useTap } from '@/components/motion';
+import type { SoundName } from '@/lib/sound';
 import { BW, C, FONT, R, S } from '@/theme';
 
 /* ============================================================
@@ -60,6 +61,7 @@ export function GameButton({
   onPress,
   disabled,
   tone = 'yellow',
+  sound,
   style,
 }: {
   label: string;
@@ -67,10 +69,14 @@ export function GameButton({
   onPress: (x: number, y: number) => void;
   disabled?: boolean;
   tone?: 'yellow' | 'ghost';
+  /** 押した音。**押した結果に判定音（right/wrong）が鳴るボタンは 'none' にする**。
+      タップ音と判定音が同時に鳴ると、判定音のほうがかき消される
+      （実機で「正解しても音が鳴らない」の報告） */
+  sound?: SoundName | 'none';
   style?: StyleProp<ViewStyle>;
 }) {
   const yellow = tone === 'yellow';
-  const { pressed, onPressIn, onPressOut } = useTap();
+  const { pressed, onPressIn, onPressOut } = useTap({ sound });
   const down = pressed && !disabled;
 
   return (

@@ -49,7 +49,9 @@ export function QuizChoice({
   isPicked: boolean;
   onPress: () => void;
 }) {
-  const { pressed, onPressIn, onPressOut } = useTap();
+  /* タップ音は消す。答えた瞬間に判定音（right/wrong）が鳴るので、
+     重ねると判定音のほうがかき消される（ゲームの箱と同じ理由） */
+  const { pressed, onPressIn, onPressOut } = useTap({ sound: 'none' });
   const down = pressed && !revealed;
   /* この行が「立つ」側か。選んだ行と、正解の行だけ */
   const lifts = revealed && (isAnswer || isPicked);

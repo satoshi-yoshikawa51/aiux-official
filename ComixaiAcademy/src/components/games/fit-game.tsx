@@ -111,7 +111,8 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
             onPress={() => onClear({ misses, allow, ms: elapsed() })}
           />
         ) : (
-          <GameButton label="これで渡す" onPress={hand} disabled={on.length === 0} />
+          /* タップ音は消す。外したとき wrong が同時に鳴るため */
+          <GameButton label="これで渡す" sound="none" onPress={hand} disabled={on.length === 0} />
         )
       }>
     <View style={{ gap: S.md }}>

@@ -194,7 +194,8 @@ function StepChip({
   wrong: boolean;
   onPress: (x: number, y: number) => void;
 }) {
-  const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light' });
+  /* タップ音は消す。押した瞬間に判定音（right/wrong）が鳴るため（仕分けと同じ理由） */
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light', sound: 'none' });
   return (
     <Pressable
       onPressIn={onPressIn}

@@ -25,6 +25,7 @@ import { CourseClearScreen } from '@/components/course-clear';
 import { Icon } from '@/components/icons';
 import { SlideIn } from '@/components/motion';
 import { MissTag, QuizChoices, QuizExplain } from '@/components/quiz';
+import { StarStream } from '@/components/star-stream';
 import { Badge, Bubble, Button, Panel, Row, Screen } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { COURSES, getCourse } from '@/data/courses';
@@ -55,6 +56,8 @@ export default function ExamScreen() {
   const courseNo = course ? COURSES.findIndex((c) => c.id === course.id) + 1 : 0;
 
   const [phase, setPhase] = React.useState<Phase>('intro');
+  /* 入場の幕（流れ星の海）。どくまで下の入口は触れない */
+  const [entering, setEntering] = React.useState(true);
   const [queue, setQueue] = React.useState<QuizItem[]>([]);
   const [i, setI] = React.useState(0);
   const [choice, setChoice] = React.useState<number | null>(null);
@@ -186,6 +189,7 @@ export default function ExamScreen() {
     ) : undefined;
 
   return (
+    <View style={{ flex: 1 }}>
     <Screen edges={['bottom']} tone="dots" style={{ gap: S.lg, paddingBottom: S.xxl }} footer={footer}>
       {/* 進み具合 */}
       {phase !== 'intro' ? (
@@ -295,5 +299,9 @@ export default function ExamScreen() {
         />
       ) : null}
     </Screen>
+
+    {/* ———— 入場の幕。夜空を流れ星が右上から左下へ流れる ———— */}
+    {entering ? <StarStream courseNo={courseNo} onDone={() => setEntering(false)} /> : null}
+    </View>
   );
 }

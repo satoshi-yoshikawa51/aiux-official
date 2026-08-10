@@ -60,7 +60,8 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
         failed ? (
           <GameButton label="もう一度" onPress={() => setFailed(null)} />
         ) : all ? (
-          <GameButton label="これで決める" onPress={decide} />
+          /* タップ音は消す。弱い札のまま決めたとき wrong が同時に鳴るため */
+          <GameButton label="これで決める" sound="none" onPress={decide} />
         ) : undefined
       }>
     <View style={{ gap: S.lg }}>
