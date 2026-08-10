@@ -287,9 +287,10 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
       {/* カメラの画角と描画サイズは onContextCreate の1回しか決まらない。
           あとから幅・高さが変わっても追従しないので、**そのときは作り直す**。
           追従しないままだと、古い寸法で焼いた絵が新しい枠に貼られて
-          頭が切れる（狭い端末でフキダシの実測後に枠が縮むと起きた）。 */}
+          頭が切れる（狭い端末でフキダシの実測後に枠が縮むと起きた）。
+          テクスチャ（きせかえの色違い）が変わったときも同じ理由で作り直す */}
       <GLView
-        key={`${width}x${height}x${zoom}`}
+        key={`${width}x${height}x${zoom}x${model.texture}`}
         style={{ width, height }}
         onContextCreate={onContextCreate}
       />

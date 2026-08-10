@@ -11,22 +11,26 @@
    出口から落ちて弾む → タップで開ける → 景品がスタンプで出る。
    開けるまでを1タップ挟むのは、「何が出た？」の間を作るため。
 
-   ▍景品は舞台テーマ（→ data/gacha.ts）
-   アバターの3Dモデルが増えたら、ここのプールに足す。
+   ▍景品は舞台テーマと、先生のきせかえ（→ data/gacha.ts）
+   相棒の3Dモデルが増えたら、ここのプールに足す。
    ============================================================ */
 import * as Haptics from 'expo-haptics';
 import React from 'react';
 import { Animated, Easing, Platform, Pressable, Text, View } from 'react-native';
 
+import { Avatar3D } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
 import { StageEffect } from '@/components/stage-effect';
 import { Badge, Button, Panel, Pop, Row, Screen } from '@/components/ui';
+import { DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
 import {
   DEFAULT_THEME_ID,
+  getTheme,
   RARITY_COLOR,
   SPIN_COST,
   THEMES,
+  type Rarity,
   type StageTheme,
 } from '@/data/gacha';
 import { playSound } from '@/lib/sound';
@@ -41,7 +45,7 @@ const CAPSULE_COLORS = ['#e60012', '#1a6cff', '#f5b301', '#1fa463', '#f08c00', '
 type Phase = 'idle' | 'spinning' | 'dropped' | 'revealed';
 
 export default function GachaScreen() {
-  const { state, spinGacha, setTheme } = useProgress();
+  const { state, spinGacha, setTheme, setSkin } = useProgress();
   const burst = useSparkBurst();
   const [phase, setPhase] = React.useState<Phase>('idle');
   const [result, setResult] = React.useState<SpinResult | null>(null);
@@ -51,7 +55,8 @@ export default function GachaScreen() {
   const shake = React.useRef(new Animated.Value(0)).current;
   const drop = React.useRef(new Animated.Value(0)).current;
 
-  const ownedCount = Object.keys(state.themes).length;
+  const ownedThemes = Object.keys(state.themes).length;
+  const ownedSkins = Object.keys(state.skins).length;
   const canSpin = state.coins >= SPIN_COST && phase === 'idle';
 
   const spin = () => {
@@ -94,9 +99,9 @@ export default function GachaScreen() {
   const open = (x: number, y: number) => {
     if (phase !== 'dropped' || !result) return;
     setPhase('revealed');
-    burst(x, y, result.theme.rarity === 'SR' ? 2.6 : 1.8);
-    playSound(result.theme.rarity === 'SR' ? 'badge' : 'clear');
-    if (result.theme.rarity === 'SR') setTimeout(() => playSound('star'), 300);
+    burst(x, y, result.prize.rarity === 'SR' ? 2.6 : 1.8);
+    playSound(result.prize.rarity === 'SR' ? 'badge' : 'clear');
+    if (result.prize.rarity === 'SR') setTimeout(() => playSound('star'), 300);
     if (Platform.OS !== 'web') {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     }
@@ -115,11 +120,14 @@ export default function GachaScreen() {
   /* 出口の高さぶん落として、弾ませる */
   const dropY = drop.interpolate({ inputRange: [0, 1], outputRange: [-46, 0] });
 
-  /* 落ちてきたカプセルの色は、引いたテーマのレア度で */
-  const capsuleColor = result ? RARITY_COLOR[result.theme.rarity] : C.red500;
+  /* 落ちてきたカプセルの色は、引いた景品のレア度で */
+  const capsuleColor = result ? RARITY_COLOR[result.prize.rarity] : C.red500;
 
   return (
-    <Screen edges={['bottom']} tone="dots" style={{ gap: S.lg }}>
+    /* 開封カードはスクロールの外に重ねる。Screenの中に置くと、
+       コレクション欄が伸びたぶん「中身の中央」＝画面の外に出てしまう */
+    <View style={{ flex: 1 }}>
+      <Screen edges={['bottom']} tone="dots" style={{ gap: S.lg }}>
       {/* 所持P。増減が主役の画面なので、いちばん上に大きく */}
       <Row style={{ justifyContent: 'space-between' }}>
         <Row gap={7}>
@@ -130,7 +138,7 @@ export default function GachaScreen() {
           </Text>
         </Row>
         <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
-          あつめた舞台 {ownedCount + 1} / {THEMES.length}
+          舞台 {ownedThemes + 1}/{THEMES.length} ・ きせかえ {ownedSkins + 1}/{SKINS.length + 1}
         </Text>
       </Row>
 
@@ -341,6 +349,38 @@ export default function GachaScreen() {
         </View>
       </View>
 
+      {/* ———— あつめたきせかえ ———— */}
+      <View style={{ gap: S.sm }}>
+        <Text style={F.h1}>あつめたきせかえ</Text>
+        <Text style={F.small}>先生の色違い。押すと着替えます（せっていからも変えられます）。</Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: S.sm, alignItems: 'flex-start' }}>
+          <SkinCard
+            name="素の色"
+            rarity={null}
+            swatch="#274a5e"
+            owned
+            active={state.skinId === DEFAULT_SKIN_ID}
+            onPress={() => setSkin(DEFAULT_SKIN_ID)}
+          />
+          {SKINS.map((sk) => {
+            const owned = !!state.skins[sk.id];
+            return (
+              <SkinCard
+                key={sk.id}
+                name={sk.name}
+                rarity={sk.rarity}
+                swatch={sk.swatch}
+                owned={owned}
+                active={state.skinId === sk.id}
+                onPress={() => owned && setSkin(sk.id)}
+              />
+            );
+          })}
+        </View>
+      </View>
+
+      </Screen>
+
       {/* ———— 結果 ———— */}
       {phase === 'revealed' && result ? (
         <Pressable
@@ -359,34 +399,64 @@ export default function GachaScreen() {
           }}>
           <Stamp tilt={-3}>
             <Panel contentStyle={{ alignItems: 'center', gap: S.sm, padding: S.xl }}>
-              <Badge tone={result.theme.rarity === 'SR' ? 'yellow' : result.theme.rarity === 'R' ? 'blue' : 'ink'}>
-                {result.theme.rarity}
+              <Badge tone={result.prize.rarity === 'SR' ? 'yellow' : result.prize.rarity === 'R' ? 'blue' : 'ink'}>
+                {result.prize.rarity}
               </Badge>
-              {/* 舞台のミニプレビュー */}
-              <View
-                style={{
-                  width: 190,
-                  height: 110,
-                  borderRadius: R.sm,
-                  borderWidth: BW.bold,
-                  borderColor: C.ink900,
-                  backgroundColor: '#b8a276',
-                  overflow: 'hidden',
-                }}>
-                <View style={{ flex: 1, backgroundColor: t9(result.theme) }} />
-                {result.theme.effect ? <StageEffect effect={result.theme.effect} /> : null}
-              </View>
+              {result.prize.kind === 'theme' ? (
+                /* 舞台のミニプレビュー */
+                (() => {
+                  const theme = getTheme(result.prize.id);
+                  return (
+                    <View
+                      style={{
+                        width: 190,
+                        height: 110,
+                        borderRadius: R.sm,
+                        borderWidth: BW.bold,
+                        borderColor: C.ink900,
+                        backgroundColor: '#b8a276',
+                        overflow: 'hidden',
+                      }}>
+                      <View style={{ flex: 1, backgroundColor: t9(theme) }} />
+                      {theme.effect ? <StageEffect effect={theme.effect} /> : null}
+                    </View>
+                  );
+                })()
+              ) : (
+                /* きせかえは本人が出てくる。ここが一番のご褒美 */
+                <View
+                  style={{
+                    width: 190,
+                    height: 190,
+                    borderRadius: R.sm,
+                    borderWidth: BW.bold,
+                    borderColor: C.ink900,
+                    backgroundColor: '#eef4ff',
+                    overflow: 'hidden',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                  }}>
+                  <Avatar3D
+                    avatar={getAvatar(getSkin(result.prize.id)?.avatarId, result.prize.id)}
+                    width={170}
+                    height={182}
+                  />
+                </View>
+              )}
               <Text style={{ fontFamily: FONT.display, fontSize: 24, lineHeight: 34, color: T.text }}>
-                {result.theme.name}
+                {result.prize.name}
               </Text>
               <Text style={[F.hand, { textAlign: 'center' }]}>
-                {result.dupe ? 'すでに持っていた。+1P 返しておくね。' : result.theme.desc}
+                {result.dupe ? 'すでに持っていた。+1P 返しておくね。' : result.prize.desc}
               </Text>
               <Button
-                label={result.dupe ? 'もどる' : 'ホームに飾る'}
+                label={result.dupe ? 'もどる' : result.prize.kind === 'theme' ? 'ホームに飾る' : 'へんしんする'}
                 size="sm"
                 onPress={() => {
-                  if (!result.dupe) setTheme(result.theme.id);
+                  if (!result.dupe) {
+                    if (result.prize.kind === 'theme') setTheme(result.prize.id);
+                    else setSkin(result.prize.id);
+                  }
                   closeResult();
                 }}
               />
@@ -397,7 +467,7 @@ export default function GachaScreen() {
           </Stamp>
         </Pressable>
       ) : null}
-    </Screen>
+    </View>
   );
 }
 
@@ -465,6 +535,86 @@ function ThemeCard({
             </Text>
           </Row>
           {active ? <Badge tone="red">かざり中</Badge> : null}
+        </View>
+      </View>
+    </Pressable>
+  );
+}
+
+/* きせかえ1枚のカード。プレビューは髪の色（3Dを並べると重いので出さない） */
+function SkinCard({
+  name,
+  rarity,
+  swatch,
+  owned,
+  active,
+  onPress,
+}: {
+  name: string;
+  /** null ＝ 素の色（レア度なし） */
+  rarity: Rarity | null;
+  swatch: string;
+  owned: boolean;
+  active: boolean;
+  onPress: () => void;
+}) {
+  const { pressed, onPressIn, onPressOut } = useTap({ sparks: owned });
+  return (
+    <Pressable
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      onPress={onPress}
+      disabled={!owned}
+      style={{ width: '47%' }}>
+      <View
+        style={{
+          borderWidth: active ? BW.bold : BW.line,
+          borderColor: active ? C.ink900 : owned ? C.ink900 : T.borderSoft,
+          borderRadius: R.sm,
+          backgroundColor: owned ? T.surface : T.sunk,
+          overflow: 'hidden',
+          transform: [{ scale: pressed && owned ? 0.97 : 1 }],
+        }}>
+        <View style={{ height: 62, alignItems: 'center', justifyContent: 'center' }}>
+          {owned ? (
+            /* 髪の色を丸で。上半分に光を入れてカプセルの流儀に揃える */
+            <View
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 19,
+                backgroundColor: swatch,
+                borderWidth: BW.line,
+                borderColor: C.ink900,
+                overflow: 'hidden',
+              }}>
+              <View
+                style={{
+                  height: 16,
+                  backgroundColor: 'rgba(255,255,255,0.4)',
+                  borderTopLeftRadius: 19,
+                  borderTopRightRadius: 19,
+                }}
+              />
+            </View>
+          ) : (
+            <Icon name="lock" size={20} color={T.disabled} opacity={0.6} />
+          )}
+        </View>
+        <View style={{ padding: S.sm, gap: 3 }}>
+          <Row style={{ justifyContent: 'space-between' }}>
+            <Text
+              style={[F.strong, { fontSize: 12.5, flex: 1, color: owned ? T.text : T.disabled }]}
+              numberOfLines={1}>
+              {owned ? name : '？？？'}
+            </Text>
+            {rarity ? (
+              <Text style={{ fontFamily: FONT.mono, fontSize: 9.5, color: RARITY_COLOR[rarity] }}>
+                {rarity}
+              </Text>
+            ) : null}
+          </Row>
+          {active ? <Badge tone="red">へんしん中</Badge> : null}
         </View>
       </View>
     </Pressable>

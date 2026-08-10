@@ -112,7 +112,7 @@ const HOME_BUBBLE_MARGIN = 3;
 
 export default function IntroScreen() {
   const { state, markIntroSeen } = useProgress();
-  const avatar = getAvatar(state.avatarId);
+  const avatar = getAvatar(state.avatarId, state.skinId);
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
 

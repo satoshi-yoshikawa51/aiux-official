@@ -80,7 +80,7 @@ export default function HomeScreen() {
   const guiding = tutorial.active && tutorial.step?.voice === 'avatar';
 
   const avatarRef = React.useRef<AvatarHandle>(null);
-  const avatar = getAvatar(state.avatarId);
+  const avatar = getAvatar(state.avatarId, state.skinId);
   const role = getRole(state.roleId);
 
   /* ———— 背の低い画面 ————

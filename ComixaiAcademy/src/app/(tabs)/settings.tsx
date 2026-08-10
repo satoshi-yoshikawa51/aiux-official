@@ -12,7 +12,8 @@ import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
 import { Spotlight } from '@/components/spotlight';
 import { Badge, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
-import { AVATARS, getAvatar, isReady } from '@/data/avatars';
+import { AVATARS, DEFAULT_SKIN_ID, getAvatar, isReady, SKINS } from '@/data/avatars';
+import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { getRole } from '@/data/roles';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
@@ -21,9 +22,10 @@ const SITE = 'https://comixai.dev';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { state, setAvatar, setRole, setSoundOn, setMusicOn, reset } = useProgress();
+  const { state, setAvatar, setRole, setTheme, setSkin, setSoundOn, setMusicOn, reset } =
+    useProgress();
   const stats = useStats();
-  const avatar = getAvatar(state.avatarId);
+  const avatar = getAvatar(state.avatarId, state.skinId);
   const role = getRole(state.roleId);
 
   /* ▍確認は画面の中で出す。Alert.alert は使わない
@@ -85,6 +87,51 @@ export default function SettingsScreen() {
             </PressCard>
           );
         })}
+      </View>
+
+      {/* きせかえ・舞台（ガチャの当たりをここでも着替えられる） */}
+      <View style={{ gap: S.md }}>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Text style={F.h1}>きせかえ・舞台</Text>
+          <Tap onPress={() => router.push('/gacha')} sparks={false} style={{ paddingVertical: 2 }}>
+            <Text style={[F.hand, { color: T.link }]}>ガチャで増える →</Text>
+          </Tap>
+        </Row>
+        <View style={{ gap: S.sm }}>
+          <Text style={F.small}>先生の色</Text>
+          <Row gap={S.xs} style={{ flexWrap: 'wrap' }}>
+            <PickPill
+              label="素の色"
+              dot="#274a5e"
+              owned
+              active={state.skinId === DEFAULT_SKIN_ID}
+              onPress={() => setSkin(DEFAULT_SKIN_ID)}
+            />
+            {SKINS.map((sk) => (
+              <PickPill
+                key={sk.id}
+                label={sk.name.replace('の先生', '')}
+                dot={sk.swatch}
+                owned={!!state.skins[sk.id]}
+                active={state.skinId === sk.id}
+                onPress={() => setSkin(sk.id)}
+              />
+            ))}
+          </Row>
+          <Text style={F.small}>ホームの舞台</Text>
+          <Row gap={S.xs} style={{ flexWrap: 'wrap' }}>
+            {THEMES.map((t) => (
+              <PickPill
+                key={t.id}
+                label={t.name}
+                dot={t.tint === 'transparent' ? '#b8a276' : t.tint}
+                owned={t.id === DEFAULT_THEME_ID || !!state.themes[t.id]}
+                active={state.themeId === t.id}
+                onPress={() => setTheme(t.id)}
+              />
+            ))}
+          </Row>
+        </View>
       </View>
 
       {/* 職種 */}
@@ -239,3 +286,60 @@ export default function SettingsScreen() {
     </Screen>
   );
 }
+
+/* きせかえ・舞台えらびの1粒。持っていないものは鍵を見せて、ガチャへ誘う */
+function PickPill({
+  label,
+  dot,
+  owned,
+  active,
+  onPress,
+}: {
+  label: string;
+  dot: string;
+  owned: boolean;
+  active: boolean;
+  onPress: () => void;
+}) {
+  return (
+    <Tap onPress={onPress} disabled={!owned} sparks={owned} scale={0.96}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 6,
+          borderWidth: active ? BW.bold : BW.line,
+          borderColor: active ? C.ink900 : owned ? T.border : T.borderSoft,
+          borderRadius: R.full,
+          backgroundColor: active ? T.accentSoft : owned ? T.surface : T.sunk,
+          paddingHorizontal: S.sm,
+          paddingVertical: 6,
+          opacity: owned ? 1 : 0.55,
+        }}>
+        {owned ? (
+          <View
+            style={{
+              width: 14,
+              height: 14,
+              borderRadius: 7,
+              backgroundColor: dot,
+              borderWidth: 1,
+              borderColor: C.ink900,
+            }}
+          />
+        ) : (
+          <Icon name="lock" size={12} color={T.disabled} />
+        )}
+        <Text
+          style={{
+            fontFamily: FONT.heading,
+            fontSize: 12,
+            color: owned ? T.text : T.disabled,
+          }}>
+          {owned ? label : '？？？'}
+        </Text>
+      </View>
+    </Tap>
+  );
+}
+

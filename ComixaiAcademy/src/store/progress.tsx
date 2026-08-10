@@ -13,12 +13,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
 import { BADGES, TITLES, titleFor, type Title } from '@/data/badges';
+import { DEFAULT_SKIN_ID } from '@/data/avatars';
 import {
   DEFAULT_THEME_ID,
   draw,
   DUPE_REFUND,
   SPIN_COST,
-  type StageTheme,
+  type GachaPrize,
 } from '@/data/gacha';
 import {
   ALL_LESSONS,
@@ -116,6 +117,10 @@ export interface ProgressState {
   themes: Record<string, number>;
   /** いまホームに装備している舞台テーマ */
   themeId: string;
+  /** 持っているきせかえ（先生の色違い）。きせかえID -> 引いた時刻(ms) */
+  skins: Record<string, number>;
+  /** いま着ているきせかえ。'' ＝ 素の色 */
+  skinId: string;
   /** 効果音を鳴らすか。既定はオン（→ lib/sound.ts） */
   soundOn: boolean;
   /** BGMを鳴らすか。既定はオン（→ lib/music.ts）。
@@ -144,6 +149,8 @@ const EMPTY: ProgressState = {
   lastBonusDay: '',
   themes: {},
   themeId: DEFAULT_THEME_ID,
+  skins: {},
+  skinId: DEFAULT_SKIN_ID,
   soundOn: true,
   musicOn: true,
 };
@@ -238,7 +245,7 @@ export interface CompletionResult {
 
 /** ガチャを1回まわした結果 */
 export interface SpinResult {
-  theme: StageTheme;
+  prize: GachaPrize;
   /** すでに持っていた（DUPE_REFUND を返した） */
   dupe: boolean;
 }
@@ -263,6 +270,8 @@ interface Ctx {
   spinGacha: () => SpinResult | null;
   /** 舞台テーマを装備する（持っていないものは無視） */
   setTheme: (id: string) => void;
+  /** きせかえを着る。'' で素の色に戻す（持っていないものは無視） */
+  setSkin: (id: string) => void;
   /** 効果音のオン・オフ */
   setSoundOn: (on: boolean) => void;
   /** BGMのオン・オフ */
@@ -460,20 +469,31 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const spinGacha = React.useCallback((): SpinResult | null => {
     const s = ref.current;
     if (s.coins < SPIN_COST) return null;
-    const theme = draw();
-    const dupe = !!s.themes[theme.id] || theme.id === DEFAULT_THEME_ID;
-    persist({
-      ...s,
-      coins: s.coins - SPIN_COST + (dupe ? DUPE_REFUND : 0),
-      themes: dupe ? s.themes : { ...s.themes, [theme.id]: Date.now() },
-    });
-    return { theme, dupe };
+    const prize = draw();
+    const pocket = prize.kind === 'theme' ? s.themes : s.skins;
+    const dupe = !!pocket[prize.id];
+    const coins = s.coins - SPIN_COST + (dupe ? DUPE_REFUND : 0);
+    const nextPocket = dupe ? pocket : { ...pocket, [prize.id]: Date.now() };
+    persist(
+      prize.kind === 'theme'
+        ? { ...s, coins, themes: nextPocket }
+        : { ...s, coins, skins: nextPocket },
+    );
+    return { prize, dupe };
   }, [persist]);
 
   const setTheme = React.useCallback(
     (id: string) => {
       if (id !== DEFAULT_THEME_ID && !ref.current.themes[id]) return;
       persist({ ...ref.current, themeId: id });
+    },
+    [persist],
+  );
+
+  const setSkin = React.useCallback(
+    (id: string) => {
+      if (id !== DEFAULT_SKIN_ID && !ref.current.skins[id]) return;
+      persist({ ...ref.current, skinId: id });
     },
     [persist],
   );
@@ -537,6 +557,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       claimLoginBonus,
       spinGacha,
       setTheme,
+      setSkin,
       setSoundOn,
       setMusicOn,
       markTitleSeen,
@@ -557,6 +578,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       claimLoginBonus,
       spinGacha,
       setTheme,
+      setSkin,
       setSoundOn,
       setMusicOn,
       markTitleSeen,
