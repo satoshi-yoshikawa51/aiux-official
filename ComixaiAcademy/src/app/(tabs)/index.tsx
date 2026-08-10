@@ -16,14 +16,17 @@ import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
 import { Spotlight } from '@/components/spotlight';
-import { useSparkBurst } from '@/components/motion';
-import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead } from '@/components/ui';
+import { PopIn, useSparkBurst } from '@/components/motion';
+import { StageEffect } from '@/components/stage-effect';
+import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
+import { getTheme } from '@/data/gacha';
 import { getRole } from '@/data/roles';
 import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
 import { smallTalkFor } from '@/data/voice';
+import { playSound } from '@/lib/sound';
 import { useProgress, useReview, useStats, useToday } from '@/store/progress';
 import { useTutorial } from '@/store/tutorial';
 import { C, F, FONT, R, S, T } from '@/theme';
@@ -49,8 +52,24 @@ const AVATAR_RATIO = 1.1;
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { state } = useProgress();
+  const { state, ready, claimLoginBonus } = useProgress();
   const stats = useStats();
+  /* 装備中の舞台テーマ（ガチャの景品）。教室に色と飾りを重ねる */
+  const theme = getTheme(state.themeId);
+
+  /* ▍ログインボーナス
+     1日1回、ホームを開いたら +1P。受け取れたときだけ小さく知らせる
+     （毎回音や演出を出すと、開くたびにうるさい） */
+  const [bonusShown, setBonusShown] = React.useState(false);
+  React.useEffect(() => {
+    if (!ready) return;
+    if (claimLoginBonus()) {
+      setBonusShown(true);
+      playSound('pick');
+      const t = setTimeout(() => setBonusShown(false), 2800);
+      return () => clearTimeout(t);
+    }
+  }, [ready, claimLoginBonus]);
   /* 期限が来ている復習の数。0なら何も出さない（→ app/review.tsx） */
   const due = useReview().due.length;
   /* 今日ぶんを終えているか。終えていたら、カセットの見た目を締める */
@@ -213,6 +232,62 @@ export default function HomeScreen() {
         bgColor={STAGE_WALL}
         caption={role ? `${avatar.name}・${role.name}` : avatar.name}
         contentStyle={{ padding: S.sm, gap: S.sm }}>
+        {/* ———— 舞台テーマ（ガチャの景品） ————
+             教室の写真に色を重ね、雨や星の飾りを散らす。触れない層 */}
+        {theme.tint !== 'transparent' ? (
+          <View
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              backgroundColor: theme.tint,
+            }}
+          />
+        ) : null}
+        {theme.effect ? <StageEffect effect={theme.effect} /> : null}
+
+        {/* ガチャの入口。所持Pと一緒に、舞台の右上に置く */}
+        <Tap
+          onPress={() => router.push('/gacha')}
+          sound="pick"
+          style={{ position: 'absolute', top: 6, right: 6, zIndex: 5 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 5,
+              backgroundColor: C.ink900,
+              borderRadius: R.full,
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+            }}>
+            <Icon name="egg" size={13} color={C.yellow400} />
+            <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.paper50 }}>
+              {state.coins}P
+            </Text>
+          </View>
+        </Tap>
+        {/* ログインボーナスの受け取り。ひと呼吸で消える */}
+        {bonusShown ? (
+          <PopIn style={{ position: 'absolute', top: 38, right: 6, zIndex: 5 }}>
+            <View
+              style={{
+                backgroundColor: C.yellow400,
+                borderWidth: 2,
+                borderColor: C.ink900,
+                borderRadius: R.full,
+                paddingHorizontal: 9,
+                paddingVertical: 3,
+              }}>
+              <Text style={{ fontFamily: FONT.heading, fontSize: 11, color: C.ink900 }}>
+                ログインボーナス +1P
+              </Text>
+            </View>
+          </PopIn>
+        ) : null}
         {/* コマの中身の高さを先に測る。この高さはフキダシの大小に左右されないので、
             「狭ければフキダシを詰める」判定を安定して行える。
             フキダシとアバターは**下に寄せる**。上に寄せると尻尾が床を指してしまい、

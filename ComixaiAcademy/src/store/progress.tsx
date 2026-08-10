@@ -12,7 +12,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
-import { BADGES, titleFor, type Title } from '@/data/badges';
+import { BADGES, TITLES, titleFor, type Title } from '@/data/badges';
+import {
+  DEFAULT_THEME_ID,
+  draw,
+  DUPE_REFUND,
+  SPIN_COST,
+  type StageTheme,
+} from '@/data/gacha';
 import {
   ALL_LESSONS,
   COURSES,
@@ -101,6 +108,14 @@ export interface ProgressState {
   games: Record<string, GameRecord>;
   /** コースの修了試験に合格した時刻(ms)。キーはコースID（→ app/exam/[courseId].tsx） */
   exams: Record<string, number>;
+  /** ガチャP。学習の節目でだけ貯まる（→ data/gacha.ts） */
+  coins: number;
+  /** ログインボーナスを最後に受け取った日（'YYYY-MM-DD'） */
+  lastBonusDay: string;
+  /** 持っている舞台テーマ。テーマID -> 引いた時刻(ms) */
+  themes: Record<string, number>;
+  /** いまホームに装備している舞台テーマ */
+  themeId: string;
   /** 効果音を鳴らすか。既定はオン（→ lib/sound.ts） */
   soundOn: boolean;
   /** BGMを鳴らすか。既定はオン（→ lib/music.ts）。
@@ -125,6 +140,10 @@ const EMPTY: ProgressState = {
   quiz: {},
   games: {},
   exams: {},
+  coins: 0,
+  lastBonusDay: '',
+  themes: {},
+  themeId: DEFAULT_THEME_ID,
   soundOn: true,
   musicOn: true,
 };
@@ -213,6 +232,15 @@ export interface CompletionResult {
   newBadges: string[];
   /** 称号が上がったなら、その称号 */
   newTitle: Title | null;
+  /** この修了で増えたガチャP（バッジ+1／称号+3） */
+  coinsGained: number;
+}
+
+/** ガチャを1回まわした結果 */
+export interface SpinResult {
+  theme: StageTheme;
+  /** すでに持っていた（DUPE_REFUND を返した） */
+  dupe: boolean;
 }
 
 interface Ctx {
@@ -226,8 +254,15 @@ interface Ctx {
   answerQuiz: (quizId: string, correct: boolean) => void;
   /** ミニゲームを通したことを記録する。★が伸びたときだけ中身を書き換える */
   recordGame: (lessonId: string, stars: number, misses: number, ms: number) => void;
-  /** コースの修了試験に合格したことを記録する（2回目以降の合格では上書きしない） */
+  /** コースの修了試験に合格したことを記録する（2回目以降の合格では上書きしない）。
+      初回合格はガチャP +2 */
   passExam: (courseId: string) => void;
+  /** ログインボーナス。今日まだなら +1P して true を返す（ホームが1日1回呼ぶ） */
+  claimLoginBonus: () => boolean;
+  /** ガチャを1回まわす。Pが足りなければ null */
+  spinGacha: () => SpinResult | null;
+  /** 舞台テーマを装備する（持っていないものは無視） */
+  setTheme: (id: string) => void;
   /** 効果音のオン・オフ */
   setSoundOn: (on: boolean) => void;
   /** BGMのオン・オフ */
@@ -261,6 +296,17 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
              そうしないと、もう学習が進んでいる人の画面に**いまさら
              入口の演出が割り込む**。職種まで決まっていれば通過済みとみなす */
           if (parsed.seenIntro === undefined && parsed.roleId) loaded.seenIntro = true;
+          /* ▍ガチャPは、これまでの積み上げぶんを遡って配る
+             あとから入れた仕組みなので、既存ユーザーのバッジと称号が
+             0P扱いだと「今まで損してた」になる。初回だけ換算して持たせる */
+          if (parsed.coins === undefined) {
+            const badgeCount = Object.keys(loaded.badges).length;
+            const titleIndex = Math.max(
+              0,
+              TITLES.findIndex((t) => t.name === titleFor(badgeCount).name),
+            );
+            loaded.coins = badgeCount + titleIndex * 3;
+          }
         } catch {
           /* 壊れていたら初期状態で続行する（遊びには支障がない） */
           return;
@@ -343,13 +389,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       };
 
       const { next, newBadges } = applyBadges(base);
-      persist(next);
 
       const afterTitle = titleFor(Object.keys(next.badges).length);
-      return {
-        newBadges,
-        newTitle: afterTitle.name !== beforeTitle.name ? afterTitle : null,
-      };
+      const newTitle = afterTitle.name !== beforeTitle.name ? afterTitle : null;
+      /* ガチャP：バッジ+1／称号が上がったら+3（→ data/gacha.ts） */
+      const coinsGained = newBadges.length + (newTitle ? 3 : 0);
+      persist({ ...next, coins: next.coins + coinsGained });
+
+      return { newBadges, newTitle, coinsGained };
     },
     [applyBadges, persist],
   );
@@ -393,7 +440,40 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const passExam = React.useCallback(
     (courseId: string) => {
       if (ref.current.exams[courseId]) return;
-      persist({ ...ref.current, exams: { ...ref.current.exams, [courseId]: Date.now() } });
+      persist({
+        ...ref.current,
+        exams: { ...ref.current.exams, [courseId]: Date.now() },
+        /* 初回合格はガチャP +2 */
+        coins: ref.current.coins + 2,
+      });
+    },
+    [persist],
+  );
+
+  const claimLoginBonus = React.useCallback((): boolean => {
+    const day = today();
+    if (ref.current.lastBonusDay === day) return false;
+    persist({ ...ref.current, lastBonusDay: day, coins: ref.current.coins + 1 });
+    return true;
+  }, [persist]);
+
+  const spinGacha = React.useCallback((): SpinResult | null => {
+    const s = ref.current;
+    if (s.coins < SPIN_COST) return null;
+    const theme = draw();
+    const dupe = !!s.themes[theme.id] || theme.id === DEFAULT_THEME_ID;
+    persist({
+      ...s,
+      coins: s.coins - SPIN_COST + (dupe ? DUPE_REFUND : 0),
+      themes: dupe ? s.themes : { ...s.themes, [theme.id]: Date.now() },
+    });
+    return { theme, dupe };
+  }, [persist]);
+
+  const setTheme = React.useCallback(
+    (id: string) => {
+      if (id !== DEFAULT_THEME_ID && !ref.current.themes[id]) return;
+      persist({ ...ref.current, themeId: id });
     },
     [persist],
   );
@@ -454,6 +534,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       answerQuiz,
       recordGame,
       passExam,
+      claimLoginBonus,
+      spinGacha,
+      setTheme,
       setSoundOn,
       setMusicOn,
       markTitleSeen,
@@ -471,6 +554,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       answerQuiz,
       recordGame,
       passExam,
+      claimLoginBonus,
+      spinGacha,
+      setTheme,
       setSoundOn,
       setMusicOn,
       markTitleSeen,
