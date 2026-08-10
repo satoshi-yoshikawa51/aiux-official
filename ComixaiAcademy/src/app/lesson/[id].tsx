@@ -16,7 +16,7 @@ import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { LessonInteractiveCard } from '@/components/lesson-interactive';
 import { LessonTitle } from '@/components/lesson-title';
-import { MissTag, QuizChoices, QuizExplain } from '@/components/quiz';
+import { MissTag, QuizChoices, QuizExplain, QuizTimer, TIMED_OUT } from '@/components/quiz';
 import { RankUpScreen } from '@/components/rank-up';
 import { hasTerm, TermHint, TermText } from '@/components/term-text';
 import { SlideIn, Stamp } from '@/components/motion';
@@ -231,6 +231,21 @@ export default function LessonScreen() {
        笑わせる**。毎回笑うと、笑ったことの意味が無くなる */
     avatarRef.current?.play(ok ? (misses === 0 ? 'laugh' : 'wave') : 'worried');
     avatarRef.current?.emote(ok ? 'sparkle' : 'bang');
+  };
+
+  /* 時間切れ。不正解と同じ扱い（復習にも積む）。choice は TIMED_OUT＝
+     どの選択肢とも一致しない値にして、正解だけが立った答え合わせを出す */
+  const timeUp = () => {
+    if (choice !== null) return;
+    setChoice(TIMED_OUT);
+    setMisses((n) => n + 1);
+    answerQuiz(quiz.id, false);
+    if (Platform.OS !== 'web') {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning).catch(() => {});
+    }
+    playSound('wrong');
+    avatarRef.current?.play('worried');
+    avatarRef.current?.emote('bang');
   };
 
   const goNextQuiz = () => {
@@ -463,8 +478,10 @@ export default function LessonScreen() {
               <Text style={F.kicker}>
                 QUIZ {quizIndex + 1} / {lesson.quiz.length}
               </Text>
-              <MissTag misses={misses} />
+              {choice === TIMED_OUT ? <Badge tone="red">時間切れ</Badge> : <MissTag misses={misses} />}
             </Row>
+            {/* 制限時間。答えたら止まる。切れたら不正解（→ timeUp） */}
+            <QuizTimer quizId={quiz.id} running={choice === null} onTimeout={timeUp} />
             <Text style={F.h1}>{quiz.q}</Text>
             <QuizChoices quiz={quiz} choice={choice} onPick={answer} />
             {choice !== null ? (

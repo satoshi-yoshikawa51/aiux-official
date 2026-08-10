@@ -24,7 +24,7 @@ import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { CourseClearScreen } from '@/components/course-clear';
 import { Icon } from '@/components/icons';
 import { SlideIn } from '@/components/motion';
-import { MissTag, QuizChoices, QuizExplain } from '@/components/quiz';
+import { MissTag, QuizChoices, QuizExplain, QuizTimer, TIMED_OUT } from '@/components/quiz';
 import { StarStream } from '@/components/star-stream';
 import { Badge, Bubble, Button, Panel, Row, Screen } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
@@ -113,6 +113,20 @@ export default function ExamScreen() {
     }
     avatarRef.current?.play(ok ? 'wave' : 'worried');
     avatarRef.current?.emote(ok ? 'sparkle' : 'bang');
+  };
+
+  /* 時間切れ。不正解と同じ扱い（復習にも積む）。試験でもルールは本編と同じ */
+  const timeUp = () => {
+    if (choice !== null || !quiz) return;
+    setChoice(TIMED_OUT);
+    setMisses((v) => v + 1);
+    answerQuiz(quiz.id, false);
+    if (Platform.OS !== 'web') {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning).catch(() => {});
+    }
+    playSound('wrong');
+    avatarRef.current?.play('worried');
+    avatarRef.current?.emote('bang');
   };
 
   const goNext = () => {
@@ -256,8 +270,10 @@ export default function ExamScreen() {
               <Text style={F.kicker}>
                 Q {i + 1} / {queue.length}
               </Text>
-              <MissTag misses={misses} />
+              {choice === TIMED_OUT ? <Badge tone="red">時間切れ</Badge> : <MissTag misses={misses} />}
             </Row>
+            {/* 制限時間。本編と同じ20秒（→ components/quiz.tsx の設計メモ） */}
+            <QuizTimer quizId={quiz.id} running={choice === null} onTimeout={timeUp} />
             <Text style={F.h1}>{quiz.q}</Text>
             <QuizChoices quiz={quiz} choice={choice} onPick={answer} shuffleSalt={salt} />
             {choice !== null ? <QuizExplain quiz={quiz} choice={choice} /> : null}
