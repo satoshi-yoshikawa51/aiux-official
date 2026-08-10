@@ -34,7 +34,7 @@ import {
 import { playSound } from '@/lib/sound';
 import { getAvatar } from '@/data/avatars';
 import { getBadge, prevTitle, titleSay, type Title } from '@/data/badges';
-import { COURSES, getLesson, lessonCards, resolveCard } from '@/data/courses';
+import { COURSES, gameKeyOf, getLesson, lessonCards, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { LESSON_VOICE, say as voice } from '@/data/voice';
 import { useProgress, useStats } from '@/store/progress';
@@ -447,7 +447,7 @@ export default function LessonScreen() {
             {view.interactive ? (
               <LessonInteractiveCard
                 spec={view.interactive}
-                lessonId={lesson.id}
+                gameKey={gameKeyOf(lesson, view.interactive)}
                 onDone={onInteractiveDone}
               />
             ) : null}

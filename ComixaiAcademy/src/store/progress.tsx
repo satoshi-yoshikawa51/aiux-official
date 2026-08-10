@@ -17,7 +17,7 @@ import {
   ALL_LESSONS,
   COURSES,
   getQuiz,
-  STARRED_LESSON_IDS,
+  SCORED_GAME_KEYS,
   type QuizEntry,
 } from '@/data/courses';
 import type { RoleId } from '@/data/types';
@@ -181,15 +181,18 @@ export function evaluateBadges(s: ProgressState): string[] {
   add('quiz-perfect-5', perfectCount >= 5);
   add('streak-3', streak >= 3);
   add('streak-7', streak >= 7);
-  add('half', doneCount >= Math.ceil(ALL_LESSONS.length / 2));
+  /* ▍「半分」ではなく固定の10本
+     レッスンを増やす予定があるので、総数に連動する条件だと
+     あとから足すたびにゴールが動く（実機で指摘）。10本で固定 */
+  add('half', doneCount >= 10);
   add('all-clear', doneCount >= ALL_LESSONS.length);
 
-  /* ★（ミニゲームの成績）。★の付かないレッスンは分母に入れない
+  /* ★（ミニゲームの成績）。★の付かないゲームは分母に入れない
      （入れると「全★3」が永久に達成できない条件になる） */
-  const star3 = STARRED_LESSON_IDS.filter((id) => (s.games[id]?.stars ?? 0) >= 3).length;
+  const star3 = SCORED_GAME_KEYS.filter((id) => (s.games[id]?.stars ?? 0) >= 3).length;
   add('star-first', star3 >= 1);
   add('star-5', star3 >= 5);
-  add('star-all', star3 >= STARRED_LESSON_IDS.length);
+  add('star-all', star3 >= SCORED_GAME_KEYS.length);
 
   /* 復習。卒業＝日をまたいで3回続けて正解した問題 */
   const graduated = Object.values(s.quiz).filter((r) => r.due === 0).length;
