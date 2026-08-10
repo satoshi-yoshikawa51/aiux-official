@@ -34,20 +34,19 @@ const NATIVE = Platform.OS !== 'web';
 const LATE_MS = 240;
 
 /* ———————————————— 時間制限 ————————————————
-   ▍20秒にしてある理由
-   問題文＋4択で120〜200字ある。真面目に読むと10〜15秒かかるので、
-   8秒のような短さだと「読まずに勘で押すゲーム」になって学習が壊れる。
-   20秒＝普通に読めば余裕で間に合い、迷いすぎると切れる長さ。
+   ▍12秒にしてある理由
+   8秒だと問題文＋4択（120〜200字）を読み切れず、勘で押すゲームになる。
+   20秒は実機で「長すぎる」だった。12秒＝読んだらすぐ決める長さ。
 
-   ▍緊張感は残り5秒で作る
-   最初からチッチッ鳴らすと、読んでいる最中ずっと急かされる。
-   残り5秒でバーが赤くなり、1秒ごとに針の音。切れたら不正解
+   ▍残り秒数の数字は出さない（バーだけ）
+   数字があると、読むより数字を見てしまう。減っていくバーと、
+   残り5秒の赤＋針の音だけで伝える。切れたら不正解
    （wrongの音は呼ぶ側が鳴らす。正誤の音は答えの処理と同じ場所に置く）。
 
    ▍復習には付けない
    復習は思い出す場なので、急かすと逆効果（呼ぶ側で使い分ける）。 */
 
-export const QUIZ_SECONDS = 20;
+export const QUIZ_SECONDS = 12;
 /** ここから先が「急げ」。バーが赤くなり、1秒ごとに鳴る */
 const HURRY_AT = 5;
 
@@ -114,36 +113,23 @@ export function QuizTimer({
   const hurry = left <= HURRY_AT;
 
   return (
-    <Row gap={8}>
-      <View
+    <View
+      style={{
+        height: 10,
+        borderRadius: R.full,
+        backgroundColor: T.sunk,
+        borderWidth: BW.hair,
+        borderColor: T.borderSoft,
+        overflow: 'hidden',
+      }}>
+      <Animated.View
         style={{
-          flex: 1,
-          height: 10,
-          borderRadius: R.full,
-          backgroundColor: T.sunk,
-          borderWidth: BW.hair,
-          borderColor: T.borderSoft,
-          overflow: 'hidden',
-        }}>
-        <Animated.View
-          style={{
-            height: '100%',
-            width: w.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }),
-            backgroundColor: hurry ? C.red500 : C.yellow400,
-          }}
-        />
-      </View>
-      <Text
-        style={{
-          fontFamily: FONT.mono,
-          fontSize: 12,
-          width: 30,
-          textAlign: 'right',
-          color: hurry ? C.red500 : T.muted,
-        }}>
-        {left}s
-      </Text>
-    </Row>
+          height: '100%',
+          width: w.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }),
+          backgroundColor: hurry ? C.red500 : C.yellow400,
+        }}
+      />
+    </View>
   );
 }
 

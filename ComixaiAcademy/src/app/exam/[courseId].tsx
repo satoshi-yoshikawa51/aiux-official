@@ -272,7 +272,7 @@ export default function ExamScreen() {
               </Text>
               {choice === TIMED_OUT ? <Badge tone="red">時間切れ</Badge> : <MissTag misses={misses} />}
             </Row>
-            {/* 制限時間。本編と同じ20秒（→ components/quiz.tsx の設計メモ） */}
+            {/* 制限時間。本編と同じ（→ components/quiz.tsx の設計メモ） */}
             <QuizTimer quizId={quiz.id} running={choice === null} onTimeout={timeUp} />
             <Text style={F.h1}>{quiz.q}</Text>
             <QuizChoices quiz={quiz} choice={choice} onPick={answer} shuffleSalt={salt} />
