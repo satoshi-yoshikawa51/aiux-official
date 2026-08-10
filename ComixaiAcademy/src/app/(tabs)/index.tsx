@@ -142,10 +142,10 @@ export default function HomeScreen() {
   const greeting = React.useMemo(() => {
     if (guiding) return tutorial.step?.say ?? '';
     if (talk) return talk;
-    if (!next) return 'ぜんぶ終わったな。……よくやった。あとは現場で使え。';
-    if (stats.doneCount === 0) return `${role?.name ?? ''}か。なら、話が早い。まず1本やってみろ。`;
-    if (stats.streak >= 3) return `${stats.streak}日続いてるな。……その調子だ。`;
-    return `次は「${next.lesson.title}」だ。`;
+    if (!next) return 'ぜんぶ終わったね。……よくやった。あとは現場で使って。';
+    if (stats.doneCount === 0) return `${role?.name ?? ''}ね。なら、話が早い。まず1本やってみて。`;
+    if (stats.streak >= 3) return `${stats.streak}日続いてるね。……その調子よ。`;
+    return `次は「${next.lesson.title}」よ。`;
   }, [guiding, tutorial.step, talk, next, stats.doneCount, stats.streak, role?.name]);
 
   const burst = useSparkBurst();
