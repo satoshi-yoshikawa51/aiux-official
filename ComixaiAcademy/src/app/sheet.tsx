@@ -26,7 +26,7 @@ import React from 'react';
 import { Platform, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
-import { Badge, Button, Card, Panel, Row, Screen, ScreenHead } from '@/components/ui';
+import { Badge, Button, Card, Panel, Row, Screen } from '@/components/ui';
 import { COURSES, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { useProgress } from '@/store/progress';
@@ -84,21 +84,24 @@ export default function SheetScreen() {
     return lines.join('\n').trim();
   };
 
-  const header = (
-    <ScreenHead
-      kicker="CHEAT SHEET"
-      title="持ち帰り"
-      right={
-        <Text style={{ fontFamily: FONT.mono, fontSize: 16, color: C.paper50 }}>{entries.length}</Text>
-      }
-      note={role ? `${role.name}のあなた向けに集めたもの` : '職種を選ぶと集まります'}
-      noteRight="終えた回のぶん"
-    />
+  /* ▍見出しはStackのヘッダー（戻る矢印つき）が持つ
+     ここで ScreenHead を出すと黒帯が2段になる。件数と職種の説明は
+     本文の1行目に置く（→ _layout.tsx の sheet の設計メモ） */
+  const meta = (
+    <Row style={{ justifyContent: 'space-between' }}>
+      <Text style={F.kicker}>
+        {role ? `${role.name}のあなた向け` : '職種を選ぶと集まります'}
+      </Text>
+      <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
+        {entries.length}件 ・ 終えた回のぶん
+      </Text>
+    </Row>
   );
 
   if (entries.length === 0) {
     return (
-      <Screen header={header} tone="dots">
+      <Screen edges={['bottom']} tone="dots">
+        {meta}
         <Panel contentStyle={{ gap: S.sm, alignItems: 'center', paddingVertical: S.xl }}>
           <Icon name="folder" size={30} color={T.disabled} />
           <Text style={F.h2}>まだ何もありません</Text>
@@ -111,7 +114,8 @@ export default function SheetScreen() {
   }
 
   return (
-    <Screen header={header} tone="dots">
+    <Screen edges={['bottom']} tone="dots">
+      {meta}
       <Card tone="ok" variant="flat" contentStyle={{ padding: S.md, gap: S.sm }}>
         <Text style={F.small}>
           仕事で使う場所へ持っていくためのものです。まるごとコピーして、メモや社内チャットに
