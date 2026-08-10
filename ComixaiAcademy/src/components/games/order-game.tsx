@@ -20,7 +20,7 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, GameFrame, TryAgain } from './parts';
+import { GameButton, GameFrame, GameStatus, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'order' }>;
@@ -85,6 +85,17 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
       }>
     <View style={{ gap: S.md }}>
       <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
+
+      {/* ▍やり方を、お題のすぐ下に書いておく
+           タイトル画面の1行だけだと、読み飛ばした人が札の一覧を前に
+           「これ何をすればいいの？」で止まる（実機で指摘）。
+           「順に押す」というルールは画面から消さない */}
+      <Text style={[F.hand, { fontSize: 12.5, lineHeight: 20, color: C.ink300 }]}>
+        下の札から「最初にやること」を選んで、順に押していきます。全{spec.steps.length}
+        手。順番を間違えるとミスです。
+      </Text>
+
+      <GameStatus left={`手順 ${placed.length} / ${spec.steps.length}`} misses={misses} allow={allow} />
 
       {/* ———— 組み上がった順番 ————
            **下から押し上げるように積む**。もとはその場でポンと出るだけで、

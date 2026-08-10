@@ -75,12 +75,15 @@ function render(notes, total) {
 }
 
 /** 16bit PCM の WAV に書き出す */
-function writeWav(name, samples) {
-  /* ピークを -12dB（0.25）に揃える。音ごとに音量がばらつくと、
-     どれかだけ大きくて驚く */
+function writeWav(name, samples, peakTarget = 0.25) {
+  /* ピークは基本 -12dB（0.25）に揃える。音ごとに音量がばらつくと、
+     どれかだけ大きくて驚く。
+     ▍例外は PEAKS に書く。正解音（right）は高音の短いアルペジオで、
+     BGMや環境音にいちばん埋もれやすい——実機で「正解しても鳴らない」に
+     聞こえていたので、これだけ一段（約+3dB）持ち上げる */
   let peak = 0;
   for (const s of samples) peak = Math.max(peak, Math.abs(s));
-  const gain = peak > 0 ? 0.25 / peak : 1;
+  const gain = peak > 0 ? peakTarget / peak : 1;
 
   const data = Buffer.alloc(samples.length * 2);
   for (let i = 0; i < samples.length; i++) {
@@ -211,7 +214,10 @@ const SOUNDS = {
     ),
 };
 
-const made = Object.entries(SOUNDS).map(([name, fn]) => writeWav(name, fn()));
+/** 基準（0.25）から外す音だけ書く */
+const PEAKS = { right: 0.36 };
+
+const made = Object.entries(SOUNDS).map(([name, fn]) => writeWav(name, fn(), PEAKS[name]));
 const total = made.reduce((a, m) => a + m.bytes, 0);
 for (const m of made) {
   console.log(`  ${m.name.padEnd(8)} ${m.sec.toFixed(2)}秒  ${(m.bytes / 1024).toFixed(1)}KB`);

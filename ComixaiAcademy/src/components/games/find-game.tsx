@@ -21,7 +21,7 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, GameFrame, TryAgain } from './parts';
+import { GameButton, GameFrame, GameStatus, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'find' }>;
@@ -74,16 +74,13 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
         ) : undefined
       }>
     <View style={{ gap: S.md }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.yellow400 }}>
-          みつけた {hit.length} / {bad.length}
-        </Text>
-        {wrong.length > 0 ? (
-          <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.red500 }}>
-            MISS {wrong.length} / {allow}
-          </Text>
-        ) : null}
-      </View>
+      {/* ▍お題は文書より先に読ませる
+           下に置いてあったので、読み始めてから「そもそも何を探すのか」を
+           知ることになっていた。押す前に目に入る位置へ */}
+      <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
+
+      {/* MISSは0回でも出す。出ていれば「外せる回数に限りがある」が先に伝わる */}
+      <GameStatus left={`みつけた ${hit.length} / ${bad.length}`} misses={wrong.length} allow={allow} />
 
       {/* 文書。1行ずつ押せる */}
       <View
@@ -129,9 +126,7 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
             reason={`関係のない行を${wrong.length}つ摘発しました。危ないのは「読んだAIへの命令になっている行」だけです。`}
           />
         </PopIn>
-      ) : cleared ? null : (
-        <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
-      )}
+      ) : null}
     </View>
     </GameFrame>
   );
