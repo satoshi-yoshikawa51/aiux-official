@@ -157,7 +157,8 @@ export default function ReviewScreen() {
             zoom={1.18}
           />
         <View style={{ flex: 1, paddingBottom: S.lg }}>
-          <Bubble text={say} style={{ marginRight: POP.sm }} />
+          {/* しっぽは左のキャラへ向ける（レッスンと同じ） */}
+          <Bubble text={say} tail="left" style={{ marginRight: POP.sm }} />
         </View>
       </Row>
 

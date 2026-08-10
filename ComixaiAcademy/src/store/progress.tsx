@@ -99,6 +99,8 @@ export interface ProgressState {
   quiz: Record<string, QuizRecord>;
   /** ミニゲームの自己ベスト。キーは レッスンID（1レッスン1ゲーム） */
   games: Record<string, GameRecord>;
+  /** コースの修了試験に合格した時刻(ms)。キーはコースID（→ app/exam/[courseId].tsx） */
+  exams: Record<string, number>;
   /** 効果音を鳴らすか。既定はオン（→ lib/sound.ts） */
   soundOn: boolean;
   /** BGMを鳴らすか。既定はオン（→ lib/music.ts）。
@@ -122,6 +124,7 @@ const EMPTY: ProgressState = {
   seenTutorial: false,
   quiz: {},
   games: {},
+  exams: {},
   soundOn: true,
   musicOn: true,
 };
@@ -220,6 +223,8 @@ interface Ctx {
   answerQuiz: (quizId: string, correct: boolean) => void;
   /** ミニゲームを通したことを記録する。★が伸びたときだけ中身を書き換える */
   recordGame: (lessonId: string, stars: number, misses: number, ms: number) => void;
+  /** コースの修了試験に合格したことを記録する（2回目以降の合格では上書きしない） */
+  passExam: (courseId: string) => void;
   /** 効果音のオン・オフ */
   setSoundOn: (on: boolean) => void;
   /** BGMのオン・オフ */
@@ -382,6 +387,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
+  const passExam = React.useCallback(
+    (courseId: string) => {
+      if (ref.current.exams[courseId]) return;
+      persist({ ...ref.current, exams: { ...ref.current.exams, [courseId]: Date.now() } });
+    },
+    [persist],
+  );
+
   /* ▍鳴らす側は毎回ストアを見ない
      playSound はボタンの中から呼ばれるので、Contextを引かせたくない。
      設定が変わったときにだけ、モジュール側の旗を書き換える */
@@ -437,6 +450,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       completeLesson,
       answerQuiz,
       recordGame,
+      passExam,
       setSoundOn,
       setMusicOn,
       markTitleSeen,
@@ -453,6 +467,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       completeLesson,
       answerQuiz,
       recordGame,
+      passExam,
       setSoundOn,
       setMusicOn,
       markTitleSeen,

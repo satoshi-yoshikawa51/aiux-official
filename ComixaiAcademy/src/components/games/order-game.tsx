@@ -84,7 +84,7 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
         ) : undefined
       }>
     <View style={{ gap: S.md }}>
-      <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
+      <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
 
       {/* ———— 組み上がった順番 ————
            **下から押し上げるように積む**。もとはその場でポンと出るだけで、

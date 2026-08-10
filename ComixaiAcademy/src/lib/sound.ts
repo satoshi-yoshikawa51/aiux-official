@@ -62,6 +62,20 @@ export function setSoundEnabled(on: boolean) {
   enabled = on;
 }
 
+/* ▍プレイヤーは起動時に全部作っておく
+   押された瞬間に作ると、**最初の1回だけ読み込みのぶん遅れて鳴る**
+   （実機で「押した音が遅れて聞こえる」の報告）。10音ぶん先に作って、
+   押されたときは play() するだけにする。起動時に1回呼ぶ（_layout.tsx） */
+export function preloadSounds() {
+  try {
+    for (const name of Object.keys(FILES) as SoundName[]) {
+      if (!players.has(name)) players.set(name, createAudioPlayer(FILES[name]));
+    }
+  } catch {
+    /* 作れなくても playSound が都度作りに行くので、遅れるだけで鳴る */
+  }
+}
+
 /**
  * 1音鳴らす。**待たない・失敗を投げない。**
  * 呼ぶ側は結果を気にせず、演出のついでに置いてよい。
@@ -74,9 +88,11 @@ export function playSound(name: SoundName) {
       p = createAudioPlayer(FILES[name]);
       players.set(name, p);
     }
-    /* 連打されると前の音が途中で残るので、必ず頭出しする。
-       seekTo は Promise を返すが、待つと遅れて聞こえるので待たない */
-    p.seekTo(0).catch(() => {});
+    /* 2回目以降は再生位置が末尾に残っているので頭出しする。
+       seekTo は Promise を返すが、待つと遅れて聞こえるので待たない。
+       **一度も鳴らしていないときは呼ばない**（位置は0のままで、
+       seek のぶんだけ初回が遅れるのを避ける） */
+    if (p.currentTime > 0) p.seekTo(0).catch(() => {});
     p.play();
   } catch {
     /* 鳴らなくても学習は進む */

@@ -93,8 +93,10 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
       <GameFrame
         footer={
           passed ? (
+            /* 札はもう全部答え終わっている。ここで「決める」ことは無いので、
+               先へ送る言い方にする（「これで決める」だと押すのをためらう） */
             <GameButton
-              label="これで決める"
+              label="つぎへ"
               onPress={() => onClear({ misses, allow: spec.allow, ms: elapsed() })}
             />
           ) : (
@@ -186,7 +188,7 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
           タイトル画面の1行は数秒で消える。読み飛ばした人が札と箱だけを
           前に「何をしていいか分からない」になっていた（実機で報告あり）。
           お題は消さない */}
-      <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
+      <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
 
       {/* 残り枚数と、間違えられる残り */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>

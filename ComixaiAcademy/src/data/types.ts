@@ -62,8 +62,11 @@ export type ByAvatar<Tvalue> = Partial<Record<AvatarId, Tvalue>>;
    ・fit           … 資料を選んで、限られた広さに詰める
    ・order         … 工程を正しい順に並べる
    ・tokenizer     … 好きに打って、トークンの割れ方を見る（合否なし）
-   ・token-budget  … 決められたトークン数に収める（**通らないと次に進めない**）
+   ・token-budget  … 決められたトークン数に収める
    ・ai-prompt     … 本物のAIに指示を渡して採点される
+
+   **どれも、通らないとレッスンの先へ進めない**（合否の無いトークナイザーは
+   「わかった」まで見れば通る。→ app/lesson/[id].tsx の gated）
 
    増やすときは、この union に足して src/components/mini-game.tsx に
    遊び方を書く。合否のあるものは onClear を呼ぶこと（呼ばないと先に進めない）。

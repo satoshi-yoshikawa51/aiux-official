@@ -151,7 +151,38 @@ function MarkSlot({
   return <PopIn delay={delay}>{children}</PopIn>;
 }
 
-/** 選択肢いちれつ。choice が null のあいだは伏せたまま */
+/* ▍選択肢は並べ替えて出す
+   データを書くとき、正解はつい2番目（B）に寄る（実際、1章はほぼ全問Bで
+   「Bを押せば当たる」と気づかれた）。データ側を手で並べ直しても、
+   足すたびに同じ偏りが戻ってくるので、**出すときに混ぜる**。
+
+   ▍混ぜ方は問題idで決める（毎回ランダムにしない）
+   同じ問題は本編でも復習でも、いつ開いても同じ並びで出す。
+   並びが毎回変わると「前はCだった」という覚え方まで壊れてしまうし、
+   間違えた問題を復習で見たとき、別の問題に見える */
+function shuffledOrder(quiz: QuizItem): number[] {
+  /* idから種を作る（文字列ハッシュ） */
+  let seed = 0;
+  for (let i = 0; i < quiz.id.length; i++) seed = (seed * 31 + quiz.id.charCodeAt(i)) >>> 0;
+  const rand = () => {
+    /* mulberry32。端末やビルドが変わっても同じ列になる */
+    seed = (seed + 0x6d2b79f5) >>> 0;
+    let t = seed;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const order = quiz.choices.map((_, i) => i);
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
+}
+
+/** 選択肢いちれつ。choice が null のあいだは伏せたまま。
+    onPick に渡るのは**データ上のインデックス**（並べ替え前）なので、
+    呼ぶ側の答え合わせはこれまでどおり quiz.answer と比べるだけでよい */
 export function QuizChoices({
   quiz,
   choice,
@@ -161,9 +192,11 @@ export function QuizChoices({
   choice: number | null;
   onPick: (i: number) => void;
 }) {
+  const order = React.useMemo(() => shuffledOrder(quiz), [quiz]);
   return (
     <View style={{ gap: S.sm }}>
-      {quiz.choices.map((c, i) => {
+      {order.map((i, at) => {
+        const c = quiz.choices[i];
         const revealed = choice !== null;
         const isAnswer = i === quiz.answer;
         const isPicked = i === choice;
@@ -171,7 +204,7 @@ export function QuizChoices({
           <QuizChoice
             key={i}
             label={c}
-            mark={revealed ? (isAnswer ? '○' : isPicked ? '×' : ' ') : String.fromCharCode(65 + i)}
+            mark={revealed ? (isAnswer ? '○' : isPicked ? '×' : ' ') : String.fromCharCode(65 + at)}
             bg={!revealed ? T.surface : isAnswer ? T.okSoft : isPicked ? T.accentSoft : T.surface}
             revealed={revealed}
             isAnswer={isAnswer}

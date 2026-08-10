@@ -751,6 +751,7 @@ export function Chip({
 export function Bubble({
   text,
   variant = 'say',
+  tail = 'bottom',
   style,
   font = 'hand',
   compact = false,
@@ -759,6 +760,10 @@ export function Bubble({
   text: string;
   /** say=丸 / shout=強調（太枠・傾き） / think=考えごと（しっぽが丸） */
   variant?: 'say' | 'shout' | 'think';
+  /** しっぽの向き。**しゃべっている人のほうへ向けること**。
+      キャラが左横にいる画面（レッスン）は 'left'、
+      キャラがフキダシの下にいる画面（ホーム）は既定の 'bottom' */
+  tail?: 'bottom' | 'left';
   style?: StyleProp<ViewStyle>;
   font?: 'hand' | 'body';
   /** 画面の縦が足りないとき、文字と余白を詰めて高さを稼ぐ */
@@ -799,6 +804,11 @@ export function Bubble({
         <>
           <View style={[styles.thinkDot, { width: 14, height: 14, bottom: -10, left: 30 }]} />
           <View style={[styles.thinkDot, { width: 8, height: 8, bottom: -22, left: 22 }]} />
+        </>
+      ) : tail === 'left' ? (
+        <>
+          <View style={styles.tailLeftOuter} />
+          <View style={styles.tailLeftInner} />
         </>
       ) : (
         <>
@@ -967,6 +977,33 @@ const styles = StyleSheet.create({
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderTopColor: T.surface,
+  },
+  /* 左向きのしっぽ。左横にいるキャラの口元（下寄り）から出す */
+  tailLeftOuter: {
+    position: 'absolute',
+    left: -16,
+    bottom: 18,
+    width: 0,
+    height: 0,
+    borderTopWidth: 11,
+    borderBottomWidth: 11,
+    borderRightWidth: 18,
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderRightColor: T.border,
+  },
+  tailLeftInner: {
+    position: 'absolute',
+    left: -10,
+    bottom: 21,
+    width: 0,
+    height: 0,
+    borderTopWidth: 8,
+    borderBottomWidth: 8,
+    borderRightWidth: 13,
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderRightColor: T.surface,
   },
   thinkDot: {
     position: 'absolute',

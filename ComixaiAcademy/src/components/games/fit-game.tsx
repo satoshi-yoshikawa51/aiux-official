@@ -115,7 +115,7 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
         )
       }>
     <View style={{ gap: S.md }}>
-      <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>{spec.brief}</Text>
+      <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
 
       {/* 机の埋まり具合 */}
       <Animated.View

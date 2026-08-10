@@ -386,8 +386,8 @@ function TitleScreen({
         <Text
           style={{
             fontFamily: FONT.display,
-            fontSize: 34,
-            lineHeight: 46,
+            fontSize: 38,
+            lineHeight: 52,
             color: C.paper0,
             textAlign: 'center',
           }}>
@@ -405,7 +405,8 @@ function TitleScreen({
       />
 
       <SlideIn from="bottom" distance={14} duration={340} delay={620}>
-        <Text style={[F.hand, { fontSize: 14, color: C.paper100, textAlign: 'center' }]}>
+        {/* 遊び方の1行。ここを読み飛ばされると詰むので、本文並みの大きさで */}
+        <Text style={[F.hand, { fontSize: 16, lineHeight: 26, color: C.paper100, textAlign: 'center' }]}>
           {meta.how}
         </Text>
       </SlideIn>
@@ -465,10 +466,10 @@ function GameBar({ meta, onClose }: { meta: GameMeta; onClose: () => void }) {
         borderBottomWidth: BW.line,
         borderBottomColor: C.ink800,
       }}>
-      <Icon name={meta.icon} size={17} color={C.yellow400} />
+      <Icon name={meta.icon} size={19} color={C.yellow400} />
       <View style={{ flex: 1 }}>
-        <Text style={{ fontFamily: FONT.heading, fontSize: 15, color: C.paper50 }}>{meta.name}</Text>
-        <Text style={{ fontFamily: FONT.mono, fontSize: 9.5, letterSpacing: 1, color: C.ink300 }}>
+        <Text style={{ fontFamily: FONT.heading, fontSize: 17, color: C.paper50 }}>{meta.name}</Text>
+        <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.ink300 }}>
           {meta.rule}
         </Text>
       </View>
@@ -930,13 +931,27 @@ function TokenPlay({
           </View>
         </SlideIn>
 
-        {/* 例文 */}
+        {/* ▍例文と部品は動きが違う
+            トークナイザー（合否なし）の例文は**差し替え**——見比べる道具。
+            トークン収めの部品は**追記**——組み合わせて文を作る素材。
+            差し替えにすると「完成文を1回押して終わり」になってしまう */}
         {presets.length ? (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6 }}>
-            {presets.map((p) => (
-              <PresetChip key={p} text={p} onPick={() => setText(p)} />
-            ))}
-          </ScrollView>
+          <View style={{ gap: 6 }}>
+            {budget ? (
+              <Text style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: 1.5, color: C.yellow400 }}>
+                部品（押すと文に足される）
+              </Text>
+            ) : null}
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6 }}>
+              {presets.map((p) => (
+                <PresetChip
+                  key={p}
+                  text={p}
+                  onPick={() => (budget ? setText((t) => t + p) : setText(p))}
+                />
+              ))}
+            </ScrollView>
+          </View>
         ) : null}
 
         {/* ▍打つ前の空白を、そのままにしない

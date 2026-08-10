@@ -93,7 +93,7 @@ export default function EndingScreen() {
             height={Math.round(stageW * 1.25)}
           />
           <View style={{ flex: 1, paddingBottom: S.lg }}>
-            <Bubble text={voice(ENDING_VOICE.close, state.avatarId)} style={{ marginRight: POP.sm }} />
+            <Bubble text={voice(ENDING_VOICE.close, state.avatarId)} tail="left" style={{ marginRight: POP.sm }} />
           </View>
         </Row>
       </SlideIn>

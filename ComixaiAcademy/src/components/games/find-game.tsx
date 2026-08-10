@@ -130,7 +130,7 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
           />
         </PopIn>
       ) : cleared ? null : (
-        <Text style={[F.hand, { fontSize: 12.5, color: C.ink300 }]}>{spec.brief}</Text>
+        <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
       )}
     </View>
     </GameFrame>
