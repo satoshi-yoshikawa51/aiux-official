@@ -128,6 +128,45 @@ export function GameButton({
 }
 
 /* ============================================================
+   進み具合とミスの帯。**合否のあるゲームは、これを必ず出す。**
+
+   もとは仕分けにしか無く、並べる・詰めるは**ミスを数えているのに
+   画面のどこにも出ていなかった**。何回外せるのかも、いま何回
+   外したのかも見えないと、失敗が「不思議な即死」になる（実機で指摘）。
+
+   left には「手順 2 / 4」「みつけた 1 / 2」のような進み具合を渡す。
+   無いゲーム（詰める）は省略してよい。MISSは0回でも出しておく——
+   出ていれば「外せる回数に限りがある」が始まる前から伝わる。
+   ============================================================ */
+export function GameStatus({
+  left,
+  misses,
+  allow,
+}: {
+  /** 進み具合の文字。省略するとMISSだけ右に出る */
+  left?: string;
+  misses: number;
+  allow: number;
+}) {
+  return (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.yellow400 }}>
+        {left ?? ''}
+      </Text>
+      <Text
+        style={{
+          fontFamily: FONT.mono,
+          fontSize: 11,
+          letterSpacing: 1,
+          color: misses > allow ? C.red500 : misses > 0 ? C.red500 : C.ink300,
+        }}>
+        MISS {misses} / {allow}
+      </Text>
+    </View>
+  );
+}
+
+/* ============================================================
    外したときの札。**通らなかったことを、その場で言う。**
 
    もとは「見つける」「組み立てる」「並べる」の3つに合否が無く、

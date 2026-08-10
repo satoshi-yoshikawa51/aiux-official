@@ -23,7 +23,7 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, GameFrame, TryAgain } from './parts';
+import { GameButton, GameFrame, GameStatus, TryAgain } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'fit' }>;
@@ -117,6 +117,14 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
       }>
     <View style={{ gap: S.md }}>
       <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
+
+      {/* やり方は画面から消さない（並べると同じ理由） */}
+      <Text style={[F.hand, { fontSize: 12.5, lineHeight: 20, color: C.ink300 }]}>
+        資料を押すと机に載り、もう一度押すと降ろせます。要るものだけ載せて「これで渡す」。過不足があるとミスです。
+      </Text>
+
+      {/* 「これで渡す」を押して過不足があると1ミス。0回でも出しておく */}
+      <GameStatus misses={misses} allow={allow} />
 
       {/* 机の埋まり具合 */}
       <Animated.View

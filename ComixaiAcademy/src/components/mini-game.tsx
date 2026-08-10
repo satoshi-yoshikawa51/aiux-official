@@ -74,9 +74,6 @@ const DEBOUNCE_MS = 140;
 /** チップが1枚ずつずれて出るときの間隔。サイトと同じ28ms、頭打ちも同じ400ms */
 const CHIP_STEP_MS = 28;
 const CHIP_STEP_MAX = 400;
-/** タイトルを見せている時間。**待たせすぎない**。押せば飛ばせる。
-    前にタイル演出が0.6秒ほど入るので、そのぶん短くしてある */
-const TITLE_MS = 1300;
 
 export interface GameMeta {
   name: string;
@@ -210,14 +207,11 @@ export function MiniGame({
     return () => playMusic('lesson');
   }, []);
 
-  /* タイトルは自動で終わる。押したら飛ばせる。
-     数え始めるのは**タイルが覆い終わってから**。先に数え始めると、
-     タイルを見ているあいだにタイトルの持ち時間が減っていく */
-  React.useEffect(() => {
-    if (phase !== 'title' || !covered) return;
-    const t = setTimeout(() => setPhase('play'), TITLE_MS);
-    return () => clearTimeout(t);
-  }, [phase, covered]);
+  /* ▍タイトルは**押すまで消えない**
+     もとは1.3秒で自動で先へ進んでいたが、この画面には遊び方と
+     難度（何回外せるか）が載っている。読み終える前に消えて
+     「何をしていいか分からない」になっていた（実機で指摘）。
+     TAP TO START と書いてあるのだから、そのとおりに待つ */
 
   /* 通ったときの成績。★の数と自己ベストの判定に使う */
   const [score, setScore] = React.useState<GameScore | null>(null);
@@ -342,8 +336,8 @@ export function MiniGame({
 }
 
 /* ———————————————— 入りのタイトル ————————————————
-   読ませるためではなく、**画面が切り替わったことを分からせる**ため。
-   だから短い。1.7秒で勝手に終わるし、押せばすぐ飛ぶ。 */
+   遊び方と難度（何回外せるか）を、始まる前に読ませる場所。
+   **押すまで消えない**（自動で進むと、読み終わる前に消える） */
 
 function TitleScreen({
   meta,
