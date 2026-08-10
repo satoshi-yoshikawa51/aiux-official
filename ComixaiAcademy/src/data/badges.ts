@@ -218,13 +218,13 @@ export function titleSay(title: Title, avatarId: AvatarId | null): string {
     **バッジを増やすときは、ここの数字も見直すこと。** 増やしたぶん
     最上位が相対的に緩くなる（分母だけ増えて分子は据え置きになる）。 */
 export const TITLES: Title[] = [
-  { need: 0, icon: 'egg', name: 'AI見習い', say: 'まあ、そこからだな。' },
-  { need: 3, icon: 'learn', name: 'AI研修生', say: '研修生に上げておく。まだ何も覚えてないが。' },
-  { need: 6, icon: 'buddy', name: 'AIの相棒', say: '相棒、か。悪くない響きだ。' },
+  { need: 0, icon: 'egg', name: 'AI見習い', say: 'まあ、そこからね。' },
+  { need: 3, icon: 'learn', name: 'AI研修生', say: '研修生に上げておく。まだ何も覚えてないけど。' },
+  { need: 6, icon: 'buddy', name: 'AIの相棒', say: '相棒、か。悪くない響きね。' },
   { need: 9, icon: 'hammer', name: 'AI使い', say: '道具として使えてる。ここからが面白い。' },
-  { need: 11, icon: 'cap', name: 'AI職人', say: '職人だ。人に教えられる域に入った。' },
+  { need: 11, icon: 'cap', name: 'AI職人', say: '職人。人に教えられる域に入ったじゃない。' },
   { need: 13, icon: 'trophy', name: 'AI師範', say: '師範。……もう私が教えることは、そう多くない。' },
-  { need: 16, icon: 'crown', name: 'AIマスター', say: 'よくやった。ここまで来たやつは、そういない。' },
+  { need: 16, icon: 'crown', name: 'AIマスター', say: 'よくやった。ここまで来る人は、そういない。' },
 ];
 
 export function titleFor(badgeCount: number): Title {

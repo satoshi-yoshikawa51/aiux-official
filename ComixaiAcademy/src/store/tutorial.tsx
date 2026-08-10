@@ -65,14 +65,14 @@ export const TUTORIAL: TutorialStep[] = [
     glow: 'home',
     spot: 'home-head',
     voice: 'avatar',
-    say: 'ここがホームだ。おれはここに立ってる。上の黒い帯が、あんたの称号と進み具合だな。',
+    say: 'ここがホーム。私はここに立ってる。上の黒い帯が、あなたの称号と進み具合ね。',
   },
   {
     route: '/',
     glow: 'home',
     spot: 'home-next',
     voice: 'avatar',
-    say: '下の黒いカセットが「次にやること」。迷ったらこれを押せ。それだけでいい。',
+    say: '下の黒いカセットが「次にやること」。迷ったらこれを押して。それだけでいい。',
   },
   {
     route: '/learn',
@@ -86,13 +86,13 @@ export const TUTORIAL: TutorialStep[] = [
        重なる。**言っている色と見えている色が食い違う**ので、
        ここでは色ではなく「光ってる」で指す */
     spot: 'learn-next',
-    say: 'ここが「まなぶ」。コースとレッスンが全部並んでる。いま光ってるのが、次の1本だ。',
+    say: 'ここが「まなぶ」。コースとレッスンが全部並んでる。いま光ってるのが、次の1本。',
   },
   {
     route: '/badges',
     glow: 'badges',
     spot: 'badges-next',
-    say: '終えるとバッジが増える。数がたまると称号が上がる。……まあ、おまけみたいなもんだが、効くぞ。',
+    say: '終えるとバッジが増えて、数がたまると称号が上がる。……まあ、おまけみたいなものだけど、効くよ。',
   },
   {
     route: '/settings',
@@ -108,7 +108,7 @@ export const TUTORIAL: TutorialStep[] = [
     route: '/',
     glow: 'home',
     voice: 'avatar',
-    say: '案内は以上だ。あとは手を動かすだけ。1本目からいけ。',
+    say: '案内は以上。あとは手を動かすだけ。1本目、いってみようか。',
   },
 ];
 

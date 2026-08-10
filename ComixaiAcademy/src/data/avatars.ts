@@ -61,7 +61,7 @@ export const AVATARS: AvatarDef[] = [
     name: '先生',
     icon: 'person',
     tagline: 'ぶっきらぼうだけど、要所ではちゃんと褒める。',
-    personality: '口数少なめ・言い切り型。照れ隠し気味に労う。絵文字は使わない',
+    personality: '女性上司。一人称「私」・二人称「あなた」・指示は「〜して」のテ形。口数少なめ・言い切り型で、照れ隠し気味に労う。絵文字は使わない',
     accent: '#e60012',
     model: {
       glb: require('@/assets/models/sensei.glb'),

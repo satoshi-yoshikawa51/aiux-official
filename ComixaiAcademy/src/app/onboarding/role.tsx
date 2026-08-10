@@ -39,7 +39,7 @@ export default function RolePickScreen() {
       }>
       <Bubble
         variant="shout"
-        text={`${avatar.name}だ。で、あんたの仕事は？ そこが決まらないと、教える中身が決まらない。`}
+        text={`教えるのは私、${avatar.name}。で、あなたの仕事は？ そこが決まらないと、教える中身が決まらない。`}
         style={{ marginRight: POP.sm, marginBottom: S.lg }}
       />
 

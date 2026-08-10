@@ -58,7 +58,7 @@ function offlineGrade(prompt: string): GradeResult {
     improve:
       missing.length > 0
         ? `${missing[0]}を足すと、返ってくるものが変わる。`
-        : '4点セットは揃っている。あとは具体の中身を濃くするだけだ。',
+        : '4点セットは揃っている。あとは具体の中身を濃くするだけ。',
     missing,
     offline: true,
   };
