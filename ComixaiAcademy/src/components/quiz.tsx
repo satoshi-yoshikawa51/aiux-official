@@ -25,12 +25,113 @@ import { PopIn, SlideIn, useTap } from '@/components/motion';
 import { TermText } from '@/components/term-text';
 import { Badge, Card, Pop, Row, sinkFlat } from '@/components/ui';
 import type { QuizItem } from '@/data/types';
-import { BW, F, FONT, POP, R, S, T } from '@/theme';
+import { playSound } from '@/lib/sound';
+import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
 const NATIVE = Platform.OS !== 'web';
 
 /** 正解の行を起こすまでの間。選んだ行のふくらみが収まってから */
 const LATE_MS = 240;
+
+/* ———————————————— 時間制限 ————————————————
+   ▍12秒にしてある理由
+   8秒だと問題文＋4択（120〜200字）を読み切れず、勘で押すゲームになる。
+   20秒は実機で「長すぎる」だった。12秒＝読んだらすぐ決める長さ。
+
+   ▍残り秒数の数字は出さない（バーだけ）
+   数字があると、読むより数字を見てしまう。減っていくバーと、
+   残り5秒の赤＋針の音だけで伝える。切れたら不正解
+   （wrongの音は呼ぶ側が鳴らす。正誤の音は答えの処理と同じ場所に置く）。
+
+   ▍復習には付けない
+   復習は思い出す場なので、急かすと逆効果（呼ぶ側で使い分ける）。 */
+
+export const QUIZ_SECONDS = 12;
+/** ここから先が「急げ」。バーが赤くなり、1秒ごとに鳴る */
+const HURRY_AT = 5;
+
+/** 時間切れを表す choice の値。どの選択肢とも一致しない */
+export const TIMED_OUT = -1;
+
+export function QuizTimer({
+  quizId,
+  running,
+  seconds = QUIZ_SECONDS,
+  onTimeout,
+}: {
+  /** 変わるたびにタイマーを張り直す */
+  quizId: string;
+  /** 答えたら false にして止める（バーは止まった位置で残る） */
+  running: boolean;
+  seconds?: number;
+  onTimeout: () => void;
+}) {
+  const [left, setLeft] = React.useState(seconds);
+  const w = React.useRef(new Animated.Value(1)).current;
+  const timeout = React.useRef(onTimeout);
+  timeout.current = onTimeout;
+
+  /* 問題が変わったら満タンから */
+  React.useEffect(() => {
+    setLeft(seconds);
+    w.setValue(1);
+  }, [quizId, seconds, w]);
+
+  /* バーは滑らかに減らす（1秒刻みだとカクつく）。幅なのでネイティブドライバ不可 */
+  React.useEffect(() => {
+    if (!running) {
+      w.stopAnimation();
+      return;
+    }
+    const a = Animated.timing(w, {
+      toValue: 0,
+      duration: seconds * 1000,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    });
+    a.start();
+    return () => a.stop();
+  }, [quizId, running, seconds, w]);
+
+  /* 残り秒数は1秒刻み。針の音と時間切れはこちらが数える */
+  React.useEffect(() => {
+    if (!running) return;
+    const id = setInterval(() => {
+      setLeft((n) => {
+        const next = n - 1;
+        if (next > 0 && next <= HURRY_AT) playSound('tick');
+        if (next <= 0) {
+          clearInterval(id);
+          timeout.current();
+        }
+        return Math.max(0, next);
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [quizId, running]);
+
+  const hurry = left <= HURRY_AT;
+
+  return (
+    <View
+      style={{
+        height: 10,
+        borderRadius: R.full,
+        backgroundColor: T.sunk,
+        borderWidth: BW.hair,
+        borderColor: T.borderSoft,
+        overflow: 'hidden',
+      }}>
+      <Animated.View
+        style={{
+          height: '100%',
+          width: w.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }),
+          backgroundColor: hurry ? C.red500 : C.yellow400,
+        }}
+      />
+    </View>
+  );
+}
 
 export function QuizChoice({
   label,

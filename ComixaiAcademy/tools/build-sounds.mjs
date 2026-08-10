@@ -118,6 +118,10 @@ const SOUNDS = {
   /** 選択肢を選んだ・札を置いた。tapより少し高い */
   pick: () => render([{ at: 0, dur: 0.06, freq: NOTE.E5, gain: 0.22, wave: 'tri', release: 0.8 }], 0.07),
 
+  /** クイズの残り時間わずか。1秒ごとに鳴る小さな針の音（チッ）。
+      連打で鳴るので、いちばん短く・いちばん小さく */
+  tick: () => render([{ at: 0, dur: 0.03, freq: NOTE.C6, gain: 0.14, wave: 'tri', release: 0.9 }], 0.04),
+
   /** 正解。ドミソの上行 */
   right: () =>
     render(
@@ -215,7 +219,7 @@ const SOUNDS = {
 };
 
 /** 基準（0.25）から外す音だけ書く */
-const PEAKS = { right: 0.36 };
+const PEAKS = { right: 0.36, tick: 0.14 };
 
 const made = Object.entries(SOUNDS).map(([name, fn]) => writeWav(name, fn(), PEAKS[name]));
 const total = made.reduce((a, m) => a + m.bytes, 0);

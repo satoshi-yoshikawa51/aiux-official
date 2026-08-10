@@ -29,6 +29,7 @@ import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
 export type SoundName =
   | 'tap'
   | 'pick'
+  | 'tick'
   | 'right'
   | 'wrong'
   | 'start'
@@ -43,6 +44,7 @@ export type SoundName =
 const FILES: Record<SoundName, number> = {
   tap: require('@/assets/sounds/tap.wav'),
   pick: require('@/assets/sounds/pick.wav'),
+  tick: require('@/assets/sounds/tick.wav'),
   right: require('@/assets/sounds/right.wav'),
   wrong: require('@/assets/sounds/wrong.wav'),
   start: require('@/assets/sounds/start.wav'),
