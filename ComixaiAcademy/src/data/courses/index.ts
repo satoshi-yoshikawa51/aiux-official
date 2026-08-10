@@ -149,6 +149,25 @@ export const SCORED_KINDS: LessonInteractive['kind'][] = [
   'ai-prompt',
 ];
 
-export const STARRED_LESSON_IDS: string[] = ALL_LESSONS.filter((l) =>
-  l.cards.some((c) => c.interactive && SCORED_KINDS.includes(c.interactive.kind)),
-).map((l) => l.id);
+/* ———————————————— ゲームの成績を引く鍵 ————————————————
+   もとは「1レッスン1ゲーム」の前提でレッスンIDを鍵にしていたが、
+   prompt-3 / risk-1 / next-2 は★付きゲームが**2つ**ある（build等＋ai-prompt）。
+   同じ鍵に相乗りすると、片方を遊んだだけでもう片方の入口が
+   「もう一度あそぶ」になる（実機で指摘）。
+
+   鍵は、1つだけの回はレッスンIDのまま（既存の記録を生かす）、
+   2つある回だけ `レッスンID:種類` で分ける。
+   **同じ種類のゲームを1レッスンに2つ置かないこと**（鍵が衝突する）。 */
+export function gameKeyOf(lesson: Lesson, interactive: LessonInteractive): string {
+  const scored = lesson.cards.filter(
+    (c) => c.interactive && SCORED_KINDS.includes(c.interactive.kind),
+  );
+  return scored.length > 1 ? `${lesson.id}:${interactive.kind}` : lesson.id;
+}
+
+/** ★の付く全ゲームの鍵。バッジ「全★3」とエンディングの分母 */
+export const SCORED_GAME_KEYS: string[] = ALL_LESSONS.flatMap((l) =>
+  l.cards
+    .filter((c) => c.interactive && SCORED_KINDS.includes(c.interactive.kind))
+    .map((c) => gameKeyOf(l, c.interactive!)),
+);

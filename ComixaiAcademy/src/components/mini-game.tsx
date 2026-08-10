@@ -298,7 +298,14 @@ export function MiniGame({
                      残らないので、誤タップの取り返しがつかない */}
                 <GameBar meta={g} onClose={() => setAsking(true)} />
                 {phase === 'clear' ? (
-                  <ClearScreen meta={g} score={score} best={best} onClose={onClose} onRetry={retry} />
+                  <ClearScreen
+                    meta={g}
+                    score={score}
+                    best={best}
+                    takeaway={spec.takeaway}
+                    onClose={onClose}
+                    onRetry={retry}
+                  />
                 ) : spec.kind === 'sort' ? (
                   <SortPlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'find' ? (
@@ -504,6 +511,7 @@ function ClearScreen({
   meta,
   score,
   best,
+  takeaway,
   onClose,
   onRetry,
 }: {
@@ -511,6 +519,8 @@ function ClearScreen({
   score: GameScore | null;
   /** これまでの自己ベストの★ */
   best: number | null;
+  /** おさらい。なぜそれが正解で、何がNGなのか（→ data/types.ts） */
+  takeaway?: string;
   onClose: () => void;
   onRetry: () => void;
 }) {
@@ -587,6 +597,30 @@ function ClearScreen({
           <Text style={{ fontFamily: FONT.heading, fontSize: 13, color: C.yellow400 }}>
             自己ベスト更新
           </Text>
+        </SlideIn>
+      ) : null}
+
+      {/* ▍おさらい。遊びの中の正誤は分かっても、貫いている原則は
+           言わないと伝わらない（実機で「なぜ正解か分からない」の指摘）。
+           通った直後＝いちばん飲み込める瞬間にここで言う */}
+      {takeaway ? (
+        <SlideIn from="bottom" distance={14} delay={700} style={{ alignSelf: 'stretch' }}>
+          <View
+            style={{
+              borderWidth: BW.line,
+              borderColor: C.ink700,
+              borderRadius: R.sm,
+              padding: S.md,
+              gap: 5,
+              marginTop: S.xs,
+            }}>
+            <Text style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: 1.5, color: C.yellow400 }}>
+              おさらい
+            </Text>
+            <Text style={{ fontFamily: FONT.body, fontSize: 13.5, lineHeight: 22, color: C.paper100 }}>
+              {takeaway}
+            </Text>
+          </View>
         </SlideIn>
       ) : null}
 
@@ -1091,6 +1125,33 @@ function AiPromptPlay({
             </Text>
           </View>
         </SlideIn>
+
+        {/* ▍前提資料。元の文章・読み手など、**これが無いと書きようがないもの**。
+             お題だけ渡して「指示を書け」だと材料が無かった（実機で指摘）。
+             サーバー側のお題（EXERCISES の given）と同じ内容を出す */}
+        {spec.given?.length ? (
+          <SlideIn from="right" distance={22} duration={320} delay={40} style={{ gap: 6 }}>
+            {spec.given.map((g) => (
+              <View
+                key={g.label}
+                style={{
+                  backgroundColor: T.surface,
+                  borderWidth: BW.line,
+                  borderColor: C.paper100,
+                  borderRadius: R.sm,
+                  padding: S.md,
+                  gap: 3,
+                }}>
+                <Text style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: 1, color: T.muted }}>
+                  {g.label}
+                </Text>
+                <Text style={{ fontFamily: FONT.body, fontSize: 13, lineHeight: 21, color: T.text }}>
+                  {g.text}
+                </Text>
+              </View>
+            ))}
+          </SlideIn>
+        ) : null}
 
         <SlideIn from="right" distance={22} duration={320} delay={80}>
           <View

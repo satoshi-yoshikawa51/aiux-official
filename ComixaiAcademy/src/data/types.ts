@@ -123,7 +123,12 @@ export interface FitItem {
   needed: boolean;
   why: string;
 }
-export type LessonInteractive =
+/* ▍takeaway（おさらい）
+   クリア画面に出す「なぜそれが正解か・何がNGか」の1〜2文。
+   遊んでいる最中の正誤は分かっても、**貫いている原則**は言わないと
+   伝わらない（実機で「なんでそれで正解かわからず納得感がない」の指摘）。
+   合否のあるゲームには必ず書く */
+export type LessonInteractive = (
   | {
       kind: 'sort';
       /** 何をどう仕分けるのか（1行）。**ゲーム中ずっと出しておく**。
@@ -197,10 +202,18 @@ export type LessonInteractive =
       exerciseId: string;
       /** 画面に出すお題。サーバー側の brief と食い違わないようにする */
       brief: string;
+      /** ▍前提資料。元の文章・読み手・状況など、**これが無いと書きようがないもの**。
+          お題だけ渡して「指示を書け」だと、何を材料に書けばいいのか分からない
+          （実機で指摘）。サーバー側 EXERCISES の given と揃えること */
+      given?: { label: string; text: string }[];
       /** これ以上なら合格。届かなくても、書き直せば何度でも出せる */
       pass: number;
       presets?: string[];
-    };
+    }
+) & {
+  /** クリア画面に出す「おさらい」。なぜそれが正解で、何がNGなのか */
+  takeaway?: string;
+};
 
 export interface LessonCard {
   /** 本文の下に出す体験。読むだけにしないための仕掛け */

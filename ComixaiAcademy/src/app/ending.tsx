@@ -27,7 +27,7 @@ import { Icon } from '@/components/icons';
 import { SlideIn, Stamp, useSparkBurst } from '@/components/motion';
 import { Badge, Bubble, Button, Panel, Row, Screen, ScreenHead } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
-import { ALL_LESSONS, STARRED_LESSON_IDS } from '@/data/courses';
+import { ALL_LESSONS, SCORED_GAME_KEYS } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { ENDING_VOICE, say as voice } from '@/data/voice';
 import { playSound } from '@/lib/sound';
@@ -45,7 +45,7 @@ export default function EndingScreen() {
   const burst = useSparkBurst();
   const stageW = Math.min(width * 0.44, 190);
 
-  const star3 = STARRED_LESSON_IDS.filter((id) => (state.games[id]?.stars ?? 0) >= 3).length;
+  const star3 = SCORED_GAME_KEYS.filter((id) => (state.games[id]?.stars ?? 0) >= 3).length;
   const perfect = Object.keys(state.perfect).length;
   const graduated = Object.values(state.quiz).filter((r) => r.due === 0).length;
   /* かかった日数＝学習した日の数。連続でなくてよい */
@@ -103,7 +103,7 @@ export default function EndingScreen() {
           <Text style={F.kicker}>あなたがやったこと</Text>
           {stat('learn', '通したレッスン', `${ALL_LESSONS.length} 本`)}
           {stat('perfect', 'ノーミス修了', `${perfect} 本`)}
-          {stat('star', '★3を取ったゲーム', `${star3} / ${STARRED_LESSON_IDS.length}`)}
+          {stat('star', '★3を取ったゲーム', `${star3} / ${SCORED_GAME_KEYS.length}`)}
           {stat('rotate', '復習で直した問題', `${graduated} 問`)}
           {stat('calendar', '学習した日', `${days} 日`)}
         </Panel>
@@ -123,13 +123,13 @@ export default function EndingScreen() {
         </Panel>
       </SlideIn>
 
-      {star3 < STARRED_LESSON_IDS.length || graduated > 0 ? (
+      {star3 < SCORED_GAME_KEYS.length || graduated > 0 ? (
         <SlideIn from="bottom" distance={18} delay={640}>
           <Panel contentStyle={{ padding: S.md, gap: 6 }}>
             <Text style={[F.small, { color: C.ink500 }]}>まだ残っているもの</Text>
-            {star3 < STARRED_LESSON_IDS.length ? (
+            {star3 < SCORED_GAME_KEYS.length ? (
               <Text style={F.small}>
-                ★3があと {STARRED_LESSON_IDS.length - star3} 本
+                ★3があと {SCORED_GAME_KEYS.length - star3} 本
               </Text>
             ) : null}
             <Text style={F.small}>間違えた問題の復習は、日をおいて戻ってきます</Text>

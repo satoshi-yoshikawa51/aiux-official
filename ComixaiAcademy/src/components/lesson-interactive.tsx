@@ -37,12 +37,15 @@ import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 export function LessonInteractiveCard({
   spec,
-  lessonId,
+  gameKey,
   onDone,
 }: {
   spec: LessonInteractive;
-  /** 自己ベストを引くための鍵（1レッスン1ゲーム） */
-  lessonId: string;
+  /** 自己ベストを引く鍵。1レッスン1ゲームならレッスンID、
+      2つある回は `レッスンID:種類`（→ data/courses の gameKeyOf）。
+      レッスンIDのまま相乗りすると、片方を遊んだだけでもう片方の入口が
+      「もう一度あそぶ」になる */
+  gameKey: string;
   /** 合否のあるゲームを通ったときに true で呼ぶ */
   onDone?: (ok: boolean) => void;
 }) {
@@ -51,7 +54,7 @@ export function LessonInteractiveCard({
   const [open, setOpen] = React.useState(false);
   const [cleared, setCleared] = React.useState(false);
   const { pressed, onPressIn, onPressOut } = useTap();
-  const best = state.games[lessonId] ?? null;
+  const best = state.games[gameKey] ?? null;
   const scored = hasStars(spec.kind);
   const allow = allowOf(spec);
 
@@ -164,7 +167,7 @@ export function LessonInteractiveCard({
           best={scored ? (best?.stars ?? null) : null}
           onCleared={(score) => {
             setCleared(true);
-            if (scored) recordGame(lessonId, starsOf(score.misses), score.misses, score.ms);
+            if (scored) recordGame(gameKey, starsOf(score.misses), score.misses, score.ms);
             onDone?.(true);
           }}
         />
