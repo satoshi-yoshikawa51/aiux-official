@@ -77,6 +77,17 @@ export interface StageTheme {
 /** 最初から持っている素の教室 */
 export const DEFAULT_THEME_ID = 'classroom';
 
+/* ▍色を重ねるだけのテーマは全部引退させた
+   朝焼け・夕暮れ・雨・セピア・深夜・雪・星降る教室・黄金の教室は、舞台の絵が
+   1枚しか無かった頃に「教室に色を重ねる」だけで種類を増やしていたもの。
+   **専用の絵を持つテーマがそろって役割がかぶった**ので、2026-08に外した。
+
+   降りもの（rain / snow / kira / ember）とSRの光る枠の仕組みは
+   components/stage-effect.tsx に残してある。**SRの絵が描けたら、その絵に
+   合うものを選んで乗せる**——絵を見てから決める、という順番にした。
+
+   持っていた人の記録（state.themes）はそのまま残るが、一覧に出ないだけで
+   害はない。装備していた場合は getTheme() が素の教室に落とす。 */
 export const THEMES: StageTheme[] = [
   {
     id: 'classroom',
@@ -213,42 +224,6 @@ export const THEMES: StageTheme[] = [
     },
   },
   {
-    id: 'asayake',
-    name: '朝焼けの教室',
-    rarity: 'N',
-    desc: '1限より早い時間の色。',
-    tint: 'rgba(255,170,110,0.22)',
-  },
-  {
-    id: 'yuugure',
-    name: '夕暮れの教室',
-    rarity: 'N',
-    desc: '居残り学習の色。',
-    tint: 'rgba(235,120,20,0.28)',
-  },
-  {
-    id: 'ame',
-    name: '雨の日の教室',
-    rarity: 'N',
-    desc: '雨音は集中力のBGM。',
-    tint: 'rgba(70,90,120,0.32)',
-    effect: 'rain',
-  },
-  {
-    id: 'sepia',
-    name: '思い出のセピア',
-    rarity: 'N',
-    desc: 'ずっと前からここにいた気がする。',
-    tint: 'rgba(110,66,20,0.35)',
-  },
-  {
-    id: 'shinya',
-    name: '深夜の自習室',
-    rarity: 'N',
-    desc: '誰もいない。はかどる。',
-    tint: 'rgba(18,26,58,0.45)',
-  },
-  {
     id: 'sakura',
     name: '桜並木',
     rarity: 'R',
@@ -265,32 +240,6 @@ export const THEMES: StageTheme[] = [
          大きく見せたいので上げてある（上げるほどキャラが育つ） */
       horizon: 0.5,
     },
-  },
-  {
-    id: 'yuki',
-    name: '雪の日の教室',
-    rarity: 'R',
-    desc: 'しんとした空気。声がよく通る。',
-    tint: 'rgba(190,205,230,0.30)',
-    effect: 'snow',
-  },
-  {
-    id: 'hoshizora',
-    name: '星降る教室',
-    rarity: 'SR',
-    desc: '窓の外、ぜんぶ星。',
-    tint: 'rgba(8,14,44,0.55)',
-    effect: 'stars',
-    glow: 'cyan',
-  },
-  {
-    id: 'ougon',
-    name: '黄金の教室',
-    rarity: 'SR',
-    desc: 'マスターの部屋には、金の光が差す。',
-    tint: 'rgba(255,196,40,0.30)',
-    effect: 'kira',
-    glow: 'gold',
   },
 ];
 
@@ -344,6 +293,9 @@ export function draw(): GachaPrize {
       break;
     }
   }
+  /* そのレア度の景品がまだ1つも無いことがある（絵を入れ替えている最中など）。
+     空のまま引くと undefined が返って画面が落ちるので、全体から引き直す */
   const pool = GACHA_POOL.filter((t) => t.rarity === rarity);
-  return pool[Math.floor(Math.random() * pool.length)];
+  const from = pool.length > 0 ? pool : GACHA_POOL;
+  return from[Math.floor(Math.random() * from.length)];
 }

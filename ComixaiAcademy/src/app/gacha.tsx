@@ -55,7 +55,8 @@ export default function GachaScreen() {
   const shake = React.useRef(new Animated.Value(0)).current;
   const drop = React.useRef(new Animated.Value(0)).current;
 
-  const ownedThemes = Object.keys(state.themes).length;
+  /* 引退したテーマの記録が残っていても数に入れない（→ data/gacha.ts） */
+  const ownedThemes = THEMES.filter((t) => t.id !== DEFAULT_THEME_ID && state.themes[t.id]).length;
   const ownedSkins = Object.keys(state.skins).length;
   const canSpin = state.coins >= SPIN_COST && phase === 'idle';
 
