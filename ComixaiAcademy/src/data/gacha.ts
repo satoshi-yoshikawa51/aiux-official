@@ -148,9 +148,9 @@ export const THEMES: StageTheme[] = [
        重ねるとフキダシの文字が読めなくなる */
     art: {
       src: require('@/assets/images/stage-sakura.jpg'),
-      ratio: 0.8966,
-      wall: '#9e7968',
-      horizon: 0.53,
+      ratio: 0.7532,
+      wall: '#9d7867',
+      horizon: 0.6,
     },
   },
   {
