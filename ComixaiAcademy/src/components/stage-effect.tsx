@@ -58,14 +58,12 @@ const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 
    そもそも**ブラウザは見えていないあいだ rAF を自分で止める**ので、
    こちらで止める必要がなかった。
 
-   ▍見張りは「短い間隔で2回読む」
-   自己修復のために値が進んでいるか見るが、**4秒おきに1回ずつ読んで
-   前回と比べる**やり方だと、周期と噛み合ったときに同じ値を拾って
-   「止まっている」と誤判定する。誤判定のたびに全部が0から回し直されて、
-   **一度止まってまた動き出すように見えていた**。
-
-   いまは150ms空けて2回読む。動いていれば、どんなに遅い層でも
-   その間に必ず値が変わる（いちばん遅い14秒周期でも0.01進む）。
+   ▍見張り（自己修復）は置かない
+   一度は「値が進んでいなければ回し直す」を入れたが、**誤判定のたびに
+   全部が0へ飛ぶ**ので、線がガクッと戻って見えた。判定を厳しくしても
+   誤りが0にはならないうえ、そもそも**永久に止まる原因はこちらの stop()
+   だけ**で、それを外した時点で無くなっている。ブラウザが止めた rAF は
+   ブラウザが戻す。見張らないほうが静か。
 
    ▍回し直すときは出だしのずれも作り直す
    波を何本もずらして重ねているものは、全部を同時に0へ戻すと**ずれが
@@ -103,26 +101,8 @@ function useLoop(sec: number, delayMs = 0) {
       if (st === 'active') restart();
     });
 
-    const read = () => (t as unknown as { __getValue?: () => number }).__getValue?.() ?? 0;
-    let stuck = 0;
-    const watch = setInterval(() => {
-      const a = read();
-      setTimeout(() => {
-        if (Math.abs(read() - a) > 1e-6) {
-          stuck = 0;
-          return;
-        }
-        stuck += 1;
-        if (stuck >= 2) {
-          stuck = 0;
-          restart();
-        }
-      }, 150);
-    }, 5000);
-
     return () => {
       if (timer) clearTimeout(timer);
-      clearInterval(watch);
       anim?.stop();
       sub.remove();
     };
@@ -332,6 +312,9 @@ function Pika({ w, h }: { w: number; h: number }) {
    1波＝粒のかたまりを1つの View に入れ、**まとめて拡大しながら
    消す**。出だしをずらした波を重ねると、途切れずに噴き続ける。
    ============================================================ */
+/** 絵の扉（奥の明るい四角）の中心。絵から測った値 */
+const DOOR_Y = 0.55;
+
 const WAVES = 6;
 const WAVE_SEC = 3.6;
 const WAVE_DOTS = 62;
@@ -345,8 +328,12 @@ function Wave({ size, i }: { size: number; i: number }) {
     const c = size / 2;
     return Array.from({ length: WAVE_DOTS }, (_, k) => {
       const a = (jitter(k, i * 3 + 31) + k / WAVE_DOTS) * Math.PI * 2;
-      /* 手前ほど散るので、距離は二乗で散らす */
-      const d = (0.18 + jitter(k, i * 3 + 32) ** 2 * 0.3) * size;
+      /* ▍飛ぶ距離はコマの大きさに合わせる
+         内側から始めすぎると体の裏で終わり、外へ振りすぎると**すぐ画面の
+         外**へ出て、見えている時間がほとんど無くなる。倍率をかけたあとで
+         コマの中に居る時間がいちばん長くなる幅にしてある。
+         手前ほど散るので、距離は二乗で散らす */
+      const d = (0.05 + jitter(k, i * 3 + 32) ** 2 * 0.15) * size;
       return {
         x: c + Math.cos(a) * d,
         y: c + Math.sin(a) * d * 0.82,
@@ -359,11 +346,13 @@ function Wave({ size, i }: { size: number; i: number }) {
       };
     });
   }, [size, i]);
-  /* 手前へ来るほど大きく、端で消える */
-  const scale = t.interpolate({ inputRange: [0, 1], outputRange: [0.22, 2.7] });
+  /* ▍出はじめは扉の中なので、キャラの陰に隠れる
+     いちばん内側から始めると、粒の見えている時間の半分が体の裏に
+     なってしまう。少し外から始めて、外に出てから長く光らせる */
+  const scale = t.interpolate({ inputRange: [0, 1], outputRange: [0.6, 2.6] });
   const opacity = t.interpolate({
-    inputRange: [0, 0.1, 0.55, 1],
-    outputRange: [0, 1, 0.75, 0],
+    inputRange: [0, 0.08, 0.7, 1],
+    outputRange: [0, 1, 0.9, 0],
   });
   return (
     <Animated.View
@@ -431,7 +420,10 @@ function Sweep({ w, h }: { w: number; h: number }) {
 }
 
 function Burst({ w, h }: { w: number; h: number }) {
-  /* 噴き出す中心。真ん中より少し上——キャラの頭の向こうから来るように */
+  /* ▍噴き出す中心は、絵の**扉**（奥の明るい四角）
+     頭の上から出していたら「キャラが光っている」ように見えた。絵を測って、
+     中央・上から55%——奥の出入り口の真ん中に合わせてある。
+     そこから手前へ来るので、キャラの左右をすり抜けて広がる */
   const size = Math.round(Math.max(w, h) * 1.15);
   return (
     <>
@@ -439,7 +431,7 @@ function Burst({ w, h }: { w: number; h: number }) {
         style={{
           position: 'absolute',
           left: Math.round(w / 2 - size / 2),
-          top: Math.round(h * 0.4 - size / 2),
+          top: Math.round(h * DOOR_Y - size / 2),
           width: size,
           height: size,
         }}>
