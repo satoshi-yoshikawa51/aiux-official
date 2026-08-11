@@ -7,11 +7,13 @@
    ・バッジ獲得 +1／称号が上がる +3／修了試験に合格 +2
    買えない・課金しない。**学びの副産物としてだけ**貯まる。
 
-   ▍景品は「舞台テーマ」と「きせかえ」
+   ▍景品は「舞台テーマ」と「アバター」
    舞台テーマはホームの教室に色と演出を重ねる
-   （→ components/stage-effect.tsx）。きせかえは先生の色違いで、
-   GLB共通・テクスチャ差し替えで成立する（→ data/avatars.ts の SKINS）。
-   相棒の3Dモデルが増えたら、アバター本体もこのプールに足す。
+   （→ components/stage-effect.tsx）。アバターは先生の色違い
+   （金髪の先生＝独立した1体として扱う。GLB共通・テクスチャ差し替えで
+   成立する → data/avatars.ts の SKINS）。**選べるアバターはガチャで
+   増えていく**のが建て付けで、相棒たちの3Dモデルができたら
+   キャラ本体もこのプールに足す。
 
    ▍ダブりは +1P 返す
    小さいプールなので、返さないと後半のハズレ感が強すぎる。
@@ -113,9 +115,9 @@ export const THEMES: StageTheme[] = [
   },
 ];
 
-/** ガチャで出るもの1件。舞台ときせかえを同じ形に揃える */
+/** ガチャで出るもの1件。舞台とアバターを同じ形に揃える */
 export interface GachaPrize {
-  kind: 'theme' | 'skin';
+  kind: 'theme' | 'avatar';
   id: string;
   name: string;
   rarity: Rarity;
@@ -128,7 +130,7 @@ export const GACHA_POOL: GachaPrize[] = [
     (t): GachaPrize => ({ kind: 'theme', id: t.id, name: t.name, rarity: t.rarity, desc: t.desc }),
   ),
   ...SKINS.map(
-    (s): GachaPrize => ({ kind: 'skin', id: s.id, name: s.name, rarity: s.rarity, desc: s.desc }),
+    (s): GachaPrize => ({ kind: 'avatar', id: s.id, name: s.name, rarity: s.rarity, desc: s.desc }),
   ),
 ];
 

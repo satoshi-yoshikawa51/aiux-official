@@ -23,7 +23,7 @@ import { Icon } from '@/components/icons';
 import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
 import { StageEffect } from '@/components/stage-effect';
 import { Badge, Button, Panel, Pop, Row, Screen } from '@/components/ui';
-import { DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
+import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
 import {
   DEFAULT_THEME_ID,
   getTheme,
@@ -45,7 +45,7 @@ const CAPSULE_COLORS = ['#e60012', '#1a6cff', '#f5b301', '#1fa463', '#f08c00', '
 type Phase = 'idle' | 'spinning' | 'dropped' | 'revealed';
 
 export default function GachaScreen() {
-  const { state, spinGacha, setTheme, setSkin } = useProgress();
+  const { state, spinGacha, setTheme, setLook } = useProgress();
   const burst = useSparkBurst();
   const [phase, setPhase] = React.useState<Phase>('idle');
   const [result, setResult] = React.useState<SpinResult | null>(null);
@@ -138,7 +138,7 @@ export default function GachaScreen() {
           </Text>
         </Row>
         <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
-          舞台 {ownedThemes + 1}/{THEMES.length} ・ きせかえ {ownedSkins + 1}/{SKINS.length + 1}
+          舞台 {ownedThemes + 1}/{THEMES.length} ・ アバター {ownedSkins + 1}/{SKINS.length + 1}
         </Text>
       </Row>
 
@@ -349,33 +349,52 @@ export default function GachaScreen() {
         </View>
       </View>
 
-      {/* ———— あつめたきせかえ ———— */}
+      {/* ———— あつめたアバター ————
+           色違いも独立した1体として並べる。ガチャで増えていくロスター。
+           まだモデルの無いキャラは「準備中」で見せて、この棚が
+           これから伸びることを予告しておく */}
       <View style={{ gap: S.sm }}>
-        <Text style={F.h1}>あつめたきせかえ</Text>
-        <Text style={F.small}>先生の色違い。押すと着替えます（せっていからも変えられます）。</Text>
+        <Text style={F.h1}>あつめたアバター</Text>
+        <Text style={F.small}>押すとそのアバターに切り替わります（せっていからも変えられます）。</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: S.sm, alignItems: 'flex-start' }}>
-          <SkinCard
-            name="素の色"
-            rarity={null}
-            swatch="#274a5e"
-            owned
-            active={state.skinId === DEFAULT_SKIN_ID}
-            onPress={() => setSkin(DEFAULT_SKIN_ID)}
-          />
-          {SKINS.map((sk) => {
-            const owned = !!state.skins[sk.id];
-            return (
-              <SkinCard
-                key={sk.id}
-                name={sk.name}
-                rarity={sk.rarity}
-                swatch={sk.swatch}
-                owned={owned}
-                active={state.skinId === sk.id}
-                onPress={() => owned && setSkin(sk.id)}
+          {AVATARS.filter((a) => a.model).map((a) => (
+            <React.Fragment key={a.id}>
+              <AvatarCard
+                name={a.name}
+                rarity={null}
+                swatch="#274a5e"
+                owned
+                active={state.avatarId === a.id && state.skinId === DEFAULT_SKIN_ID}
+                onPress={() => setLook(a.id, DEFAULT_SKIN_ID)}
               />
-            );
-          })}
+              {SKINS.filter((sk) => sk.avatarId === a.id).map((sk) => {
+                const owned = !!state.skins[sk.id];
+                return (
+                  <AvatarCard
+                    key={sk.id}
+                    name={sk.name}
+                    rarity={sk.rarity}
+                    swatch={sk.swatch}
+                    owned={owned}
+                    active={state.avatarId === a.id && state.skinId === sk.id}
+                    onPress={() => owned && setLook(a.id, sk.id)}
+                  />
+                );
+              })}
+            </React.Fragment>
+          ))}
+          {AVATARS.filter((a) => !a.model).map((a) => (
+            <AvatarCard
+              key={a.id}
+              name={a.name}
+              rarity={null}
+              swatch={a.accent}
+              owned={false}
+              preparing
+              active={false}
+              onPress={() => {}}
+            />
+          ))}
         </View>
       </View>
 
@@ -423,7 +442,7 @@ export default function GachaScreen() {
                   );
                 })()
               ) : (
-                /* きせかえは本人が出てくる。ここが一番のご褒美 */
+                /* アバターは本人が出てくる。ここが一番のご褒美 */
                 <View
                   style={{
                     width: 190,
@@ -450,12 +469,15 @@ export default function GachaScreen() {
                 {result.dupe ? 'すでに持っていた。+1P 返しておくね。' : result.prize.desc}
               </Text>
               <Button
-                label={result.dupe ? 'もどる' : result.prize.kind === 'theme' ? 'ホームに飾る' : 'へんしんする'}
+                label={result.dupe ? 'もどる' : result.prize.kind === 'theme' ? 'ホームに飾る' : 'このアバターにする'}
                 size="sm"
                 onPress={() => {
                   if (!result.dupe) {
                     if (result.prize.kind === 'theme') setTheme(result.prize.id);
-                    else setSkin(result.prize.id);
+                    else {
+                      const skin = getSkin(result.prize.id);
+                      if (skin) setLook(skin.avatarId, skin.id);
+                    }
                   }
                   closeResult();
                 }}
@@ -541,21 +563,24 @@ function ThemeCard({
   );
 }
 
-/* きせかえ1枚のカード。プレビューは髪の色（3Dを並べると重いので出さない） */
-function SkinCard({
+/* アバター1体のカード。プレビューは髪の色（3Dを並べると重いので出さない）。
+   preparing＝モデルがまだ無いキャラ。名前は見せて、この先を予告する */
+function AvatarCard({
   name,
   rarity,
   swatch,
   owned,
   active,
+  preparing = false,
   onPress,
 }: {
   name: string;
-  /** null ＝ 素の色（レア度なし） */
+  /** null ＝ ノーマル（レア度なし） */
   rarity: Rarity | null;
   swatch: string;
   owned: boolean;
   active: boolean;
+  preparing?: boolean;
   onPress: () => void;
 }) {
   const { pressed, onPressIn, onPressOut } = useTap({ sparks: owned });
@@ -576,8 +601,8 @@ function SkinCard({
           transform: [{ scale: pressed && owned ? 0.97 : 1 }],
         }}>
         <View style={{ height: 62, alignItems: 'center', justifyContent: 'center' }}>
-          {owned ? (
-            /* 髪の色を丸で。上半分に光を入れてカプセルの流儀に揃える */
+          {owned || preparing ? (
+            /* 髪（またはキャラの色）を丸で。上半分に光を入れてカプセルの流儀に揃える */
             <View
               style={{
                 width: 38,
@@ -587,6 +612,7 @@ function SkinCard({
                 borderWidth: BW.line,
                 borderColor: C.ink900,
                 overflow: 'hidden',
+                opacity: preparing ? 0.45 : 1,
               }}>
               <View
                 style={{
@@ -606,7 +632,7 @@ function SkinCard({
             <Text
               style={[F.strong, { fontSize: 12.5, flex: 1, color: owned ? T.text : T.disabled }]}
               numberOfLines={1}>
-              {owned ? name : '？？？'}
+              {owned || preparing ? name : '？？？'}
             </Text>
             {rarity ? (
               <Text style={{ fontFamily: FONT.mono, fontSize: 9.5, color: RARITY_COLOR[rarity] }}>
@@ -614,7 +640,7 @@ function SkinCard({
               </Text>
             ) : null}
           </Row>
-          {active ? <Badge tone="red">へんしん中</Badge> : null}
+          {active ? <Badge tone="red">つかい中</Badge> : preparing ? <Badge tone="paper">準備中</Badge> : null}
         </View>
       </View>
     </Pressable>

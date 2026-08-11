@@ -117,9 +117,10 @@ export interface ProgressState {
   themes: Record<string, number>;
   /** いまホームに装備している舞台テーマ */
   themeId: string;
-  /** 持っているきせかえ（先生の色違い）。きせかえID -> 引いた時刻(ms) */
+  /** 持っている色違いアバター。ID -> 引いた時刻(ms)
+      （キー名は互換のため skins のまま。中身は「増えたアバター」） */
   skins: Record<string, number>;
-  /** いま着ているきせかえ。'' ＝ 素の色 */
+  /** いま使っている色違い。'' ＝ ノーマル */
   skinId: string;
   /** 効果音を鳴らすか。既定はオン（→ lib/sound.ts） */
   soundOn: boolean;
@@ -270,8 +271,11 @@ interface Ctx {
   spinGacha: () => SpinResult | null;
   /** 舞台テーマを装備する（持っていないものは無視） */
   setTheme: (id: string) => void;
-  /** きせかえを着る。'' で素の色に戻す（持っていないものは無視） */
+  /** 色違いを使う。'' でノーマルに戻す（持っていないものは無視） */
   setSkin: (id: string) => void;
+  /** アバターを丸ごと切り替える（キャラ＋色違いを一度に）。
+      統一ロスター（設定・ガチャのコレクション）からはこれを呼ぶ */
+  setLook: (avatarId: string, skinId: string) => void;
   /** 効果音のオン・オフ */
   setSoundOn: (on: boolean) => void;
   /** BGMのオン・オフ */
@@ -498,6 +502,15 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
+  const setLook = React.useCallback(
+    (avatarId: string, skinId: string) => {
+      if (skinId !== DEFAULT_SKIN_ID && !ref.current.skins[skinId]) return;
+      const { next } = applyBadges({ ...ref.current, avatarId, skinId });
+      persist(next);
+    },
+    [applyBadges, persist],
+  );
+
   /* ▍鳴らす側は毎回ストアを見ない
      playSound はボタンの中から呼ばれるので、Contextを引かせたくない。
      設定が変わったときにだけ、モジュール側の旗を書き換える */
@@ -558,6 +571,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       spinGacha,
       setTheme,
       setSkin,
+      setLook,
       setSoundOn,
       setMusicOn,
       markTitleSeen,
@@ -579,6 +593,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       spinGacha,
       setTheme,
       setSkin,
+      setLook,
       setSoundOn,
       setMusicOn,
       markTitleSeen,

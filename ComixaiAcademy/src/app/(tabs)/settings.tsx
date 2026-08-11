@@ -12,7 +12,7 @@ import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
 import { Spotlight } from '@/components/spotlight';
 import { Badge, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
-import { AVATARS, DEFAULT_SKIN_ID, getAvatar, isReady, SKINS } from '@/data/avatars';
+import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, isReady, SKINS } from '@/data/avatars';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { getRole } from '@/data/roles';
 import { useProgress, useStats } from '@/store/progress';
@@ -22,10 +22,11 @@ const SITE = 'https://comixai.dev';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { state, setAvatar, setRole, setTheme, setSkin, setSoundOn, setMusicOn, reset } =
-    useProgress();
+  const { state, setRole, setTheme, setLook, setSoundOn, setMusicOn, reset } = useProgress();
   const stats = useStats();
   const avatar = getAvatar(state.avatarId, state.skinId);
+  /* 見出しには「金髪の先生」のように、いま使っている体の名前を出す */
+  const lookName = getSkin(state.skinId)?.name ?? avatar.name;
   const role = getRole(state.roleId);
 
   /* ▍確認は画面の中で出す。Alert.alert は使わない
@@ -46,92 +47,111 @@ export default function SettingsScreen() {
     <ScreenHead
       kicker="SETTINGS"
       title="せってい"
-      note={`${avatar.name} ・ ${role?.name ?? '職種えらび中'}`}
+      note={`${lookName} ・ ${role?.name ?? '職種えらび中'}`}
       noteRight="いつでも変えられます"
     />
   );
 
   return (
     <Screen header={header} tone="dots">
-      {/* アバター */}
+      {/* アバター
+          ▍色違いも独立した1体として並べる
+          「先生の色を選ぶ」ではなく「選べるアバターがガチャで増えていく」
+          建て付け。持っている体だけがここに並び、当てるたびにリストが伸びる。
+          モデル未完成のキャラは従来どおり「準備中」で待たせる */}
       <View style={{ gap: S.md }}>
         {/* ▍囲うのは**見出しだけ**にする
-            節そのものを囲うと、アバター5枚で画面の高さを超えてしまい、
+            節そのものを囲うと、カードの枚数で画面の高さを超えてしまい、
             「枠」ではなくページの縁に見える（職種の節はもっと長い）。
             どこの話かが分かればいいので、見出しに絞る */}
         <Spotlight name="settings-avatar" radius={R.xs} inset={-6} room={8}>
           <Row style={{ justifyContent: 'space-between' }}>
             <Text style={F.h1}>アバター</Text>
-            <Text style={F.hand}>いま：{avatar.name}</Text>
+            <Tap onPress={() => router.push('/gacha')} sparks={false} style={{ paddingVertical: 2 }}>
+              <Text style={[F.hand, { color: T.link }]}>ガチャで増える →</Text>
+            </Tap>
           </Row>
         </Spotlight>
         {AVATARS.map((a) => {
-          const selected = a.id === state.avatarId;
           const ready = isReady(a);
-          return (
-            <PressCard key={a.id} disabled={!ready} selected={selected} onPress={() => setAvatar(a.id)}>
-              <Row style={{ justifyContent: 'space-between' }}>
-                <Row gap={S.sm} style={{ flex: 1 }}>
-                  <Icon name={a.icon} size={22} color={T.text} />
-                  <View style={{ flex: 1 }}>
-                    <Text style={F.strong}>{a.name}</Text>
-                    <Text style={F.tiny}>{a.tagline}</Text>
-                  </View>
-                </Row>
-                {!ready ? (
+          if (!ready) {
+            return (
+              <PressCard key={a.id} disabled selected={false} onPress={() => {}}>
+                <Row style={{ justifyContent: 'space-between' }}>
+                  <Row gap={S.sm} style={{ flex: 1 }}>
+                    <Icon name={a.icon} size={22} color={T.text} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={F.strong}>{a.name}</Text>
+                      <Text style={F.tiny}>{a.tagline}</Text>
+                    </View>
+                  </Row>
                   <Badge tone="paper">準備中</Badge>
-                ) : selected ? (
-                  <Badge tone="red">選択中</Badge>
-                ) : null}
-              </Row>
-            </PressCard>
-          );
+                </Row>
+              </PressCard>
+            );
+          }
+          /* ノーマル＋持っている色違い。1体ずつカードにする */
+          const looks = [
+            { skinId: DEFAULT_SKIN_ID, name: a.name, note: a.tagline, dot: '#274a5e' },
+            ...SKINS.filter((sk) => sk.avatarId === a.id && state.skins[sk.id]).map((sk) => ({
+              skinId: sk.id,
+              name: sk.name,
+              note: sk.desc,
+              dot: sk.swatch,
+            })),
+          ];
+          return looks.map((look) => {
+            const selected = state.avatarId === a.id && state.skinId === look.skinId;
+            return (
+              <PressCard
+                key={`${a.id}:${look.skinId}`}
+                selected={selected}
+                onPress={() => setLook(a.id, look.skinId)}>
+                <Row style={{ justifyContent: 'space-between' }}>
+                  <Row gap={S.sm} style={{ flex: 1 }}>
+                    <View
+                      style={{
+                        width: 18,
+                        height: 18,
+                        borderRadius: 9,
+                        backgroundColor: look.dot,
+                        borderWidth: 1.5,
+                        borderColor: C.ink900,
+                      }}
+                    />
+                    <View style={{ flex: 1 }}>
+                      <Text style={F.strong}>{look.name}</Text>
+                      <Text style={F.tiny}>{look.note}</Text>
+                    </View>
+                  </Row>
+                  {selected ? <Badge tone="red">選択中</Badge> : null}
+                </Row>
+              </PressCard>
+            );
+          });
         })}
       </View>
 
-      {/* きせかえ・舞台（ガチャの当たりをここでも着替えられる） */}
+      {/* 舞台（ガチャの当たりをここでも飾れる） */}
       <View style={{ gap: S.md }}>
         <Row style={{ justifyContent: 'space-between' }}>
-          <Text style={F.h1}>きせかえ・舞台</Text>
+          <Text style={F.h1}>ホームの舞台</Text>
           <Tap onPress={() => router.push('/gacha')} sparks={false} style={{ paddingVertical: 2 }}>
             <Text style={[F.hand, { color: T.link }]}>ガチャで増える →</Text>
           </Tap>
         </Row>
-        <View style={{ gap: S.sm }}>
-          <Text style={F.small}>先生の色</Text>
-          <Row gap={S.xs} style={{ flexWrap: 'wrap' }}>
+        <Row gap={S.xs} style={{ flexWrap: 'wrap' }}>
+          {THEMES.map((t) => (
             <PickPill
-              label="素の色"
-              dot="#274a5e"
-              owned
-              active={state.skinId === DEFAULT_SKIN_ID}
-              onPress={() => setSkin(DEFAULT_SKIN_ID)}
+              key={t.id}
+              label={t.name}
+              dot={t.tint === 'transparent' ? '#b8a276' : t.tint}
+              owned={t.id === DEFAULT_THEME_ID || !!state.themes[t.id]}
+              active={state.themeId === t.id}
+              onPress={() => setTheme(t.id)}
             />
-            {SKINS.map((sk) => (
-              <PickPill
-                key={sk.id}
-                label={sk.name.replace('の先生', '')}
-                dot={sk.swatch}
-                owned={!!state.skins[sk.id]}
-                active={state.skinId === sk.id}
-                onPress={() => setSkin(sk.id)}
-              />
-            ))}
-          </Row>
-          <Text style={F.small}>ホームの舞台</Text>
-          <Row gap={S.xs} style={{ flexWrap: 'wrap' }}>
-            {THEMES.map((t) => (
-              <PickPill
-                key={t.id}
-                label={t.name}
-                dot={t.tint === 'transparent' ? '#b8a276' : t.tint}
-                owned={t.id === DEFAULT_THEME_ID || !!state.themes[t.id]}
-                active={state.themeId === t.id}
-                onPress={() => setTheme(t.id)}
-              />
-            ))}
-          </Row>
-        </View>
+          ))}
+        </Row>
       </View>
 
       {/* 職種 */}
@@ -287,7 +307,7 @@ export default function SettingsScreen() {
   );
 }
 
-/* きせかえ・舞台えらびの1粒。持っていないものは鍵を見せて、ガチャへ誘う */
+/* 舞台えらびの1粒。持っていないものは鍵を見せて、ガチャへ誘う */
 function PickPill({
   label,
   dot,

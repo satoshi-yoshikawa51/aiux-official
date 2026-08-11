@@ -111,7 +111,13 @@ export const AVATARS: AvatarDef[] = [
 export const DEFAULT_AVATAR_ID = 'sensei';
 
 /* ============================================================
-   ▍きせかえ（色違い）
+   ▍色違いアバター
+   「金髪の先生」のような色違いを、**独立した1体のアバター**として
+   扱う（選べるアバターがガチャでどんどん増えていく建て付け。
+   キャラ本体のモデルが増えたら、それもガチャの景品に足す）。
+   性格・セリフはベースのキャラ（avatarId）から引き継ぐ——
+   色が変わっても同じ人。
+
    GLBは共通で、テクスチャの差し替えだけで成立する。
    テクスチャは tools/recolor-sensei.mjs が元の1枚から生成する
    （髪だけ塗り替える。作り方はツールの冒頭コメントに）。
@@ -120,7 +126,7 @@ export const DEFAULT_AVATAR_ID = 'sensei';
 
 export interface AvatarSkin {
   id: string;
-  /** どのアバターの色違いか */
+  /** どのキャラの色違いか（性格・セリフはこのキャラのもの） */
   avatarId: string;
   name: string;
   rarity: Rarity;
