@@ -26,10 +26,10 @@
    （粒の数だけアニメを持たせない）。移動・拡大・不透明度だけなので
    useNativeDriver が効き、JS側は毎フレーム何もしない。
 
-   ▍アプリが後ろに回ったら止める
-   ホームは常駐画面なので、動かしっぱなしは電池を食う。
-   **止めたあとは値を0に戻してから回し直す**——Animated.loop は各周で
-   開始時の値まで戻すので、終端で止めるとその後ずっと動かなくなる。
+   ▍こちらからは止めない（→ useLoop）
+   「背面に回ったら止める」を入れたら、**一度画面を離れると二度と動かなく
+   なった**。ブラウザは見えていないあいだ rAF を自分で止めるので、
+   こちらで止める必要がそもそも無かった。
 
    ▍NとRには飾りを置かない
    レア度は「画面に増える要素の数」で見せている（→ README）。
@@ -46,12 +46,27 @@ type EffectName = NonNullable<StageTheme['effect']>;
 const fract = (v: number) => v - Math.floor(v);
 const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453);
 
-/** 一定の速さで 0→1 を回し続ける。delay は出だしをずらすため（1回だけ効く） */
+/* ▍一定の速さで 0→1 を回し続ける（delay は出だしをずらすため、初回だけ効く）
+
+   ▍止めない
+   もとは電池を気にして「背面に回ったら止める」を入れていたが、**一度
+   画面を離れると二度と動かなくなる**という報告が出た。Webでは
+   useNativeDriver が効かず rAF 駆動になっていて（起動ログにも出る）、
+   iOSのホーム画面アプリは背面から戻ったときの通知が来ないことがある。
+   止めた側だけが残って再開しない。
+
+   そもそも**ブラウザは見えていないあいだ rAF を自分で止める**ので、
+   こちらで止める必要がなかった。なので止めるのはやめて、戻ってきたときに
+   回し直すだけにした。
+
+   ▍それでも止まっていたら回し直す（自己修復）
+   省電力モードなど、こちらから見えない理由で息が止まることがある。
+   数秒おきに値が進んでいるかだけ見て、**2回続けて動いていなければ
+   回し直す**。値を読むだけなので毎フレームの負荷は増えない。 */
 function useLoop(sec: number, delayMs = 0) {
   const t = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
     let anim: Animated.CompositeAnimation | null = null;
-    let timer: ReturnType<typeof setTimeout> | null = null;
     const start = () => {
       anim?.stop();
       /* 止めた位置から再開しない。Animated.loop は各周でこの値まで戻すので、
@@ -67,15 +82,33 @@ function useLoop(sec: number, delayMs = 0) {
       );
       anim.start();
     };
-    timer = setTimeout(start, delayMs);
-    /* iOSは通知バナーや App スイッチャーでも inactive を送ってくる。
-       止めるのは本当に背面へ回ったときだけ */
-    const sub = AppState.addEventListener('change', (s) => {
-      if (s === 'active') start();
-      else if (s === 'background') anim?.stop();
+    const timer = setTimeout(start, delayMs);
+
+    const sub = AppState.addEventListener('change', (st) => {
+      if (st === 'active') start();
     });
+
+    /* 見張り。4.3秒は、どの層の周期の約数にもならない値を選んでいる
+       （割り切れると、たまたま同じ値を拾って誤って回し直してしまう） */
+    let lastV = -1;
+    let stuck = 0;
+    const watch = setInterval(() => {
+      const v = (t as unknown as { __getValue?: () => number }).__getValue?.() ?? 0;
+      if (Math.abs(v - lastV) < 0.001) {
+        stuck += 1;
+        if (stuck >= 2) {
+          stuck = 0;
+          start();
+        }
+      } else {
+        stuck = 0;
+      }
+      lastV = v;
+    }, 4300);
+
     return () => {
-      if (timer) clearTimeout(timer);
+      clearTimeout(timer);
+      clearInterval(watch);
       anim?.stop();
       sub.remove();
     };
@@ -210,9 +243,11 @@ function PikaGroup({ w, h, g }: { w: number; h: number; g: number }) {
     inputRange: [0, 0.18, 0.38, 0.62, 0.82, 1],
     outputRange: [0.12, 0.45, 1, 1, 0.45, 0.12],
   });
+  /* 拡大縮小は**ごく浅く**。大きく動かすと組ごと寄り引きして見え、
+     瞬きではなく「画面が伸び縮みしている」ように読める */
   const scale = t.interpolate({
     inputRange: [0, 0.5, 1],
-    outputRange: [0.7, 1.25, 0.7],
+    outputRange: [0.97, 1.04, 0.97],
   });
   return (
     <Animated.View
