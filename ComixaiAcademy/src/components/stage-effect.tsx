@@ -361,7 +361,7 @@ const DOOR_Y = 0.55;
 
 const WAVES = 6;
 const WAVE_SEC = 3.6;
-const WAVE_DOTS = 62;
+const WAVE_DOTS = 92;
 /* 紙が白い絵なので、明るい金だけだと飛ぶ。濃い金を半分入れる */
 const BURST_COLORS = ['#ffffff', '#fff3d6', '#e0a92c', '#a86f12'];
 
@@ -373,20 +373,18 @@ function Wave({ size, i }: { size: number; i: number }) {
     const c = size / 2;
     return Array.from({ length: WAVE_DOTS }, (_, k) => {
       const a = (jitter(k, i * 3 + 31) + k / WAVE_DOTS) * Math.PI * 2;
-      /* ▍飛ぶ距離はコマの大きさに合わせる
-         内側から始めすぎると体の裏で終わり、外へ振りすぎると**すぐ画面の
-         外**へ出て、見えている時間がほとんど無くなる。倍率をかけたあとで
-         コマの中に居る時間がいちばん長くなる幅にしてある。
-         手前ほど散るので、距離は二乗で散らす */
-      const d = (0.05 + jitter(k, i * 3 + 32) ** 2 * 0.15) * size;
+      /* ▍散らばりは広く、二乗で
+         二乗で散らすと**ほとんどが中央寄り、少数が遠く**になる。
+         内側から始めすぎると体の裏で終わり、外へ振りすぎるとすぐ画面の外へ
+         出て見えている時間が無くなるので、内側の下限だけは残してある */
+      const d = (0.04 + jitter(k, i * 3 + 32) ** 2 * 0.30) * size;
       return {
         x: c + Math.cos(a) * d,
         y: c + Math.sin(a) * d * 0.82,
-        /* ▍細かく。ただし細かすぎると明るい紙の上で消える
-           粒を大きくすると「点の集まり」ではなく「玉が飛んでくる」ように
-           見えて砂ぼこりの気配が消えるので、**数で見せて大きさは抑える**。
-           二乗で散らすと、ほとんどが最小、たまに大きいのが混じる */
-        r: 0.75 + jitter(k, i * 3 + 33) ** 2 * 2.1,
+        /* ▍砂粒。大きくすると「玉が飛んでくる」ように見えて、
+           砂ぼこりの気配が消える。**数で見せて、大きさは抑える**。
+           二乗で散らすので、ほとんどが最小、たまに大きいのが混じる */
+        r: 0.45 + jitter(k, i * 3 + 33) ** 2 * 1.35,
         c: BURST_COLORS[k % BURST_COLORS.length],
       };
     });
@@ -394,7 +392,8 @@ function Wave({ size, i }: { size: number; i: number }) {
   /* ▍出はじめは扉の中なので、キャラの陰に隠れる
      いちばん内側から始めると、粒の見えている時間の半分が体の裏に
      なってしまう。少し外から始めて、外に出てから長く光らせる */
-  const scale = periodic(t, cycles, [0, 1], [0.6, 2.6]);
+  /* 端まで飛ばしきる。最後は画面の外だが、そこでは既に消えている */
+  const scale = periodic(t, cycles, [0, 1], [0.55, 3.4]);
   const opacity = periodic(t, cycles, [0, 0.08, 0.7, 1], [0, 1, 0.9, 0]);
   return (
     <Animated.View
