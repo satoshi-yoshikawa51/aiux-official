@@ -33,22 +33,22 @@ import { C, F, FONT, R, S, T } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
 
-/* アバターの見た目の縦横比（高さ ÷ 幅）。
+/* ============================================================
+   ▍キャラの大きさは「置き場の高さ」だけで決まる
 
-   3Dカメラの縦画角は固定なので、**この置き場が縦に伸びたぶんだけ
-   キャラも大きく描かれる**（同じ world 幅がより多い画素に載る）。
-   背景の教室は「立った人の目の高さ」から描いてあるため、キャラの
-   目線が地平線に届いていないと背の低い人に見える。0.92 では届かず、
-   身長125cm相当に見えていたので縦に伸ばしてある。
-   キャラの横幅は置き場の半分も無いので、縦に伸ばしても見切れない。 */
-const AVATAR_RATIO = 1.1;
+   3Dカメラの縦画角は固定なので、キャラの画素の高さ＝置き場の高さ×一定。
+   実測すると**キャラは置き場の92%を使っていて、頭上の余白は3%**しかない。
+   つまり「小さく見える」は3D側の問題ではなく、**置き場に高さを
+   渡せていない**のが原因だった。渡せていなかった理由は2つ：
 
-/* ▍かつてここに AVATAR_ZOOM（キャンバスを置き場より大きくして上へはみ出させる）
-   があった。「小人に見える」への対処としては AVATAR_RATIO と同じ狙いで、
-   **両方を掛けると1.3倍になって行き過ぎる**ので片方に寄せてある。
-   はみ出させる方式をやめたのは、上へ伸びたキャラがフキダシに潜り込んで
-   顔が隠れるため（Pressableはフキダシより後ろの兄弟なので上に描かれる）。
-   置き場ごと縦に伸ばす AVATAR_RATIO なら、フキダシの居場所を奪わない。 */
+   1. 置き場に 1:1.1 の縦横比を課していた。幅100%＝377pxの端末では
+      高さが 415px で頭打ちになり、余った高さを捨てていた
+   2. フキダシの確保が過大だった（下の「▍基準を取り直す」）。
+      実測で90px＝コマの15%が、誰も使わないまま空いていた
+
+   どちらもやめて、**フキダシの残り全部を置き場に渡す**。
+   キャラの横幅は高さの3割ほどなので、置き場が横長になっても見切れない。
+   ============================================================ */
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -123,7 +123,9 @@ export default function HomeScreen() {
      （opening.tsx のコマの高さと同じ手）。決め打ちにしないのは、
      端末の幅でも文字サイズ設定でも変わるため */
   const [bubbleH, setBubbleH] = React.useState(0);
-  const avatarMax = area > 0 && bubbleH > 0 ? Math.max(0, area - bubbleH - S.sm) : undefined;
+  /* いま測れている高さ。基準を取り直すときに使う */
+  const bubbleRaw = React.useRef(0);
+  const rebased = React.useRef(false);
 
   /* アバターを置ける実寸。onLayoutで測ってから3Dを描く。
 
@@ -141,11 +143,39 @@ export default function HomeScreen() {
     return () => clearTimeout(t);
   }, [box.w, box.h]);
 
+  /* 置き場をそのままキャンバスにする。縦横比は課さない（→ 冒頭のメモ） */
   const stage = React.useMemo(() => {
     if (settled.w <= 0 || settled.h <= 0) return null;
-    const w = Math.min(settled.w, settled.h / AVATAR_RATIO);
-    return { w: Math.floor(w), h: Math.floor(w * AVATAR_RATIO) };
+    return { w: Math.floor(settled.w), h: Math.floor(settled.h) };
   }, [settled]);
+
+  /* ▍基準を取り直す（起動時に一度だけ）
+     書体が読み込まれる前は、同じセリフが余計に折り返して背が高くなる。
+     それを「いちばん高かったフキダシ」として覚えてしまうと、**その
+     ぶんの高さが最後まで空いたまま**になる（実測で90px＝コマの15%）。
+     寸法が落ち着いた（settled が出た）時点で、測り直して基準にする。
+     以降は素直に最大値を覚える——セリフの伸び縮みでキャラを動かさない */
+  React.useEffect(() => {
+    if (rebased.current || settled.w <= 0) return;
+    rebased.current = true;
+    setBubbleH(bubbleRaw.current);
+  }, [settled.w]);
+
+  /* ———— 舞台の大きさ ————
+     絵は**コマを覆いきる最小の大きさ**で敷く（下端・中央ぞろえ）。
+
+     ▍「キャラに合わせて背景も縮める」はできない
+     縮めるとコマの上に絵が届かず、壁色のベタ帯が出る（実測で82px）。
+     つまり背景の下限はコマの大きさで決まっていて、キャラとの縮尺を
+     背景側で詰めることはできない。**縮尺を詰めるならキャラを大きくする**
+     （↑の置き場の話）か、**絵をもっと引きで描く**かの2つ。
+     引きで描けば同じコマの中で窓や黒板が小さく写り、人が大きく見える。 */
+  const bgHeight = React.useMemo(() => {
+    if (box.w <= 0 || area <= 0) return undefined;
+    const panelW = box.w + S.sm * 2;
+    const panelH = area + S.sm * 2;
+    return Math.ceil(Math.max(panelH, panelW / STAGE_RATIO));
+  }, [box.w, area]);
 
   const next = React.useMemo(() => {
     for (const course of COURSES) {
@@ -230,6 +260,7 @@ export default function HomeScreen() {
         bg={STAGE}
         bgRatio={STAGE_RATIO}
         bgColor={STAGE_WALL}
+        bgHeight={bgHeight}
         caption={role ? `${avatar.name}・${role.name}` : avatar.name}
         contentStyle={{ padding: S.sm, gap: S.sm }}>
         {/* ———— 舞台テーマ（ガチャの景品） ————
@@ -249,11 +280,15 @@ export default function HomeScreen() {
         ) : null}
         {theme.effect ? <StageEffect effect={theme.effect} /> : null}
 
-        {/* ガチャの入口。所持Pと一緒に、舞台の右上に置く */}
+        {/* ▍ガチャの入口は舞台の**左下**に置く
+             右上はフキダシの居場所。アバターの取り分を増やしてから
+             フキダシがコマの上端まで来たので、そこに重なると読めない。
+             右下はキャプション（名前・職種）が使っているので、左下へ。
+             床の隅なのでキャラにもかからない */}
         <Tap
           onPress={() => router.push('/gacha')}
           sound="pick"
-          style={{ position: 'absolute', top: 6, right: 6, zIndex: 5 }}>
+          style={{ position: 'absolute', bottom: 6, left: 6, zIndex: 5 }}>
           <View
             style={{
               flexDirection: 'row',
@@ -272,7 +307,7 @@ export default function HomeScreen() {
         </Tap>
         {/* ログインボーナスの受け取り。ひと呼吸で消える */}
         {bonusShown ? (
-          <PopIn style={{ position: 'absolute', top: 38, right: 6, zIndex: 5 }}>
+          <PopIn style={{ position: 'absolute', bottom: 38, left: 6, zIndex: 5 }}>
             <View
               style={{
                 backgroundColor: C.yellow400,
@@ -295,10 +330,14 @@ export default function HomeScreen() {
         <View
           style={{ flex: 1, justifyContent: 'flex-end', gap: S.sm }}
           onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
+          {/* 覚えた最大の高さを**下限として確保**する。こうしておけば
+              セリフが短くなってもキャラの取り分は増えない（＝背が伸びない） */}
           <View
+            style={{ minHeight: bubbleH || undefined }}
             onLayout={(e) => {
               const h = Math.ceil(e.nativeEvent.layout.height);
-              setBubbleH((prev) => (h > prev ? h : prev));
+              bubbleRaw.current = h;
+              setBubbleH((prev) => (rebased.current ? Math.max(prev, h) : h));
             }}>
             <Bubble
               text={greeting}
@@ -318,10 +357,11 @@ export default function HomeScreen() {
             }}
             onPress={poke}
             onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
+            /* フキダシを引いた残りを全部もらう。縦横比は課さない
+               （課すと幅で頭打ちになって、高さを捨てることになる） */
             style={{
               width: '100%',
-              aspectRatio: 1 / AVATAR_RATIO,
-              maxHeight: avatarMax ?? (tight ? '74%' : '88%'),
+              flex: 1,
               alignItems: 'center',
               justifyContent: 'flex-end',
             }}>

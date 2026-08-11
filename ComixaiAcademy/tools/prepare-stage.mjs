@@ -29,10 +29,13 @@
 
      CROP_BOTTOM=0.16 node tools/prepare-stage.mjs 元.png   # 削る量を変える
 
-   ▍削れる量には上限がある
-   コマは下端に揃えて敷くので、絵がコマより縦長でないと上に隙間が出る。
-   実測でいちばん縦長なコマが 0.672 なので、**出来上がりの比率が
-   0.672 を超えたら削りすぎ**。ツールが警告する。
+   ▍絵は横に広いほどよい（縦長にしない）
+   コマには「覆いきる最小の大きさ」で敷くので、**縦長の絵ほど
+   拡大率が上がる**。拡大されるほど窓や黒板が大きく写り、隣に立つ
+   キャラは小さく見える。実測で、縦長（0.637）の絵だと iPhone SE3 の
+   教室は 15 Pro より24%大きく写っていた。
+   **出来上がりの比率は 0.8 以上を目安**にする。ツールが 0.75 を
+   下回ったら警告する。
    ============================================================ */
 import sharp from 'sharp';
 import fs from 'node:fs';
@@ -52,8 +55,9 @@ const BLUR = Number(process.env.BLUR ?? 8);
 const BRIGHTNESS = Number(process.env.BRIGHTNESS ?? 0.92);
 const SATURATION = Number(process.env.SATURATION ?? 0.8);
 
-/** 実測でいちばん縦長だったコマの比率。これを超えると上に隙間が出る */
-const MAX_RATIO = 0.672;
+/** 出来上がりの比率の下限。これを下回ると、狭い端末で絵が大きく
+    拡大され、キャラが小人に見える（冒頭のメモ） */
+const MIN_RATIO = 0.75;
 
 const OUT = new URL('./.icon-preview/', import.meta.url);
 fs.mkdirSync(OUT, { recursive: true });
@@ -114,10 +118,11 @@ const top = await sharp(dst).extract({ left: 0, top: 0, width: W, height: 4 }).s
 const wall = '#' + top.channels.slice(0, 3).map((c) => Math.round(c.mean).toString(16).padStart(2, '0')).join('');
 console.log(`  STAGE_WALL  = '${wall}'  // 絵のいちばん上の色`);
 
-if (ratio > MAX_RATIO) {
+if (ratio < MIN_RATIO) {
   console.log(
-    `\n⚠ 比率 ${ratio.toFixed(3)} が ${MAX_RATIO} を超えている。` +
-      `\n  縦長なコマで上に隙間が出る。CROP_BOTTOM を小さくすること。`,
+    `\n⚠ 比率 ${ratio.toFixed(3)} が ${MIN_RATIO} を下回っている（縦長すぎる）。` +
+      `\n  狭い端末で絵が大きく拡大され、キャラが小人に見える。` +
+      `\n  もっと引きで（横に広く）描いた絵を使うこと。`,
   );
 }
 
