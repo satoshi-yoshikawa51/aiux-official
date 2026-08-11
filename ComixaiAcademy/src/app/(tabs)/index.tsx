@@ -17,14 +17,14 @@ import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
 import { Spotlight } from '@/components/spotlight';
 import { PopIn, useSparkBurst } from '@/components/motion';
-import { StageEffect } from '@/components/stage-effect';
+import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
 import { getTheme } from '@/data/gacha';
 import { getRole } from '@/data/roles';
-import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
+import { CLASSROOM } from '@/data/stage';
 import { smallTalkFor } from '@/data/voice';
 import { playSound } from '@/lib/sound';
 import { useProgress, useReview, useStats, useToday } from '@/store/progress';
@@ -170,12 +170,15 @@ export default function HomeScreen() {
      背景側で詰めることはできない。**縮尺を詰めるならキャラを大きくする**
      （↑の置き場の話）か、**絵をもっと引きで描く**かの2つ。
      引きで描けば同じコマの中で窓や黒板が小さく写り、人が大きく見える。 */
+  /* 絵はテーマごと。まだ描けていないテーマは素の教室に色を重ねる */
+  const art = theme.art ?? CLASSROOM;
+
   const bgHeight = React.useMemo(() => {
     if (box.w <= 0 || area <= 0) return undefined;
     const panelW = box.w + S.sm * 2;
     const panelH = area + S.sm * 2;
-    return Math.ceil(Math.max(panelH, panelW / STAGE_RATIO));
-  }, [box.w, area]);
+    return Math.ceil(Math.max(panelH, panelW / art.ratio));
+  }, [box.w, area, art.ratio]);
 
   const next = React.useMemo(() => {
     for (const course of COURSES) {
@@ -260,9 +263,9 @@ export default function HomeScreen() {
            地は網点ではなく舞台の絵（→ src/data/stage.ts） */}
       <Panel
         fill
-        bg={STAGE}
-        bgRatio={STAGE_RATIO}
-        bgColor={STAGE_WALL}
+        bg={art.src}
+        bgRatio={art.ratio}
+        bgColor={art.wall}
         bgHeight={bgHeight}
         caption={role ? `${avatar.name}・${role.name}` : avatar.name}
         contentStyle={{ padding: S.sm, gap: S.sm }}>
@@ -282,6 +285,7 @@ export default function HomeScreen() {
           />
         ) : null}
         {theme.effect ? <StageEffect effect={theme.effect} /> : null}
+        {theme.glow ? <StageGlow glow={theme.glow} /> : null}
 
         {/* ▍ガチャの入口は舞台の**左下**に置く
              右上はフキダシの居場所。アバターの取り分を増やしてから

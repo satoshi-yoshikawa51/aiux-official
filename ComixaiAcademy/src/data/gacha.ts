@@ -19,8 +19,19 @@
    小さいプールなので、返さないと後半のハズレ感が強すぎる。
    ============================================================ */
 import { SKINS } from '@/data/avatars';
+import { CLASSROOM } from '@/data/stage';
 
 export type Rarity = 'N' | 'R' | 'SR';
+
+/** 舞台の絵。1枚ごとに比率と壁色が違うので、3つで1組にして持つ。
+    値は npm run stage:prepare が出したものをそのまま貼る */
+export interface StageArt {
+  src: number;
+  /** 幅÷高さ。コマを覆う最小の大きさで敷くのに要る */
+  ratio: number;
+  /** 絵のいちばん上の色。コマが縦に余ったぶんを埋めて継ぎ目を消す */
+  wall: string;
+}
 
 export interface StageTheme {
   id: string;
@@ -28,10 +39,18 @@ export interface StageTheme {
   rarity: Rarity;
   /** 引いたときに出す一言 */
   desc: string;
-  /** 舞台（教室の写真）に重ねる色。'transparent'＝素のまま */
+  /** 舞台に重ねる色。'transparent'＝素のまま */
   tint: string;
   /** 追加の飾り（→ components/stage-effect.tsx） */
-  effect?: 'stars' | 'snow' | 'sakura' | 'rain' | 'kira';
+  effect?: 'stars' | 'snow' | 'sakura' | 'rain' | 'kira' | 'ember';
+  /** 専用の絵。**無いテーマは素の教室に色を重ねる**（もとの作り）。
+      絵が描けたものから art を足していく → assets/images/_raw/README.md */
+  art?: StageArt;
+  /** SRだけの縁飾り。コマの内側に光る枠が出て、棚でもひと目で分かる */
+  glow?: 'gold' | 'cyan';
+  /** せっていの丸ポチの色。絵つきのテーマは tint が透明なので、
+      その絵らしい色をここに書く（→ (tabs)/settings.tsx） */
+  swatch?: string;
 }
 
 /** 最初から持っている素の教室 */
@@ -44,6 +63,20 @@ export const THEMES: StageTheme[] = [
     rarity: 'N',
     desc: 'ここから始まった。',
     tint: 'transparent',
+    art: CLASSROOM,
+  },
+  {
+    id: 'courtyard',
+    name: '中庭のベンチ',
+    rarity: 'N',
+    desc: '昼休みの15分でも進む。',
+    tint: 'transparent',
+    swatch: '#8aa970',
+    art: {
+      src: require('@/assets/images/stage-courtyard.jpg'),
+      ratio: 0.8966,
+      wall: '#837763',
+    },
   },
   {
     id: 'asayake',
@@ -83,11 +116,18 @@ export const THEMES: StageTheme[] = [
   },
   {
     id: 'sakura',
-    name: '桜舞う教室',
+    name: '桜並木',
     rarity: 'R',
     desc: '春。何かが始まる感じがする。',
-    tint: 'rgba(255,170,190,0.22)',
-    effect: 'sakura',
+    tint: 'transparent',
+    swatch: '#f0a6b8',
+    /* 絵の中で花びらが大量に舞っているので、**飾りは重ねない**。
+       重ねるとフキダシの文字が読めなくなる */
+    art: {
+      src: require('@/assets/images/stage-sakura.jpg'),
+      ratio: 0.8966,
+      wall: '#9e7968',
+    },
   },
   {
     id: 'yuki',
@@ -104,6 +144,7 @@ export const THEMES: StageTheme[] = [
     desc: '窓の外、ぜんぶ星。',
     tint: 'rgba(8,14,44,0.55)',
     effect: 'stars',
+    glow: 'cyan',
   },
   {
     id: 'ougon',
@@ -112,6 +153,7 @@ export const THEMES: StageTheme[] = [
     desc: 'マスターの部屋には、金の光が差す。',
     tint: 'rgba(255,196,40,0.30)',
     effect: 'kira',
+    glow: 'gold',
   },
 ];
 

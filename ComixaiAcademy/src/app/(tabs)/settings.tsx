@@ -145,7 +145,7 @@ export default function SettingsScreen() {
             <PickPill
               key={t.id}
               label={t.name}
-              dot={t.tint === 'transparent' ? '#b8a276' : t.tint}
+              dot={t.swatch ?? (t.tint === 'transparent' ? '#b8a276' : t.tint)}
               owned={t.id === DEFAULT_THEME_ID || !!state.themes[t.id]}
               active={state.themeId === t.id}
               onPress={() => setTheme(t.id)}

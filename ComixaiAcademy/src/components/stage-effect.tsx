@@ -19,9 +19,49 @@ import type { StageTheme } from '@/data/gacha';
 const fract = (v: number) => v - Math.floor(v);
 const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453);
 
+/* ———— SRの光る枠 ————
+   レア度を**絵の出来に頼らず**分かるようにする層。コマの内側に
+   細い光の線を引き、四隅を少し強くする。絵そのものは触らない
+   （背景を派手にするとキャラが溶けるため、飾りはこちら側で足す）。 */
+const GLOW: Record<NonNullable<StageTheme['glow']>, { line: string; corner: string }> = {
+  gold: { line: 'rgba(245,179,1,0.55)', corner: 'rgba(255,226,140,0.9)' },
+  cyan: { line: 'rgba(120,210,255,0.5)', corner: 'rgba(200,240,255,0.9)' },
+};
+
+export function StageGlow({ glow }: { glow: NonNullable<StageTheme['glow']> }) {
+  const c = GLOW[glow];
+  return (
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+      <View
+        style={{
+          position: 'absolute',
+          left: 3,
+          right: 3,
+          top: 3,
+          bottom: 3,
+          borderWidth: 2,
+          borderColor: c.line,
+          borderRadius: 6,
+        }}
+      />
+      {[
+        { top: 1, left: 1 },
+        { top: 1, right: 1 },
+        { bottom: 1, left: 1 },
+        { bottom: 1, right: 1 },
+      ].map((pos, i) => (
+        <View
+          key={i}
+          style={{ position: 'absolute', ...pos, width: 14, height: 14, borderRadius: 7, backgroundColor: c.corner }}
+        />
+      ))}
+    </View>
+  );
+}
+
 export function StageEffect({ effect }: { effect: NonNullable<StageTheme['effect']> }) {
   const items = React.useMemo(() => {
-    const n = effect === 'kira' ? 8 : effect === 'stars' ? 14 : 12;
+    const n = effect === 'kira' ? 8 : effect === 'stars' ? 14 : effect === 'ember' ? 16 : 12;
     return Array.from({ length: n }, (_, i) => ({
       key: i,
       x: jitter(i, 1),
@@ -68,6 +108,24 @@ export function StageEffect({ effect }: { effect: NonNullable<StageTheme['effect
                 borderTopLeftRadius: 1,
                 backgroundColor: 'rgba(255,200,215,0.85)',
                 transform: [{ rotate: `${r * 360}deg` }],
+              }}
+            />
+          );
+        }
+        if (effect === 'ember') {
+          /* 火の粉。暖炉のある絵に重ねるので、下のほうに多く、粒は小さく */
+          const d = 2 + s * 3;
+          return (
+            <View
+              key={key}
+              style={{
+                position: 'absolute',
+                left,
+                top: `${30 + y * 62}%`,
+                width: d,
+                height: d,
+                borderRadius: d / 2,
+                backgroundColor: r > 0.6 ? 'rgba(255,214,120,0.95)' : 'rgba(255,138,60,0.9)',
               }}
             />
           );

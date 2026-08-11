@@ -16,12 +16,12 @@
    ============================================================ */
 import * as Haptics from 'expo-haptics';
 import React from 'react';
-import { Animated, Easing, Platform, Pressable, Text, View } from 'react-native';
+import { Animated, Easing, Image, Platform, Pressable, Text, View } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
-import { StageEffect } from '@/components/stage-effect';
+import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Badge, Button, Panel, Pop, Row, Screen } from '@/components/ui';
 import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
 import {
@@ -531,8 +531,27 @@ function ThemeCard({
         <View style={{ height: 62, backgroundColor: owned ? '#b8a276' : T.sunk }}>
           {owned ? (
             <>
-              <View style={{ flex: 1, backgroundColor: t9(theme) }} />
+              {/* 専用の絵があるテーマは、その絵をそのまま出す。
+                  無いものは重ねる色のベタ（もとの見せ方） */}
+              {theme.art ? (
+                <Image
+                  source={theme.art.src}
+                  resizeMode="cover"
+                  style={{ width: '100%', height: '100%' }}
+                />
+              ) : null}
+              <View
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  backgroundColor: theme.art ? theme.tint : t9(theme),
+                }}
+              />
               {theme.effect ? <StageEffect effect={theme.effect} /> : null}
+              {theme.glow ? <StageGlow glow={theme.glow} /> : null}
             </>
           ) : (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
