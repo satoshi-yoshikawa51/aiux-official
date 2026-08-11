@@ -191,7 +191,10 @@ export default function HomeScreen() {
   const greeting = React.useMemo(() => {
     if (guiding) return tutorial.step?.say ?? '';
     if (talk) return talk;
-    if (!next) return 'ぜんぶ終わったね。……よくやった。あとは現場で使って。';
+    /* ▍終わっても「終わり」と言わない
+       ここで話を締めるとアプリを消される（実機フィードバック）。
+       次があることだけ、ひと言そえておく */
+    if (!next) return 'ぜんぶ終わったね。……よくやった。次の章はいま用意してる。それまでは現場で使って。';
     if (stats.doneCount === 0) return `${role?.name ?? ''}ね。なら、話が早い。まず1本やってみて。`;
     if (stats.streak >= 3) return `${stats.streak}日続いてるね。……その調子よ。`;
     return `次は「${next.lesson.title}」よ。`;

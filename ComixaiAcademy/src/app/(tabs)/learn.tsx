@@ -269,6 +269,29 @@ export default function LearnScreen() {
         );
       })}
 
+      {/* ———— つづきを準備中 ————
+           最後の章の次に、**まだ続きがある**ことを置いておく。
+           全部終えた画面が「ここで終わり」に見えると、その日に消される
+           （実機フィードバック）。修了試験のカードと同じで、開く前から
+           見えているほうが目標として効くので、進み具合に関係なく出す */}
+      <Panel
+        number={String(COURSES.length + 1)}
+        contentStyle={{ paddingTop: S.xl + S.sm, gap: S.sm }}>
+        <Row style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <View style={{ flex: 1, gap: 4 }}>
+            <Row gap={6}>
+              <Icon name="rocket" size={20} color={T.muted} />
+              <Text style={[F.h1, { flex: 1, color: T.muted }]}>つづきを準備中</Text>
+            </Row>
+            <Text style={F.small}>
+              新しい章、新しい相棒のアバター、新しい舞台を作っています。
+              ログインボーナスでガチャPを貯めながら待っていてください。
+            </Text>
+          </View>
+          <Badge tone="paper">準備中</Badge>
+        </Row>
+      </Panel>
+
       {/* ———— 持ち帰り ————
            終えた回のぶんだけ、自分の職種向けの一言とプロンプトが溜まる。
            一覧の**下**に置く。上に置くと目的地が2つに見える */}
