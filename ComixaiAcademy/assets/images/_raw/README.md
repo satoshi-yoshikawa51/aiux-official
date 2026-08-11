@@ -62,31 +62,35 @@ SR は光条・鏡面・金。プロンプト全文と `--stylize` の使い分�
 
 **N10枚・R7枚が完成。残りはSR3枚。**
 
-| ファイル | テーマ | レア度 | horizon |
-|---|---|---|---|
-| `classroom.jpg` | いつもの教室（初期所持） | N | 0.50 |
-| `library.jpg` | 図書室の窓辺 | N | 0.50 |
-| `corridor.jpg` | 放課後の廊下 | N | 0.50 |
-| `computer-room.jpg` | コンピュータ室 | N | 0.50 |
-| `home-desk.jpg` | 家のデスク | N | 0.50 |
-| `courtyard.jpg` | 中庭のベンチ | N | 0.50 |
-| `entrance-hall.jpg` | 昇降口 | N | 0.50 |
-| `cafe.jpg` | カフェの窓際 | N | 0.50 |
-| `meeting-room.jpg` | 会議室 | N | 0.50 |
-| `rooftop-cloudy.jpg` | 屋上 | N | 0.50 |
-| `sakura.jpg` | 桜並木 | R | 0.50 |
-| `beach-dawn.jpg` | 朝の海辺 | R | 0.47 |
-| `neon-rain.jpg` | 雨のネオン街 | R | 0.55 |
-| `festival-night.jpg` | 夏祭りの夜 | R | 0.60 |
-| `office-night.jpg` | 夜のオフィス | R | 0.62 |
-| `cabin-fire.jpg` | 暖炉の山小屋 | R | 0.62 |
-| `rooftop-sunset.jpg` | 夕焼けの屋上 | R | 0.63 |
+| ファイル | テーマ | レア度 |
+|---|---|---|
+| `classroom.jpg` | いつもの教室（初期所持） | N |
+| `library.jpg` | 図書室の窓辺 | N |
+| `corridor.jpg` | 放課後の廊下 | N |
+| `computer-room.jpg` | コンピュータ室 | N |
+| `home-desk.jpg` | 家のデスク | N |
+| `courtyard.jpg` | 中庭のベンチ | N |
+| `entrance-hall.jpg` | 昇降口 | N |
+| `cafe.jpg` | カフェの窓際 | N |
+| `meeting-room.jpg` | 会議室 | N |
+| `rooftop-cloudy.jpg` | 屋上 | N |
+| `sakura.jpg` | 桜並木 | R |
+| `beach-dawn.jpg` | 朝の海辺 | R |
+| `neon-rain.jpg` | 雨のネオン街 | R |
+| `festival-night.jpg` | 夏祭りの夜 | R |
+| `office-night.jpg` | 夜のオフィス | R |
+| `cabin-fire.jpg` | 暖炉の山小屋 | R |
+| `rooftop-sunset.jpg` | 夕焼けの屋上 | R |
 
 比率はすべて 0.753（`--ar 3:4` のまま、削らない）。
+**地平線は全部 0.5 に固定**していて、絵ごとの数字は持たせていない。
 
-**Nは全部 0.50 で噛み合った**が、**Rは絵ごとに違う**。屋外や光が主役の絵は
-空を広く取るぶん地平線が下がるので、絵を見て入れ直している。
-海辺は水平線がそのまま地平線なので分かりやすい（0.47）。
+▍いちど絵ごとに読んだが、やめた
+Rは絵ごとに地平線が違った（海辺0.47〜夕焼けの屋上0.63）。屋外や光が主役の
+絵は空を広く取るぶん地平線が下がるためで、厳密にはそのほうが縮尺は正しい。
+ただ**舞台を変えるたびに先生の背丈が変わる**ことになり、それ自体が違和感に
+なった。同じ人が同じ背丈で立っているほうが、縮尺の小さなズレより大事。
+どうしても合わない絵が出てきたときだけ `horizon` を書いて逃がす。
 
 ▍暗い舞台はキャラが沈みやすい
 夜のオフィス・雨のネオン街・暖炉の山小屋・夏祭りの夜は地が暗い。

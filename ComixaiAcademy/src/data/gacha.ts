@@ -23,6 +23,9 @@ import { CLASSROOM } from '@/data/stage';
 
 export type Rarity = 'N' | 'R' | 'SR';
 
+/** 地平線の既定値。絵は消失点が画面の中央に来るように描く（→ StageArt.horizon） */
+export const DEFAULT_HORIZON = 0.5;
+
 /** 舞台の絵。1枚ごとに比率・壁色・拡大率が違うので、まとめて持つ。
     比率と壁色は npm run stage:prepare が出したものをそのまま貼る */
 export interface StageArt {
@@ -31,26 +34,18 @@ export interface StageArt {
   ratio: number;
   /** 絵のいちばん上の色。コマが縦に余ったぶんを埋めて継ぎ目を消す */
   wall: string;
-  /* ▍地平線（床の消失点）が絵の上から何割の位置にあるか
+  /* ▍地平線（床の消失点）が絵の上から何割の位置にあるか。既定 0.5
 
-     これを渡すと、**キャラの目線がそこに来る大きさ**に自動で縮める。
-     渡さないと今までどおりコマいっぱいに立つ。
+     **ふだんは書かない。** 絵は消失点が画面のちょうど中央に来るように
+     描いているので、既定の0.5で噛み合う。
 
-     ▍なぜ要るのか
-     写真でも絵でも、地平線はカメラの高さにある。だから**そこに立つ人の
-     目線は必ず地平線と重なる**。キャラの目線が地平線より上にあれば
-     「カメラより背が高い人」＝巨人に、下にあれば小人に見える。
+     ▍なぜ全部0.5に固定したか
+     もとは絵ごとに読んだ値を入れていた（0.47〜0.63）。厳密にはそのほうが
+     縮尺は正しい。でも**舞台を変えるたびに先生の背丈が変わる**ことになり、
+     それ自体が違和感になった。同じ人が同じ背丈で立っているほうが、
+     縮尺の小さなズレより大事だと判断した。
 
-     コマいっぱいにキャラを立てると目線はコマの上17%に来る。絵の地平線が
-     上から53%（＝実際に描かれた中庭）だと、その差がまるごと巨人に見える
-     ぶんになる。**背景を拡大して詰めることはできない**——計算上2.4倍要って、
-     そこまで寄せるとベンチも木も空も画面から消える（実際に試した）。
-     残る手はキャラを縮めること。
-
-     ▍新しく描くときは 0.5
-     消失点を画面のちょうど中央に置いて描く。するとキャラはコマの
-     57%ほどの高さになり、景色と噛み合う。値は「絵のどこに地平線が
-     あるか」を目で見て入れる（床と壁の境目・平行線が集まる高さ）。 */
+     どうしても合わない絵が出てきたときだけ、その絵にこれを書いて逃がす。 */
   horizon?: number;
 }
 
@@ -108,7 +103,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-courtyard.jpg'),
       ratio: 0.7532,
       wall: '#8b8070',
-      horizon: 0.5,
     },
   },
   {
@@ -122,7 +116,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-library.jpg'),
       ratio: 0.7532,
       wall: '#785943',
-      horizon: 0.5,
     },
   },
   {
@@ -136,7 +129,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-corridor.jpg'),
       ratio: 0.7532,
       wall: '#72664f',
-      horizon: 0.5,
     },
   },
   {
@@ -150,7 +142,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-computer-room.jpg'),
       ratio: 0.7532,
       wall: '#98a4b0',
-      horizon: 0.5,
     },
   },
   {
@@ -164,7 +155,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-home-desk.jpg'),
       ratio: 0.7532,
       wall: '#86674f',
-      horizon: 0.5,
     },
   },
   {
@@ -178,7 +168,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-entrance-hall.jpg'),
       ratio: 0.7532,
       wall: '#756c60',
-      horizon: 0.5,
     },
   },
   {
@@ -192,7 +181,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-cafe.jpg'),
       ratio: 0.7532,
       wall: '#92755e',
-      horizon: 0.5,
     },
   },
   {
@@ -206,7 +194,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-meeting-room.jpg'),
       ratio: 0.7532,
       wall: '#837664',
-      horizon: 0.5,
     },
   },
   {
@@ -220,7 +207,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-rooftop-cloudy.jpg'),
       ratio: 0.7532,
       wall: '#948f8d',
-      horizon: 0.5,
     },
   },
   {
@@ -236,9 +222,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-sakura.jpg'),
       ratio: 0.7532,
       wall: '#9d7867',
-      /* 地平線の読みは目分量。厳密には0.60あたりだが、少しキャラを
-         大きく見せたいので上げてある（上げるほどキャラが育つ） */
-      horizon: 0.5,
     },
   },
   {
@@ -252,7 +235,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-rooftop-sunset.jpg'),
       ratio: 0.7532,
       wall: '#896a54',
-      horizon: 0.63,
     },
   },
   {
@@ -266,7 +248,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-neon-rain.jpg'),
       ratio: 0.7532,
       wall: '#383644',
-      horizon: 0.55,
     },
   },
   {
@@ -280,7 +261,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-office-night.jpg'),
       ratio: 0.7532,
       wall: '#272c34',
-      horizon: 0.62,
     },
   },
   {
@@ -294,7 +274,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-beach-dawn.jpg'),
       ratio: 0.7532,
       wall: '#aa8c83',
-      horizon: 0.47,
     },
   },
   {
@@ -308,7 +287,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-festival-night.jpg'),
       ratio: 0.7532,
       wall: '#57392e',
-      horizon: 0.6,
     },
   },
   {
@@ -322,7 +300,6 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-cabin-fire.jpg'),
       ratio: 0.7532,
       wall: '#4a2d1f',
-      horizon: 0.62,
     },
   },
 ];

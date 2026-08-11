@@ -15,7 +15,6 @@ export const CLASSROOM: StageArt = {
   src: require('@/assets/images/stage-classroom.jpg'),
   ratio: 0.7532,
   wall: '#96836c',
-  horizon: 0.5,
 };
 
 /* 昔の名前。まだ参照している所があるので残してある */
