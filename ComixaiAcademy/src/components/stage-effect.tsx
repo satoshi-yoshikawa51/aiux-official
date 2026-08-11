@@ -58,6 +58,17 @@ const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 
    そもそも**ブラウザは見えていないあいだ rAF を自分で止める**ので、
    こちらで止める必要がなかった。
 
+   ▍1周は長く取る（LOOP秒）
+   短い周期で回すと、**1周の終わりから次の始まりへ移るところ**で1〜2フレーム
+   止まる。5.5秒ごとに線がカクッと引っかかって見えていたのはこれ。
+
+   代わりに**1周を60秒にして、その中で何度も折り返す**。折り返しは
+   interpolate の表の中でやるので、値が飛ぶだけで**間が空かない**。
+   継ぎ目は60秒に1回まで減り、しかもその瞬間の値は周の始まりと同じに
+   なるよう作ってあるので、目に見えない。
+
+   粒の数も要素の数も変わらないので、これで重くなることはない。
+
    ▍見張り（自己修復）は置かない
    一度は「値が進んでいなければ回し直す」を入れたが、**誤判定のたびに
    全部が0へ飛ぶ**ので、線がガクッと戻って見えた。判定を厳しくしても
@@ -68,6 +79,9 @@ const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 
    ▍回し直すときは出だしのずれも作り直す
    波を何本もずらして重ねているものは、全部を同時に0へ戻すと**ずれが
    消えて一斉に光る**。回し直すときも、最初と同じだけ待ってから始める。 */
+/** 1周の長さ。短くすると継ぎ目が増える（↑のメモ） */
+const LOOP = 60;
+
 function useLoop(sec: number, delayMs = 0) {
   const t = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
@@ -110,6 +124,36 @@ function useLoop(sec: number, delayMs = 0) {
   return t;
 }
 
+/* ▍1周(LOOP秒)のあいだに cycles 回くり返す表を作る
+
+   P は1回ぶんの区切り（0〜1、増加、先頭0・末尾1）、V はそこでの値。
+   末尾はごくわずか手前に置いて、次の回の先頭と重ならないようにする
+   （interpolate は入力が増加していないと受け付けない）。
+   末尾の1e-5 の隙間で値が飛ぶが、1周60秒なら 0.6ms ぶんなので見えない。 */
+function periodic(
+  t: Animated.Value,
+  cycles: number,
+  P: number[],
+  V: number[],
+): Animated.AnimatedInterpolation<number> {
+  const input: number[] = [];
+  const output: number[] = [];
+  const e = 1e-5;
+  for (let k = 0; k < cycles; k++) {
+    for (let j = 0; j < P.length; j++) {
+      const last = j === P.length - 1;
+      input.push((k + P[j]) / cycles - (last ? e : 0));
+      output.push(V[j]);
+    }
+  }
+  input.push(1);
+  output.push(V[0]);
+  return t.interpolate({ inputRange: input, outputRange: output });
+}
+
+/** その速さ（1回ぶんの秒数）が、1周のあいだに何回入るか */
+const cyclesFor = (sec: number) => Math.max(1, Math.round(LOOP / sec));
+
 /** グラデーションのidは画面内で重複させない */
 let uid = 0;
 const useGid = (p: string) => React.useMemo(() => `${p}${(uid += 1)}`, [p]);
@@ -148,7 +192,7 @@ function StreakLayer({
   h: number;
   salt: number;
 }) {
-  const t = useLoop(spec.sec);
+  const t = useLoop(LOOP);
   const gid = useGid('st');
   const lines = React.useMemo(
     () =>
@@ -159,7 +203,7 @@ function StreakLayer({
       })),
     [spec.n, spec.len, w, h, salt],
   );
-  const translateY = t.interpolate({ inputRange: [0, 1], outputRange: [0, -h] });
+  const translateY = periodic(t, cyclesFor(spec.sec), [0, 1], [0, -h]);
   return (
     <Animated.View
       style={{ position: 'absolute', width: w, height: h * 2, transform: [{ translateY }] }}>
@@ -214,7 +258,8 @@ const PIKA_COLORS = ['#ffffff', '#ffe9c0', '#e8a13c', '#fff6dd', '#d98f1f', '#ff
 function PikaGroup({ w, h, g }: { w: number; h: number; g: number }) {
   /* 周期も出だしもバラバラにする。揃うと画面全体が明滅してしまう */
   const sec = 2.4 + jitter(g, 11) * 3.4;
-  const t = useLoop(sec, Math.round(jitter(g, 12) * 2600));
+  const t = useLoop(LOOP, Math.round(jitter(g, 12) * 2600));
+  const cycles = cyclesFor(sec);
   const gid = useGid('pk');
   const color = PIKA_COLORS[g % PIKA_COLORS.length];
   const dots = React.useMemo(
@@ -233,16 +278,15 @@ function PikaGroup({ w, h, g }: { w: number; h: number; g: number }) {
      鋭く尖らせると「光っている時間」が周期の1割ほどしかなく、組の数だけ
      用意しても**同時に光っているのは1組**になって、画面がほぼ消えて見える。
      山を広く・谷を浅くして、常に3〜4組が光っている状態にする */
-  const opacity = t.interpolate({
-    inputRange: [0, 0.18, 0.38, 0.62, 0.82, 1],
-    outputRange: [0.12, 0.45, 1, 1, 0.45, 0.12],
-  });
+  const opacity = periodic(
+    t,
+    cycles,
+    [0, 0.18, 0.38, 0.62, 0.82, 1],
+    [0.12, 0.45, 1, 1, 0.45, 0.12],
+  );
   /* 拡大縮小は**ごく浅く**。大きく動かすと組ごと寄り引きして見え、
      瞬きではなく「画面が伸び縮みしている」ように読める */
-  const scale = t.interpolate({
-    inputRange: [0, 0.5, 1],
-    outputRange: [0.97, 1.04, 0.97],
-  });
+  const scale = periodic(t, cycles, [0, 0.5, 1], [0.97, 1.04, 0.97]);
   return (
     <Animated.View
       style={{ position: 'absolute', width: w, height: h, opacity, transform: [{ scale }] }}>
@@ -322,7 +366,8 @@ const WAVE_DOTS = 62;
 const BURST_COLORS = ['#ffffff', '#fff3d6', '#e0a92c', '#a86f12'];
 
 function Wave({ size, i }: { size: number; i: number }) {
-  const t = useLoop(WAVE_SEC, Math.round((WAVE_SEC * 1000 * i) / WAVES));
+  const t = useLoop(LOOP, Math.round((WAVE_SEC * 1000 * i) / WAVES));
+  const cycles = cyclesFor(WAVE_SEC);
   const gid = useGid('bs');
   const dots = React.useMemo(() => {
     const c = size / 2;
@@ -349,11 +394,8 @@ function Wave({ size, i }: { size: number; i: number }) {
   /* ▍出はじめは扉の中なので、キャラの陰に隠れる
      いちばん内側から始めると、粒の見えている時間の半分が体の裏に
      なってしまう。少し外から始めて、外に出てから長く光らせる */
-  const scale = t.interpolate({ inputRange: [0, 1], outputRange: [0.6, 2.6] });
-  const opacity = t.interpolate({
-    inputRange: [0, 0.08, 0.7, 1],
-    outputRange: [0, 1, 0.9, 0],
-  });
+  const scale = periodic(t, cycles, [0, 1], [0.6, 2.6]);
+  const opacity = periodic(t, cycles, [0, 0.08, 0.7, 1], [0, 1, 0.9, 0]);
   return (
     <Animated.View
       style={{
@@ -385,15 +427,13 @@ function Wave({ size, i }: { size: number; i: number }) {
 
 /** レンズを横切る光。目玉の舞台だけに置く */
 function Sweep({ w, h }: { w: number; h: number }) {
-  const t = useLoop(11);
+  const t = useLoop(LOOP);
+  const cycles = cyclesFor(11);
   const gid = useGid('sw');
   const bw = Math.max(60, Math.round(w * 0.5));
   const bh = Math.round(h * 1.8);
-  const translateX = t.interpolate({ inputRange: [0, 1], outputRange: [-bw, w + bw] });
-  const opacity = t.interpolate({
-    inputRange: [0, 0.2, 0.5, 0.8, 1],
-    outputRange: [0, 0.9, 1, 0.9, 0],
-  });
+  const translateX = periodic(t, cycles, [0, 1], [-bw, w + bw]);
+  const opacity = periodic(t, cycles, [0, 0.2, 0.5, 0.8, 1], [0, 0.9, 1, 0.9, 0]);
   return (
     <Animated.View
       style={{
