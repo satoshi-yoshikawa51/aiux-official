@@ -98,7 +98,7 @@ export const THEMES: StageTheme[] = [
       ratio: 0.8966,
       wall: '#837763',
       /* 旧い指示（引きの構図）で描いた絵なので、地平線が中央より下にある */
-      horizon: 0.53,
+      horizon: 0.48,
     },
   },
   {
@@ -152,7 +152,7 @@ export const THEMES: StageTheme[] = [
       wall: '#9d7867',
       /* 地平線の読みは目分量。厳密には0.60あたりだが、少しキャラを
          大きく見せたいので上げてある（上げるほどキャラが育つ） */
-      horizon: 0.55,
+      horizon: 0.5,
     },
   },
   {

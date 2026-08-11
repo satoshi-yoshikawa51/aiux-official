@@ -187,13 +187,18 @@ export default function HomeScreen() {
 
      地平線を持たない絵（素の教室）は今までどおりコマいっぱい。 */
   const stage = React.useMemo(() => {
-    if (settled.w <= 0 || settled.h <= 0) return null;
+    if (settled.w <= 0) return null;
     const w = Math.floor(settled.w);
-    const h = Math.floor(settled.h);
-    if (!art.horizon || !bgHeight) return { w, h };
-    const horizonFromBottom = bgHeight * (1 - art.horizon);
-    return { w, h: Math.min(h, Math.round(horizonFromBottom / 0.877)) };
-  }, [settled, art.horizon, bgHeight]);
+    /* 地平線で決まる絵は、**置き場の高さを見ない**。フキダシを
+       キャラの上に寄せると置き場が縮むので、そこを見ていると
+       縮み合いになる。コマの中身の高さ（area）だけを上限にする */
+    if (art.horizon && bgHeight) {
+      const horizonFromBottom = bgHeight * (1 - art.horizon);
+      return { w, h: Math.min(Math.round(horizonFromBottom / 0.877), Math.floor(area)) };
+    }
+    if (settled.h <= 0) return null;
+    return { w, h: Math.floor(settled.h) };
+  }, [settled, area, art.horizon, bgHeight]);
 
 
   const next = React.useMemo(() => {
@@ -355,6 +360,13 @@ export default function HomeScreen() {
           onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
           {/* 覚えた最大の高さを**下限として確保**する。こうしておけば
               セリフが短くなってもキャラの取り分は増えない（＝背が伸びない） */}
+          {/* ▍フキダシはキャラの頭の近くに置く
+              キャラが絵に合わせて縮むと、上に大きな空きができる。
+              そこを丸ごと空けたままだとフキダシがコマの上端に
+              取り残されて、誰がしゃべっているのか分からなくなる。
+              空きの真ん中に置く（＝コマの上端とキャラの頭の中間）。
+              コマいっぱいに立つ絵では空きが無いので、素通りする */}
+          <View style={art.horizon ? { flex: 1, justifyContent: 'center' } : undefined}>
           <View
             style={{ minHeight: bubbleH || undefined }}
             onLayout={(e) => {
@@ -368,6 +380,7 @@ export default function HomeScreen() {
               numberOfLines={tight ? 3 : undefined}
               style={{ marginRight: 3, marginLeft: 3 }}
             />
+          </View>
           </View>
           {/* アバターの置き場は縦横比で決める（flex:1 だと余った高さを全部
               取ってしまい、フキダシがキャラから離れる）。 */}
@@ -384,7 +397,9 @@ export default function HomeScreen() {
                （課すと幅で頭打ちになって、高さを捨てることになる） */
             style={{
               width: '100%',
-              flex: 1,
+              /* 地平線で高さが決まる絵では、置き場は中身なりにする。
+                 flex:1 で余りを全部取ると、フキダシを中央に寄せられない */
+              flex: art.horizon ? undefined : 1,
               alignItems: 'center',
               justifyContent: 'flex-end',
             }}>
