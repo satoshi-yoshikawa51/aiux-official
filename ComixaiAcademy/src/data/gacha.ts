@@ -334,7 +334,10 @@ export const THEMES: StageTheme[] = [
     name: '金インクの原稿の中',
     rarity: 'SR',
     desc: 'インクとトーンでできた世界。COMIXAIの故郷。',
-    tint: 'transparent',
+    /* ▍この絵にだけ、ごく薄い金茶を敷く
+       紙が白いので、金の粒が地に溶けて見えなくなる。少し沈めると
+       粒が立ち、金屏風のような色味になってSRらしさも増す */
+    tint: 'rgba(74,48,10,0.13)',
     swatch: '#e8c15a',
     effect: 'burst',
     glow: 'gold',

@@ -46,9 +46,9 @@ type EffectName = NonNullable<StageTheme['effect']>;
 const fract = (v: number) => v - Math.floor(v);
 const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453);
 
-/* ▍一定の速さで 0→1 を回し続ける（delay は出だしをずらすため、初回だけ効く）
+/* ▍一定の速さで 0→1 を回し続ける（delay は出だしをずらすため）
 
-   ▍止めない
+   ▍こちらからは止めない
    もとは電池を気にして「背面に回ったら止める」を入れていたが、**一度
    画面を離れると二度と動かなくなる**という報告が出た。Webでは
    useNativeDriver が効かず rAF 駆動になっていて（起動ログにも出る）、
@@ -56,18 +56,27 @@ const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 
    止めた側だけが残って再開しない。
 
    そもそも**ブラウザは見えていないあいだ rAF を自分で止める**ので、
-   こちらで止める必要がなかった。なので止めるのはやめて、戻ってきたときに
-   回し直すだけにした。
+   こちらで止める必要がなかった。
 
-   ▍それでも止まっていたら回し直す（自己修復）
-   省電力モードなど、こちらから見えない理由で息が止まることがある。
-   数秒おきに値が進んでいるかだけ見て、**2回続けて動いていなければ
-   回し直す**。値を読むだけなので毎フレームの負荷は増えない。 */
+   ▍見張りは「短い間隔で2回読む」
+   自己修復のために値が進んでいるか見るが、**4秒おきに1回ずつ読んで
+   前回と比べる**やり方だと、周期と噛み合ったときに同じ値を拾って
+   「止まっている」と誤判定する。誤判定のたびに全部が0から回し直されて、
+   **一度止まってまた動き出すように見えていた**。
+
+   いまは150ms空けて2回読む。動いていれば、どんなに遅い層でも
+   その間に必ず値が変わる（いちばん遅い14秒周期でも0.01進む）。
+
+   ▍回し直すときは出だしのずれも作り直す
+   波を何本もずらして重ねているものは、全部を同時に0へ戻すと**ずれが
+   消えて一斉に光る**。回し直すときも、最初と同じだけ待ってから始める。 */
 function useLoop(sec: number, delayMs = 0) {
   const t = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
     let anim: Animated.CompositeAnimation | null = null;
-    const start = () => {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+
+    const run = () => {
       anim?.stop();
       /* 止めた位置から再開しない。Animated.loop は各周でこの値まで戻すので、
          終端で止まっていると 1→1 のアニメになり、以降ずっと動かない */
@@ -82,32 +91,37 @@ function useLoop(sec: number, delayMs = 0) {
       );
       anim.start();
     };
-    const timer = setTimeout(start, delayMs);
+    const restart = () => {
+      if (timer) clearTimeout(timer);
+      anim?.stop();
+      t.setValue(0);
+      timer = setTimeout(run, delayMs);
+    };
+    restart();
 
     const sub = AppState.addEventListener('change', (st) => {
-      if (st === 'active') start();
+      if (st === 'active') restart();
     });
 
-    /* 見張り。4.3秒は、どの層の周期の約数にもならない値を選んでいる
-       （割り切れると、たまたま同じ値を拾って誤って回し直してしまう） */
-    let lastV = -1;
+    const read = () => (t as unknown as { __getValue?: () => number }).__getValue?.() ?? 0;
     let stuck = 0;
     const watch = setInterval(() => {
-      const v = (t as unknown as { __getValue?: () => number }).__getValue?.() ?? 0;
-      if (Math.abs(v - lastV) < 0.001) {
+      const a = read();
+      setTimeout(() => {
+        if (Math.abs(read() - a) > 1e-6) {
+          stuck = 0;
+          return;
+        }
         stuck += 1;
         if (stuck >= 2) {
           stuck = 0;
-          start();
+          restart();
         }
-      } else {
-        stuck = 0;
-      }
-      lastV = v;
-    }, 4300);
+      }, 150);
+    }, 5000);
 
     return () => {
-      clearTimeout(timer);
+      if (timer) clearTimeout(timer);
       clearInterval(watch);
       anim?.stop();
       sub.remove();
@@ -320,9 +334,9 @@ function Pika({ w, h }: { w: number; h: number }) {
    ============================================================ */
 const WAVES = 6;
 const WAVE_SEC = 3.6;
-const WAVE_DOTS = 26;
+const WAVE_DOTS = 62;
 /* 紙が白い絵なので、明るい金だけだと飛ぶ。濃い金を半分入れる */
-const BURST_COLORS = ['#fffaf0', '#ffe1a0', '#d99b1f', '#a86f12'];
+const BURST_COLORS = ['#ffffff', '#fff3d6', '#e0a92c', '#a86f12'];
 
 function Wave({ size, i }: { size: number; i: number }) {
   const t = useLoop(WAVE_SEC, Math.round((WAVE_SEC * 1000 * i) / WAVES));
@@ -336,7 +350,11 @@ function Wave({ size, i }: { size: number; i: number }) {
       return {
         x: c + Math.cos(a) * d,
         y: c + Math.sin(a) * d * 0.82,
-        r: 1.2 + jitter(k, i * 3 + 33) * 2.8,
+        /* ▍細かく。ただし細かすぎると明るい紙の上で消える
+           粒を大きくすると「点の集まり」ではなく「玉が飛んでくる」ように
+           見えて砂ぼこりの気配が消えるので、**数で見せて大きさは抑える**。
+           二乗で散らすと、ほとんどが最小、たまに大きいのが混じる */
+        r: 0.75 + jitter(k, i * 3 + 33) ** 2 * 2.1,
         c: BURST_COLORS[k % BURST_COLORS.length],
       };
     });
