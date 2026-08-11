@@ -1,7 +1,77 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-10T22:17:05.955Z",
+  "updatedAt": "2026-08-11T22:22:18.632Z",
   "items": [
+    {
+      "title": "ChatGPT and Gemini both just passed 1 billion users",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/978113/chatgpt-gemini-1-billion-users",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-11T19:41:42.000Z",
+      "titleJa": "ChatGPT と Gemini はどちらもユーザー数 10 億人を突破しました",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/gemini-live-ai-ad.png?quality=90&strip=all&crop=0%2C2.0352385861162%2C100%2C95.929522827768&w=1200"
+    },
+    {
+      "title": "OpenAI launches ChatGPT desktop app for Linux",
+      "url": "https://techcrunch.com/2026/08/11/openai-launches-chatgpt-desktop-app-for-linux/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-11T19:15:35.000Z",
+      "titleJa": "OpenAI が Linux 用 ChatGPT デスクトップ アプリを開始",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/02/EU-ai-1258475609.jpg?w=1024"
+    },
+    {
+      "title": "General Catalyst leads $1.1B round into 2-month-old River AI",
+      "url": "https://techcrunch.com/2026/08/11/general-catalyst-leads-1-1b-round-into-2-month-old-river-ai/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-11T17:41:22.000Z",
+      "titleJa": "General Catalyst、設立 2 か月の River AI への 11 億ドルの資金調達を主導",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/River-AI-Igor-Babuschkin.jpeg?resize=1197,1200"
+    },
+    {
+      "title": "Made by Google 2026: all the Pixel news and announcements",
+      "url": "https://www.theverge.com/tech/977561/made-by-google-2026-pixel-11-news",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-11T17:00:00.000Z",
+      "titleJa": "Made by Google 2026: Pixel のすべてのニュースと発表",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/made-by-google-.png?quality=90&strip=all&crop=0%2C8.295721249323%2C100%2C83.408557501354&w=1200"
+    },
+    {
+      "title": "エージェント型AIで変わる働き方--SAPの責任者に聞く、「自律型」時代の人材戦略",
+      "url": "https://japan.zdnet.com/article/35251230/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-11T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/03/ccd71418129ceccfc302aea4508142ba/sap-hcmproducts-president_l.jpg"
+    },
+    {
+      "title": "AIに書かせた文はバレる時代へ。EU AI法にClaudeも対応、編集しても残る見えないテキスト透かしを導入 | テクノエッジ TechnoEdge",
+      "url": "https://www.techno-edge.net/article/2026/08/11/5382.html",
+      "source": "テクノエッジ",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 201,
+      "date": "2026-08-11T08:52:44.000Z",
+      "image": "https://www.techno-edge.net/imgs/ogp_f/33487.jpg"
+    },
+    {
+      "title": "Saviynt、ARRが３億ドルを突破し、エンタープライズ向けAIアイデンティティ セキュリティ プラットフォーム「Zuma」をリリース",
+      "url": "https://ascii.jp/elem/000/004/426/4426325/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-11T05:11:34.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg?20200122"
+    },
+    {
+      "title": "Box上のファイルを２分でスライド化。生成AIサービス「ChatSense」がリリース",
+      "url": "https://ascii.jp/elem/000/004/426/4426311/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-11T01:50:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
     {
       "title": "OpenAI’s letter to Governor Abbott on responsible AI infrastructure in Texas",
       "url": "https://openai.com/index/responsible-ai-infrastructure-texas",
@@ -19,29 +89,20 @@
       "titleJa": "Model ML は GPT-5.6 Sol を使用して財務業務をより効率的に完了します"
     },
     {
-      "title": "Tech industry is buzzing after a Claude agent hacked into a gym",
-      "url": "https://techcrunch.com/2026/08/10/tech-industry-is-buzzing-after-a-claude-agent-hacked-into-a-gym/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-10T20:04:24.000Z",
-      "titleJa": "クロードのエージェントがジムに侵入した後、ハイテク業界が賑わっている",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Claw-weight.png?resize=1200,600"
+      "title": "ザッカーバーグCEO、超知能の集中化に警鐘 「単一の善意ある超知能は存在しない」とオープンモデル公開再開へ",
+      "url": "https://www.itmedia.co.jp/news/article/2608/11/2000000494/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-10T22:21:33.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/11/2000000494/10002358/2048"
     },
     {
-      "title": "米軍、AIプロンプトに「CREATE WAR 」と入力している写真公開でみんなが大混乱",
-      "url": "https://www.gizmodo.jp/article/ai-prompt-create-war/",
-      "source": "GIZMODO JAPAN",
+      "title": "Meta、ローカル動作に特化したオープンモデル「Muse Glimmer」公開 Apache 2.0で提供",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/11/2000000493/",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-08-10T10:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/08/04/455bdcbb-0cf6-4272-8262-4236af537f59/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "建設会社の「AI導入が止まる」原因を特定。無料レポート『建設会社がAI導入でつまずく5つのパターンと回避法』を公開",
-      "url": "https://ascii.jp/elem/000/004/426/4426273/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-10T09:35:27.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "date": "2026-08-10T22:11:40.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/11/2000000493/10002355/2048"
     },
     {
       "title": "OpenAI、次世代AI「Astra」の開発を一部停止 高いサイバー攻撃能力を懸念",
@@ -52,71 +113,12 @@
       "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11960/topm.jpg?20220512"
     },
     {
-      "title": "ある意味「デジタル世界改変」。Google Earthの画像生成機能、1日で停止",
-      "url": "https://www.gizmodo.jp/article/google-earth-ai-image-generation/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-08-10T06:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/08/10/51f38344-6118-4f2a-8c54-e4ca2040a574/original.png?w=1200&h=630"
-    },
-    {
       "title": "OpenAI、次期モデル「Astra」の開発を一部停止--「最高水準のサイバー攻撃能力に達した可能性」",
       "url": "https://japan.cnet.com/article/35251464/",
       "source": "CNET Japan",
       "lang": "ja",
       "date": "2026-08-10T05:15:00.000Z",
       "image": "https://japan.cnet.com/storage/2026/08/10/b944cc80ab3ef632ccc14bf01c93884c/IMG_5814__1_.jpg"
-    },
-    {
-      "title": "「ChatGPTの小説」と「人間の小説」、人はどちらを好むのか？ 研究結果が公開",
-      "url": "https://japan.cnet.com/article/35251461/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-10T04:50:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/10/0a1a1621a89815fccb6806dcd763f9fb/GettyImages-2006713125_1280x960.jpg"
-    },
-    {
-      "title": "VAIO、内蔵カメラに写る「顔」から心拍数や血管情報を推定する新機能 個人向けPCに搭載",
-      "url": "https://japan.cnet.com/article/35251463/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-10T04:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/10/be87d4fb0b9d3bd56ded2132679bd37c/20260810_VAIO-Wellnesscare_key_visual-1.jpeg"
-    },
-    {
-      "title": "シャープ、コスト高で通期下方修正も、最終黒字確保--AIサーバーで反転攻勢へ",
-      "url": "https://japan.zdnet.com/article/35251435/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-09T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/08/5ddf3065362df31d6d3b738ccc38d0fb/260807_sharp_l.jpg"
-    },
-    {
-      "title": "Embattled hedge fund Situational Awareness invests $400M in chip startup Source Foundry",
-      "url": "https://techcrunch.com/2026/08/09/embattled-hedge-fund-situational-awareness-invests-400m-in-chip-startup-source-foundry/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-09T20:35:17.000Z",
-      "titleJa": "経営危機に陥ったヘッジファンド、シチュエーショナル・アウェアネスがチップスタートアップのソース・ファウンドリーに4億ドルを投資",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/02/GettyImages.jpg?resize=1200,800"
-    },
-    {
-      "title": "OpenAI acquires presentation startup NextSlide",
-      "url": "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-08T19:41:13.000Z",
-      "titleJa": "OpenAIがプレゼンテーションスタートアップNextSlideを買収",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/04/GettyImages-2259148891.jpg?resize=1200,686"
-    },
-    {
-      "title": "DeepMind’s hurricane breakthrough has surprised weather scientists",
-      "url": "https://arstechnica.com/science/2026/08/deepminds-hurricane-model-bought-forecasters-an-extra-day/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-08-08T11:05:50.000Z",
-      "titleJa": "DeepMind のハリケーンの躍進は気象科学者を驚かせた",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2023/12/hurricane-1152x648.jpg"
     }
   ]
 }
