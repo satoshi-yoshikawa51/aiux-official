@@ -58,7 +58,7 @@ export interface StageTheme {
   /** 舞台に重ねる色。'transparent'＝素のまま */
   tint: string;
   /** 追加の飾り（→ components/stage-effect.tsx） */
-  effect?: 'stars' | 'snow' | 'sakura' | 'rain' | 'kira' | 'ember' | 'motes' | 'kinpaku';
+  effect?: 'kira' | 'motes' | 'kinpaku';
   /** 専用の絵。**無いテーマは素の教室に色を重ねる**（もとの作り）。
       絵が描けたものから art を足していく → assets/images/_raw/README.md */
   art?: StageArt;
