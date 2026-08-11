@@ -8,24 +8,31 @@
 
    ここでやること:
    1. 下（床）を削って、地平線を下げる
-   2. **ぼかして、少し沈める**（下の「なぜぼかすのか」）
+   2. 少し沈める（明るさ・彩度を落として、キャラを前に出す）
    3. 立ち位置に、やわらかい楕円の影を焼き込む
       （3Dのキャラは影を持たないので、これが無いと浮いて見える）
    4. 出来上がりの縦横比を出す（src/data/stage.ts の STAGE_RATIO に入れる）
    5. 実測した3端末のコマの比率で切って、確認用に並べる
 
-   ▍なぜぼかすのか
-   3Dのキャラは固定のカメラで描かれていて、MJが描いた部屋の遠近とは
-   一致しない。実測すると、この絵の地平線はキャラの**顎**を通っていた
-   （本来は目の高さに来る）。ズレは12%ほどだが、背景がくっきりしていると
-   脳が窓や床の大きさとキャラを比べてしまい、「小人が立っている」ように
-   見える。ぼかすと背景が「遠く」として処理され、比べるのをやめる。
-   アバター系のアプリが軒並み背景をぼかしているのはこのため。
+   ▍ぼかしは既定で切ってある（BLUR=0）
+   もとは sigma 8 で強くぼかしていた。3Dのキャラは固定カメラで描かれていて
+   MJの部屋の遠近と合っておらず（実測で地平線がキャラの顎を通っていた）、
+   背景がくっきりしていると脳が窓や床とキャラの大きさを比べて
+   「小人が立っている」ように見えたため。
+
+   引きの構図で描き直してからは地平線が下がり、そのズレが小さくなった。
+   ぼかすと絵の作り込みが丸ごと捨てられてしまうので、**既定では掛けない**。
+   もし小人に見える絵が出てきたら、その絵だけ環境変数で戻す:
+
+     BLUR=8 npm run stage:prepare -- assets/images/_raw/xxx.jpg
 
    使い方:
      # 元画像を assets/images/_raw/ に置いてから
-     node tools/prepare-stage.mjs assets/images/_raw/classroom.png
-     （= npm run stage:prepare -- assets/images/_raw/classroom.png）
+     node tools/prepare-stage.mjs assets/images/_raw/sakura.jpg
+     （= npm run stage:prepare -- assets/images/_raw/sakura.jpg）
+
+     # 第2引数で出力名を指定できる（省略すると元画像と同じ名前）
+     node tools/prepare-stage.mjs assets/images/_raw/sakura.jpg stage-sakura.jpg
 
      CROP_BOTTOM=0.16 node tools/prepare-stage.mjs 元.png   # 削る量を変える
 
@@ -49,8 +56,8 @@ if (!SRC) {
 /** 下から削る割合。地平線を下げるほど、キャラが床に立って見える */
 const CROP_BOTTOM = Number(process.env.CROP_BOTTOM ?? 0.16);
 
-/** ぼかし（元画像の画素での sigma）。0で無効 */
-const BLUR = Number(process.env.BLUR ?? 8);
+/** ぼかし（元画像の画素での sigma）。0で無効。既定は0＝掛けない（冒頭のメモ） */
+const BLUR = Number(process.env.BLUR ?? 0);
 /** 明るさ・彩度。1で無効。キャラを前に出すため、背景は少し沈める */
 const BRIGHTNESS = Number(process.env.BRIGHTNESS ?? 0.92);
 const SATURATION = Number(process.env.SATURATION ?? 0.8);
@@ -61,7 +68,12 @@ const MIN_RATIO = 0.75;
 
 const OUT = new URL('./.icon-preview/', import.meta.url);
 fs.mkdirSync(OUT, { recursive: true });
-const dst = new URL('../assets/images/stage-classroom.jpg', import.meta.url).pathname;
+
+/* 出力名。第2引数で指定、省略したら元画像と同じ名前で stage-<名前>.jpg。
+   **この名前がそのまま舞台テーマのIDになる**（→ src/data/gacha.ts） */
+const DST_NAME =
+  process.argv[3] ?? 'stage-' + SRC.replace(/^.*\//, '').replace(/\.[^.]+$/, '') + '.jpg';
+const dst = new URL('../assets/images/' + DST_NAME, import.meta.url).pathname;
 
 const src = sharp(SRC);
 const meta = await src.metadata();
