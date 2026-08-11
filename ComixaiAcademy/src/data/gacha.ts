@@ -57,8 +57,9 @@ export interface StageTheme {
   desc: string;
   /** 舞台に重ねる色。'transparent'＝素のまま */
   tint: string;
-  /** 追加の飾り（→ components/stage-effect.tsx） */
-  effect?: 'kira' | 'motes' | 'kinpaku';
+  /** 舞台ごとに動きが違う（→ components/stage-effect.tsx）
+      streaks=線が下から上へ / pika=その場で瞬く / burst=中央から放射状に */
+  effect?: 'streaks' | 'pika' | 'burst';
   /** 専用の絵。**無いテーマは素の教室に色を重ねる**（もとの作り）。
       絵が描けたものから art を足していく → assets/images/_raw/README.md */
   art?: StageArt;
@@ -76,10 +77,6 @@ export const DEFAULT_THEME_ID = 'classroom';
    朝焼け・夕暮れ・雨・セピア・深夜・雪・星降る教室・黄金の教室は、舞台の絵が
    1枚しか無かった頃に「教室に色を重ねる」だけで種類を増やしていたもの。
    **専用の絵を持つテーマがそろって役割がかぶった**ので、2026-08に外した。
-
-   降りもの（rain / snow / kira / ember）とSRの光る枠の仕組みは
-   components/stage-effect.tsx に残してある。**SRの絵が描けたら、その絵に
-   合うものを選んで乗せる**——絵を見てから決める、という順番にした。
 
    持っていた人の記録（state.themes）はそのまま残るが、一覧に出ないだけで
    害はない。装備していた場合は getTheme() が素の教室に落とす。 */
@@ -309,7 +306,7 @@ export const THEMES: StageTheme[] = [
     desc: 'AIが動いている、その場所。',
     tint: 'transparent',
     swatch: '#4fc3f7',
-    effect: 'motes',
+    effect: 'streaks',
     glow: 'cyan',
     art: {
       src: require('@/assets/images/stage-datacenter.jpg'),
@@ -324,7 +321,7 @@ export const THEMES: StageTheme[] = [
     desc: 'ここまで来たか。',
     tint: 'transparent',
     swatch: '#ffd27a',
-    effect: 'kira',
+    effect: 'pika',
     glow: 'gold',
     art: {
       src: require('@/assets/images/stage-above-clouds.jpg'),
@@ -339,7 +336,7 @@ export const THEMES: StageTheme[] = [
     desc: 'インクとトーンでできた世界。COMIXAIの故郷。',
     tint: 'transparent',
     swatch: '#e8c15a',
-    effect: 'kinpaku',
+    effect: 'burst',
     glow: 'gold',
     art: {
       src: require('@/assets/images/stage-gold-ink.jpg'),
