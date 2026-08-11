@@ -8,24 +8,32 @@
    テクスチャの差し替えだけで色違いが成立する（Avatar3Dは
    テクスチャを外から material.map に貼る作りなので）。
 
-   ▍「髪だけ」をどう選んでいるか（形×色の2段構え）
+   ▍「髪だけ」をどう見つけているか（UVアイランド単位で判定する）
    このテクスチャはTripoの一枚アトラスで、髪も服も同じ寒色
-   （hue 200〜220）に住んでいて、色相だけでは分離できない。
-   色だけ（彩度しきい値）で試すと、**髪の影（暗い紺）が取り残されて
-   ツートンになり、逆にスーツの明るい画素が斑に染まった**。
+   （hue 200〜220）に住んでいて、画素の色だけでは分離しきれない。
+   実際、しきい値のさじ加減では
+   ・髪の影が取り残されてツートンになる
+   ・スーツの肩が斑に染まる（緋色で顕著。実機で指摘）
+   ・毛先だけスーツ色に残る（同じく実機で指摘）
+   を行ったり来たりした。**画素ではなくパーツで判定する**のが正解。
 
-   そこでGLBの頂点を読み、「しきい値より上の三角形のUV」を塗った
-   頭マスクを2枚作って場所で条件を変える：
-   ・あごの上（y>0.5）…… ほぼ髪と顔。寒色なら影の髪まで塗る
-   ・肩の上（y>0.35）…… ボブの毛先と、ジャケットの肩・襟が同居する。
-     彩度だけでは肩の明るい画素を拾ってしまい、**緋色にしたら肩まで
-     赤くなった**（実機で指摘）。毛先は青緑（hue 180〜200）、スーツは
-     くすんだ紺（hue 206〜222）なので、ここは**色相の関門**も掛けて
-     「鮮やか かつ 青緑」だけ塗る
-   ・それより下 …… スーツなので触らない
+   GLTFのメッシュはUVの継ぎ目で頂点が複製されるので、頂点を共有する
+   三角形をつないでいくと、アトラスの島（UVアイランド）ごとの
+   まとまりが取れる。髪の島は頭頂から毛先まで一続きなので、
+   島単位で「髪かどうか」を決めれば、毛先の暗い画素も含めて
+   丸ごと塗れるし、スーツの島にはひと筆も入らない。
 
-   顔の肌・頬・口は暖色なので寒色マスクの外。アイラインと瞳孔は
-   明度0.025未満の黒なので、明度の下限ランプで守る。
+   島の扱いは3通り（診断テクスチャを作って全周を目視で確定させた）：
+   1. 髪の本体：頭のてっぺん側（y>0.6）に届いていて、寒色が主体
+      （顔の島も頭に届くが、肌の暖色が主体なのでここには来ない）
+   2. 毛先のリング：首から肩の帯（minY>0.2）にいて、寒色が主体、
+      かつ**彩度0.4超が85%以上**。毛先は濃くても鮮やかな紺青で
+      ほぼ全画素が高彩度。同じ帯にいる襟・肩のヨークは彩度0.4超が
+      3〜6割止まりなので、この線で切れる（85%と60%の間が崖）
+   3. 顔の島（暖色が主体）：チャートの中に**前髪が描き込まれている**。
+      島ごと塗らず、寒色の画素だけを髪のふち扱いで塗る。
+      瞳も紺系なので一緒に髪色へ寄る——素の先生も髪と同系色の瞳
+      なので、色違いでも「髪と瞳が揃う」関係は保たれる
 
    ▍新しい色を足すとき
    VARIANTS にエントリを足して実行 → avatars.ts の SKINS に
@@ -48,20 +56,17 @@ const VARIANTS = [
   { id: 'hiiro', name: '緋色', hue: 352, sat: 0.72, lift: 0.72 },
 ];
 
-/* 頭マスクのしきい値。モデルのyは -1（足元）〜 1（頭頂）。
-   strict（0.5＝あごの下）の中はほぼ髪か顔なので、暗い影の髪まで塗る。
-   loose（0.35＝肩の上）はボブの毛先と襟が同居するので、
-   彩度が髪並みに高い画素だけ塗る（襟のくすんだ紺は残る） */
-const HEAD_STRICT_Y = 0.5;
-const HEAD_LOOSE_Y = 0.35;
 const SIZE = 1024;
+/* 島が「頭に届いている」とみなす高さ。モデルのyは -1（足元）〜 1（頭頂）。
+   ジャケットの襟は0.55あたりで止まるので、0.6なら髪と顔しか届かない */
+const HEAD_TOP_Y = 0.6;
 
 const smooth = (a, b, x) => {
   const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
   return t * t * (3 - 2 * t);
 };
 
-/* ---------- GLBから頭マスクを作る ---------- */
+/* ---------- GLBを読む ---------- */
 
 function readGlb(path) {
   const buf = fs.readFileSync(path);
@@ -96,32 +101,36 @@ function readGlb(path) {
   return { json, accessor };
 }
 
-/** yThreshold より上にある三角形のUVを塗ったマスクを返す */
-function buildHeadMask(yThreshold) {
-  const { json, accessor } = readGlb(GLB);
-  const mask = new Uint8Array(SIZE * SIZE);
-  for (const mesh of json.meshes) {
-    for (const prim of mesh.primitives) {
-      const pos = accessor(prim.attributes.POSITION);
-      const uv = accessor(prim.attributes.TEXCOORD_0);
-      const index = prim.indices !== undefined ? accessor(prim.indices) : null;
-      const triCount = (index ? index.length : pos.length / 3) / 3;
-      for (let t = 0; t < triCount; t++) {
-        const ia = index ? index[t * 3] : t * 3;
-        const ib = index ? index[t * 3 + 1] : t * 3 + 1;
-        const ic = index ? index[t * 3 + 2] : t * 3 + 2;
-        if (pos[ia * 3 + 1] < yThreshold || pos[ib * 3 + 1] < yThreshold || pos[ic * 3 + 1] < yThreshold)
-          continue;
-        fillTriangle(mask, uv[ia * 2] * SIZE, uv[ia * 2 + 1] * SIZE,
-          uv[ib * 2] * SIZE, uv[ib * 2 + 1] * SIZE, uv[ic * 2] * SIZE, uv[ic * 2 + 1] * SIZE);
-      }
+/* ---------- UVアイランドに分ける ---------- */
+
+/** 三角形の配列（頂点index 3つずつ）と頂点数から、頂点を共有する
+    三角形のまとまり（＝UVアイランド）を作る。返り値は三角形→島番号 */
+function buildIslands(tris, vertCount) {
+  const parent = new Int32Array(vertCount);
+  for (let i = 0; i < vertCount; i++) parent[i] = i;
+  const find = (a) => {
+    while (parent[a] !== a) {
+      parent[a] = parent[parent[a]];
+      a = parent[a];
     }
+    return a;
+  };
+  const union = (a, b) => {
+    const ra = find(a);
+    const rb = find(b);
+    if (ra !== rb) parent[ra] = rb;
+  };
+  for (let t = 0; t < tris.length; t += 3) {
+    union(tris[t], tris[t + 1]);
+    union(tris[t + 1], tris[t + 2]);
   }
-  return mask;
+  const islandOfTri = new Int32Array(tris.length / 3);
+  for (let t = 0; t < islandOfTri.length; t++) islandOfTri[t] = find(tris[t * 3]);
+  return islandOfTri;
 }
 
 /** 走査線での三角形塗り。縁の取りこぼしを防ぐため1px膨らませる */
-function fillTriangle(mask, x0, y0, x1, y1, x2, y2) {
+function fillTriangle(map, value, x0, y0, x1, y1, x2, y2) {
   const minY = Math.max(0, Math.floor(Math.min(y0, y1, y2)) - 1);
   const maxY = Math.min(SIZE - 1, Math.ceil(Math.max(y0, y1, y2)) + 1);
   const minX = Math.max(0, Math.floor(Math.min(x0, x1, x2)) - 1);
@@ -134,11 +143,33 @@ function fillTriangle(mask, x0, y0, x1, y1, x2, y2) {
       const d0 = edge(x0, y0, x1, y1, px, py);
       const d1 = edge(x1, y1, x2, y2, px, py);
       const d2 = edge(x2, y2, x0, y0, px, py);
-      /* 内側ならt塗る。境界1px許容のため、距離が小さい外側も拾う */
       const inside = (d0 >= 0 && d1 >= 0 && d2 >= 0) || (d0 <= 0 && d1 <= 0 && d2 <= 0);
-      if (inside) mask[y * SIZE + x] = 255;
+      if (inside) map[y * SIZE + x] = value;
     }
   }
+}
+
+/** 3x3の最大値フィルタでマスクを膨らませる。UVアイランドの継ぎ目
+    （どの三角形にも属さない詰め物画素）が細線として残るのを防ぐ */
+function dilate(mask, times) {
+  let src = mask;
+  for (let n = 0; n < times; n++) {
+    const dst = new Uint8Array(SIZE * SIZE);
+    for (let y = 0; y < SIZE; y++) {
+      for (let x = 0; x < SIZE; x++) {
+        if (!src[y * SIZE + x]) continue;
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            const ny = y + dy;
+            const nx = x + dx;
+            if (ny >= 0 && ny < SIZE && nx >= 0 && nx < SIZE) dst[ny * SIZE + nx] = 255;
+          }
+        }
+      }
+    }
+    src = dst;
+  }
+  return src;
 }
 
 /* ---------- 色変換 ---------- */
@@ -169,63 +200,102 @@ function hslToRgb(h, s, l) {
   return [r + m, g + m, b + m];
 }
 
-/* ---------- 本体 ---------- */
+const coolness = (h) => smooth(140, 160, h) * (1 - smooth(250, 268, h));
 
-/** 3x3の最大値フィルタでマスクを膨らませる。UVアイランドの継ぎ目
-    （どの三角形にも属さない詰め物画素）が細線として残るのを防ぐ */
-function dilate(mask, times) {
-  let src = mask;
-  for (let n = 0; n < times; n++) {
-    const dst = new Uint8Array(SIZE * SIZE);
-    for (let y = 0; y < SIZE; y++) {
-      for (let x = 0; x < SIZE; x++) {
-        if (!src[y * SIZE + x]) continue;
-        for (let dy = -1; dy <= 1; dy++) {
-          for (let dx = -1; dx <= 1; dx++) {
-            const ny = y + dy;
-            const nx = x + dx;
-            if (ny >= 0 && ny < SIZE && nx >= 0 && nx < SIZE) dst[ny * SIZE + nx] = 255;
-          }
-        }
+/* ---------- 髪の島を見つけてマスクにする ---------- */
+
+const { data, info } = await sharp(SRC).raw().toBuffer({ resolveWithObject: true });
+
+function buildHairMask() {
+  const { json, accessor } = readGlb(GLB);
+  /* 画素→島番号（-1＝どの島でもない） */
+  const islandMap = new Int32Array(SIZE * SIZE).fill(-1);
+  /* 島番号→頂点yの最大値・最小値 */
+  const maxY = new Map();
+  const minY = new Map();
+
+  for (const mesh of json.meshes) {
+    for (const prim of mesh.primitives) {
+      const pos = accessor(prim.attributes.POSITION);
+      const uv = accessor(prim.attributes.TEXCOORD_0);
+      const rawIndex = prim.indices !== undefined ? accessor(prim.indices) : null;
+      const tris = rawIndex
+        ? Int32Array.from(rawIndex)
+        : Int32Array.from({ length: pos.length / 3 }, (_, i) => i);
+      const islandOfTri = buildIslands(tris, pos.length / 3);
+      for (let t = 0; t < islandOfTri.length; t++) {
+        const isl = islandOfTri[t];
+        const ia = tris[t * 3];
+        const ib = tris[t * 3 + 1];
+        const ic = tris[t * 3 + 2];
+        const ys = [pos[ia * 3 + 1], pos[ib * 3 + 1], pos[ic * 3 + 1]];
+        maxY.set(isl, Math.max(maxY.get(isl) ?? -Infinity, ...ys));
+        minY.set(isl, Math.min(minY.get(isl) ?? Infinity, ...ys));
+        fillTriangle(islandMap, isl, uv[ia * 2] * SIZE, uv[ia * 2 + 1] * SIZE,
+          uv[ib * 2] * SIZE, uv[ib * 2 + 1] * SIZE, uv[ic * 2] * SIZE, uv[ic * 2 + 1] * SIZE);
       }
     }
-    src = dst;
   }
-  return src;
+
+  /* 島ごとに色の内訳を数える */
+  const stats = new Map(); // isl -> {n, cool, teal}
+  for (let p = 0; p < SIZE * SIZE; p++) {
+    const isl = islandMap[p];
+    if (isl < 0) continue;
+    const i = p * info.channels;
+    const [h, s] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
+    const st = stats.get(isl) ?? { n: 0, cool: 0, vivid: 0 };
+    st.n += 1;
+    if (coolness(h) > 0.5) {
+      st.cool += 1;
+      if (s > 0.4) st.vivid += 1;
+    }
+    stats.set(isl, st);
+  }
+
+  /* 判定して塗る。顔の島（暖色主体）は「前髪のふちだけ」のマスクへ */
+  const mask = new Uint8Array(SIZE * SIZE);
+  const faceMask = new Uint8Array(SIZE * SIZE);
+  const hairIslands = new Set();
+  const faceIslands = new Set();
+  for (const [isl, st] of stats) {
+    if (st.n < 20) continue;
+    const top = maxY.get(isl) ?? -1;
+    const bottom = minY.get(isl) ?? 1;
+    const coolFrac = st.cool / st.n;
+    const vividFrac = st.vivid / st.n;
+    if (top > HEAD_TOP_Y && coolFrac > 0.5) hairIslands.add(isl);
+    else if (bottom > 0.2 && coolFrac > 0.5 && vividFrac > 0.85) hairIslands.add(isl);
+    else if (top > HEAD_TOP_Y && coolFrac <= 0.5) faceIslands.add(isl);
+  }
+  for (let p = 0; p < SIZE * SIZE; p++) {
+    if (hairIslands.has(islandMap[p])) mask[p] = 255;
+    else if (faceIslands.has(islandMap[p])) faceMask[p] = 255;
+  }
+  console.log(`島の数: ${stats.size} / 髪: ${hairIslands.size} / 顔（前髪入り）: ${faceIslands.size}`);
+  return { hair: dilate(mask, 2), face: faceMask };
 }
 
-/* 膨張はstrictだけ広めに（UVの継ぎ目対策）。looseまで広げると、
-   隣に詰まっているスーツのパッチへ塗りが染み出す */
-const headStrict = dilate(buildHeadMask(HEAD_STRICT_Y), 3);
-const headLoose = dilate(buildHeadMask(HEAD_LOOSE_Y), 1);
-const { data, info } = await sharp(SRC).raw().toBuffer({ resolveWithObject: true });
+/* ---------- 本体 ---------- */
+
+const { hair, face } = buildHairMask();
 
 for (const v of VARIANTS) {
   const out = Buffer.from(data);
   for (let p = 0; p < SIZE * SIZE; p++) {
+    const inHair = hair[p];
+    const inFace = face[p];
+    if (!inHair && !inFace) continue;
     const i = p * info.channels;
     const r = out[i] / 255;
     const g = out[i + 1] / 255;
     const b = out[i + 2] / 255;
     const [h, s, l] = rgbToHsl(r, g, b);
-    const cool = smooth(140, 160, h) * (1 - smooth(250, 268, h));
-    if (cool <= 0) continue;
-    /* あごの上＝影の髪まで塗る／肩の上＝髪並みに鮮やかな毛先だけ塗る。
-       暗い画素は彩度が壊れる（HSLの分母が潰れる）ので、彩度の条件と
-       「十分暗い＝髪の影」をORで併用する。ただしアイラインと瞳孔は
-       0.025より黒いので、明度の下限ランプで守る */
-    const darkGuard = smooth(0.025, 0.055, l);
-    const darkHair = 1 - smooth(0.07, 0.12, l);
-    /* 肩上ゾーンの色相の関門。毛先の青緑だけ通し、スーツの紺は弾く */
-    const tealGate = 1 - smooth(198, 206, h);
-    const w =
-      cool *
-      darkGuard *
-      (headStrict[p]
-        ? Math.max(smooth(0.07, 0.18, s), darkHair)
-        : headLoose[p]
-          ? smooth(0.3, 0.42, s) * tealGate
-          : 0);
+    /* 寒色（髪の色）だけを塗る。ハイライトの白や、ほぼ黒
+       （瞳孔・アイライン）は、なだらかに元のまま残す。
+       顔の島では前髪の描き込みと瞳が対象になる（→冒頭コメント3） */
+    const guard = smooth(0.02, 0.045, l) * (1 - smooth(0.9, 0.97, l));
+    const w = coolness(h) * guard * (inHair ? 1 : smooth(0.1, 0.2, s));
     if (w <= 0) continue;
     const [nr, ng, nb] = hslToRgb(v.hue, s + (v.sat - s) * w, l + (Math.pow(l, v.lift) - l) * w);
     out[i] = Math.round((r + (nr - r) * w) * 255);
