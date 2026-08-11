@@ -19,8 +19,35 @@
    小さいプールなので、返さないと後半のハズレ感が強すぎる。
    ============================================================ */
 import { SKINS } from '@/data/avatars';
+import { CLASSROOM } from '@/data/stage';
 
 export type Rarity = 'N' | 'R' | 'SR';
+
+/** 地平線の既定値。絵は消失点が画面の中央に来るように描く（→ StageArt.horizon） */
+export const DEFAULT_HORIZON = 0.5;
+
+/** 舞台の絵。1枚ごとに比率・壁色・拡大率が違うので、まとめて持つ。
+    比率と壁色は npm run stage:prepare が出したものをそのまま貼る */
+export interface StageArt {
+  src: number;
+  /** 幅÷高さ。コマを覆う最小の大きさで敷くのに要る */
+  ratio: number;
+  /** 絵のいちばん上の色。コマが縦に余ったぶんを埋めて継ぎ目を消す */
+  wall: string;
+  /* ▍地平線（床の消失点）が絵の上から何割の位置にあるか。既定 0.5
+
+     **ふだんは書かない。** 絵は消失点が画面のちょうど中央に来るように
+     描いているので、既定の0.5で噛み合う。
+
+     ▍なぜ全部0.5に固定したか
+     もとは絵ごとに読んだ値を入れていた（0.47〜0.63）。厳密にはそのほうが
+     縮尺は正しい。でも**舞台を変えるたびに先生の背丈が変わる**ことになり、
+     それ自体が違和感になった。同じ人が同じ背丈で立っているほうが、
+     縮尺の小さなズレより大事だと判断した。
+
+     どうしても合わない絵が出てきたときだけ、その絵にこれを書いて逃がす。 */
+  horizon?: number;
+}
 
 export interface StageTheme {
   id: string;
@@ -28,15 +55,31 @@ export interface StageTheme {
   rarity: Rarity;
   /** 引いたときに出す一言 */
   desc: string;
-  /** 舞台（教室の写真）に重ねる色。'transparent'＝素のまま */
+  /** 舞台に重ねる色。'transparent'＝素のまま */
   tint: string;
-  /** 追加の飾り（→ components/stage-effect.tsx） */
-  effect?: 'stars' | 'snow' | 'sakura' | 'rain' | 'kira';
+  /** 舞台ごとに動きが違う（→ components/stage-effect.tsx）
+      streaks=線が下から上へ / pika=その場で瞬く / burst=中央から放射状に */
+  effect?: 'streaks' | 'pika' | 'burst';
+  /** 専用の絵。**無いテーマは素の教室に色を重ねる**（もとの作り）。
+      絵が描けたものから art を足していく → assets/images/_raw/README.md */
+  art?: StageArt;
+  /** SRだけの縁飾り。コマの内側に光る枠が出て、棚でもひと目で分かる */
+  glow?: 'gold' | 'cyan';
+  /** せっていの丸ポチの色。絵つきのテーマは tint が透明なので、
+      その絵らしい色をここに書く（→ (tabs)/settings.tsx） */
+  swatch?: string;
 }
 
 /** 最初から持っている素の教室 */
 export const DEFAULT_THEME_ID = 'classroom';
 
+/* ▍色を重ねるだけのテーマは全部引退させた
+   朝焼け・夕暮れ・雨・セピア・深夜・雪・星降る教室・黄金の教室は、舞台の絵が
+   1枚しか無かった頃に「教室に色を重ねる」だけで種類を増やしていたもの。
+   **専用の絵を持つテーマがそろって役割がかぶった**ので、2026-08に外した。
+
+   持っていた人の記録（state.themes）はそのまま残るが、一覧に出ないだけで
+   害はない。装備していた場合は getTheme() が素の教室に落とす。 */
 export const THEMES: StageTheme[] = [
   {
     id: 'classroom',
@@ -44,74 +87,265 @@ export const THEMES: StageTheme[] = [
     rarity: 'N',
     desc: 'ここから始まった。',
     tint: 'transparent',
+    art: CLASSROOM,
   },
   {
-    id: 'asayake',
-    name: '朝焼けの教室',
+    id: 'courtyard',
+    name: '中庭のベンチ',
     rarity: 'N',
-    desc: '1限より早い時間の色。',
-    tint: 'rgba(255,170,110,0.22)',
+    desc: '昼休みの15分でも進む。',
+    tint: 'transparent',
+    swatch: '#8aa970',
+    art: {
+      src: require('@/assets/images/stage-courtyard.jpg'),
+      ratio: 0.7532,
+      wall: '#8b8070',
+    },
   },
   {
-    id: 'yuugure',
-    name: '夕暮れの教室',
+    id: 'library',
+    name: '図書室の窓辺',
     rarity: 'N',
-    desc: '居残り学習の色。',
-    tint: 'rgba(235,120,20,0.28)',
+    desc: '本の匂いは集中力を上げる。',
+    tint: 'transparent',
+    swatch: '#8a5a33',
+    art: {
+      src: require('@/assets/images/stage-library.jpg'),
+      ratio: 0.7532,
+      wall: '#785943',
+    },
   },
   {
-    id: 'ame',
-    name: '雨の日の教室',
+    id: 'corridor',
+    name: '放課後の廊下',
     rarity: 'N',
-    desc: '雨音は集中力のBGM。',
-    tint: 'rgba(70,90,120,0.32)',
-    effect: 'rain',
+    desc: '誰もいない廊下は、少し広い。',
+    tint: 'transparent',
+    swatch: '#c9b48a',
+    art: {
+      src: require('@/assets/images/stage-corridor.jpg'),
+      ratio: 0.7532,
+      wall: '#72664f',
+    },
   },
   {
-    id: 'sepia',
-    name: '思い出のセピア',
+    id: 'computer-room',
+    name: 'コンピュータ室',
     rarity: 'N',
-    desc: 'ずっと前からここにいた気がする。',
-    tint: 'rgba(110,66,20,0.35)',
+    desc: 'ここで初めて機械に触った人もいる。',
+    tint: 'transparent',
+    swatch: '#9fb2c4',
+    art: {
+      src: require('@/assets/images/stage-computer-room.jpg'),
+      ratio: 0.7532,
+      wall: '#98a4b0',
+    },
   },
   {
-    id: 'shinya',
-    name: '深夜の自習室',
+    id: 'home-desk',
+    name: '家のデスク',
     rarity: 'N',
-    desc: '誰もいない。はかどる。',
-    tint: 'rgba(18,26,58,0.45)',
+    desc: '通勤ゼロ。今日もここから。',
+    tint: 'transparent',
+    swatch: '#d8b98f',
+    art: {
+      src: require('@/assets/images/stage-home-desk.jpg'),
+      ratio: 0.7532,
+      wall: '#86674f',
+    },
+  },
+  {
+    id: 'entrance-hall',
+    name: '昇降口',
+    rarity: 'N',
+    desc: '行ってきます、の場所。',
+    tint: 'transparent',
+    swatch: '#a8836a',
+    art: {
+      src: require('@/assets/images/stage-entrance-hall.jpg'),
+      ratio: 0.7532,
+      wall: '#756c60',
+    },
+  },
+  {
+    id: 'cafe',
+    name: 'カフェの窓際',
+    rarity: 'N',
+    desc: '一杯ぶんの時間で、ひとつ覚える。',
+    tint: 'transparent',
+    swatch: '#c98f5a',
+    art: {
+      src: require('@/assets/images/stage-cafe.jpg'),
+      ratio: 0.7532,
+      wall: '#92755e',
+    },
+  },
+  {
+    id: 'meeting-room',
+    name: '会議室',
+    rarity: 'N',
+    desc: '「で、AIで何ができるの？」と聞かれる部屋。',
+    tint: 'transparent',
+    swatch: '#a99a80',
+    art: {
+      src: require('@/assets/images/stage-meeting-room.jpg'),
+      ratio: 0.7532,
+      wall: '#837664',
+    },
+  },
+  {
+    id: 'rooftop-cloudy',
+    name: '屋上',
+    rarity: 'N',
+    desc: '行き詰まったら、空を見る。',
+    tint: 'transparent',
+    swatch: '#9aa2a8',
+    art: {
+      src: require('@/assets/images/stage-rooftop-cloudy.jpg'),
+      ratio: 0.7532,
+      wall: '#948f8d',
+    },
   },
   {
     id: 'sakura',
-    name: '桜舞う教室',
+    name: '桜並木',
     rarity: 'R',
     desc: '春。何かが始まる感じがする。',
-    tint: 'rgba(255,170,190,0.22)',
-    effect: 'sakura',
+    tint: 'transparent',
+    swatch: '#f0a6b8',
+    /* 絵の中で花びらが大量に舞っているので、**飾りは重ねない**。
+       重ねるとフキダシの文字が読めなくなる */
+    art: {
+      src: require('@/assets/images/stage-sakura.jpg'),
+      ratio: 0.7532,
+      wall: '#9d7867',
+    },
   },
   {
-    id: 'yuki',
-    name: '雪の日の教室',
+    id: 'rooftop-sunset',
+    name: '夕焼けの屋上',
     rarity: 'R',
-    desc: 'しんとした空気。声がよく通る。',
-    tint: 'rgba(190,205,230,0.30)',
-    effect: 'snow',
+    desc: 'ここで見た夕日は覚えている。',
+    tint: 'transparent',
+    swatch: '#f08a3c',
+    art: {
+      src: require('@/assets/images/stage-rooftop-sunset.jpg'),
+      ratio: 0.7532,
+      wall: '#896a54',
+    },
   },
   {
-    id: 'hoshizora',
-    name: '星降る教室',
-    rarity: 'SR',
-    desc: '窓の外、ぜんぶ星。',
-    tint: 'rgba(8,14,44,0.55)',
-    effect: 'stars',
+    id: 'neon-rain',
+    name: '雨のネオン街',
+    rarity: 'R',
+    desc: '雨の日は、街のほうが光る。',
+    tint: 'transparent',
+    swatch: '#ff5fa2',
+    art: {
+      src: require('@/assets/images/stage-neon-rain.jpg'),
+      ratio: 0.7532,
+      wall: '#383644',
+    },
   },
   {
-    id: 'ougon',
-    name: '黄金の教室',
+    id: 'office-night',
+    name: '夜のオフィス',
+    rarity: 'R',
+    desc: '街の灯りが全部、誰かの仕事。',
+    tint: 'transparent',
+    swatch: '#3f6fb8',
+    art: {
+      src: require('@/assets/images/stage-office-night.jpg'),
+      ratio: 0.7532,
+      wall: '#272c34',
+    },
+  },
+  {
+    id: 'beach-dawn',
+    name: '朝の海辺',
+    rarity: 'R',
+    desc: '水平線は、いつ見ても水平。',
+    tint: 'transparent',
+    swatch: '#f2b6a0',
+    art: {
+      src: require('@/assets/images/stage-beach-dawn.jpg'),
+      ratio: 0.7532,
+      wall: '#aa8c83',
+    },
+  },
+  {
+    id: 'festival-night',
+    name: '夏祭りの夜',
+    rarity: 'R',
+    desc: '浴衣でAIの話をしてもいい。',
+    tint: 'transparent',
+    swatch: '#e0452f',
+    art: {
+      src: require('@/assets/images/stage-festival-night.jpg'),
+      ratio: 0.7532,
+      wall: '#57392e',
+    },
+  },
+  {
+    id: 'cabin-fire',
+    name: '暖炉の山小屋',
+    rarity: 'R',
+    desc: '火のそばで読むと、よく入る。',
+    tint: 'transparent',
+    swatch: '#e07a2c',
+    art: {
+      src: require('@/assets/images/stage-cabin-fire.jpg'),
+      ratio: 0.7532,
+      wall: '#4a2d1f',
+    },
+  },
+  {
+    id: 'datacenter',
+    name: 'サーバーの聖堂',
     rarity: 'SR',
-    desc: 'マスターの部屋には、金の光が差す。',
-    tint: 'rgba(255,196,40,0.30)',
-    effect: 'kira',
+    desc: 'AIが動いている、その場所。',
+    tint: 'transparent',
+    swatch: '#4fc3f7',
+    effect: 'streaks',
+    glow: 'cyan',
+    art: {
+      src: require('@/assets/images/stage-datacenter.jpg'),
+      ratio: 0.7532,
+      wall: '#324855',
+    },
+  },
+  {
+    id: 'above-clouds',
+    name: '雲海の上の教室',
+    rarity: 'SR',
+    desc: 'ここまで来たか。',
+    tint: 'transparent',
+    swatch: '#ffd27a',
+    effect: 'pika',
+    glow: 'gold',
+    art: {
+      src: require('@/assets/images/stage-above-clouds.jpg'),
+      ratio: 0.7532,
+      wall: '#8d7a69',
+    },
+  },
+  {
+    id: 'gold-ink',
+    name: '金インクの原稿の中',
+    rarity: 'SR',
+    desc: 'インクとトーンでできた世界。COMIXAIの故郷。',
+    /* ▍この絵にだけ、ごく薄い金茶を敷く
+       紙が白いので、金の粒が地に溶けて見えなくなる。少し沈めると
+       粒が立ち、金屏風のような色味になってSRらしさも増す */
+    tint: 'rgba(74,48,10,0.13)',
+    swatch: '#e8c15a',
+    effect: 'burst',
+    glow: 'gold',
+    art: {
+      src: require('@/assets/images/stage-gold-ink.jpg'),
+      ratio: 0.7532,
+      wall: '#988877',
+    },
   },
 ];
 
@@ -165,6 +399,9 @@ export function draw(): GachaPrize {
       break;
     }
   }
+  /* そのレア度の景品がまだ1つも無いことがある（絵を入れ替えている最中など）。
+     空のまま引くと undefined が返って画面が落ちるので、全体から引き直す */
   const pool = GACHA_POOL.filter((t) => t.rarity === rarity);
-  return pool[Math.floor(Math.random() * pool.length)];
+  const from = pool.length > 0 ? pool : GACHA_POOL;
+  return from[Math.floor(Math.random() * from.length)];
 }

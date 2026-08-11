@@ -1,28 +1,26 @@
 /* ============================================================
-   ホームのコマに敷く「舞台」。アバターがここに立って見えるようにする。
+   ホームのコマに敷く「舞台」の絵。アバターがここに立って見えるようにする。
 
-   Midjourneyで描いた元画像（assets/images/_raw/classroom.png）を
-   tools/prepare-stage.mjs で整えたもの。差し替えるときは
-   README の「アバターが立つ背景（舞台）」を見ること。
+   Midjourneyで描いた元画像を tools/prepare-stage.mjs で整えたもの。
+   **舞台テーマ1つにつき絵が1枚**あり、比率と壁色も絵ごとに違うので、
+   実体は data/gacha.ts の THEMES が `art` として持っている。
+   ここに置くのは、最初から持っている素の教室ぶんだけ。
+
+   足すときは assets/images/_raw/README.md を見ること。
    ============================================================ */
+import type { StageArt } from '@/data/gacha';
 
-/** アバターが立つ背景。Panel の bg に渡す */
-export const STAGE = require('@/assets/images/stage-classroom.jpg');
+/** 最初から持っている教室。ガチャを1回も回していない人が見るもの */
+export const CLASSROOM: StageArt = {
+  src: require('@/assets/images/stage-classroom.jpg'),
+  ratio: 0.7532,
+  wall: '#96836c',
+};
 
-/* 絵の縦横比（幅÷高さ）。**コマを覆う最小の大きさで、下端・中央に
-   揃えて敷く**ために持っている。数値は npm run stage:prepare が出す。
-
-   ▍縦長にしない
-   もとは「コマ幅いっぱいに敷いて上を切る」前提だったので、縦長
-   （0.637）にしてあった。その敷き方だと、**横長のコマ（iPhone SE）で
-   絵を大きく拡大することになり、窓や黒板が実物より大きく写る**。
-   隣に立つ人はそのぶん小さく見える——実測で SE3 は 15 Pro より
-   24%大きい教室に立っていた。横に広い絵ほど拡大率が下がるので、
-   狭い端末ほど効く。 */
-export const STAGE_RATIO = 0.8337;
-
-/** 絵のいちばん上の色。コマが縦に余ったぶんをこれで埋めて、継ぎ目を消す */
-export const STAGE_WALL = '#6f5e3a';
+/* 昔の名前。まだ参照している所があるので残してある */
+export const STAGE = CLASSROOM.src;
+export const STAGE_RATIO = CLASSROOM.ratio;
+export const STAGE_WALL = CLASSROOM.wall;
 
 /* ▍「キャラに合わせて背景も縮める」を試して、やめた記録
 

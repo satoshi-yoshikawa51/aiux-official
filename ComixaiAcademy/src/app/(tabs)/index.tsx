@@ -17,14 +17,14 @@ import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
 import { Spotlight } from '@/components/spotlight';
 import { PopIn, useSparkBurst } from '@/components/motion';
-import { StageEffect } from '@/components/stage-effect';
+import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
-import { getTheme } from '@/data/gacha';
+import { DEFAULT_HORIZON, getTheme } from '@/data/gacha';
 import { getRole } from '@/data/roles';
-import { STAGE, STAGE_RATIO, STAGE_WALL } from '@/data/stage';
+import { CLASSROOM } from '@/data/stage';
 import { smallTalkFor } from '@/data/voice';
 import { playSound } from '@/lib/sound';
 import { useProgress, useReview, useStats, useToday } from '@/store/progress';
@@ -143,12 +143,6 @@ export default function HomeScreen() {
     return () => clearTimeout(t);
   }, [box.w, box.h]);
 
-  /* 置き場をそのままキャンバスにする。縦横比は課さない（→ 冒頭のメモ） */
-  const stage = React.useMemo(() => {
-    if (settled.w <= 0 || settled.h <= 0) return null;
-    return { w: Math.floor(settled.w), h: Math.floor(settled.h) };
-  }, [settled]);
-
   /* ▍基準を取り直す（起動時に一度だけ）
      書体が読み込まれる前は、同じセリフが余計に折り返して背が高くなる。
      それを「いちばん高かったフキダシ」として覚えてしまうと、**その
@@ -164,18 +158,46 @@ export default function HomeScreen() {
   /* ———— 舞台の大きさ ————
      絵は**コマを覆いきる最小の大きさ**で敷く（下端・中央ぞろえ）。
 
-     ▍「キャラに合わせて背景も縮める」はできない
-     縮めるとコマの上に絵が届かず、壁色のベタ帯が出る（実測で82px）。
-     つまり背景の下限はコマの大きさで決まっていて、キャラとの縮尺を
-     背景側で詰めることはできない。**縮尺を詰めるならキャラを大きくする**
-     （↑の置き場の話）か、**絵をもっと引きで描く**かの2つ。
-     引きで描けば同じコマの中で窓や黒板が小さく写り、人が大きく見える。 */
+     ▍背景側では縮尺を詰められない
+     小さくするとコマの上に絵が届かず、壁色のベタ帯が出る（実測で82px）。
+     大きくする方向は効くが、中庭の絵で計算すると2.4倍要って、そこまで
+     寄せるとベンチも木も空も画面から消えた。**縮尺はキャラ側で合わせる**
+     （↓のキャンバスの高さ）。 */
+  /* 絵はテーマごと。まだ描けていないテーマは素の教室に色を重ねる */
+  const art = theme.art ?? CLASSROOM;
+
   const bgHeight = React.useMemo(() => {
     if (box.w <= 0 || area <= 0) return undefined;
     const panelW = box.w + S.sm * 2;
     const panelH = area + S.sm * 2;
-    return Math.ceil(Math.max(panelH, panelW / STAGE_RATIO));
-  }, [box.w, area]);
+    return Math.ceil(Math.max(panelH, panelW / art.ratio));
+  }, [box.w, area, art.ratio]);
+
+  /* ———— キャンバスの高さ＝キャラの大きさ ————
+     縦横比は課さない（→ 冒頭のメモ）。高さだけ、絵の地平線に合わせる。
+
+     ▍目線を地平線に乗せる
+     地平線はカメラの高さにあるので、そこに立つ人の目線は必ず地平線と
+     重なる。ズレたぶんが「巨人」「小人」として出る。実測した比率は
+     ・キャラはキャンバスの92%、頭上の余白3.1%
+     ・目線は足元から身長の90%
+     ここから、目線はキャンバスの上から12.3%＝**下端から87.7%**。
+     キャンバスは下端ぞろえなので、地平線の高さ（コマ下端から測った
+     ピクセル）を 0.877 で割れば、必要なキャンバスの高さが出る。
+
+     地平線を持たない絵（素の教室）は今までどおりコマいっぱい。 */
+  const stage = React.useMemo(() => {
+    if (settled.w <= 0 || !bgHeight || area <= 0) return null;
+    /* **置き場の高さ（box.h）は見ない。** フキダシをキャラの上に寄せると
+       置き場が縮むので、そこを見ていると縮み合いになる。
+       コマの中身の高さ（area）だけを上限にする */
+    const horizonFromBottom = bgHeight * (1 - (art.horizon ?? DEFAULT_HORIZON));
+    return {
+      w: Math.floor(settled.w),
+      h: Math.min(Math.round(horizonFromBottom / 0.877), Math.floor(area)),
+    };
+  }, [settled.w, area, art.horizon, bgHeight]);
+
 
   const next = React.useMemo(() => {
     for (const course of COURSES) {
@@ -260,9 +282,9 @@ export default function HomeScreen() {
            地は網点ではなく舞台の絵（→ src/data/stage.ts） */}
       <Panel
         fill
-        bg={STAGE}
-        bgRatio={STAGE_RATIO}
-        bgColor={STAGE_WALL}
+        bg={art.src}
+        bgRatio={art.ratio}
+        bgColor={art.wall}
         bgHeight={bgHeight}
         caption={role ? `${avatar.name}・${role.name}` : avatar.name}
         contentStyle={{ padding: S.sm, gap: S.sm }}>
@@ -282,6 +304,7 @@ export default function HomeScreen() {
           />
         ) : null}
         {theme.effect ? <StageEffect effect={theme.effect} /> : null}
+        {theme.glow ? <StageGlow glow={theme.glow} /> : null}
 
         {/* ▍ガチャの入口は舞台の**左下**に置く
              右上はフキダシの居場所。アバターの取り分を増やしてから
@@ -335,6 +358,12 @@ export default function HomeScreen() {
           onLayout={(e) => setArea(e.nativeEvent.layout.height)}>
           {/* 覚えた最大の高さを**下限として確保**する。こうしておけば
               セリフが短くなってもキャラの取り分は増えない（＝背が伸びない） */}
+          {/* ▍フキダシはキャラの頭の近くに置く
+              キャラは地平線に合わせて縮むので、上に大きな空きができる。
+              そこを丸ごと空けたままだとフキダシがコマの上端に取り残されて、
+              誰がしゃべっているのか分からなくなる。空きの真ん中に置く
+              （＝コマの上端とキャラの頭の中間） */}
+          <View style={{ flex: 1, justifyContent: 'center' }}>
           <View
             style={{ minHeight: bubbleH || undefined }}
             onLayout={(e) => {
@@ -348,6 +377,7 @@ export default function HomeScreen() {
               numberOfLines={tight ? 3 : undefined}
               style={{ marginRight: 3, marginLeft: 3 }}
             />
+          </View>
           </View>
           {/* アバターの置き場は縦横比で決める（flex:1 だと余った高さを全部
               取ってしまい、フキダシがキャラから離れる）。 */}
@@ -364,7 +394,8 @@ export default function HomeScreen() {
                （課すと幅で頭打ちになって、高さを捨てることになる） */
             style={{
               width: '100%',
-              flex: 1,
+              /* 置き場は中身なりにする。flex:1 で余りを全部取ると、
+                 フキダシをキャラの上に寄せられない */
               alignItems: 'center',
               justifyContent: 'flex-end',
             }}>

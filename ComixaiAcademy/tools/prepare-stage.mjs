@@ -1,41 +1,48 @@
 /* ============================================================
    Midjourneyで描いた背景を、ホームのコマ用に整える。
 
-   生成された絵をそのまま敷くと、たいてい**床が多すぎる**。
-   MJは「low horizon」と書いても地平線を絵の真ん中あたりに置きがちで、
-   そのぶん窓や黒板が上に寄る。上は端末によって切られるので、
-   横長のコマ（iPhone SE）だと床だけの絵になってしまう。
+   ▍いちばん大事なのは地平線の位置
+   地平線（床の消失点）はカメラの高さにあるので、**そこに立つ人の目線は
+   必ず地平線と重なる**。ズレたぶんが「巨人」「小人」として出る。
+   だから絵は**消失点が画面のちょうど中央**に来るように描き、ここでは
+   削らない（既定 CROP_BOTTOM=0）。アプリ側が、その地平線にキャラの
+   目線が乗る大きさでキャラを描く（→ src/data/gacha.ts の horizon）。
 
    ここでやること:
-   1. 下（床）を削って、地平線を下げる
-   2. **ぼかして、少し沈める**（下の「なぜぼかすのか」）
+   1. ずれていたら上下を削って、地平線を画面の中央に持ってくる
+   2. 少し沈める（明るさ・彩度を落として、キャラを前に出す）
    3. 立ち位置に、やわらかい楕円の影を焼き込む
       （3Dのキャラは影を持たないので、これが無いと浮いて見える）
    4. 出来上がりの縦横比を出す（src/data/stage.ts の STAGE_RATIO に入れる）
    5. 実測した3端末のコマの比率で切って、確認用に並べる
 
-   ▍なぜぼかすのか
-   3Dのキャラは固定のカメラで描かれていて、MJが描いた部屋の遠近とは
-   一致しない。実測すると、この絵の地平線はキャラの**顎**を通っていた
-   （本来は目の高さに来る）。ズレは12%ほどだが、背景がくっきりしていると
-   脳が窓や床の大きさとキャラを比べてしまい、「小人が立っている」ように
-   見える。ぼかすと背景が「遠く」として処理され、比べるのをやめる。
-   アバター系のアプリが軒並み背景をぼかしているのはこのため。
+   ▍ぼかしは既定で切ってある（BLUR=0）
+   もとは sigma 8 で強くぼかしていた。背景がくっきりしていると脳が窓や床と
+   キャラの大きさを比べてしまうので、ぼかして「遠く」として処理させ、
+   縮尺の矛盾を見せない——という手。
+
+   いまは地平線でキャラの大きさを決めていて、**縮尺そのものが合っている**
+   ので隠す必要がない。絵の作り込みも捨てずに済む。
+   それでも合わない絵が出てきたら、その絵だけ環境変数で戻す:
+
+     BLUR=8 npm run stage:prepare -- assets/images/_raw/xxx.jpg
 
    使い方:
      # 元画像を assets/images/_raw/ に置いてから
-     node tools/prepare-stage.mjs assets/images/_raw/classroom.png
-     （= npm run stage:prepare -- assets/images/_raw/classroom.png）
+     node tools/prepare-stage.mjs assets/images/_raw/sakura.jpg
+     （= npm run stage:prepare -- assets/images/_raw/sakura.jpg）
 
-     CROP_BOTTOM=0.16 node tools/prepare-stage.mjs 元.png   # 削る量を変える
+     # 第2引数で出力名を指定できる（省略すると元画像と同じ名前）
+     node tools/prepare-stage.mjs assets/images/_raw/sakura.jpg stage-sakura.jpg
+
+     CROP_TOP=0.1    node tools/prepare-stage.mjs 元.jpg  # 上を削る＝地平線を上げる
+     CROP_BOTTOM=0.1 node tools/prepare-stage.mjs 元.jpg  # 下を削る＝地平線を下げる
 
    ▍絵は横に広いほどよい（縦長にしない）
    コマには「覆いきる最小の大きさ」で敷くので、**縦長の絵ほど
-   拡大率が上がる**。拡大されるほど窓や黒板が大きく写り、隣に立つ
-   キャラは小さく見える。実測で、縦長（0.637）の絵だと iPhone SE3 の
-   教室は 15 Pro より24%大きく写っていた。
-   **出来上がりの比率は 0.8 以上を目安**にする。ツールが 0.75 を
-   下回ったら警告する。
+   拡大率が上がる**。拡大されるほど絵の左右が切られて、何の場所か
+   分からなくなる。**出来上がりの比率は 0.8 以上を目安**にする。
+   ツールが 0.75 を下回ったら警告する。
    ============================================================ */
 import sharp from 'sharp';
 import fs from 'node:fs';
@@ -46,11 +53,21 @@ if (!SRC) {
   process.exit(1);
 }
 
-/** 下から削る割合。地平線を下げるほど、キャラが床に立って見える */
-const CROP_BOTTOM = Number(process.env.CROP_BOTTOM ?? 0.16);
+/** 下から削る割合。削ると地平線は**下がる**。既定は0——消失点を
+    中央に置いて描くので、削る必要がない（冒頭のメモ）。
+    いま入っている中庭と桜は、旧い指示で描いたので 0.16 で切ってある */
+const CROP_BOTTOM = Number(process.env.CROP_BOTTOM ?? 0);
 
-/** ぼかし（元画像の画素での sigma）。0で無効 */
-const BLUR = Number(process.env.BLUR ?? 8);
+/* ▍上から削る割合。**地平線を上げる**ために使う
+
+   キャラは足がコマの下端・頭がほぼ上端に来るので、目線はコマの上から
+   約17%にある。カメラが目の高さにあるなら、背景の地平線もそこに
+   無いと噛み合わず、**地平線より目線が上＝巨人**に見える。
+   上を削ると地平線は上がる（下を削ると下がる——逆なので注意）。 */
+const CROP_TOP = Number(process.env.CROP_TOP ?? 0);
+
+/** ぼかし（元画像の画素での sigma）。0で無効。既定は0＝掛けない（冒頭のメモ） */
+const BLUR = Number(process.env.BLUR ?? 0);
 /** 明るさ・彩度。1で無効。キャラを前に出すため、背景は少し沈める */
 const BRIGHTNESS = Number(process.env.BRIGHTNESS ?? 0.92);
 const SATURATION = Number(process.env.SATURATION ?? 0.8);
@@ -61,16 +78,22 @@ const MIN_RATIO = 0.75;
 
 const OUT = new URL('./.icon-preview/', import.meta.url);
 fs.mkdirSync(OUT, { recursive: true });
-const dst = new URL('../assets/images/stage-classroom.jpg', import.meta.url).pathname;
+
+/* 出力名。第2引数で指定、省略したら元画像と同じ名前で stage-<名前>.jpg。
+   **この名前がそのまま舞台テーマのIDになる**（→ src/data/gacha.ts） */
+const DST_NAME =
+  process.argv[3] ?? 'stage-' + SRC.replace(/^.*\//, '').replace(/\.[^.]+$/, '') + '.jpg';
+const dst = new URL('../assets/images/' + DST_NAME, import.meta.url).pathname;
 
 const src = sharp(SRC);
 const meta = await src.metadata();
 const W = meta.width;
 const H0 = meta.height;
-const H = Math.round(H0 * (1 - CROP_BOTTOM));
+const TOP = Math.round(H0 * CROP_TOP);
+const H = Math.round(H0 * (1 - CROP_BOTTOM - CROP_TOP));
 
 console.log(`元: ${W}x${H0}（比率 ${(W / H0).toFixed(3)}）`);
-console.log(`下を ${Math.round(CROP_BOTTOM * 100)}% 削る -> ${W}x${H}`);
+console.log(`上を ${Math.round(CROP_TOP * 100)}% ・ 下を ${Math.round(CROP_BOTTOM * 100)}% 削る -> ${W}x${H}`);
 
 /* ———— 立ち位置の影 ————
    キャラはコマの下端・中央に立つ。その足元に楕円の影を敷く。
@@ -95,7 +118,7 @@ const shadow = await sharp(
 /* ぼかしと沈めは影を焼く**前**に掛ける。影までぼかすと、
    せっかく足元に置いた輪郭が消えてしまう */
 const base = await sharp(SRC)
-  .extract({ left: 0, top: 0, width: W, height: H })
+  .extract({ left: 0, top: TOP, width: W, height: H })
   .modulate({ brightness: BRIGHTNESS, saturation: SATURATION })
   .blur(BLUR > 0 ? BLUR : undefined)
   .png()
