@@ -143,12 +143,6 @@ export default function HomeScreen() {
     return () => clearTimeout(t);
   }, [box.w, box.h]);
 
-  /* 置き場をそのままキャンバスにする。縦横比は課さない（→ 冒頭のメモ） */
-  const stage = React.useMemo(() => {
-    if (settled.w <= 0 || settled.h <= 0) return null;
-    return { w: Math.floor(settled.w), h: Math.floor(settled.h) };
-  }, [settled]);
-
   /* ▍基準を取り直す（起動時に一度だけ）
      書体が読み込まれる前は、同じセリフが余計に折り返して背が高くなる。
      それを「いちばん高かったフキダシ」として覚えてしまうと、**その
@@ -164,12 +158,11 @@ export default function HomeScreen() {
   /* ———— 舞台の大きさ ————
      絵は**コマを覆いきる最小の大きさ**で敷く（下端・中央ぞろえ）。
 
-     ▍「キャラに合わせて背景も縮める」はできない
-     縮めるとコマの上に絵が届かず、壁色のベタ帯が出る（実測で82px）。
-     つまり背景の下限はコマの大きさで決まっていて、キャラとの縮尺を
-     背景側で詰めることはできない。**縮尺を詰めるならキャラを大きくする**
-     （↑の置き場の話）か、**絵をもっと引きで描く**かの2つ。
-     引きで描けば同じコマの中で窓や黒板が小さく写り、人が大きく見える。 */
+     ▍背景側では縮尺を詰められない
+     小さくするとコマの上に絵が届かず、壁色のベタ帯が出る（実測で82px）。
+     大きくする方向は効くが、中庭の絵で計算すると2.4倍要って、そこまで
+     寄せるとベンチも木も空も画面から消えた。**縮尺はキャラ側で合わせる**
+     （↓のキャンバスの高さ）。 */
   /* 絵はテーマごと。まだ描けていないテーマは素の教室に色を重ねる */
   const art = theme.art ?? CLASSROOM;
 
@@ -179,6 +172,29 @@ export default function HomeScreen() {
     const panelH = area + S.sm * 2;
     return Math.ceil(Math.max(panelH, panelW / art.ratio));
   }, [box.w, area, art.ratio]);
+
+  /* ———— キャンバスの高さ＝キャラの大きさ ————
+     縦横比は課さない（→ 冒頭のメモ）。高さだけ、絵の地平線に合わせる。
+
+     ▍目線を地平線に乗せる
+     地平線はカメラの高さにあるので、そこに立つ人の目線は必ず地平線と
+     重なる。ズレたぶんが「巨人」「小人」として出る。実測した比率は
+     ・キャラはキャンバスの92%、頭上の余白3.1%
+     ・目線は足元から身長の90%
+     ここから、目線はキャンバスの上から12.3%＝**下端から87.7%**。
+     キャンバスは下端ぞろえなので、地平線の高さ（コマ下端から測った
+     ピクセル）を 0.877 で割れば、必要なキャンバスの高さが出る。
+
+     地平線を持たない絵（素の教室）は今までどおりコマいっぱい。 */
+  const stage = React.useMemo(() => {
+    if (settled.w <= 0 || settled.h <= 0) return null;
+    const w = Math.floor(settled.w);
+    const h = Math.floor(settled.h);
+    if (!art.horizon || !bgHeight) return { w, h };
+    const horizonFromBottom = bgHeight * (1 - art.horizon);
+    return { w, h: Math.min(h, Math.round(horizonFromBottom / 0.877)) };
+  }, [settled, art.horizon, bgHeight]);
+
 
   const next = React.useMemo(() => {
     for (const course of COURSES) {
