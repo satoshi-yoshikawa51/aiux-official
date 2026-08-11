@@ -17,8 +17,11 @@
    そこでGLBの頂点を読み、「しきい値より上の三角形のUV」を塗った
    頭マスクを2枚作って場所で条件を変える：
    ・あごの上（y>0.5）…… ほぼ髪と顔。寒色なら影の髪まで塗る
-   ・肩の上（y>0.35）…… ボブの毛先と襟が同居。髪並みに鮮やかな
-     画素（彩度0.3超。実測で髪=0.57〜0.65、スーツ=0.23〜0.31）だけ塗る
+   ・肩の上（y>0.35）…… ボブの毛先と、ジャケットの肩・襟が同居する。
+     彩度だけでは肩の明るい画素を拾ってしまい、**緋色にしたら肩まで
+     赤くなった**（実機で指摘）。毛先は青緑（hue 180〜200）、スーツは
+     くすんだ紺（hue 206〜222）なので、ここは**色相の関門**も掛けて
+     「鮮やか かつ 青緑」だけ塗る
    ・それより下 …… スーツなので触らない
 
    顔の肌・頬・口は暖色なので寒色マスクの外。アイラインと瞳孔は
@@ -191,8 +194,10 @@ function dilate(mask, times) {
   return src;
 }
 
+/* 膨張はstrictだけ広めに（UVの継ぎ目対策）。looseまで広げると、
+   隣に詰まっているスーツのパッチへ塗りが染み出す */
 const headStrict = dilate(buildHeadMask(HEAD_STRICT_Y), 3);
-const headLoose = dilate(buildHeadMask(HEAD_LOOSE_Y), 3);
+const headLoose = dilate(buildHeadMask(HEAD_LOOSE_Y), 1);
 const { data, info } = await sharp(SRC).raw().toBuffer({ resolveWithObject: true });
 
 for (const v of VARIANTS) {
@@ -211,13 +216,15 @@ for (const v of VARIANTS) {
        0.025より黒いので、明度の下限ランプで守る */
     const darkGuard = smooth(0.025, 0.055, l);
     const darkHair = 1 - smooth(0.07, 0.12, l);
+    /* 肩上ゾーンの色相の関門。毛先の青緑だけ通し、スーツの紺は弾く */
+    const tealGate = 1 - smooth(198, 206, h);
     const w =
       cool *
       darkGuard *
       (headStrict[p]
         ? Math.max(smooth(0.07, 0.18, s), darkHair)
         : headLoose[p]
-          ? smooth(0.3, 0.42, s)
+          ? smooth(0.3, 0.42, s) * tealGate
           : 0);
     if (w <= 0) continue;
     const [nr, ng, nb] = hslToRgb(v.hue, s + (v.sat - s) * w, l + (Math.pow(l, v.lift) - l) * w);
