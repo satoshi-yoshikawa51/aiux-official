@@ -271,6 +271,9 @@ interface Ctx {
   spinGacha: () => SpinResult | null;
   /** 舞台テーマを装備する（持っていないものは無視） */
   setTheme: (id: string) => void;
+  /** 持っていない舞台も試しに飾る（確認用 → app/stages.tsx）。
+      持ち物は増やさないので、コレクションの数もガチャの引きどころも変わらない */
+  previewTheme: (id: string) => void;
   /** 色違いを使う。'' でノーマルに戻す（持っていないものは無視） */
   setSkin: (id: string) => void;
   /** アバターを丸ごと切り替える（キャラ＋色違いを一度に）。
@@ -494,6 +497,12 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
+  /* 持ち物の確認を通さない版。作った舞台の絵を実機で見るためだけにある */
+  const previewTheme = React.useCallback(
+    (id: string) => persist({ ...ref.current, themeId: id }),
+    [persist],
+  );
+
   const setSkin = React.useCallback(
     (id: string) => {
       if (id !== DEFAULT_SKIN_ID && !ref.current.skins[id]) return;
@@ -570,6 +579,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       claimLoginBonus,
       spinGacha,
       setTheme,
+      previewTheme,
       setSkin,
       setLook,
       setSoundOn,
@@ -592,6 +602,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       claimLoginBonus,
       spinGacha,
       setTheme,
+      previewTheme,
       setSkin,
       setLook,
       setSoundOn,

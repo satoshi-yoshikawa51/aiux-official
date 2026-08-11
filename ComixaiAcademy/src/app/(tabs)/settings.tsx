@@ -140,6 +140,16 @@ export default function SettingsScreen() {
             <Text style={[F.hand, { color: T.link }]}>ガチャで増える →</Text>
           </Tap>
         </Row>
+        {/* ▍確認用の入口
+            舞台はガチャの景品なので、当てるまで見られない。作った絵が実機で
+            どう見えるかを確かめる手段が要る（→ app/stages.tsx）。
+            公開前にここごと外すか、隠しの操作に付け替えること */}
+        <Tap onPress={() => router.push('/stages')} sparks={false} style={{ paddingVertical: 2 }}>
+          <Text style={[F.small, { color: T.link }]}>
+            <Text style={{ color: T.muted }}>確認用 </Text>
+            20枚ぜんぶ見る →
+          </Text>
+        </Tap>
         <Row gap={S.xs} style={{ flexWrap: 'wrap' }}>
           {THEMES.map((t) => (
             <PickPill
