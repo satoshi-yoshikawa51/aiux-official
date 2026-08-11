@@ -150,7 +150,9 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-sakura.jpg'),
       ratio: 0.7532,
       wall: '#9d7867',
-      horizon: 0.6,
+      /* 地平線の読みは目分量。厳密には0.60あたりだが、少しキャラを
+         大きく見せたいので上げてある（上げるほどキャラが育つ） */
+      horizon: 0.55,
     },
   },
   {
