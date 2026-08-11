@@ -23,7 +23,17 @@
    ▍player は使い回す
    鳴らすたびに作ると、連打で端末のプレイヤーが増え続ける。
    1音1つを持ち、頭出ししてから鳴らす。
+
+   ▍Webは WebAudio で鳴らす
+   expo-audio（HTMLAudioElement）は再生開始までの遅れが大きく、
+   「押した音が遅れて聞こえる」が直りきらなかった（実機で再指摘。
+   ホーム画面に置いたWebアプリで遊んでいるので、そこが本番）。
+   起動時にデコード済みの AudioBuffer を持っておき、押した瞬間に
+   AudioContext へ流す。この経路はデコードもシークも無いので即応する。
    ============================================================ */
+import { Platform } from 'react-native';
+
+import { Asset } from 'expo-asset';
 import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
 
 export type SoundName =
@@ -64,12 +74,53 @@ export function setSoundEnabled(on: boolean) {
   enabled = on;
 }
 
-/* ▍プレイヤーは起動時に全部作っておく
+/* ———— Web専用：WebAudio ———— */
+
+let ctx: AudioContext | null = null;
+const buffers = new Map<SoundName, AudioBuffer>();
+
+function webContext(): AudioContext | null {
+  if (Platform.OS !== 'web') return null;
+  if (!ctx) {
+    try {
+      const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (AC) ctx = new AC();
+    } catch {
+      ctx = null;
+    }
+  }
+  return ctx;
+}
+
+async function preloadWeb() {
+  const c = webContext();
+  if (!c) return;
+  await Promise.all(
+    (Object.keys(FILES) as SoundName[]).map(async (name) => {
+      if (buffers.has(name)) return;
+      try {
+        const asset = Asset.fromModule(FILES[name]);
+        const res = await fetch(asset.uri);
+        const raw = await res.arrayBuffer();
+        buffers.set(name, await c.decodeAudioData(raw));
+      } catch {
+        /* 読めなくても、その音が鳴らないだけ */
+      }
+    }),
+  );
+}
+
+/* ▍音は起動時に全部用意しておく
    押された瞬間に作ると、**最初の1回だけ読み込みのぶん遅れて鳴る**
-   （実機で「押した音が遅れて聞こえる」の報告）。10音ぶん先に作って、
-   押されたときは play() するだけにする。起動時に1回呼ぶ（_layout.tsx） */
+   （実機で「押した音が遅れて聞こえる」の報告）。
+   Webはデコード済みバッファ、ネイティブはプレイヤーを先に作る。
+   起動時に1回呼ぶ（_layout.tsx） */
 export function preloadSounds() {
   try {
+    if (Platform.OS === 'web') {
+      preloadWeb().catch(() => {});
+      return;
+    }
     for (const name of Object.keys(FILES) as SoundName[]) {
       if (!players.has(name)) players.set(name, createAudioPlayer(FILES[name]));
     }
@@ -85,6 +136,24 @@ export function preloadSounds() {
 export function playSound(name: SoundName) {
   if (!enabled) return;
   try {
+    /* Web：デコード済みバッファを AudioContext へ。即応する */
+    const c = webContext();
+    if (c) {
+      /* 自動再生規制で止まっていたら起こす（ユーザー操作の中なので通る）。
+         resume は待たない——次のタップからは確実に鳴る */
+      if (c.state === 'suspended') c.resume().catch(() => {});
+      const buf = buffers.get(name);
+      if (buf) {
+        const src = c.createBufferSource();
+        src.buffer = buf;
+        src.connect(c.destination);
+        src.start(0);
+      } else {
+        /* まだ読み込み中。次に備えて読みにいく（今回は鳴らない） */
+        preloadWeb().catch(() => {});
+      }
+      return;
+    }
     let p = players.get(name);
     if (!p) {
       p = createAudioPlayer(FILES[name]);

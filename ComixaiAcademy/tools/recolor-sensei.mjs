@@ -32,8 +32,13 @@
       3〜6割止まりなので、この線で切れる（85%と60%の間が崖）
    3. 顔の島（暖色が主体）：チャートの中に**前髪が描き込まれている**。
       島ごと塗らず、寒色の画素だけを髪のふち扱いで塗る。
-      瞳も紺系なので一緒に髪色へ寄る——素の先生も髪と同系色の瞳
-      なので、色違いでも「髪と瞳が揃う」関係は保たれる
+
+   ▍瞳は塗らない（実機で「左目に赤が入った」の指摘）
+   虹彩は紺系なので、寒色ルールだとどうしても髪と一緒に染まる。
+   そこで**白目（明るくて彩度の無い画素）を探し、その周りの暗い
+   画素を塗りから守る**。瞳・まつげ・アイラインは必ず白目のすぐ
+   隣にいるので、この網で全部すくえる。髪に白目ほど白い画素は
+   ほぼ無いので、髪側への巻き添えは出ない。
 
    ▍新しい色を足すとき
    VARIANTS にエントリを足して実行 → avatars.ts の SKINS に
@@ -280,6 +285,16 @@ function buildHairMask() {
 
 const { hair, face } = buildHairMask();
 
+/* 瞳ガード：白目（明るく彩度の無い画素）の周囲16pxを守る（虹彩の芯まで届く半径）（→冒頭コメント） */
+const white = new Uint8Array(SIZE * SIZE);
+for (let p = 0; p < SIZE * SIZE; p++) {
+  if (!hair[p] && !face[p]) continue;
+  const i = p * info.channels;
+  const [, s, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
+  if (l > 0.78 && s < 0.28) white[p] = 255;
+}
+const eyeGuard = dilate(white, 16);
+
 for (const v of VARIANTS) {
   const out = Buffer.from(data);
   for (let p = 0; p < SIZE * SIZE; p++) {
@@ -293,7 +308,8 @@ for (const v of VARIANTS) {
     const [h, s, l] = rgbToHsl(r, g, b);
     /* 寒色（髪の色）だけを塗る。ハイライトの白や、ほぼ黒
        （瞳孔・アイライン）は、なだらかに元のまま残す。
-       顔の島では前髪の描き込みと瞳が対象になる（→冒頭コメント3） */
+       白目の周りの暗い画素＝瞳・まつげは丸ごと守る（→冒頭コメント） */
+    if (eyeGuard[p] && l < 0.65) continue;
     const guard = smooth(0.02, 0.045, l) * (1 - smooth(0.9, 0.97, l));
     const w = coolness(h) * guard * (inHair ? 1 : smooth(0.1, 0.2, s));
     if (w <= 0) continue;

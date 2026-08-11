@@ -21,13 +21,14 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, GameFrame, GameStatus, TryAgain } from './parts';
+import { GameButton, GameFrame, GameStatus, TryAgain, useCheer } from './parts';
 import { useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'find' }>;
 
 export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
+  const { cheer, node: cheerNode } = useCheer();
   const elapsed = useGameClock();
   /* 押した行（当たり・外れの両方） */
   const [picked, setPicked] = React.useState<number[]>([]);
@@ -47,6 +48,7 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
     if (spec.lines[i].bad) {
       playSound('right');
       burst(x, y, 1.3);
+      cheer(x, y, hit.length + 1);
       return;
     }
     /* ▍外した瞬間に止める
@@ -63,6 +65,7 @@ export function FindPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
 
   return (
     <GameFrame
+      overlay={cheerNode}
       footer={
         failed ? (
           <GameButton label="もう一度" onPress={retry} />

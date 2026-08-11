@@ -25,7 +25,7 @@ import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
 import { GameButton, GameFrame, TryAgain } from './parts';
-import { useGameClock, type GameScore } from './score';
+import { shuffled, useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'build' }>;
 
@@ -34,6 +34,10 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
   /* 軸ごとに「何番目を選んだか」。未選択は -1 */
   const [chosen, setChosen] = React.useState<number[]>(() => spec.slots.map(() => -1));
   const [failed, setFailed] = React.useState<string[] | null>(null);
+  /* 札の並びは軸ごとに毎回シャッフル（並び順で答えを覚えさせない） */
+  const [slotOrder] = React.useState(() =>
+    spec.slots.map((slot) => shuffled(slot.options.map((_, i) => i))),
+  );
   const all = chosen.every((c) => c >= 0);
   /* 何軸まで弱い札のままで通れるか。書いていなければ1軸 */
   const allow = spec.allow ?? 1;
@@ -86,17 +90,20 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
           </View>
 
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-            {slot.options.map((o, oi) => (
-              <PartChip
-                key={o.name}
-                label={o.name}
-                on={chosen[si] === oi}
-                onPress={() => {
-                  setFailed(null);
-                  setChosen((v) => v.map((c, i) => (i === si ? oi : c)));
-                }}
-              />
-            ))}
+            {slotOrder[si].map((oi) => {
+              const o = slot.options[oi];
+              return (
+                <PartChip
+                  key={o.name}
+                  label={o.name}
+                  on={chosen[si] === oi}
+                  onPress={() => {
+                    setFailed(null);
+                    setChosen((v) => v.map((c, i) => (i === si ? oi : c)));
+                  }}
+                />
+              );
+            })}
           </View>
 
           {/* 選んだ結果。差し替わるたびに跳ねる */}

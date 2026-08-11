@@ -28,6 +28,7 @@ import { SlideIn, Stamp, useSparkBurst } from '@/components/motion';
 import { Badge, Bubble, Button, Panel, Row, Screen, ScreenHead } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
 import { ALL_LESSONS, SCORED_GAME_KEYS } from '@/data/courses';
+import { GACHA_POOL } from '@/data/gacha';
 import { getRole } from '@/data/roles';
 import { ENDING_VOICE, say as voice } from '@/data/voice';
 import { playSound } from '@/lib/sound';
@@ -109,10 +110,36 @@ export default function EndingScreen() {
         </Panel>
       </SlideIn>
 
-      {/* ▍終わりにしない
-          全部終わっても、復習と★3集めは残っている。
-          「ここから先は現場で」と言って、持ち帰りに渡す */}
-      <SlideIn from="bottom" distance={18} delay={520}>
+      {/* ▍終わりにしない（実機で「終わり感を出すな」の指摘）
+          修了はゴールではなく折り返し。**ここで消すアプリではない**と
+          伝えるために、①コンプリートへの導線 ②追加コンテンツの予告
+          ③持ち帰り、の順で「まだやることがある」を積む */}
+      <CompleteList
+        star3={star3}
+        perfect={perfect}
+        badgeCount={stats.badgeCount}
+        badgeTotal={stats.badgeTotal}
+        collected={Object.keys(state.themes).length + Object.keys(state.skins).length}
+        collectTotal={GACHA_POOL.length}
+        onBadges={() => router.push('/badges')}
+        onGacha={() => router.push('/gacha')}
+      />
+
+      <SlideIn from="bottom" distance={18} delay={640}>
+        <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+          <Row gap={8}>
+            <Icon name="rocket" size={18} color={T.accent} />
+            <Text style={F.h2}>つづきを準備中</Text>
+          </Row>
+          <Text style={F.small}>
+            新しい章、新しい相棒のアバター、新しい舞台——このアプリはこれからも増えます。
+            ログインボーナスでガチャPを貯めながら、待っていてください。
+            間違えた問題の復習も、日をおいて戻ってきます。
+          </Text>
+        </Panel>
+      </SlideIn>
+
+      <SlideIn from="bottom" distance={18} delay={760}>
         <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
           <Text style={F.h2}>ここから先は、現場で</Text>
           <Text style={F.small}>
@@ -123,21 +150,73 @@ export default function EndingScreen() {
         </Panel>
       </SlideIn>
 
-      {star3 < SCORED_GAME_KEYS.length || graduated > 0 ? (
-        <SlideIn from="bottom" distance={18} delay={640}>
-          <Panel contentStyle={{ padding: S.md, gap: 6 }}>
-            <Text style={[F.small, { color: C.ink500 }]}>まだ残っているもの</Text>
-            {star3 < SCORED_GAME_KEYS.length ? (
-              <Text style={F.small}>
-                ★3があと {SCORED_GAME_KEYS.length - star3} 本
-              </Text>
-            ) : null}
-            <Text style={F.small}>間違えた問題の復習は、日をおいて戻ってきます</Text>
-          </Panel>
-        </SlideIn>
-      ) : null}
-
       <Button label="ホームにもどる" variant="secondary" onPress={() => router.replace('/')} />
     </Screen>
+  );
+}
+
+/* ▍コンプリートへの導線
+   全レッスン修了は「本編クリア」であって、集めるものはまだ残っている。
+   残りを数字で見せて、やり込みの口（バッジ・ガチャ）へつなぐ。
+   全部埋まっている人にだけ「完全コンプリート」を出す */
+function CompleteList({
+  star3,
+  perfect,
+  badgeCount,
+  badgeTotal,
+  collected,
+  collectTotal,
+  onBadges,
+  onGacha,
+}: {
+  star3: number;
+  perfect: number;
+  badgeCount: number;
+  badgeTotal: number;
+  collected: number;
+  collectTotal: number;
+  onBadges: () => void;
+  onGacha: () => void;
+}) {
+  const rows: { icon: React.ComponentProps<typeof Icon>['name']; text: string }[] = [];
+  if (star3 < SCORED_GAME_KEYS.length)
+    rows.push({ icon: 'star', text: `ゲームの★3　あと ${SCORED_GAME_KEYS.length - star3} 本` });
+  if (perfect < ALL_LESSONS.length)
+    rows.push({ icon: 'perfect', text: `ノーミス修了　あと ${ALL_LESSONS.length - perfect} 本` });
+  if (badgeCount < badgeTotal)
+    rows.push({ icon: 'badges', text: `バッジ　あと ${badgeTotal - badgeCount} 個` });
+  if (collected < collectTotal)
+    rows.push({ icon: 'egg', text: `ガチャのコレクション　あと ${collectTotal - collected} 個` });
+
+  return (
+    <SlideIn from="bottom" distance={18} delay={520}>
+      <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+        {rows.length ? (
+          <>
+            <Row gap={8}>
+              <Icon name="target" size={18} color={T.accent} />
+              <Text style={F.h2}>コンプリートまで</Text>
+            </Row>
+            <View style={{ gap: 4 }}>
+              {rows.map((r) => (
+                <Row key={r.text} gap={8} style={{ paddingVertical: 3 }}>
+                  <Icon name={r.icon} size={15} color={T.accent} />
+                  <Text style={F.small}>{r.text}</Text>
+                </Row>
+              ))}
+            </View>
+            <Row gap={S.sm}>
+              <Button label="バッジをみる" size="sm" variant="secondary" style={{ flex: 1 }} onPress={onBadges} />
+              <Button label="ガチャへ" size="sm" variant="secondary" style={{ flex: 1 }} onPress={onGacha} />
+            </Row>
+          </>
+        ) : (
+          <Row gap={8}>
+            <Icon name="crown" size={18} color={T.accent} />
+            <Text style={F.h2}>完全コンプリート。すごい。</Text>
+          </Row>
+        )}
+      </Panel>
+    </SlideIn>
   );
 }

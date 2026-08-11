@@ -23,8 +23,8 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, GameFrame, GameStatus, TryAgain } from './parts';
-import { useGameClock, type GameScore } from './score';
+import { GameButton, GameFrame, GameStatus, TryAgain, useCheer } from './parts';
+import { shuffled, useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'fit' }>;
 
@@ -32,9 +32,12 @@ const NATIVE = Platform.OS !== 'web';
 
 export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
+  const { cheer, node: cheerNode } = useCheer();
   const elapsed = useGameClock();
   const [on, setOn] = React.useState<number[]>([]);
   const [checked, setChecked] = React.useState(false);
+  /* 並びは毎回シャッフル。データの順だと「上の3つが当たり」になる（実機で指摘） */
+  const [order, setOrder] = React.useState(() => shuffled(spec.items.map((_, i) => i)));
   /* 外して渡した回数。ここがミスの数になる */
   const [misses, setMisses] = React.useState(0);
   const [failed, setFailed] = React.useState(false);
@@ -80,8 +83,12 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
     ]).start();
   }, [over, shake]);
 
-  const hand = () => {
+  const hand = (x: number, y: number) => {
     setChecked(true);
+    if (ok) {
+      playSound('right');
+      cheer(x, y, misses === 0 ? 5 : 2);
+    }
     /* 過不足があったら、そこで1ミス。**外したことを数えないと、
        何度でも当てにいけてしまう** */
     if (!ok) {
@@ -94,6 +101,7 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
 
   return (
     <GameFrame
+      overlay={cheerNode}
       footer={
         failed ? (
           <GameButton
@@ -103,6 +111,7 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
               setChecked(false);
               setMisses(0);
               setFailed(false);
+              setOrder(shuffled(spec.items.map((_, i) => i)));
             }}
           />
         ) : ok && checked ? (
@@ -177,15 +186,18 @@ export function FitPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameSc
 
       {/* 載せる資料 */}
       <View style={{ gap: 6 }}>
-        {spec.items.map((it, i) => (
-          <FitRow
-            key={it.name}
-            name={it.name}
-            cost={it.cost}
-            on={on.includes(i)}
-            onPress={(x, y) => toggle(i, x, y)}
-          />
-        ))}
+        {order.map((i) => {
+          const it = spec.items[i];
+          return (
+            <FitRow
+              key={it.name}
+              name={it.name}
+              cost={it.cost}
+              on={on.includes(i)}
+              onPress={(x, y) => toggle(i, x, y)}
+            />
+          );
+        })}
       </View>
 
       {/* 答え合わせ */}
