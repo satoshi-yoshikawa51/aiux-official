@@ -347,6 +347,7 @@ export function Panel({
   bg,
   bgRatio,
   bgColor,
+  bgHeight,
   number,
   caption,
   tilt = 0,
@@ -367,6 +368,10 @@ export function Panel({
   bgRatio?: number;
   /** bg が届かない上側を埋める色。絵のいちばん上と同じ色にする */
   bgColor?: string;
+  /** bg の高さ(px)を外から決める。**キャラの大きさに背景を連動させる**ために使う
+      （→ (tabs)/index.tsx）。渡すとコマ幅に合わせる代わりにこの高さで敷き、
+      幅は bgRatio から出して中央に置く。はみ出しはコマが切る */
+  bgHeight?: number;
   number?: string;
   caption?: string;
   /** 傾き（度）。±1〜3くらいが効く */
@@ -395,7 +400,22 @@ export function Panel({
       {bg ? (
         <>
           {bgColor ? <View style={[StyleSheet.absoluteFill, { backgroundColor: bgColor }]} /> : null}
-          {bgRatio ? (
+          {bgRatio && bgHeight ? (
+            /* 高さを外から決める形。幅は比率から出して、**下端・中央**に置く。
+               キャラの足元を軸に絵を伸び縮みさせるので、左右にはみ出す
+               ぶんはコマの overflow:'hidden' が切る */
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: '50%',
+                width: bgHeight * bgRatio,
+                height: bgHeight,
+                marginLeft: -(bgHeight * bgRatio) / 2,
+              }}>
+              <Image source={bg} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
+            </View>
+          ) : bgRatio ? (
             /* 縦横比は**外側のView**に持たせる。Image に直接 aspectRatio を
                書いても react-native-web は画像の自然サイズで高さを決めてしまい、
                効かない。上のはみ出しはコマの overflow:'hidden' が切る */

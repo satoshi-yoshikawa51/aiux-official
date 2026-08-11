@@ -55,3 +55,16 @@ export function useGameClock() {
   const startRef = React.useRef(Date.now());
   return React.useCallback(() => Date.now() - startRef.current, []);
 }
+
+/* ▍出題順・選択肢はシャッフルして出す
+   データに書いた順のまま出すと、答えが並び順で覚えられてしまう
+   （仕分けは左右交互、詰めるは上の3つが正解——実機で指摘）。
+   Fisher-Yatesで、遊ぶたびに違う並びにする */
+export function shuffled<T>(arr: readonly T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}

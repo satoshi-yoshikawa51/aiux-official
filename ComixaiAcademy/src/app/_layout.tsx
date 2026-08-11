@@ -145,6 +145,7 @@ export default function RootLayout() {
               <Stack.Screen name="lesson/[id]" options={{ title: '', headerBackTitle: '戻る' }} />
               <Stack.Screen name="review" options={{ title: '復習', headerBackTitle: '戻る' }} />
               <Stack.Screen name="exam/[courseId]" options={{ title: '修了試験', headerBackTitle: '戻る' }} />
+              <Stack.Screen name="gacha" options={{ title: 'ガチャ', headerBackTitle: '戻る' }} />
               {/* ▍持ち帰りはヘッダーを出す（戻る矢印のため）
                    タブの外の画面なので、ヘッダーを消すと**戻る口が無くなる**
                    （実機で「トップに戻れない」の報告）。レッスン・復習と同じ形 */}

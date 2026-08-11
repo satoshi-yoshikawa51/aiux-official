@@ -24,8 +24,8 @@ import type { LessonInteractive, SortItem } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, GameFrame } from './parts';
-import { useGameClock, type GameScore } from './score';
+import { GameButton, GameFrame, useCheer } from './parts';
+import { shuffled, useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'sort' }>;
 
@@ -42,10 +42,16 @@ const NATIVE = Platform.OS !== 'web';
 
 export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
+  const { cheer, node: cheerNode } = useCheer();
+  /* 連続で当てた数。掛け声の言葉がだんだん強くなる */
+  const streak = React.useRef(0);
   const elapsed = useGameClock();
   const { width } = useWindowDimensions();
   const [at, setAt] = React.useState(0);
   const [done, setDone] = React.useState<Judged[]>([]);
+  /* 出す順は毎回シャッフル。データの順のままだと左右交互などの
+     並びぐせがそのまま出て、読まずに当てられてしまう（実機で指摘） */
+  const [order, setOrder] = React.useState(() => shuffled(spec.items.map((_, i) => i)));
   /* 直前の1枚の判定。次の札が出るまで出しっぱなしにする */
   const [last, setLast] = React.useState<Judged | null>(null);
 
@@ -56,7 +62,7 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
   const fly = React.useRef(new Animated.Value(0)).current;
   const [flying, setFlying] = React.useState<{ judged: Judged; dir: -1 | 1 } | null>(null);
 
-  const item = flying ? flying.judged.item : spec.items[at];
+  const item = flying ? flying.judged.item : spec.items[order[at]];
   const misses = done.filter((d) => !d.ok).length;
   const finished = at >= spec.items.length;
   const passed = finished && misses <= spec.allow;
@@ -67,7 +73,13 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
     const ok = toRight === item.right;
     const j = { item, ok };
     playSound(ok ? 'right' : 'wrong');
-    if (ok) burst(x, y, 1.2);
+    if (ok) {
+      burst(x, y, 1.2);
+      streak.current += 1;
+      cheer(x, y, streak.current);
+    } else {
+      streak.current = 0;
+    }
 
     setFlying({ judged: j, dir: toRight ? 1 : -1 });
     fly.setValue(0);
@@ -106,6 +118,7 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
                 setAt(0);
                 setDone([]);
                 setLast(null);
+                setOrder(shuffled(spec.items.map((_, i) => i)));
               }}
             />
           )
@@ -165,6 +178,7 @@ export function SortPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameS
 
   return (
     <GameFrame
+      overlay={cheerNode}
       /* ▍箱は下に貼り付ける
          札とセットで縦に流していたので、**札が短い回では箱が画面の
          まんなかに来て、下半分が空いていた**。どの回でも同じ場所に

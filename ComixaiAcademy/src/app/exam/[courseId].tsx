@@ -47,7 +47,7 @@ export default function ExamScreen() {
   const { courseId } = useLocalSearchParams<{ courseId: string }>();
   const router = useRouter();
   const { state, ready, answerQuiz, passExam } = useProgress();
-  const avatar = getAvatar(state.avatarId);
+  const avatar = getAvatar(state.avatarId, state.skinId);
   const avatarRef = React.useRef<AvatarHandle>(null);
   const { width } = useWindowDimensions();
   const stageW = Math.min(width * 0.4, 165);
@@ -272,8 +272,10 @@ export default function ExamScreen() {
               </Text>
               {choice === TIMED_OUT ? <Badge tone="red">時間切れ</Badge> : <MissTag misses={misses} />}
             </Row>
-            {/* 制限時間。本編と同じ（→ components/quiz.tsx の設計メモ） */}
-            <QuizTimer quizId={quiz.id} running={choice === null} onTimeout={timeUp} />
+            {/* 制限時間。本編と同じ（→ components/quiz.tsx の設計メモ）。
+                流れ星の入場中は止める——回しっぱなしだと、1問目だけ
+                演出の1.8秒ぶん短くなる（実測で発覚） */}
+            <QuizTimer quizId={quiz.id} running={!entering && choice === null} onTimeout={timeUp} />
             <Text style={F.h1}>{quiz.q}</Text>
             <QuizChoices quiz={quiz} choice={choice} onPick={answer} shuffleSalt={salt} />
             {choice !== null ? <QuizExplain quiz={quiz} choice={choice} /> : null}

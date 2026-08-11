@@ -12,7 +12,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
-import { BADGES, titleFor, type Title } from '@/data/badges';
+import { BADGES, TITLES, titleFor, type Title } from '@/data/badges';
+import { DEFAULT_SKIN_ID } from '@/data/avatars';
+import {
+  DEFAULT_THEME_ID,
+  draw,
+  DUPE_REFUND,
+  SPIN_COST,
+  type GachaPrize,
+} from '@/data/gacha';
 import {
   ALL_LESSONS,
   COURSES,
@@ -101,6 +109,19 @@ export interface ProgressState {
   games: Record<string, GameRecord>;
   /** コースの修了試験に合格した時刻(ms)。キーはコースID（→ app/exam/[courseId].tsx） */
   exams: Record<string, number>;
+  /** ガチャP。学習の節目でだけ貯まる（→ data/gacha.ts） */
+  coins: number;
+  /** ログインボーナスを最後に受け取った日（'YYYY-MM-DD'） */
+  lastBonusDay: string;
+  /** 持っている舞台テーマ。テーマID -> 引いた時刻(ms) */
+  themes: Record<string, number>;
+  /** いまホームに装備している舞台テーマ */
+  themeId: string;
+  /** 持っている色違いアバター。ID -> 引いた時刻(ms)
+      （キー名は互換のため skins のまま。中身は「増えたアバター」） */
+  skins: Record<string, number>;
+  /** いま使っている色違い。'' ＝ ノーマル */
+  skinId: string;
   /** 効果音を鳴らすか。既定はオン（→ lib/sound.ts） */
   soundOn: boolean;
   /** BGMを鳴らすか。既定はオン（→ lib/music.ts）。
@@ -125,6 +146,12 @@ const EMPTY: ProgressState = {
   quiz: {},
   games: {},
   exams: {},
+  coins: 0,
+  lastBonusDay: '',
+  themes: {},
+  themeId: DEFAULT_THEME_ID,
+  skins: {},
+  skinId: DEFAULT_SKIN_ID,
   soundOn: true,
   musicOn: true,
 };
@@ -213,6 +240,15 @@ export interface CompletionResult {
   newBadges: string[];
   /** 称号が上がったなら、その称号 */
   newTitle: Title | null;
+  /** この修了で増えたガチャP（バッジ+1／称号+3） */
+  coinsGained: number;
+}
+
+/** ガチャを1回まわした結果 */
+export interface SpinResult {
+  prize: GachaPrize;
+  /** すでに持っていた（DUPE_REFUND を返した） */
+  dupe: boolean;
 }
 
 interface Ctx {
@@ -226,8 +262,20 @@ interface Ctx {
   answerQuiz: (quizId: string, correct: boolean) => void;
   /** ミニゲームを通したことを記録する。★が伸びたときだけ中身を書き換える */
   recordGame: (lessonId: string, stars: number, misses: number, ms: number) => void;
-  /** コースの修了試験に合格したことを記録する（2回目以降の合格では上書きしない） */
+  /** コースの修了試験に合格したことを記録する（2回目以降の合格では上書きしない）。
+      初回合格はガチャP +2 */
   passExam: (courseId: string) => void;
+  /** ログインボーナス。今日まだなら +1P して true を返す（ホームが1日1回呼ぶ） */
+  claimLoginBonus: () => boolean;
+  /** ガチャを1回まわす。Pが足りなければ null */
+  spinGacha: () => SpinResult | null;
+  /** 舞台テーマを装備する（持っていないものは無視） */
+  setTheme: (id: string) => void;
+  /** 色違いを使う。'' でノーマルに戻す（持っていないものは無視） */
+  setSkin: (id: string) => void;
+  /** アバターを丸ごと切り替える（キャラ＋色違いを一度に）。
+      統一ロスター（設定・ガチャのコレクション）からはこれを呼ぶ */
+  setLook: (avatarId: string, skinId: string) => void;
   /** 効果音のオン・オフ */
   setSoundOn: (on: boolean) => void;
   /** BGMのオン・オフ */
@@ -261,6 +309,17 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
              そうしないと、もう学習が進んでいる人の画面に**いまさら
              入口の演出が割り込む**。職種まで決まっていれば通過済みとみなす */
           if (parsed.seenIntro === undefined && parsed.roleId) loaded.seenIntro = true;
+          /* ▍ガチャPは、これまでの積み上げぶんを遡って配る
+             あとから入れた仕組みなので、既存ユーザーのバッジと称号が
+             0P扱いだと「今まで損してた」になる。初回だけ換算して持たせる */
+          if (parsed.coins === undefined) {
+            const badgeCount = Object.keys(loaded.badges).length;
+            const titleIndex = Math.max(
+              0,
+              TITLES.findIndex((t) => t.name === titleFor(badgeCount).name),
+            );
+            loaded.coins = badgeCount + titleIndex * 3;
+          }
         } catch {
           /* 壊れていたら初期状態で続行する（遊びには支障がない） */
           return;
@@ -343,13 +402,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       };
 
       const { next, newBadges } = applyBadges(base);
-      persist(next);
 
       const afterTitle = titleFor(Object.keys(next.badges).length);
-      return {
-        newBadges,
-        newTitle: afterTitle.name !== beforeTitle.name ? afterTitle : null,
-      };
+      const newTitle = afterTitle.name !== beforeTitle.name ? afterTitle : null;
+      /* ガチャP：バッジ+1／称号が上がったら+3（→ data/gacha.ts） */
+      const coinsGained = newBadges.length + (newTitle ? 3 : 0);
+      persist({ ...next, coins: next.coins + coinsGained });
+
+      return { newBadges, newTitle, coinsGained };
     },
     [applyBadges, persist],
   );
@@ -393,9 +453,62 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const passExam = React.useCallback(
     (courseId: string) => {
       if (ref.current.exams[courseId]) return;
-      persist({ ...ref.current, exams: { ...ref.current.exams, [courseId]: Date.now() } });
+      persist({
+        ...ref.current,
+        exams: { ...ref.current.exams, [courseId]: Date.now() },
+        /* 初回合格はガチャP +2 */
+        coins: ref.current.coins + 2,
+      });
     },
     [persist],
+  );
+
+  const claimLoginBonus = React.useCallback((): boolean => {
+    const day = today();
+    if (ref.current.lastBonusDay === day) return false;
+    persist({ ...ref.current, lastBonusDay: day, coins: ref.current.coins + 1 });
+    return true;
+  }, [persist]);
+
+  const spinGacha = React.useCallback((): SpinResult | null => {
+    const s = ref.current;
+    if (s.coins < SPIN_COST) return null;
+    const prize = draw();
+    const pocket = prize.kind === 'theme' ? s.themes : s.skins;
+    const dupe = !!pocket[prize.id];
+    const coins = s.coins - SPIN_COST + (dupe ? DUPE_REFUND : 0);
+    const nextPocket = dupe ? pocket : { ...pocket, [prize.id]: Date.now() };
+    persist(
+      prize.kind === 'theme'
+        ? { ...s, coins, themes: nextPocket }
+        : { ...s, coins, skins: nextPocket },
+    );
+    return { prize, dupe };
+  }, [persist]);
+
+  const setTheme = React.useCallback(
+    (id: string) => {
+      if (id !== DEFAULT_THEME_ID && !ref.current.themes[id]) return;
+      persist({ ...ref.current, themeId: id });
+    },
+    [persist],
+  );
+
+  const setSkin = React.useCallback(
+    (id: string) => {
+      if (id !== DEFAULT_SKIN_ID && !ref.current.skins[id]) return;
+      persist({ ...ref.current, skinId: id });
+    },
+    [persist],
+  );
+
+  const setLook = React.useCallback(
+    (avatarId: string, skinId: string) => {
+      if (skinId !== DEFAULT_SKIN_ID && !ref.current.skins[skinId]) return;
+      const { next } = applyBadges({ ...ref.current, avatarId, skinId });
+      persist(next);
+    },
+    [applyBadges, persist],
   );
 
   /* ▍鳴らす側は毎回ストアを見ない
@@ -454,6 +567,11 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       answerQuiz,
       recordGame,
       passExam,
+      claimLoginBonus,
+      spinGacha,
+      setTheme,
+      setSkin,
+      setLook,
       setSoundOn,
       setMusicOn,
       markTitleSeen,
@@ -471,6 +589,11 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       answerQuiz,
       recordGame,
       passExam,
+      claimLoginBonus,
+      spinGacha,
+      setTheme,
+      setSkin,
+      setLook,
       setSoundOn,
       setMusicOn,
       markTitleSeen,

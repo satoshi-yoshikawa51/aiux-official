@@ -81,6 +81,10 @@ export interface GameMeta {
   rule: string;
   /** 遊び方の1行。タイトルの下に出る */
   how: string;
+  /** ゲームの持ち色。タイトルの紋章・上の帯・下線に使う。
+      黒地のゲームは別世界なので、紙の側より色数が多くてよい
+      （実機で「殺風景」の指摘。ゲームごとに顔を変える） */
+  color: string;
 }
 
 /* ▍名前は「何をするゲームか」がそのまま分かる形にする
@@ -94,48 +98,56 @@ export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
     icon: 'target',
     rule: '札を2つの箱に振り分ける',
     how: '1枚ずつ出てくる札を、左右どちらの箱に入れるか決めます',
+    color: '#ff9f43',
   },
   find: {
     name: '危ない行を見つけよう',
     icon: 'shield',
     rule: '文書を検問する',
     how: '文書を読んで、あやしい行をタップして摘発します',
+    color: '#5cc8ff',
   },
   build: {
     name: 'AIに適切な指示を出そう',
     icon: 'hammer',
     rule: '部品を選んで指示を強くする',
     how: '札を選ぶたびに、AIの返しがその場で変わります',
+    color: '#ffd23f',
   },
   order: {
     name: '正しい順に並べよう',
     icon: 'compass',
     rule: '仕事の手順を組む',
     how: '「つぎにやること」を選んでいくと、手順が組み上がります',
+    color: '#7ee08c',
   },
   fit: {
     name: '要るものだけ載せよう',
     icon: 'folder',
     rule: 'AIの机は広さに限りがある',
     how: 'AIの作業机は狭い。要るものだけを載せてください',
+    color: '#c9a1ff',
   },
   tokenizer: {
     name: 'AIの目で見てみよう',
     icon: 'pen',
     rule: '文章の切れ目をのぞく',
     how: '好きに打つと、AIから見た区切りが出ます。合否はありません',
+    color: '#8fd3ff',
   },
   'token-budget': {
     name: 'トークンを枠に収めよう',
     icon: 'target',
     rule: '書いて削って幅に収める',
     how: '書いて削って、決められたトークン数に収めてください',
+    color: '#ff8a5c',
   },
   'ai-prompt': {
     name: '本物のAIに指示を出そう',
     icon: 'bulb',
     rule: '書いて、渡して、採点される',
     how: '本物のAIに指示を渡します。返ってきたものと指示が採点されます',
+    color: '#ff8ac2',
   },
 };
 
@@ -376,8 +388,44 @@ function TitleScreen({
     <Pressable
       onPress={onSkip}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: S.xl, gap: S.sm }}>
+      {/* 飾りの星。ループさせない（電池対策）。持ち色と黄色で散らす */}
+      {(
+        [
+          { at: { top: '16%', left: '12%' }, size: 16, c: meta.color },
+          { at: { top: '11%', right: '18%' }, size: 12, c: C.yellow400 },
+          { at: { top: '26%', right: '9%' }, size: 20, c: meta.color },
+          { at: { bottom: '24%', left: '10%' }, size: 14, c: C.yellow400 },
+          { at: { bottom: '15%', right: '14%' }, size: 17, c: meta.color },
+        ] as const
+      ).map((d, i) => (
+        <PopIn key={i} delay={500 + i * 120} style={[{ position: 'absolute' }, d.at]}>
+          <Icon name="twinkle" size={d.size} color={d.c} opacity={0.85} />
+        </PopIn>
+      ))}
+
+      {/* ゲームの紋章。持ち色のタイルに白抜きのアイコン */}
+      <PopIn delay={60}>
+        <View
+          style={{
+            width: 84,
+            height: 84,
+            borderRadius: R.md,
+            backgroundColor: meta.color,
+            borderWidth: BW.heavy,
+            borderColor: C.ink900,
+            alignItems: 'center',
+            justifyContent: 'center',
+            transform: [{ rotate: '-5deg' }],
+            marginBottom: S.sm,
+            /* 黒地の上のベタ影。紙側の Pop と同じ流儀 */
+            shadowColor: C.ink900,
+          }}>
+          <Icon name={meta.icon} size={44} color={C.ink900} />
+        </View>
+      </PopIn>
+
       <SlideIn from="bottom" distance={-18} duration={300}>
-        <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 3, color: C.yellow400 }}>
+        <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 3, color: meta.color }}>
           MINI GAME
         </Text>
       </SlideIn>
@@ -400,7 +448,7 @@ function TitleScreen({
         style={{
           height: 5,
           borderRadius: R.full,
-          backgroundColor: C.yellow400,
+          backgroundColor: meta.color,
           width: line.interpolate({ inputRange: [0, 1], outputRange: [0, 132] }),
         }}
       />
@@ -464,10 +512,25 @@ function GameBar({ meta, onClose }: { meta: GameMeta; onClose: () => void }) {
         paddingHorizontal: S.lg,
         paddingTop: S.sm,
         paddingBottom: S.md,
-        borderBottomWidth: BW.line,
-        borderBottomColor: C.ink800,
+        borderBottomWidth: 3,
+        /* 帯の下線もゲームの持ち色。どのゲームにいるかが色で分かる */
+        borderBottomColor: meta.color,
       }}>
-      <Icon name={meta.icon} size={19} color={C.yellow400} />
+      {/* タイトルの紋章の小型版。場面がつながって見える */}
+      <View
+        style={{
+          width: 30,
+          height: 30,
+          borderRadius: R.xs,
+          backgroundColor: meta.color,
+          borderWidth: BW.line,
+          borderColor: C.ink900,
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: [{ rotate: '-5deg' }],
+        }}>
+        <Icon name={meta.icon} size={17} color={C.ink900} />
+      </View>
       <View style={{ flex: 1 }}>
         <Text style={{ fontFamily: FONT.heading, fontSize: 17, color: C.paper50 }}>{meta.name}</Text>
         <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.ink300 }}>
@@ -542,7 +605,19 @@ function ClearScreen({
   }, [burst, width, height, perfect]);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: S.xl, gap: S.md }}>
+    /* ▍スクロールできる箱にする
+       おさらいが長い回や背の低い端末で、中身が縦にあふれて
+       端が見切れることがある（実機で「結果の文字が切れる」の指摘）。
+       あふれたらスクロールで逃がす */
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: S.xl,
+        gap: S.md,
+      }}>
       <Stamp tilt={-6}>
         <View
           style={{
@@ -624,7 +699,11 @@ function ClearScreen({
         </SlideIn>
       ) : null}
 
-      <SlideIn from="bottom" distance={14} delay={760} style={{ marginTop: S.md, gap: S.sm }}>
+      <SlideIn
+        from="bottom"
+        distance={14}
+        delay={760}
+        style={{ marginTop: S.md, gap: S.sm, alignSelf: 'stretch' }}>
         <GameButton label="レッスンに戻る" onPress={onClose} />
         {/* ▍★3でないときだけ、もう一度を目立たせる
             満点で終えた人にやり直しを勧めても意味がない */}
@@ -632,7 +711,7 @@ function ClearScreen({
           <GameButton label="★3をねらう" tone="ghost" onPress={onRetry} />
         ) : null}
       </SlideIn>
-    </View>
+    </ScrollView>
   );
 }
 

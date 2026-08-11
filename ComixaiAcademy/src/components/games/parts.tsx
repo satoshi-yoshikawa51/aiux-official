@@ -6,11 +6,23 @@
    「色が変わって少し縮む」で押した手ごたえを出している。
    ============================================================ */
 import React from 'react';
-import { Pressable, ScrollView, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import {
+  Animated,
+  Easing,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
 
 import { useTap } from '@/components/motion';
 import type { SoundName } from '@/lib/sound';
 import { BW, C, FONT, R, S } from '@/theme';
+
+const NATIVE = Platform.OS !== 'web';
 
 /* ============================================================
    ゲーム1本ぶんの器。**押して決める口は、下に貼り付ける。**
@@ -27,10 +39,13 @@ import { BW, C, FONT, R, S } from '@/theme';
 export function GameFrame({
   children,
   footer,
+  overlay,
 }: {
   children: React.ReactNode;
   /** 下に貼り付けるもの。決める口が無い場面では省く */
   footer?: React.ReactNode;
+  /** 画面全体に重ねるもの（掛け声ポップなど）。触れない */
+  overlay?: React.ReactNode;
 }) {
   return (
     <View style={{ flex: 1 }}>
@@ -52,7 +67,97 @@ export function GameFrame({
           {footer}
         </View>
       ) : null}
+      {overlay ? (
+        <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
+          {overlay}
+        </View>
+      ) : null}
     </View>
+  );
+}
+
+/* ============================================================
+   掛け声。正解のたびに、押した指の近くで「ナイス！」がぽんと出る。
+
+   星（useSparkBurst）だけだと画面が静かで、**当てた気持ちよさが
+   足りない**（実機で「ミニゲームが殺風景」の指摘）。文字が出ると
+   画面が一気に喋りだす。連続で当てるほど言葉が強くなる。
+   ループアニメではなく一発もの（電池を食わない）。
+   ============================================================ */
+
+const CHEERS = ['ナイス！', 'いいね！', '冴えてる！', 'その調子！', 'さすが！'];
+
+export function useCheer(): {
+  /** x,y＝指の座標（pageX/pageY）。streak＝何連続めの正解か（1〜） */
+  cheer: (x: number, y: number, streak?: number) => void;
+  node: React.ReactNode;
+} {
+  const [pop, setPop] = React.useState<{ key: number; text: string; x: number; y: number } | null>(
+    null,
+  );
+  const cheer = React.useCallback((x: number, y: number, streak = 1) => {
+    const text = CHEERS[Math.min(Math.max(streak - 1, 0), CHEERS.length - 1)];
+    setPop({ key: Date.now(), text, x, y });
+  }, []);
+  const node = pop ? (
+    <CheerPop key={pop.key} text={pop.text} x={pop.x} y={pop.y} onDone={() => setPop(null)} />
+  ) : null;
+  return { cheer, node };
+}
+
+function CheerPop({
+  text,
+  x,
+  y,
+  onDone,
+}: {
+  text: string;
+  x: number;
+  y: number;
+  onDone: () => void;
+}) {
+  const t = React.useRef(new Animated.Value(0)).current;
+  const done = React.useRef(onDone);
+  done.current = onDone;
+  React.useEffect(() => {
+    Animated.timing(t, {
+      toValue: 1,
+      duration: 620,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: NATIVE,
+    }).start(() => done.current());
+  }, [t]);
+  return (
+    <Animated.View
+      style={{
+        position: 'absolute',
+        /* 指の少し上。左右は端で見切れないように寄せる */
+        left: Math.min(Math.max(x - 70, 8), 250),
+        top: Math.max(y - 150, 40),
+        opacity: t.interpolate({ inputRange: [0, 0.15, 0.75, 1], outputRange: [0, 1, 1, 0] }),
+        transform: [
+          { translateY: t.interpolate({ inputRange: [0, 1], outputRange: [8, -26] }) },
+          {
+            scale: t.interpolate({
+              inputRange: [0, 0.2, 0.35, 1],
+              outputRange: [0.5, 1.15, 1, 1],
+            }),
+          },
+          { rotate: '-4deg' },
+        ],
+      }}>
+      <View
+        style={{
+          backgroundColor: C.yellow400,
+          borderWidth: BW.bold,
+          borderColor: C.ink900,
+          borderRadius: R.full,
+          paddingHorizontal: 14,
+          paddingVertical: 6,
+        }}>
+        <Text style={{ fontFamily: FONT.heading, fontSize: 15, color: C.ink900 }}>{text}</Text>
+      </View>
+    </Animated.View>
   );
 }
 

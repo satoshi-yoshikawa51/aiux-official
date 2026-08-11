@@ -11,6 +11,7 @@
       選べないので、GLBを置く前にエントリだけ先に書いても壊れない。
    ============================================================ */
 import type { IconName } from '@/components/icons';
+import type { Rarity } from '@/data/gacha';
 
 export interface AvatarView {
   /** 画角。小さいほど望遠＝歪みが減る */
@@ -109,8 +110,90 @@ export const AVATARS: AvatarDef[] = [
 
 export const DEFAULT_AVATAR_ID = 'sensei';
 
-export function getAvatar(id: string | null | undefined): AvatarDef {
-  return AVATARS.find((a) => a.id === id) ?? AVATARS[0];
+/* ============================================================
+   ▍色違いアバター
+   「金髪の先生」のような色違いを、**独立した1体のアバター**として
+   扱う（選べるアバターがガチャでどんどん増えていく建て付け。
+   キャラ本体のモデルが増えたら、それもガチャの景品に足す）。
+   性格・セリフはベースのキャラ（avatarId）から引き継ぐ——
+   色が変わっても同じ人。
+
+   GLBは共通で、テクスチャの差し替えだけで成立する。
+   テクスチャは tools/recolor-sensei.mjs が元の1枚から生成する
+   （髪だけ塗り替える。作り方はツールの冒頭コメントに）。
+   ガチャの景品になる（→ data/gacha.ts の GACHA_POOL）。
+   ============================================================ */
+
+export interface AvatarSkin {
+  id: string;
+  /** どのキャラの色違いか（性格・セリフはこのキャラのもの） */
+  avatarId: string;
+  name: string;
+  rarity: Rarity;
+  /** 引いたときに出す一言 */
+  desc: string;
+  /** 選択UIで見せる髪の色 */
+  swatch: string;
+  texture: number;
+}
+
+export const SKINS: AvatarSkin[] = [
+  {
+    id: 'gin',
+    avatarId: 'sensei',
+    name: '銀髪の先生',
+    rarity: 'R',
+    desc: '雪の日みたいに、しんとした色。',
+    swatch: '#aeb6bf',
+    texture: require('@/assets/models/sensei-gin-texture.jpg'),
+  },
+  {
+    id: 'momo',
+    avatarId: 'sensei',
+    name: '桃色の先生',
+    rarity: 'R',
+    desc: '春の気配。ちょっと照れてる……わけではない。',
+    swatch: '#e2698e',
+    texture: require('@/assets/models/sensei-momo-texture.jpg'),
+  },
+  {
+    id: 'kin',
+    avatarId: 'sensei',
+    name: '金髪の先生',
+    rarity: 'SR',
+    desc: '金色。教室がまぶしい。',
+    swatch: '#d8a61c',
+    texture: require('@/assets/models/sensei-kin-texture.jpg'),
+  },
+  {
+    id: 'hiiro',
+    avatarId: 'sensei',
+    name: '緋色の先生',
+    rarity: 'SR',
+    desc: '燃えるような緋色。本気の日の色。',
+    swatch: '#b81f2d',
+    texture: require('@/assets/models/sensei-hiiro-texture.jpg'),
+  },
+];
+
+/** '' ＝ 素の色（きせかえ無し） */
+export const DEFAULT_SKIN_ID = '';
+
+export function getSkin(id: string | null | undefined): AvatarSkin | null {
+  return SKINS.find((s) => s.id === id) ?? null;
+}
+
+/**
+ * アバターを引く。skinId を渡すと、その色違いのテクスチャを貼った
+ * 姿で返す（名前・性格はそのまま。**色が変わっても同じ人**）。
+ * 別のアバターのきせかえを渡されたときは素の姿で返す。
+ */
+export function getAvatar(id: string | null | undefined, skinId?: string): AvatarDef {
+  const base = AVATARS.find((a) => a.id === id) ?? AVATARS[0];
+  if (!skinId || !base.model) return base;
+  const skin = getSkin(skinId);
+  if (!skin || skin.avatarId !== base.id) return base;
+  return { ...base, model: { ...base.model, texture: skin.texture } };
 }
 
 export function isReady(a: AvatarDef): boolean {

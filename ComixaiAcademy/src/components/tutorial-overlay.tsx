@@ -26,7 +26,7 @@ export function TutorialOverlay() {
   const insets = useSafeAreaInsets();
   const { active, step, index, total, next, finish, setPanelH } = useTutorial();
   const { state } = useProgress();
-  const avatar = getAvatar(state.avatarId);
+  const avatar = getAvatar(state.avatarId, state.skinId);
 
   if (!active || !step) return null;
 

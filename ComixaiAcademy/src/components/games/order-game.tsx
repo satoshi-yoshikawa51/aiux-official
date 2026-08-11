@@ -20,13 +20,14 @@ import type { LessonInteractive } from '@/data/types';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
 import { playSound } from '@/lib/sound';
-import { GameButton, GameFrame, GameStatus, TryAgain } from './parts';
-import { useGameClock, type GameScore } from './score';
+import { GameButton, GameFrame, GameStatus, TryAgain, useCheer } from './parts';
+import { shuffled, useGameClock, type GameScore } from './score';
 
 type Spec = Extract<LessonInteractive, { kind: 'order' }>;
 
 export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: GameScore) => void }) {
   const burst = useSparkBurst();
+  const { cheer, node: cheerNode } = useCheer();
   const elapsed = useGameClock();
   /* 外した回数。もとは間違えても札が消えないので、総当たりで必ず解けた */
   const [misses, setMisses] = React.useState(0);
@@ -48,6 +49,7 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
       setPlaced((v) => [...v, i]);
       playSound('right');
       burst(x, y, 1.1);
+      cheer(x, y, placed.length + 1);
     } else {
       setSlip(i);
       playSound('wrong');
@@ -57,22 +59,21 @@ export function OrderPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
     }
   };
 
-  /* 表示は元の順を伏せたいので、決まった並べ替えで出す
-     （毎回同じ並びだが、正解順とは違う） */
-  const shown = React.useMemo(
-    () => spec.steps.map((_, i) => i).sort((a, b) => ((a * 7) % spec.steps.length) - ((b * 7) % spec.steps.length)),
-    [spec.steps],
-  );
+  /* 表示は毎回シャッフルする。決まった並べ替えだと、2回目からは
+     並びの位置で覚えられてしまう（実機で指摘の一族） */
+  const [shown, setShown] = React.useState(() => shuffled(spec.steps.map((_, i) => i)));
 
   const retry = () => {
     setPlaced([]);
     setSlip(null);
     setMisses(0);
+    setShown(shuffled(spec.steps.map((_, i) => i)));
     setFailed(false);
   };
 
   return (
     <GameFrame
+      overlay={cheerNode}
       footer={
         failed ? (
           <GameButton label="もう一度" onPress={retry} />

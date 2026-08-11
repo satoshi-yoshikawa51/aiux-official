@@ -66,7 +66,7 @@ export default function LessonScreen() {
   const { width } = useWindowDimensions();
 
   const avatarRef = React.useRef<AvatarHandle>(null);
-  const avatar = getAvatar(state.avatarId);
+  const avatar = getAvatar(state.avatarId, state.skinId);
   const role = getRole(state.roleId);
   const found = getLesson(String(id));
 
@@ -80,7 +80,11 @@ export default function LessonScreen() {
   const [copied, setCopied] = React.useState(false);
   /* 合否のある体験カードを通過したか。カードを送るたびに戻す */
   const [cleared, setCleared] = React.useState(false);
-  const [result, setResult] = React.useState<{ newBadges: string[]; newTitle: Title | null } | null>(null);
+  const [result, setResult] = React.useState<{
+    newBadges: string[];
+    newTitle: Title | null;
+    coinsGained: number;
+  } | null>(null);
   /* ランクアップの演出を出しているあいだ。**結果画面より前に**割り込ませる */
   const [rankUp, setRankUp] = React.useState<Title | null>(null);
   const savedRef = React.useRef(false);
@@ -516,6 +520,15 @@ export default function LessonScreen() {
               <Badge tone="ink">
                 クイズ {lesson.quiz.length - misses} / {lesson.quiz.length} 問正解
               </Badge>
+              {/* ガチャP。バッジや称号で増えたときだけ出す（→ data/gacha.ts） */}
+              {result && result.coinsGained > 0 ? (
+                <Row gap={5}>
+                  <Icon name="egg" size={13} color={T.accent} />
+                  <Text style={[F.strong, { fontSize: 12.5, color: T.accent }]}>
+                    ガチャP +{result.coinsGained}
+                  </Text>
+                </Row>
+              ) : null}
               {/* ▍間違えても修了になる理由を、その場で言う
                    「1問しか正解してないのにクリアになった。なんで？」と
                    なっていた（実機で指摘）。間違いは無かったことに
