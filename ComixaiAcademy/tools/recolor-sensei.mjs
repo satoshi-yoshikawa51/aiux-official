@@ -28,8 +28,7 @@
       （顔の島も頭に届くが、肌の暖色が主体なのでここには来ない）
    2. 毛先のリング：首から肩の帯（minY>0.2）にいて、寒色が主体、
       かつ**彩度0.4超が85%以上**。毛先は濃くても鮮やかな紺青で
-      ほぼ全画素が高彩度。同じ帯にいる襟・肩のヨークは彩度0.4超が
-      3〜6割止まりなので、この線で切れる（85%と60%の間が崖）
+      ほぼ全画素が高彩度。同じ帯の襟・肩のヨークは3〜6割止まり
    3. 顔の島（暖色が主体）：チャートの中に**前髪が描き込まれている**。
       島ごと塗らず、寒色の画素だけを髪のふち扱いで塗る。
 
@@ -215,6 +214,8 @@ function buildHairMask() {
   const { json, accessor } = readGlb(GLB);
   /* 画素→島番号（-1＝どの島でもない） */
   const islandMap = new Int32Array(SIZE * SIZE).fill(-1);
+  /* 画素→モデル上のy（三角形の平均、1000倍の整数）。瞳ガードの高さ制限に使う */
+  const yMap = new Int16Array(SIZE * SIZE).fill(-2000);
   /* 島番号→頂点yの最大値・最小値 */
   const maxY = new Map();
   const minY = new Map();
@@ -237,6 +238,9 @@ function buildHairMask() {
         maxY.set(isl, Math.max(maxY.get(isl) ?? -Infinity, ...ys));
         minY.set(isl, Math.min(minY.get(isl) ?? Infinity, ...ys));
         fillTriangle(islandMap, isl, uv[ia * 2] * SIZE, uv[ia * 2 + 1] * SIZE,
+          uv[ib * 2] * SIZE, uv[ib * 2 + 1] * SIZE, uv[ic * 2] * SIZE, uv[ic * 2 + 1] * SIZE);
+        fillTriangle(yMap, Math.round(((ys[0] + ys[1] + ys[2]) / 3) * 1000),
+          uv[ia * 2] * SIZE, uv[ia * 2 + 1] * SIZE,
           uv[ib * 2] * SIZE, uv[ib * 2 + 1] * SIZE, uv[ic * 2] * SIZE, uv[ic * 2 + 1] * SIZE);
       }
     }
@@ -269,8 +273,13 @@ function buildHairMask() {
     const bottom = minY.get(isl) ?? 1;
     const coolFrac = st.cool / st.n;
     const vividFrac = st.vivid / st.n;
+    /* 毛先のリング：ほぼ全画素が鮮やかな紺青の島だけ。しきい値を
+       下げて内側の髪まで拾おうとすると、色も形もそっくりな
+       「襟の影」の島まで塗ってしまう（首まわりで実測して断念）。
+       内側の髪の暗い層は、素のままでも影として自然に見える */
+    const neckHair = bottom > 0.2 && coolFrac > 0.5 && vividFrac > 0.85;
     if (top > HEAD_TOP_Y && coolFrac > 0.5) hairIslands.add(isl);
-    else if (bottom > 0.2 && coolFrac > 0.5 && vividFrac > 0.85) hairIslands.add(isl);
+    else if (neckHair) hairIslands.add(isl);
     else if (top > HEAD_TOP_Y && coolFrac <= 0.5) faceIslands.add(isl);
   }
   for (let p = 0; p < SIZE * SIZE; p++) {
@@ -278,22 +287,58 @@ function buildHairMask() {
     else if (faceIslands.has(islandMap[p])) faceMask[p] = 255;
   }
   console.log(`島の数: ${stats.size} / 髪: ${hairIslands.size} / 顔（前髪入り）: ${faceIslands.size}`);
-  return { hair: dilate(mask, 2), face: faceMask };
+  return { hair: dilate(mask, 2), face: faceMask, yMap };
 }
 
 /* ---------- 本体 ---------- */
 
-const { hair, face } = buildHairMask();
+const { hair, face, yMap } = buildHairMask();
 
-/* 瞳ガード：白目（明るく彩度の無い画素）の周囲16pxを守る（虹彩の芯まで届く半径）（→冒頭コメント） */
+/* 瞳ガード：白目（明るく彩度の無い画素）の周囲16px＝虹彩の芯まで守る
+   （→冒頭コメント）。白目とみなすのは**目の高さの帯（y 0.5〜0.8）だけ**。
+   頭頂のツヤも白っぽいので、制限しないと頭のまわりに塗り残しの
+   まだらが出る（実機で「まだらに黒が残る」の指摘） */
 const white = new Uint8Array(SIZE * SIZE);
 for (let p = 0; p < SIZE * SIZE; p++) {
   if (!hair[p] && !face[p]) continue;
+  const yv = yMap[p] / 1000;
+  if (yv < 0.5 || yv > 0.8) continue;
   const i = p * info.channels;
   const [, s, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
   if (l > 0.78 && s < 0.28) white[p] = 255;
 }
 const eyeGuard = dilate(white, 16);
+
+/* 環境変数 DEBUG_MAP=1 で、判定の通り道を色分けした診断テクスチャを出す:
+   緑=塗る(w>0.2) / マゼンタ=島内だがw=0 / 青=瞳ガードで守った / 元色=対象外 */
+if (process.env.DEBUG_MAP) {
+  const out = Buffer.from(data);
+  for (let p = 0; p < SIZE * SIZE; p++) {
+    const inHair = hair[p];
+    const inFace = face[p];
+    if (!inHair && !inFace) continue;
+    const i = p * info.channels;
+    const r = out[i] / 255, g = out[i + 1] / 255, b = out[i + 2] / 255;
+    const [h, sS, l] = rgbToHsl(r, g, b);
+    let code = null;
+    if (eyeGuard[p] && l < 0.65) code = [40, 80, 255];
+    else {
+      const guard = smooth(0.006, 0.025, l) * (1 - smooth(0.9, 0.97, l));
+      const yv = yMap[p] / 1000;
+      const crownDark = yv > 0.78 ? 1 - smooth(0.4, 0.58, l) : 0;
+      const baseW = inHair
+        ? Math.max(coolness(h), crownDark)
+        : Math.max(coolness(h) * smooth(0.1, 0.2, sS), crownDark);
+      const w = baseW * guard;
+      code = w > 0.2 ? [40, 220, 40] : [255, 40, 255];
+    }
+    out[i] = code[0]; out[i + 1] = code[1]; out[i + 2] = code[2];
+  }
+  await sharp(out, { raw: { width: SIZE, height: SIZE, channels: info.channels } })
+    .jpeg({ quality: 90 }).toFile(`${DIR}sensei-debugmap-texture.jpg`);
+  console.log('debug map saved');
+  process.exit(0);
+}
 
 for (const v of VARIANTS) {
   const out = Buffer.from(data);
@@ -310,8 +355,19 @@ for (const v of VARIANTS) {
        （瞳孔・アイライン）は、なだらかに元のまま残す。
        白目の周りの暗い画素＝瞳・まつげは丸ごと守る（→冒頭コメント） */
     if (eyeGuard[p] && l < 0.65) continue;
-    const guard = smooth(0.02, 0.045, l) * (1 - smooth(0.9, 0.97, l));
-    const w = coolness(h) * guard * (inHair ? 1 : smooth(0.1, 0.2, s));
+    /* 分け目などの「ほぼ黒」も塗る。瞳・まつげはガードが守っているので、
+       ここは強気でよい（残すと明るい髪色の上で黒いまだらになる） */
+    const guard = smooth(0.006, 0.025, l) * (1 - smooth(0.9, 0.97, l));
+    /* 頭のてっぺん帯（y>0.78）は**色を問わず「暗ければ髪」**。
+       分け目やアホ毛は暗い茶黒で描かれていて寒色の網に掛からず、
+       明るい髪色の上で黒いまだらになっていた（実機で指摘）。
+       額の肌は明るいので、この暗さ条件には掛からない */
+    const yv = yMap[p] / 1000;
+    const crownDark = yv > 0.78 ? 1 - smooth(0.4, 0.58, l) : 0;
+    const baseW = inHair
+      ? Math.max(coolness(h), crownDark)
+      : Math.max(coolness(h) * smooth(0.1, 0.2, s), crownDark);
+    const w = baseW * guard;
     if (w <= 0) continue;
     const [nr, ng, nb] = hslToRgb(v.hue, s + (v.sat - s) * w, l + (Math.pow(l, v.lift) - l) * w);
     out[i] = Math.round((r + (nr - r) * w) * 255);
