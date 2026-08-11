@@ -16,10 +16,11 @@ SR は光条・鏡面・金。プロンプト全文と `--stylize` の使い分�
 
 どのプロンプトにも次の4つは必ず入れる：
 
-- **`horizon line exactly at the vertical centre of the frame`** — いちばん大事。
-  下の「▍地平線を画面の中央に」を読むこと
+- **遠近の指定を、頭・お尻・`--no` の3か所に**。いちばん大事なので、下の
+  「▍地平線を画面の中央に」を読むこと
 - `--no people, characters` — 外すと必ず人が立ち、キャラの立ち位置が埋まる
-- `camera at standing eye level` — 無いと俯瞰になり、キャラが床にめり込む
+- `camera at standing eye level 160cm above the floor, lens axis perfectly level`
+  — 無いと俯瞰になり、キャラが床にめり込む
 - `wide open ... in the centre foreground` — 中央に木や柱が来ると、
   キャラの頭から生える
 
@@ -39,6 +40,23 @@ SR は光条・鏡面・金。プロンプト全文と `--stylize` の使い分�
 
 絵を足したら、地平線が絵の上から何割の位置にあるかを目で見て `horizon` に入れる
 （床と壁の境目、平行線が集まる高さ）。中央に描けていれば 0.5。
+
+▍MJに効かせる書き方
+抽象的に `low horizon` と書いても効かない。**3か所で言う**：
+
+1. **先頭**（場面の描写より前。MJは前のほうの語を強く見る）
+   `one-point perspective, the horizon line runs exactly through the middle of
+   the frame, the floor fills the entire lower half of the image and converges
+   to a single vanishing point at the dead centre, camera at standing eye level
+   160cm above the floor, lens axis perfectly level,`
+2. **末尾で言い換えて繰り返す**
+   `, symmetrical one-point perspective, vanishing point dead centre,
+   horizon exactly halfway up the frame, ground plane occupying the entire lower half`
+3. **逆の構図を禁じる**（黙っていると俯瞰にされる）
+   `--no ... high angle, birds eye view, aerial view, top-down view,
+   looking down, tilted camera, dutch angle, low angle`
+
+それでも**1発では出ない**。中央から大きくずれた絵は没にして回し直すこと。
 
 ## 描けているもの
 
