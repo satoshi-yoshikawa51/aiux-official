@@ -53,6 +53,8 @@ interface LayerSpec {
   dir: 1 | -1;
   /** 横揺れの幅(px)。0で真っ直ぐ */
   sway: number;
+  /** 1周のあいだに何回またたくか。0で瞬かない */
+  twinkle?: number;
 }
 
 interface Spec {
@@ -63,33 +65,37 @@ interface Spec {
 
 const SPEC: Record<EffectName, Spec> = {
   /* ▍金箔（目玉の「金インクの原稿の中」）
-     いちばん豪華な飾り。塵・箔・玉ボケの3層に、横切る光を足す。
-     金は彩度を上げると安っぽくなるので、白に寄せた金で光らせる */
+     いちばん豪華な飾り。**細かい粒を数多く**、明るさを散らして、
+     層ごとに違う速さで流しながらまたたかせる。玉ボケは少しだけ。 */
   kinpaku: {
     layers: [
-      /* 白に寄せた塵。暗いところで光る */
-      { n: 26, r: [1, 2.4], color: '#fff6e2', alpha: 0.9, sec: 13, dir: 1, sway: 7 },
+      { n: 40, r: [0.5, 1.1], color: '#fffaf0', alpha: 1, sec: 15, dir: 1, sway: 6, twinkle: 4 },
+      { n: 30, r: [0.8, 1.7], color: '#ffe9b5', alpha: 0.95, sec: 21, dir: 1, sway: 9, twinkle: 3 },
       /* **濃い金**。この絵は紙が白いので、明るい粒だけだと飛んでしまう。
          明暗どちらの上でも粒が立つように、濃いほうを1層かませる */
-      { n: 16, r: [1.4, 3.2], color: '#c8901f', alpha: 0.62, sec: 18, dir: 1, sway: 10 },
-      { n: 12, r: [2.4, 4.6], color: '#f0c268', alpha: 0.42, sec: 25, dir: 1, sway: 13 },
-      /* 玉ボケ。いちばん大きく、いちばん薄い */
-      { n: 8, r: [10, 21], color: '#ffe6ab', alpha: 0.16, sec: 36, dir: 1, sway: 5 },
+      { n: 26, r: [0.7, 1.6], color: '#b8801a', alpha: 0.9, sec: 18, dir: 1, sway: 11, twinkle: 5 },
+      { n: 14, r: [1.6, 3.2], color: '#f5c86a', alpha: 0.6, sec: 27, dir: 1, sway: 13, twinkle: 2 },
+      { n: 5, r: [7, 14], color: '#ffe6ab', alpha: 0.1, sec: 40, dir: 1, sway: 4 },
     ],
     sweep: { color: '#ffd98a', sec: 11 },
   },
-  /* ▍光の粒（サーバーの聖堂）。冷たく、まばらに、ゆっくり昇る */
+  /* ▍光の粒（サーバーの聖堂）。冷たい星屑。黒に近い地なので、
+     いちばん明るい層は白でよい */
   motes: {
     layers: [
-      { n: 20, r: [0.8, 1.8], color: '#dff3ff', alpha: 0.7, sec: 17, dir: 1, sway: 5 },
-      { n: 6, r: [7, 15], color: '#7ecbff', alpha: 0.11, sec: 31, dir: 1, sway: 3 },
+      { n: 38, r: [0.5, 1.1], color: '#ffffff', alpha: 1, sec: 20, dir: 1, sway: 5, twinkle: 4 },
+      { n: 30, r: [0.8, 1.8], color: '#8fe0ff', alpha: 0.95, sec: 14, dir: 1, sway: 8, twinkle: 3 },
+      { n: 16, r: [1.6, 3.2], color: '#4fc0ff', alpha: 0.6, sec: 26, dir: 1, sway: 10, twinkle: 5 },
+      { n: 5, r: [6, 13], color: '#5fc4ff', alpha: 0.1, sec: 38, dir: 1, sway: 3 },
     ],
   },
   /* ▍きらめき（雲海の上の教室）。陽の中の塵なので、ゆっくり降りる */
   kira: {
     layers: [
-      { n: 22, r: [1, 2.2], color: '#fff3d9', alpha: 0.7, sec: 19, dir: -1, sway: 8 },
-      { n: 6, r: [10, 20], color: '#ffeec9', alpha: 0.12, sec: 33, dir: -1, sway: 4 },
+      { n: 34, r: [0.5, 1.1], color: '#fffdf5', alpha: 1, sec: 22, dir: -1, sway: 7, twinkle: 4 },
+      { n: 26, r: [0.8, 1.7], color: '#ffe7bc', alpha: 0.9, sec: 16, dir: -1, sway: 10, twinkle: 3 },
+      { n: 12, r: [1.6, 3.0], color: '#e8a83c', alpha: 0.55, sec: 29, dir: -1, sway: 12, twinkle: 5 },
+      { n: 5, r: [7, 15], color: '#ffeec9', alpha: 0.1, sec: 36, dir: -1, sway: 4 },
     ],
   },
 };
@@ -101,6 +107,11 @@ function useLoop(sec: number) {
     let anim: Animated.CompositeAnimation | null = null;
     const start = () => {
       anim?.stop();
+      /* ▍止めた位置から再開しない
+         Animated.loop は各周でこの値まで戻すので、**終端で止まっていると
+         1→1 のアニメになり、以降ずっと動かない**（画面を行き来したあとに
+         止まって見えたのはこれ）。毎回0から回し直す */
+      t.setValue(0);
       anim = Animated.loop(
         Animated.timing(t, {
           toValue: 1,
@@ -112,9 +123,11 @@ function useLoop(sec: number) {
       anim.start();
     };
     start();
+    /* iOSは通知バナーや App スイッチャーでも inactive を送ってくる。
+       止めるのは本当に背面へ回ったときだけにする */
     const sub = AppState.addEventListener('change', (s) => {
       if (s === 'active') start();
-      else anim?.stop();
+      else if (s === 'background') anim?.stop();
     });
     return () => {
       anim?.stop();
@@ -150,6 +163,19 @@ function Layer({ spec, w, h, salt }: { spec: LayerSpec; w: number; h: number; sa
     outputRange: [0, spec.sway, 0, -spec.sway, 0],
   });
 
+  /* ▍またたき
+     粒ひとつずつにアニメを持たせず、**層ごと**明るさを上下させる。
+     層の速さがそれぞれ違うので、重なると粒が個別に瞬いて見える。
+     流れる値をそのまま使い回すので、値は層に1本のまま */
+  const opacity = React.useMemo(() => {
+    const k = spec.twinkle ?? 0;
+    if (k <= 0) return undefined;
+    const steps = k * 2;
+    const input = Array.from({ length: steps + 1 }, (_, i) => i / steps);
+    const output = input.map((_, i) => (i % 2 === 0 ? 0.42 : 1));
+    return t.interpolate({ inputRange: input, outputRange: output });
+  }, [t, spec.twinkle]);
+
   return (
     <Animated.View
       style={{
@@ -158,23 +184,28 @@ function Layer({ spec, w, h, salt }: { spec: LayerSpec; w: number; h: number; sa
         top: 0,
         width: w,
         height: h * 2,
+        opacity,
         transform: [{ translateY }, { translateX }],
       }}>
       <Svg width={w} height={h * 2}>
         <Defs>
           {/* 中心が明るく、外へ消える。輪郭を作らないための1枚 */}
+          {/* ▍中心はくっきり、光は狭く
+              なだらかに広げると粒が大きな薄い染みになり、画面が
+              「モサッ」とする。芯を作って、そのすぐ外で消す */}
           <RadialGradient id={gid} cx="50%" cy="50%" r="50%">
             <Stop offset="0" stopColor={spec.color} stopOpacity={spec.alpha} />
-            <Stop offset="0.4" stopColor={spec.color} stopOpacity={spec.alpha * 0.45} />
+            <Stop offset="0.22" stopColor={spec.color} stopOpacity={spec.alpha * 0.92} />
+            <Stop offset="0.42" stopColor={spec.color} stopOpacity={spec.alpha * 0.35} />
             <Stop offset="1" stopColor={spec.color} stopOpacity={0} />
           </RadialGradient>
         </Defs>
         {dots.map((d, i) => (
-          <Circle key={i} cx={d.x} cy={d.y} r={d.r * 2.4} fill={`url(#${gid})`} />
+          <Circle key={i} cx={d.x} cy={d.y} r={d.r * 3.1} fill={`url(#${gid})`} />
         ))}
         {/* 折り返し用の2枚目。1枚ぶん動かしたとき、ここが同じ絵になる */}
         {dots.map((d, i) => (
-          <Circle key={`b${i}`} cx={d.x} cy={d.y + h} r={d.r * 2.4} fill={`url(#${gid})`} />
+          <Circle key={`b${i}`} cx={d.x} cy={d.y + h} r={d.r * 3.1} fill={`url(#${gid})`} />
         ))}
       </Svg>
     </Animated.View>
