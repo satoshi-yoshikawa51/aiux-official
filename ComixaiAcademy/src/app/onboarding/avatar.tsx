@@ -9,6 +9,7 @@ import { Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
+import { SaveTransfer } from '@/components/save-transfer';
 import { Badge, Button, Panel, PressCard, Row, Screen, ScreenHead } from '@/components/ui';
 import { AVATARS, DEFAULT_AVATAR_ID, getAvatar, isReady } from '@/data/avatars';
 import { useProgress } from '@/store/progress';
@@ -79,6 +80,12 @@ export default function AvatarPickScreen() {
       <Text style={F.hand}>
         「準備中」の相棒は、3Dモデルを追加すると選べるようになります
       </Text>
+
+      {/* ▍機種変更・入れ直しの受け口（→ components/save-transfer.tsx）
+          記録はこの端末の中にしかないので、**新しい端末で最初に着くこの画面**に
+          戻し口を置いておく。せっていまで進まないと戻せない作りだと、
+          ここで「全部消えた」と思って離脱する */}
+      <SaveTransfer mode="restore" />
     </Screen>
   );
 }
