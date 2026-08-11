@@ -1,9 +1,15 @@
 /* ============================================================
-   舞台テーマの飾り。ホームの教室に重ねる雨・桜・雪・星。
+   舞台テーマの飾り。ホームの舞台に重ねる雨・花びら・火の粉・金箔。
 
    ▍動かさない
    ホームは常駐画面なので、ループアニメを置くと電池を食い続ける。
    置き方（位置・大きさ・傾き）で「降っている感じ」を出す。
+
+   ▍豪華さは「粒の種類」で出す
+   動かせないぶん、レア度は**1粒あたりの作り込み**で差をつける。
+   Nは飾りなし、Rは1種類の粒、SRは複数の形を混ぜる。
+   金箔（kinpaku）は薄片・箔・きらめきの3種を混ぜていて、
+   これがいちばん豪華な飾り＝目玉の「金インクの原稿の中」用。
 
    ▍位置は決め打ちの散らばり
    Math.random だと描画のたびに配置が変わってチラつく。
@@ -59,9 +65,17 @@ export function StageGlow({ glow }: { glow: NonNullable<StageTheme['glow']> }) {
   );
 }
 
+const COUNT: Partial<Record<NonNullable<StageTheme['effect']>, number>> = {
+  kira: 8,
+  stars: 14,
+  ember: 16,
+  motes: 22,
+  kinpaku: 34,
+};
+
 export function StageEffect({ effect }: { effect: NonNullable<StageTheme['effect']> }) {
   const items = React.useMemo(() => {
-    const n = effect === 'kira' ? 8 : effect === 'stars' ? 14 : effect === 'ember' ? 16 : 12;
+    const n = COUNT[effect] ?? 12;
     return Array.from({ length: n }, (_, i) => ({
       key: i,
       x: jitter(i, 1),
@@ -108,6 +122,79 @@ export function StageEffect({ effect }: { effect: NonNullable<StageTheme['effect
                 borderTopLeftRadius: 1,
                 backgroundColor: 'rgba(255,200,215,0.85)',
                 transform: [{ rotate: `${r * 360}deg` }],
+              }}
+            />
+          );
+        }
+        if (effect === 'kinpaku') {
+          /* ▍金箔（いちばん豪華な飾り）
+             3種を混ぜる。薄片＝細長い金の切れ端、箔＝面で光る四角、
+             きらめき＝星。大きさも傾きも粒ごとに散らして、
+             「舞っている最中」に見せる */
+          const kind = key % 3;
+          const rot = `${-40 + r * 80}deg` as const;
+          if (kind === 0) {
+            /* 薄片。細長く、傾きが強い */
+            return (
+              <View
+                key={key}
+                style={{
+                  position: 'absolute',
+                  left,
+                  top,
+                  width: 2 + s * 3,
+                  height: 7 + s * 11,
+                  backgroundColor: r > 0.5 ? 'rgba(245,196,80,0.92)' : 'rgba(214,158,44,0.85)',
+                  transform: [{ rotate: rot }],
+                }}
+              />
+            );
+          }
+          if (kind === 1) {
+            /* 箔。面で光るので、上辺に白を一本入れて厚みを出す */
+            const d = 5 + s * 8;
+            return (
+              <View
+                key={key}
+                style={{
+                  position: 'absolute',
+                  left,
+                  top,
+                  width: d,
+                  height: d * (0.5 + r * 0.5),
+                  backgroundColor: 'rgba(240,180,41,0.9)',
+                  transform: [{ rotate: rot }],
+                  overflow: 'hidden',
+                }}>
+                <View style={{ height: 1.5, backgroundColor: 'rgba(255,246,214,0.95)' }} />
+              </View>
+            );
+          }
+          return (
+            <View key={key} style={{ position: 'absolute', left, top }}>
+              <Icon
+                name="twinkle"
+                size={9 + s * 13}
+                color={r > 0.6 ? '#fff6d6' : '#f5c451'}
+                opacity={0.7 + r * 0.3}
+              />
+            </View>
+          );
+        }
+        if (effect === 'motes') {
+          /* 光の粒。サーバーの霧に浮かぶ粒で、下のほうに多く、青い */
+          const d = 2 + s * 4;
+          return (
+            <View
+              key={key}
+              style={{
+                position: 'absolute',
+                left,
+                top: `${20 + y * 74}%`,
+                width: d,
+                height: d,
+                borderRadius: d / 2,
+                backgroundColor: r > 0.7 ? 'rgba(226,246,255,0.95)' : 'rgba(120,214,255,0.75)',
               }}
             />
           );

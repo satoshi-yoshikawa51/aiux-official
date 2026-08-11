@@ -58,7 +58,7 @@ export interface StageTheme {
   /** 舞台に重ねる色。'transparent'＝素のまま */
   tint: string;
   /** 追加の飾り（→ components/stage-effect.tsx） */
-  effect?: 'stars' | 'snow' | 'sakura' | 'rain' | 'kira' | 'ember';
+  effect?: 'stars' | 'snow' | 'sakura' | 'rain' | 'kira' | 'ember' | 'motes' | 'kinpaku';
   /** 専用の絵。**無いテーマは素の教室に色を重ねる**（もとの作り）。
       絵が描けたものから art を足していく → assets/images/_raw/README.md */
   art?: StageArt;
@@ -300,6 +300,51 @@ export const THEMES: StageTheme[] = [
       src: require('@/assets/images/stage-cabin-fire.jpg'),
       ratio: 0.7532,
       wall: '#4a2d1f',
+    },
+  },
+  {
+    id: 'datacenter',
+    name: 'サーバーの聖堂',
+    rarity: 'SR',
+    desc: 'AIが動いている、その場所。',
+    tint: 'transparent',
+    swatch: '#4fc3f7',
+    effect: 'motes',
+    glow: 'cyan',
+    art: {
+      src: require('@/assets/images/stage-datacenter.jpg'),
+      ratio: 0.7532,
+      wall: '#324855',
+    },
+  },
+  {
+    id: 'above-clouds',
+    name: '雲海の上の教室',
+    rarity: 'SR',
+    desc: 'ここまで来たか。',
+    tint: 'transparent',
+    swatch: '#ffd27a',
+    effect: 'kira',
+    glow: 'gold',
+    art: {
+      src: require('@/assets/images/stage-above-clouds.jpg'),
+      ratio: 0.7532,
+      wall: '#8d7a69',
+    },
+  },
+  {
+    id: 'gold-ink',
+    name: '金インクの原稿の中',
+    rarity: 'SR',
+    desc: 'インクとトーンでできた世界。COMIXAIの故郷。',
+    tint: 'transparent',
+    swatch: '#e8c15a',
+    effect: 'kinpaku',
+    glow: 'gold',
+    art: {
+      src: require('@/assets/images/stage-gold-ink.jpg'),
+      ratio: 0.7532,
+      wall: '#988877',
     },
   },
 ];
