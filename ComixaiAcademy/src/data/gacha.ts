@@ -374,8 +374,31 @@ export const SPIN_COST = 3;
 /** ダブったとき返すP */
 export const DUPE_REFUND = 1;
 
+/* ============================================================
+   ▍出やすさは「レア度 → 種類」の順で決める
+
+   レア度が先。**遊ぶ人が感じているのはレア度のほう**で、SRの出た回数が
+   設計と食い違うと、ここが一番わかりやすく嘘になる。
+
+   ▍種類（背景／キャラ）は、そのレア度の中でだけ効く
+   キャラ（色違い）は**Nを1つも持っていない**（RとSRだけ）。だから
+   「N65%」と「キャラ30%」は同時には成立しない——Nを引いた時点で
+   必ず背景になるので、キャラ30%を守ろうとするとR・SRの中身がキャラ
+   だらけになり、レア度の比率が崩れる。レア度を優先して、種類の重みは
+   **両方の在庫があるレア度の中でだけ**使う。
+
+   結果として全体では 背景89.5% / キャラ10.5% になる。実際の数字は
+   odds() が在庫から計算して画面に出すので、ここの重みだけ直せばよい
+   （→ app/gacha.tsx の「提供割合」）。
+
+   キャラにNの色違いを足せば、そのまま 背景70/キャラ30 に近づく。 */
+
 /** レア度の出やすさ。合計100 */
-export const RARITY_WEIGHT: Record<Rarity, number> = { N: 62, R: 28, SR: 10 };
+export const RARITY_WEIGHT: Record<Rarity, number> = { N: 65, R: 30, SR: 5 };
+
+/** 同じレア度の中で、背景とキャラのどちらを出すか。合計100。
+    片方しか在庫が無いレア度では、あるほうが全部もらう */
+export const KIND_WEIGHT: Record<GachaPrize['kind'], number> = { theme: 70, avatar: 30 };
 
 export const RARITY_COLOR: Record<Rarity, string> = {
   N: '#8a8078',
@@ -387,21 +410,106 @@ export function getTheme(id: string | null | undefined): StageTheme {
   return THEMES.find((t) => t.id === id) ?? THEMES[0];
 }
 
-/** 抽選。レア度を重みで引いてから、その中で等確率 */
+const RARITIES: Rarity[] = ['N', 'R', 'SR'];
+
+/** 在庫のあるレア度だけを対象にした重み。
+    絵を入れ替えている最中などに、景品が1つも無いレア度が出ても
+    そこへ吸い込まれないようにする（空を引くと画面が落ちる） */
+function liveRarityWeights(): { rarity: Rarity; w: number }[] {
+  const live = RARITIES.filter((r) => GACHA_POOL.some((p) => p.rarity === r));
+  const list = live.length > 0 ? live : RARITIES;
+  return list.map((r) => ({ rarity: r, w: RARITY_WEIGHT[r] }));
+}
+
+/** 抽選。レア度 → 種類（背景／キャラ）→ その中で等確率 */
 export function draw(): GachaPrize {
-  const total = Object.values(RARITY_WEIGHT).reduce((a, b) => a + b, 0);
+  const weights = liveRarityWeights();
+  const total = weights.reduce((a, b) => a + b.w, 0);
   let roll = Math.random() * total;
-  let rarity: Rarity = 'N';
-  for (const [r, w] of Object.entries(RARITY_WEIGHT) as [Rarity, number][]) {
-    roll -= w;
+  let rarity: Rarity = weights[weights.length - 1].rarity;
+  for (const k of weights) {
+    roll -= k.w;
     if (roll <= 0) {
-      rarity = r;
+      rarity = k.rarity;
       break;
     }
   }
-  /* そのレア度の景品がまだ1つも無いことがある（絵を入れ替えている最中など）。
-     空のまま引くと undefined が返って画面が落ちるので、全体から引き直す */
-  const pool = GACHA_POOL.filter((t) => t.rarity === rarity);
+
+  const pool = GACHA_POOL.filter((p) => p.rarity === rarity);
   const from = pool.length > 0 ? pool : GACHA_POOL;
-  return from[Math.floor(Math.random() * from.length)];
+  const themes = from.filter((p) => p.kind === 'theme');
+  const avatars = from.filter((p) => p.kind === 'avatar');
+  /* 片方しか在庫が無ければ、そちらが全部もらう（キャラのNがこれ） */
+  const bucket =
+    themes.length > 0 && avatars.length > 0
+      ? Math.random() * 100 < KIND_WEIGHT.theme
+        ? themes
+        : avatars
+      : themes.length > 0
+        ? themes
+        : avatars;
+  return bucket[Math.floor(Math.random() * bucket.length)];
+}
+
+/* ———————————————— 提供割合 ————————————————
+   画面に出す数字は**在庫から計算する**（→ app/gacha.tsx）。
+   舞台やアバターを足すたびに書き直す形だと、いつか必ず食い違う。 */
+
+export interface OddsCell {
+  rarity: Rarity;
+  kind: GachaPrize['kind'];
+  /** その枠に入っている景品の数 */
+  count: number;
+  /** その枠が出る確率（%） */
+  pct: number;
+}
+
+export interface Odds {
+  cells: OddsCell[];
+  byRarity: { rarity: Rarity; pct: number; count: number }[];
+  byKind: { kind: GachaPrize['kind']; pct: number; count: number }[];
+}
+
+export function odds(): Odds {
+  const weights = liveRarityWeights();
+  const total = weights.reduce((a, b) => a + b.w, 0);
+  const cells: OddsCell[] = [];
+
+  for (const { rarity, w } of weights) {
+    const share = (w / total) * 100;
+    const themes = GACHA_POOL.filter((p) => p.rarity === rarity && p.kind === 'theme').length;
+    const avatars = GACHA_POOL.filter((p) => p.rarity === rarity && p.kind === 'avatar').length;
+    if (themes === 0 && avatars === 0) continue;
+    const both = themes > 0 && avatars > 0;
+    if (themes > 0) {
+      cells.push({
+        rarity,
+        kind: 'theme',
+        count: themes,
+        pct: both ? (share * KIND_WEIGHT.theme) / 100 : share,
+      });
+    }
+    if (avatars > 0) {
+      cells.push({
+        rarity,
+        kind: 'avatar',
+        count: avatars,
+        pct: both ? (share * KIND_WEIGHT.avatar) / 100 : share,
+      });
+    }
+  }
+
+  const sum = (list: OddsCell[]) => list.reduce((a, c) => a + c.pct, 0);
+  const count = (list: OddsCell[]) => list.reduce((a, c) => a + c.count, 0);
+  return {
+    cells,
+    byRarity: RARITIES.map((r) => {
+      const list = cells.filter((c) => c.rarity === r);
+      return { rarity: r, pct: sum(list), count: count(list) };
+    }).filter((r) => r.count > 0),
+    byKind: (['theme', 'avatar'] as const).map((k) => {
+      const list = cells.filter((c) => c.kind === k);
+      return { kind: k, pct: sum(list), count: count(list) };
+    }).filter((k) => k.count > 0),
+  };
 }

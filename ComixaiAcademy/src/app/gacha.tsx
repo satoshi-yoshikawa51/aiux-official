@@ -22,11 +22,13 @@ import { Avatar3D } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
-import { Badge, Button, Panel, Pop, Row, Screen } from '@/components/ui';
+import { Badge, Button, Panel, Pop, Row, Screen, Tap } from '@/components/ui';
 import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
 import {
   DEFAULT_THEME_ID,
+  DUPE_REFUND,
   getTheme,
+  odds,
   RARITY_COLOR,
   SPIN_COST,
   THEMES,
@@ -325,9 +327,12 @@ export default function GachaScreen() {
           style={{ alignSelf: 'stretch', marginTop: S.xs }}
         />
         <Text style={[F.tiny, { marginTop: 6 }]}>
-          Pはログイン・バッジ・称号・修了試験で貯まる ／ ダブりは+1P
+          Pはログイン・バッジ・称号・修了試験で貯まる ／ ダブりは+{DUPE_REFUND}P
         </Text>
       </View>
+
+      {/* 何がどれだけ出るのか（→ 下の OddsBox） */}
+      <OddsBox />
 
       {/* ———— あつめた舞台 ———— */}
       <View style={{ gap: S.sm }}>
@@ -489,6 +494,85 @@ export default function GachaScreen() {
             </Panel>
           </Stamp>
         </Pressable>
+      ) : null}
+    </View>
+  );
+}
+
+/* ———— 提供割合 ————
+   ▍数字は在庫から計算する（→ data/gacha.ts の odds()）
+   手で書くと、舞台やアバターを足したときに必ず食い違う。
+   ストアの審査でもガチャは提供割合の開示が要る。
+
+   ▍たたんでおく
+   回したい人が最初に見るものではないので、ふだんは1行。
+   押した人にだけ、内訳を全部見せる。 */
+const KIND_LABEL: Record<'theme' | 'avatar', string> = { theme: '背景', avatar: 'キャラ' };
+const KIND_UNIT: Record<'theme' | 'avatar', string> = { theme: '枚', avatar: '体' };
+/** 小数第1位まで。ぴったりのときは整数で出す（89.5% / 65%） */
+const pct = (n: number) => `${Math.round(n * 10) / 10}%`;
+
+function OddsBox() {
+  const [open, setOpen] = React.useState(false);
+  const o = React.useMemo(() => odds(), []);
+  return (
+    <View style={{ gap: S.sm }}>
+      <Tap onPress={() => setOpen((v) => !v)} sparks={false} style={{ paddingVertical: 4 }}>
+        <Row gap={6}>
+          <Icon name={open ? 'close' : 'chart'} size={14} color={T.link} />
+          <Text style={[F.strong, { color: T.link, fontSize: 13 }]}>
+            {open ? '提供割合をとじる' : '提供割合をみる'}
+          </Text>
+        </Row>
+      </Tap>
+      {open ? (
+        <View
+          style={{
+            borderWidth: BW.line,
+            borderColor: T.border,
+            borderRadius: R.sm,
+            backgroundColor: T.sunk,
+            padding: S.md,
+            gap: S.sm,
+          }}>
+          <Text style={{ fontFamily: FONT.mono, fontSize: 12, color: T.text, lineHeight: 20 }}>
+            {o.byKind.map((k) => `${KIND_LABEL[k.kind]} ${pct(k.pct)}`).join(' ・ ')}
+            {'\n'}
+            {o.byRarity.map((r) => `${r.rarity} ${pct(r.pct)}`).join(' ・ ')}
+          </Text>
+          <View style={{ height: 1, backgroundColor: T.borderSoft }} />
+          {o.cells.map((c) => (
+            <Row key={`${c.rarity}:${c.kind}`} style={{ justifyContent: 'space-between' }}>
+              <Row gap={8} style={{ flex: 1 }}>
+                <Text
+                  style={{
+                    fontFamily: FONT.mono,
+                    fontSize: 12,
+                    color: RARITY_COLOR[c.rarity],
+                    width: 26,
+                  }}>
+                  {c.rarity}
+                </Text>
+                <Text style={[F.small, { flex: 1 }]}>
+                  {KIND_LABEL[c.kind]} {c.count}
+                  {KIND_UNIT[c.kind]}
+                </Text>
+              </Row>
+              <Text style={{ fontFamily: FONT.mono, fontSize: 12, color: T.text }}>
+                {pct(c.pct)}
+              </Text>
+            </Row>
+          ))}
+          <Text style={F.tiny}>
+            同じレア度・同じ種類の中では等確率です。すでに持っているものも出ます（そのときは
+            {DUPE_REFUND}P返ります）。1回{SPIN_COST}P。
+          </Text>
+          {/* キャラにNが無いことは、隠さずに書いておく。
+              「キャラが出にくい」と感じたときの答えがここにある */}
+          <Text style={F.tiny}>
+            キャラにはNがないので、Nを引いたときは必ず背景になります。
+          </Text>
+        </View>
       ) : null}
     </View>
   );
