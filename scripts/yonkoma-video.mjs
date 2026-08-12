@@ -357,10 +357,10 @@ body { width:968px; height:640px; font-family:"Zen Kaku Gothic New", sans-serif;
   align-items:center; justify-content:center; gap:26px; border:6px solid ${INK}; border-radius:14px; }
 .logo { font-size:64px; font-weight:900; letter-spacing:.01em; }
 .logo .mix { color:${RED}; }
-.tsuzuki { font-size:32px; font-weight:900; }
+.tsuzuki { font-size:46px; font-weight:900; }
 .url { font-family:"JetBrains Mono", monospace; font-size:27px; font-weight:700;
   background:${YELLOW}; padding:14px 26px; border-radius:10px; border:3px solid ${INK}; }
-.sub { font-size:19px; font-weight:700; color:${INK_500}; }
+.sub { font-size:28px; font-weight:700; color:${INK_500}; }
 </style></head><body><div class="card">
   <div class="logo">CO<span class="mix">MIX</span>AI</div>
   <div class="tsuzuki">解説の続きは</div>
@@ -642,14 +642,22 @@ img { position:absolute; inset:0; width:1080px; height:1920px; }
 
 /* ═══════════════ 3. 音 ═══════════════ */
 
-/** ページをめくる「サッ」を合成する（外部素材なしで済ませる） */
+/** ページをめくる「パラッ」を合成する（外部素材なしで済ませる）。
+    2層構成：紙が指を離れる瞬間の鋭いアタック（明るいホワイトノイズ）＋
+    紙が空気を切る擦れ（ピンクノイズの尾）。BGMに埋もれない程度の音量 */
 function makeFlipSe(work) {
   const out = path.join(work, "flip.wav");
   execFileSync(FFMPEG, [
     "-y",
-    "-f", "lavfi",
-    "-i", "anoisesrc=d=0.18:c=pink:a=0.6",
-    "-af", "highpass=f=900,lowpass=f=7000,afade=t=in:d=0.02,afade=t=out:st=0.06:d=0.12,volume=0.55",
+    "-f", "lavfi", "-i", "anoisesrc=d=0.06:c=white:a=0.5",
+    "-f", "lavfi", "-i", "anoisesrc=d=0.24:c=pink:a=0.65",
+    "-filter_complex",
+    "[0:a]highpass=f=2500,lowpass=f=10000,afade=t=in:d=0.005,afade=t=out:st=0.02:d=0.04[flick];" +
+      "[1:a]highpass=f=500,lowpass=f=6000,afade=t=in:d=0.015,afade=t=out:st=0.08:d=0.16,adelay=25|25[swish];" +
+      "[flick][swish]amix=inputs=2:normalize=0,volume=0.75[se]",
+    "-map", "[se]",
+    /* SEがモノラルだとBGMまでモノラルに落ちるので、ステレオで書き出す */
+    "-ac", "2",
     out,
   ], { stdio: "ignore" });
   return out;

@@ -11,7 +11,7 @@ description: 入稿済みの手描き4コマ（public/yonkoma/）を、ページ
 
 ## 完成形の仕様（スクリプトが保証する。変えるときは下の「調整」へ）
 
-- 1080×1920 / 30fps / H.264 / 約24秒 / めくりSE入り（BGMは任意）
+- 1080×1920 / 30fps / H.264 / 約24秒 / めくりSE＋BGM入り（BGMは `scripts/yonkoma-bgm.mp3` 同梱）
 - クリーム地＋トーンドット背景、ヘッダーにシリーズロゴ（`public/yonkoma/logo.webp`。
   文言が「AI用語」なので用語集のみ。プロンプト集やロゴ欠如時はテキストkickerに落ちる）、
   黄マーカー見出し、フッターにCOMIXAIロゴ。**コマに落ち影は付けない**（絵より目立つため廃止）
@@ -74,7 +74,7 @@ $FF -y -sseof -0.5 -i yonkoma-videos/<slug>.mp4 -frames:v 1 /tmp/chk2.png       
 | コマ検出数が違う／検出できない | まず**コマ別画像（`<slug>-1.png`〜）を置けないか**考える（検出自体が不要になる）。無理なら絵の隣に `<slug>.panels.json` を置いて座標指定: `[{"top":120,"bottom":640},…]`（元画像のピクセル座標） |
 | ffmpegが無い | `npm install --no-save ffmpeg-static` |
 | 描画が崩れた・原因を見たい | `node --experimental-strip-types scripts/yonkoma-video.mjs <slug> --keep` で中間フレーム（フレームPNG・めくりコマ送り）が/tmpに残る |
-| 音を足したい | 権利クリアな音源を `scripts/yonkoma-bgm.mp3` に置くと小音量で自動ミックス |
+| BGMを変えたい | `scripts/yonkoma-bgm.mp3`（同梱済み・小音量で自動ミックス）を置き換える |
 
 ## 調整ノブ（スクリプト内の定数）
 
