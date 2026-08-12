@@ -23,6 +23,7 @@
 | `public/yonkoma/glossary/<slug>.png` | 用語ページ（/glossary/…）の定義カード直後に4コマが出る |
 | `public/yonkoma/prompts/<slug>.png` | レシピページ（/prompts/…）の導入直後に4コマが出る |
 | `public/yonkoma/og/<glossary\|prompts>/<slug>.png` | （任意）そのページのOGP画像を差し替える。1200×630 |
+| `public/yonkoma/<section>/<slug>-1.png` 〜 `-4.png` | （動画を作るなら推奨）コマ別画像。**動画はこれを最優先で使う**。サイトには出ない |
 
 - 拡張子は `.png` か `.webp`。slugは各 `data.ts` のもの（`npm run yonkoma:list` で確認できる）
 - OGP差し替えは任意。置かなければ既定のタイポグラフィOGのまま
@@ -55,7 +56,9 @@ npm run yonkoma:video -- sales-email
 
 - 出力は `yonkoma-videos/<slug>.mp4`（gitignore済み。アップロードしたら消してよい）と、
   タイトル・説明文・タグの下書き `<slug>.txt`
-- 中身：コマの**黒枠を画像から自動検出**→1コマずつ表示→読み終わるたびに
+- コマの絵は **`<slug>-1.png`〜`-4.png`（コマ別画像）があればそれを最優先で使う**。
+  帯から切り出すより高画質で、検出ミスも起きないので、動画を見据えるなら一緒に入稿する
+- コマ別画像が無い場合：帯からコマの**黒枠を画像から自動検出**→1コマずつ表示→読み終わるたびに
   **右から左へ紙をめくる演出**（めくりSE同期）→4コマ目の後に**図解＋一文説明のカード**
   （用語ページと同じSVG図解。先に `npm run build` しておくと入る）
   →「解説の続きは comixai.dev/…」のエンドカード。ヘッダーはシリーズロゴ（`public/yonkoma/logo.webp`）

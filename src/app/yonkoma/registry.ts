@@ -5,6 +5,8 @@
      public/yonkoma/glossary/<slug>.webp|png  → 用語ページに4コマが出る
      public/yonkoma/prompts/<slug>.webp|png   → レシピページに4コマが出る
      public/yonkoma/og/<section>/<slug>.png   → （任意）OGP画像を差し替える
+     public/yonkoma/<section>/<slug>-1.png …  → （任意）動画用のコマ別画像。
+                                                 サイトには出ない（yonkoma-video.mjsが使う）
 
    fsを読むのでサーバーコンポーネント／ビルド時専用。
    入稿＝コミットなので、デプロイのたびに必ず反映される。
@@ -53,6 +55,8 @@ export function listYonkoma(): YonkomaItem[] {
     for (const file of fs.readdirSync(dir)) {
       const m = file.match(/^(.+)\.(webp|png)$/);
       if (!m) continue;
+      /* <slug>-1.png のような動画用のコマ別画像はギャラリーに出さない */
+      if (/-\d+$/.test(m[1])) continue;
       items.push({
         section,
         slug: m[1],

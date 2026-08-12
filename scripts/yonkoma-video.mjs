@@ -115,7 +115,25 @@ for (const ext of ["webp", "png"]) {
   const p = path.join(ROOT, "public/yonkoma", section, `${slug}.${ext}`);
   if (await exists(p)) stripPath = p;
 }
-if (!stripPath) {
+
+/* 動画用のコマ別画像（<slug>-1.png, -2.png, …）。あればこれが最優先。
+   サイト用の帯は1枚絵だが、作者がコマ単位で書き出したものの方が
+   高解像度で、切り出しの誤検出も起きない */
+const panelFiles = [];
+for (let i = 1; ; i++) {
+  let f = null;
+  for (const ext of ["webp", "png"]) {
+    const p = path.join(ROOT, "public/yonkoma", section, `${slug}-${i}.${ext}`);
+    if (await exists(p)) {
+      f = p;
+      break;
+    }
+  }
+  if (!f) break;
+  panelFiles.push(f);
+}
+
+if (!stripPath && panelFiles.length === 0) {
   console.error(`4コマがまだ入稿されていない: public/yonkoma/${section}/${slug}.png`);
   process.exit(1);
 }
@@ -646,7 +664,14 @@ async function main() {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
 
   console.log(`「${meta.title}」の動画を作る…`);
-  const panels = await detectAndCropPanels(page);
+  let panels;
+  if (panelFiles.length >= 2) {
+    console.log(`  コマ別画像を使用: ${panelFiles.length}枚（${slug}-1〜。検出はしない）`);
+    panels = [];
+    for (const f of panelFiles) panels.push(await toDataUrl(f));
+  } else {
+    panels = await detectAndCropPanels(page);
+  }
 
   const frames = [];
   const durations = [];

@@ -28,6 +28,8 @@ description: 入稿済みの手描き4コマ（public/yonkoma/）を、ページ
 ### 1. 前提確認
 
 - 対象の絵があるか: `public/yonkoma/<glossary|prompts>/<slug>.png`（一覧は `npm run yonkoma:list`）
+- **コマ別画像（`<slug>-1.png`〜）があるか**。あればスクリプトが最優先で使う（高画質・検出不要）。
+  作者がコマ単位のデータを渡してくれた場合は、**帯から切り出さず必ずこの形で置く**
 - ffmpegがあるか: 無ければ `npm install --no-save ffmpeg-static`（package.jsonには入れない方針）
 - 絵がまだ無いのに動画を頼まれたら、先に入稿が必要なことを伝える（docs/yonkoma.md参照）
 
@@ -69,7 +71,7 @@ $FF -y -sseof -0.5 -i yonkoma-videos/<slug>.mp4 -frames:v 1 /tmp/chk2.png       
 
 | 症状 | 対処 |
 |---|---|
-| コマ検出数が違う／検出できない | 絵の隣に `<slug>.panels.json` を置いて座標指定: `[{"top":120,"bottom":640},…]`（元画像のピクセル座標）。ベタ背景の黒帯を枠と誤認するケースは閾値でなくこの手で直す |
+| コマ検出数が違う／検出できない | まず**コマ別画像（`<slug>-1.png`〜）を置けないか**考える（検出自体が不要になる）。無理なら絵の隣に `<slug>.panels.json` を置いて座標指定: `[{"top":120,"bottom":640},…]`（元画像のピクセル座標） |
 | ffmpegが無い | `npm install --no-save ffmpeg-static` |
 | 描画が崩れた・原因を見たい | `node --experimental-strip-types scripts/yonkoma-video.mjs <slug> --keep` で中間フレーム（フレームPNG・めくりコマ送り）が/tmpに残る |
 | 音を足したい | 権利クリアな音源を `scripts/yonkoma-bgm.mp3` に置くと小音量で自動ミックス |
