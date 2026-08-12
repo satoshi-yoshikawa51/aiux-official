@@ -7,7 +7,7 @@ import { RECIPES } from "../prompts/data";
 import { listYonkoma, type YonkomaItem } from "./registry";
 
 export const metadata: Metadata = {
-  title: "4コマで学ぶAI｜漫画家が描くAI用語とプロンプトのコツ｜COMIXAI",
+  title: "4コマでわかる！AI用語｜漫画家が描くAI用語とプロンプトのコツ｜COMIXAI",
   description:
     "AI用語やプロンプトのコツを、週刊少年チャンピオンで連載経験のある漫画家・吉川聡史が4コマ漫画に。文章で読むより先に、まず笑って掴む。1本ずつ増えていく描き下ろしシリーズです。",
   keywords: ["AI 4コマ", "AI マンガ わかりやすく", "AI用語 マンガ", "プロンプト マンガ"],
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "COMIXAI",
-    title: "4コマで学ぶAI｜漫画家が描くAI解説",
+    title: "4コマでわかる！AI用語｜漫画家が描くAI解説",
     description: "AI用語やプロンプトのコツを4コマ漫画で。まず笑って掴む。",
     url: "/yonkoma",
     locale: "ja_JP",
-    images: [{ url: "/ogp.png", width: 1200, height: 630, alt: "4コマで学ぶAI" }],
+    images: [{ url: "/ogp.png", width: 1200, height: 630, alt: "4コマでわかる！AI用語" }],
   },
   twitter: { card: "summary_large_image" },
 };
@@ -36,7 +36,7 @@ const JSON_LD = {
     },
     {
       "@type": "CollectionPage",
-      name: "4コマで学ぶAI",
+      name: "4コマでわかる！AI用語",
       url: "https://comixai.dev/yonkoma",
       description: "AI用語やプロンプトのコツを4コマ漫画で解説する描き下ろしシリーズ。",
       inLanguage: "ja",
@@ -88,7 +88,7 @@ export default function YonkomaGalleryPage() {
             margin: "0 0 18px",
           }}
         >
-          4コマで学ぶAI
+          4コマでわかる！AI用語
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0, maxWidth: 720 }}>
           AIの用語やプロンプトのコツを、文章で読む前に、まず4コマで。
@@ -168,7 +168,7 @@ export default function YonkomaGalleryPage() {
 
       {/* ═══ シェア ═══ */}
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 60px" }}>
-        <ShareRow path="/yonkoma" text="4コマで学ぶAI｜漫画家が描くAI解説" label="面白かったらシェア→" />
+        <ShareRow path="/yonkoma" text="4コマでわかる！AI用語｜漫画家が描くAI解説" label="面白かったらシェア→" />
       </section>
 
       <Footer />
