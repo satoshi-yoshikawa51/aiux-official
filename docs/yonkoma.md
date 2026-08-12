@@ -62,7 +62,7 @@ npm run yonkoma:video -- sales-email
   **右から左へ紙をめくる演出**（めくりSE同期）→4コマ目の後に**図解＋一文説明のカード**
   （用語ページと同じSVG図解。先に `npm run build` しておくと入る）
   →「解説の続きは comixai.dev/…」のエンドカード。ヘッダーはシリーズロゴ（`public/yonkoma/logo.webp`）
-- `scripts/yonkoma-bgm.mp3` に権利クリアな音源を置くと小音量でBGMが入る（無ければSEのみ）
+- BGMは `scripts/yonkoma-bgm.mp3`（同梱済み）が小音量で自動で入る。曲を変えたいときはこのファイルを置き換える
 - 枠が検出できない絵（自由レイアウト等）は、全体をゆっくりスクロールする構成に自動で落ちる。
   コマ位置を手で教えるには、絵の隣に `<slug>.panels.json` を置く：
   `[{"top":120,"bottom":640},{"top":660,"bottom":1180}, …]`（元画像のピクセル座標）
