@@ -78,8 +78,13 @@ function MusicDirector() {
 
   React.useEffect(() => {
     if (!ready) return;
+    /* おまけもレッスン扱い。ミニゲームを閉じると 'lesson' に戻す作りなので
+       （→ components/mini-game.tsx）、ここを揃えておかないと曲が食い違う */
     const inLesson =
-      segments[0] === 'lesson' || segments[0] === 'review' || segments[0] === 'exam';
+      segments[0] === 'lesson' ||
+      segments[0] === 'review' ||
+      segments[0] === 'exam' ||
+      segments[0] === 'extra';
     playMusic(inLesson ? 'lesson' : 'home');
   }, [ready, segments]);
 
@@ -146,6 +151,8 @@ export default function RootLayout() {
               <Stack.Screen name="review" options={{ title: '復習', headerBackTitle: '戻る' }} />
               <Stack.Screen name="exam/[courseId]" options={{ title: '修了試験', headerBackTitle: '戻る' }} />
               <Stack.Screen name="gacha" options={{ title: 'ガチャ', headerBackTitle: '戻る' }} />
+              {/* おまけ（当てた景品についてくる追加コンテンツ）。題は画面側で入れる */}
+              <Stack.Screen name="extra/[prizeId]" options={{ title: 'おまけ', headerBackTitle: '戻る' }} />
               <Stack.Screen name="stages" options={{ title: '舞台の見本', headerBackTitle: '戻る' }} />
               {/* ▍持ち帰りはヘッダーを出す（戻る矢印のため）
                    タブの外の画面なので、ヘッダーを消すと**戻る口が無くなる**

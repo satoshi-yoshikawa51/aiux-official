@@ -15,6 +15,7 @@
    相棒の3Dモデルが増えたら、ここのプールに足す。
    ============================================================ */
 import * as Haptics from 'expo-haptics';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Animated, Easing, Image, Platform, Pressable, Text, View } from 'react-native';
 
@@ -24,9 +25,11 @@ import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motio
 import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Badge, Button, Panel, Pop, Row, Screen, Tap } from '@/components/ui';
 import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
+import { EXTRA_TOTAL, getExtra } from '@/data/extras';
 import {
   DEFAULT_THEME_ID,
   DUPE_REFUND,
+  GACHA_POOL,
   getTheme,
   odds,
   RARITY_COLOR,
@@ -334,6 +337,9 @@ export default function GachaScreen() {
       {/* 何がどれだけ出るのか（→ 下の OddsBox） */}
       <OddsBox />
 
+      {/* 当てた景品についてくる遊び（→ 下の ExtraList） */}
+      <ExtraList />
+
       {/* ———— あつめた舞台 ———— */}
       <View style={{ gap: S.sm }}>
         <Text style={F.h1}>あつめた舞台</Text>
@@ -495,6 +501,98 @@ export default function GachaScreen() {
           </Stamp>
         </Pressable>
       ) : null}
+    </View>
+  );
+}
+
+/* ———— おまけ ————
+   当てたR以上の景品には、それぞれ追加コンテンツが1本ついている
+   （→ data/extras/、app/extra/[prizeId].tsx）。
+
+   ▍持っているものだけ並べる
+   未入手のおまけは名前も出さない。**中身が見えてしまうと、当てる
+   楽しみを先に消費する**ことになる。代わりに残り本数だけ出す。 */
+function ExtraList() {
+  const router = useRouter();
+  const { state } = useProgress();
+
+  const owned = GACHA_POOL.filter((p) =>
+    p.rarity === 'N'
+      ? false
+      : p.kind === 'theme'
+        ? !!state.themes[p.id]
+        : !!state.skins[p.id],
+  );
+  const doneCount = Object.keys(state.extras).length;
+
+  return (
+    <View style={{ gap: S.sm }}>
+      <Row style={{ justifyContent: 'space-between' }}>
+        <Text style={F.h1}>おまけ</Text>
+        <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
+          {doneCount}/{EXTRA_TOTAL}
+        </Text>
+      </Row>
+      <Text style={F.small}>
+        R以上の景品には、それぞれ遊べる回がついています。
+        <Text style={{ color: T.muted }}>当てた舞台やキャラが、そのまま出てきます。</Text>
+      </Text>
+
+      {owned.length === 0 ? (
+        <Text style={F.hand}>Rを1つ当てると、ここに増えます。</Text>
+      ) : (
+        owned.map((p) => {
+          const extra = getExtra(p.id);
+          const cleared = !!state.extras[p.id];
+          return (
+            <Tap
+              key={p.id}
+              onPress={() => router.push(`/extra/${p.id}`)}
+              sparks={false}
+              scale={0.98}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: S.sm,
+                  borderWidth: BW.line,
+                  borderColor: cleared ? T.borderSoft : T.border,
+                  borderRadius: R.sm,
+                  backgroundColor: cleared ? T.sunk : T.surface,
+                  padding: S.sm,
+                }}>
+                <Text
+                  style={{
+                    fontFamily: FONT.mono,
+                    fontSize: 11,
+                    color: RARITY_COLOR[p.rarity],
+                    width: 24,
+                  }}>
+                  {p.rarity}
+                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={[F.strong, { fontSize: 13.5 }]} numberOfLines={1}>
+                    {extra ? extra.title : '準備中'}
+                  </Text>
+                  <Text style={[F.tiny, { color: T.muted }]} numberOfLines={1}>
+                    {p.name}
+                  </Text>
+                </View>
+                {cleared ? (
+                  <Row gap={4}>
+                    <Icon name="check" size={13} color={T.ok} />
+                    <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: T.ok }}>CLEAR</Text>
+                  </Row>
+                ) : extra ? (
+                  <Badge tone="red">あそぶ</Badge>
+                ) : (
+                  <Badge tone="paper">準備中</Badge>
+                )}
+              </View>
+            </Tap>
+          );
+        })
+      )}
     </View>
   );
 }
