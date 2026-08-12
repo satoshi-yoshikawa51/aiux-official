@@ -28,6 +28,7 @@ import type { LessonInteractive } from '@/data/types';
 
 import { STAGE_EXTRAS } from './stages';
 import { AVATAR_EXTRAS } from './avatars';
+import { SR_EXTRAS } from './sr';
 
 export interface Extra {
   /** 景品ID（THEMES.id か SKINS.id）。これが鍵になる */
@@ -42,7 +43,7 @@ export interface Extra {
   game: LessonInteractive;
 }
 
-export const EXTRAS: Extra[] = [...STAGE_EXTRAS, ...AVATAR_EXTRAS];
+export const EXTRAS: Extra[] = [...STAGE_EXTRAS, ...AVATAR_EXTRAS, ...SR_EXTRAS];
 
 /** レア度ごとの報酬P。クリアの初回だけ入る */
 export const EXTRA_REWARD: Record<Rarity, number> = { N: 0, R: 2, SR: 5 };

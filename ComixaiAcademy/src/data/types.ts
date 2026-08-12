@@ -114,6 +114,18 @@ export interface OrderStep {
   tooEarly: string;
 }
 
+/** 赤入れする原稿の1行 */
+export interface RedlineItem {
+  text: string;
+  /** 直しの要る行だけ書く。無い行を押したら外れ */
+  fix?: {
+    /** どこが悪いのか。押した瞬間に出す（選ぶ前に読ませる） */
+    problem: string;
+    /** 直し方の候補。**正解は1つ**（ok を立てる） */
+    choices: { text: string; ok?: boolean; why: string }[];
+  };
+}
+
 /** 詰めるときに机へ載せる資料 */
 export interface FitItem {
   name: string;
@@ -209,6 +221,19 @@ export type LessonInteractive = (
       /** これ以上なら合格。届かなくても、書き直せば何度でも出せる */
       pass: number;
       presets?: string[];
+    }
+  | {
+      /* ▍赤入れ（SRのおまけ用 → data/extras/）
+         AIが書いた下書きに、赤ペンを入れて直していく。
+         「書かせて終わりにしない」を、手を動かして体で覚える回。
+
+         直す所を押す → 直し方を3つから選ぶ、の2段構え。
+         押すだけの `find` と違い、**どう直すか**まで選ばせる */
+      kind: 'redline';
+      brief: string;
+      lines: RedlineItem[];
+      /** 何回まで外して通れるか。省略すると2回 */
+      allow?: number;
     }
 ) & {
   /** クリア画面に出す「おさらい」。なぜそれが正解で、何がNGなのか */
