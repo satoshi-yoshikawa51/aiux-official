@@ -861,11 +861,13 @@ async function main() {
     { stdio: KEEP ? "inherit" : "ignore" }
   );
 
-  /* —— アップロード用の下書き —— */
+  /* —— アップロード用の下書き ——
+     シリーズ名はロゴと揃える（用語集＝4コマでわかる！AI用語） */
+  const series = section === "glossary" ? "4コマでわかる！AI用語" : "4コマで学ぶAI";
   const txt = `【4コマ】${meta.title}
 
 ── タイトル案 ──
-【4コマで学ぶAI】${meta.title}
+【${series}】${meta.title}
 
 ── 説明文 ──
 ${meta.short}
