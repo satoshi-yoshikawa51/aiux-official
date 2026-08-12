@@ -15,6 +15,7 @@
    相棒の3Dモデルが増えたら、ここのプールに足す。
    ============================================================ */
 import * as Haptics from 'expo-haptics';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Animated, Easing, Image, Platform, Pressable, Text, View } from 'react-native';
 
@@ -22,11 +23,15 @@ import { Avatar3D } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
-import { Badge, Button, Panel, Pop, Row, Screen } from '@/components/ui';
+import { Badge, Button, Panel, Pop, Row, Screen, Tap } from '@/components/ui';
 import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
+import { EXTRA_TOTAL, getExtra } from '@/data/extras';
 import {
   DEFAULT_THEME_ID,
+  DUPE_REFUND,
+  GACHA_POOL,
   getTheme,
+  odds,
   RARITY_COLOR,
   SPIN_COST,
   THEMES,
@@ -325,9 +330,15 @@ export default function GachaScreen() {
           style={{ alignSelf: 'stretch', marginTop: S.xs }}
         />
         <Text style={[F.tiny, { marginTop: 6 }]}>
-          Pはログイン・バッジ・称号・修了試験で貯まる ／ ダブりは+1P
+          Pはログイン・バッジ・称号・修了試験で貯まる ／ ダブりは+{DUPE_REFUND}P
         </Text>
       </View>
+
+      {/* 何がどれだけ出るのか（→ 下の OddsBox） */}
+      <OddsBox />
+
+      {/* 当てた景品についてくる遊び（→ 下の ExtraList） */}
+      <ExtraList />
 
       {/* ———— あつめた舞台 ———— */}
       <View style={{ gap: S.sm }}>
@@ -489,6 +500,177 @@ export default function GachaScreen() {
             </Panel>
           </Stamp>
         </Pressable>
+      ) : null}
+    </View>
+  );
+}
+
+/* ———— おまけ ————
+   当てたR以上の景品には、それぞれ追加コンテンツが1本ついている
+   （→ data/extras/、app/extra/[prizeId].tsx）。
+
+   ▍持っているものだけ並べる
+   未入手のおまけは名前も出さない。**中身が見えてしまうと、当てる
+   楽しみを先に消費する**ことになる。代わりに残り本数だけ出す。 */
+function ExtraList() {
+  const router = useRouter();
+  const { state } = useProgress();
+
+  const owned = GACHA_POOL.filter((p) =>
+    p.rarity === 'N'
+      ? false
+      : p.kind === 'theme'
+        ? !!state.themes[p.id]
+        : !!state.skins[p.id],
+  );
+  const doneCount = Object.keys(state.extras).length;
+
+  return (
+    <View style={{ gap: S.sm }}>
+      <Row style={{ justifyContent: 'space-between' }}>
+        <Text style={F.h1}>おまけ</Text>
+        <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
+          {doneCount}/{EXTRA_TOTAL}
+        </Text>
+      </Row>
+      <Text style={F.small}>
+        R以上の景品には、それぞれ遊べる回がついています。
+        <Text style={{ color: T.muted }}>当てた舞台やキャラが、そのまま出てきます。</Text>
+      </Text>
+
+      {owned.length === 0 ? (
+        <Text style={F.hand}>Rを1つ当てると、ここに増えます。</Text>
+      ) : (
+        owned.map((p) => {
+          const extra = getExtra(p.id);
+          const cleared = !!state.extras[p.id];
+          return (
+            <Tap
+              key={p.id}
+              onPress={() => router.push(`/extra/${p.id}`)}
+              sparks={false}
+              scale={0.98}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: S.sm,
+                  borderWidth: BW.line,
+                  borderColor: cleared ? T.borderSoft : T.border,
+                  borderRadius: R.sm,
+                  backgroundColor: cleared ? T.sunk : T.surface,
+                  padding: S.sm,
+                }}>
+                <Text
+                  style={{
+                    fontFamily: FONT.mono,
+                    fontSize: 11,
+                    color: RARITY_COLOR[p.rarity],
+                    width: 24,
+                  }}>
+                  {p.rarity}
+                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={[F.strong, { fontSize: 13.5 }]} numberOfLines={1}>
+                    {extra ? extra.title : '準備中'}
+                  </Text>
+                  <Text style={[F.tiny, { color: T.muted }]} numberOfLines={1}>
+                    {p.name}
+                  </Text>
+                </View>
+                {cleared ? (
+                  <Row gap={4}>
+                    <Icon name="check" size={13} color={T.ok} />
+                    <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: T.ok }}>CLEAR</Text>
+                  </Row>
+                ) : extra ? (
+                  <Badge tone="red">あそぶ</Badge>
+                ) : (
+                  <Badge tone="paper">準備中</Badge>
+                )}
+              </View>
+            </Tap>
+          );
+        })
+      )}
+    </View>
+  );
+}
+
+/* ———— 提供割合 ————
+   ▍数字は在庫から計算する（→ data/gacha.ts の odds()）
+   手で書くと、舞台やアバターを足したときに必ず食い違う。
+   ストアの審査でもガチャは提供割合の開示が要る。
+
+   ▍たたんでおく
+   回したい人が最初に見るものではないので、ふだんは1行。
+   押した人にだけ、内訳を全部見せる。 */
+const KIND_LABEL: Record<'theme' | 'avatar', string> = { theme: '背景', avatar: 'キャラ' };
+const KIND_UNIT: Record<'theme' | 'avatar', string> = { theme: '枚', avatar: '体' };
+/** 小数第1位まで。ぴったりのときは整数で出す（89.5% / 65%） */
+const pct = (n: number) => `${Math.round(n * 10) / 10}%`;
+
+function OddsBox() {
+  const [open, setOpen] = React.useState(false);
+  const o = React.useMemo(() => odds(), []);
+  return (
+    <View style={{ gap: S.sm }}>
+      <Tap onPress={() => setOpen((v) => !v)} sparks={false} style={{ paddingVertical: 4 }}>
+        <Row gap={6}>
+          <Icon name={open ? 'close' : 'chart'} size={14} color={T.link} />
+          <Text style={[F.strong, { color: T.link, fontSize: 13 }]}>
+            {open ? '提供割合をとじる' : '提供割合をみる'}
+          </Text>
+        </Row>
+      </Tap>
+      {open ? (
+        <View
+          style={{
+            borderWidth: BW.line,
+            borderColor: T.border,
+            borderRadius: R.sm,
+            backgroundColor: T.sunk,
+            padding: S.md,
+            gap: S.sm,
+          }}>
+          <Text style={{ fontFamily: FONT.mono, fontSize: 12, color: T.text, lineHeight: 20 }}>
+            {o.byKind.map((k) => `${KIND_LABEL[k.kind]} ${pct(k.pct)}`).join(' ・ ')}
+            {'\n'}
+            {o.byRarity.map((r) => `${r.rarity} ${pct(r.pct)}`).join(' ・ ')}
+          </Text>
+          <View style={{ height: 1, backgroundColor: T.borderSoft }} />
+          {o.cells.map((c) => (
+            <Row key={`${c.rarity}:${c.kind}`} style={{ justifyContent: 'space-between' }}>
+              <Row gap={8} style={{ flex: 1 }}>
+                <Text
+                  style={{
+                    fontFamily: FONT.mono,
+                    fontSize: 12,
+                    color: RARITY_COLOR[c.rarity],
+                    width: 26,
+                  }}>
+                  {c.rarity}
+                </Text>
+                <Text style={[F.small, { flex: 1 }]}>
+                  {KIND_LABEL[c.kind]} {c.count}
+                  {KIND_UNIT[c.kind]}
+                </Text>
+              </Row>
+              <Text style={{ fontFamily: FONT.mono, fontSize: 12, color: T.text }}>
+                {pct(c.pct)}
+              </Text>
+            </Row>
+          ))}
+          <Text style={F.tiny}>
+            同じレア度・同じ種類の中では等確率です。すでに持っているものも出ます（そのときは
+            {DUPE_REFUND}P返ります）。1回{SPIN_COST}P。
+          </Text>
+          {/* キャラにNが無いことは、隠さずに書いておく。
+              「キャラが出にくい」と感じたときの答えがここにある */}
+          <Text style={F.tiny}>
+            キャラにはNがないので、Nを引いたときは必ず背景になります。
+          </Text>
+        </View>
       ) : null}
     </View>
   );

@@ -21,6 +21,7 @@ import {
   SPIN_COST,
   type GachaPrize,
 } from '@/data/gacha';
+import { EXTRA_REWARD, EXTRA_TOTAL, rarityOfPrize } from '@/data/extras';
 import {
   ALL_LESSONS,
   COURSES,
@@ -109,6 +110,8 @@ export interface ProgressState {
   games: Record<string, GameRecord>;
   /** コースの修了試験に合格した時刻(ms)。キーはコースID（→ app/exam/[courseId].tsx） */
   exams: Record<string, number>;
+  /** おまけをクリアした時刻(ms)。キーは景品ID（→ data/extras/、app/extra/[prizeId].tsx） */
+  extras: Record<string, number>;
   /** ガチャP。学習の節目でだけ貯まる（→ data/gacha.ts） */
   coins: number;
   /** ログインボーナスを最後に受け取った日（'YYYY-MM-DD'） */
@@ -147,6 +150,7 @@ export const EMPTY: ProgressState = {
   quiz: {},
   games: {},
   exams: {},
+  extras: {},
   coins: 0,
   lastBonusDay: '',
   themes: {},
@@ -227,6 +231,18 @@ export function evaluateBadges(s: ProgressState): string[] {
   add('review-first', graduated >= 1);
   add('review-10', graduated >= 10);
 
+  /* おまけ（当てた景品についてくる追加コンテンツ）。
+     `extra-5` と `extra-sr` の2枚がAIマスターの門になっている
+     （→ data/badges.ts のコメント） */
+  const extras = Object.keys(s.extras);
+  add('extra-first', extras.length >= 1);
+  add('extra-3', extras.length >= 3);
+  add('extra-5', extras.length >= 5);
+  add('extra-sr', extras.some((id) => rarityOfPrize(id) === 'SR'));
+  /* 殿堂は**作り終えたときの本数**と比べる。EXTRAS.length と比べると、
+     SRのおまけを作っている最中に9本で取れてしまう（→ data/extras/） */
+  add('extra-all', extras.length >= EXTRA_TOTAL);
+
   add('perfect-all', perfectCount >= ALL_LESSONS.length);
 
   // 台帳に無いIDが紛れていないかの保険（開発中のtypo対策）
@@ -266,6 +282,9 @@ interface Ctx {
   /** コースの修了試験に合格したことを記録する（2回目以降の合格では上書きしない）。
       初回合格はガチャP +2 */
   passExam: (courseId: string) => void;
+  /** 当てた景品のおまけをクリアしたことを記録する（→ data/extras/）。
+      初回だけレア度ぶんのP（R+2／SR+5）が入り、バッジと称号も判定する */
+  clearExtra: (prizeId: string) => CompletionResult;
   /** ログインボーナス。今日まだなら +1P して true を返す（ホームが1日1回呼ぶ） */
   claimLoginBonus: () => boolean;
   /** ガチャを1回まわす。Pが足りなければ null */
@@ -470,6 +489,33 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
+  /* ▍おまけのクリア
+     報酬Pは**初回だけ**。2回目以降も遊べる（★の自己ベストは
+     recordGame が別に持つ）が、Pは出さない。ここを毎回出すと、
+     いちばん短いおまけを回し続けるのが最短になってしまう */
+  const clearExtra = React.useCallback(
+    (prizeId: string): CompletionResult => {
+      const prev = ref.current;
+      const beforeTitle = titleFor(Object.keys(prev.badges).length);
+      const first = !prev.extras[prizeId];
+      const base: ProgressState = {
+        ...prev,
+        extras: { ...prev.extras, [prizeId]: prev.extras[prizeId] ?? Date.now() },
+        /* おまけも「今日やった」に数える。連続日数のためにレッスンを
+           1本開かせるのは筋が悪い */
+        days: prev.days.includes(today()) ? prev.days : [today(), ...prev.days].slice(0, 60),
+      };
+      const { next, newBadges } = applyBadges(base);
+      const afterTitle = titleFor(Object.keys(next.badges).length);
+      const newTitle = afterTitle.name !== beforeTitle.name ? afterTitle : null;
+      const reward = first ? EXTRA_REWARD[rarityOfPrize(prizeId) ?? 'N'] : 0;
+      const coinsGained = reward + newBadges.length + (newTitle ? 3 : 0);
+      persist({ ...next, coins: next.coins + coinsGained });
+      return { newBadges, newTitle, coinsGained };
+    },
+    [applyBadges, persist],
+  );
+
   const claimLoginBonus = React.useCallback((): boolean => {
     const day = today();
     if (ref.current.lastBonusDay === day) return false;
@@ -593,6 +639,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       answerQuiz,
       recordGame,
       passExam,
+      clearExtra,
       claimLoginBonus,
       spinGacha,
       setTheme,
@@ -617,6 +664,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       answerQuiz,
       recordGame,
       passExam,
+      clearExtra,
       claimLoginBonus,
       spinGacha,
       setTheme,

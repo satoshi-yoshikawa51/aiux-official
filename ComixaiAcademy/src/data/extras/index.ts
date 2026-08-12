@@ -1,0 +1,68 @@
+/* ============================================================
+   おまけ（当てた景品についてくる追加コンテンツ）。
+
+   ▍何のためにあるか
+   ガチャで当てた舞台やアバターは、飾ったら終わりだった。**当てたものが
+   遊べる**ようにして、集める理由をもう一段深くする。称号の条件にも
+   入れてあるので、AIマスターになるにはここを通ることになる
+   （→ data/badges.ts）。
+
+   ▍当てた景品が、そのまま舞台装置になる
+   舞台のおまけは**その舞台の絵の上で**、アバターのおまけは**その色の先生が
+   出てきて**遊ぶ（→ app/extra/[prizeId].tsx）。絵もモデルももう有るので、
+   新しい素材を1枚も足さずに「当てた甲斐」を出せる。
+
+   ▍中身は既存のミニゲーム
+   Rのおまけは、レッスンで使っている5種（仕分け・見つける・組み立て・
+   並べる・詰める）にデータを流し込むだけ。SRだけは専用のゲームを作る
+   （→ これから）。
+
+   ▍書くときの決まり
+   - 舞台やキャラの雰囲気に**寄せる**。夜のオフィスなら残業、桜なら異動。
+     絵とゲームの中身が無関係だと、当てたものである意味が消える
+   - でも**学べることは本物**にする。飾りのクイズにしない
+   - 先生の声で書く。敬語は使わない（→ README「セリフを相棒ごとに書き分ける」）
+   ============================================================ */
+import { GACHA_POOL, type Rarity } from '@/data/gacha';
+import type { LessonInteractive } from '@/data/types';
+
+import { STAGE_EXTRAS } from './stages';
+import { AVATAR_EXTRAS } from './avatars';
+
+export interface Extra {
+  /** 景品ID（THEMES.id か SKINS.id）。これが鍵になる */
+  prizeId: string;
+  /** 見出し */
+  title: string;
+  /** 入り口で先生がしゃべること。2〜3コマ */
+  say: string[];
+  /** このおまけで持って帰ってほしい1行 */
+  point: string;
+  /** 遊ぶもの */
+  game: LessonInteractive;
+}
+
+export const EXTRAS: Extra[] = [...STAGE_EXTRAS, ...AVATAR_EXTRAS];
+
+/** レア度ごとの報酬P。クリアの初回だけ入る */
+export const EXTRA_REWARD: Record<Rarity, number> = { N: 0, R: 2, SR: 5 };
+
+/* ▍完成したときの本数を定数で持つ
+
+   「殿堂」バッジを `EXTRAS.length` と比べると、**SRのおまけを作っている
+   最中に、9本クリアしただけで殿堂が取れてしまう**。バッジは一度取ると
+   消えないので、あとから条件を厳しくしても取り消せない。
+   だから最終形の本数（R9＋SR5）を先に決めて、そこと比べる。 */
+export const EXTRA_TOTAL = 14;
+
+export function getExtra(prizeId: string | null | undefined): Extra | undefined {
+  return EXTRAS.find((e) => e.prizeId === prizeId);
+}
+
+/** その景品のレア度。おまけの報酬とバッジの判定に使う */
+export function rarityOfPrize(prizeId: string): Rarity | null {
+  return GACHA_POOL.find((p) => p.id === prizeId)?.rarity ?? null;
+}
+
+/** ミニゲームの自己ベストを引く鍵（→ store/progress.tsx の games） */
+export const extraGameKey = (prizeId: string) => `extra:${prizeId}`;

@@ -164,6 +164,7 @@ function sanitize(raw: Record<string, unknown>): ProgressState {
     quiz: quizMap(raw.quiz),
     games: gameMap(raw.games),
     exams: numMap(raw.exams),
+    extras: numMap(raw.extras),
     coins: Math.max(0, Math.round(num(raw.coins, 0))),
     lastBonusDay: str(raw.lastBonusDay, EMPTY.lastBonusDay),
     themes: numMap(raw.themes),
