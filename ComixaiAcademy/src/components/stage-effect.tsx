@@ -39,9 +39,10 @@
    レア度は「画面に増える要素の数」で見せている（→ README）。
    ============================================================ */
 import React from 'react';
-import { Animated, AppState, Easing, Platform, StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 import Svg, { Circle, Defs, LinearGradient, Rect, RadialGradient, Stop } from 'react-native-svg';
 
+import { periodic, useLoop } from '@/components/loop';
 import type { StageTheme } from '@/data/gacha';
 
 type EffectName = NonNullable<StageTheme['effect']>;
@@ -50,17 +51,11 @@ type EffectName = NonNullable<StageTheme['effect']>;
 const fract = (v: number) => v - Math.floor(v);
 const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453);
 
-/* ▍一定の速さで 0→1 を回し続ける（delay は出だしをずらすため）
-
-   ▍こちらからは止めない
-   もとは電池を気にして「背面に回ったら止める」を入れていたが、**一度
-   画面を離れると二度と動かなくなる**という報告が出た。Webでは
-   useNativeDriver が効かず rAF 駆動になっていて（起動ログにも出る）、
-   iOSのホーム画面アプリは背面から戻ったときの通知が来ないことがある。
-   止めた側だけが残って再開しない。
-
-   そもそも**ブラウザは見えていないあいだ rAF を自分で止める**ので、
-   こちらで止める必要がなかった。
+/* ▍値の作りかたは共通（→ components/loop.ts）
+   0→1 を回し続ける useLoop と、1周の中で折り返す periodic。
+   Webは時計から位相を出す1本のrAFに集めてあるので、フレームが落ちても
+   止まったままにならない。**こちらからは止めない**（背面で止める処理を
+   入れたら「一度画面を離れると二度と動かない」になった）。
 
    ▍1周は長く取る（LOOP秒）
    短い周期で回すと、**1周の終わりから次の始まりへ移るところ**で1〜2フレーム
@@ -73,166 +68,11 @@ const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 
 
    粒の数も要素の数も変わらないので、これで重くなることはない。
 
-   ▍見張り（自己修復）は置かない
-   一度は「値が進んでいなければ回し直す」を入れたが、**誤判定のたびに
-   全部が0へ飛ぶ**ので、線がガクッと戻って見えた。判定を厳しくしても
-   誤りが0にはならないうえ、そもそも**永久に止まる原因はこちらの stop()
-   だけ**で、それを外した時点で無くなっている。ブラウザが止めた rAF は
-   ブラウザが戻す。見張らないほうが静か。
-
-   ▍回し直すときは出だしのずれも作り直す
-   波を何本もずらして重ねているものは、全部を同時に0へ戻すと**ずれが
-   消えて一斉に光る**。回し直すときも、最初と同じだけ待ってから始める。 */
+   ▍出だしはずらす
+   波を何本もずらして重ねているものは、全部が同じ位相だと一斉に光る。
+   useLoop の第2引数（delay）でずらす。 */
 /** 1周の長さ。短くすると継ぎ目が増える（↑のメモ） */
 const LOOP = 60;
-
-/* ============================================================
-   ▍Webは「時計から位相を出す」1本の rAF に集める
-
-   Animated.timing は**前のフレームからの差分を積み上げて**進む。だから
-   途中でフレームが1回も返ってこなくなると、そこで固まったまま戻らない。
-   Webは useNativeDriver が効かず全部これなので、重い処理（3Dアバターの
-   読み直しなど）や端末側の都合でフレームが落ちると、飾りだけが止まる。
-   「先生を変えてホームに戻ると背景の飾りが消えた」はこの形。
-
-   なので値は**時計から計算する**。位相 = 経過ミリ秒 ÷ 1周。
-   フレームが飛んでも次のフレームで正しい位置に戻るので、**止まったままに
-   ならない**。ずれも溜まらない。画面を行き来しても続きから見える
-   （0に戻さないので、戻るたびに模様が作り直されることもない）。
-
-   rAF は1本だけ。粒ごとにアニメを持たせないのと同じ理由で、
-   動かす値がいくつあっても毎フレームの仕事は1回で済む。
-
-   ▍rAFごと返ってこなくなったときの保険
-   2秒ごとに「最後のフレームからどれだけ経ったか」だけ見て、間が空いて
-   いたら鎖をつなぎ直す。**位相は時計から出しているので、つなぎ直しても
-   絵は飛ばない**（前に入れた見張りは0へ戻していたので、そこが見えた）。
-   ============================================================ */
-const WEB = Platform.OS === 'web';
-
-type Ticker = { v: Animated.Value; ms: number; delay: number };
-const tickers = new Set<Ticker>();
-let rafId: number | null = null;
-let lastFrame = 0;
-let watchdog: ReturnType<typeof setInterval> | null = null;
-
-function frame() {
-  const now = Date.now();
-  lastFrame = now;
-  tickers.forEach((k) => {
-    const p = (((now - k.delay) % k.ms) + k.ms) % k.ms;
-    k.v.setValue(p / k.ms);
-  });
-  rafId = requestAnimationFrame(frame);
-}
-
-function startClock() {
-  if (rafId === null) {
-    lastFrame = Date.now();
-    rafId = requestAnimationFrame(frame);
-  }
-  if (watchdog === null) {
-    watchdog = setInterval(() => {
-      if (tickers.size === 0 || Date.now() - lastFrame < 1200) return;
-      if (rafId !== null) cancelAnimationFrame(rafId);
-      rafId = null;
-      startClock();
-    }, 2000);
-  }
-}
-
-function stopClock() {
-  if (rafId !== null) cancelAnimationFrame(rafId);
-  rafId = null;
-  if (watchdog !== null) clearInterval(watchdog);
-  watchdog = null;
-}
-
-function useLoop(sec: number, delayMs = 0) {
-  const t = React.useRef(new Animated.Value(0)).current;
-  React.useEffect(() => {
-    if (WEB) {
-      const k: Ticker = { v: t, ms: sec * 1000, delay: delayMs };
-      tickers.add(k);
-      startClock();
-      return () => {
-        tickers.delete(k);
-        if (tickers.size === 0) stopClock();
-      };
-    }
-    return nativeLoop(t, sec, delayMs);
-  }, [t, sec, delayMs]);
-  return t;
-}
-
-/* ネイティブは従来どおり。useNativeDriver が効いて UIスレッドで回るので、
-   JS側のフレーム落ちに巻き込まれない（rAFに載せ替えるとむしろ悪くなる） */
-function nativeLoop(t: Animated.Value, sec: number, delayMs: number) {
-  {
-    let anim: Animated.CompositeAnimation | null = null;
-    let timer: ReturnType<typeof setTimeout> | null = null;
-
-    const run = () => {
-      anim?.stop();
-      /* 止めた位置から再開しない。Animated.loop は各周でこの値まで戻すので、
-         終端で止まっていると 1→1 のアニメになり、以降ずっと動かない */
-      t.setValue(0);
-      anim = Animated.loop(
-        Animated.timing(t, {
-          toValue: 1,
-          duration: sec * 1000,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }),
-      );
-      anim.start();
-    };
-    const restart = () => {
-      if (timer) clearTimeout(timer);
-      anim?.stop();
-      t.setValue(0);
-      timer = setTimeout(run, delayMs);
-    };
-    restart();
-
-    const sub = AppState.addEventListener('change', (st) => {
-      if (st === 'active') restart();
-    });
-
-    return () => {
-      if (timer) clearTimeout(timer);
-      anim?.stop();
-      sub.remove();
-    };
-  }
-}
-
-/* ▍1周(LOOP秒)のあいだに cycles 回くり返す表を作る
-
-   P は1回ぶんの区切り（0〜1、増加、先頭0・末尾1）、V はそこでの値。
-   末尾はごくわずか手前に置いて、次の回の先頭と重ならないようにする
-   （interpolate は入力が増加していないと受け付けない）。
-   末尾の1e-5 の隙間で値が飛ぶが、1周60秒なら 0.6ms ぶんなので見えない。 */
-function periodic(
-  t: Animated.Value,
-  cycles: number,
-  P: number[],
-  V: number[],
-): Animated.AnimatedInterpolation<number> {
-  const input: number[] = [];
-  const output: number[] = [];
-  const e = 1e-5;
-  for (let k = 0; k < cycles; k++) {
-    for (let j = 0; j < P.length; j++) {
-      const last = j === P.length - 1;
-      input.push((k + P[j]) / cycles - (last ? e : 0));
-      output.push(V[j]);
-    }
-  }
-  input.push(1);
-  output.push(V[0]);
-  return t.interpolate({ inputRange: input, outputRange: output });
-}
 
 /** その速さ（1回ぶんの秒数）が、1周のあいだに何回入るか */
 const cyclesFor = (sec: number) => Math.max(1, Math.round(LOOP / sec));

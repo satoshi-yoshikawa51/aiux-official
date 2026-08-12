@@ -36,6 +36,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/icons';
+import { periodic, useLoop } from '@/components/loop';
 import {
   Bump,
   PopIn,
@@ -358,6 +359,31 @@ export function MiniGame({
    遊び方と難度（何回外せるか）を、始まる前に読ませる場所。
    **押すまで消えない**（自動で進むと、読み終わる前に消える） */
 
+/* 瞬く星ひとつ。明るさと大きさだけを揺らす（→ components/loop.ts）。
+   山は**広く**取る。鋭く尖らせると、光っている時間が周期の1割になって
+   「ほとんど消えている画面」に見える（舞台の飾りで踏んだ穴と同じ） */
+function Twinkle({
+  size,
+  color,
+  sec,
+  delay,
+}: {
+  size: number;
+  color: string;
+  sec: number;
+  delay: number;
+}) {
+  const t = useLoop(sec, delay);
+  const P = [0, 0.2, 0.4, 0.62, 0.82, 1];
+  const opacity = periodic(t, 1, P, [0.35, 0.7, 1, 1, 0.7, 0.35]);
+  const scale = periodic(t, 1, P, [0.86, 0.98, 1.1, 1.1, 0.98, 0.86]);
+  return (
+    <Animated.View style={{ opacity, transform: [{ scale }] }}>
+      <Icon name="twinkle" size={size} color={color} />
+    </Animated.View>
+  );
+}
+
 function TitleScreen({
   meta,
   allow,
@@ -388,18 +414,20 @@ function TitleScreen({
     <Pressable
       onPress={onSkip}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: S.xl, gap: S.sm }}>
-      {/* 飾りの星。ループさせない（電池対策）。持ち色と黄色で散らす */}
+      {/* 飾りの星。**瞬かせる**——静止画だと、ここで待たされている数秒が
+          ただの静止画に見える（実機で指摘）。1つずつ違う速さ・違う出だしで
+          明るさと大きさを揺らす。位置は動かさない（散らかって見える） */}
       {(
         [
-          { at: { top: '16%', left: '12%' }, size: 16, c: meta.color },
-          { at: { top: '11%', right: '18%' }, size: 12, c: C.yellow400 },
-          { at: { top: '26%', right: '9%' }, size: 20, c: meta.color },
-          { at: { bottom: '24%', left: '10%' }, size: 14, c: C.yellow400 },
-          { at: { bottom: '15%', right: '14%' }, size: 17, c: meta.color },
+          { at: { top: '16%', left: '12%' }, size: 16, c: meta.color, sec: 2.6 },
+          { at: { top: '11%', right: '18%' }, size: 12, c: C.yellow400, sec: 3.4 },
+          { at: { top: '26%', right: '9%' }, size: 20, c: meta.color, sec: 4.2 },
+          { at: { bottom: '24%', left: '10%' }, size: 14, c: C.yellow400, sec: 3.0 },
+          { at: { bottom: '15%', right: '14%' }, size: 17, c: meta.color, sec: 5.0 },
         ] as const
       ).map((d, i) => (
         <PopIn key={i} delay={500 + i * 120} style={[{ position: 'absolute' }, d.at]}>
-          <Icon name="twinkle" size={d.size} color={d.c} opacity={0.85} />
+          <Twinkle size={d.size} color={d.c} sec={d.sec} delay={i * 700} />
         </PopIn>
       ))}
 
