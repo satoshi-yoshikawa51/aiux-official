@@ -1,5 +1,5 @@
 /* ============================================================
-   入稿済みの4コマを、ショート動画（1080×1920・約16秒）にする。
+   入稿済みの4コマを、ショート動画（1080×1920・約24秒）にする。
 
      npm run yonkoma:video -- <slug>
 
@@ -8,6 +8,8 @@
      コマの黒枠を画像から自動検出 → コマごとに切り出し →
      サイトと同じ書体・トークンでフレーム画像を組み →
      ffmpegでズーム＋スライド＋めくりSEのmp4に書き出す。
+     4コマの後には、用語ページと同じ図解（ビルド済みHTMLから抜く）＋
+     一文説明の「図解カード」が挟まる。
      枠が検出できない絵は、全体をゆっくりスクロールする構成に落ちる。
 
    出力:
@@ -40,6 +42,8 @@ const KEEP = flags.has("--keep"); // 中間ファイル（フレームPNG等）�
 /* —— 尺の設計。ショートは冒頭で掴んで15〜20秒で終えるのが基本 —— */
 const FPS = 30;
 const PANEL_SEC = 3.2;
+/* 4コマ目の後の図解・説明カード。一文＋図を読み切れる長さ */
+const EXPLAIN_SEC = 6.0;
 const END_SEC = 2.8;
 /* ページめくりはCSS 3Dをコマ送りで撮る（ffmpegの既製トランジションに
    めくりが無いため）。16コマ×30fps ≒ 0.53秒 */
@@ -157,7 +161,9 @@ async function fontCss(pkg, weights) {
   return css;
 }
 const FONTS =
-  (await fontCss("zen-kaku-gothic-new", [500, 700, 900])) + (await fontCss("jetbrains-mono", [700]));
+  (await fontCss("zen-kaku-gothic-new", [500, 700, 900])) +
+  (await fontCss("jetbrains-mono", [700])) +
+  (await fontCss("yusei-magic", [400]));
 
 /* ═══════════════ 1. コマの検出と切り出し ═══════════════ */
 
@@ -270,7 +276,18 @@ async function detectAndCropPanels(page) {
 
 /* ═══════════════ 2. フレーム画像を組む ═══════════════ */
 
-/* サイトと同じ言語で組む：クリーム地＋トーンドット、赤のmono kicker、
+/* ヘッダーはシリーズロゴ（public/yonkoma/logo.webp）。
+   ロゴの文言は「AI用語」なので用語集の動画だけに使い、
+   プロンプト集や、万一ロゴが無い場合はテキストkickerに落ちる */
+const LOGO_PATH = path.join(ROOT, "public/yonkoma/logo.webp");
+const logoUrl = section === "glossary" && (await exists(LOGO_PATH)) ? await toDataUrl(LOGO_PATH) : null;
+const HEADER = logoUrl
+  ? `<img class="serieslogo" src="${logoUrl}" alt="4コマでわかる！AI用語">
+  <div class="title"><span class="mk">${esc(meta.title)}</span></div>`
+  : `<div class="kicker">4コマで学ぶAI</div>
+  <div class="title"><span class="mk">${esc(meta.title)}</span></div>`;
+
+/* サイトと同じ言語で組む：クリーム地＋トーンドット、シリーズロゴ、
    墨色の極太見出しに黄色マーカー、フッターに小さくロゴ */
 const FRAME_BASE = `
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -278,8 +295,10 @@ body { width:1080px; height:1920px; font-family:"Zen Kaku Gothic New", sans-seri
   background:${PAPER_100};
   background-image:radial-gradient(rgba(20,17,15,0.13) 1.7px, transparent 1.8px);
   background-size:15px 15px; overflow:hidden; }
-.stage { width:1080px; height:1920px; display:flex; flex-direction:column; align-items:center; padding:120px 56px 140px; }
-.kicker { font-family:"JetBrains Mono", monospace; font-size:25px; letter-spacing:.2em; font-weight:700; color:${RED_600}; }
+.stage { width:1080px; height:1920px; display:flex; flex-direction:column; align-items:center; padding:70px 56px 140px; }
+.kicker { font-family:"JetBrains Mono", monospace; font-size:25px; letter-spacing:.2em; font-weight:700; color:${RED_600}; margin-top:50px; }
+/* ロゴ画像は正方形カンバスに余白込みで描かれているので、負マージンで詰める */
+.serieslogo { width:400px; height:auto; margin:-30px 0 -46px; }
 .title { font-size:54px; font-weight:900; line-height:1.5; text-align:center; margin-top:20px; max-width:940px; letter-spacing:.02em; }
 .title .mk { background:linear-gradient(transparent 64%, ${YELLOW} 64%); padding:0 8px; }
 .foot { margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:20px; }
@@ -297,10 +316,9 @@ function panelFrameHtml(panelUrl, index, total) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}${FRAME_BASE}
 .panel-wrap { margin-top:56px; flex:1; display:flex; align-items:center; justify-content:center; min-height:0; width:100%; }
 .panel-wrap img { max-width:968px; max-height:1180px; width:auto; height:auto;
-  background:${PAPER_0}; border-radius:14px; box-shadow:10px 10px 0 ${INK}; }
+  background:${PAPER_0}; border-radius:14px; }
 </style></head><body><div class="stage">
-  <div class="kicker">4コマで学ぶAI</div>
-  <div class="title"><span class="mk">${esc(meta.title)}</span></div>
+  ${HEADER}
   <div class="panel-wrap"><img src="${panelUrl}"></div>
   <div class="foot"><div class="dots">${dots}</div><div class="brand"><span class="logo">CO<span class="mix">MIX</span>AI</span><span class="site">comixai.dev</span></div></div>
 </div></body></html>`;
@@ -332,6 +350,54 @@ body { width:968px; height:640px; font-family:"Zen Kaku Gothic New", sans-serif;
 </div></body></html>`;
 }
 
+/* —— 図解・説明カード（4コマ目の後に挟む） ——
+   図解は用語ページと同じSVGを、ビルド済みHTML（.next/server/app/…）から
+   そのまま抜いて使う。diagrams.tsxはJSXなのでnodeから直接importできない。
+   ビルドが無い・図解が無い用語・プロンプト集では、一文説明だけのカードになる */
+async function extractDiagram() {
+  try {
+    const html = await readFile(path.join(ROOT, ".next/server/app", section, `${slug}.html`), "utf8");
+    const s = html.indexOf('<svg viewBox="0 0 600');
+    if (s < 0) return null;
+    const e = html.indexOf("</svg>", s);
+    if (e < 0) return null;
+    const svg = html.slice(s, e + 6);
+    /* 直後のfont-handの一文がキャプション（diagrams.tsxのcaption） */
+    const cap = html.slice(e, e + 400).match(/font-hand[^"]*"\s*>([^<]+)<\/div>/);
+    return { svg, caption: cap ? cap[1] : null };
+  } catch {
+    return null;
+  }
+}
+
+/** 968幅のカード。図解SVG＋キャプション＋一文説明。動画は引きで見るので
+    サイトより文字を大きめに組む */
+function explainCardHtml(diagram) {
+  return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}
+* { margin:0; padding:0; box-sizing:border-box; }
+/* SVG図解はサイトのvar(--…)参照のまま埋めるので、ここでトークンを定義する */
+:root { --ink-900:${INK}; --paper-0:${PAPER_0}; --yellow-400:${YELLOW}; --red-500:${RED};
+  --blue-500:#1a6cff; --text-muted:${INK_500};
+  --font-heading:"Zen Kaku Gothic New", sans-serif; --font-hand:"Yusei Magic", sans-serif; }
+body { width:968px; font-family:"Zen Kaku Gothic New", sans-serif; color:${INK}; background:transparent; }
+.card { width:968px; display:flex; flex-direction:column; gap:18px;
+  border:6px solid ${INK}; border-radius:14px; padding:42px 46px 40px;
+  background:${PAPER_0};
+  background-image:radial-gradient(rgba(20,17,15,0.07) 1.5px, transparent 1.6px);
+  background-size:14px 14px; }
+.lab { font-family:"JetBrains Mono", monospace; font-size:22px; letter-spacing:.14em;
+  font-weight:700; color:${RED_600}; }
+.diag svg { display:block; width:100%; height:auto; }
+.cap { font-family:"Yusei Magic", sans-serif; font-size:25px; color:${INK_500}; text-align:right; margin-top:-6px; }
+.exp { font-size:${diagram ? 31 : 35}px; font-weight:700; line-height:1.8; letter-spacing:.01em; }
+.exp .mk { background:linear-gradient(transparent 64%, ${YELLOW} 64%); }
+</style></head><body><div class="card">
+  ${diagram ? `<div class="lab">DIAGRAM — 図解</div><div class="diag">${diagram.svg}</div>` : ""}
+  ${diagram?.caption ? `<div class="cap">${esc(diagram.caption)}</div>` : ""}
+  <div class="exp"><span class="mk">つまり？</span>　${esc(meta.short)}</div>
+</div></body></html>`;
+}
+
 /** 検出に失敗した絵は、全体をスクロールで見せるフレーム（縦長1枚）にする */
 function scrollFrameHtml(stripUrl, stripW, stripH) {
   const drawW = 968;
@@ -342,11 +408,9 @@ function scrollFrameHtml(stripUrl, stripW, stripH) {
     html: `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}${FRAME_BASE}
 body { height:${frameH}px; }
 .stage { height:${frameH}px; padding-bottom:120px; }
-.strip { margin-top:52px; width:${drawW}px; border-radius:14px; background:${PAPER_0};
-  box-shadow:10px 10px 0 ${INK}; }
+.strip { margin-top:52px; width:${drawW}px; border-radius:14px; background:${PAPER_0}; }
 </style></head><body><div class="stage">
-  <div class="kicker">4コマで学ぶAI</div>
-  <div class="title"><span class="mk">${esc(meta.title)}</span></div>
+  ${HEADER}
   <img class="strip" src="${stripUrl}">
 </div></body></html>`,
   };
@@ -369,7 +433,6 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
 .panel-wrap { margin-top:56px; flex:1; width:100%; position:relative; min-height:0; perspective:2000px; perspective-origin:50% 50%; }
 .layer { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
 .card { max-width:968px; max-height:1180px; width:auto; height:auto; background:${PAPER_0}; border-radius:14px; }
-#toCard { box-shadow:10px 10px 0 ${INK}; }
 #fromHolder { visibility:hidden; }
 #rig { position:absolute; transform-style:preserve-3d; }
 /* めくりの間だけ現れるスピード線（右から左）。うるさくならないよう
@@ -388,12 +451,12 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
    影は下方向だけに絞る（横に広げると隣の短冊に落ちて縦縞に見える） */
 .sback { position:absolute; top:0; left:0; transform:rotateY(180deg); background:#fffdf6;
   box-shadow:0 16px 18px -12px rgba(20,17,15,.28); }
-#rigShadow { position:absolute; border-radius:14px; box-shadow:10px 10px 0 ${INK}; }
+/* コマの落ち影はやめた（絵より目立つ）。要素はJSの都合で残すが描画は無し */
+#rigShadow { position:absolute; border-radius:14px; }
 </style></head><body>
 <div id="bglines"></div>
 <div class="stage">
-  <div class="kicker">4コマで学ぶAI</div>
-  <div class="title"><span class="mk">${esc(meta.title)}</span></div>
+  ${HEADER}
   <div class="panel-wrap" id="wrap">
     <div class="layer"><img id="toCard" class="card" src="${toUrl}"></div>
     <div class="layer"><img id="fromHolder" class="card" src="${fromUrl}"></div>
@@ -618,14 +681,29 @@ async function main() {
     await page.setViewportSize({ width: 1080, height: 1920 });
   }
 
+  const dotsTotal = panels ? panels.length : 0;
+
+  /* 図解・説明カード（4コマ目の後）。dotIndex=-1 で本編の外の意味 */
+  const diagram = await extractDiagram();
+  if (!diagram) console.log("  図解が見つからない（用語に図解が無いか、npm run build がまだ）→ 一文説明のみ");
+  await page.setContent(explainCardHtml(diagram), { waitUntil: "networkidle" });
+  await page.evaluate(() => document.fonts.ready);
+  const explainCardPng = path.join(work, "explain-card.png");
+  await page.locator(".card").screenshot({ path: explainCardPng });
+  const explainCardUrl = await toDataUrl(explainCardPng);
+  await page.setContent(panelFrameHtml(explainCardUrl, -1, dotsTotal), { waitUntil: "networkidle" });
+  await page.evaluate(() => document.fonts.ready);
+  const explainFrame = path.join(work, "frame-explain.png");
+  await page.screenshot({ path: explainFrame });
+  frames.push(explainFrame);
+  durations.push(EXPLAIN_SEC);
+
   /* エンドカード（CTAを「最後のカード」として同じ枠に置く） */
   await page.setContent(endCardHtml(), { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
   const endCardPng = path.join(work, "end-card.png");
   await page.screenshot({ path: endCardPng, clip: { x: 0, y: 0, width: 968, height: 640 } });
   const endCardUrl = await toDataUrl(endCardPng);
-  const dotsTotal = panels ? panels.length : 0;
-  /* dotIndex=-1 でどのドットも点灯しない＝本編の外、の意味 */
   await page.setContent(panelFrameHtml(endCardUrl, -1, dotsTotal), { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
   const endFrame = path.join(work, "frame-end.png");
@@ -636,13 +714,13 @@ async function main() {
   /* 切り替えのコマ送りを撮る。最後のCTAカードまで含めて全部めくりで進む */
   const transSeqs = [];
   if (panels) {
-    const deck = [...panels, endCardUrl];
+    const deck = [...panels, explainCardUrl, endCardUrl];
     for (let t = 0; t < deck.length - 1; t++) {
       const dotIndex = t + 1 < panels.length ? t + 1 : -1;
       transSeqs.push(await renderPanelCurlFrames(page, deck[t], deck[t + 1], dotIndex, panels.length, work, t));
     }
   } else {
-    /* スクロール構成: 最後に見えている下端1920px → エンドカードのフェード */
+    /* スクロール構成: 最後に見えている下端1920px → 図解カード → エンドカードのフェード */
     const lastView = await page.evaluate(async (url) => {
       const img = new Image();
       img.src = url;
@@ -653,7 +731,8 @@ async function main() {
       cv.getContext("2d").drawImage(img, 0, img.naturalHeight - 1920, 1080, 1920, 0, 0, 1080, 1920);
       return cv.toDataURL("image/png");
     }, await toDataUrl(frames[0]));
-    transSeqs.push(await renderFadeFrames(page, lastView, await toDataUrl(endFrame), work, 0));
+    transSeqs.push(await renderFadeFrames(page, lastView, await toDataUrl(explainFrame), work, 0));
+    transSeqs.push(await renderFadeFrames(page, await toDataUrl(explainFrame), await toDataUrl(endFrame), work, 1));
   }
   await browser.close();
 
