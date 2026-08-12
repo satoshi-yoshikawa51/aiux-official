@@ -14,7 +14,7 @@
    ============================================================ */
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import React from 'react';
-import { Text, View, useWindowDimensions } from 'react-native';
+import { Pressable, Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
@@ -25,7 +25,7 @@ import { Badge, Bubble, Button, Card, Panel, Row, Screen } from '@/components/ui
 import { getAvatar, getSkin } from '@/data/avatars';
 import { getBadge } from '@/data/badges';
 import { extraGameKey, getExtra, EXTRA_REWARD } from '@/data/extras';
-import { GACHA_POOL, getTheme, RARITY_COLOR } from '@/data/gacha';
+import { DEFAULT_HORIZON, GACHA_POOL, getTheme, RARITY_COLOR } from '@/data/gacha';
 import { CLASSROOM } from '@/data/stage';
 import { useProgress, type CompletionResult } from '@/store/progress';
 import { C, F, FONT, S, T } from '@/theme';
@@ -43,6 +43,24 @@ export default function ExtraScreen() {
     prize?.kind === 'theme' ? !!state.themes[prizeId] : !!state.skins[prizeId];
   const [result, setResult] = React.useState<CompletionResult | null>(null);
   const cleared = !!state.extras[prizeId];
+
+  /* 何コマ目のセリフを出しているか。コマを押すと次へ */
+  const [line, setLine] = React.useState(0);
+
+  /* ▍コマの高さは端末幅から決め打ちにする
+     ホームは1画面ぜんぶがコマなので余りから出せるが、こちらは下に
+     読み物とゲームが続く。コマだけで画面を埋めない高さにする */
+  const panelH = Math.round(Math.min(width, 460) * 0.92);
+
+  /* 中身の実寸。ここから絵とキャラの大きさを出す（→ (tabs)/index.tsx） */
+  const [box, setBox] = React.useState({ w: 0, h: 0 });
+  /* 寸法が揺れているあいだ渡さない。Avatar3D は寸法が変わるたびに
+     GLBを読み直すので、素直に繋ぐと起動時に2〜3回読む */
+  const [settled, setSettled] = React.useState({ w: 0, h: 0 });
+  React.useEffect(() => {
+    const t = setTimeout(() => setSettled(box), 180);
+    return () => clearTimeout(t);
+  }, [box.w, box.h]);
 
   const head = <Stack.Screen options={{ title: extra?.title ?? 'おまけ' }} />;
 
@@ -79,12 +97,30 @@ export default function ExtraScreen() {
     );
   }
 
-  const theme = prize.kind === 'theme' ? getTheme(prizeId) : null;
-  const art = theme?.art ?? CLASSROOM;
-  const skin = prize.kind === 'avatar' ? getSkin(prizeId) : null;
+  /* ▍舞台のおまけ＝その舞台／キャラのおまけ＝いま飾っている舞台
+     どちらも「先生がその場所に立ってしゃべる」形にそろえる。
+     絵だけ出してフキダシを外に並べると、**誰もいない風景の下に
+     吹き出しが浮かぶ**画になって落ち着かない（実機で指摘） */
+  const theme = prize.kind === 'theme' ? getTheme(prizeId) : getTheme(state.themeId);
+  const art = theme.art ?? CLASSROOM;
+  const skin = prize.kind === 'avatar' ? getSkin(prizeId) : getSkin(state.skinId);
   const avatar = getAvatar(state.avatarId, skin?.id);
-  /* コマの中に立たせる大きさ。ホームほど大きく取らない（読み物が主） */
-  const stageW = Math.min(width - S.lg * 4, 230);
+
+  /* 絵は**コマを覆いきる最小の大きさ**で敷き、キャラの目線を絵の地平線に
+     乗せる。ズレたぶんが「巨人」「小人」として出るので、ホームと同じ式で
+     出す（→ (tabs)/index.tsx の「舞台の大きさ」） */
+  const bgHeight =
+    box.w > 0 ? Math.ceil(Math.max(panelH, (box.w + S.sm * 2) / art.ratio)) : undefined;
+  const stageH =
+    settled.w > 0 && bgHeight
+      ? Math.min(
+          Math.round((bgHeight * (1 - (art.horizon ?? DEFAULT_HORIZON))) / 0.877),
+          Math.floor(box.h),
+        )
+      : 0;
+
+  const last = line >= extra.say.length - 1;
+  const next = () => setLine((n) => Math.min(extra.say.length - 1, n + 1));
 
   const onCleared = () => {
     /* 記録は1回で足りる。2周目に押しても報酬は出ない（store側で判定） */
@@ -95,54 +131,81 @@ export default function ExtraScreen() {
     <Screen tone="dots" style={{ gap: S.md }}>
       {head}
 
-      {/* ———— 当てたものを、そのまま見せる ———— */}
-      <Panel
-        bg={art.src}
-        bgRatio={art.ratio}
-        bgColor={art.wall}
-        caption={prize.kind === 'theme' ? prize.name : (skin?.name ?? prize.name)}
-        contentStyle={{ padding: S.sm, gap: S.sm, minHeight: 190, justifyContent: 'flex-end' }}>
-        {theme && theme.tint !== 'transparent' ? (
-          <View
-            pointerEvents="none"
-            style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: theme.tint }}
-          />
-        ) : null}
-        {theme?.effect ? <StageEffect effect={theme.effect} /> : null}
-        {theme?.glow ? <StageGlow glow={theme.glow} /> : null}
-
-        <Row style={{ position: 'absolute', top: 6, left: 6 }}>
-          <View
-            style={{
-              backgroundColor: C.ink900,
-              borderRadius: 999,
-              paddingHorizontal: 9,
-              paddingVertical: 4,
-            }}>
-            <Text
-              style={{ fontFamily: FONT.mono, fontSize: 10, color: RARITY_COLOR[prize.rarity] }}>
-              {prize.rarity} のおまけ
-            </Text>
-          </View>
-        </Row>
-
-        {/* アバターのおまけは、その色の先生に出てきてもらう */}
-        {prize.kind === 'avatar' ? (
-          <View style={{ alignItems: 'center' }}>
-            <Avatar3D
-              key={avatar.id + (skin?.id ?? '')}
-              avatar={avatar}
-              width={stageW}
-              height={Math.round(stageW * 0.95)}
+      {/* ———— 当てたものの中で、先生がしゃべる ———— */}
+      <Pressable onPress={next} disabled={last}>
+        <Panel
+          bg={art.src}
+          bgRatio={art.ratio}
+          bgColor={art.wall}
+          bgHeight={bgHeight}
+          caption={prize.kind === 'theme' ? prize.name : (skin?.name ?? prize.name)}
+          contentStyle={{ height: panelH, padding: S.sm, gap: S.sm, justifyContent: 'flex-end' }}>
+          {theme.tint !== 'transparent' ? (
+            <View
+              pointerEvents="none"
+              style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: theme.tint }}
             />
-          </View>
-        ) : null}
-      </Panel>
+          ) : null}
+          {theme.effect ? <StageEffect effect={theme.effect} /> : null}
+          {theme.glow ? <StageGlow glow={theme.glow} /> : null}
 
-      {/* ———— 先生のはなし ———— */}
-      {extra.say.map((line, i) => (
-        <Bubble key={i} text={line} />
-      ))}
+          {/* レア度の札は**左下**。上に置くとフキダシの下敷きになる
+              （フキダシは空きの真ん中＝キャラが高いとコマの上端に来る）。
+              右下はキャプション（景品名）が使っている */}
+          <View
+            style={{ position: 'absolute', bottom: 6, left: 6, zIndex: 5 }}
+            pointerEvents="none">
+            <View
+              style={{
+                backgroundColor: C.ink900,
+                borderRadius: 999,
+                paddingHorizontal: 9,
+                paddingVertical: 4,
+              }}>
+              <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: RARITY_COLOR[prize.rarity] }}>
+                {prize.rarity} のおまけ
+              </Text>
+            </View>
+          </View>
+
+          {/* 中身の高さを測る。この高さから絵とキャラの大きさを出す
+              （ホームと同じ考え方 → (tabs)/index.tsx） */}
+          <View
+            style={{ flex: 1, justifyContent: 'flex-end', gap: S.sm }}
+            onLayout={(e) => {
+              const { width: w, height: h } = e.nativeEvent.layout;
+              setBox((p) => (Math.abs(p.w - w) < 2 && Math.abs(p.h - h) < 2 ? p : { w, h }));
+            }}>
+            {/* フキダシはコマの上端とキャラの頭の中間に置く */}
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+              <Bubble text={extra.say[line]} />
+            </View>
+            <View style={{ alignItems: 'center' }}>
+              {stageH > 0 ? (
+                <Avatar3D
+                  key={avatar.id + (skin?.id ?? '')}
+                  avatar={avatar}
+                  width={Math.floor(settled.w)}
+                  height={stageH}
+                />
+              ) : null}
+            </View>
+          </View>
+
+        </Panel>
+      </Pressable>
+
+      {/* ▍つづきの合図はコマの外に出す
+          コマの中に置くと、フキダシかキャプションのどちらかと必ず重なる
+          （上はフキダシ、右下は景品名、左下はレア度の札で埋まっている） */}
+      {!last ? (
+        <Row gap={6} style={{ justifyContent: 'flex-end' }}>
+          <Text style={[F.hand, { fontSize: 12.5, color: T.muted }]}>
+            コマを押すと、つづき（{line + 1}/{extra.say.length}）
+          </Text>
+          <Icon name="play" size={11} color={T.muted} />
+        </Row>
+      ) : null}
 
       <Card tone="warn">
         <Row gap={7} style={{ alignItems: 'flex-start' }}>
