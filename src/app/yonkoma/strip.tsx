@@ -7,18 +7,11 @@ export function YonkomaStrip({ src, alt }: { src: string; alt: string }) {
   return (
     <figure style={{ margin: 0 }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
+      {/* 絵の中にコマ枠が描かれているので、ページ側では枠も影も付けない */}
       <img
         src={src}
         alt={alt}
-        style={{
-          display: "block",
-          width: "100%",
-          height: "auto",
-          border: "var(--bw-heavy) solid var(--ink-900)",
-          borderRadius: "var(--radius-md)",
-          boxShadow: "var(--shadow-pop)",
-          background: "var(--paper-0)",
-        }}
+        style={{ display: "block", width: "100%", height: "auto" }}
       />
       <figcaption
         style={{
