@@ -315,7 +315,8 @@ function panelFrameHtml(panelUrl, index, total) {
   const dots = Array.from({ length: total }, (_, i) => `<span class="dot ${i === index ? "on" : ""}"></span>`).join("");
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}${FRAME_BASE}
 .panel-wrap { margin-top:56px; flex:1; display:flex; align-items:center; justify-content:center; min-height:0; width:100%; }
-.panel-wrap img { max-width:968px; max-height:1180px; width:auto; height:auto;
+/* 元画像が小さくてもカード幅いっぱいに拡大する（width固定＋containで比率維持） */
+.panel-wrap img { width:968px; height:auto; max-height:1180px; object-fit:contain;
   background:${PAPER_0}; border-radius:14px; }
 </style></head><body><div class="stage">
   ${HEADER}
@@ -432,7 +433,7 @@ function flipSceneHtml(fromUrl, toUrl, dotIndex, total) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}${FRAME_BASE}
 .panel-wrap { margin-top:56px; flex:1; width:100%; position:relative; min-height:0; perspective:2000px; perspective-origin:50% 50%; }
 .layer { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
-.card { max-width:968px; max-height:1180px; width:auto; height:auto; background:${PAPER_0}; border-radius:14px; }
+.card { width:968px; height:auto; max-height:1180px; object-fit:contain; background:${PAPER_0}; border-radius:14px; }
 #fromHolder { visibility:hidden; }
 #rig { position:absolute; transform-style:preserve-3d; }
 /* めくりの間だけ現れるスピード線（右から左）。うるさくならないよう
