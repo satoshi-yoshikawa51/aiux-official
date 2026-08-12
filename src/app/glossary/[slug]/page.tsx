@@ -11,6 +11,8 @@ import { seoTitle, titleWidth } from "../../seo";
 import { GAMES } from "../../games";
 import { RECIPES } from "../../prompts/data";
 import { TermDiagram, hasDiagram } from "../diagrams";
+import { yonkomaSrc, yonkomaOg } from "../../yonkoma/registry";
+import { YonkomaStrip } from "../../yonkoma/strip";
 import ARTICLE_META from "../article-meta.json";
 
 /* —— リンク先URLから、サムネ・概要つきのカード情報を解決する ——
@@ -103,7 +105,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: t.short,
       url: `/glossary/${t.slug}`,
       locale: "ja_JP",
-      images: [{ url: `/og/glossary/${t.slug}.png`, width: 1200, height: 630, alt: `${t.term}とは？今さら聞けないAI用語集` }],
+      images: [
+        {
+          /* 4コマ用のOGを入稿してあればそちらを優先（無ければ既定のタイポグラフィOG） */
+          url: yonkomaOg("glossary", t.slug) ?? `/og/glossary/${t.slug}.png`,
+          width: 1200,
+          height: 630,
+          alt: `${t.term}とは？今さら聞けないAI用語集`,
+        },
+      ],
     },
     twitter: { card: "summary_large_image" },
   };
@@ -193,6 +203,12 @@ export default async function GlossaryTermPage({ params }: Props) {
               </div>
               <p style={{ margin: 0, fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 16.5, lineHeight: 1.9 }}>{t.short}</p>
             </Card>
+            {/* —— 手描き4コマ（public/yonkoma/glossary/<slug>.png を置くと出る） —— */}
+            {yonkomaSrc("glossary", t.slug) && (
+              <div style={{ marginTop: 26 }}>
+                <YonkomaStrip src={yonkomaSrc("glossary", t.slug)!} alt={`4コマ漫画でわかる${t.term}`} />
+              </div>
+            )}
             {(t.image || hasDiagram(t.slug)) && (
               <div style={{ marginTop: 26 }}>
                 {t.image ? (

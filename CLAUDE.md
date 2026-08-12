@@ -16,7 +16,12 @@ npm run build        # 本番ビルド ＝ 実質の型チェック／唯一の�
 npm run og:glossary  # OGP画像を一括生成（Playwright/Chromium を使用）
 npm run img:optimize # 表示に使う画像を軽量化（元画像は残す）
 npm run ga:report    # GA4のデータをAPIで取ってレポート表示（要 環境変数）
+npm run yonkoma:list  # 4コマを描ける対象(slug)と入稿済みの一覧
+npm run yonkoma:video # 入稿済み4コマをショート動画(mp4)にする（要 ffmpeg-static、API不要）
 ```
+
+4コマのネーム・ネタ作りは人間の仕事（AIに生成させない方針）。**入稿はデータ編集不要で、
+`public/yonkoma/<glossary|prompts>/<slug>.png` を置くだけ**。詳細は `docs/yonkoma.md`。
 
 `ga:report` は `GA_PROPERTY_ID` と `GA_SERVICE_ACCOUNT_JSON` を環境変数で渡す。
 **サービスアカウントのJSONキーはリポジトリに置かない。** 準備の手順は
@@ -96,6 +101,7 @@ XやGitHubなどのロゴは**商標なので描き直さない**。Phosphorの 
 | `glossary/data.ts` + `terms-wave2*.ts` | AI用語集150語（5,000行超。波ごとにファイル分割） |
 | `prompts/data.ts` + `recipes-*.ts` | プロンプト集24レシピ |
 | `works/data.ts` `guide/data.tsx` `faq/data.ts` `manga/data.ts` `calendar/events.ts` | 各セクションのコンテンツ |
+| `public/yonkoma/` + `yonkoma/registry.ts` | 手描き4コマ。**データファイルなし**（置いた画像が正）。registryがfsを見て用語/レシピページとギャラリーに配る |
 
 **コンテンツを追加したら**：該当 `data.ts` → `*_UPDATED` 定数 → `sitemap.ts`（新セクションの場合）→ OGP画像（`npm run og:glossary`）の順で更新する。
 

@@ -6,6 +6,7 @@ import { RECIPES, PROMPTS_UPDATED } from "./prompts/data";
 import { FAQ_UPDATED } from "./faq/data";
 import { EVENTS_UPDATED } from "./calendar/events";
 import { GUIDES, GUIDES_UPDATED } from "./guide/data";
+import { listYonkoma } from "./yonkoma/registry";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -126,6 +127,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 0.8,
     },
+    /* 4コマギャラリーは、1本でも入稿されたら載せる（空のうちは出さない） */
+    ...(listYonkoma().length > 0
+      ? [
+          {
+            url: `${base}/yonkoma`,
+            lastModified: new Date(),
+            changeFrequency: "weekly" as const,
+            priority: 0.7,
+          },
+        ]
+      : []),
     {
       url: `${base}/faq`,
       lastModified: new Date(FAQ_UPDATED),
