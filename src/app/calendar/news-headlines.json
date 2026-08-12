@@ -1,7 +1,90 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-11T22:22:18.632Z",
+  "updatedAt": "2026-08-12T22:22:00.465Z",
   "items": [
+    {
+      "title": "AI coding startup Cognition reportedly already in talks to raise at $40B valuation",
+      "url": "https://techcrunch.com/2026/08/12/ai-coding-startup-cognition-reportedly-already-in-talks-to-raise-at-40b-valuation/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-12T18:19:12.000Z",
+      "titleJa": "AIコーディングの新興企業Cognitionはすでに評価額400億ドルで調達する交渉に入っていると報じられている",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/05/Scott-wu-headshot-e1780070238342.png?resize=1200,1004"
+    },
+    {
+      "title": "OpenAI-backed Thrive Holdings raises $2B to bring AI to the enterprise",
+      "url": "https://techcrunch.com/2026/08/12/openai-backed-thrive-holdings-raises-2b-to-bring-ai-to-the-enterprise/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-12T17:41:29.000Z",
+      "titleJa": "OpenAIが支援するThrive HoldingsがAIを企業に導入するために20億ドルを調達",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/holdings_all_team.jpg?resize=1200,407"
+    },
+    {
+      "title": "Lovable confirms new $13.3B valuation, raises another $400M",
+      "url": "https://techcrunch.com/2026/08/12/lovable-confirms-new-13-3b-valuation-raises-another-400m/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-12T16:04:27.000Z",
+      "titleJa": "Lovable が新たな評価額 133 億ドルを確認、さらに 4 億ドルを調達",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/08/picnew-copy.png?resize=1200,801"
+    },
+    {
+      "title": "SpaceXAI、「Grok 4.6」を発表 総合指標で「GPT-5.6 Sol Max」に並ぶと謳う",
+      "url": "https://www.itmedia.co.jp/news/article/2608/13/2000000520/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-12T21:32:01.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/13/2000000520/10002535/2048"
+    },
+    {
+      "title": "［Python］Polars公式が「全部書き換えるな」と言う理由 pandasからの移行、3戦略",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/13/news008.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-12T20:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2608/13/cover_news008.jpg"
+    },
+    {
+      "title": "Google、折りたたみスマホ「Pixel 11 Pro Fold」発表 10％軽く、1mm薄くしつつ耐久性強化",
+      "url": "https://www.itmedia.co.jp/news/article/2608/12/2000000517/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-12T14:10:09.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/12/2000000517/10002462/2048"
+    },
+    {
+      "title": "Google新スマホ「Pixel 11シリーズ」正式発表 「Gemini Intelligence」向けに設計 カメラも強化",
+      "url": "https://www.itmedia.co.jp/news/article/2608/12/2000000516/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-12T14:03:56.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/12/2000000516/10002459/2048"
+    },
+    {
+      "title": "Spotify、AI生成アーティストをおすすめから除外へ 9月に新ラベル導入",
+      "url": "https://japan.cnet.com/article/35251512/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-12T07:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/12/af00b0302c1e9575b969b301abd1e03b/GettyImages-2257938130-spotify_1280x960.jpg"
+    },
+    {
+      "title": "最新のオープンウェイト世界モデル「LTX-2.5」公開、動画生成やロボット開発に",
+      "url": "https://japan.cnet.com/article/35251508/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-12T03:36:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/12/516f854b908e410a976303d38aec055f/AdobeStock_468057557_1280x960.jpeg"
+    },
+    {
+      "title": "Meta、ノートPCで動くAIエージェント向け新モデル「Muse Glimmer」を公開",
+      "url": "https://japan.cnet.com/article/35251497/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-12T00:39:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/12/66b9fecfa1bb4dcf05b764f77ada0ba0/AdobeStock_2015437130_Editorial_Use_Only_1280x960.jpeg"
+    },
     {
       "title": "ChatGPT and Gemini both just passed 1 billion users",
       "url": "https://www.theverge.com/ai-artificial-intelligence/978113/chatgpt-gemini-1-billion-users",
@@ -10,24 +93,6 @@
       "date": "2026-08-11T19:41:42.000Z",
       "titleJa": "ChatGPT と Gemini はどちらもユーザー数 10 億人を突破しました",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/gemini-live-ai-ad.png?quality=90&strip=all&crop=0%2C2.0352385861162%2C100%2C95.929522827768&w=1200"
-    },
-    {
-      "title": "OpenAI launches ChatGPT desktop app for Linux",
-      "url": "https://techcrunch.com/2026/08/11/openai-launches-chatgpt-desktop-app-for-linux/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-11T19:15:35.000Z",
-      "titleJa": "OpenAI が Linux 用 ChatGPT デスクトップ アプリを開始",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/02/EU-ai-1258475609.jpg?w=1024"
-    },
-    {
-      "title": "General Catalyst leads $1.1B round into 2-month-old River AI",
-      "url": "https://techcrunch.com/2026/08/11/general-catalyst-leads-1-1b-round-into-2-month-old-river-ai/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-11T17:41:22.000Z",
-      "titleJa": "General Catalyst、設立 2 か月の River AI への 11 億ドルの資金調達を主導",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/River-AI-Igor-Babuschkin.jpeg?resize=1197,1200"
     },
     {
       "title": "Made by Google 2026: all the Pixel news and announcements",
@@ -39,38 +104,12 @@
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/made-by-google-.png?quality=90&strip=all&crop=0%2C8.295721249323%2C100%2C83.408557501354&w=1200"
     },
     {
-      "title": "エージェント型AIで変わる働き方--SAPの責任者に聞く、「自律型」時代の人材戦略",
-      "url": "https://japan.zdnet.com/article/35251230/",
-      "source": "ZDNET Japan",
+      "title": "Claudeが生成した文章に「電子透かし」、全世界で導入へ",
+      "url": "https://japan.cnet.com/article/35251494/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-08-11T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/03/ccd71418129ceccfc302aea4508142ba/sap-hcmproducts-president_l.jpg"
-    },
-    {
-      "title": "AIに書かせた文はバレる時代へ。EU AI法にClaudeも対応、編集しても残る見えないテキスト透かしを導入 | テクノエッジ TechnoEdge",
-      "url": "https://www.techno-edge.net/article/2026/08/11/5382.html",
-      "source": "テクノエッジ",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 201,
-      "date": "2026-08-11T08:52:44.000Z",
-      "image": "https://www.techno-edge.net/imgs/ogp_f/33487.jpg"
-    },
-    {
-      "title": "Saviynt、ARRが３億ドルを突破し、エンタープライズ向けAIアイデンティティ セキュリティ プラットフォーム「Zuma」をリリース",
-      "url": "https://ascii.jp/elem/000/004/426/4426325/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-11T05:11:34.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg?20200122"
-    },
-    {
-      "title": "Box上のファイルを２分でスライド化。生成AIサービス「ChatSense」がリリース",
-      "url": "https://ascii.jp/elem/000/004/426/4426311/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-11T01:50:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "date": "2026-08-11T23:46:00.000Z",
+      "image": "https://japan.cnet.com/storage/2025/05/23/abf1bac31aeb177923dc375ba95286a9/claude-ai-9831_1280x960.jpg"
     },
     {
       "title": "OpenAI’s letter to Governor Abbott on responsible AI infrastructure in Texas",
@@ -79,46 +118,6 @@
       "lang": "en",
       "date": "2026-08-10T14:00:00.000Z",
       "titleJa": "テキサス州の責任ある AI インフラストラクチャに関する OpenAI のアボット知事への書簡"
-    },
-    {
-      "title": "Model ML completes finance work more efficiently with GPT-5.6 Sol",
-      "url": "https://openai.com/index/model-ml",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-08-10T12:00:00.000Z",
-      "titleJa": "Model ML は GPT-5.6 Sol を使用して財務業務をより効率的に完了します"
-    },
-    {
-      "title": "ザッカーバーグCEO、超知能の集中化に警鐘 「単一の善意ある超知能は存在しない」とオープンモデル公開再開へ",
-      "url": "https://www.itmedia.co.jp/news/article/2608/11/2000000494/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-10T22:21:33.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/11/2000000494/10002358/2048"
-    },
-    {
-      "title": "Meta、ローカル動作に特化したオープンモデル「Muse Glimmer」公開 Apache 2.0で提供",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/11/2000000493/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-10T22:11:40.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/11/2000000493/10002355/2048"
-    },
-    {
-      "title": "OpenAI、次世代AI「Astra」の開発を一部停止 高いサイバー攻撃能力を懸念",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11960/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-08-10T06:15:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11960/topm.jpg?20220512"
-    },
-    {
-      "title": "OpenAI、次期モデル「Astra」の開発を一部停止--「最高水準のサイバー攻撃能力に達した可能性」",
-      "url": "https://japan.cnet.com/article/35251464/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-10T05:15:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/10/b944cc80ab3ef632ccc14bf01c93884c/IMG_5814__1_.jpg"
     }
   ]
 }
