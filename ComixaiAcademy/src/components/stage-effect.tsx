@@ -31,11 +31,15 @@
    なった**。ブラウザは見えていないあいだ rAF を自分で止めるので、
    こちらで止める必要がそもそも無かった。
 
+   ▍Webは値を「時計から」出す（→ useLoop）
+   差分を積み上げる作りだと、フレームが1回落ちただけでそこに固まる。
+   位相を時計から計算しておけば、次のフレームで正しい位置に戻る。
+
    ▍NとRには飾りを置かない
    レア度は「画面に増える要素の数」で見せている（→ README）。
    ============================================================ */
 import React from 'react';
-import { Animated, AppState, Easing, StyleSheet, View } from 'react-native';
+import { Animated, AppState, Easing, Platform, StyleSheet, View } from 'react-native';
 import Svg, { Circle, Defs, LinearGradient, Rect, RadialGradient, Stop } from 'react-native-svg';
 
 import type { StageTheme } from '@/data/gacha';
@@ -82,9 +86,89 @@ const jitter = (i: number, salt: number) => fract(Math.sin(i * 12.9898 + salt * 
 /** 1周の長さ。短くすると継ぎ目が増える（↑のメモ） */
 const LOOP = 60;
 
+/* ============================================================
+   ▍Webは「時計から位相を出す」1本の rAF に集める
+
+   Animated.timing は**前のフレームからの差分を積み上げて**進む。だから
+   途中でフレームが1回も返ってこなくなると、そこで固まったまま戻らない。
+   Webは useNativeDriver が効かず全部これなので、重い処理（3Dアバターの
+   読み直しなど）や端末側の都合でフレームが落ちると、飾りだけが止まる。
+   「先生を変えてホームに戻ると背景の飾りが消えた」はこの形。
+
+   なので値は**時計から計算する**。位相 = 経過ミリ秒 ÷ 1周。
+   フレームが飛んでも次のフレームで正しい位置に戻るので、**止まったままに
+   ならない**。ずれも溜まらない。画面を行き来しても続きから見える
+   （0に戻さないので、戻るたびに模様が作り直されることもない）。
+
+   rAF は1本だけ。粒ごとにアニメを持たせないのと同じ理由で、
+   動かす値がいくつあっても毎フレームの仕事は1回で済む。
+
+   ▍rAFごと返ってこなくなったときの保険
+   2秒ごとに「最後のフレームからどれだけ経ったか」だけ見て、間が空いて
+   いたら鎖をつなぎ直す。**位相は時計から出しているので、つなぎ直しても
+   絵は飛ばない**（前に入れた見張りは0へ戻していたので、そこが見えた）。
+   ============================================================ */
+const WEB = Platform.OS === 'web';
+
+type Ticker = { v: Animated.Value; ms: number; delay: number };
+const tickers = new Set<Ticker>();
+let rafId: number | null = null;
+let lastFrame = 0;
+let watchdog: ReturnType<typeof setInterval> | null = null;
+
+function frame() {
+  const now = Date.now();
+  lastFrame = now;
+  tickers.forEach((k) => {
+    const p = (((now - k.delay) % k.ms) + k.ms) % k.ms;
+    k.v.setValue(p / k.ms);
+  });
+  rafId = requestAnimationFrame(frame);
+}
+
+function startClock() {
+  if (rafId === null) {
+    lastFrame = Date.now();
+    rafId = requestAnimationFrame(frame);
+  }
+  if (watchdog === null) {
+    watchdog = setInterval(() => {
+      if (tickers.size === 0 || Date.now() - lastFrame < 1200) return;
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      rafId = null;
+      startClock();
+    }, 2000);
+  }
+}
+
+function stopClock() {
+  if (rafId !== null) cancelAnimationFrame(rafId);
+  rafId = null;
+  if (watchdog !== null) clearInterval(watchdog);
+  watchdog = null;
+}
+
 function useLoop(sec: number, delayMs = 0) {
   const t = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
+    if (WEB) {
+      const k: Ticker = { v: t, ms: sec * 1000, delay: delayMs };
+      tickers.add(k);
+      startClock();
+      return () => {
+        tickers.delete(k);
+        if (tickers.size === 0) stopClock();
+      };
+    }
+    return nativeLoop(t, sec, delayMs);
+  }, [t, sec, delayMs]);
+  return t;
+}
+
+/* ネイティブは従来どおり。useNativeDriver が効いて UIスレッドで回るので、
+   JS側のフレーム落ちに巻き込まれない（rAFに載せ替えるとむしろ悪くなる） */
+function nativeLoop(t: Animated.Value, sec: number, delayMs: number) {
+  {
     let anim: Animated.CompositeAnimation | null = null;
     let timer: ReturnType<typeof setTimeout> | null = null;
 
@@ -120,8 +204,7 @@ function useLoop(sec: number, delayMs = 0) {
       anim?.stop();
       sub.remove();
     };
-  }, [t, sec, delayMs]);
-  return t;
+  }
 }
 
 /* ▍1周(LOOP秒)のあいだに cycles 回くり返す表を作る

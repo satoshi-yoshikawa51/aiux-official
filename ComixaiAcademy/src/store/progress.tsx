@@ -131,7 +131,8 @@ export interface ProgressState {
   seenTutorial: boolean;
 }
 
-const EMPTY: ProgressState = {
+/** まっさらな状態。読み込んだ記録の穴埋めにも使う（→ lib/save.ts） */
+export const EMPTY: ProgressState = {
   version: 1,
   avatarId: null,
   roleId: null,
@@ -287,6 +288,9 @@ interface Ctx {
   markOpeningSeen: () => void;
   markIntroSeen: () => void;
   markTutorialSeen: () => void;
+  /** 書き出しておいた記録で丸ごと置き換える（→ lib/save.ts）。
+      いまの記録は消えるので、呼ぶ前に画面で確認を取ること */
+  replaceAll: (next: ProgressState) => void;
   reset: () => void;
 }
 
@@ -566,6 +570,19 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
      ここを残しておかないと端末のデータを消すしか手が無くなる） */
   const reset = React.useCallback(() => persist({ ...EMPTY }), [persist]);
 
+  /* ▍読み込んだ記録で置き換える
+     中身の検査は lib/save.ts が済ませてある前提。ここでは
+     **音の旗を流し込むのを忘れない**（起動時の読み込みと同じ扱い。
+     設定だけ前の端末のまま残ると、切ったはずのBGMが鳴り出す） */
+  const replaceAll = React.useCallback(
+    (next: ProgressState) => {
+      setSoundEnabled(next.soundOn);
+      setMusicEnabled(next.musicOn);
+      persist(next);
+    },
+    [persist],
+  );
+
   const value = React.useMemo<Ctx>(
     () => ({
       state,
@@ -588,6 +605,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       markOpeningSeen,
       markIntroSeen,
       markTutorialSeen,
+      replaceAll,
       reset,
     }),
     [
@@ -611,6 +629,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       markOpeningSeen,
       markIntroSeen,
       markTutorialSeen,
+      replaceAll,
       reset,
     ],
   );

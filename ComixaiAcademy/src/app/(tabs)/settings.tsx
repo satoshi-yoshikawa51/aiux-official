@@ -10,6 +10,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
+import { SaveTransfer } from '@/components/save-transfer';
 import { Spotlight } from '@/components/spotlight';
 import { Badge, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, isReady, SKINS } from '@/data/avatars';
@@ -259,6 +260,11 @@ export default function SettingsScreen() {
         </Row>
       </Panel>
 
+      {/* ▍記録の持ち出し（→ components/save-transfer.tsx）
+           消す口（下の黒いカセット）の**すぐ上**に置く。順番が逆だと、
+           消してから「戻せた」と知ることになる */}
+      <SaveTransfer />
+
       {/* 記録 */}
       <Cassette>
         <Text style={[F.h1, { color: C.paper50 }]}>記録</Text>
@@ -267,7 +273,7 @@ export default function SettingsScreen() {
           {stats.streak}
         </Text>
         <Text style={[F.hand, { color: C.ink300 }]}>
-          この端末の中だけに保存されます。アプリを消すと一緒に消えます。
+          この端末の中だけに保存されます。消す前に、上の「記録の持ち出し」で書き出しておけます。
         </Text>
         {/* 消すのは取り消せないので、赤いボタンの見た目にはしない。
             黒の上では red500 が沈むので、文字は red100 で出す */}
