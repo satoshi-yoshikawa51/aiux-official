@@ -1,0 +1,573 @@
+{
+  "app": "comixai-academy",
+  "v": 1,
+  "savedAt": 1786584274557,
+  "data": {
+    "version": 1,
+    "avatarId": "sensei",
+    "roleId": "creator",
+    "done": {
+      "basics-1": 1786584274557,
+      "basics-2": 1786584274557,
+      "basics-3": 1786584274557,
+      "basics-4": 1786584274557,
+      "work-1": 1786584274557,
+      "work-2": 1786584274557,
+      "work-3": 1786584274557,
+      "prompt-1": 1786584274557,
+      "prompt-2": 1786584274557,
+      "prompt-3": 1786584274557,
+      "prompt-4": 1786584274557,
+      "risk-1": 1786584274557,
+      "risk-2": 1786584274557,
+      "risk-3": 1786584274557,
+      "next-1": 1786584274557,
+      "next-2": 1786584274557,
+      "next-3": 1786584274557
+    },
+    "perfect": {
+      "basics-1": 1786584274557,
+      "basics-2": 1786584274557,
+      "basics-3": 1786584274557,
+      "basics-4": 1786584274557,
+      "work-1": 1786584274557,
+      "work-2": 1786584274557,
+      "work-3": 1786584274557,
+      "prompt-1": 1786584274557,
+      "prompt-2": 1786584274557,
+      "prompt-3": 1786584274557,
+      "prompt-4": 1786584274557,
+      "risk-1": 1786584274557,
+      "risk-2": 1786584274557,
+      "risk-3": 1786584274557,
+      "next-1": 1786584274557,
+      "next-2": 1786584274557,
+      "next-3": 1786584274557
+    },
+    "badges": {
+      "avatar-set": 1786584274557,
+      "role-set": 1786584274557,
+      "first-lesson": 1786584274557,
+      "course-basics": 1786584274557,
+      "course-work": 1786584274557,
+      "course-prompt": 1786584274557,
+      "course-risk": 1786584274557,
+      "course-next": 1786584274557,
+      "quiz-perfect": 1786584274557,
+      "quiz-perfect-5": 1786584274557,
+      "streak-3": 1786584274557,
+      "streak-7": 1786584274557,
+      "half": 1786584274557,
+      "all-clear": 1786584274557,
+      "star-first": 1786584274557,
+      "star-5": 1786584274557,
+      "star-all": 1786584274557,
+      "review-first": 1786584274557,
+      "review-10": 1786584274557,
+      "extra-first": 1786584274557,
+      "extra-3": 1786584274557,
+      "extra-5": 1786584274557,
+      "extra-sr": 1786584274557,
+      "perfect-all": 1786584274557
+    },
+    "days": [
+      "2026-08-13",
+      "2026-08-12",
+      "2026-08-11",
+      "2026-08-10",
+      "2026-08-09",
+      "2026-08-08",
+      "2026-08-07",
+      "2026-08-06"
+    ],
+    "seenTitle": "",
+    "seenOpening": true,
+    "seenIntro": true,
+    "seenTutorial": true,
+    "quiz": {
+      "basics-1-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-1-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-1-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-2-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-2-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-2-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-3-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-3-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-3-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-4-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-4-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "basics-4-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "work-1-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "work-1-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "work-1-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "work-2-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "work-2-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "work-2-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "work-3-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "work-3-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "work-3-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-1-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-1-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-1-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-2-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-2-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-2-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-3-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-3-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-3-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-4-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-4-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "prompt-4-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "risk-1-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "risk-1-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "risk-1-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "risk-2-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "risk-2-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "risk-2-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "risk-3-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "risk-3-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "risk-3-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "next-1-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "next-1-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "next-1-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "next-2-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "next-2-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "next-2-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "next-3-q1": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "next-3-q2": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      },
+      "next-3-q3": {
+        "due": 0,
+        "streak": 3,
+        "wrong": 1
+      }
+    },
+    "games": {
+      "basics-2": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "basics-3": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "basics-4": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "work-1": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "work-2": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "work-3": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "prompt-1": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "prompt-2": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "prompt-3:build": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "prompt-3:ai-prompt": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "prompt-4": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "risk-1:sort": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "risk-1:ai-prompt": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "risk-2": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "risk-3": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "next-1": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "next-2:fit": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "next-2:ai-prompt": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "next-3": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:sakura": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:beach-dawn": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:neon-rain": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:festival-night": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:office-night": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:cabin-fire": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:rooftop-sunset": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:gin": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:momo": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      },
+      "extra:gold-ink": {
+        "stars": 3,
+        "misses": 0,
+        "ms": 12000,
+        "plays": 1
+      }
+    },
+    "exams": {
+      "basics": 1786584274557,
+      "work": 1786584274557,
+      "prompt": 1786584274557,
+      "risk": 1786584274557,
+      "next": 1786584274557
+    },
+    "extras": {
+      "sakura": 1786584274557,
+      "beach-dawn": 1786584274557,
+      "neon-rain": 1786584274557,
+      "festival-night": 1786584274557,
+      "office-night": 1786584274557,
+      "cabin-fire": 1786584274557,
+      "rooftop-sunset": 1786584274557,
+      "gin": 1786584274557,
+      "momo": 1786584274557,
+      "gold-ink": 1786584274557
+    },
+    "coins": 99,
+    "lastBonusDay": "",
+    "themes": {
+      "courtyard": 1786584274557,
+      "library": 1786584274557,
+      "corridor": 1786584274557,
+      "computer-room": 1786584274557,
+      "home-desk": 1786584274557,
+      "entrance-hall": 1786584274557,
+      "cafe": 1786584274557,
+      "meeting-room": 1786584274557,
+      "rooftop-cloudy": 1786584274557,
+      "sakura": 1786584274557,
+      "rooftop-sunset": 1786584274557,
+      "neon-rain": 1786584274557,
+      "office-night": 1786584274557,
+      "beach-dawn": 1786584274557,
+      "festival-night": 1786584274557,
+      "cabin-fire": 1786584274557,
+      "datacenter": 1786584274557,
+      "above-clouds": 1786584274557,
+      "gold-ink": 1786584274557
+    },
+    "themeId": "classroom",
+    "skins": {
+      "gin": 1786584274557,
+      "momo": 1786584274557,
+      "kin": 1786584274557,
+      "hiiro": 1786584274557
+    },
+    "skinId": "",
+    "soundOn": true,
+    "musicOn": true
+  }
+}
