@@ -51,6 +51,7 @@ import { BuildPlay } from '@/components/games/build-game';
 import { FindPlay } from '@/components/games/find-game';
 import { FitPlay } from '@/components/games/fit-game';
 import { OrderPlay } from '@/components/games/order-game';
+import { RedlinePlay } from '@/components/games/redline-game';
 import {
   allowLabel,
   starsOf,
@@ -143,6 +144,13 @@ export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
     how: '書いて削って、決められたトークン数に収めてください',
     color: '#ff8a5c',
   },
+  redline: {
+    name: '赤ペンを入れよう',
+    icon: 'pen',
+    rule: 'AIの下書きを直す',
+    how: '直す所を押して、どう直すかを選びます',
+    color: '#e8c15a',
+  },
   'ai-prompt': {
     name: '本物のAIに指示を出そう',
     icon: 'bulb',
@@ -169,6 +177,8 @@ export function allowOf(spec: LessonInteractive): number {
     case 'order':
       return spec.allow ?? 2;
     case 'fit':
+      return spec.allow ?? 2;
+    case 'redline':
       return spec.allow ?? 2;
     case 'ai-prompt':
       return 2;
@@ -329,6 +339,8 @@ export function MiniGame({
                   <OrderPlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'fit' ? (
                   <FitPlay key={round} spec={spec} onClear={clear} />
+                ) : spec.kind === 'redline' ? (
+                  <RedlinePlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'ai-prompt' ? (
                   <AiPromptPlay key={round} spec={spec} onClear={clear} />
                 ) : (

@@ -8,14 +8,18 @@ import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import * as Clipboard from 'expo-clipboard';
+
 import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
 import { SaveTransfer } from '@/components/save-transfer';
 import { Spotlight } from '@/components/spotlight';
-import { Badge, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
+import { Badge, Button, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, isReady, SKINS } from '@/data/avatars';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { getRole } from '@/data/roles';
+import { fullSave, fullSaveText } from '@/lib/dev-save';
+import { CAN_USE_FILE, downloadSave } from '@/lib/save';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
@@ -260,6 +264,12 @@ export default function SettingsScreen() {
         </Row>
       </Panel>
 
+      {/* ▍確認用：全部そろった状態にする（→ lib/dev-save.ts）
+           舞台やおまけを足すたびに本編17本＋ガチャ数十回をやり直すのは
+           無理があるので、1タップでその状態を作れるようにしてある。
+           **公開前にこの節ごと外すこと。** */}
+      <DevFill />
+
       {/* ▍記録の持ち出し（→ components/save-transfer.tsx）
            消す口（下の黒いカセット）の**すぐ上**に置く。順番が逆だと、
            消してから「戻せた」と知ることになる */}
@@ -320,6 +330,82 @@ export default function SettingsScreen() {
         </Tap>
       </Card>
     </Screen>
+  );
+}
+
+/* ———— 確認用：全部そろった状態にする ————
+   ▍作ったものを、作った当日に実機で見るための道具
+   舞台20枚・おまけ・称号・★3まで、台帳から組み立てて丸ごと入れる
+   （→ lib/dev-save.ts）。同じものを文字列にして書き出せるので、
+   別の端末に貼って使うこともできる。
+
+   **公開前に、この節ごと外すこと。** */
+function DevFill() {
+  const router = useRouter();
+  const { replaceAll } = useProgress();
+  const [asking, setAsking] = React.useState(false);
+  const [note, setNote] = React.useState<string | null>(null);
+
+  const apply = () => {
+    setAsking(false);
+    replaceAll(fullSave());
+    router.replace('/');
+  };
+
+  const copy = async () => {
+    const text = fullSaveText();
+    try {
+      await Clipboard.setStringAsync(text);
+      setNote(`コピーしました（${text.length.toLocaleString()}文字）。別の端末の「記録を読み込む」に貼れます。`);
+    } catch {
+      setNote('コピーできませんでした。ファイルに保存を使ってください。');
+    }
+  };
+
+  return (
+    <Card variant="flat">
+      <Row style={{ justifyContent: 'space-between' }}>
+        <Text style={F.h1}>確認用</Text>
+        <Badge tone="paper">公開前に外す</Badge>
+      </Row>
+      <Text style={F.small}>
+        全レッスン修了・全★3・舞台とアバターを全部所持・おまけ全クリア・99Pの状態を作ります。
+        追加した舞台やおまけを、その場で見るための道具です。
+      </Text>
+      {asking ? (
+        <View style={{ gap: S.sm }}>
+          <Row gap={6} style={{ alignItems: 'flex-start' }}>
+            <Icon name="bang" size={14} color={C.red500} />
+            <Text style={[F.tiny, { flex: 1, color: C.red700 }]}>
+              いまの記録は消えます。残したいなら、先に下の「記録を書き出す」で控えを取ってください。
+            </Text>
+          </Row>
+          <Row gap={S.xl} style={{ justifyContent: 'space-between' }}>
+            <Tap onPress={() => setAsking(false)} sparks={false} style={{ paddingVertical: S.sm }}>
+              <Text style={[F.strong, { color: T.muted }]}>やめる</Text>
+            </Tap>
+            <Button label="全部そろえる" onPress={apply} size="sm" />
+          </Row>
+        </View>
+      ) : (
+        <Row gap={S.sm} style={{ flexWrap: 'wrap' }}>
+          <Button label="全部そろった状態にする" onPress={() => setAsking(true)} variant="secondary" size="sm" />
+          <Button label="その記録をコピー" onPress={copy} variant="secondary" size="sm" />
+          {CAN_USE_FILE ? (
+            <Button
+              label="ファイルに保存"
+              onPress={() => {
+                downloadSave(fullSaveText(), 'comixai-academy-all-clear.json');
+                setNote('ファイルに保存しました。');
+              }}
+              variant="secondary"
+              size="sm"
+            />
+          ) : null}
+        </Row>
+      )}
+      {note ? <Text style={F.tiny}>{note}</Text> : null}
+    </Card>
   );
 }
 

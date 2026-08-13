@@ -37,6 +37,7 @@ import { getBadge, prevTitle, titleSay, type Title } from '@/data/badges';
 import { COURSES, gameKeyOf, getLesson, lessonCards, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { LESSON_VOICE, say as voice } from '@/data/voice';
+import { ShareRow } from '@/components/share-row';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
@@ -617,6 +618,9 @@ export default function LessonScreen() {
                 <Text style={[F.hand, { color: C.paper100 }]}>
                   「{titleSay(result.newTitle, state.avatarId)}」
                 </Text>
+                {/* ▍シェアはここに置く。**昇格した直後がいちばん気分がいい**
+                     ホームに常設しても押されない（→ components/share-row.tsx） */}
+                <ShareRow reason={{ kind: 'title', name: result.newTitle.name }} onDark />
               </Card>
             ) : null}
 

@@ -33,7 +33,7 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
   const elapsed = useGameClock();
   /* 軸ごとに「何番目を選んだか」。未選択は -1 */
   const [chosen, setChosen] = React.useState<number[]>(() => spec.slots.map(() => -1));
-  const [failed, setFailed] = React.useState<string[] | null>(null);
+  const [failed, setFailed] = React.useState<{ label: string; why: string }[] | null>(null);
   /* 札の並びは軸ごとに毎回シャッフル（並び順で答えを覚えさせない） */
   const [slotOrder] = React.useState(() =>
     spec.slots.map((slot) => shuffled(slot.options.map((_, i) => i))),
@@ -44,18 +44,22 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
 
   /* ▍ミスは「決めた瞬間」だけ数える
      押して結果を読むのがこの体験の中身なので、触るのは自由。
-     弱い札を選んだまま決めた軸の数だけがミスになる */
-  const weakSlots = spec.slots
-    .map((slot, i) => (chosen[i] >= 0 && slot.options[chosen[i]].weak ? slot.label : null))
-    .filter((x): x is string => x !== null);
+     **ゴールに効かない札**を選んだまま決めた軸の数だけがミスになる */
+  const offGoal = spec.slots
+    .map((slot, i) =>
+      chosen[i] >= 0 && !slot.options[chosen[i]].ok
+        ? { label: slot.label, why: slot.options[chosen[i]].why ?? '' }
+        : null,
+    )
+    .filter((x): x is { label: string; why: string } => x !== null);
 
   const decide = () => {
-    if (weakSlots.length > allow) {
+    if (offGoal.length > allow) {
       playSound('wrong');
-      setFailed(weakSlots);
+      setFailed(offGoal);
       return;
     }
-    onClear({ misses: weakSlots.length, allow, ms: elapsed() });
+    onClear({ misses: offGoal.length, allow, ms: elapsed() });
   };
 
   return (
@@ -73,10 +77,35 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
           お題（場面）だけだと、押して何が起きるのか・どうなれば
           合格なのかが分からない（実機で「これどういう意図？
           何したら正解？」の声）。仕組みと合格条件はここに固定で書く */}
-      <View style={{ gap: 6 }}>
+      <View style={{ gap: S.sm }}>
         <Text style={[F.hand, { fontSize: 15, lineHeight: 25, color: C.paper100 }]}>{spec.brief}</Text>
+        {/* ▍ゴールは**いちばん目立つ場所に、ずっと**出す
+            「何をしたら正解か」が無いと、札を読み比べても決めようがない
+            （実機で「何が正解かよくわからない」の指摘）。
+            正解の札は、この1行と突き合わせれば選べるように書いてある */}
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 8,
+            alignItems: 'flex-start',
+            borderWidth: BW.bold,
+            borderColor: C.yellow400,
+            borderRadius: R.sm,
+            padding: S.md,
+          }}>
+          <Icon name="target" size={16} color={C.yellow400} />
+          <View style={{ flex: 1, gap: 2 }}>
+            <Text
+              style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: 1.5, color: C.yellow400 }}>
+              GOAL
+            </Text>
+            <Text style={{ fontFamily: FONT.heading, fontSize: 14, lineHeight: 23, color: C.paper0 }}>
+              {spec.goal}
+            </Text>
+          </View>
+        </View>
         <Text style={[F.hand, { fontSize: 12.5, lineHeight: 20, color: C.ink300 }]}>
-          札を押すと、AIの返しがその場で変わります。読み比べて、いちばん効く組み合わせにして「これで決める」。あいまいな札のまま決めるとミスです。
+          札を押すと、AIの返しがその場で変わります。ゴールに効く札は、どの軸にも1つだけ。読み比べて選んでから「これで決める」。
         </Text>
       </View>
 
@@ -129,7 +158,9 @@ export function BuildPlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
       {failed ? (
         <PopIn>
           <TryAgain
-            reason={`「${failed.join('」「')}」が弱いままです。札を押すと、どう変わるかがその場で出ます。読み比べてから決めてください。`}
+            reason={`ゴールに届いていない軸があります。${failed
+              .map((f) => `【${f.label}】${f.why}`)
+              .join(' ')}`}
           />
         </PopIn>
       ) : all ? (

@@ -32,6 +32,7 @@ import { COURSES, getCourse } from '@/data/courses';
 import type { QuizItem } from '@/data/types';
 import { EXAM_VOICE, say as voice } from '@/data/voice';
 import { playSound } from '@/lib/sound';
+import { ShareRow } from '@/components/share-row';
 import { useProgress } from '@/store/progress';
 import { F, FONT, POP, R, S, T } from '@/theme';
 
@@ -304,7 +305,10 @@ export default function ExamScreen() {
               <Text style={[F.hand, { textAlign: 'center' }]}>
                 合格まで あと{misses - allow}問。間違えたぶんは復習に入っています。
               </Text>
-            ) : null}
+            ) : (
+              /* 受かった直後にだけ出す（→ components/share-row.tsx） */
+              <ShareRow reason={{ kind: 'exam', course: course.title }} />
+            )}
           </Panel>
         </SlideIn>
       ) : null}

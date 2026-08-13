@@ -116,6 +116,10 @@ export interface ProgressState {
   coins: number;
   /** ログインボーナスを最後に受け取った日（'YYYY-MM-DD'） */
   lastBonusDay: string;
+  /** シェアのお礼Pを最後に受け取った日（'YYYY-MM-DD'）。→ lib/share.ts */
+  lastShareDay: string;
+  /** 通算のシェア回数。初回だけ多めに配るために持つ */
+  shareCount: number;
   /** 持っている舞台テーマ。テーマID -> 引いた時刻(ms) */
   themes: Record<string, number>;
   /** いまホームに装備している舞台テーマ */
@@ -153,6 +157,8 @@ export const EMPTY: ProgressState = {
   extras: {},
   coins: 0,
   lastBonusDay: '',
+  lastShareDay: '',
+  shareCount: 0,
   themes: {},
   themeId: DEFAULT_THEME_ID,
   skins: {},
@@ -287,6 +293,8 @@ interface Ctx {
   clearExtra: (prizeId: string) => CompletionResult;
   /** ログインボーナス。今日まだなら +1P して true を返す（ホームが1日1回呼ぶ） */
   claimLoginBonus: () => boolean;
+  /** シェアのお礼。今日まだなら +1P（初回だけ +3P）。もらえなければ 0 を返す */
+  claimShareBonus: () => number;
   /** ガチャを1回まわす。Pが足りなければ null */
   spinGacha: () => SpinResult | null;
   /** 舞台テーマを装備する（持っていないものは無視） */
@@ -523,6 +531,23 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     return true;
   }, [persist]);
 
+  /* ▍シェアしたかどうかは検証できない（→ lib/share.ts）
+     なので**不正しても壊れない額**にする。1日1回+1Pはログインボーナスと
+     同額で、まわせる回数はほとんど変わらない。初回だけ+3Pにしてあるのは、
+     一度やってもらえれば拡散の役目は果たすため */
+  const claimShareBonus = React.useCallback((): number => {
+    const day = today();
+    if (ref.current.lastShareDay === day) return 0;
+    const gain = ref.current.shareCount === 0 ? 3 : 1;
+    persist({
+      ...ref.current,
+      lastShareDay: day,
+      shareCount: ref.current.shareCount + 1,
+      coins: ref.current.coins + gain,
+    });
+    return gain;
+  }, [persist]);
+
   const spinGacha = React.useCallback((): SpinResult | null => {
     const s = ref.current;
     if (s.coins < SPIN_COST) return null;
@@ -641,6 +666,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       passExam,
       clearExtra,
       claimLoginBonus,
+      claimShareBonus,
       spinGacha,
       setTheme,
       previewTheme,
@@ -666,6 +692,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       passExam,
       clearExtra,
       claimLoginBonus,
+      claimShareBonus,
       spinGacha,
       setTheme,
       previewTheme,
