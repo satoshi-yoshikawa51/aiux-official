@@ -26,6 +26,7 @@ import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Badge, Button, Panel, Pop, Row, Screen, Tap } from '@/components/ui';
 import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
 import { ExtraList } from '@/components/extra-list';
+import { GachaCoachBand } from '@/components/gacha-coach';
 import { ShareRow } from '@/components/share-row';
 import {
   DEFAULT_THEME_ID,
@@ -55,6 +56,8 @@ export default function GachaScreen() {
   const burst = useSparkBurst();
   const [phase, setPhase] = React.useState<Phase>('idle');
   const [result, setResult] = React.useState<SpinResult | null>(null);
+  /* この画面で1回でもまわしたか（案内の文言が変わる → gacha-coach.tsx） */
+  const [spunOnce, setSpunOnce] = React.useState(false);
 
   /* ダイヤルの回転・マシンの揺れ・カプセルの落下 */
   const dial = React.useRef(new Animated.Value(0)).current;
@@ -71,6 +74,7 @@ export default function GachaScreen() {
     const r = spinGacha();
     if (!r) return;
     setResult(r);
+    setSpunOnce(true);
     setPhase('spinning');
     playSound('start');
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
@@ -148,6 +152,9 @@ export default function GachaScreen() {
           舞台 {ownedThemes + 1}/{THEMES.length} ・ アバター {ownedSkins + 1}/{SKINS.length + 1}
         </Text>
       </Row>
+
+      {/* 1本目を終えた人への案内。まわす前と後で言うことが変わる */}
+      <GachaCoachBand spun={spunOnce} />
 
       {/* ———— マシン ———— */}
       <View style={{ alignItems: 'center' }}>

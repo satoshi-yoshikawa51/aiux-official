@@ -161,6 +161,8 @@ function sanitize(raw: Record<string, unknown>): ProgressState {
     seenOpening: bool(raw.seenOpening, EMPTY.seenOpening),
     seenIntro: bool(raw.seenIntro, EMPTY.seenIntro),
     seenTutorial: bool(raw.seenTutorial, EMPTY.seenTutorial),
+    gachaCoinsGiven: bool(raw.gachaCoinsGiven, EMPTY.gachaCoinsGiven),
+    seenGachaTutorial: bool(raw.seenGachaTutorial, EMPTY.seenGachaTutorial),
     quiz: quizMap(raw.quiz),
     games: gameMap(raw.games),
     exams: numMap(raw.exams),

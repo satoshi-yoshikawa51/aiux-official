@@ -18,6 +18,7 @@ import { Icon, type IconName } from '@/components/icons';
 import { Spotlight } from '@/components/spotlight';
 import { PopIn, useSparkBurst } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
+import { GachaCoachHome } from '@/components/gacha-coach';
 import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
@@ -480,6 +481,11 @@ export default function HomeScreen() {
           </Row>
         </Panel>
       )}
+
+      {/* ▍ガチャの案内（1本目を終えた人に1回だけ）
+           最初の案内には入れない——**まわすPも、飾る場所を見た経験も
+           無い**うちに見せても意味が通らない（→ components/gacha-coach.tsx） */}
+      <GachaCoachHome />
     </Screen>
   );
 }
