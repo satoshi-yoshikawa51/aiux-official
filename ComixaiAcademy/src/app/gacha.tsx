@@ -26,6 +26,7 @@ import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Badge, Button, Panel, Pop, Row, Screen, Tap } from '@/components/ui';
 import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
 import { ExtraList } from '@/components/extra-list';
+import { ShareRow } from '@/components/share-row';
 import {
   DEFAULT_THEME_ID,
   DUPE_REFUND,
@@ -495,6 +496,13 @@ export default function GachaScreen() {
                   closeResult();
                 }}
               />
+              {/* SRを当てた瞬間だけシェアの口を出す。Nや R では出さない
+                  （毎回出ると、ただのボタンになって押されなくなる） */}
+              {!result.dupe && result.prize.rarity === 'SR' ? (
+                <ShareRow
+                  reason={{ kind: 'prize', name: result.prize.name, rarity: result.prize.rarity }}
+                />
+              ) : null}
               <Text style={{ fontFamily: FONT.mono, fontSize: 10, letterSpacing: 1.5, color: T.muted }}>
                 TAP TO CLOSE
               </Text>

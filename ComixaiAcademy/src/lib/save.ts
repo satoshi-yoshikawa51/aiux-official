@@ -167,6 +167,8 @@ function sanitize(raw: Record<string, unknown>): ProgressState {
     extras: numMap(raw.extras),
     coins: Math.max(0, Math.round(num(raw.coins, 0))),
     lastBonusDay: str(raw.lastBonusDay, EMPTY.lastBonusDay),
+    lastShareDay: str(raw.lastShareDay, EMPTY.lastShareDay),
+    shareCount: Math.max(0, Math.round(num(raw.shareCount, 0))),
     themes: numMap(raw.themes),
     /* 装備は**持っていないものを指していたら**既定に戻す。
        ホームは装備中のIDで絵を引くので、ここが外れると背景が消える */
