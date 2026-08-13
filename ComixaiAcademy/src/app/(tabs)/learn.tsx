@@ -22,6 +22,7 @@ import {
   ScreenHead,
 } from '@/components/ui';
 import { COURSES } from '@/data/courses';
+import { ownedExtras } from '@/components/extra-list';
 import { getRole } from '@/data/roles';
 import { useProgress, useReview } from '@/store/progress';
 import { C, F, FONT, R, S, T } from '@/theme';
@@ -34,6 +35,10 @@ export default function LearnScreen() {
 
   const lessons = React.useMemo(() => COURSES.flatMap((c) => c.lessons), []);
   const doneTotal = lessons.filter((l) => state.done[l.id]).length;
+
+  /* おまけ（当てた景品についてくる遊び）。持っている数と、まだ遊んでいない数 */
+  const extrasOwned = ownedExtras(state).length;
+  const extrasLeft = ownedExtras(state).filter((p) => !state.extras[p.id]).length;
 
   const next = React.useMemo(() => {
     for (const course of COURSES) {
@@ -290,6 +295,32 @@ export default function LearnScreen() {
           </View>
           <Badge tone="paper">準備中</Badge>
         </Row>
+      </Panel>
+
+      {/* ———— おまけ ————
+           ガチャの中だけだと気づかれない（実機で指摘）。**遊ぶものを探す
+           場所はこちら**なので、持ち帰りの上に置く。まだ遊んでいない本数を
+           出して、残っているときだけ赤い印を付ける */}
+      <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+        <Row gap={8}>
+          <Icon name="egg" size={18} color={T.text} />
+          <Text style={[F.h2, { flex: 1 }]}>おまけ</Text>
+          {extrasLeft > 0 ? (
+            <Badge tone="red">あそべる{extrasLeft}本</Badge>
+          ) : extrasOwned > 0 ? (
+            <Badge tone="paper">ぜんぶクリア</Badge>
+          ) : null}
+        </Row>
+        <Text style={F.small}>
+          ガチャで当てた舞台やキャラには、それぞれ遊べる回がついています。当てたものが、そのまま出てきます。
+        </Text>
+        <Button
+          label={extrasOwned > 0 ? 'ひらく' : 'ガチャへ'}
+          variant="secondary"
+          size="sm"
+          onPress={() => router.push(extrasOwned > 0 ? '/extras' : '/gacha')}
+          style={{ alignSelf: 'flex-start' }}
+        />
       </Panel>
 
       {/* ———— 持ち帰り ————
