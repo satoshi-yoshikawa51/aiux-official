@@ -18,7 +18,7 @@
    ▍ダブりは +1P 返す
    小さいプールなので、返さないと後半のハズレ感が強すぎる。
    ============================================================ */
-import { SKINS } from '@/data/avatars';
+import { AVATARS, SKINS } from '@/data/avatars';
 import { CLASSROOM } from '@/data/stage';
 
 export type Rarity = 'N' | 'R' | 'SR';
@@ -358,10 +358,24 @@ export interface GachaPrize {
   desc: string;
 }
 
-/** ガチャで出るもの（初期所持の教室は入れない） */
+/* ガチャで出るもの（初期所持の教室と、最初から選べる2人は入れない）。
+
+   キャラ景品は2種類ある。**どちらも同じ「アバターが1体増える」体験**なので、
+   同じ kind: 'avatar' に混ぜて、持ち物は state.skins にまとめて入れる。
+   - キャラ本体（AVATARSのinitial:false）… 別のGLB。IDはアバターID
+   - 色違い（SKINS）… GLB共通でテクスチャ違い。IDはスキンID */
 export const GACHA_POOL: GachaPrize[] = [
   ...THEMES.filter((t) => t.id !== DEFAULT_THEME_ID).map(
     (t): GachaPrize => ({ kind: 'theme', id: t.id, name: t.name, rarity: t.rarity, desc: t.desc }),
+  ),
+  ...AVATARS.filter((a) => !a.initial && a.model).map(
+    (a): GachaPrize => ({
+      kind: 'avatar',
+      id: a.id,
+      name: a.name,
+      rarity: a.rarity,
+      desc: a.tagline,
+    }),
   ),
   ...SKINS.map(
     (s): GachaPrize => ({ kind: 'avatar', id: s.id, name: s.name, rarity: s.rarity, desc: s.desc }),

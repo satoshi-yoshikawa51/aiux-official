@@ -11,8 +11,10 @@
    出口から落ちて弾む → タップで開ける → 景品がスタンプで出る。
    開けるまでを1タップ挟むのは、「何が出た？」の間を作るため。
 
-   ▍景品は舞台テーマと、先生のきせかえ（→ data/gacha.ts）
-   相棒の3Dモデルが増えたら、ここのプールに足す。
+   ▍景品は舞台テーマと、アバター（→ data/gacha.ts）
+   アバターには「キャラ本体」（別モデル。おてんば・かんろく・先輩）と
+   「色違い」（テクスチャ違い。せんぱい_金髪ver）の2種類があるが、
+   どちらも**1体増える**体験なので同じ景品として扱う。
    ============================================================ */
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
@@ -24,7 +26,14 @@ import { Icon } from '@/components/icons';
 import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Badge, Button, Panel, Pop, Row, Screen, Tap } from '@/components/ui';
-import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
+import {
+  AVATARS,
+  DEFAULT_SKIN_ID,
+  getAvatar,
+  lookOfPrize,
+  ownsAvatar,
+  SKINS,
+} from '@/data/avatars';
 import { ExtraList } from '@/components/extra-list';
 import { GachaCoachBand } from '@/components/gacha-coach';
 import { ShareRow } from '@/components/share-row';
@@ -66,7 +75,13 @@ export default function GachaScreen() {
 
   /* 引退したテーマの記録が残っていても数に入れない（→ data/gacha.ts） */
   const ownedThemes = THEMES.filter((t) => t.id !== DEFAULT_THEME_ID && state.themes[t.id]).length;
-  const ownedSkins = Object.keys(state.skins).length;
+  /* アバターの持ち数は「キャラ本体 ＋ 色違い」。景品から外した色違いの
+     記録が残っていても数に入れない（舞台と同じ扱い） */
+  const playable = AVATARS.filter((a) => a.model);
+  const ownedAvatars =
+    playable.filter((a) => ownsAvatar(a, state.skins)).length +
+    SKINS.filter((sk) => state.skins[sk.id]).length;
+  const totalAvatars = playable.length + SKINS.length;
   const canSpin = state.coins >= SPIN_COST && phase === 'idle';
 
   const spin = () => {
@@ -149,7 +164,7 @@ export default function GachaScreen() {
           </Text>
         </Row>
         <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
-          舞台 {ownedThemes + 1}/{THEMES.length} ・ アバター {ownedSkins + 1}/{SKINS.length + 1}
+          舞台 {ownedThemes + 1}/{THEMES.length} ・ アバター {ownedAvatars}/{totalAvatars}
         </Text>
       </Row>
 
@@ -378,15 +393,18 @@ export default function GachaScreen() {
         <Text style={F.h1}>あつめたアバター</Text>
         <Text style={F.small}>押すとそのアバターに切り替わります（せっていからも変えられます）。</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: S.sm, alignItems: 'flex-start' }}>
-          {AVATARS.filter((a) => a.model).map((a) => (
+          {AVATARS.filter((a) => a.model).map((a) => {
+            /* 最初の2人は持っている。残りはガチャで当てるまで伏せておく */
+            const has = ownsAvatar(a, state.skins);
+            return (
             <React.Fragment key={a.id}>
               <AvatarCard
-                name={a.name}
-                rarity={null}
-                swatch="#274a5e"
-                owned
+                name={has ? a.name : '？？？'}
+                rarity={a.initial ? null : a.rarity}
+                swatch={has ? '#274a5e' : a.accent}
+                owned={has}
                 active={state.avatarId === a.id && state.skinId === DEFAULT_SKIN_ID}
-                onPress={() => setLook(a.id, DEFAULT_SKIN_ID)}
+                onPress={() => has && setLook(a.id, DEFAULT_SKIN_ID)}
               />
               {SKINS.filter((sk) => sk.avatarId === a.id).map((sk) => {
                 const owned = !!state.skins[sk.id];
@@ -403,7 +421,8 @@ export default function GachaScreen() {
                 );
               })}
             </React.Fragment>
-          ))}
+            );
+          })}
           {AVATARS.filter((a) => !a.model).map((a) => (
             <AvatarCard
               key={a.id}
@@ -477,7 +496,12 @@ export default function GachaScreen() {
                     justifyContent: 'flex-end',
                   }}>
                   <Avatar3D
-                    avatar={getAvatar(getSkin(result.prize.id)?.avatarId, result.prize.id)}
+                    avatar={(() => {
+                      /* キャラ本体（別モデル）と色違い（テクスチャ違い）の
+                         どちらが当たっても、ここで本人の姿に解決する */
+                      const look = lookOfPrize(result.prize.id);
+                      return getAvatar(look?.avatarId, look?.skinId);
+                    })()}
                     width={170}
                     height={182}
                   />
@@ -496,8 +520,8 @@ export default function GachaScreen() {
                   if (!result.dupe) {
                     if (result.prize.kind === 'theme') setTheme(result.prize.id);
                     else {
-                      const skin = getSkin(result.prize.id);
-                      if (skin) setLook(skin.avatarId, skin.id);
+                      const look = lookOfPrize(result.prize.id);
+                      if (look) setLook(look.avatarId, look.skinId);
                     }
                   }
                   closeResult();
