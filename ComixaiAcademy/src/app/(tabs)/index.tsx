@@ -29,7 +29,7 @@ import { CLASSROOM } from '@/data/stage';
 import { smallTalkFor } from '@/data/voice';
 import { playSound } from '@/lib/sound';
 import { useProgress, useReview, useStats, useToday } from '@/store/progress';
-import { useTutorial } from '@/store/tutorial';
+import { stepSay, useTutorial } from '@/store/tutorial';
 import { C, F, FONT, R, S, T } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
@@ -219,7 +219,14 @@ export default function HomeScreen() {
   useGachaCoachGift();
 
   const greeting = React.useMemo(() => {
-    if (guiding) return tutorial.step?.say ?? '';
+    /* ▍案内のセリフも、必ず stepSay を通す
+       `step.say` は**共通（先輩の口調）**。相棒別の書き分けは sayByAvatar に
+       あるので、生で出すと選んだ相手と別人がしゃべることになる。
+
+       案内6歩のうち voice:'avatar' の3歩（①②⑥）だけがこのフキダシに出て、
+       残りは案内パネル（components/tutorial-overlay.tsx）に出る。**出口が
+       2つある**ので、片方だけ直すと3歩ぶんが共通のまま残る——実際そうなっていた。 */
+    if (guiding) return tutorial.step ? stepSay(tutorial.step, state.avatarId) : '';
     /* つついたら小話が勝つ。**同じ催促を延々と読まされない**ための逃げ道
        （ガチャに行かない人には、行くまで案内が出続けるので） */
     if (talk) return talk;
@@ -234,6 +241,7 @@ export default function HomeScreen() {
   }, [
     guiding,
     tutorial.step,
+    state.avatarId,
     talk,
     gachaCoach.onHome,
     next,

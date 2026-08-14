@@ -10,7 +10,7 @@ import { Text, View } from 'react-native';
 import { Icon } from '@/components/icons';
 import { Spotlight } from '@/components/spotlight';
 import { Badge, Cassette, Panel, Pill, Pop, Row, Screen, ScreenHead } from '@/components/ui';
-import { BADGES, TITLES, nextTitle } from '@/data/badges';
+import { BADGES, TITLES, nextTitle, titleSay } from '@/data/badges';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
@@ -150,7 +150,12 @@ export default function BadgesScreen() {
                   </Text>
                 )}
               </Row>
-              {reached ? <Text style={F.hand}>「{t.say}」</Text> : null}
+              {/* 生の t.say は共通（先輩の口調）。書き分けは titleSay を通さないと
+                  出ない——昇格の演出（components/rank-up.tsx）とレッスンの結果は
+                  通してあるのに、ここだけ通っていなかった */}
+              {reached ? (
+                <Text style={F.hand}>「{titleSay(t, state.avatarId)}」</Text>
+              ) : null}
             </View>
           );
           return current ? (
