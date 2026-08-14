@@ -1673,19 +1673,26 @@ SRの進み具合：
 
 | セリフ | 置き場 | 書き分けの入れ物 | いま |
 |---|---|---|---|
+| クイズ・結果 | `src/data/voice.ts` の `LESSON_VOICE` | `byAvatar` | **5人ぜんぶ** |
+| 修了試験 | `src/data/voice.ts` の `EXAM_VOICE` | `byAvatar` | **5人ぜんぶ** |
+| 復習 | `src/data/voice.ts` の `REVIEW_VOICE` | `byAvatar` | **5人ぜんぶ** |
+| エンディング | `src/data/voice.ts` の `ENDING_VOICE` | `byAvatar` | **5人ぜんぶ** |
+| ホームの小話 | `src/data/voice.ts` の `SMALL_TALK` | 相棒ごとに配列を丸ごと | **5人ぜんぶ** |
+| 入口の第一声 | `src/data/voice.ts` の `INTRO_VOICE` | `byAvatar` | 初期2人（※） |
+| チュートリアル | `src/store/tutorial.tsx` の `TUTORIAL` | `sayByAvatar` | 初期2人（※） |
+| ガチャの案内 | `src/components/gacha-coach.tsx` | `byAvatar` | 初期2人（※） |
 | レッスンのカード | `src/data/courses/*.ts` | `sayByAvatar` | 先輩のみ |
-| クイズ・結果 | `src/data/voice.ts` の `LESSON_VOICE` | `byAvatar` | 先輩のみ |
 | 称号のひとこと | `src/data/badges.ts` の `TITLES` | `sayByAvatar` | 先輩のみ |
-| **入口の第一声** | `src/data/voice.ts` の `INTRO_VOICE` | `byAvatar` | **＋初期2人** |
-| **チュートリアル** | `src/store/tutorial.tsx` の `TUTORIAL` | `sayByAvatar` | **＋初期2人** |
-| **ホームの小話** | `src/data/voice.ts` の `SMALL_TALK` | 相棒ごとに配列を丸ごと | **＋初期2人** |
-| **ガチャの案内** | `src/components/gacha-coach.tsx` | `byAvatar` | **＋初期2人** |
+
+**（※）は初期2人ぶんだけで足ります。** どれも「職種を決めた直後〜1本目」に
+しか出ない場面で、そこで選べるのは おっとり と ねっけつ だけだからです
+（記録を消してやり直しても同じ2人から）。**ガチャで当たる相棒がここを
+しゃべる道は無いので、書いても誰にも読まれません。**
 
 ### 最初の流れだけは、必ず2人ぶん書く
 
-太字の4つは、**おっとり と ねっけつ**（最初に選べる2人 → `src/data/avatars.ts` の
-`initial`）のぶんが書いてあります。埋めていないところと違って、ここは
-埋めないと成立しません。
+（※）の3つは、**おっとり と ねっけつ**（最初に選べる2人 → `src/data/avatars.ts` の
+`initial`）のぶんが書いてあります。ほかと違って、ここは埋めないと成立しません。
 
 ```
 相棒をえらぶ → 入口の第一声 → チュートリアル6歩 → 1本やる
