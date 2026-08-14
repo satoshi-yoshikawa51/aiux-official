@@ -168,8 +168,10 @@ export default function IntroScreen() {
        壊れて見える絵になる。歩けないなら初めからそこに立たせて、
        正面を向いて話し始めるだけにする。演出は減るが、破綻はしない。
 
-       ここを消せるのは、全員のGLBに walk が入ったとき。
-       確かめ方は `node tools/check-motions.mjs` */
+       いまは12体すべてに walk が入っているので、ここは通らない。
+       **保険として残す**——walk の無いモデルがまた紛れ込んだとき、
+       棒立ちで滑る絵に戻さないため。いま揃っているかは
+       `npm run avatar:check` で分かる */
     if (!handle.current?.has('walk')) {
       walk.setValue(0);
       handle.current?.face(0);

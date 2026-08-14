@@ -65,24 +65,40 @@ interface Props {
 /* ============================================================
    ▍歩きは「その場で足踏み」に直してから使う
 
-   walk には**前進が焼き込まれている**（Rootの位置が2.4秒で1.12ユニット動く。
-   しかも先頭が -0.98 なので、再生した瞬間に真横へ1ユニットずれる）。
+   walk には**前進が焼き込まれている**（2.4秒で1.1ユニットほど進む。しかも
+   先頭が原点から離れているので、再生した瞬間に真横へ1ユニットずれる）。
    そのまま流すと、キャラが自分の枠から出ていって **canvas の端で切れる**。
    一幕（app/intro.tsx）で「出てくるとき右が切れる」として実際に出た。
+   移動は画面側（枠ごと translateX で動かす）が受け持つ。
 
-   移動は画面側（枠ごと translateX で動かす）が受け持つので、ここでは
-   Rootの位置の track だけ落とす。**足の運びや腰の上下は残す**ので、
-   歩き方は変わらない。
+   ▍どの骨に焼かれているかは、キャラによって違う
 
-   落とすのは**大きく動くものだけ**。待機や説明のRootにも数センチの揺れが
-   入っていて、それは芝居なので残す。閾値はwalk（1.12）と待機（0.12）の
-   あいだを取ってある。新しいモーションを足しても勝手に効く。 */
+   先輩（sensei.glb）は Root、あとから足した11体は **Hip** に入っている。
+   前は 'Root.position' だけを見ていたので、11体ぶんが素通りしていた。
+   骨の名前で決め打ちせず、**大きく動いている位置トラックを探す**。
+
+     sensei     Root  x=0.02  y=0     z=1.12 ←これ
+     ottori     Hip   x=0.02  y=1.16 ←これ  z=0.02
+     neko       Hip   x=0.02  y=0.87 ←これ  z=0.01
+
+   ▍トラックごと捨てず、**はみ出した軸だけ**寝かせる
+
+   Hip には前進と一緒に腰の上下（歩くバウンド）が入っている。トラックを
+   丸ごと落とすと、その気持ちよさまで消える。超えている軸だけを止めて、
+   残りはそのまま流す。
+
+   止め先は**その骨の静止姿勢の値**。0 に寄せると、原点から離れた所で
+   歩き出すキャラ（先輩は先頭が -0.98）がその場でずれる。静止姿勢に置けば、
+   トラックを落としたのと同じ立ち位置になる＝これまでの見え方が変わらない。
+
+   閾値は walk（0.87〜1.37）と、それ以外の全クリップ（最大0.03）の
+   あいだを大きく取ってある。新しいモーションを足しても勝手に効く。 */
 const TRAVEL = 0.3;
 
-function stripTravel(clip: THREE.AnimationClip) {
-  clip.tracks = clip.tracks.filter((t) => {
-    if (t.name !== 'Root.position') return true;
-    /* 3成分ずつ入っているので、軸ごとに振れ幅を見る */
+function stripTravel(clip: THREE.AnimationClip, root: THREE.Object3D) {
+  for (const t of clip.tracks) {
+    if (!t.name.endsWith('.position')) continue;
+    const boneName = t.name.slice(0, -'.position'.length);
     for (let axis = 0; axis < 3; axis++) {
       let lo = Infinity;
       let hi = -Infinity;
@@ -90,10 +106,14 @@ function stripTravel(clip: THREE.AnimationClip) {
         if (t.values[i] < lo) lo = t.values[i];
         if (t.values[i] > hi) hi = t.values[i];
       }
-      if (hi - lo > TRAVEL) return false;
+      if (hi - lo <= TRAVEL) continue;
+      /* 静止姿勢が引けなければ、そのトラックの真ん中に寝かせる
+         （少なくとも「行きっぱなし」にはならない） */
+      const bone = root.getObjectByName(boneName);
+      const rest = bone ? bone.position.getComponent(axis) : (lo + hi) / 2;
+      for (let i = axis; i < t.values.length; i += 3) t.values[i] = rest;
     }
-    return true;
-  });
+  }
 }
 
 /** アセットをArrayBufferとして読む（fetch(file://)に頼らない） */
@@ -252,7 +272,8 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         const mixer = new THREE.AnimationMixer(gltf.scene);
         mixerRef.current = mixer;
         for (const clip of gltf.animations) {
-          stripTravel(clip);
+          /* 静止姿勢を引くのに骨が要る（→ stripTravel のメモ） */
+          stripTravel(clip, gltf.scene);
           actionsRef.current[clip.name] = mixer.clipAction(clip);
         }
         /* ワンショットのモーションが終わったら待機に戻す */
