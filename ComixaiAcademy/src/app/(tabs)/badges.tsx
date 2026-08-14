@@ -90,10 +90,17 @@ export default function BadgesScreen() {
             return got ? (
               /* 紙そのものに網点が敷いてあるので、獲得済みのコマは白のまま抜く
                  （ここにも網点を足すと、地と見分けが付かなくなる） */
-              <Panel key={b.id} style={{ width: '46%' }} contentStyle={{ gap: 4, padding: S.md }}>
+              <Panel
+                key={b.id}
+                style={{ width: '46%' }}
+                /* ▍中央ぞろえ
+                   勲章の絵は**丸い**ので、左に寄せると絵の左端とコマの縁の
+                   あいだに丸ぶんの余白ができて、名前だけが左に飛び出て見える。
+                   絵・名前・条件を軸で通す */
+                contentStyle={{ gap: 4, padding: S.md, alignItems: 'center' }}>
                 <BadgeArt badge={b} at="grid" />
-                <Text style={[F.strong, { fontSize: 14 }]}>{b.name}</Text>
-                <Text style={F.tiny}>{b.desc}</Text>
+                <Text style={[F.strong, { fontSize: 14, textAlign: 'center' }]}>{b.name}</Text>
+                <Text style={[F.tiny, { textAlign: 'center' }]}>{b.desc}</Text>
               </Panel>
             ) : (
               <View
@@ -106,12 +113,15 @@ export default function BadgesScreen() {
                   borderRadius: R.sm,
                   padding: S.md,
                   gap: 4,
+                  /* 獲得済みと同じ軸に揃える。伏せたコマだけ左寄せだと、
+                     取った瞬間に文字が横に飛ぶ */
+                  alignItems: 'center',
                   marginRight: POP.md,
                   marginBottom: POP.md,
                 }}>
                 <BadgeLocked badge={b} at="grid" />
                 <Text style={[F.strong, { fontSize: 14, color: T.disabled }]}>？？？</Text>
-                <Text style={F.tiny}>{b.hint}</Text>
+                <Text style={[F.tiny, { textAlign: 'center' }]}>{b.hint}</Text>
               </View>
             );
           })}
