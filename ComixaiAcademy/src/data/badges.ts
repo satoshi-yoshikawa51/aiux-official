@@ -42,6 +42,7 @@ export const BADGES: Badge[] = [
   {
     id: 'role-set',
     icon: 'compass',
+    art: require('@/assets/badges/role-set.png'),
     name: '配属決定',
     desc: '職種を選んだ',
     hint: '自分の仕事を選ぶと、教わる中身が変わるらしい',
@@ -49,6 +50,7 @@ export const BADGES: Badge[] = [
   {
     id: 'first-lesson',
     icon: 'star',
+    art: require('@/assets/badges/first-lesson.png'),
     name: 'はじめの一歩',
     desc: '最初のレッスンを修了した',
     hint: 'まずは1本、最後まで',
