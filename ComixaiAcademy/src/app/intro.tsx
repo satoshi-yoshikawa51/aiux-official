@@ -161,6 +161,23 @@ export default function IntroScreen() {
   const start = React.useCallback(() => {
     if (walked.current) return;
     walked.current = true;
+
+    /* ▍歩けない相棒は、歩かせない
+       walk が入っていないGLBがある（→ avatar/Avatar3D.tsx の has）。
+       そのまま滑らせると**足を止めたまま横移動する**という、いちばん
+       壊れて見える絵になる。歩けないなら初めからそこに立たせて、
+       正面を向いて話し始めるだけにする。演出は減るが、破綻はしない。
+
+       ここを消せるのは、全員のGLBに walk が入ったとき。
+       確かめ方は `node tools/check-motions.mjs` */
+    if (!handle.current?.has('walk')) {
+      walk.setValue(0);
+      handle.current?.face(0);
+      handle.current?.play('explain');
+      setTalking(true);
+      return;
+    }
+
     handle.current?.play('walk');
     Animated.sequence([
       /* 歩いてくるあいだは等速。ここを緩めると滑って見える */

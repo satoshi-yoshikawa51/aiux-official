@@ -28,6 +28,13 @@ import { F, T } from '@/theme';
 
 export interface AvatarHandle {
   play: (motion: AvatarMotion) => void;
+  /**
+   * その動きがこの相棒に入っているか。**相棒ごとにGLBが違うので、
+   * 11種が全部そろっているとは限らない**（→ playByName のメモ）。
+   * 「歩けないなら歩かせない」のように、演出そのものを変えたいときに使う。
+   * モデルを読み終わるまでは false を返す。
+   */
+  has: (motion: AvatarMotion) => boolean;
   emote: (icon: IconName) => void;
   /**
    * 体の向きを変える（ラジアン、Y軸まわり）。0＝正面。
@@ -123,13 +130,28 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
 
   const model = avatar.model;
 
+  /* ▍入っていないモーションを頼まれたら、棒立ちにしない
+
+     相棒ごとにGLBが違うので、**11種のうち何本入っているかは相棒による**。
+     実際、あとから足した4体は walk が入っていない（元GLBから対応づけを
+     取りこぼした）。前はここで黙って return していたので、`walk` を頼まれた
+     相棒は**微動だにしないまま横に滑ってくる**、という絵になっていた。
+
+     待機（idle-a）に落とせば、少なくとも息はしている。**壊れて止まっている**
+     のと**別の動きをしている**のとでは、見え方がまるで違う。
+     入っていないこと自体は has() で外から分かるので、
+     「歩けないなら歩かせない」という演出の判断は呼ぶ側でできる（→ app/intro.tsx）。 */
   const playByName = React.useCallback((name: AvatarMotion) => {
-    const next = actionsRef.current[name];
+    /* **落とした先の名前で**ループの扱いを決める。頼まれた名前のままだと、
+       一度きりの動き（bow など）が待機に落ちたときに LoopOnce が掛かり、
+       ひと回りしたところで固まる */
+    const key: AvatarMotion = actionsRef.current[name] ? name : 'idle-a';
+    const next = actionsRef.current[key];
     if (!next) return;
     const prev = currentRef.current;
-    if (prev === next && LOOPING.includes(name)) return;
+    if (prev === next && LOOPING.includes(key)) return;
     next.reset();
-    if (LOOPING.includes(name)) {
+    if (LOOPING.includes(key)) {
       next.setLoop(THREE.LoopRepeat, Infinity);
       next.clampWhenFinished = false;
     } else {
@@ -145,6 +167,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
     ref,
     () => ({
       play: playByName,
+      has: (motion: AvatarMotion) => !!actionsRef.current[motion],
       emote: (icon: IconName) => {
         setEmoteIcon(icon);
         if (emoteTimer.current) clearTimeout(emoteTimer.current);
