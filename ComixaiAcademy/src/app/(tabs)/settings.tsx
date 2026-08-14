@@ -16,6 +16,7 @@ import { SaveTransfer } from '@/components/save-transfer';
 import { Spotlight } from '@/components/spotlight';
 import { Badge, Button, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import {
+  avatarLabel,
   AVATARS,
   DEFAULT_SKIN_ID,
   getAvatar,
@@ -111,7 +112,7 @@ export default function SettingsScreen() {
                   <Row gap={S.sm} style={{ flex: 1 }}>
                     <Icon name={a.icon} size={22} color={T.text} />
                     <View style={{ flex: 1 }}>
-                      <Text style={F.strong}>{a.name}</Text>
+                      <Text style={F.strong}>{avatarLabel(a)}</Text>
                       <Text style={F.tiny}>{a.tagline}</Text>
                     </View>
                   </Row>
@@ -122,7 +123,7 @@ export default function SettingsScreen() {
           }
           /* ノーマル＋持っている色違い。1体ずつカードにする */
           const looks = [
-            { skinId: DEFAULT_SKIN_ID, name: a.name, note: a.tagline, dot: '#274a5e' },
+            { skinId: DEFAULT_SKIN_ID, name: avatarLabel(a), note: a.tagline, dot: '#274a5e' },
             ...SKINS.filter((sk) => sk.avatarId === a.id && state.skins[sk.id]).map((sk) => ({
               skinId: sk.id,
               name: sk.name,

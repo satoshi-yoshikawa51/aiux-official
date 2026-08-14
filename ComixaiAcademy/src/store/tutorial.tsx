@@ -14,7 +14,7 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 
-import type { AvatarId, ByAvatar } from '@/data/types';
+import { voiceIdOf, type AvatarId, type ByAvatar } from '@/data/types';
 
 import type { IconName } from '@/components/icons';
 
@@ -55,7 +55,8 @@ export interface TutorialStep {
 
 /** 案内のセリフを、選んでいる相棒の口調で返す */
 export function stepSay(step: TutorialStep, avatarId: AvatarId | null): string {
-  if (avatarId && step.sayByAvatar?.[avatarId] !== undefined) return step.sayByAvatar[avatarId];
+  const id = voiceIdOf(avatarId);
+  if (id && step.sayByAvatar?.[id] !== undefined) return step.sayByAvatar[id];
   return step.say;
 }
 

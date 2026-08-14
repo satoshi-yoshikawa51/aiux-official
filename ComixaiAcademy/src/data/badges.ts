@@ -8,7 +8,7 @@
    ============================================================ */
 import type { IconName } from '@/components/icons';
 
-import type { AvatarId, ByAvatar } from './types';
+import { voiceIdOf, type AvatarId, type ByAvatar } from './types';
 
 export interface Badge {
   id: string;
@@ -240,7 +240,8 @@ export interface Title {
 
 /** 昇格のひとことを、選んでいる相棒の口調で返す */
 export function titleSay(title: Title, avatarId: AvatarId | null): string {
-  if (avatarId && title.sayByAvatar?.[avatarId] !== undefined) return title.sayByAvatar[avatarId];
+  const id = voiceIdOf(avatarId);
+  if (id && title.sayByAvatar?.[id] !== undefined) return title.sayByAvatar[id];
   return title.say;
 }
 

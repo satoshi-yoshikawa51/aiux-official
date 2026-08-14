@@ -10,6 +10,7 @@ import type {
   QuizItem,
   LessonInteractive,
 } from '../types';
+import { voiceIdOf } from '../types';
 import { BASICS } from './basics';
 import { WORK } from './work';
 import { PROMPT } from './prompt';
@@ -48,7 +49,9 @@ export function pickAvatar<Tvalue>(
   byAvatar: ByAvatar<Tvalue> | undefined,
   avatarId: AvatarId | null,
 ): Tvalue | undefined {
-  if (avatarId && byAvatar && byAvatar[avatarId] !== undefined) return byAvatar[avatarId];
+  /* SR（衣装違い）は元のキャラのセリフを引く（→ data/types.ts の voiceIdOf） */
+  const id = voiceIdOf(avatarId);
+  if (id && byAvatar && byAvatar[id] !== undefined) return byAvatar[id];
   return common;
 }
 

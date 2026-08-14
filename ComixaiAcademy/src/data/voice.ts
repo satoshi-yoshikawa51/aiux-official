@@ -34,7 +34,7 @@
 import type { AvatarMotion } from '@/avatar/motions';
 import type { IconName } from '@/components/icons';
 
-import type { AvatarId, ByAvatar } from './types';
+import { voiceIdOf, type AvatarId, type ByAvatar } from './types';
 
 /** 共通（先輩の言葉）と、相棒別の差し替えを1組にしたもの */
 export interface Line {
@@ -44,7 +44,8 @@ export interface Line {
 
 /** 選んでいる相棒の言葉を返す。無ければ共通に落ちる */
 export function say(line: Line, avatarId: AvatarId | null): string {
-  if (avatarId && line.byAvatar?.[avatarId] !== undefined) return line.byAvatar[avatarId];
+  const id = voiceIdOf(avatarId);
+  if (id && line.byAvatar?.[id] !== undefined) return line.byAvatar[id];
   return line.common;
 }
 
@@ -348,5 +349,6 @@ const SMALL_TALK: ByAvatar<SmallTalk[]> = {
 
 /** その相棒の小話。書けていなければ先生のものを返す */
 export function smallTalkFor(avatarId: AvatarId | null): SmallTalk[] {
-  return (avatarId && SMALL_TALK[avatarId]) || SENSEI_TALK;
+  const id = voiceIdOf(avatarId);
+  return (id && SMALL_TALK[id]) || SENSEI_TALK;
 }

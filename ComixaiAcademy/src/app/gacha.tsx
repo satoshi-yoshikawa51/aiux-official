@@ -29,6 +29,7 @@ import { Badge, Button, Panel, Pop, Row, Screen, Tap } from '@/components/ui';
 import {
   AVATARS,
   DEFAULT_SKIN_ID,
+  avatarLabel,
   getAvatar,
   lookOfPrize,
   ownsAvatar,
@@ -399,7 +400,7 @@ export default function GachaScreen() {
             return (
             <React.Fragment key={a.id}>
               <AvatarCard
-                name={has ? a.name : '？？？'}
+                name={has ? avatarLabel(a) : '？？？'}
                 rarity={a.initial ? null : a.rarity}
                 swatch={has ? '#274a5e' : a.accent}
                 owned={has}

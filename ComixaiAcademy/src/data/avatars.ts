@@ -64,6 +64,11 @@ export interface AvatarDef {
   initial: boolean;
   /** ガチャに出るときのレア度。initial: true のキャラでは使われない */
   rarity: Rarity;
+  /** 見た目の違い（SRの衣装名など）。**同じ人の別バージョン**を並べたときに
+      見分けるための添え名で、名乗りではない。一覧では
+      「おっとり_浴衣ver」のように出す（→ avatarLabel）。
+      ホームのキャプションは素の name のまま——あそこは名乗りなので */
+  variant?: string;
   /** null = まだGLBが無い（「準備中」表示） */
   model: AvatarModel | null;
 }
@@ -166,12 +171,156 @@ export const AVATARS: AvatarDef[] = [
       view: STANDING,
     },
   },
+  {
+    /* ▍看板キャラ。IDのローマ字読みがそのまま名前、という並びに合わせた
+       （ottori→おっとり／nekketsu→ねっけつ）。COMIXAIの顔なので、
+       ひねらずそのまま「ねこ」。**性格は絵に合わせてある**——
+       目つきは強気、口を大きく開けて笑っている元気な猫なので、
+       「気まぐれでクール」ではなく「やんちゃな盛り上げ役」 */
+    id: 'neko',
+    name: 'ねこ',
+    icon: 'buddy',
+    tagline: 'いっしょにやろ！ むずかしい顔してても、始まらないし。',
+    personality:
+      '元気いっぱいで、やんちゃな盛り上げ役。短い言葉でぐいぐい引っぱる。語尾は「〜だにゃ」にしない（媚びない）。ひるまないが、ほめるときはまっすぐほめる',
+    accent: '#e8a33d',
+    initial: false,
+    rarity: 'N',
+    model: {
+      glb: require('@/assets/models/neko.glb'),
+      texture: require('@/assets/models/neko-texture.jpg'),
+      view: STANDING,
+    },
+  },
+
+  /* ———————————————— ここから SR（衣装違い） ————————————————
+
+     ▍SRは「同じ人の、別の服」
+     色違い（→ SKINS）はテクスチャの差し替えだけで済むが、衣装は形が
+     変わるので**別のGLB**が要る。なので SKINS ではなく、ここに
+     rarity:'SR' のエントリとして並べる。
+
+     ▍中身は N と同じ
+     同じ人なので tagline も personality も N のまま。**セリフも N のものが
+     出る**——IDの `-sr` を落として引く決まりにしてある
+     （→ data/types.ts の voiceIdOf）。ここを個別に書き分けると、
+     服を着替えただけで別人になる。 */
+  {
+    id: 'ottori-sr',
+    variant: '浴衣',
+    name: 'おっとり',
+    icon: 'sprout',
+    tagline: 'だいじょうぶ。あなたのペースでいきましょう。',
+    personality:
+      'おっとりしていて、人を心から信頼している。実はがんばり屋。やさしい敬語で話す照れ屋。相手を否定しない',
+    accent: '#d4589a',
+    initial: false,
+    rarity: 'SR',
+    model: {
+      glb: require('@/assets/models/ottori-sr.glb'),
+      texture: require('@/assets/models/ottori-sr-texture.jpg'),
+      view: STANDING,
+    },
+  },
+  {
+    id: 'nekketsu-sr',
+    variant: 'タキシード',
+    name: 'ねっけつ',
+    icon: 'fire',
+    tagline: 'やるって決めたなら、とことん付き合うぜ。',
+    personality:
+      'まっすぐ正直な熱い男。目標のためならあらゆる努力を惜しまない。感動しいですぐ泣く。タメ口で暑苦しい',
+    accent: '#1a6cff',
+    initial: false,
+    rarity: 'SR',
+    model: {
+      glb: require('@/assets/models/nekketsu-sr.glb'),
+      texture: require('@/assets/models/nekketsu-sr-texture.jpg'),
+      view: STANDING,
+    },
+  },
+  {
+    id: 'senpai-sr',
+    variant: '白スーツ',
+    name: '先輩',
+    icon: 'person',
+    tagline: 'ぶっきらぼうだけど、要所ではちゃんと褒める。',
+    personality:
+      '女性上司。一人称「私」・二人称「あなた」・指示は「〜して」のテ形。口数少なめ・言い切り型で、照れ隠し気味に労う。絵文字は使わない',
+    accent: '#e60012',
+    initial: false,
+    rarity: 'SR',
+    model: {
+      glb: require('@/assets/models/senpai-sr.glb'),
+      texture: require('@/assets/models/senpai-sr-texture.jpg'),
+      view: STANDING,
+    },
+  },
+  {
+    id: 'otenba-sr',
+    variant: 'ゴシックドレス',
+    name: 'おてんば',
+    icon: 'palette',
+    tagline: 'とりま作ろ？ やってみないと分かんないっしょ。',
+    personality:
+      'ギャル系で芸術肌。ギャル的な言葉を使う（まじで・とりま・〜じゃん）。根はやさしい。臆さず積極的',
+    accent: '#f08c00',
+    initial: false,
+    rarity: 'SR',
+    model: {
+      glb: require('@/assets/models/otenba-sr.glb'),
+      texture: require('@/assets/models/otenba-sr-texture.jpg'),
+      view: STANDING,
+    },
+  },
+  {
+    id: 'kanroku-sr',
+    variant: '燕尾服',
+    name: 'かんろく',
+    icon: 'crown',
+    tagline: 'ゆっくりでいい。ただし、決めるときは決めよう。',
+    personality:
+      '優しい口調だが、数々の修羅場を越えてきた貫禄がある。物事をフラットに判断し、時には厳しい決断もする。家ではやさしいパパ',
+    accent: '#6e635b',
+    initial: false,
+    rarity: 'SR',
+    model: {
+      glb: require('@/assets/models/kanroku-sr.glb'),
+      texture: require('@/assets/models/kanroku-sr-texture.jpg'),
+      view: STANDING,
+    },
+  },
+  {
+    id: 'neko-sr',
+    variant: '王さま',
+    name: 'ねこ',
+    icon: 'buddy',
+    tagline: 'いっしょにやろ！ むずかしい顔してても、始まらないし。',
+    personality:
+      '元気いっぱいで、やんちゃな盛り上げ役。短い言葉でぐいぐい引っぱる。語尾は「〜だにゃ」にしない（媚びない）。ひるまないが、ほめるときはまっすぐほめる',
+    accent: '#e8a33d',
+    initial: false,
+    rarity: 'SR',
+    model: {
+      glb: require('@/assets/models/neko-sr.glb'),
+      texture: require('@/assets/models/neko-sr-texture.jpg'),
+      view: STANDING,
+    },
+  },
 ];
 
 /** 最初から選べる2人 */
 export const INITIAL_AVATAR_IDS = AVATARS.filter((a) => a.initial).map((a) => a.id);
 
 export const DEFAULT_AVATAR_ID = INITIAL_AVATAR_IDS[0];
+
+/** 一覧に出す名前。**同じ人の別バージョン**を見分けるための添え名を付ける。
+
+    色違い（SKINS）が「せんぱい_金髪ver」と名乗っているのと同じ書き方。
+    ホームのキャプションはここを通さない（あそこは名乗りなので素の name）。 */
+export function avatarLabel(a: AvatarDef): string {
+  return a.variant ? `${a.name}_${a.variant}ver` : a.name;
+}
 
 /** そのアバターを持っているか。initial の2人は最初から持っている扱い。
     ガチャで当てたキャラは skins（＝増えたアバター）に入る */
@@ -244,10 +393,28 @@ export interface AvatarSkin {
      SR … 衣装を変えたモデルを別途つくって足す
    つまり1人につきN・R・SRが1組そろう形を目指す。
 
-   いま入っているのは先輩の金髪（R）だけ。銀・桃・緋も同じツールで
-   作れるので、景品の数を増やしたくなったら生成してここに足す。
-   SRは別モデルになるので、SKINS ではなく AVATARS 側に
-   rarity: 'SR' のエントリとして足すことになる。 */
+   SRは別モデルなので AVATARS 側に入れてある（→ 上の「SR（衣装違い）」）。
+   ここに並ぶのは色違いだけ。
+
+   ▍これから作るR（テクスチャ待ち）
+   全キャラに1本ずつ持たせる方針。**塗る場所がキャラで違う**ので、
+   recolor-sensei.mjs をそのままは使えない（あれは先輩の髪の島に
+   合わせて閾値を詰めてある）。
+
+   | キャラ   | 塗るもの   | 色      | 状態 |
+   |---------|-----------|---------|------|
+   | 先輩     | 髪        | 金      | 済み（下の kin） |
+   | おっとり  | ズボン     | 白      | これから |
+   | かんろく  | 髪        | 白      | これから |
+   | おてんば  | 髪        | ピンク   | これから |
+   | ねっけつ  | スーツ     | 青      | これから |
+
+   髪の2本（かんろく・おてんば）は先輩と同じ考え方でいけるはず。
+   ズボンとスーツの2本は**服を塗る＝いまのツールが守っている側**なので、
+   選ぶ島を逆にする作りが要る。
+
+   できたら `<id>-r-texture.jpg` として置いて、ここに1エントリ足す。
+   名前は「<ひらがな名>_<色や部位>ver」（→ avatarLabel と同じ書き方）。 */
 export const SKINS: AvatarSkin[] = [
   {
     id: 'kin',
