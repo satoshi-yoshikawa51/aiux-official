@@ -49,6 +49,14 @@ export interface AvatarModel {
   /** ベースカラーのテクスチャ（GLBから外出ししたもの） */
   texture: number;
   view: AvatarView;
+  /** 背丈の倍率。既定は1（人間の相棒＝およそ170cmのつもり）。
+
+      ▍**人でないキャラは、ここで縮める**
+      Tripoは何を作っても人間と同じくらいの背丈で出してくるので、
+      猫が人と同じ大きさで並ぶ。カメラの画角は全員共通なので
+      （→ STANDING）、直すならモデル側の倍率しかない。
+      縮めても**足元は床に残る**ようにしてある（→ avatar/Avatar3D.tsx）。 */
+  scale?: number;
 }
 
 export interface AvatarDef {
@@ -199,6 +207,12 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/neko.glb'),
       texture: require('@/assets/models/neko-texture.jpg'),
       view: STANDING,
+      /* ▍**画面で人の6割**に見える値。0.6 ではない
+         Tripoは何を作っても同じくらいの背丈で出すが、この猫は頭が大きく、
+         素のままだと人より3割高かった。0.6を掛けても画面では0.77倍にしか
+         ならない（実測）。狙いは「身長1メートルくらい＝人の6割」なので、
+         そこから逆算した値を入れてある。**モデルを焼き直したら測り直すこと。** */
+      scale: 0.47,
     },
   },
 
@@ -314,6 +328,9 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/neko-sr.glb'),
       texture: require('@/assets/models/neko-sr-texture.jpg'),
       view: STANDING,
+      /* N と同じ倍率。王冠のぶんだけ画面では少し高くなるが、
+         **同じ人が帽子をかぶっただけ**なので、そこは揃えない */
+      scale: 0.47,
     },
   },
 ];

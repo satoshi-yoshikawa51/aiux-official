@@ -265,6 +265,21 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           }
         });
 
+        /* ▍背丈の倍率（人でないキャラを縮める → data/avatars.ts の scale）
+
+           ただ scale を掛けると、**原点がどこにあるか次第で足が浮くか
+           めり込む**。GLBは量子化されていて原点の位置をファイルから
+           読めないので、実測で合わせる：縮める前の足元の高さを覚えて、
+           縮めたあとに同じ高さへ戻す。原点が腰にあっても床に立つ。 */
+        const scale = model.scale ?? 1;
+        if (scale !== 1) {
+          const before = new THREE.Box3().setFromObject(gltf.scene).min.y;
+          gltf.scene.scale.setScalar(scale);
+          gltf.scene.updateMatrixWorld(true);
+          const after = new THREE.Box3().setFromObject(gltf.scene).min.y;
+          gltf.scene.position.y += before - after;
+        }
+
         scene.add(gltf.scene);
         rootRef.current = gltf.scene;
         gltf.scene.rotation.y = yawRef.current;
