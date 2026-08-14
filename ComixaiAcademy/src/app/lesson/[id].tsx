@@ -33,6 +33,7 @@ import {
 } from '@/components/ui';
 import { playSound } from '@/lib/sound';
 import { getAvatar } from '@/data/avatars';
+import { BadgeArt } from '@/components/badge-art';
 import { getBadge, prevTitle, titleSay, type Title } from '@/data/badges';
 import { COURSES, gameKeyOf, getLesson, lessonCards, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
@@ -597,7 +598,7 @@ export default function LessonScreen() {
                   if (!b) return null;
                   return (
                     <Row key={bid} gap={S.sm} style={{ marginTop: S.xs }}>
-                      <Icon name={b.icon} size={30} color={T.text} />
+                      <BadgeArt badge={b} at="row" />
                       <View style={{ flex: 1 }}>
                         <Text style={F.h2}>{b.name}</Text>
                         <Text style={F.tiny}>{b.desc}</Text>

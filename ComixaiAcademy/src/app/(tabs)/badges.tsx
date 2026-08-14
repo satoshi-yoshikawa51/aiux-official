@@ -10,6 +10,7 @@ import { Text, View } from 'react-native';
 import { Icon } from '@/components/icons';
 import { Spotlight } from '@/components/spotlight';
 import { Badge, Cassette, Panel, Pill, Pop, Row, Screen, ScreenHead } from '@/components/ui';
+import { BadgeArt, BadgeLocked } from '@/components/badge-art';
 import { BADGES, TITLES, nextTitle, titleSay } from '@/data/badges';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
@@ -90,7 +91,7 @@ export default function BadgesScreen() {
               /* 紙そのものに網点が敷いてあるので、獲得済みのコマは白のまま抜く
                  （ここにも網点を足すと、地と見分けが付かなくなる） */
               <Panel key={b.id} style={{ width: '46%' }} contentStyle={{ gap: 4, padding: S.md }}>
-                <Icon name={b.icon} size={28} color={T.text} />
+                <BadgeArt badge={b} at="grid" />
                 <Text style={[F.strong, { fontSize: 14 }]}>{b.name}</Text>
                 <Text style={F.tiny}>{b.desc}</Text>
               </Panel>
@@ -108,7 +109,7 @@ export default function BadgesScreen() {
                   marginRight: POP.md,
                   marginBottom: POP.md,
                 }}>
-                <Icon name="lock" size={26} color={T.disabled} opacity={0.6} />
+                <BadgeLocked badge={b} at="grid" />
                 <Text style={[F.strong, { fontSize: 14, color: T.disabled }]}>？？？</Text>
                 <Text style={F.tiny}>{b.hint}</Text>
               </View>

@@ -12,7 +12,17 @@ import { voiceIdOf, type AvatarId, type ByAvatar } from './types';
 
 export interface Badge {
   id: string;
+  /** 絵が無いバッジの代役。**絵を入れたら使われない**（→ art） */
   icon: IconName;
+  /** 勲章の絵（`require('@/assets/badges/<id>.png')`）。
+
+      ▍アイコンではなく絵にする理由
+      バッジは「取った瞬間のごほうび」なので、線画のアイコンだと軽い。
+      入れ物だけ先に作ってあるので、**描けたものから1枚ずつ**差し替えられる。
+      未記入のあいだは icon がそのまま出る（画面は壊れない）。
+
+      絵の仕様は assets/badges/README.md に置いた。 */
+  art?: number;
   name: string;
   /** 獲得条件（獲得後に表示） */
   desc: string;
@@ -24,6 +34,8 @@ export const BADGES: Badge[] = [
   {
     id: 'avatar-set',
     icon: 'mask',
+    /* 絵ができたら、この1行を生かす（ファイルは assets/badges/avatar-set.png）
+       art: require('@/assets/badges/avatar-set.png'), */
     name: '相棒えらび',
     desc: 'アバターを選んだ',
     hint: '誰と学ぶかを、まず決めるところから',
