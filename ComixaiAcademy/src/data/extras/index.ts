@@ -43,7 +43,17 @@ export interface Extra {
   game: LessonInteractive;
 }
 
-export const EXTRAS: Extra[] = [...STAGE_EXTRAS, ...AVATAR_EXTRAS, ...SR_EXTRAS];
+export const EXTRAS: Extra[] = [...STAGE_EXTRAS, ...SR_EXTRAS];
+
+/* ▍いま景品が無いおまけ（銀髪・桃色）
+
+   色違いを金髪だけに絞ったので、この2本は**当てられない景品のおまけ**に
+   なった。中身は書けているので消さずに置いておき、キャラごとのR色違いを
+   作ったときに prizeId を付け替えて EXTRAS に戻す
+   （レア度は「同じキャラでN→R→SR」の3段で積む方針 → data/avatars.ts）。
+
+   戻すときは EXTRA_TOTAL も一緒に増やすこと。 */
+export const PENDING_EXTRAS: Extra[] = AVATAR_EXTRAS;
 
 /** レア度ごとの報酬P。クリアの初回だけ入る */
 export const EXTRA_REWARD: Record<Rarity, number> = { N: 0, R: 2, SR: 5 };
@@ -53,8 +63,11 @@ export const EXTRA_REWARD: Record<Rarity, number> = { N: 0, R: 2, SR: 5 };
    「殿堂」バッジを `EXTRAS.length` と比べると、**SRのおまけを作っている
    最中に、9本クリアしただけで殿堂が取れてしまう**。バッジは一度取ると
    消えないので、あとから条件を厳しくしても取り消せない。
-   だから最終形の本数（R9＋SR5）を先に決めて、そこと比べる。 */
-export const EXTRA_TOTAL = 14;
+   だから最終形の本数を先に決めて、そこと比べる。
+
+   いまは 舞台R7＋SR5 = 12。銀髪・桃色のおまけ（PENDING_EXTRAS）を
+   R色違いに付け替えて戻したら、そのぶん増やす。 */
+export const EXTRA_TOTAL = 12;
 
 export function getExtra(prizeId: string | null | undefined): Extra | undefined {
   return EXTRAS.find((e) => e.prizeId === prizeId);

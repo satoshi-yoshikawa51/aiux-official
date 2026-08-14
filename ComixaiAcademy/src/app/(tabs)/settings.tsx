@@ -15,7 +15,15 @@ import { RolePicker } from '@/components/role-picker';
 import { SaveTransfer } from '@/components/save-transfer';
 import { Spotlight } from '@/components/spotlight';
 import { Badge, Button, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
-import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, isReady, SKINS } from '@/data/avatars';
+import {
+  AVATARS,
+  DEFAULT_SKIN_ID,
+  getAvatar,
+  getSkin,
+  isReady,
+  ownsAvatar,
+  SKINS,
+} from '@/data/avatars';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { getRole } from '@/data/roles';
 import { fullSave, fullSaveText } from '@/lib/dev-save';
@@ -79,6 +87,23 @@ export default function SettingsScreen() {
         </Spotlight>
         {AVATARS.map((a) => {
           const ready = isReady(a);
+          /* まだ当てていないキャラは伏せる。ここに出るのは持っている体だけ */
+          if (ready && !ownsAvatar(a, state.skins)) {
+            return (
+              <PressCard key={a.id} disabled selected={false} onPress={() => {}}>
+                <Row style={{ justifyContent: 'space-between' }}>
+                  <Row gap={S.sm} style={{ flex: 1 }}>
+                    <Icon name="lock" size={22} color={T.muted} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={F.strong}>？？？</Text>
+                      <Text style={F.tiny}>ガチャで仲間になります</Text>
+                    </View>
+                  </Row>
+                  <Badge tone="paper">ガチャ</Badge>
+                </Row>
+              </PressCard>
+            );
+          }
           if (!ready) {
             return (
               <PressCard key={a.id} disabled selected={false} onPress={() => {}}>

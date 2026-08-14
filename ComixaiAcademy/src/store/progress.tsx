@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
 import { BADGES, TITLES, titleFor, type Title } from '@/data/badges';
-import { DEFAULT_SKIN_ID } from '@/data/avatars';
+import { AVATARS, DEFAULT_SKIN_ID, ownsAvatar } from '@/data/avatars';
 import {
   DEFAULT_THEME_ID,
   draw,
@@ -589,6 +589,10 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const setLook = React.useCallback(
     (avatarId: string, skinId: string) => {
       if (skinId !== DEFAULT_SKIN_ID && !ref.current.skins[skinId]) return;
+      /* 当てていないキャラには着替えられない。最初の2人だけ最初から持っている
+         （キャラ本体も色違いと同じく skins に入る → data/gacha.ts） */
+      const base = AVATARS.find((a) => a.id === avatarId);
+      if (!base || !ownsAvatar(base, ref.current.skins)) return;
       const { next } = applyBadges({ ...ref.current, avatarId, skinId });
       persist(next);
     },
