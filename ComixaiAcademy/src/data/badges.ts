@@ -58,6 +58,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-basics',
     icon: 'sprout',
+    art: require('@/assets/badges/course-basics.png'),
     name: 'きほん修了',
     desc: 'コース「AIのきほん」を全部クリアした',
     hint: '土台になる4本を、ぜんぶ',
