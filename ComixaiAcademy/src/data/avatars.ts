@@ -180,6 +180,38 @@ export function ownsAvatar(a: AvatarDef, skins: Record<string, number>): boolean
 }
 
 /* ============================================================
+   ▍IDを変えたときの読み替え
+
+   「先生」を senpai に改名したとき、**すでに遊んでいる人の記録は
+   avatarId: 'sensei' のまま**残る。台帳に無いIDなので getAvatar は
+   先頭（おっとり）に落ち、その人の相棒が黙って別人に入れ替わる。
+
+   しかも改名後の先輩は initial: false ＝ ガチャの景品なので、
+   **せってい から自分の相棒に戻すこともできない**（当て直すまで伏せ札）。
+   使っていた相棒を、こちらの都合で取り上げないための読み替え。
+
+   IDを変えるたびにここへ1行足すこと。**足さないと同じことが起きる。**
+   ============================================================ */
+const RENAMED: Record<string, string> = { sensei: 'senpai' };
+
+/**
+ * 保存してある avatarId / skins を、いまの台帳に合わせて直す。
+ * 変えるところが無ければ、渡されたものをそのまま返す（呼び元は
+ * 同一性で「直したか」を判定できる）。
+ */
+export function migrateAvatars<T extends { avatarId: string | null; skins: Record<string, number> }>(
+  save: T,
+  now = Date.now(),
+): T {
+  const to = save.avatarId ? RENAMED[save.avatarId] : undefined;
+  if (!to) return save;
+  /* 使っていた相棒は「持っている」ことにする。**改名でガチャの景品に
+     なった人を、いま使っている本人から取り上げない** */
+  const skins = save.skins[to] ? save.skins : { ...save.skins, [to]: now };
+  return { ...save, avatarId: to, skins };
+}
+
+/* ============================================================
    ▍色違いアバター
    「金髪の先生」のような色違いを、**独立した1体のアバター**として
    扱う（選べるアバターがガチャでどんどん増えていく建て付け。

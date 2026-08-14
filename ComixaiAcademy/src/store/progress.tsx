@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
 import { BADGES, TITLES, titleFor, type Title } from '@/data/badges';
-import { AVATARS, DEFAULT_SKIN_ID, ownsAvatar } from '@/data/avatars';
+import { AVATARS, DEFAULT_SKIN_ID, migrateAvatars, ownsAvatar } from '@/data/avatars';
 import {
   DEFAULT_THEME_ID,
   draw,
@@ -382,12 +382,17 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
             added = true;
           }
         }
-        const next = added ? { ...loaded, badges } : loaded;
+        /* ▍IDを変えたアバターを読み替える（→ data/avatars.ts）
+           ここで直して**保存し直す**。直したものを持っているだけだと、
+           次に何かを保存したときに古いIDへ戻ってしまう */
+        const migrated = migrateAvatars(added ? { ...loaded, badges } : loaded, now);
+        const next = migrated;
+        const changed = added || migrated !== loaded;
         /* 保存してある設定を、鳴らす側の旗に流し込む */
         setSoundEnabled(next.soundOn);
         setMusicEnabled(next.musicOn);
         setState(next);
-        if (added) AsyncStorage.setItem(KEY, JSON.stringify(next)).catch(() => {});
+        if (changed) AsyncStorage.setItem(KEY, JSON.stringify(next)).catch(() => {});
       })
       .finally(() => alive && setReady(true));
     return () => {

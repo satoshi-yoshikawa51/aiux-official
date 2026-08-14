@@ -51,6 +51,15 @@ export function say(line: Line, avatarId: AvatarId | null): string {
 export const INTRO_VOICE = {
   greet: {
     common: 'その仕事なら、教えることは決まった。……でもAIの前に、まずはこのアプリの使い方から。',
+    /* ▍最初に選べる2人には必ず書く（→ store/tutorial.tsx の同じ注意書き）
+       このひとことが**選んだ相棒の第一声**。ここが共通（先輩の口調）だと、
+       選んだ相手と、目の前でしゃべる人が別人になる */
+    byAvatar: {
+      ottori:
+        'そのお仕事なら、お教えすることは決まりました。……でもAIの前に、まずはこのアプリの使い方から。',
+      nekketsu:
+        'その仕事か、いいな。教えることは決まったぜ。……ただ、AIの前に、まずはこのアプリの使い方からだ。',
+    },
   } as Line,
 };
 
@@ -139,10 +148,38 @@ const SENSEI_TALK: SmallTalk[] = [
   { say: 'よし、いい顔になってきた。', motion: 'laugh', emote: 'sparkle' },
 ];
 
+/* おっとり＝やさしい敬語の照れ屋。相手を否定しない */
+const OTTORI_TALK: SmallTalk[] = [
+  { say: '……はい？ どうか、しましたか。', motion: 'idle-b' },
+  { say: '休憩にしましょうか。詰め込みすぎても、入りませんから。', motion: 'explain' },
+  { say: '1日1本で十分ですよ。続けるほうが、ずっと難しいので。', motion: 'wave' },
+  { say: 'わからないところは、飛ばしていいんです。あとで戻ってきましょう。', motion: 'explain' },
+  { say: '……そんなに見られると、その、困ります。', motion: 'worried', emote: 'bang' },
+  { say: 'よかった。いい顔に、なってきましたね。', motion: 'laugh', emote: 'sparkle' },
+];
+
+/* ねっけつ＝タメ口で暑苦しい。感動しいですぐ泣く */
+const NEKKETSU_TALK: SmallTalk[] = [
+  { say: 'なんだ？ 用が無いなら、手を動かそうぜ。', motion: 'arms-crossed' },
+  { say: '休憩か。いいぜ、詰め込みすぎても入らねえからな。', motion: 'idle-b' },
+  { say: '1日1本でいい。続けるほうが、よっぽど難しいんだ。', motion: 'explain' },
+  { say: 'わからんところは飛ばせ。あとで戻ってくりゃいい。', motion: 'wave' },
+  { say: '……なんだよ、そんなに見るな。照れるだろ。', motion: 'worried', emote: 'bang' },
+  { say: 'よし、いい顔になってきたじゃねえか……！', motion: 'laugh', emote: 'sparkle' },
+];
+
 const SMALL_TALK: ByAvatar<SmallTalk[]> = {
-  sensei: SENSEI_TALK,
-  /* senpai / kouhai / shishou / aibou は、3Dモデルを足すときに書く。
-     未記入のあいだは下の smallTalkFor が先生のものを返す */
+  /* ▍最初に選べる2人（→ data/avatars.ts）
+     アバターをつつくのは、案内が終わって最初に試す遊び。ここが共通
+     （先輩の口調）だと、選んだ相手と別人がしゃべることになる */
+  ottori: OTTORI_TALK,
+  nekketsu: NEKKETSU_TALK,
+  /* 「先生」は senpai に改名した。**キーを直さないと、ここに先輩の小話を
+     書いた瞬間に効かなくなる**（IDが合わず、下の smallTalkFor が
+     フォールバックを返し続ける） */
+  senpai: SENSEI_TALK,
+  /* otenba / kanroku は、その人らしい小話を書いてから足す。
+     未記入のあいだは下の smallTalkFor が先輩のものを返す */
 };
 
 /** その相棒の小話。書けていなければ先生のものを返す */

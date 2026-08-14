@@ -18,7 +18,7 @@ import { Icon, type IconName } from '@/components/icons';
 import { Ring, Spotlight } from '@/components/spotlight';
 import { PopIn, useSparkBurst } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
-import { GACHA_COACH_SAY, useGachaCoach, useGachaCoachGift } from '@/components/gacha-coach';
+import { gachaCoachSay, useGachaCoach, useGachaCoachGift } from '@/components/gacha-coach';
 import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
@@ -223,7 +223,7 @@ export default function HomeScreen() {
     /* つついたら小話が勝つ。**同じ催促を延々と読まされない**ための逃げ道
        （ガチャに行かない人には、行くまで案内が出続けるので） */
     if (talk) return talk;
-    if (gachaCoach.onHome) return GACHA_COACH_SAY;
+    if (gachaCoach.onHome) return gachaCoachSay(state.avatarId);
     /* ▍終わっても「終わり」と言わない
        ここで話を締めるとアプリを消される（実機フィードバック）。
        次があることだけ、ひと言そえておく */
