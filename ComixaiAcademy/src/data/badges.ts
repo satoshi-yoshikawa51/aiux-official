@@ -34,8 +34,7 @@ export const BADGES: Badge[] = [
   {
     id: 'avatar-set',
     icon: 'mask',
-    /* 絵ができたら、この1行を生かす（ファイルは assets/badges/avatar-set.png）
-       art: require('@/assets/badges/avatar-set.png'), */
+    art: require('@/assets/badges/avatar-set.png'),
     name: '相棒えらび',
     desc: 'アバターを選んだ',
     hint: '誰と学ぶかを、まず決めるところから',
