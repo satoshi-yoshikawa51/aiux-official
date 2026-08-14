@@ -15,10 +15,10 @@ import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
-import { Spotlight } from '@/components/spotlight';
+import { Ring, Spotlight } from '@/components/spotlight';
 import { PopIn, useSparkBurst } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
-import { GachaCoachHome } from '@/components/gacha-coach';
+import { GACHA_COACH_SAY, useGachaCoach, useGachaCoachGift } from '@/components/gacha-coach';
 import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
@@ -211,9 +211,19 @@ export default function HomeScreen() {
 
   const [talk, setTalk] = React.useState<string | null>(null);
 
+  /* ▍ガチャの案内（1本目を終えた人に1回だけ）
+     最初の案内には入れない——**まわすPも、飾る場所を見た経験も無い**
+     うちに見せても意味が通らない（→ components/gacha-coach.tsx）。
+     案内が始まった時点で3Pを渡すので、下の入口のPの数字がその場で増える */
+  const gachaCoach = useGachaCoach();
+  useGachaCoachGift();
+
   const greeting = React.useMemo(() => {
     if (guiding) return tutorial.step?.say ?? '';
+    /* つついたら小話が勝つ。**同じ催促を延々と読まされない**ための逃げ道
+       （ガチャに行かない人には、行くまで案内が出続けるので） */
     if (talk) return talk;
+    if (gachaCoach.onHome) return GACHA_COACH_SAY;
     /* ▍終わっても「終わり」と言わない
        ここで話を締めるとアプリを消される（実機フィードバック）。
        次があることだけ、ひと言そえておく */
@@ -221,7 +231,16 @@ export default function HomeScreen() {
     if (stats.doneCount === 0) return `${role?.name ?? ''}ね。なら、話が早い。まず1本やってみて。`;
     if (stats.streak >= 3) return `${stats.streak}日続いてるね。……その調子よ。`;
     return `次は「${next.lesson.title}」よ。`;
-  }, [guiding, tutorial.step, talk, next, stats.doneCount, stats.streak, role?.name]);
+  }, [
+    guiding,
+    tutorial.step,
+    talk,
+    gachaCoach.onHome,
+    next,
+    stats.doneCount,
+    stats.streak,
+    role?.name,
+  ]);
 
   const burst = useSparkBurst();
 
@@ -312,26 +331,38 @@ export default function HomeScreen() {
              フキダシがコマの上端まで来たので、そこに重なると読めない。
              右下はキャプション（名前・職種）が使っているので、左下へ。
              床の隅なのでキャラにもかからない */}
-        <Tap
-          onPress={() => router.push('/gacha')}
-          sound="pick"
+        {/* ▍案内中は、この入口そのものを光らせる
+             説明のカードを別に置くと、**本物の入口を一度も触らないまま**
+             話だけ聞くことになる。押してほしい当のものを光らせる。
+             輪はコマの overflow:'hidden' に切られるので、隅では余地を狭める。
+             **チップの左と下はコマの内側6pxしか空いていない**ので、芯を2px
+             外に出して、輪はそこから4pxまで。合わせて6px＝切られる寸前で止める
+             （切れた輪は光ではなく「壊れた枠」に見える → components/spotlight.tsx）。
+             丸いチップなので radius も丸に合わせる */}
+        <Ring
+          on={gachaCoach.onHome}
+          radius={R.full}
+          inset={-2}
+          room={4}
           style={{ position: 'absolute', bottom: 6, left: 6, zIndex: 5 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 5,
-              backgroundColor: C.ink900,
-              borderRadius: R.full,
-              paddingHorizontal: 10,
-              paddingVertical: 5,
-            }}>
-            <Icon name="egg" size={13} color={C.yellow400} />
-            <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.paper50 }}>
-              {state.coins}P
-            </Text>
-          </View>
-        </Tap>
+          <Tap onPress={() => router.push('/gacha')} sound="pick">
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 5,
+                backgroundColor: C.ink900,
+                borderRadius: R.full,
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+              }}>
+              <Icon name="egg" size={13} color={C.yellow400} />
+              <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.paper50 }}>
+                {state.coins}P
+              </Text>
+            </View>
+          </Tap>
+        </Ring>
         {/* ログインボーナスの受け取り。ひと呼吸で消える */}
         {bonusShown ? (
           <PopIn style={{ position: 'absolute', bottom: 38, left: 6, zIndex: 5 }}>
@@ -482,10 +513,6 @@ export default function HomeScreen() {
         </Panel>
       )}
 
-      {/* ▍ガチャの案内（1本目を終えた人に1回だけ）
-           最初の案内には入れない——**まわすPも、飾る場所を見た経験も
-           無い**うちに見せても意味が通らない（→ components/gacha-coach.tsx） */}
-      <GachaCoachHome />
     </Screen>
   );
 }

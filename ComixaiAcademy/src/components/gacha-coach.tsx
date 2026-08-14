@@ -7,25 +7,38 @@
    戻ってきた瞬間**なら、報酬の意味も飾る場所も分かっている。
 
    ▍段取り
-   1. ホーム … 先生が3Pを渡す（初回だけ）→「ガチャへ」
+   1. ホーム … 先生が3Pを渡し、**ガチャの入口そのものを光らせる**
    2. ガチャ … 「まわす」を1回だけ案内する
    3. 当たったあと … 舞台とアバターを変えられることだけ伝えて終わり。
       **実際には変えない**（勝手に見た目が変わると驚く。選ぶのは本人）
 
+   ▍説明のカードを別に置かない
+   はじめはホームの下に案内カードを1枚積んでいた。が、それだと
+   **本物のガチャの入口（舞台の左下のP）を一度も触らないまま**
+   話だけ聞かされて、次に自分で行くとき「どこから入るんだっけ」になる。
+   いまは押してほしい当のものを光らせて、そこを押してもらう。
+   説明はガチャの画面に着いてからでいい。
+
    ▍アプリ案内（store/tutorial.tsx）とは別物
    あちらはタブの中だけで動く仕組みで、ガチャはタブの外の画面。
-   1回きりの短い流れなので、画面を止めずに**カードを1枚出すだけ**にした。
+   1回きりの短い流れなので、画面を止めずに**光らせて、ひと言だけ**にした。
    ============================================================ */
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
 import { PopIn } from '@/components/motion';
-import { Button, Card, Row } from '@/components/ui';
+import { Button, Row } from '@/components/ui';
 import { SPIN_COST } from '@/data/gacha';
 import { useProgress } from '@/store/progress';
-import { C, F, S, T } from '@/theme';
+import { C, F, S } from '@/theme';
+
+/** ホームで先生が言うこと。**ホームのフキダシに出す**（→ app/(tabs)/index.tsx）。
+
+    「左下の」と場所で言わずに「光ってる」で指す。アプリ案内でも同じにして
+    ある（→ store/tutorial.tsx）。場所の言い方は画面の広さで狂うが、
+    光っているものは狂わない */
+export const GACHA_COACH_SAY = `1本おつかれさま。ごほうびに${SPIN_COST}P あげる。光ってるところ、押してみて。`;
 
 /** 案内を出す番か。1本終えていて、まだ見ていない人だけ */
 export function useGachaCoach() {
@@ -36,49 +49,28 @@ export function useGachaCoach() {
      （記録を引き継いだ人や、案内を入れる前から遊んでいた人） */
   const knows = Object.keys(state.themes).length > 0 || Object.keys(state.skins).length > 0;
   return {
-    /** ホームで声をかける番 */
+    /** ホームでガチャの入口を光らせる番 */
     onHome: ready && state.seenTutorial && done >= 1 && !state.seenGachaTutorial && !knows,
     /** ガチャ画面で案内する番（Pを渡したあと） */
     onGacha: ready && state.gachaCoinsGiven && !state.seenGachaTutorial,
   };
 }
 
-/* ———— ホーム側 ———— */
-export function GachaCoachHome() {
-  const router = useRouter();
-  const { state, startGachaCoach } = useProgress();
-  const { onHome } = useGachaCoach();
-  if (!onHome) return null;
+/** 案内が始まったら、その場で3Pを渡す。
 
-  const given = state.gachaCoinsGiven;
-  return (
-    <PopIn>
-      <Card tone="warn">
-        <Row gap={8} style={{ alignItems: 'flex-start' }}>
-          <Icon name="egg" size={20} color={T.accent} />
-          <View style={{ flex: 1, gap: 4 }}>
-            <Text style={F.strong}>
-              {given ? 'ガチャ、まだまわしてないね。' : '1本おつかれさま。ごほうびがある。'}
-            </Text>
-            <Text style={F.small}>
-              {given
-                ? `渡した${SPIN_COST}Pは、そのまま残ってる。1回まわしてみて。`
-                : `${SPIN_COST}P あげる。ガチャを1回まわすと、ホームの背景や私の見た目が増える。`}
-            </Text>
-          </View>
-        </Row>
-        <Button
-          label={given ? 'ガチャへ' : `${SPIN_COST}P もらってガチャへ`}
-          size="sm"
-          onPress={() => {
-            startGachaCoach();
-            router.push('/gacha');
-          }}
-          style={{ alignSelf: 'flex-start' }}
-        />
-      </Card>
-    </PopIn>
-  );
+    ▍ボタンを押させてから渡す、ではなく、先に渡す
+    渡す口が別のボタンだと、**押すものが2つ**になる（もらうボタンと、
+    ガチャの入口）。先に入れておけば、光っているPの数字がその場で増えて、
+    「ごほうびをもらった」ことが入口そのものに出る。押す先は1つで済む。
+
+    `startGachaCoach` は2回目以降なにもしない（→ store/progress.tsx）ので、
+    画面が何度描き直されても増え続けることはない */
+export function useGachaCoachGift() {
+  const { startGachaCoach } = useProgress();
+  const { onHome } = useGachaCoach();
+  React.useEffect(() => {
+    if (onHome) startGachaCoach();
+  }, [onHome, startGachaCoach]);
 }
 
 /* ———— ガチャ画面側 ————
@@ -105,7 +97,7 @@ export function GachaCoachBand({ spun }: { spun: boolean }) {
           <Text style={[F.strong, { flex: 1, color: C.paper50 }]}>
             {spun
               ? '当てたものは、下の棚に並ぶ。ホームの背景と、私の見た目を変えられる。'
-              : `下の赤いボタンで1回まわしてみて。${SPIN_COST}P使う。`}
+              : `ここがガチャ。さっきの${SPIN_COST}Pで、下の赤いボタンから1回まわせる。`}
           </Text>
         </Row>
         <Text style={[F.tiny, { color: C.ink300 }]}>
