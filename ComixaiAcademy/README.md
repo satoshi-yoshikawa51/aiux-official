@@ -1673,11 +1673,11 @@ SRの進み具合：
 
 | セリフ | 置き場 | 書き分けの入れ物 | いま |
 |---|---|---|---|
-| クイズ・結果 | `src/data/voice.ts` の `LESSON_VOICE` | `byAvatar` | **5人ぜんぶ** |
-| 修了試験 | `src/data/voice.ts` の `EXAM_VOICE` | `byAvatar` | **5人ぜんぶ** |
-| 復習 | `src/data/voice.ts` の `REVIEW_VOICE` | `byAvatar` | **5人ぜんぶ** |
-| エンディング | `src/data/voice.ts` の `ENDING_VOICE` | `byAvatar` | **5人ぜんぶ** |
-| ホームの小話 | `src/data/voice.ts` の `SMALL_TALK` | 相棒ごとに配列を丸ごと | **5人ぜんぶ** |
+| クイズ・結果 | `src/data/voice.ts` の `LESSON_VOICE` | `byAvatar` | **6人ぜんぶ** |
+| 修了試験 | `src/data/voice.ts` の `EXAM_VOICE` | `byAvatar` | **6人ぜんぶ** |
+| 復習 | `src/data/voice.ts` の `REVIEW_VOICE` | `byAvatar` | **6人ぜんぶ** |
+| エンディング | `src/data/voice.ts` の `ENDING_VOICE` | `byAvatar` | **6人ぜんぶ** |
+| ホームの小話 | `src/data/voice.ts` の `SMALL_TALK` | 相棒ごとに配列を丸ごと | **6人ぜんぶ** |
 | 入口の第一声 | `src/data/voice.ts` の `INTRO_VOICE` | `byAvatar` | 初期2人（※） |
 | チュートリアル | `src/store/tutorial.tsx` の `TUTORIAL` | `sayByAvatar` | 初期2人（※） |
 | ガチャの案内 | `src/components/gacha-coach.tsx` | `byAvatar` | 初期2人（※） |
