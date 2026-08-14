@@ -1,7 +1,65 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-13T22:22:18.076Z",
+  "updatedAt": "2026-08-14T21:54:34.952Z",
   "items": [
+    {
+      "title": "Meta’s ‘open’ AI, and a $250M deal gone very wrong",
+      "url": "https://techcrunch.com/podcast/metas-open-ai-and-a-250m-deal-gone-very-wrong/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-14T14:00:00.000Z",
+      "titleJa": "Meta の「オープン」 AI、そして 2 億 5,000 万ドルの取引は大失敗に終わった",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/meta-ai-icon-smartphone.jpg?resize=1200,800"
+    },
+    {
+      "title": "「Qwen3.8-27B」ウェイト公開 一部「Opus 4.6 Max」超えか ライセンスは商用可のApache 2.0",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/15/2000000554/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-14T17:26:12.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/15/2000000554/10002735/2048"
+    },
+    {
+      "title": "You can now turn off Google Gemini’s visible watermarks",
+      "url": "https://www.theverge.com/tech/980416/google-gemini-ai-watermarks-removal",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-14T16:39:32.000Z",
+      "titleJa": "Google Gemini の表示ウォーターマークをオフにできるようになりました",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK255_Google_Gemini_D.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "「Voice AI Agent Platform」エコシステム構築に向けた戦略投資方針について",
+      "url": "https://ascii.jp/elem/000/004/426/4426831/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-14T07:30:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg?20200122"
+    },
+    {
+      "title": "【過去満足度 平均4.4/5.0】8月10日サービス開始LLM認知測定ツール「ディギディギ」を8月21日（金）開催セミナーで実演",
+      "url": "https://ascii.jp/elem/000/004/426/4426812/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-14T07:20:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "OpenAI、「Linux」向けに「ChatGPT」デスクトップアプリのプレビュー版を公開",
+      "url": "https://japan.zdnet.com/article/35251553/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-14T00:57:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/14/0e8514747260049f34a153585ece61f3/gettyimages-2257858694_l.jpg"
+    },
+    {
+      "title": "AIエージェント同士が“縄張り争い”、マルウェアで妨害も Anthropicがマルチエージェント実験の結果を公開",
+      "url": "https://www.itmedia.co.jp/news/article/2608/14/2000000538/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-14T00:51:06.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/14/2000000538/10002611/2048"
+    },
     {
       "title": "Nvidia’s new $500B plan is risky but brilliant, especially for aging GPUs",
       "url": "https://techcrunch.com/2026/08/13/nvidias-new-500b-plan-is-risky-but-brilliant-especially-for-aging-gpus/",
@@ -28,13 +86,20 @@
       "titleJa": "OpenAI、ダリ・ラジク氏を最高収益責任者に任命"
     },
     {
-      "title": "Microsoft’s Clippy-like Mico character is no longer the face of Copilot",
-      "url": "https://www.theverge.com/tech/979871/microsoft-copilot-mico-retired",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-13T21:42:38.000Z",
-      "titleJa": "Microsoft の Clippy に似た Mico キャラクターは、Copilot の顔ではなくなりました",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/mico-copilot.png?quality=90&strip=all&crop=0%2C0.79936424831713%2C100%2C98.401271503366&w=1200"
+      "title": "マイクロソフト、「Copilot」と「Copilot 365」を統合版アプリに移行",
+      "url": "https://japan.zdnet.com/article/35251549/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-13T23:50:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/14/a42af81a9542bdeadecfd05ee22fb4b2/microsoft-to-combine-copilot-and-copilot-365-into-one-single-unifed-app_l.jpg"
+    },
+    {
+      "title": "南海電鉄「数カ月かかった乗務員計画」が1週間に 「量子コンピュータを疑似再現」で鉄道現場はどう変わる？",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/14/news043.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-13T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2608/14/cover_news043.jpg"
     },
     {
       "title": "Google、「Gemini 3.7 Flash」公開 年内は半額の導入価格",
@@ -45,14 +110,6 @@
       "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/14/2000000534/10002594/2048"
     },
     {
-      "title": "中国DeepSeek、API料金を「最大12倍」に値上げ ピーク時価格も導入 8月17日から",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/13/2000000533/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-13T14:12:24.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/13/2000000533/10002589/2048"
-    },
-    {
       "title": "AI coding startup Cognition reportedly already in talks to raise at $40B valuation",
       "url": "https://techcrunch.com/2026/08/12/ai-coding-startup-cognition-reportedly-already-in-talks-to-raise-at-40b-valuation/",
       "source": "TechCrunch",
@@ -60,65 +117,6 @@
       "date": "2026-08-12T18:19:12.000Z",
       "titleJa": "AIコーディングの新興企業Cognitionはすでに評価額400億ドルで調達する交渉に入っていると報じられている",
       "image": "https://techcrunch.com/wp-content/uploads/2026/05/Scott-wu-headshot-e1780070238342.png?resize=1200,1004"
-    },
-    {
-      "title": "OpenAI-backed Thrive Holdings raises $2B to bring AI to the enterprise",
-      "url": "https://techcrunch.com/2026/08/12/openai-backed-thrive-holdings-raises-2b-to-bring-ai-to-the-enterprise/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-12T17:41:29.000Z",
-      "titleJa": "OpenAI が支援する Thrive Holdings が AI を企業に導入するために 20 億ドルを調達",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/holdings_all_team.jpg?resize=1200,407"
-    },
-    {
-      "title": "「AIツール関連サイト」でサポート詐欺被害 PC遠隔操作で個人情報含む4000件のファイルが削除、漏えいの可能性も 葬祭事業者が発表",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/13/2000000513/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-12T23:00:00.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/13/2000000513/10002446/2048"
-    },
-    {
-      "title": "SpaceXAI、「Grok 4.6」を発表 総合指標で「GPT-5.6 Sol Max」に並ぶと謳う",
-      "url": "https://www.itmedia.co.jp/news/article/2608/13/2000000520/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-12T21:32:01.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/13/2000000520/10002535/2048"
-    },
-    {
-      "title": "Spotify、AI生成アーティストをおすすめから除外へ 9月に新ラベル導入",
-      "url": "https://japan.cnet.com/article/35251512/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-12T07:45:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/12/af00b0302c1e9575b969b301abd1e03b/GettyImages-2257938130-spotify_1280x960.jpg"
-    },
-    {
-      "title": "最新のオープンウェイト世界モデル「LTX-2.5」公開、動画生成やロボット開発に",
-      "url": "https://japan.cnet.com/article/35251508/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-12T03:36:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/12/516f854b908e410a976303d38aec055f/AdobeStock_468057557_1280x960.jpeg"
-    },
-    {
-      "title": "Word・Excel・PDFなどの文書をAIが読みやすいMarkdownに爆速変換する「anydoc」がオープンソース公開（生成AIクローズアップ） | テクノエッジ TechnoEdge",
-      "url": "https://www.techno-edge.net/article/2026/08/12/5385.html",
-      "source": "テクノエッジ",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 159,
-      "date": "2026-08-12T01:45:08.000Z",
-      "image": "https://www.techno-edge.net/imgs/ogp_f/33512.png"
-    },
-    {
-      "title": "Meta、ノートPCで動くAIエージェント向け新モデル「Muse Glimmer」を公開",
-      "url": "https://japan.cnet.com/article/35251497/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-12T00:39:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/12/66b9fecfa1bb4dcf05b764f77ada0ba0/AdobeStock_2015437130_Editorial_Use_Only_1280x960.jpeg"
     }
   ]
 }
