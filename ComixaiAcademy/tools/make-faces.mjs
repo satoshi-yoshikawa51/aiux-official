@@ -53,28 +53,33 @@ const LOOKS = [
   { out: 'senpai-kin', glb: 'sensei', tex: 'sensei-kin-texture' },
 ];
 
-/** ▍顔の向きの直し（度・モデルごと）
+/** ▍顔の向きの直し（度・モデルごと）は台帳から読む
+
     素のモデルは**キャラごとに顎の上げ方がばらばら**で、並べると
     「ほとんどが上を向いていて、先輩だけ下を向いている」ように見える。
-    マイナスで顎を引き、プラスで顎を上げる。焼くときに Head の骨を
-    この角度だけ回してから撮る（**モデル自体は書き換えない**。
-    全身で立っているときの見え方や歩きのモーションに波及するため）。
+    直す角度は `src/data/avatars.ts` の `headTilt` が持っていて、
+    アプリの3D表示（avatar/Avatar3D.tsx）も同じ値を使う。
 
-    数字は目で合わせたもの。増やしたら、その並びで見比べて決める。 */
-const TILT = {
-  ottori: -7,
-  'ottori-sr': -6,
-  nekketsu: -6,
-  'nekketsu-sr': -6,
-  sensei: 6, // 先輩だけ逆。素のモデルが下を向いている
-  'senpai-sr': -4,
-  otenba: -6,
-  'otenba-sr': -6,
-  kanroku: -8, // いちばん顎が上がっている
-  'kanroku-sr': -8,
-  neko: -5,
-  'neko-sr': -6,
-};
+    **ここで表を持たない。** 焼いた顔と画面の中の3Dで顎の角度が
+    食い違うのがいちばん困るので、数字の出どころは1つにする。
+    台帳はTSなので、ビルドを挟まずに済むよう行を読んで拾っている
+    （glb の require を見つけたら、その塊の headTilt を対にする）。 */
+function readTilts() {
+  const src = fs.readFileSync(path.join(APP, 'src', 'data', 'avatars.ts'), 'utf8');
+  const tilt = {};
+  let model = null;
+  for (const line of src.split('\n')) {
+    const g = line.match(/glb: require\('@\/assets\/models\/([\w-]+)\.glb'\)/);
+    if (g) model = g[1];
+    const t = line.match(/^\s*headTilt: (-?[\d.]+),/);
+    if (t && model) {
+      tilt[model] = Number(t[1]);
+      model = null;
+    }
+  }
+  return tilt;
+}
+const TILT = readTilts();
 
 const MIME = { '.js': 'text/javascript', '.glb': 'model/gltf-binary', '.jpg': 'image/jpeg', '.html': 'text/html' };
 

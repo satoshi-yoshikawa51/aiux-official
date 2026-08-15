@@ -57,6 +57,18 @@ export interface AvatarModel {
       （→ STANDING）、直すならモデル側の倍率しかない。
       縮めても**足元は床に残る**ようにしてある（→ avatar/Avatar3D.tsx）。 */
   scale?: number;
+  /** 顔の向きの直し（度）。マイナスで顎を引く、プラスで顎を上げる。
+
+      ▍**素のモデルは、キャラごとに顎の上げ方がばらばら**
+      Tripoの生成物なので、並べると「ほとんどが上を向いていて、
+      先輩だけ下を向いている」ように見える。GLBは書き換えず、
+      表示のたびに Head の骨をこの角度だけ回して揃える
+      （→ avatar/Avatar3D.tsx）。
+
+      **ここが唯一の出どころ。** 顔のサムネイルを焼く
+      `tools/make-faces.mjs` も、この行を読んで同じ角度を掛ける。
+      値を変えたら `node tools/make-faces.mjs` を流し直す。 */
+  headTilt?: number;
 }
 
 export interface AvatarDef {
@@ -120,6 +132,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/ottori.glb'),
       texture: require('@/assets/models/ottori-texture.jpg'),
       view: STANDING,
+      headTilt: -7,
     },
   },
   {
@@ -137,6 +150,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/nekketsu.glb'),
       texture: require('@/assets/models/nekketsu-texture.jpg'),
       view: STANDING,
+      headTilt: -6,
     },
   },
   {
@@ -156,6 +170,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/sensei.glb'),
       texture: require('@/assets/models/sensei-texture.jpg'),
       view: STANDING,
+      headTilt: 6,
     },
   },
   {
@@ -173,6 +188,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/otenba.glb'),
       texture: require('@/assets/models/otenba-texture.jpg'),
       view: STANDING,
+      headTilt: -6,
     },
   },
   {
@@ -190,6 +206,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/kanroku.glb'),
       texture: require('@/assets/models/kanroku-texture.jpg'),
       view: STANDING,
+      headTilt: -8,
     },
   },
   {
@@ -221,6 +238,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/neko.glb'),
       texture: require('@/assets/models/neko-texture.jpg'),
       view: STANDING,
+      headTilt: -5,
       /* ▍**画面で人の6割**に見える値。0.6 ではない
          Tripoは何を作っても同じくらいの背丈で出すが、この猫は頭が大きく、
          素のままだと人より3割高かった。0.6を掛けても画面では0.77倍にしか
@@ -261,6 +279,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/ottori-sr.glb'),
       texture: require('@/assets/models/ottori-sr-texture.jpg'),
       view: STANDING,
+      headTilt: -6,
     },
   },
   {
@@ -279,6 +298,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/nekketsu-sr.glb'),
       texture: require('@/assets/models/nekketsu-sr-texture.jpg'),
       view: STANDING,
+      headTilt: -6,
     },
   },
   {
@@ -297,6 +317,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/senpai-sr.glb'),
       texture: require('@/assets/models/senpai-sr-texture.jpg'),
       view: STANDING,
+      headTilt: -4,
     },
   },
   {
@@ -315,6 +336,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/otenba-sr.glb'),
       texture: require('@/assets/models/otenba-sr-texture.jpg'),
       view: STANDING,
+      headTilt: -6,
     },
   },
   {
@@ -333,6 +355,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/kanroku-sr.glb'),
       texture: require('@/assets/models/kanroku-sr-texture.jpg'),
       view: STANDING,
+      headTilt: -8,
     },
   },
   {
@@ -351,6 +374,7 @@ export const AVATARS: AvatarDef[] = [
       glb: require('@/assets/models/neko-sr.glb'),
       texture: require('@/assets/models/neko-sr-texture.jpg'),
       view: STANDING,
+      headTilt: -6,
       /* N と同じ倍率。王冠のぶんだけ画面では少し高くなるが、
          **同じ人が帽子をかぶっただけ**なので、そこは揃えない */
       scale: 0.62,

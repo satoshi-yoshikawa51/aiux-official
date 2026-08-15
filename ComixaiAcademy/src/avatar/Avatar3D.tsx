@@ -116,6 +116,30 @@ function stripTravel(clip: THREE.AnimationClip, root: THREE.Object3D) {
   }
 }
 
+/* ============================================================
+   ▍顔の向きをキャラごとに直す（→ data/avatars.ts の headTilt）
+
+   素のモデルは顎の上げ方がキャラごとにばらばらで、並べると
+   「ほとんどが上を向いていて、先輩だけ下を向いている」ように見える。
+
+   直しは**毎フレーム、描いてすぐ戻す**。載せっぱなしにできないのは、
+   Head を動かすトラックが入っていないモーションだと、
+   ミキサーが姿勢を書き戻してくれず**毎フレーム足されて首が回りきる**ため。
+   描く直前に足して、描いたら引く。これならトラックの有無によらない。
+
+   軸は「親から見たX」。three の rotateOnWorldAxis は親の回転を見ない
+   （＝実際には premultiply）が、この骨組みでは首の親の横軸が
+   世界の横軸とほぼ揃っているので、これで素直に顎が上下する。 */
+const TILT_AXIS = new THREE.Vector3(1, 0, 0);
+
+function findHead(root: THREE.Object3D): THREE.Object3D | null {
+  let head: THREE.Object3D | null = null;
+  root.traverse((o) => {
+    if (!head && (o as THREE.Bone).isBone && /^head$/i.test(o.name)) head = o;
+  });
+  return head;
+}
+
 /** アセットをArrayBufferとして読む（fetch(file://)に頼らない） */
 async function readArrayBuffer(mod: number): Promise<ArrayBuffer> {
   const asset = Asset.fromModule(mod);
@@ -284,6 +308,9 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         rootRef.current = gltf.scene;
         gltf.scene.rotation.y = yawRef.current;
 
+        const tilt = ((model.headTilt ?? 0) * Math.PI) / 180;
+        const head = tilt ? findHead(gltf.scene) : null;
+
         const mixer = new THREE.AnimationMixer(gltf.scene);
         mixerRef.current = mixer;
         for (const clip of gltf.animations) {
@@ -311,7 +338,10 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
             const d = yawRef.current - root.rotation.y;
             root.rotation.y += Math.abs(d) < 0.002 ? d : d * Math.min(1, dt * 7);
           }
+          /* 顎の向きの直しを、描く直前に足して描いたら引く（→ TILT_AXIS のメモ） */
+          if (head) head.rotateOnWorldAxis(TILT_AXIS, tilt);
           renderer.render(scene, camera);
+          if (head) head.rotateOnWorldAxis(TILT_AXIS, -tilt);
           gl.endFrameEXP();
         };
         loop();
