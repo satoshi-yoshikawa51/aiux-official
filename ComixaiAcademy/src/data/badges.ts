@@ -142,6 +142,7 @@ export const BADGES: Badge[] = [
   {
     id: 'all-clear',
     icon: 'crown',
+    art: require('@/assets/badges/all-clear.png'),
     name: '全課程修了',
     desc: 'すべてのレッスンを修了した',
     hint: '最後の1本まで、残さず',
@@ -197,6 +198,7 @@ export const BADGES: Badge[] = [
   {
     id: 'perfect-all',
     icon: 'crown',
+    art: require('@/assets/badges/perfect-all.png'),
     name: '無傷',
     desc: 'すべてのレッスンをノーミスで修了した',
     hint: '全課程を、1問も落とさずに',
