@@ -41,7 +41,14 @@ const root = doc.getRoot();
 const buffer = root.listBuffers()[0];
 const names = root.listSkins()[0].listJoints().map((j) => j.getName());
 const headIndex = names.indexOf('Head');
-const ARM = /^(L|R)_(Clavicle|Upperarm|UpperarmTwist\d*|Forearm|ForearmTwist\d*|Hand|Finger|Thumb)/;
+/* ▍腕だけでなく脚も「体側」に入れる
+   看板キャラ（猫）は、**あごの脇の頂点に太ももが82%乗っている**。
+   Tripoの自動スキニングは、頭が大きく手足が短いデフォルメ体型だと
+   こういう組み合わせを作る。腕だけを体側とみなしていたころは、この
+   三角形が「顔（固定）」と「どちらでもない」の組になって素通りし、
+   **手を下ろすと顔の脇にトゲが浮いていた**（idle-aで実寸0.05超えが39枚）。 */
+const BODY =
+  /^(L|R)_(Clavicle|Upperarm|UpperarmTwist\d*|Forearm|ForearmTwist\d*|Hand|Finger|Thumb|Thigh|ThighTwist\d*|Calf|CalfTwist\d*|Foot|ToeBase)/;
 
 let split = 0;
 let dupes = 0;
@@ -53,7 +60,7 @@ for (const mesh of root.listMeshes()) {
     if (!J || !W || !idx) continue;
     const count = J.getCount();
 
-    /* 頂点の持ち主。1=顔 2=腕 0=どちらでもない */
+    /* 頂点の持ち主。1=顔 2=体（腕・脚） 0=どちらでもない */
     const own = new Uint8Array(count);
     const armW = new Float32Array(count);
     for (let i = 0; i < count; i++) {
@@ -63,10 +70,15 @@ for (const mesh of root.listMeshes()) {
       let a = 0;
       for (let k = 0; k < 4; k++) {
         if (j[k] === headIndex) h += w[k];
-        if (ARM.test(names[j[k]] ?? '')) a += w[k];
+        if (BODY.test(names[j[k]] ?? '')) a += w[k];
       }
       armW[i] = a;
-      own[i] = h >= 0.5 ? 1 : a >= 0.5 ? 2 : 0;
+      /* ▍「どちらが多いか」で決める（半分ずつでは足りなかった）
+         h>=0.5 / a>=0.5 で切っていたころは、あご下の**どちらでもない帯**
+         （顔4割・肩4割のような頂点）が残り、そこがのこぎり状に裂けていた。
+         多いほうに寄せれば、境目のどこかで必ず1と2が隣り合うので、
+         またぐ三角形として拾える。 */
+      own[i] = h > a ? 1 : a > 0 ? 2 : 0;
     }
 
     /* またがった三角形を、片側に寄せる */
@@ -83,7 +95,7 @@ for (const mesh of root.listMeshes()) {
       split++;
       if (MODE === 'delete') continue; // 面ごと捨てる
       const side = o.filter((x) => x === 1).length >= o.filter((x) => x === 2).length ? 1 : 2;
-      /* 腕側に寄せるときは、いちばん腕らしい頂点のウェイトを借りる */
+      /* 体側に寄せるときは、いちばん体らしい頂点のウェイトを借りる */
       const armSrc = vi.reduce((best, v) => (armW[v] > armW[best] ? v : best), vi[0]);
       newIdx.push(
         ...vi.map((v) => {
@@ -173,5 +185,5 @@ for (const acc of root.listAccessors()) {
 }
 
 await io.write(OUT, doc);
-console.log(`顔と肩をまたぐ三角形を切り離し: ${split}枚（複製した頂点 ${dupes}個・穴は空けない）`);
+console.log(`顔と体をまたぐ三角形を切り離し: ${split}枚（複製した頂点 ${dupes}個・穴は空けない）`);
 console.log('->', OUT);
