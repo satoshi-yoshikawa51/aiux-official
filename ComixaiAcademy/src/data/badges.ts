@@ -215,6 +215,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-first',
     icon: 'egg',
+    art: require('@/assets/badges/extra-first.png'),
     name: 'おまけ開封',
     desc: '当てた景品のおまけを1本クリアした',
     hint: 'ガチャで当てたものには、続きがある',
@@ -222,6 +223,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-3',
     icon: 'sparkle',
+    art: require('@/assets/badges/extra-3.png'),
     name: 'おかわり',
     desc: 'おまけを3本クリアした',
     hint: '当てたぶんだけ、遊ぶところが増える',
@@ -229,6 +231,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-5',
     icon: 'sprout',
+    art: require('@/assets/badges/extra-5.png'),
     name: '精進',
     desc: 'おまけを5本クリアした',
     hint: '当てた景品の中身を、5本ぶん',
@@ -236,6 +239,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-sr',
     icon: 'twinkle',
+    art: require('@/assets/badges/extra-sr.png'),
     name: 'SRを開けた',
     desc: 'SRの景品のおまけをクリアした',
     hint: 'いちばん豪華な1枚には、専用の遊びがついている',
@@ -243,6 +247,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-all',
     icon: 'trophy',
+    art: require('@/assets/badges/extra-all.png'),
     name: '殿堂',
     desc: 'R以上のおまけを、すべてクリアした',
     hint: '14本すべて。称号には要らない、コレクターだけの1枚',
