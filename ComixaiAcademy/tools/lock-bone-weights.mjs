@@ -9,12 +9,20 @@
    ただの剛体になり、裂けようがない。顔を Head 100% で固めるのと同じ考え方
    （→ tools/fix-head-weights.mjs）。
 
+   ▍ふちはぼかす（--feather）
+   きっちり「0.4以上なら100%」で切ると、**切った線がそのまま次の裂け目に
+   なる**。実際、0.40で固めたら、隣の0.39の頂点との段差が広がって、
+   **ほおの下から旗のような突起**が出た（鎖骨1.0 と 鎖骨0.39+上腕0.43 が
+   となり合っていた）。lock の手前 feather ぶんは、固定へなめらかに
+   近づける。段差が無くなるので、新しい裂け目も出ない。
+
    ▍面は触らない
    ウェイトだけを書き換える。静止姿勢の見た目は変わらない。
 
    使い方:
-     node tools/lock-bone-weights.mjs in.glb out.glb --bone L_Clavicle,R_Clavicle [--lock 0.35] [--dry]
-   - --lock : この骨がこれ以上乗っていたら、その骨100%にする
+     node tools/lock-bone-weights.mjs in.glb out.glb --bone L_Clavicle,R_Clavicle [--lock 0.4] [--feather 0.25]
+   - --lock    : この骨がこれ以上乗っていたら、その骨100%にする
+   - --feather : lock の手前この幅ぶんを、なめらかな坂にする（0で段差のまま）
 
    確認は tools/stretch-report.mjs と、腕を下ろした姿の見た目。
 */
@@ -29,7 +37,8 @@ const opt = (n, d) => {
   return i >= 0 ? args[i + 1] : d;
 };
 const BONES = String(opt('bone', '')).split(',').filter(Boolean);
-const LOCK = Number(opt('lock', 0.35));
+const LOCK = Number(opt('lock', 0.4));
+const FEATHER = Number(opt('feather', 0.25));
 const DRY = args.includes('--dry');
 if (!IN || !BONES.length) {
   console.error('使い方: node tools/lock-bone-weights.mjs in.glb out.glb --bone L_Clavicle,R_Clavicle [--lock 0.35]');
@@ -49,6 +58,7 @@ const targets = BONES.map((b) => {
 });
 
 let locked = 0;
+let feathered = 0;
 for (const mesh of root.listMeshes()) {
   for (const prim of mesh.listPrimitives()) {
     const J = prim.getAttribute('JOINTS_0');
@@ -66,14 +76,27 @@ for (const mesh of root.listMeshes()) {
         if (!targets.includes(j[k])) continue;
         if (w[k] > bw) { bw = w[k]; best = j[k]; }
       }
-      if (best < 0 || bw < LOCK || bw >= 0.999) continue;
-      J.setElement(i, [best, 0, 0, 0]);
-      W.setElement(i, [1, 0, 0, 0]);
-      locked++;
+      const lo = LOCK - FEATHER;
+      if (best < 0 || bw <= lo || bw >= 0.999) continue;
+      /* lock 以上なら固定、手前は坂。t=1で100%、t=0で元のまま */
+      const u = FEATHER > 0 ? Math.min(1, (bw - lo) / FEATHER) : 1;
+      const t = u * u * (3 - 2 * u); // なめらかな坂（両端で傾きが0になる）
+      const want = bw + (1 - bw) * t;
+      if (want >= 0.999) {
+        J.setElement(i, [best, 0, 0, 0]);
+        W.setElement(i, [1, 0, 0, 0]);
+        locked++;
+        continue;
+      }
+      /* 増やしたぶんだけ、ほかの骨から等比で削る */
+      const shrink = (1 - want) / (1 - bw);
+      for (let k = 0; k < 4; k++) w[k] = j[k] === best ? want : w[k] * shrink;
+      W.setElement(i, w);
+      feathered++;
     }
   }
 }
-console.log(`${BONES.join('/')} 100%に固定: ${locked}頂点 (lock=${LOCK})`);
+console.log(`${BONES.join('/')} 100%に固定: ${locked}頂点 / ふちをぼかした: ${feathered}頂点 (lock=${LOCK} feather=${FEATHER})`);
 if (!DRY) {
   await io.write(OUT, doc);
   console.log('->', OUT);

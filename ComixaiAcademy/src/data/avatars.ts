@@ -30,8 +30,14 @@
       `node tools/lock-bone-weights.mjs <in>.glb <out>.glb --bone L_Clavicle,R_Clavicle --lock 0.4`
       硬い飾りに鎖骨と上腕が半々に塗られていると、**腕を下ろしたときに
       引き裂かれて、顔の横に金色の欠片が浮く**（王さまで実際に出た）。
-      顔の固定（fix-head-weights）→ ここ → cut-head-web の順で実行する。
-   6. この配列にエントリを足す。model が null のあいだは選択画面に
+      **--feather を0にしない。** きっちり切ると、その線が次の裂け目になる。
+   6. あごの下からギザギザが出るなら、頭のすそを細くする。
+      `node tools/tuck-head-skirt.mjs <in>.glb <out>.glb --amount 0.10 --depth 0.04`
+      裂けているのではなく、**顔が上着を突き抜けて見えている**（面の交差は
+      のこぎり状に見える）。服に隠れる帯を数%細くして逃がす。
+
+      順番は 顔の固定 → 肩章の固定 → すその細く → cut-head-web。
+   7. この配列にエントリを足す。model が null のあいだは選択画面に
       「準備中」として並ぶだけで、選べないので、GLBを置く前に
       エントリだけ先に書いても壊れない。
       initial: false にすると**ガチャの景品**になる（→ data/gacha.ts の GACHA_POOL）。
