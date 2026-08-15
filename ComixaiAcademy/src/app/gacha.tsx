@@ -23,12 +23,13 @@
    ============================================================ */
 import * as Haptics from 'expo-haptics';
 import React from 'react';
-import { Animated, Easing, Image, Platform, Pressable, Text, View } from 'react-native';
+import { Animated, Easing, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
 import { Capsule3D, CAPSULE_OPEN_MS } from '@/components/capsule-3d';
 import { Icon } from '@/components/icons';
-import { PopIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
+import { PrizeRays, PrizeTwinkles } from '@/components/prize-shine';
+import { PopIn, useSparkBurst, useTap } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Badge, Button, Panel, Row, Screen, Tap } from '@/components/ui';
 import {
@@ -88,13 +89,36 @@ const MACHINE = {
       そこに収まる直径にして、底が受け皿に載る高さへ中心を置いてある。
       **カプセルは絵の上に描くので、はみ出すと口の外に浮いて見える** */
   chuteAt: { x: 0.4664, y: 0.893, size: 0.28 },
+  /** 取り出し口の天井（絵の高さに対する割合）。ここより上にカプセルが
+      来ているあいだは、マシンの絵で隠して「中を通っている」ことにする */
+  chuteCeiling: 0.817,
 } as const;
 const MACHINE_W = 232;
 const MACHINE_H = Math.round(MACHINE_W * MACHINE.ratio);
 
-/* opening＝蓋が飛んでいる最中。ここを挟まないと、押した瞬間に
-   結果のカードが覆いかぶさって**開く演出が一度も見えない** */
-type Phase = 'idle' | 'spinning' | 'dropped' | 'opening' | 'revealed';
+/* ———— カプセルの寸法 ————
+   3Dは**いつも CAP_BOX で描いて、倍率だけ動かす**（→ 使っているところの
+   メモ）。口に収まっているときは CAP_REST まで縮め、押されたら等倍まで
+   開いて手前に出る。 */
+const CAP_BOX = 168;
+const CAP_REST = (MACHINE.chuteAt.size * MACHINE_W) / CAP_BOX;
+/** 手前に出たときの、口からの持ち上げ量 */
+const CAP_POP_UP = -MACHINE_H * 0.3;
+/** 手前に出るのにかける時間 */
+const POP_MS = 300;
+
+/* ———— カードが出てくるところ ————
+   カプセルは画面の中ほどより少し上（マシンの胴のあたり）で開くので、
+   カードはそこから降りてくる形にする。**きっちり測っていない**——
+   マシンの位置は上の案内バンドの有無で少し動くので、だいたいの値。
+   ここが大きくズレて見えたら、この数字だけ変えれば直る */
+const CARD_FROM_Y = -80;
+const CARD_OUT_MS = 460;
+
+/* popping＝押されて手前に出ている最中、opening＝蓋が飛んでいる最中。
+   この2つを挟まないと、押した瞬間に結果のカードが覆いかぶさって
+   **開く演出が一度も見えない** */
+type Phase = 'idle' | 'spinning' | 'dropped' | 'popping' | 'opening' | 'revealed';
 
 export default function GachaScreen() {
   const { state, spinGacha, setTheme, setLook } = useProgress();
@@ -104,10 +128,11 @@ export default function GachaScreen() {
   /* この画面で1回でもまわしたか（案内の文言が変わる → gacha-coach.tsx） */
   const [spunOnce, setSpunOnce] = React.useState(false);
 
-  /* ダイヤルの回転・マシンの揺れ・カプセルの落下 */
+  /* ダイヤルの回転・マシンの揺れ・カプセルの落下・手前に出る動き */
   const dial = React.useRef(new Animated.Value(0)).current;
   const shake = React.useRef(new Animated.Value(0)).current;
   const drop = React.useRef(new Animated.Value(0)).current;
+  const pop = React.useRef(new Animated.Value(0)).current;
 
   /* 引退したテーマの記録が残っていても数に入れない（→ data/gacha.ts） */
   const ownedThemes = THEMES.filter((t) => t.id !== DEFAULT_THEME_ID && state.themes[t.id]).length;
@@ -158,23 +183,39 @@ export default function GachaScreen() {
     });
   };
 
+  /* 押されたら、手前に出る → 蓋が飛ぶ → カードが出る、の順で見せる。
+     ひと息ずつ待たないと、開封が0フレームで隠れる */
   const open = (x: number, y: number) => {
     if (phase !== 'dropped' || !result) return;
-    /* 蓋が飛びきってから結果のカードを出す。ここを待たないと、
-       せっかくの開封が0フレームで隠れる */
-    setPhase('opening');
-    setTimeout(() => setPhase('revealed'), CAPSULE_OPEN_MS);
-    burst(x, y, result.prize.rarity === 'SR' ? 2.6 : 1.8);
-    playSound(result.prize.rarity === 'SR' ? 'badge' : 'clear');
-    if (result.prize.rarity === 'SR') setTimeout(() => playSound('star'), 300);
-    if (Platform.OS !== 'web') {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    }
+    setPhase('popping');
+    playSound('pick');
+    if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+
+    pop.setValue(0);
+    Animated.timing(pop, {
+      toValue: 1,
+      duration: POP_MS,
+      /* 行き過ぎて戻る。手前へ「ポン」と出る手ざわりはここで決まる */
+      easing: Easing.out(Easing.back(2.2)),
+      useNativeDriver: NATIVE,
+    }).start(({ finished }) => {
+      if (!finished) return;
+      setPhase('opening');
+      setTimeout(() => setPhase('revealed'), CAPSULE_OPEN_MS);
+      burst(x, y, result.prize.rarity === 'SR' ? 2.6 : 1.8);
+      playSound(result.prize.rarity === 'SR' ? 'badge' : 'clear');
+      if (result.prize.rarity === 'SR') setTimeout(() => playSound('star'), 300);
+      if (Platform.OS !== 'web') {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+      }
+    });
   };
 
   const closeResult = () => {
     setResult(null);
     setPhase('idle');
+    /* 次に落ちてくるカプセルは、また口の中で小さく待つ */
+    pop.setValue(0);
   };
 
   const dialDeg = dial.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
@@ -184,9 +225,10 @@ export default function GachaScreen() {
   });
   /* ドームの高さぶん落として、弾ませる */
   const dropY = drop.interpolate({ inputRange: [0, 1], outputRange: [-MACHINE_H * 0.42, 0] });
+  /* 押されたあと、手前に出る（持ち上がりながら等倍まで開く） */
+  const popY = pop.interpolate({ inputRange: [0, 1], outputRange: [0, CAP_POP_UP] });
+  const popScale = pop.interpolate({ inputRange: [0, 1], outputRange: [CAP_REST, 1] });
 
-  /* カプセルの寸法と、取り出し口に置く位置 */
-  const capSize = MACHINE.chuteAt.size * MACHINE_W;
   /* 一度でもまわしたら、カプセルは置いたままにする（→ capsule-3d.tsx の
      冒頭。出し入れするとWebGLのコンテキストが尽きる）。見え隠れは
      opacity で、当たり判定は phase で切る */
@@ -216,7 +258,14 @@ export default function GachaScreen() {
 
       {/* ———— マシン ————
            絵1枚の上に、回るダイヤルと落ちてくるカプセルを重ねる。
-           ドームの中のカプセルは絵に描かれているものをそのまま使う */}
+           ドームの中のカプセルは絵に描かれているものをそのまま使う。
+
+           ▍重ねる順番に意味がある
+           マシンの絵 → カプセル → **口より上を隠すマスク** → ダイヤル。
+           マスクが無いと、落ちてくるカプセルが**マシンの手前を滑り降りて
+           きて、宙から降ってきたように見える**。マスクはマシンの絵を
+           もう一度、口の天井までで切って重ねたもの。ダイヤルはその
+           マスクより上（絵の中ほど）にあるので、いちばん最後に描く */}
       <View style={{ alignItems: 'center' }}>
         <Animated.View
           style={{
@@ -229,6 +278,64 @@ export default function GachaScreen() {
             resizeMode="contain"
             style={{ width: MACHINE_W, height: MACHINE_H }}
           />
+
+          {/* 取り出し口に落ちてくるカプセル。押すと手前に出て開く */}
+          {capsuleLive ? (
+            <Animated.View
+              style={{
+                position: 'absolute',
+                left: MACHINE.chuteAt.x * MACHINE_W - CAP_BOX / 2,
+                top: MACHINE.chuteAt.y * MACHINE_H - CAP_BOX / 2,
+                opacity:
+                  phase === 'spinning'
+                    ? drop.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] })
+                    : phase === 'idle'
+                      ? 0
+                      : 1,
+                /* translate → scale の順に書く。**逆にすると移動量まで
+                   拡大される**（手前に出た瞬間に画面外へ飛ぶ） */
+                transform: [
+                  { translateY: phase === 'spinning' ? dropY : popY },
+                  { scale: phase === 'spinning' ? CAP_REST : popScale },
+                ],
+              }}>
+              <Pressable
+                disabled={phase !== 'dropped'}
+                accessibilityRole="button"
+                accessibilityLabel="カプセルを開ける"
+                onPress={(e) => open(e.nativeEvent.pageX, e.nativeEvent.pageY)}>
+                {/* ▍いつも大きく描いて、小さいときは縮めて見せる
+                    逆（小さく描いて拡大）だと、手前に出た瞬間に**canvasを
+                    引き伸ばした眠い絵**になる。size を変えるとGLを作り直す
+                    ことになるので、寸法は固定して倍率だけ動かす */}
+                <Capsule3D
+                  rarity={result?.prize.rarity ?? 'N'}
+                  size={CAP_BOX}
+                  open={phase === 'opening' || phase === 'revealed'}
+                />
+              </Pressable>
+            </Animated.View>
+          ) : null}
+
+          {/* 口より上を隠すマスク（落ちてくるあいだだけ） */}
+          {phase === 'spinning' ? (
+            <View
+              pointerEvents="none"
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                width: MACHINE_W,
+                height: MACHINE.chuteCeiling * MACHINE_H,
+                overflow: 'hidden',
+              }}>
+              <Image
+                source={MACHINE.src}
+                resizeMode="contain"
+                style={{ width: MACHINE_W, height: MACHINE_H }}
+              />
+            </View>
+          ) : null}
 
           {/* 回るダイヤル */}
           <Animated.Image
@@ -243,35 +350,6 @@ export default function GachaScreen() {
               transform: [{ rotate: dialDeg }],
             }}
           />
-
-          {/* 取り出し口に落ちてくるカプセル。押すと開く */}
-          {capsuleLive ? (
-            <Animated.View
-              style={{
-                position: 'absolute',
-                left: MACHINE.chuteAt.x * MACHINE_W - capSize / 2,
-                top: MACHINE.chuteAt.y * MACHINE_H - capSize / 2,
-                opacity:
-                  phase === 'spinning'
-                    ? drop.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] })
-                    : phase === 'idle'
-                      ? 0
-                      : 1,
-                transform: [{ translateY: phase === 'spinning' ? dropY : 0 }],
-              }}>
-              <Pressable
-                disabled={phase !== 'dropped'}
-                accessibilityRole="button"
-                accessibilityLabel="カプセルを開ける"
-                onPress={(e) => open(e.nativeEvent.pageX, e.nativeEvent.pageY)}>
-                <Capsule3D
-                  rarity={result?.prize.rarity ?? 'N'}
-                  size={capSize}
-                  open={phase === 'opening' || phase === 'revealed'}
-                />
-              </Pressable>
-            </Animated.View>
-          ) : null}
         </Animated.View>
 
 
@@ -394,13 +472,30 @@ export default function GachaScreen() {
             right: 0,
             top: 0,
             bottom: 0,
-            backgroundColor: 'rgba(20,17,15,0.82)',
             alignItems: 'center',
             justifyContent: 'center',
             padding: S.xl,
             zIndex: 20,
           }}>
-          <Stamp tilt={-3}>
+          {/* ▍暗幕はゆっくり降ろす
+              いきなり真っ暗にすると、蓋が飛んだ瞬間が塗りつぶされる。
+              カードが育つのと同じ速さで暗くしていく */}
+          <Scrim />
+
+          {/* ▍光り物はカードと同じ枠に入れる
+              暗幕いっぱいに広げると、星がカードのまわりではなく
+              **画面の四隅**で光る。カードの大きさに合わせた入れ物を
+              作って、その中で位置を決める */}
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          {/* SRだけ、カードの中心から光が伸びる。**カードの後ろ**に敷く */}
+          {result.prize.rarity === 'SR' ? <PrizeRays /> : null}
+
+          {/* ▍カプセルから出てくるように見せる
+              蓋が飛んだところにカードが生えてくる。カプセルは画面の
+              中ほどより少し上（マシンの胴のあたり）にいるので、そのぶん
+              上から降りてくる形にしてある。Stampの「上から落ちて押す」
+              とは別で、こちらは**小さく生まれて開く**動き */}
+          <CardOut from={CARD_FROM_Y}>
             <Panel contentStyle={{ alignItems: 'center', gap: S.sm, padding: S.xl }}>
               {/* 札の色も、落ちてきたカプセルと同じ割り当てにする
                   （青＝N ／ 赤＝R ／ 金＝SR） */}
@@ -484,10 +579,69 @@ export default function GachaScreen() {
                 TAP TO CLOSE
               </Text>
             </Panel>
-          </Stamp>
+          </CardOut>
+
+          {/* キラキラはカードの上。R より SR のほうが数も大きさも増える */}
+          <PrizeTwinkles rarity={result.prize.rarity} />
+          </View>
         </Pressable>
       ) : null}
     </View>
+  );
+}
+
+/* 暗幕。カードが育つのと同じ速さで降ろす（→ 使っているところのメモ） */
+function Scrim() {
+  const t = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    const a = Animated.timing(t, {
+      toValue: 1,
+      duration: CARD_OUT_MS,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: NATIVE,
+    });
+    a.start();
+    return () => a.stop();
+  }, [t]);
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        StyleSheet.absoluteFill,
+        { backgroundColor: 'rgba(20,17,15,0.82)', opacity: t },
+      ]}
+    />
+  );
+}
+
+/* カプセルから出てくるカード。**小さく生まれて、持ち上がりながら開く**。
+   Stamp（上から落ちて判子を押す）とは動きの意味が違うので別にしてある。
+   傾きはStampに合わせて -3度 */
+function CardOut({ from, children }: { from: number; children: React.ReactNode }) {
+  const t = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    const a = Animated.timing(t, {
+      toValue: 1,
+      duration: CARD_OUT_MS,
+      easing: Easing.out(Easing.back(1.5)),
+      useNativeDriver: NATIVE,
+    });
+    a.start();
+    return () => a.stop();
+  }, [t]);
+  return (
+    <Animated.View
+      style={{
+        opacity: t.interpolate({ inputRange: [0, 0.18, 1], outputRange: [0, 1, 1] }),
+        /* translate → scale の順。逆にすると移動量まで拡大される */
+        transform: [
+          { translateY: t.interpolate({ inputRange: [0, 1], outputRange: [from, 0] }) },
+          { scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.12, 1] }) },
+          { rotate: '-3deg' },
+        ],
+      }}>
+      {children}
+    </Animated.View>
   );
 }
 
