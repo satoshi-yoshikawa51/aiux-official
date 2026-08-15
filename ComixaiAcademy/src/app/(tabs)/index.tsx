@@ -26,7 +26,7 @@ import { COURSES } from '@/data/courses';
 import { DEFAULT_HORIZON, getTheme } from '@/data/gacha';
 import { getRole } from '@/data/roles';
 import { CLASSROOM } from '@/data/stage';
-import { smallTalkFor } from '@/data/voice';
+import { HOME_VOICE, say, smallTalkFor } from '@/data/voice';
 import { playSound } from '@/lib/sound';
 import { useProgress, useReview, useStats, useToday } from '@/store/progress';
 import { stepSay, useTutorial } from '@/store/tutorial';
@@ -211,6 +211,15 @@ export default function HomeScreen() {
 
   const [talk, setTalk] = React.useState<string | null>(null);
 
+  /* ▍相棒を替えたら、前の相棒の小話は捨てる
+     つついて出た小話は、次につつくまで残る作りにしてある（読む時間が
+     要るので）。**そこへ相棒を替えて戻ってくると、新しい相棒の顔で
+     前の相棒のセリフが出たままになる**（実機で指摘）。
+     ホームのタブは出しっぱなしなので、画面を作り直しても消えない。 */
+  React.useEffect(() => {
+    setTalk(null);
+  }, [state.avatarId, state.skinId]);
+
   /* ▍ガチャの案内（1本目を終えた人に1回だけ）
      最初の案内には入れない——**まわすPも、飾る場所を見た経験も無い**
      うちに見せても意味が通らない（→ components/gacha-coach.tsx）。
@@ -234,10 +243,10 @@ export default function HomeScreen() {
     /* ▍終わっても「終わり」と言わない
        ここで話を締めるとアプリを消される（実機フィードバック）。
        次があることだけ、ひと言そえておく */
-    if (!next) return 'ぜんぶ終わったね。……よくやった。次の章はいま用意してる。それまでは現場で使って。';
-    if (stats.doneCount === 0) return `${role?.name ?? ''}ね。なら、話が早い。まず1本やってみて。`;
-    if (stats.streak >= 3) return `${stats.streak}日続いてるね。……その調子よ。`;
-    return `次は「${next.lesson.title}」よ。`;
+    if (!next) return say(HOME_VOICE.allDone, state.avatarId);
+    if (stats.doneCount === 0) return say(HOME_VOICE.start(role?.name ?? ''), state.avatarId);
+    if (stats.streak >= 3) return say(HOME_VOICE.streak(stats.streak), state.avatarId);
+    return say(HOME_VOICE.next(next.lesson.title), state.avatarId);
   }, [
     guiding,
     tutorial.step,
