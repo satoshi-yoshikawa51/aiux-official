@@ -425,9 +425,13 @@ export const RARITY_WEIGHT: Record<Rarity, number> = { N: 60, R: 30, SR: 10 };
    いまは「レア度を引く → **そのレア度の中は全部等確率**」だけ。
    景品を足しても、そのレア度の中で均等に薄まるだけになる。 */
 
+/** レア度の色。**カプセルの色と同じ割り当てにしてある**
+    （→ components/capsule-3d.tsx）。青いカプセルが落ちてきたのに
+    一覧のNの字が灰色だと、色が何を指しているのか結びつかない。
+    Nを灰色にしていたのは、カプセルが無かった頃の名残り */
 export const RARITY_COLOR: Record<Rarity, string> = {
-  N: '#8a8078',
-  R: '#1a6cff',
+  N: '#1a6cff',
+  R: '#e60012',
   SR: '#f5b301',
 };
 

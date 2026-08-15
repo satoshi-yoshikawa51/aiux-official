@@ -1,15 +1,20 @@
 /* ============================================================
    ガチャ。ガチャPを3枚入れてダイヤルを回すと、カプセルが落ちてくる。
 
-   ▍マシンは絵で描く（画像を使わない）
-   マンガのインク＋紙のデザインシステムそのままに、太い黒枠と
-   ベタ影のViewで組む。ドームの中にはカプセルが詰まっていて、
-   回すたびに1つ減って落ちてくる……ように見せる。
+   ▍マシンは絵、動くところだけ重ねる
+   もとは黒枠＋ベタ影のViewで描き起こしていたが、写真のような
+   マシンの絵に差し替えた。**動くのはダイヤルとカプセルだけ**なので、
+   その2つだけを絵の上に重ねる（位置の持ち方は下の MACHINE を見て）。
+   ドームに詰まったカプセルは、絵に描かれているものをそのまま使う。
 
    ▍段取り
    ダイヤルが回る（カリカリ音）→ マシンが揺れる → カプセルが
-   出口から落ちて弾む → タップで開ける → 景品がスタンプで出る。
+   出口から落ちて弾む → タップで蓋が飛ぶ → 景品がスタンプで出る。
    開けるまでを1タップ挟むのは、「何が出た？」の間を作るため。
+
+   ▍カプセルの色でレア度を先に知らせる
+   青＝N ／ 赤＝R ／ 金＝SR。落ちてきた瞬間にもう分かるので、
+   タップする前がいちばん盛り上がる（→ components/capsule-3d.tsx）。
 
    ▍景品は舞台テーマと、アバター（→ data/gacha.ts）
    アバターには「キャラ本体」（別モデル。おてんば・かんろく・先輩）と
@@ -17,15 +22,15 @@
    どちらも**1体増える**体験なので同じ景品として扱う。
    ============================================================ */
 import * as Haptics from 'expo-haptics';
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { Animated, Easing, Image, Platform, Pressable, Text, View } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
+import { Capsule3D, CAPSULE_OPEN_MS } from '@/components/capsule-3d';
 import { Icon } from '@/components/icons';
-import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
+import { PopIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
-import { Badge, Button, Panel, Pop, Row, Screen, Tap } from '@/components/ui';
+import { Badge, Button, Panel, Row, Screen, Tap } from '@/components/ui';
 import {
   AVATARS,
   DEFAULT_SKIN_ID,
@@ -41,7 +46,6 @@ import { ShareRow } from '@/components/share-row';
 import {
   DEFAULT_THEME_ID,
   DUPE_REFUND,
-  GACHA_POOL,
   getTheme,
   odds,
   RARITY_COLOR,
@@ -52,14 +56,45 @@ import {
 } from '@/data/gacha';
 import { playSound } from '@/lib/sound';
 import { useProgress, type SpinResult } from '@/store/progress';
-import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
+import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 const NATIVE = Platform.OS !== 'web';
 
-/* ドームの中に見えるカプセルの色。回すたびに減って見える */
-const CAPSULE_COLORS = ['#e60012', '#1a6cff', '#f5b301', '#1fa463', '#f08c00', '#8a5cf6'];
+/* ———— マシンの絵と、その上に重ねる部品の位置 ————
 
-type Phase = 'idle' | 'spinning' | 'dropped' | 'revealed';
+   ▍位置は「絵に対する割合」で持つ
+   マシンは1枚の絵なので、ダイヤルも取り出し口も**絵の中の座標**でしか
+   分からない。ピクセルで書くと表示幅を変えた瞬間にズレるので、割合で
+   持って表示寸法に掛ける。数字は絵から測って出した
+   （tools は使い捨て。ダイヤル＝銀色のいちばん大きなかたまり、
+   取り出し口＝下部の暗い赤のかたまり、をつながりで拾った）。
+
+   ▍ダイヤルだけ別の絵にして重ねる
+   絵に焼かれたダイヤルは回らない。銀の円板だけを**丸く切り出した**
+   gacha-dial.png を、同じ位置・同じ大きさで重ねて回す。円は回しても
+   輪郭が変わらないので、下の絵とズレない（溝と光沢だけが回る）。 */
+const MACHINE = {
+  src: require('@/assets/images/gacha-machine.png'),
+  dial: require('@/assets/images/gacha-dial.png'),
+  /** 絵の縦横比（966 / 640） */
+  ratio: 966 / 640,
+  /** ダイヤル：中心の位置と、直径（どちらも幅に対する割合） */
+  dialAt: { x: 0.4852, y: 0.7164, size: 0.2437 },
+  /** 取り出し口：カプセルの中心を置く位置と、描く枠の一辺。
+
+      枠の中で球が占めるのは約67%（カメラの画角で決まる）なので、
+      **見た目の直径は size × 0.67**。絵の中央を縦に読むと、口の天井が
+      0.817・受け皿の面が0.955なので、内側の高さは0.138（＝48pt）。
+      そこに収まる直径にして、底が受け皿に載る高さへ中心を置いてある。
+      **カプセルは絵の上に描くので、はみ出すと口の外に浮いて見える** */
+  chuteAt: { x: 0.4664, y: 0.893, size: 0.28 },
+} as const;
+const MACHINE_W = 232;
+const MACHINE_H = Math.round(MACHINE_W * MACHINE.ratio);
+
+/* opening＝蓋が飛んでいる最中。ここを挟まないと、押した瞬間に
+   結果のカードが覆いかぶさって**開く演出が一度も見えない** */
+type Phase = 'idle' | 'spinning' | 'dropped' | 'opening' | 'revealed';
 
 export default function GachaScreen() {
   const { state, spinGacha, setTheme, setLook } = useProgress();
@@ -125,7 +160,10 @@ export default function GachaScreen() {
 
   const open = (x: number, y: number) => {
     if (phase !== 'dropped' || !result) return;
-    setPhase('revealed');
+    /* 蓋が飛びきってから結果のカードを出す。ここを待たないと、
+       せっかくの開封が0フレームで隠れる */
+    setPhase('opening');
+    setTimeout(() => setPhase('revealed'), CAPSULE_OPEN_MS);
     burst(x, y, result.prize.rarity === 'SR' ? 2.6 : 1.8);
     playSound(result.prize.rarity === 'SR' ? 'badge' : 'clear');
     if (result.prize.rarity === 'SR') setTimeout(() => playSound('star'), 300);
@@ -144,11 +182,15 @@ export default function GachaScreen() {
     inputRange: [0, 0.25, 0.5, 0.75, 1],
     outputRange: [0, 5, -4, 3, 0],
   });
-  /* 出口の高さぶん落として、弾ませる */
-  const dropY = drop.interpolate({ inputRange: [0, 1], outputRange: [-46, 0] });
+  /* ドームの高さぶん落として、弾ませる */
+  const dropY = drop.interpolate({ inputRange: [0, 1], outputRange: [-MACHINE_H * 0.42, 0] });
 
-  /* 落ちてきたカプセルの色は、引いた景品のレア度で */
-  const capsuleColor = result ? RARITY_COLOR[result.prize.rarity] : C.red500;
+  /* カプセルの寸法と、取り出し口に置く位置 */
+  const capSize = MACHINE.chuteAt.size * MACHINE_W;
+  /* 一度でもまわしたら、カプセルは置いたままにする（→ capsule-3d.tsx の
+     冒頭。出し入れするとWebGLのコンテキストが尽きる）。見え隠れは
+     opacity で、当たり判定は phase で切る */
+  const capsuleLive = phase !== 'idle' || spunOnce;
 
   return (
     /* 開封カードはスクロールの外に重ねる。Screenの中に置くと、
@@ -172,165 +214,66 @@ export default function GachaScreen() {
       {/* 1本目を終えた人への案内。まわす前と後で言うことが変わる */}
       <GachaCoachBand spun={spunOnce} />
 
-      {/* ———— マシン ———— */}
+      {/* ———— マシン ————
+           絵1枚の上に、回るダイヤルと落ちてくるカプセルを重ねる。
+           ドームの中のカプセルは絵に描かれているものをそのまま使う */}
       <View style={{ alignItems: 'center' }}>
-        <Animated.View style={{ transform: [{ translateX: shakeX }], alignItems: 'center' }}>
-          {/* ドーム */}
-          <Pop radius={R.full} reserve={false}>
-            <View
-              style={{
-                width: 190,
-                height: 190,
-                borderRadius: 95,
-                backgroundColor: '#eef4ff',
-                borderWidth: BW.heavy,
-                borderColor: C.ink900,
-                overflow: 'hidden',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-              }}>
-              {/* 中のカプセル。残りPが多いほど詰まって見える…わけではなく飾り */}
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                  justifyContent: 'center',
-                  paddingBottom: 12,
-                  paddingHorizontal: 16,
-                  gap: 4,
-                }}>
-                {CAPSULE_COLORS.concat(CAPSULE_COLORS.slice(0, 3)).map((c, i) => (
-                  <View
-                    key={i}
-                    style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: 17,
-                      backgroundColor: c,
-                      borderWidth: BW.line,
-                      borderColor: C.ink900,
-                      /* 上半分に光を入れてカプセルらしく */
-                      overflow: 'hidden',
-                    }}>
-                    <View
-                      style={{
-                        height: 15,
-                        backgroundColor: 'rgba(255,255,255,0.55)',
-                        borderTopLeftRadius: 17,
-                        borderTopRightRadius: 17,
-                      }}
-                    />
-                  </View>
-                ))}
-              </View>
-              {/* ガラスの反射 */}
-              <View
-                pointerEvents="none"
-                style={{
-                  position: 'absolute',
-                  top: 14,
-                  left: 22,
-                  width: 44,
-                  height: 20,
-                  borderRadius: 12,
-                  backgroundColor: 'rgba(255,255,255,0.65)',
-                  transform: [{ rotate: '-24deg' }],
-                }}
-              />
-            </View>
-          </Pop>
+        <Animated.View
+          style={{
+            transform: [{ translateX: shakeX }],
+            width: MACHINE_W,
+            height: MACHINE_H,
+          }}>
+          <Image
+            source={MACHINE.src}
+            resizeMode="contain"
+            style={{ width: MACHINE_W, height: MACHINE_H }}
+          />
 
-          {/* 胴体 */}
-          <Pop radius={R.md} reserve={false} style={{ marginTop: -10 }}>
-            <View
+          {/* 回るダイヤル */}
+          <Animated.Image
+            source={MACHINE.dial}
+            resizeMode="contain"
+            style={{
+              position: 'absolute',
+              width: MACHINE.dialAt.size * MACHINE_W,
+              height: MACHINE.dialAt.size * MACHINE_W,
+              left: (MACHINE.dialAt.x - MACHINE.dialAt.size / 2) * MACHINE_W,
+              top: MACHINE.dialAt.y * MACHINE_H - (MACHINE.dialAt.size * MACHINE_W) / 2,
+              transform: [{ rotate: dialDeg }],
+            }}
+          />
+
+          {/* 取り出し口に落ちてくるカプセル。押すと開く */}
+          {capsuleLive ? (
+            <Animated.View
               style={{
-                width: 210,
-                borderRadius: R.md,
-                backgroundColor: C.red500,
-                borderWidth: BW.heavy,
-                borderColor: C.ink900,
-                alignItems: 'center',
-                paddingVertical: S.md,
-                gap: S.sm,
+                position: 'absolute',
+                left: MACHINE.chuteAt.x * MACHINE_W - capSize / 2,
+                top: MACHINE.chuteAt.y * MACHINE_H - capSize / 2,
+                opacity:
+                  phase === 'spinning'
+                    ? drop.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] })
+                    : phase === 'idle'
+                      ? 0
+                      : 1,
+                transform: [{ translateY: phase === 'spinning' ? dropY : 0 }],
               }}>
-              {/* ダイヤル。回すところ */}
-              <Animated.View style={{ transform: [{ rotate: dialDeg }] }}>
-                <View
-                  style={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: 32,
-                    backgroundColor: C.paper0,
-                    borderWidth: BW.bold,
-                    borderColor: C.ink900,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <View
-                    style={{
-                      width: 44,
-                      height: 12,
-                      borderRadius: 4,
-                      backgroundColor: C.ink900,
-                    }}
-                  />
-                </View>
-              </Animated.View>
-              <Text style={{ fontFamily: FONT.mono, fontSize: 9.5, letterSpacing: 2, color: C.paper50 }}>
-                {SPIN_COST}P / 1回
-              </Text>
-              {/* 出口 */}
-              <View
-                style={{
-                  width: 76,
-                  height: 54,
-                  borderTopLeftRadius: R.sm,
-                  borderTopRightRadius: R.sm,
-                  backgroundColor: C.ink900,
-                  marginBottom: -S.md,
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  overflow: 'visible',
-                }}>
-                {/* 落ちてくるカプセル。押すと開く */}
-                {phase === 'dropped' || phase === 'spinning' ? (
-                  <Animated.View
-                    style={{
-                      opacity: drop.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] }),
-                      transform: [{ translateY: dropY }],
-                    }}>
-                    <Pressable
-                      disabled={phase !== 'dropped'}
-                      accessibilityRole="button"
-                      accessibilityLabel="カプセルを開ける"
-                      onPress={(e) => open(e.nativeEvent.pageX, e.nativeEvent.pageY)}>
-                      <View
-                        style={{
-                          width: 46,
-                          height: 46,
-                          borderRadius: 23,
-                          backgroundColor: capsuleColor,
-                          borderWidth: BW.bold,
-                          borderColor: C.ink900,
-                          overflow: 'hidden',
-                          marginBottom: 3,
-                        }}>
-                        <View
-                          style={{
-                            height: 20,
-                            backgroundColor: 'rgba(255,255,255,0.6)',
-                            borderTopLeftRadius: 23,
-                            borderTopRightRadius: 23,
-                          }}
-                        />
-                      </View>
-                    </Pressable>
-                  </Animated.View>
-                ) : null}
-              </View>
-            </View>
-          </Pop>
+              <Pressable
+                disabled={phase !== 'dropped'}
+                accessibilityRole="button"
+                accessibilityLabel="カプセルを開ける"
+                onPress={(e) => open(e.nativeEvent.pageX, e.nativeEvent.pageY)}>
+                <Capsule3D
+                  rarity={result?.prize.rarity ?? 'N'}
+                  size={capSize}
+                  open={phase === 'opening' || phase === 'revealed'}
+                />
+              </Pressable>
+            </Animated.View>
+          ) : null}
         </Animated.View>
+
 
         {/* 状況の一言。マシンの下に固定の高さで */}
         <View style={{ height: 30, justifyContent: 'center', marginTop: S.md }}>
@@ -459,7 +402,9 @@ export default function GachaScreen() {
           }}>
           <Stamp tilt={-3}>
             <Panel contentStyle={{ alignItems: 'center', gap: S.sm, padding: S.xl }}>
-              <Badge tone={result.prize.rarity === 'SR' ? 'yellow' : result.prize.rarity === 'R' ? 'blue' : 'ink'}>
+              {/* 札の色も、落ちてきたカプセルと同じ割り当てにする
+                  （青＝N ／ 赤＝R ／ 金＝SR） */}
+              <Badge tone={result.prize.rarity === 'SR' ? 'yellow' : result.prize.rarity === 'R' ? 'red' : 'blue'}>
                 {result.prize.rarity}
               </Badge>
               {result.prize.kind === 'theme' ? (
