@@ -26,6 +26,7 @@ import React from 'react';
 import { Animated, Easing, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
+import { AvatarFace } from '@/components/avatar-face';
 import { Capsule3D, CAPSULE_FILL, CAPSULE_OPEN_MS } from '@/components/capsule-3d';
 import { Icon } from '@/components/icons';
 import { PrizeRays, PrizeTwinkles } from '@/components/prize-shine';
@@ -431,7 +432,8 @@ export default function GachaScreen() {
               <AvatarCard
                 name={has ? avatarLabel(a) : '？？？'}
                 rarity={a.initial ? null : a.rarity}
-                swatch={has ? '#274a5e' : a.accent}
+                swatch={a.accent}
+                face={has ? a.face : undefined}
                 owned={has}
                 active={state.avatarId === a.id && state.skinId === DEFAULT_SKIN_ID}
                 onPress={() => has && setLook(a.id, DEFAULT_SKIN_ID)}
@@ -444,6 +446,7 @@ export default function GachaScreen() {
                     name={sk.name}
                     rarity={sk.rarity}
                     swatch={sk.swatch}
+                    face={owned ? sk.face : undefined}
                     owned={owned}
                     active={state.avatarId === a.id && state.skinId === sk.id}
                     onPress={() => owned && setLook(a.id, sk.id)}
@@ -459,6 +462,7 @@ export default function GachaScreen() {
               name={a.name}
               rarity={null}
               swatch={a.accent}
+              face={a.face}
               owned={false}
               preparing
               active={false}
@@ -924,6 +928,7 @@ function AvatarCard({
   name,
   rarity,
   swatch,
+  face,
   owned,
   active,
   preparing = false,
@@ -933,6 +938,8 @@ function AvatarCard({
   /** null ＝ ノーマル（レア度なし） */
   rarity: Rarity | null;
   swatch: string;
+  /** 顔のサムネイル。無ければ swatch の丸に落ちる */
+  face?: number;
   owned: boolean;
   active: boolean;
   preparing?: boolean;
@@ -957,27 +964,9 @@ function AvatarCard({
         }}>
         <View style={{ height: 62, alignItems: 'center', justifyContent: 'center' }}>
           {owned || preparing ? (
-            /* 髪（またはキャラの色）を丸で。上半分に光を入れてカプセルの流儀に揃える */
-            <View
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: 19,
-                backgroundColor: swatch,
-                borderWidth: BW.line,
-                borderColor: C.ink900,
-                overflow: 'hidden',
-                opacity: preparing ? 0.45 : 1,
-              }}>
-              <View
-                style={{
-                  height: 16,
-                  backgroundColor: 'rgba(255,255,255,0.4)',
-                  borderTopLeftRadius: 19,
-                  borderTopRightRadius: 19,
-                }}
-              />
-            </View>
+            /* 顔を出す。焼けていない相棒だけ、これまでどおり色の丸
+               （→ components/avatar-face.tsx） */
+            <AvatarFace face={face} swatch={swatch} size={44} dim={preparing} />
           ) : (
             <Icon name="lock" size={20} color={T.disabled} opacity={0.6} />
           )}

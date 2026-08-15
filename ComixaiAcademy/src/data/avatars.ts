@@ -79,6 +79,14 @@ export interface AvatarDef {
   variant?: string;
   /** null = まだGLBが無い（「準備中」表示） */
   model: AvatarModel | null;
+  /** 顔のサムネイル（`tools/make-faces.mjs` が焼いた assets/faces/<id>.png）。
+
+      ▍一覧で3Dを出さないための静止画
+      相棒を選ぶ画面には13体ぶんが並ぶ。Avatar3D を13個置くと
+      WebGLのコンテキストが足りない（→ components/capsule-3d.tsx）。
+      顔が分かればいい場所なので、焼いた絵で足りる。
+      未記入なら icon と accent の丸に落ちる（画面は壊れない）。 */
+  face?: number;
 }
 
 /* 全身がだいたい収まる標準の画角。Web版(sensei.tsx)と同じ値。
@@ -107,6 +115,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#d4589a',
     initial: true,
     rarity: 'N',
+    face: require('@/assets/faces/ottori.png'),
     model: {
       glb: require('@/assets/models/ottori.glb'),
       texture: require('@/assets/models/ottori-texture.jpg'),
@@ -123,6 +132,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#1a6cff',
     initial: true,
     rarity: 'N',
+    face: require('@/assets/faces/nekketsu.png'),
     model: {
       glb: require('@/assets/models/nekketsu.glb'),
       texture: require('@/assets/models/nekketsu-texture.jpg'),
@@ -141,6 +151,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#e60012',
     initial: false,
     rarity: 'N',
+    face: require('@/assets/faces/senpai.png'),
     model: {
       glb: require('@/assets/models/sensei.glb'),
       texture: require('@/assets/models/sensei-texture.jpg'),
@@ -157,6 +168,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#f08c00',
     initial: false,
     rarity: 'N',
+    face: require('@/assets/faces/otenba.png'),
     model: {
       glb: require('@/assets/models/otenba.glb'),
       texture: require('@/assets/models/otenba-texture.jpg'),
@@ -173,6 +185,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#6e635b',
     initial: false,
     rarity: 'N',
+    face: require('@/assets/faces/kanroku.png'),
     model: {
       glb: require('@/assets/models/kanroku.glb'),
       texture: require('@/assets/models/kanroku-texture.jpg'),
@@ -203,6 +216,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#e8a33d',
     initial: false,
     rarity: 'N',
+    face: require('@/assets/faces/neko.png'),
     model: {
       glb: require('@/assets/models/neko.glb'),
       texture: require('@/assets/models/neko-texture.jpg'),
@@ -242,6 +256,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#d4589a',
     initial: false,
     rarity: 'SR',
+    face: require('@/assets/faces/ottori-sr.png'),
     model: {
       glb: require('@/assets/models/ottori-sr.glb'),
       texture: require('@/assets/models/ottori-sr-texture.jpg'),
@@ -259,6 +274,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#1a6cff',
     initial: false,
     rarity: 'SR',
+    face: require('@/assets/faces/nekketsu-sr.png'),
     model: {
       glb: require('@/assets/models/nekketsu-sr.glb'),
       texture: require('@/assets/models/nekketsu-sr-texture.jpg'),
@@ -276,6 +292,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#e60012',
     initial: false,
     rarity: 'SR',
+    face: require('@/assets/faces/senpai-sr.png'),
     model: {
       glb: require('@/assets/models/senpai-sr.glb'),
       texture: require('@/assets/models/senpai-sr-texture.jpg'),
@@ -293,6 +310,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#f08c00',
     initial: false,
     rarity: 'SR',
+    face: require('@/assets/faces/otenba-sr.png'),
     model: {
       glb: require('@/assets/models/otenba-sr.glb'),
       texture: require('@/assets/models/otenba-sr-texture.jpg'),
@@ -310,6 +328,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#6e635b',
     initial: false,
     rarity: 'SR',
+    face: require('@/assets/faces/kanroku-sr.png'),
     model: {
       glb: require('@/assets/models/kanroku-sr.glb'),
       texture: require('@/assets/models/kanroku-sr-texture.jpg'),
@@ -327,6 +346,7 @@ export const AVATARS: AvatarDef[] = [
     accent: '#e8a33d',
     initial: false,
     rarity: 'SR',
+    face: require('@/assets/faces/neko-sr.png'),
     model: {
       glb: require('@/assets/models/neko-sr.glb'),
       texture: require('@/assets/models/neko-sr-texture.jpg'),
@@ -411,9 +431,11 @@ export interface AvatarSkin {
   rarity: Rarity;
   /** 引いたときに出す一言 */
   desc: string;
-  /** 選択UIで見せる髪の色 */
+  /** 選択UIで見せる髪の色。**顔のサムネイル（face）が無いときの代役** */
   swatch: string;
   texture: number;
+  /** 顔のサムネイル（→ AvatarDef.face） */
+  face?: number;
 }
 
 /* ▍レア度は「同じキャラで3段」に積む（これから揃えていく方針）
@@ -453,6 +475,7 @@ export const SKINS: AvatarSkin[] = [
     desc: '金色。教室がまぶしい。',
     swatch: '#d8a61c',
     texture: require('@/assets/models/sensei-kin-texture.jpg'),
+    face: require('@/assets/faces/senpai-kin.png'),
   },
 ];
 

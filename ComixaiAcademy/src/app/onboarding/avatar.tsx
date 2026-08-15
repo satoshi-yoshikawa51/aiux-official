@@ -8,6 +8,7 @@ import React from 'react';
 import { Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
+import { AvatarFace } from '@/components/avatar-face';
 import { Icon } from '@/components/icons';
 import { SaveTransfer } from '@/components/save-transfer';
 import { Badge, Button, Panel, PressCard, Row, Screen, ScreenHead } from '@/components/ui';
@@ -70,7 +71,16 @@ export default function AvatarPickScreen() {
             <PressCard key={a.id} disabled={!pickable} selected={selected} onPress={() => setPicked(a.id)}>
               <Row style={{ justifyContent: 'space-between' }}>
                 <Row gap={S.sm} style={{ flex: 1 }}>
-                  <Icon name={pickable ? a.icon : 'lock'} size={24} color={pickable ? T.text : T.muted} />
+                  {/* ▍伏せている相棒は顔を出さない
+                      名前を「？？？」にしている意味が無くなる。鍵のまま置く
+                      （→ components/avatar-face.tsx は選べる人だけ） */}
+                  {pickable ? (
+                    <AvatarFace face={a.face} swatch={a.accent} size={34} />
+                  ) : (
+                    <View style={{ width: 34, alignItems: 'center' }}>
+                      <Icon name="lock" size={24} color={T.muted} />
+                    </View>
+                  )}
                   <View style={{ flex: 1 }}>
                     <Text style={F.strong}>{pickable ? a.name : '？？？'}</Text>
                     <Text style={F.tiny}>
