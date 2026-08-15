@@ -1,7 +1,48 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-14T21:54:34.952Z",
+  "updatedAt": "2026-08-15T21:52:15.782Z",
   "items": [
+    {
+      "title": "Anthropic shares more details about how Claude’s new watermarks will work",
+      "url": "https://techcrunch.com/2026/08/15/anthropic-shares-more-details-about-how-claudes-new-watermarks-will-work/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-15T18:58:39.000Z",
+      "titleJa": "Anthropic がクロードの新しい透かしがどのように機能するかについて詳細を共有します",
+      "image": "https://techcrunch.com/wp-content/uploads/2024/01/Magnifying-glasses.jpg?resize=1200,840"
+    },
+    {
+      "title": "11万円のモニターが故障。AIに相談したら30分で無償交換が決まった話",
+      "url": "https://www.gizmodo.jp/article/ai_resolved_gadget_trouble_quickly/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-08-15T13:30:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/08/13/68260d26-4b8f-4733-a464-7c1b2a6fe7f1/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "経営課題は見えても「未判断」は見えにくい：AI時代の「経営判断ポートフォリオ」を公開",
+      "url": "https://ascii.jp/elem/000/004/426/4426854/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-15T04:24:23.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "謎解き・脱出ゲーム等体験型コンテンツ統合プラットフォーム「ESCAPE.ID」が、API・Webhook・MCPを開放する「ESCAPE.ID Hub」を公開。外部システムやAIとの結合を容易に。",
+      "url": "https://ascii.jp/elem/000/004/426/4426853/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-15T03:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "【9月8日(火)19:30～開催】AI活用は「導入」から「成果」へ──秋の商戦を見据えた「AI×マーケティング実践知見シェア会」を渋谷で開催！",
+      "url": "https://ascii.jp/elem/000/004/426/4426852/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-15T01:10:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
     {
       "title": "Meta’s ‘open’ AI, and a $250M deal gone very wrong",
       "url": "https://techcrunch.com/podcast/metas-open-ai-and-a-250m-deal-gone-very-wrong/",
@@ -20,31 +61,6 @@
       "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/15/2000000554/10002735/2048"
     },
     {
-      "title": "You can now turn off Google Gemini’s visible watermarks",
-      "url": "https://www.theverge.com/tech/980416/google-gemini-ai-watermarks-removal",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-14T16:39:32.000Z",
-      "titleJa": "Google Gemini の表示ウォーターマークをオフにできるようになりました",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK255_Google_Gemini_D.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "「Voice AI Agent Platform」エコシステム構築に向けた戦略投資方針について",
-      "url": "https://ascii.jp/elem/000/004/426/4426831/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-14T07:30:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg?20200122"
-    },
-    {
-      "title": "【過去満足度 平均4.4/5.0】8月10日サービス開始LLM認知測定ツール「ディギディギ」を8月21日（金）開催セミナーで実演",
-      "url": "https://ascii.jp/elem/000/004/426/4426812/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-14T07:20:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
       "title": "OpenAI、「Linux」向けに「ChatGPT」デスクトップアプリのプレビュー版を公開",
       "url": "https://japan.zdnet.com/article/35251553/",
       "source": "ZDNET Japan",
@@ -59,6 +75,15 @@
       "lang": "ja",
       "date": "2026-08-14T00:51:06.000Z",
       "image": "https://www.itmedia.co.jp/news/article/ogp/2608/14/2000000538/10002611/2048"
+    },
+    {
+      "title": "Google announces Gemini 3.7 Flash just three weeks after previous release",
+      "url": "https://arstechnica.com/ai/2026/08/google-announces-gemini-3-7-flash-just-three-weeks-after-previous-release/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-08-13T17:00:13.000Z",
+      "titleJa": "Google、前回のリリースからわずか 3 週間で Gemini 3.7 Flash を発表",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/gemini-general-4-1152x648.jpg"
     },
     {
       "title": "Nvidia’s new $500B plan is risky but brilliant, especially for aging GPUs",
@@ -92,31 +117,6 @@
       "lang": "ja",
       "date": "2026-08-13T23:50:00.000Z",
       "image": "https://japan.zdnet.com/storage/2026/08/14/a42af81a9542bdeadecfd05ee22fb4b2/microsoft-to-combine-copilot-and-copilot-365-into-one-single-unifed-app_l.jpg"
-    },
-    {
-      "title": "南海電鉄「数カ月かかった乗務員計画」が1週間に 「量子コンピュータを疑似再現」で鉄道現場はどう変わる？",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/14/news043.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-13T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2608/14/cover_news043.jpg"
-    },
-    {
-      "title": "Google、「Gemini 3.7 Flash」公開 年内は半額の導入価格",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/14/2000000534/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-13T21:25:13.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/14/2000000534/10002594/2048"
-    },
-    {
-      "title": "AI coding startup Cognition reportedly already in talks to raise at $40B valuation",
-      "url": "https://techcrunch.com/2026/08/12/ai-coding-startup-cognition-reportedly-already-in-talks-to-raise-at-40b-valuation/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-12T18:19:12.000Z",
-      "titleJa": "AIコーディングの新興企業Cognitionはすでに評価額400億ドルで調達する交渉に入っていると報じられている",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/05/Scott-wu-headshot-e1780070238342.png?resize=1200,1004"
     }
   ]
 }
