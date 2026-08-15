@@ -114,6 +114,7 @@ export const BADGES: Badge[] = [
   {
     id: 'streak-3',
     icon: 'fire',
+    art: require('@/assets/badges/streak-3.png'),
     name: '三日坊主、返上',
     desc: '3日連続で学習した',
     hint: '続けることでしか取れないものがある',
@@ -121,6 +122,7 @@ export const BADGES: Badge[] = [
   {
     id: 'streak-7',
     icon: 'calendar',
+    art: require('@/assets/badges/streak-7.png'),
     name: '一週間皆勤',
     desc: '7日連続で学習した',
     hint: '三日の、その先へ',
@@ -132,6 +134,7 @@ export const BADGES: Badge[] = [
   {
     id: 'half',
     icon: 'badges',
+    art: require('@/assets/badges/half.png'),
     name: '10本ノック',
     desc: 'レッスンを10本修了した',
     hint: '積み上げて、10本',
@@ -178,6 +181,7 @@ export const BADGES: Badge[] = [
   {
     id: 'review-first',
     icon: 'check',
+    art: require('@/assets/badges/review-first.png'),
     name: '直した',
     desc: '間違えた問題を1つ、復習で卒業させた',
     hint: '間違えたままにしない',
@@ -185,6 +189,7 @@ export const BADGES: Badge[] = [
   {
     id: 'review-10',
     icon: 'rotate',
+    art: require('@/assets/badges/review-10.png'),
     name: '弱点つぶし',
     desc: '復習で10問を卒業させた',
     hint: '外したぶんを、10問ぶん直す',
