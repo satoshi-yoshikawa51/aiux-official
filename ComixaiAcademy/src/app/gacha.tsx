@@ -155,6 +155,14 @@ export default function GachaScreen() {
     playSound('start');
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
 
+    /* ▍カプセルはここで引っ込める
+       drop を戻すのをダイヤルが回りきったあと（800ms後）にしていたので、
+       **2回目以降は前回の1が残ったまま**で、回している最中に受け皿へ
+       カプセルが座っていた。落ちる前にもう1個見えてしまう。
+       まわし始めた時点で、口の上（見えない位置）に戻す */
+    drop.setValue(0);
+    pop.setValue(0);
+
     /* ダイヤル1回転。途中でカリ、カリ、カリ */
     dial.setValue(0);
     [140, 340, 560].forEach((ms) => setTimeout(() => playSound('tick'), ms));
@@ -286,6 +294,11 @@ export default function GachaScreen() {
                 position: 'absolute',
                 left: MACHINE.chuteAt.x * MACHINE_W - CAP_BOX / 2,
                 top: MACHINE.chuteAt.y * MACHINE_H - CAP_BOX / 2,
+                /* ▍落ちるときは下、手前に出たら上
+                   書いた順（マシン→カプセル→マスク→ダイヤル）のままだと、
+                   **手前に出たカプセルがダイヤルの裏に潜る**。落下中だけ
+                   マスクとダイヤルの下に置いて、それ以外は全部より上にする */
+                zIndex: phase === 'spinning' ? 1 : 5,
                 opacity:
                   phase === 'spinning'
                     ? drop.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] })
@@ -328,6 +341,7 @@ export default function GachaScreen() {
                 width: MACHINE_W,
                 height: MACHINE.chuteCeiling * MACHINE_H,
                 overflow: 'hidden',
+                zIndex: 2,
               }}>
               <Image
                 source={MACHINE.src}
@@ -347,6 +361,7 @@ export default function GachaScreen() {
               height: MACHINE.dialAt.size * MACHINE_W,
               left: (MACHINE.dialAt.x - MACHINE.dialAt.size / 2) * MACHINE_W,
               top: MACHINE.dialAt.y * MACHINE_H - (MACHINE.dialAt.size * MACHINE_W) / 2,
+              zIndex: 3,
               transform: [{ rotate: dialDeg }],
             }}
           />
@@ -517,8 +532,30 @@ export default function GachaScreen() {
                         backgroundColor: '#b8a276',
                         overflow: 'hidden',
                       }}>
-                      <View style={{ flex: 1, backgroundColor: t9(theme) }} />
+                      {/* ▍当てた舞台の絵をちゃんと出す
+                          ここは重ねる色のベタだけを描いていて、**専用の絵が
+                          あるテーマでも絵が出ていなかった**（当てた瞬間に
+                          いちばん見たいものが、ただの土色の面だった）。
+                          下の「あつめた舞台」のコマと同じ積み方にする */}
+                      {theme.art ? (
+                        <Image
+                          source={theme.art.src}
+                          resizeMode="cover"
+                          style={{ width: '100%', height: '100%' }}
+                        />
+                      ) : null}
+                      <View
+                        style={{
+                          position: 'absolute',
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          backgroundColor: theme.art ? theme.tint : t9(theme),
+                        }}
+                      />
                       {theme.effect ? <StageEffect effect={theme.effect} /> : null}
+                      {theme.glow ? <StageGlow glow={theme.glow} /> : null}
                     </View>
                   );
                 })()
