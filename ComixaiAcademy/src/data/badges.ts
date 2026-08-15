@@ -98,6 +98,7 @@ export const BADGES: Badge[] = [
   {
     id: 'quiz-perfect',
     icon: 'perfect',
+    art: require('@/assets/badges/quiz-perfect.png'),
     name: 'ノーミス',
     desc: 'クイズを1問も間違えずにレッスンを修了した',
     hint: '一度も間違えずに終えられるか',
@@ -105,6 +106,7 @@ export const BADGES: Badge[] = [
   {
     id: 'quiz-perfect-5',
     icon: 'target',
+    art: require('@/assets/badges/quiz-perfect-5.png'),
     name: '無傷の5本',
     desc: 'ノーミス修了を5レッスン達成した',
     hint: 'まぐれでない、を証明する回数',
@@ -152,6 +154,7 @@ export const BADGES: Badge[] = [
   {
     id: 'star-first',
     icon: 'star',
+    art: require('@/assets/badges/star-first.png'),
     name: 'はじめての★3',
     desc: 'ミニゲームをノーミスで通した',
     hint: '一度も外さずに通せるか',
@@ -159,6 +162,7 @@ export const BADGES: Badge[] = [
   {
     id: 'star-5',
     icon: 'twinkle',
+    art: require('@/assets/badges/star-5.png'),
     name: '★3を5本',
     desc: '5つのミニゲームで★3を取った',
     hint: 'まぐれでない、を証明する回数',
@@ -166,6 +170,7 @@ export const BADGES: Badge[] = [
   {
     id: 'star-all',
     icon: 'target',
+    art: require('@/assets/badges/star-all.png'),
     name: '全★3',
     desc: '★のつくミニゲームすべてで★3を取った',
     hint: '1つ残らず、ノーミスで',
