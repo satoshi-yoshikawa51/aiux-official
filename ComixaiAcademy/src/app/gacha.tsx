@@ -26,7 +26,7 @@ import React from 'react';
 import { Animated, Easing, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
-import { Capsule3D, CAPSULE_OPEN_MS } from '@/components/capsule-3d';
+import { Capsule3D, CAPSULE_FILL, CAPSULE_OPEN_MS } from '@/components/capsule-3d';
 import { Icon } from '@/components/icons';
 import { PrizeRays, PrizeTwinkles } from '@/components/prize-shine';
 import { PopIn, useSparkBurst, useTap } from '@/components/motion';
@@ -81,14 +81,13 @@ const MACHINE = {
   ratio: 966 / 640,
   /** ダイヤル：中心の位置と、直径（どちらも幅に対する割合） */
   dialAt: { x: 0.4852, y: 0.7164, size: 0.2437 },
-  /** 取り出し口：カプセルの中心を置く位置と、描く枠の一辺。
+  /** 取り出し口：カプセルの中心を置く位置と、**見た目の直径**（幅に対する割合）。
 
-      枠の中で球が占めるのは約67%（カメラの画角で決まる）なので、
-      **見た目の直径は size × 0.67**。絵の中央を縦に読むと、口の天井が
-      0.817・受け皿の面が0.955なので、内側の高さは0.138（＝48pt）。
-      そこに収まる直径にして、底が受け皿に載る高さへ中心を置いてある。
+      絵の中央を縦に読むと、口の天井が0.817・受け皿の面が0.955なので、
+      内側の高さは0.138（＝48pt）。そこに収まる直径にして、底が受け皿に
+      載る高さへ中心を置いてある。
       **カプセルは絵の上に描くので、はみ出すと口の外に浮いて見える** */
-  chuteAt: { x: 0.4664, y: 0.893, size: 0.28 },
+  chuteAt: { x: 0.4664, y: 0.893, ball: 0.187 },
   /** 取り出し口の天井（絵の高さに対する割合）。ここより上にカプセルが
       来ているあいだは、マシンの絵で隠して「中を通っている」ことにする */
   chuteCeiling: 0.817,
@@ -101,18 +100,15 @@ const MACHINE_H = Math.round(MACHINE_W * MACHINE.ratio);
    メモ）。口に収まっているときは CAP_REST まで縮め、押されたら等倍まで
    開いて手前に出る。 */
 const CAP_BOX = 168;
-const CAP_REST = (MACHINE.chuteAt.size * MACHINE_W) / CAP_BOX;
-/** 手前に出たときの、口からの持ち上げ量 */
-const CAP_POP_UP = -MACHINE_H * 0.3;
+/* 口に収まっているときの倍率。**枠の中で球が占める割合（CAPSULE_FILL）を
+   通して逆算する**——3D側の画角を変えると球の見かけの大きさが変わるので、
+   ここに直接の数字を書くと黙ってズレる */
+const CAP_REST = (MACHINE.chuteAt.ball / CAPSULE_FILL) * MACHINE_W / CAP_BOX;
 /** 手前に出るのにかける時間 */
 const POP_MS = 300;
 
-/* ———— カードが出てくるところ ————
-   カプセルは画面の中ほどより少し上（マシンの胴のあたり）で開くので、
-   カードはそこから降りてくる形にする。**きっちり測っていない**——
-   マシンの位置は上の案内バンドの有無で少し動くので、だいたいの値。
-   ここが大きくズレて見えたら、この数字だけ変えれば直る */
-const CARD_FROM_Y = -80;
+/* カードは、カプセルが開いたところ＝画面の中央に生まれる。
+   横も縦もそこなので、ずらす量は要らない */
 const CARD_OUT_MS = 460;
 
 /* popping＝押されて手前に出ている最中、opening＝蓋が飛んでいる最中。
@@ -134,6 +130,48 @@ export default function GachaScreen() {
   const drop = React.useRef(new Animated.Value(0)).current;
   const pop = React.useRef(new Animated.Value(0)).current;
 
+  /* ▍マシンが画面のどこにいるかを測る
+     カプセルは画面いっぱいの層に出す（中央まで動かしたいので）。
+     その層の中で口の位置に置くには、**マシンの窓座標**が要る。
+     並びは上の案内バンドの有無で動くし、画面はスクロールもするので、
+     置いたときだけでなく**まわす前・押す前にも測り直す** */
+  const machineRef = React.useRef<View>(null);
+  const [mWin, setMWin] = React.useState<{ x: number; y: number } | null>(null);
+  const measureMachine = React.useCallback(() => {
+    machineRef.current?.measureInWindow((x, y) => {
+      if (typeof x !== 'number' || Number.isNaN(x)) return;
+      setMWin((p) => (p && Math.abs(p.x - x) < 0.5 && Math.abs(p.y - y) < 0.5 ? p : { x, y }));
+    });
+  }, []);
+
+  /* ▍まんなかは「層の寸法」から出す。画面の寸法は使わない
+     Dimensions（useWindowDimensions）の高さは、環境によって表示領域と
+     食い違う。実際それで、中央に寄せたつもりのカプセルが64ptも下に
+     止まっていた。**カプセルを置いている層そのものを測って**、その
+     まんなかを狙う。層は画面いっぱいなので、これが見えている中央。
+     **ref ではなく state で持つこと。** refで持っていたとき、層が
+     出たてのあいだは 0 のままで描かれ、**落ちてくる数コマだけ
+     カプセルが64pt下（マシンの外）に居た**。測り直しても再描画が
+     かからないので、位置が古いまま残る。 */
+  const layerRef = React.useRef<View>(null);
+  const [layer, setLayer] = React.useState({ x: 0, y: 0, w: 0, h: 0 });
+  const measureLayer = React.useCallback(() => {
+    layerRef.current?.measureInWindow((x, y, w, h) => {
+      if (typeof w !== 'number' || !w) return;
+      setLayer((p) =>
+        Math.abs(p.x - x) < 0.5 && Math.abs(p.y - y) < 0.5 && Math.abs(p.h - h) < 0.5
+          ? p
+          : { x, y, w, h },
+      );
+    });
+  }, []);
+
+  /* 手前に出るときの行き先（px）。**描画のたびに作り直される
+     interpolate に入れると、測り直した値が間に合わない**ことがあるので、
+     値そのものを持って掛け算する（Animated.multiply） */
+  const popDX = React.useRef(new Animated.Value(0)).current;
+  const popDY = React.useRef(new Animated.Value(0)).current;
+
   /* 引退したテーマの記録が残っていても数に入れない（→ data/gacha.ts） */
   const ownedThemes = THEMES.filter((t) => t.id !== DEFAULT_THEME_ID && state.themes[t.id]).length;
   /* アバターの持ち数は「キャラ本体 ＋ 色違い」。景品から外した色違いの
@@ -149,6 +187,7 @@ export default function GachaScreen() {
     if (!canSpin) return;
     const r = spinGacha();
     if (!r) return;
+    measureMachine();
     setResult(r);
     setSpunOnce(true);
     setPhase('spinning');
@@ -195,6 +234,15 @@ export default function GachaScreen() {
      ひと息ずつ待たないと、開封が0フレームで隠れる */
   const open = (x: number, y: number) => {
     if (phase !== 'dropped' || !result) return;
+    /* 押された時点で測り直して、まんなかまでの距離を決める */
+    measureLayer();
+    measureMachine();
+    machineRef.current?.measureInWindow((mx, my) => {
+      const cx = mx - layer.x + MACHINE.chuteAt.x * MACHINE_W;
+      const cy = my - layer.y + MACHINE.chuteAt.y * MACHINE_H;
+      popDX.setValue(layer.w ? layer.w / 2 - cx : 0);
+      popDY.setValue(layer.h ? layer.h / 2 - cy : 0);
+    });
     setPhase('popping');
     playSound('pick');
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
@@ -233,8 +281,14 @@ export default function GachaScreen() {
   });
   /* ドームの高さぶん落として、弾ませる */
   const dropY = drop.interpolate({ inputRange: [0, 1], outputRange: [-MACHINE_H * 0.42, 0] });
-  /* 押されたあと、手前に出る（持ち上がりながら等倍まで開く） */
-  const popY = pop.interpolate({ inputRange: [0, 1], outputRange: [0, CAP_POP_UP] });
+  /* 口の中心が、層の中のどこにあたるか */
+  const chute = mWin && {
+    x: mWin.x - layer.x + MACHINE.chuteAt.x * MACHINE_W,
+    y: mWin.y - layer.y + MACHINE.chuteAt.y * MACHINE_H,
+  };
+  /* 押されたあと、**まんなかまで**出てきながら等倍まで開く */
+  const popTX = Animated.multiply(pop, popDX);
+  const popTY = Animated.multiply(pop, popDY);
   const popScale = pop.interpolate({ inputRange: [0, 1], outputRange: [CAP_REST, 1] });
 
   /* 一度でもまわしたら、カプセルは置いたままにする（→ capsule-3d.tsx の
@@ -265,108 +319,47 @@ export default function GachaScreen() {
       <GachaCoachBand spun={spunOnce} />
 
       {/* ———— マシン ————
-           絵1枚の上に、回るダイヤルと落ちてくるカプセルを重ねる。
-           ドームの中のカプセルは絵に描かれているものをそのまま使う。
+           絵1枚の上に、回るダイヤルだけを重ねる。ドームの中のカプセルは
+           絵に描かれているものをそのまま使う。
 
-           ▍重ねる順番に意味がある
-           マシンの絵 → カプセル → **口より上を隠すマスク** → ダイヤル。
-           マスクが無いと、落ちてくるカプセルが**マシンの手前を滑り降りて
-           きて、宙から降ってきたように見える**。マスクはマシンの絵を
-           もう一度、口の天井までで切って重ねたもの。ダイヤルはその
-           マスクより上（絵の中ほど）にあるので、いちばん最後に描く */}
+           ▍落ちてくるカプセルはここには居ない
+           押すと**画面の中央まで出てくる**ので、マシンの入れ物の中に
+           置くとそこまで動かせない。カプセルは画面いっぱいの層に出して、
+           この入れ物の位置を測って重ねている（→ 下の「カプセルの層」）。
+           ref は揺れないほうに付ける——揺れているものを測ると、
+           測った瞬間の揺れぶんだけ位置がずれる */}
       <View style={{ alignItems: 'center' }}>
-        <Animated.View
-          style={{
-            transform: [{ translateX: shakeX }],
-            width: MACHINE_W,
-            height: MACHINE_H,
-          }}>
-          <Image
-            source={MACHINE.src}
-            resizeMode="contain"
-            style={{ width: MACHINE_W, height: MACHINE_H }}
-          />
-
-          {/* 取り出し口に落ちてくるカプセル。押すと手前に出て開く */}
-          {capsuleLive ? (
-            <Animated.View
-              style={{
-                position: 'absolute',
-                left: MACHINE.chuteAt.x * MACHINE_W - CAP_BOX / 2,
-                top: MACHINE.chuteAt.y * MACHINE_H - CAP_BOX / 2,
-                /* ▍落ちるときは下、手前に出たら上
-                   書いた順（マシン→カプセル→マスク→ダイヤル）のままだと、
-                   **手前に出たカプセルがダイヤルの裏に潜る**。落下中だけ
-                   マスクとダイヤルの下に置いて、それ以外は全部より上にする */
-                zIndex: phase === 'spinning' ? 1 : 5,
-                opacity:
-                  phase === 'spinning'
-                    ? drop.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] })
-                    : phase === 'idle'
-                      ? 0
-                      : 1,
-                /* translate → scale の順に書く。**逆にすると移動量まで
-                   拡大される**（手前に出た瞬間に画面外へ飛ぶ） */
-                transform: [
-                  { translateY: phase === 'spinning' ? dropY : popY },
-                  { scale: phase === 'spinning' ? CAP_REST : popScale },
-                ],
-              }}>
-              <Pressable
-                disabled={phase !== 'dropped'}
-                accessibilityRole="button"
-                accessibilityLabel="カプセルを開ける"
-                onPress={(e) => open(e.nativeEvent.pageX, e.nativeEvent.pageY)}>
-                {/* ▍いつも大きく描いて、小さいときは縮めて見せる
-                    逆（小さく描いて拡大）だと、手前に出た瞬間に**canvasを
-                    引き伸ばした眠い絵**になる。size を変えるとGLを作り直す
-                    ことになるので、寸法は固定して倍率だけ動かす */}
-                <Capsule3D
-                  rarity={result?.prize.rarity ?? 'N'}
-                  size={CAP_BOX}
-                  open={phase === 'opening' || phase === 'revealed'}
-                />
-              </Pressable>
-            </Animated.View>
-          ) : null}
-
-          {/* 口より上を隠すマスク（落ちてくるあいだだけ） */}
-          {phase === 'spinning' ? (
-            <View
-              pointerEvents="none"
-              style={{
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                width: MACHINE_W,
-                height: MACHINE.chuteCeiling * MACHINE_H,
-                overflow: 'hidden',
-                zIndex: 2,
-              }}>
-              <Image
-                source={MACHINE.src}
-                resizeMode="contain"
-                style={{ width: MACHINE_W, height: MACHINE_H }}
-              />
-            </View>
-          ) : null}
-
-          {/* 回るダイヤル */}
-          <Animated.Image
-            source={MACHINE.dial}
-            resizeMode="contain"
+        <View
+          ref={machineRef}
+          onLayout={measureMachine}
+          style={{ width: MACHINE_W, height: MACHINE_H }}>
+          <Animated.View
             style={{
-              position: 'absolute',
-              width: MACHINE.dialAt.size * MACHINE_W,
-              height: MACHINE.dialAt.size * MACHINE_W,
-              left: (MACHINE.dialAt.x - MACHINE.dialAt.size / 2) * MACHINE_W,
-              top: MACHINE.dialAt.y * MACHINE_H - (MACHINE.dialAt.size * MACHINE_W) / 2,
-              zIndex: 3,
-              transform: [{ rotate: dialDeg }],
-            }}
-          />
-        </Animated.View>
+              width: MACHINE_W,
+              height: MACHINE_H,
+              transform: [{ translateX: shakeX }],
+            }}>
+            <Image
+              source={MACHINE.src}
+              resizeMode="contain"
+              style={{ width: MACHINE_W, height: MACHINE_H }}
+            />
 
+            {/* 回るダイヤル */}
+            <Animated.Image
+              source={MACHINE.dial}
+              resizeMode="contain"
+              style={{
+                position: 'absolute',
+                width: MACHINE.dialAt.size * MACHINE_W,
+                height: MACHINE.dialAt.size * MACHINE_W,
+                left: (MACHINE.dialAt.x - MACHINE.dialAt.size / 2) * MACHINE_W,
+                top: MACHINE.dialAt.y * MACHINE_H - (MACHINE.dialAt.size * MACHINE_W) / 2,
+                transform: [{ rotate: dialDeg }],
+              }}
+            />
+          </Animated.View>
+        </View>
 
         {/* 状況の一言。マシンの下に固定の高さで */}
         <View style={{ height: 30, justifyContent: 'center', marginTop: S.md }}>
@@ -477,6 +470,81 @@ export default function GachaScreen() {
 
       </Screen>
 
+      {/* ———— カプセルの層 ————
+           画面いっぱいの層に出す。**マシンの入れ物の中に置くと、
+           画面の中央まで動かせない**（親の外に出た分が切れる端末がある）。
+           落ちるところは口の位置、押されたら中央へ寄っていく。 */}
+      {/* 層そのものは**いつも出しておく**。まわした瞬間に作ると、
+          その1コマは寸法が0のままで、カプセルがずれた場所に描かれる */}
+      <View
+        ref={layerRef}
+        onLayout={measureLayer}
+        pointerEvents="box-none"
+        style={[StyleSheet.absoluteFill, { zIndex: 10 }]}>
+        {capsuleLive && chute ? (
+          <Animated.View
+            style={{
+              position: 'absolute',
+              left: chute.x - CAP_BOX / 2,
+              top: chute.y - CAP_BOX / 2,
+              opacity:
+                phase === 'spinning'
+                  ? drop.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] })
+                  : phase === 'idle'
+                    ? 0
+                    : 1,
+              /* translate → scale の順に書く。**逆にすると移動量まで
+                 拡大される**（手前に出た瞬間に画面外へ飛ぶ） */
+              transform: [
+                { translateX: phase === 'spinning' ? 0 : popTX },
+                { translateY: phase === 'spinning' ? dropY : popTY },
+                { scale: phase === 'spinning' ? CAP_REST : popScale },
+              ],
+            }}>
+            <Pressable
+              disabled={phase !== 'dropped'}
+              accessibilityRole="button"
+              accessibilityLabel="カプセルを開ける"
+              onPress={(e) => open(e.nativeEvent.pageX, e.nativeEvent.pageY)}>
+              {/* ▍いつも大きく描いて、小さいときは縮めて見せる
+                  逆（小さく描いて拡大）だと、中央に出た瞬間に**canvasを
+                  引き伸ばした眠い絵**になる。size を変えるとGLを作り直す
+                  ことになるので、寸法は固定して倍率だけ動かす */}
+              <Capsule3D
+                rarity={result?.prize.rarity ?? 'N'}
+                size={CAP_BOX}
+                open={phase === 'opening' || phase === 'revealed'}
+              />
+            </Pressable>
+          </Animated.View>
+        ) : null}
+
+        {/* ▍口より上を隠すマスク（落ちてくるあいだだけ）
+              これが無いと、落ちてくるカプセルが**マシンの手前を滑り降りて
+              きて、宙から降ってきたように見える**。マシンの絵をもう一度、
+              口の天井までで切って重ねたもの。**揺れも同じだけ掛ける**——
+              揺れないと、マシンが揺れたときに二重写しになる */}
+        {phase === 'spinning' && mWin ? (
+          <Animated.View
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              left: mWin.x - layer.x,
+              top: mWin.y - layer.y,
+              width: MACHINE_W,
+              height: MACHINE.chuteCeiling * MACHINE_H,
+              overflow: 'hidden',
+              transform: [{ translateX: shakeX }],
+            }}>
+            <Image
+              source={MACHINE.src}
+              resizeMode="contain"
+              style={{ width: MACHINE_W, height: MACHINE_H }}
+            />
+          </Animated.View>
+        ) : null}
+      </View>
+
       {/* ———— 結果 ———— */}
       {phase === 'revealed' && result ? (
         <Pressable
@@ -506,11 +574,10 @@ export default function GachaScreen() {
           {result.prize.rarity === 'SR' ? <PrizeRays /> : null}
 
           {/* ▍カプセルから出てくるように見せる
-              蓋が飛んだところにカードが生えてくる。カプセルは画面の
-              中ほどより少し上（マシンの胴のあたり）にいるので、そのぶん
-              上から降りてくる形にしてある。Stampの「上から落ちて押す」
-              とは別で、こちらは**小さく生まれて開く**動き */}
-          <CardOut from={CARD_FROM_Y}>
+              カプセルは画面の中央まで出てきて開くので、カードも
+              そこに生まれる。Stampの「上から落ちて押す」とは別で、
+              こちらは**小さく生まれて開く**動き */}
+          <CardOut>
             <Panel contentStyle={{ alignItems: 'center', gap: S.sm, padding: S.xl }}>
               {/* 札の色も、落ちてきたカプセルと同じ割り当てにする
                   （青＝N ／ 赤＝R ／ 金＝SR） */}
@@ -654,7 +721,7 @@ function Scrim() {
 /* カプセルから出てくるカード。**小さく生まれて、持ち上がりながら開く**。
    Stamp（上から落ちて判子を押す）とは動きの意味が違うので別にしてある。
    傾きはStampに合わせて -3度 */
-function CardOut({ from, children }: { from: number; children: React.ReactNode }) {
+function CardOut({ children }: { children: React.ReactNode }) {
   const t = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
     const a = Animated.timing(t, {
@@ -672,7 +739,6 @@ function CardOut({ from, children }: { from: number; children: React.ReactNode }
         opacity: t.interpolate({ inputRange: [0, 0.18, 1], outputRange: [0, 1, 1] }),
         /* translate → scale の順。逆にすると移動量まで拡大される */
         transform: [
-          { translateY: t.interpolate({ inputRange: [0, 1], outputRange: [from, 0] }) },
           { scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.12, 1] }) },
           { rotate: '-3deg' },
         ],
