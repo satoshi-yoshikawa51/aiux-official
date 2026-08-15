@@ -66,6 +66,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-work',
     icon: 'briefcase',
+    art: require('@/assets/badges/course-work.png'),
     name: '最初の一週間、走破',
     desc: 'コース「最初の一週間」を全部クリアした',
     hint: '自分の職種の一歩目から三歩目まで',
@@ -73,6 +74,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-prompt',
     icon: 'pen',
+    art: require('@/assets/badges/course-prompt.png'),
     name: '道場やぶり',
     desc: 'コース「プロンプト道場」を全部クリアした',
     hint: '書き方の型を、手に入れた者に',
@@ -80,6 +82,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-risk',
     icon: 'shield',
+    art: require('@/assets/badges/course-risk.png'),
     name: '事故らない人',
     desc: 'コース「事故らないAI」を全部クリアした',
     hint: '便利さより先に知っておく話を、ひととおり',
@@ -87,6 +90,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-next',
     icon: 'rocket',
+    art: require('@/assets/badges/course-next.png'),
     name: '一歩先',
     desc: 'コース「これからのAI」を全部クリアした',
     hint: '一問一答の、その先まで',
