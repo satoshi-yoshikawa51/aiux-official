@@ -285,6 +285,17 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           for (const m of mats) {
             const mat = m as THREE.MeshBasicMaterial;
             mat.map = texture;
+            /* ▍裏面も描く（＝割れ目から背景を見せない）
+
+               自動スキニングの粗さで、腕を上げると肩の布が裂けて**背景が
+               白く透ける**。手を振る姿で稲妻形の穴になって出ていた。
+               裏面を描くと、その穴から見えるのが**体の内側の面**になる。
+               貼っている絵は同じなので、まわりと同じ色で埋まる。
+
+               「体の中にもう1枚、膜を貼る」のと同じ効果を、面を足さずに
+               得ている（形は1ミリも変わらない。増えるのは塗る手間だけ）。
+               モデルはunlitなので、裏返っても色が暗くなることはない。 */
+            mat.side = THREE.DoubleSide;
             mat.needsUpdate = true;
           }
         });
