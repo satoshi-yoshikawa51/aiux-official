@@ -11,6 +11,16 @@
    ワールド座標**を見て、そこにカメラを向ける。骨が無いときだけ、
    全身の外接箱の上のほうを頭とみなす。
 
+   ▍カメラは頭より少し上に置く（PITCH）
+   目の高さに水平に置くと、**下から見上げた顔**になる。鼻の穴が見えて、
+   顎が大きく、頭が小さく写る。少し上から見下ろすと素直な証明写真になる。
+
+   ▍骨の重みで頭の頂点を選ぶ手は使えなかった
+   「Head に結びついた頂点だけの外接矩形」で枠を取るのが理屈では正しいが、
+   このモデル（Tripo生成）は**体の頂点まで Head に結びついている**
+   （おっとりで頭の重み付き頂点が全体の74%、下端は足元近く）。
+   縦は「外接箱の上端 − Head の骨」がきれいに出るので、そちらで測る。
+
    使い方:
      node tools/make-faces.mjs
    出力: assets/faces/<アバターID>.png（色違いは <アバターID>-<きせかえID>.png）
@@ -111,14 +121,18 @@ window.shoot = async (glb, tex, size) => {
   if (head) head.getWorldPosition(at);
   else at.set((box.min.x + box.max.x) / 2, box.max.y - tall * 0.22, (box.min.z + box.max.z) / 2);
   const headH = Math.max(box.max.y - at.y, tall * 0.12);
-  at.y += headH * 0.52;
+  at.y += headH * 0.48;
 
-  /* 顔が枠の3分の2に収まる距離 */
-  const frame = headH * 1.5;
+  /* 頭のまわりに少し余白を残す。**きっちり詰めると、丸く抜いたときに
+     かんばん（猫）の耳とおっとりの髪が枠から切れる** */
+  const frame = headH * 1.62;
   const fov = 24;
   const dist = frame / 2 / Math.tan((fov / 2) * Math.PI / 180);
+  /* 目の高さから水平に撮ると**見上げた顔**になる（鼻の穴が見えて、顎が
+     大きく頭が小さく写る）。少し上に置いて見下ろすと証明写真の角度になる */
+  const PITCH = (14 * Math.PI) / 180;
   const camera = new THREE.PerspectiveCamera(fov, 1, 0.01, 50);
-  camera.position.set(at.x, at.y, at.z + dist);
+  camera.position.set(at.x, at.y + dist * Math.sin(PITCH), at.z + dist * Math.cos(PITCH));
   camera.lookAt(at);
 
   renderer.render(scene, camera);
