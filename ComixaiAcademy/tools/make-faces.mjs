@@ -53,6 +53,29 @@ const LOOKS = [
   { out: 'senpai-kin', glb: 'sensei', tex: 'sensei-kin-texture' },
 ];
 
+/** ▍顔の向きの直し（度・モデルごと）
+    素のモデルは**キャラごとに顎の上げ方がばらばら**で、並べると
+    「ほとんどが上を向いていて、先輩だけ下を向いている」ように見える。
+    マイナスで顎を引き、プラスで顎を上げる。焼くときに Head の骨を
+    この角度だけ回してから撮る（**モデル自体は書き換えない**。
+    全身で立っているときの見え方や歩きのモーションに波及するため）。
+
+    数字は目で合わせたもの。増やしたら、その並びで見比べて決める。 */
+const TILT = {
+  ottori: -7,
+  'ottori-sr': -6,
+  nekketsu: -6,
+  'nekketsu-sr': -6,
+  sensei: 6, // 先輩だけ逆。素のモデルが下を向いている
+  'senpai-sr': -4,
+  otenba: -6,
+  'otenba-sr': -6,
+  kanroku: -8, // いちばん顎が上がっている
+  'kanroku-sr': -8,
+  neko: -5,
+  'neko-sr': -6,
+};
+
 const MIME = { '.js': 'text/javascript', '.glb': 'model/gltf-binary', '.jpg': 'image/jpeg', '.html': 'text/html' };
 
 const server = http.createServer((req, res) => {
@@ -78,7 +101,7 @@ const page = `<!doctype html><meta charset="utf-8">
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-window.shoot = async (glb, tex, size) => {
+window.shoot = async (glb, tex, size, tilt) => {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
   renderer.setPixelRatio(1);
   renderer.setSize(size, size);
@@ -110,6 +133,15 @@ window.shoot = async (glb, tex, size) => {
     if (head) return;
     if (o.isBone && /^head$/i.test(o.name)) head = o;
   });
+  /* ▍顔の向きを直してから測る
+     顎を引かせると髪のてっぺんの高さも変わるので、**枠を測る前に回す**。
+     世界のX軸まわりに回す（骨のローカル軸は寝ているので、そのまま
+     rotation.x に足すと横に傾く） */
+  if (head && tilt) {
+    head.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), (tilt * Math.PI) / 180);
+    gltf.scene.updateMatrixWorld(true);
+  }
+
   const box = new THREE.Box3().setFromObject(gltf.scene);
   const tall = box.max.y - box.min.y;
 
@@ -130,7 +162,7 @@ window.shoot = async (glb, tex, size) => {
   const dist = frame / 2 / Math.tan((fov / 2) * Math.PI / 180);
   /* 目の高さから水平に撮ると**見上げた顔**になる（鼻の穴が見えて、顎が
      大きく頭が小さく写る）。少し上に置いて見下ろすと証明写真の角度になる */
-  const PITCH = (14 * Math.PI) / 180;
+  const PITCH = (12 * Math.PI) / 180;
   const camera = new THREE.PerspectiveCamera(fov, 1, 0.01, 50);
   camera.position.set(at.x, at.y + dist * Math.sin(PITCH), at.z + dist * Math.cos(PITCH));
   camera.lookAt(at);
@@ -156,15 +188,17 @@ tab.on('console', (m) => m.type() === 'error' && console.log('  [console]', m.te
 await tab.goto('http://localhost:8791/_faces.html', { waitUntil: 'load' });
 
 for (const look of LOOKS) {
+  const tilt = TILT[look.glb] ?? 0;
   const r = await tab.evaluate(
-    ([g, t, s]) => window.shoot(g, t, s),
-    [`/assets/models/${look.glb}.glb`, `/assets/models/${look.tex}.jpg`, 256],
+    ([g, t, s, k]) => window.shoot(g, t, s, k),
+    [`/assets/models/${look.glb}.glb`, `/assets/models/${look.tex}.jpg`, 256, tilt],
   );
   const png = Buffer.from(r.png.split(',')[1], 'base64');
   fs.writeFileSync(path.join(OUT, `${look.out}.png`), png);
   console.log(
     `${look.out.padEnd(14)} 全高${r.tall.toFixed(2)} 頭${r.headH.toFixed(2)}` +
-      `（全高の${Math.round((r.headH / r.tall) * 100)}%） ${(png.length / 1024).toFixed(0)}KB`,
+      `（全高の${Math.round((r.headH / r.tall) * 100)}%） 顔${tilt > 0 ? '+' : ''}${tilt}° ` +
+      `${(png.length / 1024).toFixed(0)}KB`,
   );
 }
 
