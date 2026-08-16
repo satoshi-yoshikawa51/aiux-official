@@ -13,7 +13,13 @@ Next.jsサイトとは別プロジェクトで、ここだけで独立して動�
 ```bash
 npm run typecheck                 # tsc --noEmit（strict）
 npx expo export --platform web    # 実質のビルド確認。dist/ が出る
+npm run check:extras              # おまけ（data/extras/）が解ける形か
 ```
+
+**`check:extras` は型チェックの外側を見る。** 「残さなければいけない行の
+合計が予算を超えている」＝どう頑張っても解けない問題は、tsc も
+expo export も素通りする（実際それで、削るゲーム3本が全部詰んでいた）。
+おまけを足したら必ず流すこと。
 
 見え方まで見るときは、`dist` を静的配信して Playwright で撮る。
 localStorage の `comixai-academy-v1` に進捗を流し込めば、どの画面からでも始められる。
