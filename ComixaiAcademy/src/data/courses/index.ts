@@ -150,6 +150,9 @@ export const SCORED_KINDS: LessonInteractive['kind'][] = [
   'order',
   'fit',
   'redline',
+  'trim',
+  'interview',
+  'judge',
   'ai-prompt',
 ];
 

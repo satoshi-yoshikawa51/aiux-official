@@ -51,7 +51,10 @@ import { BuildPlay } from '@/components/games/build-game';
 import { FindPlay } from '@/components/games/find-game';
 import { FitPlay } from '@/components/games/fit-game';
 import { OrderPlay } from '@/components/games/order-game';
+import { InterviewPlay } from '@/components/games/interview-game';
+import { JudgePlay } from '@/components/games/judge-game';
 import { RedlinePlay } from '@/components/games/redline-game';
+import { TrimPlay } from '@/components/games/trim-game';
 import {
   allowLabel,
   starsOf,
@@ -151,6 +154,27 @@ export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
     how: '直す所を押して、どう直すかを選びます',
     color: '#e8c15a',
   },
+  trim: {
+    name: '指示を削って収めよう',
+    icon: 'target',
+    rule: '長い指示から要らない行を捨てる',
+    how: '消していい行を押して、決められた長さまで削ります',
+    color: '#ff6b6b',
+  },
+  interview: {
+    name: '足りないことを聞き出そう',
+    icon: 'compass',
+    rule: '聞ける回数は決まっている',
+    how: 'ふわっとした依頼を、限られた質問で書ける形にします',
+    color: '#4dd6c1',
+  },
+  judge: {
+    name: 'どちらを採るか決めよう',
+    icon: 'target',
+    rule: '2つの出力を見比べる',
+    how: '採るほうを選んで、そのあと「なぜ」まで選びます',
+    color: '#b8a4ff',
+  },
   'ai-prompt': {
     name: '本物のAIに指示を出そう',
     icon: 'bulb',
@@ -179,6 +203,12 @@ export function allowOf(spec: LessonInteractive): number {
     case 'fit':
       return spec.allow ?? 2;
     case 'redline':
+      return spec.allow ?? 2;
+    case 'trim':
+      return spec.allow ?? 2;
+    case 'interview':
+      return spec.allow ?? 1;
+    case 'judge':
       return spec.allow ?? 2;
     case 'ai-prompt':
       return 2;
@@ -341,6 +371,12 @@ export function MiniGame({
                   <FitPlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'redline' ? (
                   <RedlinePlay key={round} spec={spec} onClear={clear} />
+                ) : spec.kind === 'trim' ? (
+                  <TrimPlay key={round} spec={spec} onClear={clear} />
+                ) : spec.kind === 'interview' ? (
+                  <InterviewPlay key={round} spec={spec} onClear={clear} />
+                ) : spec.kind === 'judge' ? (
+                  <JudgePlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'ai-prompt' ? (
                   <AiPromptPlay key={round} spec={spec} onClear={clear} />
                 ) : (
