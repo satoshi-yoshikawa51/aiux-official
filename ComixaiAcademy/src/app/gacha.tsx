@@ -447,6 +447,7 @@ export default function GachaScreen() {
                     rarity={sk.rarity}
                     swatch={sk.swatch}
                     face={owned ? sk.face : undefined}
+                    chip={sk.swatch}
                     owned={owned}
                     active={state.avatarId === a.id && state.skinId === sk.id}
                     onPress={() => owned && setLook(a.id, sk.id)}
@@ -929,6 +930,7 @@ function AvatarCard({
   rarity,
   swatch,
   face,
+  chip,
   owned,
   active,
   preparing = false,
@@ -940,6 +942,8 @@ function AvatarCard({
   swatch: string;
   /** 顔のサムネイル。無ければ swatch の丸に落ちる */
   face?: number;
+  /** 色違いのときだけ、その色の点を顔に添える（→ components/avatar-face.tsx） */
+  chip?: string;
   owned: boolean;
   active: boolean;
   preparing?: boolean;
@@ -966,7 +970,7 @@ function AvatarCard({
           {owned || preparing ? (
             /* 顔を出す。焼けていない相棒だけ、これまでどおり色の丸
                （→ components/avatar-face.tsx） */
-            <AvatarFace face={face} swatch={swatch} size={44} dim={preparing} />
+            <AvatarFace face={face} swatch={swatch} size={44} dim={preparing} chip={chip} />
           ) : (
             <Icon name="lock" size={20} color={T.disabled} opacity={0.6} />
           )}

@@ -30,10 +30,17 @@ interface Props {
   size: number;
   /** 未入手・準備中のときに薄くする */
   dim?: boolean;
+  /** ▍色違いの「その色」を右下に小さく出す
+      色違いは**服だけ**を塗り替えている（髪はムラが出るのでやめた
+      → data/avatars.ts の SKINS）。顔サムネイルは首から上なので、
+      「おっとり」と「おっとり_ももズボンver」が**まったく同じ絵**になる。
+      名前を読まないと見分けられないのでは丸を出している意味がないため、
+      色違いのカードにだけ、その色の点を添える。 */
+  chip?: string;
 }
 
-export function AvatarFace({ face, swatch, size, dim = false }: Props) {
-  return (
+export function AvatarFace({ face, swatch, size, dim = false, chip }: Props) {
+  const circle = (
     <View
       style={{
         width: size,
@@ -68,6 +75,27 @@ export function AvatarFace({ face, swatch, size, dim = false }: Props) {
           }}
         />
       )}
+    </View>
+  );
+  if (!chip || !face) return circle;
+  const d = Math.round(size * 0.34);
+  return (
+    <View style={{ width: size, height: size }}>
+      {circle}
+      <View
+        style={{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: d,
+          height: d,
+          borderRadius: d / 2,
+          backgroundColor: chip,
+          borderWidth: size >= 30 ? BW.line : 1.5,
+          borderColor: C.ink900,
+          opacity: dim ? 0.45 : 1,
+        }}
+      />
     </View>
   );
 }

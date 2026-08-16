@@ -130,6 +130,7 @@ export default function SettingsScreen() {
               name: avatarLabel(a),
               note: a.tagline,
               dot: a.accent,
+              chip: undefined as string | undefined,
               face: a.face,
             },
             ...SKINS.filter((sk) => sk.avatarId === a.id && state.skins[sk.id]).map((sk) => ({
@@ -137,6 +138,7 @@ export default function SettingsScreen() {
               name: sk.name,
               note: sk.desc,
               dot: sk.swatch,
+              chip: sk.swatch,
               face: sk.face,
             })),
           ];
@@ -153,7 +155,7 @@ export default function SettingsScreen() {
                         「せんぱい」と「せんぱい_金髪ver」のように**同じ人の
                         別バージョン**が並ぶので、色の点だけだと見分けに
                         名前を読むしかなかった（→ components/avatar-face.tsx） */}
-                    <AvatarFace face={look.face} swatch={look.dot} size={34} />
+                    <AvatarFace face={look.face} swatch={look.dot} size={34} chip={look.chip} />
                     <View style={{ flex: 1 }}>
                       <Text style={F.strong}>{look.name}</Text>
                       <Text style={F.tiny}>{look.note}</Text>

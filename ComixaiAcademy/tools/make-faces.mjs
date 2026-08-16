@@ -49,12 +49,15 @@ const LOOKS = [
     { out: id === 'sensei' ? 'senpai' : id, glb: id, tex: `${id}-texture` },
     { out: `${id === 'sensei' ? 'senpai' : id}-sr`, glb: `${id === 'sensei' ? 'senpai' : id}-sr`, tex: `${id === 'sensei' ? 'senpai' : id}-sr-texture` },
   ]),
-  /* 色違い（→ data/avatars.ts の SKINS）。モデルは素と同じで、貼る絵だけ違う */
-  { out: 'senpai-kin', glb: 'sensei', tex: 'sensei-kin-texture' },
-  { out: 'ottori-sakura', glb: 'ottori', tex: 'ottori-r-texture' },
+  /* 色違い（→ data/avatars.ts の SKINS）。モデルは素と同じで、貼る絵だけ違う。
+     **服だけを塗るので、顔サムネイルではほとんど違いが出ない**（襟と肩が
+     少し見えるだけ）。それでも焼くのは、一覧の丸が全部おなじ絵だと
+     「持っている／持っていない」が並んだときに落ち着かないため。 */
+  { out: 'ottori-momoiro', glb: 'ottori', tex: 'ottori-r-texture' },
   { out: 'nekketsu-aka', glb: 'nekketsu', tex: 'nekketsu-r-texture' },
+  { out: 'senpai-karashi', glb: 'sensei', tex: 'sensei-r-texture' },
   { out: 'otenba-fuji', glb: 'otenba', tex: 'otenba-r-texture' },
-  { out: 'kanroku-shiraga', glb: 'kanroku', tex: 'kanroku-r-texture' },
+  { out: 'kanroku-midori', glb: 'kanroku', tex: 'kanroku-r-texture' },
   { out: 'neko-ao', glb: 'neko', tex: 'neko-r-texture' },
 ];
 

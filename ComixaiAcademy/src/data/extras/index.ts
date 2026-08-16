@@ -47,12 +47,12 @@ export const EXTRAS: Extra[] = [...STAGE_EXTRAS, ...SR_EXTRAS];
 
 /* ▍いま景品が無いおまけ（銀髪・桃色）
 
-   色違いを金髪だけに絞ったので、この2本は**当てられない景品のおまけ**に
-   なった。中身は書けているので消さずに置いておき、キャラごとのR色違いを
-   作ったときに prizeId を付け替えて EXTRAS に戻す
-   （レア度は「同じキャラでN→R→SR」の3段で積む方針 → data/avatars.ts）。
+   **髪の色違いをやめた**ので（ムラが出る。→ data/avatars.ts の SKINS）、
+   この2本は当てられない景品のおまけになった。中身は「その色のときの
+   先生の気分」で書いてあるぶん、いまのR（服の色違い）にそのままは
+   移せない。書き直して prizeId を付け替えるか、捨てるかの判断待ち。
 
-   戻すときは EXTRA_TOTAL も一緒に増やすこと。 */
+   EXTRAS に戻すときは EXTRA_TOTAL も一緒に増やすこと。 */
 export const PENDING_EXTRAS: Extra[] = AVATAR_EXTRAS;
 
 /** レア度ごとの報酬P。クリアの初回だけ入る */

@@ -463,16 +463,23 @@ export function migrateAvatars<T extends { avatarId: string | null; skins: Recor
 
 /* ============================================================
    ▍色違いアバター
-   「金髪の先生」のような色違いを、**独立した1体のアバター**として
-   扱う（選べるアバターがガチャでどんどん増えていく建て付け。
+   「赤いスーツのねっけつ」のような色違いを、**独立した1体のアバター**と
+   して扱う（選べるアバターがガチャでどんどん増えていく建て付け。
    キャラ本体のモデルが増えたら、それもガチャの景品に足す）。
    性格・セリフはベースのキャラ（avatarId）から引き継ぐ——
    色が変わっても同じ人。
 
    GLBは共通で、テクスチャの差し替えだけで成立する。
-   テクスチャは tools/recolor-sensei.mjs が元の1枚から生成する
-   （髪だけ塗り替える。作り方はツールの冒頭コメントに）。
+   テクスチャは tools/recolor-avatar.mjs が元の1枚から生成する
+   （作り方はツールの冒頭コメントに）。
    ガチャの景品になる（→ data/gacha.ts の GACHA_POOL）。
+
+   ▍**塗るのは服だけ。髪はやらない**
+   はじめは髪の色を変えていた（金髪の先生・白髪のかんろく など）。
+   絵として見られるものにはなったが、**どうしてもムラが出る**。
+   髪は毛束ごとに明暗の幅が広く、UVも細かく割れているので、島で選んでも
+   画素で拾っても必ず取りこぼしが残る（前髪だけ元の色、毛先だけ茶色）。
+   服は面が広くて色が平らなので、同じ道具でもきれいに出る。
    ============================================================ */
 
 export interface AvatarSkin {
@@ -483,7 +490,7 @@ export interface AvatarSkin {
   rarity: Rarity;
   /** 引いたときに出す一言 */
   desc: string;
-  /** 選択UIで見せる髪の色。**顔のサムネイル（face）が無いときの代役** */
+  /** 選択UIで見せる代表の色。**顔のサムネイル（face）が無いときの代役** */
   swatch: string;
   texture: number;
   /** 顔のサムネイル（→ AvatarDef.face） */
@@ -492,7 +499,7 @@ export interface AvatarSkin {
 
 /* ▍レア度は「同じキャラで3段」に積む（これから揃えていく方針）
      N  … キャラ本体（→ AVATARS）
-     R  … 色違い。tools/recolor-sensei.mjs で髪を塗り替える（→ このSKINS）
+     R  … 色違い。tools/recolor-avatar.mjs で服を塗り替える（→ このSKINS）
      SR … 衣装を変えたモデルを別途つくって足す
    つまり1人につきN・R・SRが1組そろう形を目指す。
 
@@ -506,27 +513,17 @@ export interface AvatarSkin {
    名前は「<ひらがな名>_<色や部位>ver」（→ avatarLabel と同じ書き方）。 */
 export const SKINS: AvatarSkin[] = [
   {
-    id: 'kin',
-    avatarId: 'senpai',
-    name: 'せんぱい_金髪ver',
-    rarity: 'R',
-    desc: '金色。教室がまぶしい。',
-    swatch: '#d8a61c',
-    texture: require('@/assets/models/sensei-kin-texture.jpg'),
-    face: require('@/assets/faces/senpai-kin.png'),
-  },
-  {
-    /* 髪もズボンも靴も、暗い所をまとめて桜色に振った（島を色で選ばない指定）。
-       node tools/recolor-avatar.mjs ottori --lmax 0.30 --edge \
-         --hue 344 --sat 0.40 --lift 0.38 --out ottori-r */
-    id: 'sakura',
+    /* もも色のズボン。**シャツ（水色・明るい）を残すために --lmax で切る**。
+       node tools/recolor-avatar.mjs ottori --hmin 190 --hmax 250 --smin 0.12 \
+         --lmax 0.45 --edge --strict --hue 345 --sat 0.52 --lift 0.40 --out ottori-r */
+    id: 'momoiro',
     avatarId: 'ottori',
-    name: 'おっとり_桜ver',
+    name: 'おっとり_ももズボンver',
     rarity: 'R',
-    desc: '春の色。ぽかぽかしてきますね。',
-    swatch: '#b34d68',
+    desc: '春の色にしてみました。ぽかぽかしますね。',
+    swatch: '#c0475f',
     texture: require('@/assets/models/ottori-r-texture.jpg'),
-    face: require('@/assets/faces/ottori-sakura.png'),
+    face: require('@/assets/faces/ottori-momoiro.png'),
   },
   {
     /* 紺のスーツだけを赤へ。髪（色相8前後）と靴（300〜330）は色相の窓から外れる。
@@ -542,31 +539,46 @@ export const SKINS: AvatarSkin[] = [
     face: require('@/assets/faces/nekketsu-aka.png'),
   },
   {
-    /* 髪だけ藤色に。**肌と髪は色相が近い**ので 13 で切り、瞳は島ごと避ける。
-       node tools/recolor-avatar.mjs otenba --hmin 13 --hmax 40 --smin 0.25 \
-         --lmax 0.42 --ymin 0.42 --edge --hue 285 --sat 0.40 --lift 0.45 --out otenba-r */
+    /* ジャケットだけからし色へ。**上着とズボンは高さが重なる**（上着の裾-0.27、
+       ズボンの腰-0.22）ので、高さでは切り分けられない。彩度で分ける——
+       上着0.36〜0.42／ズボン0.22〜0.26。髪は --ymax で外す。
+       node tools/recolor-avatar.mjs sensei --hmin 195 --hmax 215 --smin 0.30 --lmax 0.30 \
+         --ymin -0.35 --ymax 0.36 --edge --strict --hue 42 --sat 0.55 --lift 0.60 --out sensei-r */
+    id: 'karashi',
+    avatarId: 'senpai',
+    name: 'せんぱい_からしジャケットver',
+    rarity: 'R',
+    desc: 'これ？ ……まあ、たまには。',
+    swatch: '#9a7a12',
+    texture: require('@/assets/models/sensei-r-texture.jpg'),
+    face: require('@/assets/faces/senpai-karashi.png'),
+  },
+  {
+    /* セーターだけ藤色へ。レギンス（色相212）と靴は色相と高さの窓から外れる。
+       node tools/recolor-avatar.mjs otenba --hmin 185 --hmax 205 --smin 0.25 --ymin -0.3 \
+         --edge --strict --hue 282 --sat 0.36 --lift 0.95 --out otenba-r */
     id: 'fuji',
     avatarId: 'otenba',
-    name: 'おてんば_藤色ver',
+    name: 'おてんば_藤色ニットver',
     rarity: 'R',
     desc: 'この色まじエモくない？ 盛れてるっしょ。',
-    swatch: '#a867be',
+    swatch: '#7b4a9c',
     texture: require('@/assets/models/otenba-r-texture.jpg'),
     face: require('@/assets/faces/otenba-fuji.png'),
   },
   {
-    /* 髪を白へ。上着が濃紺で**髪と明るさがほぼ同じ**なので、色相と高さの
-       両方で切らないと上着まで灰色になる。
-       node tools/recolor-avatar.mjs kanroku --hmin 330 --hmax 45 --smax 0.22 \
-         --lmax 0.22 --ymin 0.6 --edge --hue 210 --sat 0.05 --lift 0.32 --out kanroku-r */
-    id: 'shiraga',
+    /* シャツだけ深緑へ。**上下とも真っ黒**なので、高さでしか切り分けられない
+       （腿の島は上端-0.13、シャツの裾は-0.25）。眼鏡も黒いので --ymax で外す。
+       node tools/recolor-avatar.mjs kanroku --hmin 190 --hmax 260 --smin 0.05 \
+         --ymin -0.10 --ymax 0.45 --edge --strict --hue 155 --sat 0.42 --lift 0.72 --out kanroku-r */
+    id: 'midori',
     avatarId: 'kanroku',
-    name: 'かんろく_白髪ver',
+    name: 'かんろく_深緑シャツver',
     rarity: 'R',
-    desc: '歳月は、味方にもなるものでね。',
-    swatch: '#8a9199',
+    desc: 'たまには、こういう色もいいだろう。',
+    swatch: '#2c6b45',
     texture: require('@/assets/models/kanroku-r-texture.jpg'),
-    face: require('@/assets/faces/kanroku-shiraga.png'),
+    face: require('@/assets/faces/kanroku-midori.png'),
   },
   {
     /* シャツだけ青へ。**--strict が要る**——体との境目は黄緑のぼかしで、
