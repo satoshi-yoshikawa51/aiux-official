@@ -262,6 +262,22 @@ const rows = [...stats.entries()]
   })
   .sort((a, b) => b.画素 - a.画素);
 
+/* ▍UV座標を指すと、そこの島を教える（--at u,v）
+   「この見えている部分がどの島か」を突き止める道具。画面の点からUVは
+   scratch の uvat.mjs（レイキャスト）で出す。**島の判定を疑うときに使う**
+   ——おっとりの片目だけが染まったのは、瞳が白目を1画素も含まない別の
+   小さな島に分かれていたからで、この2段構えで初めて分かった。 */
+for (const a of args.filter((_, i) => args[i - 1] === '--at')) {
+  const [u, v] = a.split(',').map(Number);
+  const p = Math.min(SIZE - 1, Math.round(v * SIZE)) * SIZE + Math.min(SIZE - 1, Math.round(u * SIZE));
+  const isl = islandMap[p];
+  const st = stats.get(isl);
+  const b = box.get(isl);
+  console.log(`UV(${u}, ${v}) → 島 ${isl}`, st
+    ? `画素${st.n} 白目${(st.white / st.n).toFixed(3)} 明度${(st.l / st.n).toFixed(2)} 高さ${b.minY.toFixed(2)}〜${b.maxY.toFixed(2)}`
+    : '（島に載っていない）');
+}
+
 if (DIAGNOSE) {
   /* ▍表は「上から20個」では足りないことがある
      かんろくは上着（濃紺）の島が細かく割れていて、上位20個が全部そこで
@@ -301,8 +317,27 @@ const inHue = (h) => {
   return between(h, HMIN, HMAX);
 };
 const pick = new Set(ISLANDS);
-/** 白目を含む島＝目そのもの。塗らないだけでなく、--edge の拾い足しからも外す */
-const eyeIslands = new Set(rows.filter((r) => r.白目 > 0.03).map((r) => r.島));
+/* ▍「白目がある」だけで目とみなしてはいけない。**顔の高さも見る**
+   明るくて彩度の無い画素は、白いシャツのふちや金具のハイライトにもある。
+   高さを見ずに切ったせいで、ねっけつは**上着の襟と袖口の島が「目」に
+   なり**、そこだけ紺のまま残った（赤い上着に紺のまだら）。
+   目は顔にしか無いので、体の上のほうだけを対象にする。 */
+const allY = [...box.values()];
+const bodyMin = Math.min(...allY.map((b) => b.minY));
+const bodyMax = Math.max(...allY.map((b) => b.maxY));
+const EYE_YMIN = Number(opt('eye-ymin', bodyMin + (bodyMax - bodyMin) * 0.72));
+const upperHalf = (isl) => (box.get(isl)?.maxY ?? -99) >= EYE_YMIN;
+/** 白目だらけの島＝目そのもの。塗らないだけでなく、--edge の拾い足しからも外す */
+const eyeIslands = new Set(rows.filter((r) => r.白目 > 0.03 && upperHalf(r.島)).map((r) => r.島));
+/** ▍こちらは「**この島のどこかに目がある**」というだけの、ゆるい判定
+    おっとりは左右の目でアトラス上の入り方がまるで違う。片方は目だけの
+    小さな島（白目9.9%）で、もう片方は**顔の大きな塊の隅**にいる（白目1.2%）。
+    後者は上の判定に掛からないので、**片目だけが桜色に染まった**。
+    塗る／塗らないをこの緩さで決めると顔まで残ってしまうので、
+    下の「瞳のたどり」の**起点をどこから探すか**にだけ使う。 */
+const hasEyeIslands = new Set(
+  [...stats.entries()].filter(([isl, st]) => st.white >= 12 && upperHalf(isl)).map(([isl]) => isl),
+);
 if (!ISLANDS.length) {
   for (const r of rows) {
     const b = box.get(r.島);
@@ -368,18 +403,47 @@ if (EDGE) console.log(`顔の島の中から拾った画素: ${edged}`);
 const guard = new Uint8Array(SIZE * SIZE);
 if (KEEP_EYES) {
   const white = new Uint8Array(SIZE * SIZE);
+  const dark = new Uint8Array(SIZE * SIZE);
   for (let p = 0; p < SIZE * SIZE; p++) {
     const i = p * info.channels;
     const [, s, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
-    if (l > 0.75 && s < 0.18) white[p] = 255;
+    /* ▍白目の判定は**目のある島の中だけ**
+       明るくて彩度の無い画素は、白いシャツにも髪のハイライトにもある。
+       島を見ずに拾うと、そこから下の「たどり」が服や髪へ流れ出す
+       （おっとりでベルトが黒く残り、前髪に黒い筋が走った）。 */
+    if (l > 0.75 && s < 0.18 && hasEyeIslands.has(islandMap[p])) white[p] = 255;
+    if (l < 0.55) dark[p] = 255;
   }
+  /* ▍白目から、**暗い所づたいに**広げる（何画素で切るか、ではなく）
+     前は白目のまわり EYE_R 画素を守っていた。おっとりの片目だけが
+     桜色に染まったのがこれで、瞳がひとつの小さなUV島に分かれていて
+     （白目を含まないので「目の島」の判定にも掛からない）、外周
+     数画素ぶんしか守れていなかった。
+
+     瞳・まつげ・アイラインは**白目と絵の上でつながっている**ので、
+     暗い画素をたどれば島の切れ目に関係なく全部拾える。
+     たどりすぎて前髪へ逃げないよう、白目からの距離で頭打ちにする。 */
+  const MAX = Number(opt('eye-reach', 26));
+  const q = [];
+  const dist = new Int16Array(SIZE * SIZE).fill(-1);
+  for (let p = 0; p < SIZE * SIZE; p++) if (white[p]) { dist[p] = 0; q.push(p); }
+  for (let h = 0; h < q.length; h++) {
+    const p = q[h];
+    if (dist[p] >= MAX) continue;
+    const x = p % SIZE, y = (p / SIZE) | 0;
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const nx = x + dx, ny = y + dy;
+      if (nx < 0 || nx >= SIZE || ny < 0 || ny >= SIZE) continue;
+      const np = ny * SIZE + nx;
+      if (dist[np] >= 0 || !dark[np]) continue;
+      dist[np] = dist[p] + 1;
+      guard[np] = 255;
+      q.push(np);
+    }
+  }
+  /* 白目のすぐ外側は、暗くなくても守る（アイラインのふちのぼかし） */
   const near = dilate(white, EYE_R);
-  for (let p = 0; p < SIZE * SIZE; p++) {
-    if (!near[p]) continue;
-    const i = p * info.channels;
-    const [, , l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
-    if (l < 0.5) guard[p] = 255;
-  }
+  for (let p = 0; p < SIZE * SIZE; p++) if (near[p] && dark[p]) guard[p] = 255;
 }
 
 const out = Buffer.alloc(SIZE * SIZE * 3);
