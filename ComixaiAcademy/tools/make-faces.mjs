@@ -231,40 +231,44 @@ window.shoot = async (glb, tex, size, tilt) => {
     if (any) { topY = y; break; }
   }
 
-  /* ▍横の中心は**鼻**に合わせる
-     シルエットの真ん中では合わない。**顔が少し横を向いている子がいる**
-     （先輩がいちばん強く、髪の輪郭は真ん中なのに顔だけ左に寄って写っていた）。
-     骨の位置も当てにならない（Headの骨自体が x=0.041 ずれている子がいる）。
-     顔の中心は鼻——頭のあたりでいちばん前（+z）に出ている点で決まる。
-     顎の上下（headTilt）はX軸まわりなので、鼻の横位置には影響しない。 */
-  let noseX = at.x;
-  {
-    const hp = head ? head.getWorldPosition(new THREE.Vector3()) : at.clone();
-    let best = -Infinity;
-    const v = new THREE.Vector3();
-    gltf.scene.traverse((o) => {
-      if (!o.isMesh) return;
-      const p = o.geometry.attributes.position;
-      for (let i = 0; i < p.count; i++) {
-        v.fromBufferAttribute(p, i).applyMatrix4(o.matrixWorld);
-        if (v.y < hp.y || v.y > hp.y + headH) continue;
-        /* 耳や髪を拾わないよう、真ん中の帯だけを見る */
-        if (Math.abs(v.x - hp.x) > headH * 0.25) continue;
-        if (v.z > best) { best = v.z; noseX = v.x; }
-      }
-    });
-  }
-
   /* ▍首の線は**Head の骨を画面に投影して**取る
      「上から下りて幅が落ちた所が首」でも人は取れるが、**猫は取れない**。
      頭が肩に直に乗っていて、くびれが無いうえ、Tポーズの腕がすぐ横に来るので、
      幅が落ちる行が現れない（そのまま腕をいちばん広い行として拾い、
      顔幅91%＝全身、という測定値になった）。骨なら体型によらない。 */
   const anchor = (head ? head.getWorldPosition(new THREE.Vector3()) : at.clone());
-  anchor.x = noseX; // 横は鼻、縦は首
   const neckPt = anchor.clone().project(camera);
   const neckY = Math.min(size - 1, Math.max(0, ((1 - neckPt.y) / 2) * size));
-  const faceX = Math.min(size - 1, Math.max(0, ((neckPt.x + 1) / 2) * size));
+
+  /* ▍横の中心は**左右対称の軸**で決める
+     顔の中心をどう定義するかで、ここまで3回はずした：
+     - Head の骨 … 骨自体が x=0.041 ずれている子がいる
+     - シルエットの真ん中 … 髪の量が左右で違う子でずれる
+     - 鼻（頭でいちばん前に出ている点）… **前髪や眼鏡のほうが前に出ている**ので、
+       そちらを拾って横にずれる
+
+     人が「真ん中」と感じているのは**左右対称に見える位置**なので、それを直接さがす。
+     鏡に映した絵といちばん重なる軸が答え。焼き上がりを測って体感と突き合わせたら、
+     ぴたりと一致した（ねっけつ63%・かんろく63%・おっとり59%＝右に寄って見える、
+     かんばん39%＝左に寄って見える、先輩52%＝真ん中に見える）。 */
+  let faceX = size / 2;
+  {
+    let bestErr = Infinity;
+    for (let ax = size * 0.3; ax <= size * 0.7; ax += 0.5) {
+      let err = 0;
+      let n = 0;
+      for (let y = topY; y <= neckY; y += 2) {
+        for (let x = 0; x < size; x += 2) {
+          const mx = Math.round(2 * ax - x);
+          if (mx < 0 || mx >= size) continue;
+          err += Math.abs(solid[y * size + x] - solid[y * size + mx]);
+          n++;
+        }
+      }
+      const e = err / Math.max(1, n);
+      if (e < bestErr) { bestErr = e; faceX = ax; }
+    }
+  }
 
   /* 首から上でいちばん広い行＝頬の線。外接矩形ではなく行の幅で見るのは、
      王冠や盛り髪の高さに引きずられないため */
@@ -312,8 +316,25 @@ window.shoot = async (glb, tex, size, tilt) => {
   ctx.drawImage(renderer.domElement, 0, 0);
   const px2 = ctx.getImageData(0, 0, size, size).data;
   const neckPt2 = anchor.clone().project(camera);
-  const faceX2 = ((neckPt2.x + 1) / 2) * size;
   const neckY2 = ((1 - neckPt2.y) / 2) * size;
+  let faceX2 = size / 2;
+  {
+    let bestErr = Infinity;
+    for (let ax = size * 0.3; ax <= size * 0.7; ax += 0.5) {
+      let err = 0;
+      let n = 0;
+      for (let y = 0; y < Math.min(size, Math.round(neckY2)); y += 2) {
+        for (let x = 0; x < size; x += 2) {
+          const mx = Math.round(2 * ax - x);
+          if (mx < 0 || mx >= size) continue;
+          err += Math.abs((px2[(y * size + x) * 4 + 3] > 40 ? 1 : 0) - (px2[(y * size + mx) * 4 + 3] > 40 ? 1 : 0));
+          n++;
+        }
+      }
+      const e = err / Math.max(1, n);
+      if (e < bestErr) { bestErr = e; faceX2 = ax; }
+    }
+  }
   let got = 0;
   for (let y = 0; y < Math.min(size, Math.round(neckY2)); y++) {
     let x0 = -1, x1 = -1;
@@ -358,7 +379,7 @@ for (const look of LOOKS) {
   fs.writeFileSync(path.join(OUT, `${look.out}.png`), png);
   console.log(
     `${look.out.padEnd(14)} 顔${tilt > 0 ? '+' : ''}${tilt}° ` +
-      `／焼き上がり: 頭の幅${(r.got*100).toFixed(0)}% 鼻の横${(r.nose*100).toFixed(1)}% 首の高さ${(r.neck*100).toFixed(0)}% ` +
+      `／焼き上がり: 頭の幅${(r.got*100).toFixed(0)}% 対称軸${(r.nose*100).toFixed(1)}% 首の高さ${(r.neck*100).toFixed(0)}% ` +
       `→ ${(png.length / 1024).toFixed(0)}KB`,
   );
 }
