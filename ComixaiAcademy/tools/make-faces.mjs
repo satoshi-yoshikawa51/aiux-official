@@ -160,20 +160,131 @@ window.shoot = async (glb, tex, size, tilt) => {
   const headH = Math.max(box.max.y - at.y, tall * 0.12);
   at.y += headH * 0.48;
 
-  /* 頭のまわりに少し余白を残す。**きっちり詰めると、丸く抜いたときに
-     かんばん（猫）の耳とおっとりの髪が枠から切れる** */
-  const frame = headH * 1.62;
+  /* ▍1枚目は**わざと広く**撮る（測るためだけの絵）
+     詰めて撮ると顔が枠に当たり、シルエットの外接矩形が画面いっぱいになって
+     **測定値が全員同じ**になってしまう（実際それで、猫や熱血が全身に引いた）。 */
+  let frame = headH * 2.4;
   const fov = 24;
-  const dist = frame / 2 / Math.tan((fov / 2) * Math.PI / 180);
   /* 目の高さから水平に撮ると**見上げた顔**になる（鼻の穴が見えて、顎が
      大きく頭が小さく写る）。少し上に置いて見下ろすと証明写真の角度になる */
   const PITCH = (12 * Math.PI) / 180;
   const camera = new THREE.PerspectiveCamera(fov, 1, 0.01, 50);
-  camera.position.set(at.x, at.y + dist * Math.sin(PITCH), at.z + dist * Math.cos(PITCH));
-  camera.lookAt(at);
-
+  const aim = () => {
+    const dist = frame / 2 / Math.tan((fov / 2) * Math.PI / 180);
+    camera.position.set(at.x, at.y + dist * Math.sin(PITCH), at.z + dist * Math.cos(PITCH));
+    camera.lookAt(at);
+    camera.updateMatrixWorld(true);
+  };
+  aim();
   renderer.render(scene, camera);
-  return { png: renderer.domElement.toDataURL('image/png'), tall, headH, y: at.y };
+
+  /* ============================================================
+     ▍大きさと中心は、**焼いた絵から測って**合わせる
+
+     骨や外接箱で枠を決めると、キャラごとに顔の大きさが揃わない。
+     頭の高さを「Headの骨〜てっぺん」で測っているので、**王冠や盛った髪の
+     ぶんだけ枠が大きくなり、その子の顔だけ小さく写る**。中心も、Headの骨が
+     真ん中にあるとは限らない（おっとりは x=0.041 ずれていて、右に寄っていた）。
+
+     そこで1回撮ってから、その絵のシルエットを測って撮り直す：
+     - 細らせる（オープニング）と**ひげ・耳・王冠の飾りが消える**ので、
+       残った塊＝顔の輪郭。その幅を全員そろえれば、顔の大きさが揃う
+     - 塊の中心を画面の中心に持ってくる（横は完全に中央、縦は少し下げて
+       頭のてっぺんの余白を作る）
+     - ただし**髪や王冠まで入れた全体**が枠から出るなら、出ないところまで引く
+     ============================================================ */
+  /** 顔（頭のいちばん広いところ）の幅を、絵の何割にするか */
+  const FACE = 0.58;
+  /** 首の線を、絵の上から何割の位置に置くか（顎の高さを全員そろえる） */
+  const NECK = 0.86;
+
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(renderer.domElement, 0, 0);
+  const px = ctx.getImageData(0, 0, size, size).data;
+  const solid = new Uint8Array(size * size);
+  for (let i = 0; i < size * size; i++) solid[i] = px[i * 4 + 3] > 40 ? 1 : 0;
+  /* 細らせて、ひげ・毛先・王冠の細い飾りを落とす */
+  const r = Math.max(2, Math.round(size * 0.02));
+  const thin = new Uint8Array(solid.length);
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    let ok = 1;
+    for (let dy = -r; dy <= r && ok; dy++) for (let dx = -r; dx <= r && ok; dx++) {
+      const nx = x + dx, ny = y + dy;
+      if (nx < 0 || ny < 0 || nx >= size || ny >= size || !solid[ny * size + nx]) ok = 0;
+    }
+    thin[y * size + x] = ok;
+  }
+  /* 行ごとの幅と左右の端 */
+  const row = [];
+  for (let y = 0; y < size; y++) {
+    let x0 = -1, x1 = -1;
+    for (let x = 0; x < size; x++) if (thin[y * size + x]) { if (x0 < 0) x0 = x; x1 = x; }
+    row.push({ x0, x1, w: x0 < 0 ? 0 : x1 - x0 + 1, cx: x0 < 0 ? 0 : (x0 + x1) / 2 });
+  }
+  /* 髪・耳・王冠まで入れた本当の上端（細らせる前で見る） */
+  let topY = 0;
+  for (let y = 0; y < size; y++) {
+    let any = 0;
+    for (let x = 0; x < size && !any; x++) if (solid[y * size + x]) any = 1;
+    if (any) { topY = y; break; }
+  }
+
+  /* ▍首の線は**Head の骨を画面に投影して**取る
+     「上から下りて幅が落ちた所が首」でも人は取れるが、**猫は取れない**。
+     頭が肩に直に乗っていて、くびれが無いうえ、Tポーズの腕がすぐ横に来るので、
+     幅が落ちる行が現れない（そのまま腕をいちばん広い行として拾い、
+     顔幅91%＝全身、という測定値になった）。骨なら体型によらない。 */
+  const neckPt = (head ? head.getWorldPosition(new THREE.Vector3()) : at.clone()).project(camera);
+  const neckY = Math.min(size - 1, Math.max(0, ((1 - neckPt.y) / 2) * size));
+
+  /* 首から上でいちばん広い行＝頬の線。外接矩形ではなく行の幅で見るのは、
+     王冠や盛り髪の高さに引きずられないため */
+  let wide = 0;
+  let wideY = topY;
+  for (let y = topY; y <= neckY; y++) if (row[y].w > wide) { wide = row[y].w; wideY = y; }
+  /* はみ出しを見るのも首から上だけ（腕は関係ない） */
+  let sideMax = 0;
+  for (let y = topY; y <= neckY; y++) {
+    for (let x = 0; x < size; x++) {
+      if (!solid[y * size + x]) continue;
+      sideMax = Math.max(sideMax, Math.abs(x - row[wideY].cx));
+      break;
+    }
+    for (let x = size - 1; x >= 0; x--) {
+      if (!solid[y * size + x]) continue;
+      sideMax = Math.max(sideMax, Math.abs(x - row[wideY].cx));
+      break;
+    }
+  }
+
+  if (wide > 4) {
+    const perPx = frame / size; // 注視点の面での、1画素あたりのワールド長
+    const right = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
+    const up = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1);
+    /* 顔の幅をそろえる。髪や王冠がはみ出すなら、収まるまで引く */
+    const margin = 0.06;
+    frame = Math.max(
+      (wide * perPx) / FACE,
+      ((neckY - topY) * perPx) / (NECK - margin),
+      (sideMax * perPx) / (0.5 - margin),
+    );
+    /* 首の線と顔の中心を、決めた位置へ持っていく */
+    const neck = at.clone()
+      .add(right.clone().multiplyScalar((row[wideY].cx - size / 2) * perPx))
+      .add(up.clone().multiplyScalar(-(neckY - size / 2) * perPx));
+    at.copy(neck).add(up.clone().multiplyScalar((NECK - 0.5) * frame));
+    aim();
+    renderer.render(scene, camera);
+  }
+
+  return {
+    png: renderer.domElement.toDataURL('image/png'),
+    tall, headH,
+    wide: +(wide / size).toFixed(3),
+    neck: +(neckY / size).toFixed(3),
+  };
 };
 </script>`;
 fs.writeFileSync(path.join(APP, '_faces.html'), page);
@@ -201,9 +312,9 @@ for (const look of LOOKS) {
   const png = Buffer.from(r.png.split(',')[1], 'base64');
   fs.writeFileSync(path.join(OUT, `${look.out}.png`), png);
   console.log(
-    `${look.out.padEnd(14)} 全高${r.tall.toFixed(2)} 頭${r.headH.toFixed(2)}` +
-      `（全高の${Math.round((r.headH / r.tall) * 100)}%） 顔${tilt > 0 ? '+' : ''}${tilt}° ` +
-      `${(png.length / 1024).toFixed(0)}KB`,
+    `${look.out.padEnd(14)} 顔${tilt > 0 ? '+' : ''}${tilt}° ` +
+      `／広く撮った絵での 顔幅${(r.wide * 100).toFixed(0)}% 首${(r.neck * 100).toFixed(0)}% ` +
+      `→ ${(png.length / 1024).toFixed(0)}KB`,
   );
 }
 
