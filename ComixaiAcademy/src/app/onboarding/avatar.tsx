@@ -8,17 +8,27 @@ import React from 'react';
 import { Text, View, useWindowDimensions } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
+import { AvatarFace } from '@/components/avatar-face';
 import { Icon } from '@/components/icons';
 import { SaveTransfer } from '@/components/save-transfer';
 import { Badge, Button, Panel, PressCard, Row, Screen, ScreenHead } from '@/components/ui';
-import { AVATARS, DEFAULT_AVATAR_ID, getAvatar, isReady } from '@/data/avatars';
+import {
+  AVATARS,
+  DEFAULT_AVATAR_ID,
+  getAvatar,
+  isReady,
+  ownsAvatar,
+  type AvatarDef,
+} from '@/data/avatars';
 import { useProgress } from '@/store/progress';
 import { F, POP, S, T } from '@/theme';
 
 export default function AvatarPickScreen() {
   const router = useRouter();
-  const { setAvatar } = useProgress();
+  const { state, setAvatar } = useProgress();
   const { width } = useWindowDimensions();
+  /* 最初に選べるのは2人だけ。残りはガチャで仲間になる（→ data/gacha.ts） */
+  const canPick = (a: AvatarDef) => isReady(a) && ownsAvatar(a, state.skins);
 
   const [picked, setPicked] = React.useState<string>(DEFAULT_AVATAR_ID);
   const avatar = getAvatar(picked);
@@ -39,14 +49,14 @@ export default function AvatarPickScreen() {
         <ScreenHead
           pill="STEP 1 / 2"
           title="誰と学ぶ？"
-          note={`${AVATARS.length}人から選べます`}
+          note={`${AVATARS.filter(canPick).length}人から選べます`}
           noteRight="あとから変えられます"
         />
       }
       /* 決める口は下に貼り付けておく。一覧の末尾に置くと、
          スクロールしないと見つからない */
       footer={
-        <Button label="この相棒にする" size="lg" onPress={decide} disabled={!isReady(avatar)} />
+        <Button label="この相棒にする" size="lg" onPress={decide} disabled={!canPick(avatar)} />
       }>
       <Panel caption={avatar.tagline} contentStyle={{ alignItems: 'center', paddingBottom: S.xl + S.sm }}>
         <Avatar3D key={avatar.id} avatar={avatar} width={stageW} height={Math.round(stageW * 0.95)} />
@@ -54,20 +64,34 @@ export default function AvatarPickScreen() {
 
       <View style={{ gap: S.xs }}>
         {AVATARS.map((a) => {
-          const ready = isReady(a);
+          const pickable = canPick(a);
           const selected = a.id === picked;
+          /* 未入手のキャラも伏せて並べる。ここが伸びていくことを予告しておく */
           return (
-            <PressCard key={a.id} disabled={!ready} selected={selected} onPress={() => setPicked(a.id)}>
+            <PressCard key={a.id} disabled={!pickable} selected={selected} onPress={() => setPicked(a.id)}>
               <Row style={{ justifyContent: 'space-between' }}>
                 <Row gap={S.sm} style={{ flex: 1 }}>
-                  <Icon name={a.icon} size={24} color={T.text} />
+                  {/* ▍伏せている相棒は顔を出さない
+                      名前を「？？？」にしている意味が無くなる。鍵のまま置く
+                      （→ components/avatar-face.tsx は選べる人だけ） */}
+                  {pickable ? (
+                    <AvatarFace face={a.face} swatch={a.accent} size={34} />
+                  ) : (
+                    <View style={{ width: 34, alignItems: 'center' }}>
+                      <Icon name="lock" size={24} color={T.muted} />
+                    </View>
+                  )}
                   <View style={{ flex: 1 }}>
-                    <Text style={F.strong}>{a.name}</Text>
-                    <Text style={F.tiny}>{ready ? a.tagline : a.personality}</Text>
+                    <Text style={F.strong}>{pickable ? a.name : '？？？'}</Text>
+                    <Text style={F.tiny}>
+                      {pickable ? a.tagline : isReady(a) ? 'ガチャで仲間になります' : a.personality}
+                    </Text>
                   </View>
                 </Row>
-                {!ready ? (
+                {!isReady(a) ? (
                   <Badge tone="paper">準備中</Badge>
+                ) : !pickable ? (
+                  <Badge tone="paper">ガチャ</Badge>
                 ) : selected ? (
                   <Badge tone="red">選択中</Badge>
                 ) : null}
@@ -78,7 +102,7 @@ export default function AvatarPickScreen() {
       </View>
 
       <Text style={F.hand}>
-        「準備中」の相棒は、3Dモデルを追加すると選べるようになります
+        いま選べるのは2人。ほかの相棒はガチャで仲間になります
       </Text>
 
       {/* ▍機種変更・入れ直しの受け口（→ components/save-transfer.tsx）

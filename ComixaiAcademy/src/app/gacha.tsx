@@ -1,36 +1,53 @@
 /* ============================================================
    ガチャ。ガチャPを3枚入れてダイヤルを回すと、カプセルが落ちてくる。
 
-   ▍マシンは絵で描く（画像を使わない）
-   マンガのインク＋紙のデザインシステムそのままに、太い黒枠と
-   ベタ影のViewで組む。ドームの中にはカプセルが詰まっていて、
-   回すたびに1つ減って落ちてくる……ように見せる。
+   ▍マシンは絵、動くところだけ重ねる
+   もとは黒枠＋ベタ影のViewで描き起こしていたが、写真のような
+   マシンの絵に差し替えた。**動くのはダイヤルとカプセルだけ**なので、
+   その2つだけを絵の上に重ねる（位置の持ち方は下の MACHINE を見て）。
+   ドームに詰まったカプセルは、絵に描かれているものをそのまま使う。
 
    ▍段取り
    ダイヤルが回る（カリカリ音）→ マシンが揺れる → カプセルが
-   出口から落ちて弾む → タップで開ける → 景品がスタンプで出る。
+   出口から落ちて弾む → タップで蓋が飛ぶ → 景品がスタンプで出る。
    開けるまでを1タップ挟むのは、「何が出た？」の間を作るため。
 
-   ▍景品は舞台テーマと、先生のきせかえ（→ data/gacha.ts）
-   相棒の3Dモデルが増えたら、ここのプールに足す。
+   ▍カプセルの色でレア度を先に知らせる
+   青＝N ／ 赤＝R ／ 金＝SR。落ちてきた瞬間にもう分かるので、
+   タップする前がいちばん盛り上がる（→ components/capsule-3d.tsx）。
+
+   ▍景品は舞台テーマと、アバター（→ data/gacha.ts）
+   アバターには「キャラ本体」（別モデル。おてんば・かんろく・先輩）と
+   「色違い」（テクスチャ違い。せんぱい_金髪ver）の2種類があるが、
+   どちらも**1体増える**体験なので同じ景品として扱う。
    ============================================================ */
 import * as Haptics from 'expo-haptics';
-import { useRouter } from 'expo-router';
 import React from 'react';
-import { Animated, Easing, Image, Platform, Pressable, Text, View } from 'react-native';
+import { Animated, Easing, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Avatar3D } from '@/avatar/Avatar3D';
+import { AvatarFace } from '@/components/avatar-face';
+import { Capsule3D, CAPSULE_FILL, CAPSULE_OPEN_MS } from '@/components/capsule-3d';
 import { Icon } from '@/components/icons';
-import { PopIn, SlideIn, Stamp, useSparkBurst, useTap } from '@/components/motion';
+import { PrizeRays, PrizeTwinkles } from '@/components/prize-shine';
+import { PopIn, useSparkBurst, useTap } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
-import { Badge, Button, Panel, Pop, Row, Screen, Tap } from '@/components/ui';
-import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, SKINS } from '@/data/avatars';
+import { Badge, Button, Panel, Row, Screen, Tap } from '@/components/ui';
+import {
+  AVATARS,
+  DEFAULT_SKIN_ID,
+  avatarLabel,
+  getAvatar,
+  lookOfPrize,
+  ownsAvatar,
+  SKINS,
+} from '@/data/avatars';
 import { ExtraList } from '@/components/extra-list';
+import { GachaCoachBand } from '@/components/gacha-coach';
 import { ShareRow } from '@/components/share-row';
 import {
   DEFAULT_THEME_ID,
   DUPE_REFUND,
-  GACHA_POOL,
   getTheme,
   odds,
   RARITY_COLOR,
@@ -41,39 +58,150 @@ import {
 } from '@/data/gacha';
 import { playSound } from '@/lib/sound';
 import { useProgress, type SpinResult } from '@/store/progress';
-import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
+import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 const NATIVE = Platform.OS !== 'web';
 
-/* ドームの中に見えるカプセルの色。回すたびに減って見える */
-const CAPSULE_COLORS = ['#e60012', '#1a6cff', '#f5b301', '#1fa463', '#f08c00', '#8a5cf6'];
+/* ———— マシンの絵と、その上に重ねる部品の位置 ————
 
-type Phase = 'idle' | 'spinning' | 'dropped' | 'revealed';
+   ▍位置は「絵に対する割合」で持つ
+   マシンは1枚の絵なので、ダイヤルも取り出し口も**絵の中の座標**でしか
+   分からない。ピクセルで書くと表示幅を変えた瞬間にズレるので、割合で
+   持って表示寸法に掛ける。数字は絵から測って出した
+   （tools は使い捨て。ダイヤル＝銀色のいちばん大きなかたまり、
+   取り出し口＝下部の暗い赤のかたまり、をつながりで拾った）。
+
+   ▍ダイヤルだけ別の絵にして重ねる
+   絵に焼かれたダイヤルは回らない。銀の円板だけを**丸く切り出した**
+   gacha-dial.png を、同じ位置・同じ大きさで重ねて回す。円は回しても
+   輪郭が変わらないので、下の絵とズレない（溝と光沢だけが回る）。 */
+const MACHINE = {
+  src: require('@/assets/images/gacha-machine.png'),
+  dial: require('@/assets/images/gacha-dial.png'),
+  /** 絵の縦横比（966 / 640） */
+  ratio: 966 / 640,
+  /** ダイヤル：中心の位置と、直径（どちらも幅に対する割合） */
+  dialAt: { x: 0.4852, y: 0.7164, size: 0.2437 },
+  /** 取り出し口：カプセルの中心を置く位置と、**見た目の直径**（幅に対する割合）。
+
+      絵の中央を縦に読むと、口の天井が0.817・受け皿の面が0.955なので、
+      内側の高さは0.138（＝48pt）。そこに収まる直径にして、底が受け皿に
+      載る高さへ中心を置いてある。
+      **カプセルは絵の上に描くので、はみ出すと口の外に浮いて見える** */
+  chuteAt: { x: 0.4664, y: 0.893, ball: 0.187 },
+  /** 取り出し口の天井（絵の高さに対する割合）。ここより上にカプセルが
+      来ているあいだは、マシンの絵で隠して「中を通っている」ことにする */
+  chuteCeiling: 0.817,
+} as const;
+const MACHINE_W = 232;
+const MACHINE_H = Math.round(MACHINE_W * MACHINE.ratio);
+
+/* ———— カプセルの寸法 ————
+   3Dは**いつも CAP_BOX で描いて、倍率だけ動かす**（→ 使っているところの
+   メモ）。口に収まっているときは CAP_REST まで縮め、押されたら等倍まで
+   開いて手前に出る。 */
+const CAP_BOX = 168;
+/* 口に収まっているときの倍率。**枠の中で球が占める割合（CAPSULE_FILL）を
+   通して逆算する**——3D側の画角を変えると球の見かけの大きさが変わるので、
+   ここに直接の数字を書くと黙ってズレる */
+const CAP_REST = (MACHINE.chuteAt.ball / CAPSULE_FILL) * MACHINE_W / CAP_BOX;
+/** 手前に出るのにかける時間 */
+const POP_MS = 300;
+
+/* カードは、カプセルが開いたところ＝画面の中央に生まれる。
+   横も縦もそこなので、ずらす量は要らない */
+const CARD_OUT_MS = 460;
+
+/* popping＝押されて手前に出ている最中、opening＝蓋が飛んでいる最中。
+   この2つを挟まないと、押した瞬間に結果のカードが覆いかぶさって
+   **開く演出が一度も見えない** */
+type Phase = 'idle' | 'spinning' | 'dropped' | 'popping' | 'opening' | 'revealed';
 
 export default function GachaScreen() {
   const { state, spinGacha, setTheme, setLook } = useProgress();
   const burst = useSparkBurst();
   const [phase, setPhase] = React.useState<Phase>('idle');
   const [result, setResult] = React.useState<SpinResult | null>(null);
+  /* この画面で1回でもまわしたか（案内の文言が変わる → gacha-coach.tsx） */
+  const [spunOnce, setSpunOnce] = React.useState(false);
 
-  /* ダイヤルの回転・マシンの揺れ・カプセルの落下 */
+  /* ダイヤルの回転・マシンの揺れ・カプセルの落下・手前に出る動き */
   const dial = React.useRef(new Animated.Value(0)).current;
   const shake = React.useRef(new Animated.Value(0)).current;
   const drop = React.useRef(new Animated.Value(0)).current;
+  const pop = React.useRef(new Animated.Value(0)).current;
+
+  /* ▍マシンが画面のどこにいるかを測る
+     カプセルは画面いっぱいの層に出す（中央まで動かしたいので）。
+     その層の中で口の位置に置くには、**マシンの窓座標**が要る。
+     並びは上の案内バンドの有無で動くし、画面はスクロールもするので、
+     置いたときだけでなく**まわす前・押す前にも測り直す** */
+  const machineRef = React.useRef<View>(null);
+  const [mWin, setMWin] = React.useState<{ x: number; y: number } | null>(null);
+  const measureMachine = React.useCallback(() => {
+    machineRef.current?.measureInWindow((x, y) => {
+      if (typeof x !== 'number' || Number.isNaN(x)) return;
+      setMWin((p) => (p && Math.abs(p.x - x) < 0.5 && Math.abs(p.y - y) < 0.5 ? p : { x, y }));
+    });
+  }, []);
+
+  /* ▍まんなかは「層の寸法」から出す。画面の寸法は使わない
+     Dimensions（useWindowDimensions）の高さは、環境によって表示領域と
+     食い違う。実際それで、中央に寄せたつもりのカプセルが64ptも下に
+     止まっていた。**カプセルを置いている層そのものを測って**、その
+     まんなかを狙う。層は画面いっぱいなので、これが見えている中央。
+     **ref ではなく state で持つこと。** refで持っていたとき、層が
+     出たてのあいだは 0 のままで描かれ、**落ちてくる数コマだけ
+     カプセルが64pt下（マシンの外）に居た**。測り直しても再描画が
+     かからないので、位置が古いまま残る。 */
+  const layerRef = React.useRef<View>(null);
+  const [layer, setLayer] = React.useState({ x: 0, y: 0, w: 0, h: 0 });
+  const measureLayer = React.useCallback(() => {
+    layerRef.current?.measureInWindow((x, y, w, h) => {
+      if (typeof w !== 'number' || !w) return;
+      setLayer((p) =>
+        Math.abs(p.x - x) < 0.5 && Math.abs(p.y - y) < 0.5 && Math.abs(p.h - h) < 0.5
+          ? p
+          : { x, y, w, h },
+      );
+    });
+  }, []);
+
+  /* 手前に出るときの行き先（px）。**描画のたびに作り直される
+     interpolate に入れると、測り直した値が間に合わない**ことがあるので、
+     値そのものを持って掛け算する（Animated.multiply） */
+  const popDX = React.useRef(new Animated.Value(0)).current;
+  const popDY = React.useRef(new Animated.Value(0)).current;
 
   /* 引退したテーマの記録が残っていても数に入れない（→ data/gacha.ts） */
   const ownedThemes = THEMES.filter((t) => t.id !== DEFAULT_THEME_ID && state.themes[t.id]).length;
-  const ownedSkins = Object.keys(state.skins).length;
+  /* アバターの持ち数は「キャラ本体 ＋ 色違い」。景品から外した色違いの
+     記録が残っていても数に入れない（舞台と同じ扱い） */
+  const playable = AVATARS.filter((a) => a.model);
+  const ownedAvatars =
+    playable.filter((a) => ownsAvatar(a, state.skins)).length +
+    SKINS.filter((sk) => state.skins[sk.id]).length;
+  const totalAvatars = playable.length + SKINS.length;
   const canSpin = state.coins >= SPIN_COST && phase === 'idle';
 
   const spin = () => {
     if (!canSpin) return;
     const r = spinGacha();
     if (!r) return;
+    measureMachine();
     setResult(r);
+    setSpunOnce(true);
     setPhase('spinning');
     playSound('start');
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
+
+    /* ▍カプセルはここで引っ込める
+       drop を戻すのをダイヤルが回りきったあと（800ms後）にしていたので、
+       **2回目以降は前回の1が残ったまま**で、回している最中に受け皿へ
+       カプセルが座っていた。落ちる前にもう1個見えてしまう。
+       まわし始めた時点で、口の上（見えない位置）に戻す */
+    drop.setValue(0);
+    pop.setValue(0);
 
     /* ダイヤル1回転。途中でカリ、カリ、カリ */
     dial.setValue(0);
@@ -103,20 +231,48 @@ export default function GachaScreen() {
     });
   };
 
+  /* 押されたら、手前に出る → 蓋が飛ぶ → カードが出る、の順で見せる。
+     ひと息ずつ待たないと、開封が0フレームで隠れる */
   const open = (x: number, y: number) => {
     if (phase !== 'dropped' || !result) return;
-    setPhase('revealed');
-    burst(x, y, result.prize.rarity === 'SR' ? 2.6 : 1.8);
-    playSound(result.prize.rarity === 'SR' ? 'badge' : 'clear');
-    if (result.prize.rarity === 'SR') setTimeout(() => playSound('star'), 300);
-    if (Platform.OS !== 'web') {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-    }
+    /* 押された時点で測り直して、まんなかまでの距離を決める */
+    measureLayer();
+    measureMachine();
+    machineRef.current?.measureInWindow((mx, my) => {
+      const cx = mx - layer.x + MACHINE.chuteAt.x * MACHINE_W;
+      const cy = my - layer.y + MACHINE.chuteAt.y * MACHINE_H;
+      popDX.setValue(layer.w ? layer.w / 2 - cx : 0);
+      popDY.setValue(layer.h ? layer.h / 2 - cy : 0);
+    });
+    setPhase('popping');
+    playSound('pick');
+    if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+
+    pop.setValue(0);
+    Animated.timing(pop, {
+      toValue: 1,
+      duration: POP_MS,
+      /* 行き過ぎて戻る。手前へ「ポン」と出る手ざわりはここで決まる */
+      easing: Easing.out(Easing.back(2.2)),
+      useNativeDriver: NATIVE,
+    }).start(({ finished }) => {
+      if (!finished) return;
+      setPhase('opening');
+      setTimeout(() => setPhase('revealed'), CAPSULE_OPEN_MS);
+      burst(x, y, result.prize.rarity === 'SR' ? 2.6 : 1.8);
+      playSound(result.prize.rarity === 'SR' ? 'badge' : 'clear');
+      if (result.prize.rarity === 'SR') setTimeout(() => playSound('star'), 300);
+      if (Platform.OS !== 'web') {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+      }
+    });
   };
 
   const closeResult = () => {
     setResult(null);
     setPhase('idle');
+    /* 次に落ちてくるカプセルは、また口の中で小さく待つ */
+    pop.setValue(0);
   };
 
   const dialDeg = dial.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
@@ -124,11 +280,22 @@ export default function GachaScreen() {
     inputRange: [0, 0.25, 0.5, 0.75, 1],
     outputRange: [0, 5, -4, 3, 0],
   });
-  /* 出口の高さぶん落として、弾ませる */
-  const dropY = drop.interpolate({ inputRange: [0, 1], outputRange: [-46, 0] });
+  /* ドームの高さぶん落として、弾ませる */
+  const dropY = drop.interpolate({ inputRange: [0, 1], outputRange: [-MACHINE_H * 0.42, 0] });
+  /* 口の中心が、層の中のどこにあたるか */
+  const chute = mWin && {
+    x: mWin.x - layer.x + MACHINE.chuteAt.x * MACHINE_W,
+    y: mWin.y - layer.y + MACHINE.chuteAt.y * MACHINE_H,
+  };
+  /* 押されたあと、**まんなかまで**出てきながら等倍まで開く */
+  const popTX = Animated.multiply(pop, popDX);
+  const popTY = Animated.multiply(pop, popDY);
+  const popScale = pop.interpolate({ inputRange: [0, 1], outputRange: [CAP_REST, 1] });
 
-  /* 落ちてきたカプセルの色は、引いた景品のレア度で */
-  const capsuleColor = result ? RARITY_COLOR[result.prize.rarity] : C.red500;
+  /* 一度でもまわしたら、カプセルは置いたままにする（→ capsule-3d.tsx の
+     冒頭。出し入れするとWebGLのコンテキストが尽きる）。見え隠れは
+     opacity で、当たり判定は phase で切る */
+  const capsuleLive = phase !== 'idle' || spunOnce;
 
   return (
     /* 開封カードはスクロールの外に重ねる。Screenの中に置くと、
@@ -145,169 +312,55 @@ export default function GachaScreen() {
           </Text>
         </Row>
         <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
-          舞台 {ownedThemes + 1}/{THEMES.length} ・ アバター {ownedSkins + 1}/{SKINS.length + 1}
+          舞台 {ownedThemes + 1}/{THEMES.length} ・ アバター {ownedAvatars}/{totalAvatars}
         </Text>
       </Row>
 
-      {/* ———— マシン ———— */}
-      <View style={{ alignItems: 'center' }}>
-        <Animated.View style={{ transform: [{ translateX: shakeX }], alignItems: 'center' }}>
-          {/* ドーム */}
-          <Pop radius={R.full} reserve={false}>
-            <View
-              style={{
-                width: 190,
-                height: 190,
-                borderRadius: 95,
-                backgroundColor: '#eef4ff',
-                borderWidth: BW.heavy,
-                borderColor: C.ink900,
-                overflow: 'hidden',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-              }}>
-              {/* 中のカプセル。残りPが多いほど詰まって見える…わけではなく飾り */}
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                  justifyContent: 'center',
-                  paddingBottom: 12,
-                  paddingHorizontal: 16,
-                  gap: 4,
-                }}>
-                {CAPSULE_COLORS.concat(CAPSULE_COLORS.slice(0, 3)).map((c, i) => (
-                  <View
-                    key={i}
-                    style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: 17,
-                      backgroundColor: c,
-                      borderWidth: BW.line,
-                      borderColor: C.ink900,
-                      /* 上半分に光を入れてカプセルらしく */
-                      overflow: 'hidden',
-                    }}>
-                    <View
-                      style={{
-                        height: 15,
-                        backgroundColor: 'rgba(255,255,255,0.55)',
-                        borderTopLeftRadius: 17,
-                        borderTopRightRadius: 17,
-                      }}
-                    />
-                  </View>
-                ))}
-              </View>
-              {/* ガラスの反射 */}
-              <View
-                pointerEvents="none"
-                style={{
-                  position: 'absolute',
-                  top: 14,
-                  left: 22,
-                  width: 44,
-                  height: 20,
-                  borderRadius: 12,
-                  backgroundColor: 'rgba(255,255,255,0.65)',
-                  transform: [{ rotate: '-24deg' }],
-                }}
-              />
-            </View>
-          </Pop>
+      {/* 1本目を終えた人への案内。まわす前と後で言うことが変わる */}
+      <GachaCoachBand spun={spunOnce} />
 
-          {/* 胴体 */}
-          <Pop radius={R.md} reserve={false} style={{ marginTop: -10 }}>
-            <View
+      {/* ———— マシン ————
+           絵1枚の上に、回るダイヤルだけを重ねる。ドームの中のカプセルは
+           絵に描かれているものをそのまま使う。
+
+           ▍落ちてくるカプセルはここには居ない
+           押すと**画面の中央まで出てくる**ので、マシンの入れ物の中に
+           置くとそこまで動かせない。カプセルは画面いっぱいの層に出して、
+           この入れ物の位置を測って重ねている（→ 下の「カプセルの層」）。
+           ref は揺れないほうに付ける——揺れているものを測ると、
+           測った瞬間の揺れぶんだけ位置がずれる */}
+      <View style={{ alignItems: 'center' }}>
+        <View
+          ref={machineRef}
+          onLayout={measureMachine}
+          style={{ width: MACHINE_W, height: MACHINE_H }}>
+          <Animated.View
+            style={{
+              width: MACHINE_W,
+              height: MACHINE_H,
+              transform: [{ translateX: shakeX }],
+            }}>
+            <Image
+              source={MACHINE.src}
+              resizeMode="contain"
+              style={{ width: MACHINE_W, height: MACHINE_H }}
+            />
+
+            {/* 回るダイヤル */}
+            <Animated.Image
+              source={MACHINE.dial}
+              resizeMode="contain"
               style={{
-                width: 210,
-                borderRadius: R.md,
-                backgroundColor: C.red500,
-                borderWidth: BW.heavy,
-                borderColor: C.ink900,
-                alignItems: 'center',
-                paddingVertical: S.md,
-                gap: S.sm,
-              }}>
-              {/* ダイヤル。回すところ */}
-              <Animated.View style={{ transform: [{ rotate: dialDeg }] }}>
-                <View
-                  style={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: 32,
-                    backgroundColor: C.paper0,
-                    borderWidth: BW.bold,
-                    borderColor: C.ink900,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <View
-                    style={{
-                      width: 44,
-                      height: 12,
-                      borderRadius: 4,
-                      backgroundColor: C.ink900,
-                    }}
-                  />
-                </View>
-              </Animated.View>
-              <Text style={{ fontFamily: FONT.mono, fontSize: 9.5, letterSpacing: 2, color: C.paper50 }}>
-                {SPIN_COST}P / 1回
-              </Text>
-              {/* 出口 */}
-              <View
-                style={{
-                  width: 76,
-                  height: 54,
-                  borderTopLeftRadius: R.sm,
-                  borderTopRightRadius: R.sm,
-                  backgroundColor: C.ink900,
-                  marginBottom: -S.md,
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  overflow: 'visible',
-                }}>
-                {/* 落ちてくるカプセル。押すと開く */}
-                {phase === 'dropped' || phase === 'spinning' ? (
-                  <Animated.View
-                    style={{
-                      opacity: drop.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] }),
-                      transform: [{ translateY: dropY }],
-                    }}>
-                    <Pressable
-                      disabled={phase !== 'dropped'}
-                      accessibilityRole="button"
-                      accessibilityLabel="カプセルを開ける"
-                      onPress={(e) => open(e.nativeEvent.pageX, e.nativeEvent.pageY)}>
-                      <View
-                        style={{
-                          width: 46,
-                          height: 46,
-                          borderRadius: 23,
-                          backgroundColor: capsuleColor,
-                          borderWidth: BW.bold,
-                          borderColor: C.ink900,
-                          overflow: 'hidden',
-                          marginBottom: 3,
-                        }}>
-                        <View
-                          style={{
-                            height: 20,
-                            backgroundColor: 'rgba(255,255,255,0.6)',
-                            borderTopLeftRadius: 23,
-                            borderTopRightRadius: 23,
-                          }}
-                        />
-                      </View>
-                    </Pressable>
-                  </Animated.View>
-                ) : null}
-              </View>
-            </View>
-          </Pop>
-        </Animated.View>
+                position: 'absolute',
+                width: MACHINE.dialAt.size * MACHINE_W,
+                height: MACHINE.dialAt.size * MACHINE_W,
+                left: (MACHINE.dialAt.x - MACHINE.dialAt.size / 2) * MACHINE_W,
+                top: MACHINE.dialAt.y * MACHINE_H - (MACHINE.dialAt.size * MACHINE_W) / 2,
+                transform: [{ rotate: dialDeg }],
+              }}
+            />
+          </Animated.View>
+        </View>
 
         {/* 状況の一言。マシンの下に固定の高さで */}
         <View style={{ height: 30, justifyContent: 'center', marginTop: S.md }}>
@@ -371,15 +424,19 @@ export default function GachaScreen() {
         <Text style={F.h1}>あつめたアバター</Text>
         <Text style={F.small}>押すとそのアバターに切り替わります（せっていからも変えられます）。</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: S.sm, alignItems: 'flex-start' }}>
-          {AVATARS.filter((a) => a.model).map((a) => (
+          {AVATARS.filter((a) => a.model).map((a) => {
+            /* 最初の2人は持っている。残りはガチャで当てるまで伏せておく */
+            const has = ownsAvatar(a, state.skins);
+            return (
             <React.Fragment key={a.id}>
               <AvatarCard
-                name={a.name}
-                rarity={null}
-                swatch="#274a5e"
-                owned
+                name={has ? avatarLabel(a) : '？？？'}
+                rarity={a.initial ? null : a.rarity}
+                swatch={a.accent}
+                face={has ? a.face : undefined}
+                owned={has}
                 active={state.avatarId === a.id && state.skinId === DEFAULT_SKIN_ID}
-                onPress={() => setLook(a.id, DEFAULT_SKIN_ID)}
+                onPress={() => has && setLook(a.id, DEFAULT_SKIN_ID)}
               />
               {SKINS.filter((sk) => sk.avatarId === a.id).map((sk) => {
                 const owned = !!state.skins[sk.id];
@@ -389,6 +446,7 @@ export default function GachaScreen() {
                     name={sk.name}
                     rarity={sk.rarity}
                     swatch={sk.swatch}
+                    face={owned ? sk.face : undefined}
                     owned={owned}
                     active={state.avatarId === a.id && state.skinId === sk.id}
                     onPress={() => owned && setLook(a.id, sk.id)}
@@ -396,13 +454,15 @@ export default function GachaScreen() {
                 );
               })}
             </React.Fragment>
-          ))}
+            );
+          })}
           {AVATARS.filter((a) => !a.model).map((a) => (
             <AvatarCard
               key={a.id}
               name={a.name}
               rarity={null}
               swatch={a.accent}
+              face={a.face}
               owned={false}
               preparing
               active={false}
@@ -414,6 +474,81 @@ export default function GachaScreen() {
 
       </Screen>
 
+      {/* ———— カプセルの層 ————
+           画面いっぱいの層に出す。**マシンの入れ物の中に置くと、
+           画面の中央まで動かせない**（親の外に出た分が切れる端末がある）。
+           落ちるところは口の位置、押されたら中央へ寄っていく。 */}
+      {/* 層そのものは**いつも出しておく**。まわした瞬間に作ると、
+          その1コマは寸法が0のままで、カプセルがずれた場所に描かれる */}
+      <View
+        ref={layerRef}
+        onLayout={measureLayer}
+        pointerEvents="box-none"
+        style={[StyleSheet.absoluteFill, { zIndex: 10 }]}>
+        {capsuleLive && chute ? (
+          <Animated.View
+            style={{
+              position: 'absolute',
+              left: chute.x - CAP_BOX / 2,
+              top: chute.y - CAP_BOX / 2,
+              opacity:
+                phase === 'spinning'
+                  ? drop.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] })
+                  : phase === 'idle'
+                    ? 0
+                    : 1,
+              /* translate → scale の順に書く。**逆にすると移動量まで
+                 拡大される**（手前に出た瞬間に画面外へ飛ぶ） */
+              transform: [
+                { translateX: phase === 'spinning' ? 0 : popTX },
+                { translateY: phase === 'spinning' ? dropY : popTY },
+                { scale: phase === 'spinning' ? CAP_REST : popScale },
+              ],
+            }}>
+            <Pressable
+              disabled={phase !== 'dropped'}
+              accessibilityRole="button"
+              accessibilityLabel="カプセルを開ける"
+              onPress={(e) => open(e.nativeEvent.pageX, e.nativeEvent.pageY)}>
+              {/* ▍いつも大きく描いて、小さいときは縮めて見せる
+                  逆（小さく描いて拡大）だと、中央に出た瞬間に**canvasを
+                  引き伸ばした眠い絵**になる。size を変えるとGLを作り直す
+                  ことになるので、寸法は固定して倍率だけ動かす */}
+              <Capsule3D
+                rarity={result?.prize.rarity ?? 'N'}
+                size={CAP_BOX}
+                open={phase === 'opening' || phase === 'revealed'}
+              />
+            </Pressable>
+          </Animated.View>
+        ) : null}
+
+        {/* ▍口より上を隠すマスク（落ちてくるあいだだけ）
+              これが無いと、落ちてくるカプセルが**マシンの手前を滑り降りて
+              きて、宙から降ってきたように見える**。マシンの絵をもう一度、
+              口の天井までで切って重ねたもの。**揺れも同じだけ掛ける**——
+              揺れないと、マシンが揺れたときに二重写しになる */}
+        {phase === 'spinning' && mWin ? (
+          <Animated.View
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              left: mWin.x - layer.x,
+              top: mWin.y - layer.y,
+              width: MACHINE_W,
+              height: MACHINE.chuteCeiling * MACHINE_H,
+              overflow: 'hidden',
+              transform: [{ translateX: shakeX }],
+            }}>
+            <Image
+              source={MACHINE.src}
+              resizeMode="contain"
+              style={{ width: MACHINE_W, height: MACHINE_H }}
+            />
+          </Animated.View>
+        ) : null}
+      </View>
+
       {/* ———— 結果 ———— */}
       {phase === 'revealed' && result ? (
         <Pressable
@@ -424,15 +559,33 @@ export default function GachaScreen() {
             right: 0,
             top: 0,
             bottom: 0,
-            backgroundColor: 'rgba(20,17,15,0.82)',
             alignItems: 'center',
             justifyContent: 'center',
             padding: S.xl,
             zIndex: 20,
           }}>
-          <Stamp tilt={-3}>
+          {/* ▍暗幕はゆっくり降ろす
+              いきなり真っ暗にすると、蓋が飛んだ瞬間が塗りつぶされる。
+              カードが育つのと同じ速さで暗くしていく */}
+          <Scrim />
+
+          {/* ▍光り物はカードと同じ枠に入れる
+              暗幕いっぱいに広げると、星がカードのまわりではなく
+              **画面の四隅**で光る。カードの大きさに合わせた入れ物を
+              作って、その中で位置を決める */}
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          {/* SRだけ、カードの中心から光が伸びる。**カードの後ろ**に敷く */}
+          {result.prize.rarity === 'SR' ? <PrizeRays /> : null}
+
+          {/* ▍カプセルから出てくるように見せる
+              カプセルは画面の中央まで出てきて開くので、カードも
+              そこに生まれる。Stampの「上から落ちて押す」とは別で、
+              こちらは**小さく生まれて開く**動き */}
+          <CardOut>
             <Panel contentStyle={{ alignItems: 'center', gap: S.sm, padding: S.xl }}>
-              <Badge tone={result.prize.rarity === 'SR' ? 'yellow' : result.prize.rarity === 'R' ? 'blue' : 'ink'}>
+              {/* 札の色も、落ちてきたカプセルと同じ割り当てにする
+                  （青＝N ／ 赤＝R ／ 金＝SR） */}
+              <Badge tone={result.prize.rarity === 'SR' ? 'yellow' : result.prize.rarity === 'R' ? 'red' : 'blue'}>
                 {result.prize.rarity}
               </Badge>
               {result.prize.kind === 'theme' ? (
@@ -450,8 +603,30 @@ export default function GachaScreen() {
                         backgroundColor: '#b8a276',
                         overflow: 'hidden',
                       }}>
-                      <View style={{ flex: 1, backgroundColor: t9(theme) }} />
+                      {/* ▍当てた舞台の絵をちゃんと出す
+                          ここは重ねる色のベタだけを描いていて、**専用の絵が
+                          あるテーマでも絵が出ていなかった**（当てた瞬間に
+                          いちばん見たいものが、ただの土色の面だった）。
+                          下の「あつめた舞台」のコマと同じ積み方にする */}
+                      {theme.art ? (
+                        <Image
+                          source={theme.art.src}
+                          resizeMode="cover"
+                          style={{ width: '100%', height: '100%' }}
+                        />
+                      ) : null}
+                      <View
+                        style={{
+                          position: 'absolute',
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          backgroundColor: theme.art ? theme.tint : t9(theme),
+                        }}
+                      />
                       {theme.effect ? <StageEffect effect={theme.effect} /> : null}
+                      {theme.glow ? <StageGlow glow={theme.glow} /> : null}
                     </View>
                   );
                 })()
@@ -470,7 +645,12 @@ export default function GachaScreen() {
                     justifyContent: 'flex-end',
                   }}>
                   <Avatar3D
-                    avatar={getAvatar(getSkin(result.prize.id)?.avatarId, result.prize.id)}
+                    avatar={(() => {
+                      /* キャラ本体（別モデル）と色違い（テクスチャ違い）の
+                         どちらが当たっても、ここで本人の姿に解決する */
+                      const look = lookOfPrize(result.prize.id);
+                      return getAvatar(look?.avatarId, look?.skinId);
+                    })()}
                     width={170}
                     height={182}
                   />
@@ -489,8 +669,8 @@ export default function GachaScreen() {
                   if (!result.dupe) {
                     if (result.prize.kind === 'theme') setTheme(result.prize.id);
                     else {
-                      const skin = getSkin(result.prize.id);
-                      if (skin) setLook(skin.avatarId, skin.id);
+                      const look = lookOfPrize(result.prize.id);
+                      if (look) setLook(look.avatarId, look.skinId);
                     }
                   }
                   closeResult();
@@ -507,10 +687,68 @@ export default function GachaScreen() {
                 TAP TO CLOSE
               </Text>
             </Panel>
-          </Stamp>
+          </CardOut>
+
+          {/* キラキラはカードの上。R より SR のほうが数も大きさも増える */}
+          <PrizeTwinkles rarity={result.prize.rarity} />
+          </View>
         </Pressable>
       ) : null}
     </View>
+  );
+}
+
+/* 暗幕。カードが育つのと同じ速さで降ろす（→ 使っているところのメモ） */
+function Scrim() {
+  const t = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    const a = Animated.timing(t, {
+      toValue: 1,
+      duration: CARD_OUT_MS,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: NATIVE,
+    });
+    a.start();
+    return () => a.stop();
+  }, [t]);
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        StyleSheet.absoluteFill,
+        { backgroundColor: 'rgba(20,17,15,0.82)', opacity: t },
+      ]}
+    />
+  );
+}
+
+/* カプセルから出てくるカード。**小さく生まれて、持ち上がりながら開く**。
+   Stamp（上から落ちて判子を押す）とは動きの意味が違うので別にしてある。
+   傾きはStampに合わせて -3度 */
+function CardOut({ children }: { children: React.ReactNode }) {
+  const t = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    const a = Animated.timing(t, {
+      toValue: 1,
+      duration: CARD_OUT_MS,
+      easing: Easing.out(Easing.back(1.5)),
+      useNativeDriver: NATIVE,
+    });
+    a.start();
+    return () => a.stop();
+  }, [t]);
+  return (
+    <Animated.View
+      style={{
+        opacity: t.interpolate({ inputRange: [0, 0.18, 1], outputRange: [0, 1, 1] }),
+        /* translate → scale の順。逆にすると移動量まで拡大される */
+        transform: [
+          { scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.12, 1] }) },
+          { rotate: '-3deg' },
+        ],
+      }}>
+      {children}
+    </Animated.View>
   );
 }
 
@@ -579,13 +817,15 @@ function OddsBox() {
             </Row>
           ))}
           <Text style={F.tiny}>
-            同じレア度・同じ種類の中では等確率です。すでに持っているものも出ます（そのときは
+            同じレア度の中では等確率です。すでに持っているものも出ます（そのときは
             {DUPE_REFUND}P返ります）。1回{SPIN_COST}P。
           </Text>
-          {/* キャラにNが無いことは、隠さずに書いておく。
-              「キャラが出にくい」と感じたときの答えがここにある */}
+          {/* ▍上の「背景◯% ・ キャラ◯%」は決めた比率ではない
+              種類での重み付けはやめたので（→ data/gacha.ts）、あの数字は
+              **いま入っている本数の結果**。景品を足すと動く。決め打ちの
+              比率だと誤解されないよう、そこだけ書いておく */}
           <Text style={F.tiny}>
-            キャラにはNがないので、Nを引いたときは必ず背景になります。
+            上の「背景・キャラ」の割合は、入っている本数から出た結果です（決めた比率ではありません）。
           </Text>
         </View>
       ) : null}
@@ -688,6 +928,7 @@ function AvatarCard({
   name,
   rarity,
   swatch,
+  face,
   owned,
   active,
   preparing = false,
@@ -697,6 +938,8 @@ function AvatarCard({
   /** null ＝ ノーマル（レア度なし） */
   rarity: Rarity | null;
   swatch: string;
+  /** 顔のサムネイル。無ければ swatch の丸に落ちる */
+  face?: number;
   owned: boolean;
   active: boolean;
   preparing?: boolean;
@@ -721,27 +964,9 @@ function AvatarCard({
         }}>
         <View style={{ height: 62, alignItems: 'center', justifyContent: 'center' }}>
           {owned || preparing ? (
-            /* 髪（またはキャラの色）を丸で。上半分に光を入れてカプセルの流儀に揃える */
-            <View
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: 19,
-                backgroundColor: swatch,
-                borderWidth: BW.line,
-                borderColor: C.ink900,
-                overflow: 'hidden',
-                opacity: preparing ? 0.45 : 1,
-              }}>
-              <View
-                style={{
-                  height: 16,
-                  backgroundColor: 'rgba(255,255,255,0.4)',
-                  borderTopLeftRadius: 19,
-                  borderTopRightRadius: 19,
-                }}
-              />
-            </View>
+            /* 顔を出す。焼けていない相棒だけ、これまでどおり色の丸
+               （→ components/avatar-face.tsx） */
+            <AvatarFace face={face} swatch={swatch} size={44} dim={preparing} />
           ) : (
             <Icon name="lock" size={20} color={T.disabled} opacity={0.6} />
           )}

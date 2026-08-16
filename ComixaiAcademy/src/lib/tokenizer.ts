@@ -36,13 +36,34 @@ interface Enc {
 let cached: Enc | null = null;
 let inflight: Promise<Enc> | null = null;
 
-/** BPEの表を読み込む。2回目以降は即返る */
+/** 落ちてこないまま待ち続けない上限。これを過ぎたら失敗として扱う */
+const LOAD_TIMEOUT_MS = 15000;
+
+/**
+ * BPEの表を読み込む。2回目以降は即返る。
+ *
+ * ▍失敗を覚え込まない
+ * 表は約1MBの別ファイルで、本体とは別に取りにいく。電波が細い所や、
+ * 一度スリープしたPWAでは、ここだけ落ちてこないことがある。
+ * かつては失敗した Promise を `inflight` に残していたので、**一度失敗すると
+ * その後どれだけ電波が戻っても永久に失敗を返し続けた**（画面を閉じて開き
+ * 直しても直らない）。転んだら忘れて、次に呼ばれたら取りにいき直す。
+ */
 export function loadTokenizer(): Promise<Enc> {
   if (cached) return Promise.resolve(cached);
   if (!inflight) {
-    inflight = import('gpt-tokenizer/encoding/cl100k_base').then((m) => {
+    const load = import('gpt-tokenizer/encoding/cl100k_base').then((m) => {
       cached = { encode: m.encode, decode: m.decode, decodeGenerator: m.decodeGenerator };
       return cached;
+    });
+    /* 返事が来ないまま黙って固まるのがいちばん困る（画面は「よみこみ中…」の
+       まま、打つこともできない）。時間で見切りをつけて、呼び元に失敗を返す */
+    const timeout = new Promise<Enc>((_, reject) =>
+      setTimeout(() => reject(new Error('tokenizer: timeout')), LOAD_TIMEOUT_MS),
+    );
+    inflight = Promise.race([load, timeout]).catch((e) => {
+      inflight = null;
+      throw e;
     });
   }
   return inflight;

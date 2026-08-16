@@ -15,9 +15,10 @@ import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
 import { Icon, type IconName } from '@/components/icons';
-import { Spotlight } from '@/components/spotlight';
+import { Ring, Spotlight } from '@/components/spotlight';
 import { PopIn, useSparkBurst } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
+import { gachaCoachSay, useGachaCoach, useGachaCoachGift } from '@/components/gacha-coach';
 import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
@@ -25,10 +26,10 @@ import { COURSES } from '@/data/courses';
 import { DEFAULT_HORIZON, getTheme } from '@/data/gacha';
 import { getRole } from '@/data/roles';
 import { CLASSROOM } from '@/data/stage';
-import { smallTalkFor } from '@/data/voice';
+import { HOME_VOICE, say, smallTalkFor } from '@/data/voice';
 import { playSound } from '@/lib/sound';
 import { useProgress, useReview, useStats, useToday } from '@/store/progress';
-import { useTutorial } from '@/store/tutorial';
+import { stepSay, useTutorial } from '@/store/tutorial';
 import { C, F, FONT, R, S, T } from '@/theme';
 
 /** アバターをつついたときに出る、どうでもいい雑談 */
@@ -210,17 +211,53 @@ export default function HomeScreen() {
 
   const [talk, setTalk] = React.useState<string | null>(null);
 
+  /* ▍相棒を替えたら、前の相棒の小話は捨てる
+     つついて出た小話は、次につつくまで残る作りにしてある（読む時間が
+     要るので）。**そこへ相棒を替えて戻ってくると、新しい相棒の顔で
+     前の相棒のセリフが出たままになる**（実機で指摘）。
+     ホームのタブは出しっぱなしなので、画面を作り直しても消えない。 */
+  React.useEffect(() => {
+    setTalk(null);
+  }, [state.avatarId, state.skinId]);
+
+  /* ▍ガチャの案内（1本目を終えた人に1回だけ）
+     最初の案内には入れない——**まわすPも、飾る場所を見た経験も無い**
+     うちに見せても意味が通らない（→ components/gacha-coach.tsx）。
+     案内が始まった時点で3Pを渡すので、下の入口のPの数字がその場で増える */
+  const gachaCoach = useGachaCoach();
+  useGachaCoachGift();
+
   const greeting = React.useMemo(() => {
-    if (guiding) return tutorial.step?.say ?? '';
+    /* ▍案内のセリフも、必ず stepSay を通す
+       `step.say` は**共通（先輩の口調）**。相棒別の書き分けは sayByAvatar に
+       あるので、生で出すと選んだ相手と別人がしゃべることになる。
+
+       案内6歩のうち voice:'avatar' の3歩（①②⑥）だけがこのフキダシに出て、
+       残りは案内パネル（components/tutorial-overlay.tsx）に出る。**出口が
+       2つある**ので、片方だけ直すと3歩ぶんが共通のまま残る——実際そうなっていた。 */
+    if (guiding) return tutorial.step ? stepSay(tutorial.step, state.avatarId) : '';
+    /* つついたら小話が勝つ。**同じ催促を延々と読まされない**ための逃げ道
+       （ガチャに行かない人には、行くまで案内が出続けるので） */
     if (talk) return talk;
+    if (gachaCoach.onHome) return gachaCoachSay(state.avatarId);
     /* ▍終わっても「終わり」と言わない
        ここで話を締めるとアプリを消される（実機フィードバック）。
        次があることだけ、ひと言そえておく */
-    if (!next) return 'ぜんぶ終わったね。……よくやった。次の章はいま用意してる。それまでは現場で使って。';
-    if (stats.doneCount === 0) return `${role?.name ?? ''}ね。なら、話が早い。まず1本やってみて。`;
-    if (stats.streak >= 3) return `${stats.streak}日続いてるね。……その調子よ。`;
-    return `次は「${next.lesson.title}」よ。`;
-  }, [guiding, tutorial.step, talk, next, stats.doneCount, stats.streak, role?.name]);
+    if (!next) return say(HOME_VOICE.allDone, state.avatarId);
+    if (stats.doneCount === 0) return say(HOME_VOICE.start(role?.name ?? ''), state.avatarId);
+    if (stats.streak >= 3) return say(HOME_VOICE.streak(stats.streak), state.avatarId);
+    return say(HOME_VOICE.next(next.lesson.title), state.avatarId);
+  }, [
+    guiding,
+    tutorial.step,
+    state.avatarId,
+    talk,
+    gachaCoach.onHome,
+    next,
+    stats.doneCount,
+    stats.streak,
+    role?.name,
+  ]);
 
   const burst = useSparkBurst();
 
@@ -311,26 +348,38 @@ export default function HomeScreen() {
              フキダシがコマの上端まで来たので、そこに重なると読めない。
              右下はキャプション（名前・職種）が使っているので、左下へ。
              床の隅なのでキャラにもかからない */}
-        <Tap
-          onPress={() => router.push('/gacha')}
-          sound="pick"
+        {/* ▍案内中は、この入口そのものを光らせる
+             説明のカードを別に置くと、**本物の入口を一度も触らないまま**
+             話だけ聞くことになる。押してほしい当のものを光らせる。
+             輪はコマの overflow:'hidden' に切られるので、隅では余地を狭める。
+             **チップの左と下はコマの内側6pxしか空いていない**ので、芯を2px
+             外に出して、輪はそこから4pxまで。合わせて6px＝切られる寸前で止める
+             （切れた輪は光ではなく「壊れた枠」に見える → components/spotlight.tsx）。
+             丸いチップなので radius も丸に合わせる */}
+        <Ring
+          on={gachaCoach.onHome}
+          radius={R.full}
+          inset={-2}
+          room={4}
           style={{ position: 'absolute', bottom: 6, left: 6, zIndex: 5 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 5,
-              backgroundColor: C.ink900,
-              borderRadius: R.full,
-              paddingHorizontal: 10,
-              paddingVertical: 5,
-            }}>
-            <Icon name="egg" size={13} color={C.yellow400} />
-            <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.paper50 }}>
-              {state.coins}P
-            </Text>
-          </View>
-        </Tap>
+          <Tap onPress={() => router.push('/gacha')} sound="pick">
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 5,
+                backgroundColor: C.ink900,
+                borderRadius: R.full,
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+              }}>
+              <Icon name="egg" size={13} color={C.yellow400} />
+              <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.paper50 }}>
+                {state.coins}P
+              </Text>
+            </View>
+          </Tap>
+        </Ring>
         {/* ログインボーナスの受け取り。ひと呼吸で消える */}
         {bonusShown ? (
           <PopIn style={{ position: 'absolute', bottom: 38, left: 6, zIndex: 5 }}>
@@ -480,6 +529,7 @@ export default function HomeScreen() {
           </Row>
         </Panel>
       )}
+
     </Screen>
   );
 }

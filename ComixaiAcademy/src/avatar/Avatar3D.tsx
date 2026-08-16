@@ -28,6 +28,13 @@ import { F, T } from '@/theme';
 
 export interface AvatarHandle {
   play: (motion: AvatarMotion) => void;
+  /**
+   * その動きがこの相棒に入っているか。**相棒ごとにGLBが違うので、
+   * 11種が全部そろっているとは限らない**（→ playByName のメモ）。
+   * 「歩けないなら歩かせない」のように、演出そのものを変えたいときに使う。
+   * モデルを読み終わるまでは false を返す。
+   */
+  has: (motion: AvatarMotion) => boolean;
   emote: (icon: IconName) => void;
   /**
    * 体の向きを変える（ラジアン、Y軸まわり）。0＝正面。
@@ -58,24 +65,40 @@ interface Props {
 /* ============================================================
    ▍歩きは「その場で足踏み」に直してから使う
 
-   walk には**前進が焼き込まれている**（Rootの位置が2.4秒で1.12ユニット動く。
-   しかも先頭が -0.98 なので、再生した瞬間に真横へ1ユニットずれる）。
+   walk には**前進が焼き込まれている**（2.4秒で1.1ユニットほど進む。しかも
+   先頭が原点から離れているので、再生した瞬間に真横へ1ユニットずれる）。
    そのまま流すと、キャラが自分の枠から出ていって **canvas の端で切れる**。
    一幕（app/intro.tsx）で「出てくるとき右が切れる」として実際に出た。
+   移動は画面側（枠ごと translateX で動かす）が受け持つ。
 
-   移動は画面側（枠ごと translateX で動かす）が受け持つので、ここでは
-   Rootの位置の track だけ落とす。**足の運びや腰の上下は残す**ので、
-   歩き方は変わらない。
+   ▍どの骨に焼かれているかは、キャラによって違う
 
-   落とすのは**大きく動くものだけ**。待機や説明のRootにも数センチの揺れが
-   入っていて、それは芝居なので残す。閾値はwalk（1.12）と待機（0.12）の
-   あいだを取ってある。新しいモーションを足しても勝手に効く。 */
+   先輩（sensei.glb）は Root、あとから足した11体は **Hip** に入っている。
+   前は 'Root.position' だけを見ていたので、11体ぶんが素通りしていた。
+   骨の名前で決め打ちせず、**大きく動いている位置トラックを探す**。
+
+     sensei     Root  x=0.02  y=0     z=1.12 ←これ
+     ottori     Hip   x=0.02  y=1.16 ←これ  z=0.02
+     neko       Hip   x=0.02  y=0.87 ←これ  z=0.01
+
+   ▍トラックごと捨てず、**はみ出した軸だけ**寝かせる
+
+   Hip には前進と一緒に腰の上下（歩くバウンド）が入っている。トラックを
+   丸ごと落とすと、その気持ちよさまで消える。超えている軸だけを止めて、
+   残りはそのまま流す。
+
+   止め先は**その骨の静止姿勢の値**。0 に寄せると、原点から離れた所で
+   歩き出すキャラ（先輩は先頭が -0.98）がその場でずれる。静止姿勢に置けば、
+   トラックを落としたのと同じ立ち位置になる＝これまでの見え方が変わらない。
+
+   閾値は walk（0.87〜1.37）と、それ以外の全クリップ（最大0.03）の
+   あいだを大きく取ってある。新しいモーションを足しても勝手に効く。 */
 const TRAVEL = 0.3;
 
-function stripTravel(clip: THREE.AnimationClip) {
-  clip.tracks = clip.tracks.filter((t) => {
-    if (t.name !== 'Root.position') return true;
-    /* 3成分ずつ入っているので、軸ごとに振れ幅を見る */
+function stripTravel(clip: THREE.AnimationClip, root: THREE.Object3D) {
+  for (const t of clip.tracks) {
+    if (!t.name.endsWith('.position')) continue;
+    const boneName = t.name.slice(0, -'.position'.length);
     for (let axis = 0; axis < 3; axis++) {
       let lo = Infinity;
       let hi = -Infinity;
@@ -83,10 +106,38 @@ function stripTravel(clip: THREE.AnimationClip) {
         if (t.values[i] < lo) lo = t.values[i];
         if (t.values[i] > hi) hi = t.values[i];
       }
-      if (hi - lo > TRAVEL) return false;
+      if (hi - lo <= TRAVEL) continue;
+      /* 静止姿勢が引けなければ、そのトラックの真ん中に寝かせる
+         （少なくとも「行きっぱなし」にはならない） */
+      const bone = root.getObjectByName(boneName);
+      const rest = bone ? bone.position.getComponent(axis) : (lo + hi) / 2;
+      for (let i = axis; i < t.values.length; i += 3) t.values[i] = rest;
     }
-    return true;
+  }
+}
+
+/* ============================================================
+   ▍顔の向きをキャラごとに直す（→ data/avatars.ts の headTilt）
+
+   素のモデルは顎の上げ方がキャラごとにばらばらで、並べると
+   「ほとんどが上を向いていて、先輩だけ下を向いている」ように見える。
+
+   直しは**毎フレーム、描いてすぐ戻す**。載せっぱなしにできないのは、
+   Head を動かすトラックが入っていないモーションだと、
+   ミキサーが姿勢を書き戻してくれず**毎フレーム足されて首が回りきる**ため。
+   描く直前に足して、描いたら引く。これならトラックの有無によらない。
+
+   軸は「親から見たX」。three の rotateOnWorldAxis は親の回転を見ない
+   （＝実際には premultiply）が、この骨組みでは首の親の横軸が
+   世界の横軸とほぼ揃っているので、これで素直に顎が上下する。 */
+const TILT_AXIS = new THREE.Vector3(1, 0, 0);
+
+function findHead(root: THREE.Object3D): THREE.Object3D | null {
+  let head: THREE.Object3D | null = null;
+  root.traverse((o) => {
+    if (!head && (o as THREE.Bone).isBone && /^head$/i.test(o.name)) head = o;
   });
+  return head;
 }
 
 /** アセットをArrayBufferとして読む（fetch(file://)に頼らない） */
@@ -123,13 +174,28 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
 
   const model = avatar.model;
 
+  /* ▍入っていないモーションを頼まれたら、棒立ちにしない
+
+     相棒ごとにGLBが違うので、**11種のうち何本入っているかは相棒による**。
+     実際、あとから足した4体は walk が入っていない（元GLBから対応づけを
+     取りこぼした）。前はここで黙って return していたので、`walk` を頼まれた
+     相棒は**微動だにしないまま横に滑ってくる**、という絵になっていた。
+
+     待機（idle-a）に落とせば、少なくとも息はしている。**壊れて止まっている**
+     のと**別の動きをしている**のとでは、見え方がまるで違う。
+     入っていないこと自体は has() で外から分かるので、
+     「歩けないなら歩かせない」という演出の判断は呼ぶ側でできる（→ app/intro.tsx）。 */
   const playByName = React.useCallback((name: AvatarMotion) => {
-    const next = actionsRef.current[name];
+    /* **落とした先の名前で**ループの扱いを決める。頼まれた名前のままだと、
+       一度きりの動き（bow など）が待機に落ちたときに LoopOnce が掛かり、
+       ひと回りしたところで固まる */
+    const key: AvatarMotion = actionsRef.current[name] ? name : 'idle-a';
+    const next = actionsRef.current[key];
     if (!next) return;
     const prev = currentRef.current;
-    if (prev === next && LOOPING.includes(name)) return;
+    if (prev === next && LOOPING.includes(key)) return;
     next.reset();
-    if (LOOPING.includes(name)) {
+    if (LOOPING.includes(key)) {
       next.setLoop(THREE.LoopRepeat, Infinity);
       next.clampWhenFinished = false;
     } else {
@@ -145,6 +211,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
     ref,
     () => ({
       play: playByName,
+      has: (motion: AvatarMotion) => !!actionsRef.current[motion],
       emote: (icon: IconName) => {
         setEmoteIcon(icon);
         if (emoteTimer.current) clearTimeout(emoteTimer.current);
@@ -218,18 +285,48 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           for (const m of mats) {
             const mat = m as THREE.MeshBasicMaterial;
             mat.map = texture;
+            /* ▍裏面も描く（＝割れ目から背景を見せない）
+
+               自動スキニングの粗さで、腕を上げると肩の布が裂けて**背景が
+               白く透ける**。手を振る姿で稲妻形の穴になって出ていた。
+               裏面を描くと、その穴から見えるのが**体の内側の面**になる。
+               貼っている絵は同じなので、まわりと同じ色で埋まる。
+
+               「体の中にもう1枚、膜を貼る」のと同じ効果を、面を足さずに
+               得ている（形は1ミリも変わらない。増えるのは塗る手間だけ）。
+               モデルはunlitなので、裏返っても色が暗くなることはない。 */
+            mat.side = THREE.DoubleSide;
             mat.needsUpdate = true;
           }
         });
+
+        /* ▍背丈の倍率（人でないキャラを縮める → data/avatars.ts の scale）
+
+           ただ scale を掛けると、**原点がどこにあるか次第で足が浮くか
+           めり込む**。GLBは量子化されていて原点の位置をファイルから
+           読めないので、実測で合わせる：縮める前の足元の高さを覚えて、
+           縮めたあとに同じ高さへ戻す。原点が腰にあっても床に立つ。 */
+        const scale = model.scale ?? 1;
+        if (scale !== 1) {
+          const before = new THREE.Box3().setFromObject(gltf.scene).min.y;
+          gltf.scene.scale.setScalar(scale);
+          gltf.scene.updateMatrixWorld(true);
+          const after = new THREE.Box3().setFromObject(gltf.scene).min.y;
+          gltf.scene.position.y += before - after;
+        }
 
         scene.add(gltf.scene);
         rootRef.current = gltf.scene;
         gltf.scene.rotation.y = yawRef.current;
 
+        const tilt = ((model.headTilt ?? 0) * Math.PI) / 180;
+        const head = tilt ? findHead(gltf.scene) : null;
+
         const mixer = new THREE.AnimationMixer(gltf.scene);
         mixerRef.current = mixer;
         for (const clip of gltf.animations) {
-          stripTravel(clip);
+          /* 静止姿勢を引くのに骨が要る（→ stripTravel のメモ） */
+          stripTravel(clip, gltf.scene);
           actionsRef.current[clip.name] = mixer.clipAction(clip);
         }
         /* ワンショットのモーションが終わったら待機に戻す */
@@ -252,7 +349,10 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
             const d = yawRef.current - root.rotation.y;
             root.rotation.y += Math.abs(d) < 0.002 ? d : d * Math.min(1, dt * 7);
           }
+          /* 顎の向きの直しを、描く直前に足して描いたら引く（→ TILT_AXIS のメモ） */
+          if (head) head.rotateOnWorldAxis(TILT_AXIS, tilt);
           renderer.render(scene, camera);
+          if (head) head.rotateOnWorldAxis(TILT_AXIS, -tilt);
           gl.endFrameEXP();
         };
         loop();

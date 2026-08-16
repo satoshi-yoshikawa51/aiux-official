@@ -10,7 +10,8 @@ import { Text, View } from 'react-native';
 import { Icon } from '@/components/icons';
 import { Spotlight } from '@/components/spotlight';
 import { Badge, Cassette, Panel, Pill, Pop, Row, Screen, ScreenHead } from '@/components/ui';
-import { BADGES, TITLES, nextTitle } from '@/data/badges';
+import { BadgeArt, BadgeLocked } from '@/components/badge-art';
+import { BADGES, TITLES, nextTitle, titleSay } from '@/data/badges';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, POP, R, S, T } from '@/theme';
 
@@ -89,10 +90,17 @@ export default function BadgesScreen() {
             return got ? (
               /* 紙そのものに網点が敷いてあるので、獲得済みのコマは白のまま抜く
                  （ここにも網点を足すと、地と見分けが付かなくなる） */
-              <Panel key={b.id} style={{ width: '46%' }} contentStyle={{ gap: 4, padding: S.md }}>
-                <Icon name={b.icon} size={28} color={T.text} />
-                <Text style={[F.strong, { fontSize: 14 }]}>{b.name}</Text>
-                <Text style={F.tiny}>{b.desc}</Text>
+              <Panel
+                key={b.id}
+                style={{ width: '46%' }}
+                /* ▍中央ぞろえ
+                   勲章の絵は**丸い**ので、左に寄せると絵の左端とコマの縁の
+                   あいだに丸ぶんの余白ができて、名前だけが左に飛び出て見える。
+                   絵・名前・条件を軸で通す */
+                contentStyle={{ gap: 4, padding: S.md, alignItems: 'center' }}>
+                <BadgeArt badge={b} at="grid" />
+                <Text style={[F.strong, { fontSize: 14, textAlign: 'center' }]}>{b.name}</Text>
+                <Text style={[F.tiny, { textAlign: 'center' }]}>{b.desc}</Text>
               </Panel>
             ) : (
               <View
@@ -105,12 +113,15 @@ export default function BadgesScreen() {
                   borderRadius: R.sm,
                   padding: S.md,
                   gap: 4,
+                  /* 獲得済みと同じ軸に揃える。伏せたコマだけ左寄せだと、
+                     取った瞬間に文字が横に飛ぶ */
+                  alignItems: 'center',
                   marginRight: POP.md,
                   marginBottom: POP.md,
                 }}>
-                <Icon name="lock" size={26} color={T.disabled} opacity={0.6} />
+                <BadgeLocked badge={b} at="grid" />
                 <Text style={[F.strong, { fontSize: 14, color: T.disabled }]}>？？？</Text>
-                <Text style={F.tiny}>{b.hint}</Text>
+                <Text style={[F.tiny, { textAlign: 'center' }]}>{b.hint}</Text>
               </View>
             );
           })}
@@ -150,7 +161,12 @@ export default function BadgesScreen() {
                   </Text>
                 )}
               </Row>
-              {reached ? <Text style={F.hand}>「{t.say}」</Text> : null}
+              {/* 生の t.say は共通（先輩の口調）。書き分けは titleSay を通さないと
+                  出ない——昇格の演出（components/rank-up.tsx）とレッスンの結果は
+                  通してあるのに、ここだけ通っていなかった */}
+              {reached ? (
+                <Text style={F.hand}>「{titleSay(t, state.avatarId)}」</Text>
+              ) : null}
             </View>
           );
           return current ? (

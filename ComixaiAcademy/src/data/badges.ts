@@ -8,11 +8,21 @@
    ============================================================ */
 import type { IconName } from '@/components/icons';
 
-import type { AvatarId, ByAvatar } from './types';
+import { voiceIdOf, type AvatarId, type ByAvatar } from './types';
 
 export interface Badge {
   id: string;
+  /** 絵が無いバッジの代役。**絵を入れたら使われない**（→ art） */
   icon: IconName;
+  /** 勲章の絵（`require('@/assets/badges/<id>.png')`）。
+
+      ▍アイコンではなく絵にする理由
+      バッジは「取った瞬間のごほうび」なので、線画のアイコンだと軽い。
+      入れ物だけ先に作ってあるので、**描けたものから1枚ずつ**差し替えられる。
+      未記入のあいだは icon がそのまま出る（画面は壊れない）。
+
+      絵の仕様は assets/badges/README.md に置いた。 */
+  art?: number;
   name: string;
   /** 獲得条件（獲得後に表示） */
   desc: string;
@@ -24,6 +34,7 @@ export const BADGES: Badge[] = [
   {
     id: 'avatar-set',
     icon: 'mask',
+    art: require('@/assets/badges/avatar-set.png'),
     name: '相棒えらび',
     desc: 'アバターを選んだ',
     hint: '誰と学ぶかを、まず決めるところから',
@@ -31,6 +42,7 @@ export const BADGES: Badge[] = [
   {
     id: 'role-set',
     icon: 'compass',
+    art: require('@/assets/badges/role-set.png'),
     name: '配属決定',
     desc: '職種を選んだ',
     hint: '自分の仕事を選ぶと、教わる中身が変わるらしい',
@@ -38,6 +50,7 @@ export const BADGES: Badge[] = [
   {
     id: 'first-lesson',
     icon: 'star',
+    art: require('@/assets/badges/first-lesson.png'),
     name: 'はじめの一歩',
     desc: '最初のレッスンを修了した',
     hint: 'まずは1本、最後まで',
@@ -45,6 +58,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-basics',
     icon: 'sprout',
+    art: require('@/assets/badges/course-basics.png'),
     name: 'きほん修了',
     desc: 'コース「AIのきほん」を全部クリアした',
     hint: '土台になる4本を、ぜんぶ',
@@ -52,6 +66,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-work',
     icon: 'briefcase',
+    art: require('@/assets/badges/course-work.png'),
     name: '最初の一週間、走破',
     desc: 'コース「最初の一週間」を全部クリアした',
     hint: '自分の職種の一歩目から三歩目まで',
@@ -59,6 +74,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-prompt',
     icon: 'pen',
+    art: require('@/assets/badges/course-prompt.png'),
     name: '道場やぶり',
     desc: 'コース「プロンプト道場」を全部クリアした',
     hint: '書き方の型を、手に入れた者に',
@@ -66,6 +82,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-risk',
     icon: 'shield',
+    art: require('@/assets/badges/course-risk.png'),
     name: '事故らない人',
     desc: 'コース「事故らないAI」を全部クリアした',
     hint: '便利さより先に知っておく話を、ひととおり',
@@ -73,6 +90,7 @@ export const BADGES: Badge[] = [
   {
     id: 'course-next',
     icon: 'rocket',
+    art: require('@/assets/badges/course-next.png'),
     name: '一歩先',
     desc: 'コース「これからのAI」を全部クリアした',
     hint: '一問一答の、その先まで',
@@ -80,6 +98,7 @@ export const BADGES: Badge[] = [
   {
     id: 'quiz-perfect',
     icon: 'perfect',
+    art: require('@/assets/badges/quiz-perfect.png'),
     name: 'ノーミス',
     desc: 'クイズを1問も間違えずにレッスンを修了した',
     hint: '一度も間違えずに終えられるか',
@@ -87,6 +106,7 @@ export const BADGES: Badge[] = [
   {
     id: 'quiz-perfect-5',
     icon: 'target',
+    art: require('@/assets/badges/quiz-perfect-5.png'),
     name: '無傷の5本',
     desc: 'ノーミス修了を5レッスン達成した',
     hint: 'まぐれでない、を証明する回数',
@@ -94,6 +114,7 @@ export const BADGES: Badge[] = [
   {
     id: 'streak-3',
     icon: 'fire',
+    art: require('@/assets/badges/streak-3.png'),
     name: '三日坊主、返上',
     desc: '3日連続で学習した',
     hint: '続けることでしか取れないものがある',
@@ -101,6 +122,7 @@ export const BADGES: Badge[] = [
   {
     id: 'streak-7',
     icon: 'calendar',
+    art: require('@/assets/badges/streak-7.png'),
     name: '一週間皆勤',
     desc: '7日連続で学習した',
     hint: '三日の、その先へ',
@@ -112,6 +134,7 @@ export const BADGES: Badge[] = [
   {
     id: 'half',
     icon: 'badges',
+    art: require('@/assets/badges/half.png'),
     name: '10本ノック',
     desc: 'レッスンを10本修了した',
     hint: '積み上げて、10本',
@@ -119,6 +142,7 @@ export const BADGES: Badge[] = [
   {
     id: 'all-clear',
     icon: 'crown',
+    art: require('@/assets/badges/all-clear.png'),
     name: '全課程修了',
     desc: 'すべてのレッスンを修了した',
     hint: '最後の1本まで、残さず',
@@ -134,6 +158,7 @@ export const BADGES: Badge[] = [
   {
     id: 'star-first',
     icon: 'star',
+    art: require('@/assets/badges/star-first.png'),
     name: 'はじめての★3',
     desc: 'ミニゲームをノーミスで通した',
     hint: '一度も外さずに通せるか',
@@ -141,6 +166,7 @@ export const BADGES: Badge[] = [
   {
     id: 'star-5',
     icon: 'twinkle',
+    art: require('@/assets/badges/star-5.png'),
     name: '★3を5本',
     desc: '5つのミニゲームで★3を取った',
     hint: 'まぐれでない、を証明する回数',
@@ -148,6 +174,7 @@ export const BADGES: Badge[] = [
   {
     id: 'star-all',
     icon: 'target',
+    art: require('@/assets/badges/star-all.png'),
     name: '全★3',
     desc: '★のつくミニゲームすべてで★3を取った',
     hint: '1つ残らず、ノーミスで',
@@ -155,6 +182,7 @@ export const BADGES: Badge[] = [
   {
     id: 'review-first',
     icon: 'check',
+    art: require('@/assets/badges/review-first.png'),
     name: '直した',
     desc: '間違えた問題を1つ、復習で卒業させた',
     hint: '間違えたままにしない',
@@ -162,6 +190,7 @@ export const BADGES: Badge[] = [
   {
     id: 'review-10',
     icon: 'rotate',
+    art: require('@/assets/badges/review-10.png'),
     name: '弱点つぶし',
     desc: '復習で10問を卒業させた',
     hint: '外したぶんを、10問ぶん直す',
@@ -169,6 +198,7 @@ export const BADGES: Badge[] = [
   {
     id: 'perfect-all',
     icon: 'crown',
+    art: require('@/assets/badges/perfect-all.png'),
     name: '無傷',
     desc: 'すべてのレッスンをノーミスで修了した',
     hint: '全課程を、1問も落とさずに',
@@ -185,6 +215,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-first',
     icon: 'egg',
+    art: require('@/assets/badges/extra-first.png'),
     name: 'おまけ開封',
     desc: '当てた景品のおまけを1本クリアした',
     hint: 'ガチャで当てたものには、続きがある',
@@ -192,6 +223,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-3',
     icon: 'sparkle',
+    art: require('@/assets/badges/extra-3.png'),
     name: 'おかわり',
     desc: 'おまけを3本クリアした',
     hint: '当てたぶんだけ、遊ぶところが増える',
@@ -199,6 +231,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-5',
     icon: 'sprout',
+    art: require('@/assets/badges/extra-5.png'),
     name: '精進',
     desc: 'おまけを5本クリアした',
     hint: '当てた景品の中身を、5本ぶん',
@@ -206,6 +239,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-sr',
     icon: 'twinkle',
+    art: require('@/assets/badges/extra-sr.png'),
     name: 'SRを開けた',
     desc: 'SRの景品のおまけをクリアした',
     hint: 'いちばん豪華な1枚には、専用の遊びがついている',
@@ -213,6 +247,7 @@ export const BADGES: Badge[] = [
   {
     id: 'extra-all',
     icon: 'trophy',
+    art: require('@/assets/badges/extra-all.png'),
     name: '殿堂',
     desc: 'R以上のおまけを、すべてクリアした',
     hint: '14本すべて。称号には要らない、コレクターだけの1枚',
@@ -240,7 +275,8 @@ export interface Title {
 
 /** 昇格のひとことを、選んでいる相棒の口調で返す */
 export function titleSay(title: Title, avatarId: AvatarId | null): string {
-  if (avatarId && title.sayByAvatar?.[avatarId] !== undefined) return title.sayByAvatar[avatarId];
+  const id = voiceIdOf(avatarId);
+  if (id && title.sayByAvatar?.[id] !== undefined) return title.sayByAvatar[id];
   return title.say;
 }
 
@@ -276,13 +312,99 @@ export function titleSay(title: Title, avatarId: AvatarId | null): string {
     **バッジを増やすときは、ここの数字も見直すこと。** 増やしたぶん
     最上位が相対的に緩くなる（分母だけ増えて分子は据え置きになる）。 */
 export const TITLES: Title[] = [
-  { need: 0, icon: 'egg', name: 'AI見習い', say: 'まあ、そこからね。' },
-  { need: 3, icon: 'learn', name: 'AI研修生', say: '研修生に上げておく。まだ何も覚えてないけど。' },
-  { need: 6, icon: 'buddy', name: 'AIの相棒', say: '相棒、か。悪くない響きね。' },
-  { need: 9, icon: 'hammer', name: 'AI使い', say: '道具として使えてる。ここからが面白い。' },
-  { need: 12, icon: 'cap', name: 'AI職人', say: '職人。人に教えられる域に入ったじゃない。' },
-  { need: 15, icon: 'trophy', name: 'AI師範', say: '師範。……もう私が教えることは、そう多くない。' },
-  { need: 24, icon: 'crown', name: 'AIマスター', say: '全部、取ったのね。……ここまで来る人は、そういない。' },
+  {
+    need: 0,
+    icon: 'egg',
+    name: 'AI見習い',
+    say: 'まあ、そこからね。',
+    sayByAvatar: {
+      ottori: 'ここから、ですね。あなたのペースでいきましょう。',
+      nekketsu: 'まずはここからだ。始めなきゃ、何も始まらねえ。',
+      otenba: 'まあ、ここからっしょ。',
+      kanroku: 'まずはここからだな。焦らなくていい。',
+      neko: 'ここからだね！ はじめないと、はじまらないもん。',
+    },
+  },
+  {
+    need: 3,
+    icon: 'learn',
+    name: 'AI研修生',
+    say: '研修生に上げておく。まだ何も覚えてないけど。',
+    sayByAvatar: {
+      ottori: '研修生に上がりましたね。……まだこれからですけど、ちゃんと一歩です。',
+      nekketsu: '研修生だ！ まだ何も覚えてねえけどな、一歩は一歩だ。',
+      otenba: '研修生になったじゃん。まだ何も覚えてないけどね。',
+      kanroku: '研修生か。まだ何も覚えていないが、始めたことが大きい。',
+      neko: '研修生になった！ ……まだ何も覚えてないけどね。',
+    },
+  },
+  {
+    need: 6,
+    icon: 'buddy',
+    name: 'AIの相棒',
+    say: '相棒、か。悪くない響きね。',
+    sayByAvatar: {
+      ottori: '相棒、ですか。……その、うれしいです。',
+      nekketsu: '相棒か。……おう、悪くねえ響きだな。',
+      otenba: '相棒か。……いい響きじゃん。',
+      kanroku: '相棒、か。……悪くない響きだな。',
+      neko: '相棒だって！ ……えへへ、いい響き。',
+    },
+  },
+  {
+    need: 9,
+    icon: 'hammer',
+    name: 'AI使い',
+    say: '道具として使えてる。ここからが面白い。',
+    sayByAvatar: {
+      ottori: '道具として、使えていますね。ここからが面白いところです。',
+      nekketsu: '道具として使えてる。ここからが面白いんだ。',
+      otenba: '道具として使えてるじゃん。ここからが面白いんだって。',
+      kanroku: '道具として使えているな。ここからが面白い。',
+      neko: '道具として使えてる！ ここからがおもしろいんだよ。',
+    },
+  },
+  {
+    need: 12,
+    icon: 'cap',
+    name: 'AI職人',
+    say: '職人。人に教えられる域に入ったじゃない。',
+    sayByAvatar: {
+      ottori: '職人、ですね。人に教えられるところまで来ました。',
+      nekketsu: '職人だ。人に教えられる域に入ったじゃねえか……！',
+      otenba: '職人じゃん。人に教えられるとこまで来たね。',
+      kanroku: '職人か。人に教えられる域に入ったな。',
+      neko: 'じゃーん、職人！ 人に教えられるところまで来たね。',
+    },
+  },
+  {
+    need: 15,
+    icon: 'trophy',
+    name: 'AI師範',
+    say: '師範。……もう私が教えることは、そう多くない。',
+    sayByAvatar: {
+      ottori: '師範……。もう、お伝えできることは、そう多くありません。',
+      nekketsu: '師範……。もう、教えられることは、そう多くねえ。',
+      otenba: '師範……。もう教えられること、そんな残ってないかも。',
+      kanroku: '師範か。……もう、教えられることは、そう多くない。',
+      neko: '師範……！ もう教えられること、あんまり無いかも。',
+    },
+  },
+  {
+    need: 24,
+    icon: 'crown',
+    name: 'AIマスター',
+    say: '全部、取ったのね。……ここまで来る人は、そういない。',
+    sayByAvatar: {
+      ottori: '全部、取られたんですね。……ここまで来る方は、そういません。',
+      /* ねっけつは「感動しいですぐ泣く」（→ data/avatars.ts）。
+         いちばんの山場なので、ここで一度だけ出す */
+      nekketsu: '全部取ったのか。……ここまで来るやつは、そういない。……いや、泣いてない。',
+      otenba: '全部取ったじゃん。……ここまで来る人、まじでそういないから。',
+      kanroku: '全部、取ったか。……ここまで来る人は、そういない。',
+      neko: 'ぜんぶ取った！ ……ここまで来る人、そんなにいないんだよ。すごい。',
+    },
+  },
 ];
 
 export function titleFor(badgeCount: number): Title {

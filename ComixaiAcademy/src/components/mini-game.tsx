@@ -345,6 +345,10 @@ export function MiniGame({
                   <AiPromptPlay key={round} spec={spec} onClear={clear} />
                 ) : (
                   <TokenPlay
+                    /* 他のゲームと同じ鍵を持たせる。いまは★が付かない＝クリア画面に
+                       やり直しの口が出ないので効いていないが、出したときに
+                       前の文が残ったまま再開する、という取りこぼしを防いでおく */
+                    key={round}
                     spec={spec}
                     onClear={clear}
                     /* 合否の無いゲーム（トークナイザー）は「わかった」で終わり。
@@ -942,24 +946,39 @@ function TokenPlay({
   const [text, setText] = React.useState('');
   const [chips, setChips] = React.useState<TokenChip[]>([]);
   const [count, setCount] = React.useState(0);
-  const [ready, setReady] = React.useState(false);
+  /* BPEの表の様子。**失敗を ready 扱いにしない**（→ 下の注釈） */
+  const [load, setLoad] = React.useState<'loading' | 'ready' | 'failed'>('loading');
+  /* 「もう一度よみこむ」を押した回数。増やすと下の読み込みが走り直す */
+  const [tries, setTries] = React.useState(0);
+  const ready = load === 'ready';
 
   /* 何枚目から先が「新しく増えたぶん」か。ここから右だけを跳ねさせる
      （全部跳ねさせると、1文字打つたびに画面が波打って読めない） */
   const prevChips = React.useRef(0);
 
+  /* ▍表が落ちてこないときに、黙って詰ませない
+     トークンの表は約1MBの別ファイルで、本体とは別に取りにいく（→ lib/tokenizer.ts）。
+     電波が細い所やスリープ明けのPWAでは、ここだけ落ちてこないことがある。
+
+     以前はその失敗を握りつぶして「読み込み済み」として扱っていた。すると
+     **打てるのにトークン数が0のまま**という状態になり、「トークン収め」は
+     20〜35に入りようがないので「収めると押せる」から永久に変わらない。
+     レッスン側はゲームを通すまで通せんぼなので、**そのレッスンが詰む**。
+     しかも画面には何も出ないので、プレイヤーには壊れたようにしか見えない。
+
+     いまは失敗を失敗として持ち、画面に出して、やり直せるようにする。
+     それでもダメなら通せんぼは外す（下の「先へすすむ」）。**表が取れないのは
+     プレイヤーのせいではない**ので、学習の進みを人質に取らない */
   React.useEffect(() => {
     let alive = true;
+    setLoad('loading');
     loadTokenizer()
-      .then(() => alive && setReady(true))
-      .catch(() => {
-        /* 表が読めなくても、ゲーム自体は開いたままにする */
-        if (alive) setReady(true);
-      });
+      .then(() => alive && setLoad('ready'))
+      .catch(() => alive && setLoad('failed'));
     return () => {
       alive = false;
     };
-  }, []);
+  }, [tries]);
 
   React.useEffect(() => {
     if (!ready) return;
@@ -973,12 +992,14 @@ function TokenPlay({
           });
           setCount(ids.length);
         })
-        .catch(() => {});
+        /* 読めていたのに途中で数えられなくなった。表の取り直しから */
+        .catch(() => setLoad('failed'));
     }, DEBOUNCE_MS);
     return () => clearTimeout(t);
   }, [text, ready]);
 
-  const ok = !!budget && count >= budget.min && count <= budget.max;
+  const failed = load === 'failed';
+  const ok = !!budget && ready && count >= budget.min && count <= budget.max;
 
   const presets = spec.presets ?? [];
 
@@ -1006,6 +1027,34 @@ function TokenPlay({
           </SlideIn>
         ) : null}
 
+        {/* ▍表が落ちてこなかったことを、画面で言う
+            ここが無いと「打っても0トークンのまま」という、直しようのない
+            画面をただ眺めることになる。何が起きたかと、次にできることを出す */}
+        {failed ? (
+          <PopIn>
+            <View
+              style={{
+                borderWidth: BW.bold,
+                borderColor: C.yellow400,
+                borderRadius: R.sm,
+                backgroundColor: C.ink800,
+                padding: S.md,
+                gap: S.sm,
+              }}>
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+                <Icon name="bang" size={18} color={C.yellow400} />
+                <Text style={[F.strong, { flex: 1, color: C.paper50 }]}>
+                  トークンの表を読み込めませんでした
+                </Text>
+              </View>
+              <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>
+                {'区切りを数えるのに、少し大きなデータを取りにいっています。電波の届く所で、もう一度どうぞ。'}
+              </Text>
+              <GameButton label="もう一度よみこむ" onPress={() => setTries((n) => n + 1)} />
+            </View>
+          </PopIn>
+        ) : null}
+
         {/* 打つところ。ここだけ紙にする（黒地に長文を書かせない） */}
         <SlideIn from="right" distance={22} duration={320} delay={80}>
           <View
@@ -1022,7 +1071,7 @@ function TokenPlay({
               multiline
               editable={ready}
               autoFocus={Platform.OS === 'web'}
-              placeholder={ready ? 'ここに打つ' : 'よみこみ中…'}
+              placeholder={ready ? 'ここに打つ' : failed ? '数えられません' : 'よみこみ中…'}
               placeholderTextColor={T.disabled}
               style={{
                 minHeight: 104,
@@ -1053,9 +1102,10 @@ function TokenPlay({
                       fontFamily: FONT.display,
                       fontSize: 24,
                       lineHeight: 28,
-                      color: ok ? T.ok : T.text,
+                      color: ok ? T.ok : failed ? T.disabled : T.text,
                     }}>
-                    {count}
+                    {/* 数えられていないのに 0 と出すと「0トークンだ」と読める */}
+                    {failed ? '—' : count}
                   </Text>
                 </Bump>
                 <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>トークン</Text>
@@ -1063,7 +1113,7 @@ function TokenPlay({
                   / {[...text].length}文字
                 </Text>
               </View>
-              {budget ? (
+              {budget && !failed ? (
                 <Text style={[F.hand, { color: ok ? T.ok : T.muted, fontSize: 13 }]}>
                   {ok
                     ? 'ぴったり'
@@ -1105,11 +1155,11 @@ function TokenPlay({
             チップが出るまでここは真っ黒な空きだった。**画面の3分の2が
             何も無いまま**だと、そこで何が起きる場所なのか分からない。
             起きることを先に言っておく（打てば消える） */}
-        {!chips.length ? (
+        {!chips.length && !failed ? (
           <View style={{ alignItems: 'center', gap: 8, paddingVertical: S.xxl }}>
             <Icon name="pen" size={26} color={C.ink700} />
             <Text style={[F.hand, { fontSize: 12.5, color: C.ink300, textAlign: 'center' }]}>
-              打つと、ここに「AIから見た区切り」が出ます
+              {ready ? '打つと、ここに「AIから見た区切り」が出ます' : 'トークンの表をよみこんでいます…'}
             </Text>
           </View>
         ) : null}
@@ -1180,13 +1230,17 @@ function TokenPlay({
           gap: S.md,
           backgroundColor: C.ink900,
         }}>
-        {budget ? <Gauge count={count} min={budget.min} max={budget.max} ok={ok} /> : null}
+        {budget && !failed ? <Gauge count={count} min={budget.min} max={budget.max} ok={ok} /> : null}
         {budget ? (
           <GameButton
-            label={ok ? 'これで決める' : '収めると押せる'}
+            /* ▍表が読めないときは通せんぼを外す
+               20〜35に入れようがない状態で「収めると押せる」を出し続けると、
+               このレッスンから先へ一歩も進めなくなる。**取れなかったのは
+               プレイヤーのせいではない**ので、そのときは通す */
+            label={failed ? '先へすすむ' : ok ? 'これで決める' : '収めると押せる'}
             /* 収まるまで押せないので、外しようがない。★は出さない */
             onPress={() => onClear({ misses: 0, allow: 0, ms: 0 })}
-            disabled={!ok}
+            disabled={!failed && !ok}
           />
         ) : (
           <GameButton label="わかった" onPress={onFinish} />

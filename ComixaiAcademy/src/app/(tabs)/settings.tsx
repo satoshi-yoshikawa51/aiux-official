@@ -10,12 +10,22 @@ import { Pressable, Text, View } from 'react-native';
 
 import * as Clipboard from 'expo-clipboard';
 
+import { AvatarFace } from '@/components/avatar-face';
 import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
 import { SaveTransfer } from '@/components/save-transfer';
 import { Spotlight } from '@/components/spotlight';
 import { Badge, Button, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
-import { AVATARS, DEFAULT_SKIN_ID, getAvatar, getSkin, isReady, SKINS } from '@/data/avatars';
+import {
+  avatarLabel,
+  AVATARS,
+  DEFAULT_SKIN_ID,
+  getAvatar,
+  getSkin,
+  isReady,
+  ownsAvatar,
+  SKINS,
+} from '@/data/avatars';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { getRole } from '@/data/roles';
 import { fullSave, fullSaveText } from '@/lib/dev-save';
@@ -79,14 +89,32 @@ export default function SettingsScreen() {
         </Spotlight>
         {AVATARS.map((a) => {
           const ready = isReady(a);
+          /* まだ当てていないキャラは伏せる。ここに出るのは持っている体だけ */
+          if (ready && !ownsAvatar(a, state.skins)) {
+            return (
+              <PressCard key={a.id} disabled selected={false} onPress={() => {}}>
+                <Row style={{ justifyContent: 'space-between' }}>
+                  <Row gap={S.sm} style={{ flex: 1 }}>
+                    <Icon name="lock" size={22} color={T.muted} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={F.strong}>？？？</Text>
+                      <Text style={F.tiny}>ガチャで仲間になります</Text>
+                    </View>
+                  </Row>
+                  <Badge tone="paper">ガチャ</Badge>
+                </Row>
+              </PressCard>
+            );
+          }
           if (!ready) {
             return (
               <PressCard key={a.id} disabled selected={false} onPress={() => {}}>
                 <Row style={{ justifyContent: 'space-between' }}>
                   <Row gap={S.sm} style={{ flex: 1 }}>
-                    <Icon name={a.icon} size={22} color={T.text} />
+                    {/* モデルがまだ無い人。顔も焼けていないので色の丸に落ちる */}
+                    <AvatarFace face={a.face} swatch={a.accent} size={34} dim />
                     <View style={{ flex: 1 }}>
-                      <Text style={F.strong}>{a.name}</Text>
+                      <Text style={F.strong}>{avatarLabel(a)}</Text>
                       <Text style={F.tiny}>{a.tagline}</Text>
                     </View>
                   </Row>
@@ -97,12 +125,19 @@ export default function SettingsScreen() {
           }
           /* ノーマル＋持っている色違い。1体ずつカードにする */
           const looks = [
-            { skinId: DEFAULT_SKIN_ID, name: a.name, note: a.tagline, dot: '#274a5e' },
+            {
+              skinId: DEFAULT_SKIN_ID,
+              name: avatarLabel(a),
+              note: a.tagline,
+              dot: a.accent,
+              face: a.face,
+            },
             ...SKINS.filter((sk) => sk.avatarId === a.id && state.skins[sk.id]).map((sk) => ({
               skinId: sk.id,
               name: sk.name,
               note: sk.desc,
               dot: sk.swatch,
+              face: sk.face,
             })),
           ];
           return looks.map((look) => {
@@ -114,16 +149,11 @@ export default function SettingsScreen() {
                 onPress={() => setLook(a.id, look.skinId)}>
                 <Row style={{ justifyContent: 'space-between' }}>
                   <Row gap={S.sm} style={{ flex: 1 }}>
-                    <View
-                      style={{
-                        width: 18,
-                        height: 18,
-                        borderRadius: 9,
-                        backgroundColor: look.dot,
-                        borderWidth: 1.5,
-                        borderColor: C.ink900,
-                      }}
-                    />
+                    {/* ▍色の丸ではなく顔を出す
+                        「せんぱい」と「せんぱい_金髪ver」のように**同じ人の
+                        別バージョン**が並ぶので、色の点だけだと見分けに
+                        名前を読むしかなかった（→ components/avatar-face.tsx） */}
+                    <AvatarFace face={look.face} swatch={look.dot} size={34} />
                     <View style={{ flex: 1 }}>
                       <Text style={F.strong}>{look.name}</Text>
                       <Text style={F.tiny}>{look.note}</Text>

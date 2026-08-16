@@ -18,7 +18,7 @@
    ▍ダブりは +1P 返す
    小さいプールなので、返さないと後半のハズレ感が強すぎる。
    ============================================================ */
-import { SKINS } from '@/data/avatars';
+import { AVATARS, SKINS } from '@/data/avatars';
 import { CLASSROOM } from '@/data/stage';
 
 export type Rarity = 'N' | 'R' | 'SR';
@@ -358,10 +358,24 @@ export interface GachaPrize {
   desc: string;
 }
 
-/** ガチャで出るもの（初期所持の教室は入れない） */
+/* ガチャで出るもの（初期所持の教室と、最初から選べる2人は入れない）。
+
+   キャラ景品は2種類ある。**どちらも同じ「アバターが1体増える」体験**なので、
+   同じ kind: 'avatar' に混ぜて、持ち物は state.skins にまとめて入れる。
+   - キャラ本体（AVATARSのinitial:false）… 別のGLB。IDはアバターID
+   - 色違い（SKINS）… GLB共通でテクスチャ違い。IDはスキンID */
 export const GACHA_POOL: GachaPrize[] = [
   ...THEMES.filter((t) => t.id !== DEFAULT_THEME_ID).map(
     (t): GachaPrize => ({ kind: 'theme', id: t.id, name: t.name, rarity: t.rarity, desc: t.desc }),
+  ),
+  ...AVATARS.filter((a) => !a.initial && a.model).map(
+    (a): GachaPrize => ({
+      kind: 'avatar',
+      id: a.id,
+      name: a.name,
+      rarity: a.rarity,
+      desc: a.tagline,
+    }),
   ),
   ...SKINS.map(
     (s): GachaPrize => ({ kind: 'avatar', id: s.id, name: s.name, rarity: s.rarity, desc: s.desc }),
@@ -394,15 +408,30 @@ export const DUPE_REFUND = 1;
    キャラにNの色違いを足せば、そのまま 背景70/キャラ30 に近づく。 */
 
 /** レア度の出やすさ。合計100 */
-export const RARITY_WEIGHT: Record<Rarity, number> = { N: 65, R: 30, SR: 5 };
+export const RARITY_WEIGHT: Record<Rarity, number> = { N: 60, R: 30, SR: 10 };
 
-/** 同じレア度の中で、背景とキャラのどちらを出すか。合計100。
-    片方しか在庫が無いレア度では、あるほうが全部もらう */
-export const KIND_WEIGHT: Record<GachaPrize['kind'], number> = { theme: 70, avatar: 30 };
+/* ▍種類（背景／キャラ）の重みは持たない
 
+   前は「同じレア度の中で 背景70：キャラ30」も掛けていた。が、これは
+   **在庫の数で1本あたりの確率が勝手に動く**。実際こうなっていた：
+
+     R  … 色違いが1本しか無い → その1本が枠の30%を独占して 9%
+           （R舞台1枚の3倍。いちばん出やすい景品が色違い）
+     SR … アバターが6体に増えた → 30%を6体で分けて 1体0.25%
+           （400回に1回。SR舞台1枚の1/5で、目玉がいちばん遠い）
+
+   同じ重みなのに、増やすほど薄まり、減らすほど濃くなる。**在庫を足すたびに
+   出やすさが逆立ちする**ので、種類での重み付けはやめた。
+   いまは「レア度を引く → **そのレア度の中は全部等確率**」だけ。
+   景品を足しても、そのレア度の中で均等に薄まるだけになる。 */
+
+/** レア度の色。**カプセルの色と同じ割り当てにしてある**
+    （→ components/capsule-3d.tsx）。青いカプセルが落ちてきたのに
+    一覧のNの字が灰色だと、色が何を指しているのか結びつかない。
+    Nを灰色にしていたのは、カプセルが無かった頃の名残り */
 export const RARITY_COLOR: Record<Rarity, string> = {
-  N: '#8a8078',
-  R: '#1a6cff',
+  N: '#1a6cff',
+  R: '#e60012',
   SR: '#f5b301',
 };
 
@@ -421,7 +450,7 @@ function liveRarityWeights(): { rarity: Rarity; w: number }[] {
   return list.map((r) => ({ rarity: r, w: RARITY_WEIGHT[r] }));
 }
 
-/** 抽選。レア度 → 種類（背景／キャラ）→ その中で等確率 */
+/** 抽選。レア度を引いて、**その中は等確率**（種類は見ない → 上のメモ） */
 export function draw(): GachaPrize {
   const weights = liveRarityWeights();
   const total = weights.reduce((a, b) => a + b.w, 0);
@@ -436,19 +465,9 @@ export function draw(): GachaPrize {
   }
 
   const pool = GACHA_POOL.filter((p) => p.rarity === rarity);
+  /* そのレア度が空でも落ちないように、最後は全体から引く */
   const from = pool.length > 0 ? pool : GACHA_POOL;
-  const themes = from.filter((p) => p.kind === 'theme');
-  const avatars = from.filter((p) => p.kind === 'avatar');
-  /* 片方しか在庫が無ければ、そちらが全部もらう（キャラのNがこれ） */
-  const bucket =
-    themes.length > 0 && avatars.length > 0
-      ? Math.random() * 100 < KIND_WEIGHT.theme
-        ? themes
-        : avatars
-      : themes.length > 0
-        ? themes
-        : avatars;
-  return bucket[Math.floor(Math.random() * bucket.length)];
+  return from[Math.floor(Math.random() * from.length)];
 }
 
 /* ———————————————— 提供割合 ————————————————
@@ -477,25 +496,14 @@ export function odds(): Odds {
 
   for (const { rarity, w } of weights) {
     const share = (w / total) * 100;
-    const themes = GACHA_POOL.filter((p) => p.rarity === rarity && p.kind === 'theme').length;
-    const avatars = GACHA_POOL.filter((p) => p.rarity === rarity && p.kind === 'avatar').length;
-    if (themes === 0 && avatars === 0) continue;
-    const both = themes > 0 && avatars > 0;
-    if (themes > 0) {
-      cells.push({
-        rarity,
-        kind: 'theme',
-        count: themes,
-        pct: both ? (share * KIND_WEIGHT.theme) / 100 : share,
-      });
-    }
-    if (avatars > 0) {
-      cells.push({
-        rarity,
-        kind: 'avatar',
-        count: avatars,
-        pct: both ? (share * KIND_WEIGHT.avatar) / 100 : share,
-      });
+    const inRarity = GACHA_POOL.filter((p) => p.rarity === rarity);
+    if (inRarity.length === 0) continue;
+    /* 表は種類で分けて見せる（何がどれだけ入っているか分かるように）が、
+       確率は**本数の比でそのまま割る**。中は等確率なので */
+    for (const kind of ['theme', 'avatar'] as const) {
+      const count = inRarity.filter((p) => p.kind === kind).length;
+      if (count === 0) continue;
+      cells.push({ rarity, kind, count, pct: (share * count) / inRarity.length });
     }
   }
 

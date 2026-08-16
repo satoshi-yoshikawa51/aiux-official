@@ -47,16 +47,10 @@ const ROOM = 14;
 /** 黄色を透かして使う。C.yellow400 と同じ色 */
 const glow = (a: number) => `rgba(255, 210, 63, ${a})`;
 
+/** チュートリアル（store/tutorial.tsx）が指している場所を光らせる */
 export function Spotlight({
   name,
-  children,
-  /** 枠の角の丸み。囲う相手に合わせる */
-  radius = R.sm,
-  /** 芯の枠の位置。マイナスで外側に張り出す */
-  inset = 0,
-  /** 外へ飛ばせる余地。**切られる場所では狭める**（コマの内側など） */
-  room = ROOM,
-  style,
+  ...rest
 }: {
   name: SpotName;
   children: React.ReactNode;
@@ -66,8 +60,32 @@ export function Spotlight({
   style?: StyleProp<ViewStyle>;
 }) {
   const { step } = useTutorial();
-  const on = isSpot(step, name);
+  return <Ring on={isSpot(step, name)} {...rest} />;
+}
 
+/* ▍光る輪だけを取り出してある
+   チュートリアル以外にも「ここを押して」と指したい場面が出てきた
+   （ガチャの案内＝1本目のあとに、ホームのガチャの入口を指す）。
+   同じ見た目・同じ動きにしたいので、**指す理由**（誰が指しているか）だけを
+   外から渡す形にして、描き方はここ1か所に置く */
+export function Ring({
+  on,
+  children,
+  /** 枠の角の丸み。囲う相手に合わせる */
+  radius = R.sm,
+  /** 芯の枠の位置。マイナスで外側に張り出す */
+  inset = 0,
+  /** 外へ飛ばせる余地。**切られる場所では狭める**（コマの内側など） */
+  room = ROOM,
+  style,
+}: {
+  on: boolean;
+  children: React.ReactNode;
+  radius?: number;
+  inset?: number;
+  room?: number;
+  style?: StyleProp<ViewStyle>;
+}) {
   const [phase, setPhase] = React.useState(0);
 
   React.useEffect(() => {

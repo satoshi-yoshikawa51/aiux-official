@@ -19,7 +19,7 @@
    ============================================================ */
 import { Platform } from 'react-native';
 
-import { AVATARS, DEFAULT_SKIN_ID, SKINS } from '@/data/avatars';
+import { AVATARS, DEFAULT_SKIN_ID, migrateAvatars, SKINS } from '@/data/avatars';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { ROLES } from '@/data/roles';
 import type { RoleId } from '@/data/types';
@@ -131,7 +131,18 @@ export function decodeSave(text: string): DecodeResult {
   }
   if (!isObj(parsed.data)) return { ok: false, reason: '記録の中身が空です。' };
 
-  const state = sanitize(parsed.data);
+  /* ▍読み替えは sanitize より**先**にやる
+     書き出したのが改名より前かもしれない（古い端末から持ってきた記録が
+     いちばん当たりやすい）。sanitize は台帳に無いIDを既定値に落とすので、
+     あとに回すと 'sensei' が null になってから渡ることになり、
+     読み替えるものが残らない（→ data/avatars.ts） */
+  const state = sanitize({
+    ...parsed.data,
+    ...migrateAvatars({
+      avatarId: typeof parsed.data.avatarId === 'string' ? parsed.data.avatarId : null,
+      skins: numMap(parsed.data.skins),
+    }),
+  });
   const savedAt = typeof parsed.savedAt === 'number' ? parsed.savedAt : 0;
   return {
     ok: true,
@@ -161,6 +172,8 @@ function sanitize(raw: Record<string, unknown>): ProgressState {
     seenOpening: bool(raw.seenOpening, EMPTY.seenOpening),
     seenIntro: bool(raw.seenIntro, EMPTY.seenIntro),
     seenTutorial: bool(raw.seenTutorial, EMPTY.seenTutorial),
+    gachaCoinsGiven: bool(raw.gachaCoinsGiven, EMPTY.gachaCoinsGiven),
+    seenGachaTutorial: bool(raw.seenGachaTutorial, EMPTY.seenGachaTutorial),
     quiz: quizMap(raw.quiz),
     games: gameMap(raw.games),
     exams: numMap(raw.exams),

@@ -14,7 +14,7 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 
-import type { AvatarId, ByAvatar } from '@/data/types';
+import { voiceIdOf, type AvatarId, type ByAvatar } from '@/data/types';
 
 import type { IconName } from '@/components/icons';
 
@@ -55,10 +55,28 @@ export interface TutorialStep {
 
 /** 案内のセリフを、選んでいる相棒の口調で返す */
 export function stepSay(step: TutorialStep, avatarId: AvatarId | null): string {
-  if (avatarId && step.sayByAvatar?.[avatarId] !== undefined) return step.sayByAvatar[avatarId];
+  const id = voiceIdOf(avatarId);
+  if (id && step.sayByAvatar?.[id] !== undefined) return step.sayByAvatar[id];
   return step.say;
 }
 
+/* ▍最初に選べる2人には、必ず書く
+
+   `say` は共通＝先輩（もと先生）の言葉で、書けていない相棒はここに落ちる
+   （→ data/voice.ts）。ふだんはそれでいいが、**案内だけは別**。
+
+   最初に選べるのは おっとり と ねっけつ の2人（→ data/avatars.ts）。
+   その2人を選んだ人が、アプリで最初に読む文章がこの案内で、そこで
+   ぶっきらぼうな先輩の口調が出てくると、**選んだ相手と目の前でしゃべる人が
+   別人になる**。第一印象がそこで壊れるので、この6歩だけは2人ぶん書く。
+
+   ▍逆に、ガチャで当たる相棒のぶんは要らない
+   案内が走るのは**職種を決めた直後の1回だけ**（→ app/(tabs)/_layout.tsx）。
+   そこで選べるのは初期の2人だけで、記録を消してやり直しても同じ2人からになる。
+   つまり おてんば・かんろく が案内をしゃべる道は無い。ここに書いても**誰にも
+   読まれない**ので、その2人は場面ごとのセリフ（data/voice.ts）だけでいい。
+
+   **初期選択に相棒を足したときは、ここも一緒に書くこと。** */
 export const TUTORIAL: TutorialStep[] = [
   {
     route: '/',
@@ -66,6 +84,10 @@ export const TUTORIAL: TutorialStep[] = [
     spot: 'home-head',
     voice: 'avatar',
     say: 'ここがホーム。私はここに立ってる。上の黒い帯が、あなたの称号と進み具合ね。',
+    sayByAvatar: {
+      ottori: 'ここがホームです。わたしはここに立っていますね。上の黒い帯が、あなたの称号と進み具合です。',
+      nekketsu: 'ここがホームだ！ おれはずっとここにいる。上の黒い帯が、きみの称号と進み具合だぜ。',
+    },
   },
   {
     route: '/',
@@ -73,6 +95,10 @@ export const TUTORIAL: TutorialStep[] = [
     spot: 'home-next',
     voice: 'avatar',
     say: '下の黒いカセットが「次にやること」。迷ったらこれを押して。それだけでいい。',
+    sayByAvatar: {
+      ottori: '下の黒いカセットが「次にやること」です。迷ったら、これを押せば大丈夫ですよ。',
+      nekketsu: '下の黒いカセットが「次にやること」だ。迷ったら押せ。考えるより先に手を動かす、それでいい。',
+    },
   },
   {
     route: '/learn',
@@ -87,12 +113,20 @@ export const TUTORIAL: TutorialStep[] = [
        ここでは色ではなく「光ってる」で指す */
     spot: 'learn-next',
     say: 'ここが「まなぶ」。コースとレッスンが全部並んでる。いま光ってるのが、次の1本。',
+    sayByAvatar: {
+      ottori: 'ここが「まなぶ」です。コースとレッスンが全部並んでいます。いま光っているのが、次の1本ですね。',
+      nekketsu: 'ここが「まなぶ」だ。コースもレッスンも全部ここにある。光ってるのが、次の1本だぜ。',
+    },
   },
   {
     route: '/badges',
     glow: 'badges',
     spot: 'badges-next',
     say: '終えるとバッジが増えて、数がたまると称号が上がる。……まあ、おまけみたいなものだけど、効くよ。',
+    sayByAvatar: {
+      ottori: '終えるとバッジが増えて、たまると称号が上がります。……おまけみたいなものですけど、うれしいですよ。',
+      nekketsu: '終えるとバッジが増える。たまれば称号が上がるんだ。……ちっぽけに見えるか？ 積んだやつにしか分からん重さだぞ。',
+    },
   },
   {
     route: '/settings',
@@ -102,6 +136,10 @@ export const TUTORIAL: TutorialStep[] = [
        「下だ」と場所を指す言い方もしない——スクロールできないため */
     spot: 'settings-avatar',
     say: '相棒と職種は、ここでいつでも変えられる。職種を変えると、例とプロンプトが差し替わる。',
+    sayByAvatar: {
+      ottori: '相棒と職種は、ここでいつでも変えられます。職種を変えると、例とプロンプトが差し替わりますよ。',
+      nekketsu: '相棒も職種も、ここでいつでも変えられる。職種を変えりゃ、例もプロンプトも丸ごと入れ替わるぜ。',
+    },
   },
   {
     /* 締めはどこも囲わない。**全部を指したら、何も指していないのと同じ** */
@@ -109,6 +147,10 @@ export const TUTORIAL: TutorialStep[] = [
     glow: 'home',
     voice: 'avatar',
     say: '案内は以上。あとは手を動かすだけ。1本目、いってみようか。',
+    sayByAvatar: {
+      ottori: '案内は以上です。あとは、あなたのペースで。1本目、いってみましょうか。',
+      nekketsu: '案内は以上だ。あとは手を動かすだけ。……いくぞ、1本目！',
+    },
   },
 ];
 

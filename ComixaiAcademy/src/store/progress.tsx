@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
 import { BADGES, TITLES, titleFor, type Title } from '@/data/badges';
-import { DEFAULT_SKIN_ID } from '@/data/avatars';
+import { AVATARS, DEFAULT_SKIN_ID, migrateAvatars, ownsAvatar } from '@/data/avatars';
 import {
   DEFAULT_THEME_ID,
   draw,
@@ -136,6 +136,12 @@ export interface ProgressState {
   musicOn: boolean;
   /** 先生によるアプリ案内を見終えた（またはとばした）か */
   seenTutorial: boolean;
+  /* ▍ガチャの案内（→ components/gacha-coach.tsx）
+     1本目を終えてホームに戻ったところで、先生が3Pを渡して1回まわさせる。
+     「渡したか」と「案内を見終えたか」を別に持つ——**Pだけ渡して
+     まわさずに閉じた人**に、もう一度Pを配ってしまわないため */
+  gachaCoinsGiven: boolean;
+  seenGachaTutorial: boolean;
 }
 
 /** まっさらな状態。読み込んだ記録の穴埋めにも使う（→ lib/save.ts） */
@@ -165,6 +171,8 @@ export const EMPTY: ProgressState = {
   skinId: DEFAULT_SKIN_ID,
   soundOn: true,
   musicOn: true,
+  gachaCoinsGiven: false,
+  seenGachaTutorial: false,
 };
 
 /* ———————————————— 日付ユーティリティ ———————————————— */
@@ -315,6 +323,10 @@ interface Ctx {
   markOpeningSeen: () => void;
   markIntroSeen: () => void;
   markTutorialSeen: () => void;
+  /** ガチャの案内をはじめる。**初回だけ3P渡す**（→ components/gacha-coach.tsx） */
+  startGachaCoach: () => void;
+  /** ガチャの案内を見終えた */
+  markGachaCoachSeen: () => void;
   /** 書き出しておいた記録で丸ごと置き換える（→ lib/save.ts）。
       いまの記録は消えるので、呼ぶ前に画面で確認を取ること */
   replaceAll: (next: ProgressState) => void;
@@ -370,12 +382,17 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
             added = true;
           }
         }
-        const next = added ? { ...loaded, badges } : loaded;
+        /* ▍IDを変えたアバターを読み替える（→ data/avatars.ts）
+           ここで直して**保存し直す**。直したものを持っているだけだと、
+           次に何かを保存したときに古いIDへ戻ってしまう */
+        const migrated = migrateAvatars(added ? { ...loaded, badges } : loaded, now);
+        const next = migrated;
+        const changed = added || migrated !== loaded;
         /* 保存してある設定を、鳴らす側の旗に流し込む */
         setSoundEnabled(next.soundOn);
         setMusicEnabled(next.musicOn);
         setState(next);
-        if (added) AsyncStorage.setItem(KEY, JSON.stringify(next)).catch(() => {});
+        if (changed) AsyncStorage.setItem(KEY, JSON.stringify(next)).catch(() => {});
       })
       .finally(() => alive && setReady(true));
     return () => {
@@ -589,6 +606,10 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const setLook = React.useCallback(
     (avatarId: string, skinId: string) => {
       if (skinId !== DEFAULT_SKIN_ID && !ref.current.skins[skinId]) return;
+      /* 当てていないキャラには着替えられない。最初の2人だけ最初から持っている
+         （キャラ本体も色違いと同じく skins に入る → data/gacha.ts） */
+      const base = AVATARS.find((a) => a.id === avatarId);
+      if (!base || !ownsAvatar(base, ref.current.skins)) return;
       const { next } = applyBadges({ ...ref.current, avatarId, skinId });
       persist(next);
     },
@@ -632,6 +653,18 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const markTutorialSeen = React.useCallback(() => {
     if (ref.current.seenTutorial) return;
     persist({ ...ref.current, seenTutorial: true });
+  }, [persist]);
+
+  /* ▍案内のぶんのPは一度だけ
+     ここを「押すたびに+3」にすると、案内を閉じずに何度も押せてしまう */
+  const startGachaCoach = React.useCallback(() => {
+    if (ref.current.gachaCoinsGiven) return;
+    persist({ ...ref.current, gachaCoinsGiven: true, coins: ref.current.coins + SPIN_COST });
+  }, [persist]);
+
+  const markGachaCoachSeen = React.useCallback(() => {
+    if (ref.current.seenGachaTutorial) return;
+    persist({ ...ref.current, seenGachaTutorial: true });
   }, [persist]);
 
   /* 記録を消したら**オープニングからやり直す**。
@@ -678,6 +711,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       markOpeningSeen,
       markIntroSeen,
       markTutorialSeen,
+      startGachaCoach,
+      markGachaCoachSeen,
       replaceAll,
       reset,
     }),
@@ -704,6 +739,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       markOpeningSeen,
       markIntroSeen,
       markTutorialSeen,
+      startGachaCoach,
+      markGachaCoachSeen,
       replaceAll,
       reset,
     ],

@@ -25,8 +25,23 @@ export type RoleId =
 
 export type ByRole<Tvalue> = Partial<Record<RoleId, Tvalue>>;
 
-/** アバターのid（'sensei' 'senpai' …）で引く。→ src/data/avatars.ts */
+/** アバターのid（'ottori' 'senpai' …）で引く。→ src/data/avatars.ts */
 export type AvatarId = string;
+
+/**
+ * セリフを引くときのID。
+ *
+ * ▍SR（衣装違い）は、元のキャラと同じ人
+ * SRは形が変わるので別のGLB＝**別のIDのアバター**として台帳に並ぶ
+ * （`ottori-sr` など → data/avatars.ts）。が、中身は同じ人なので、
+ * **服を着替えただけで口調が変わってはいけない**。IDの `-sr` を落として
+ * 元のキャラのセリフを引く。
+ *
+ * これを通さないと、SRを着た瞬間に書き分けが全部外れて共通（先輩の口調）に
+ * 落ちる。`ByAvatar` から引くところは、必ずここを通すこと。
+ */
+export const voiceIdOf = (id: AvatarId | null): AvatarId | null =>
+  id ? id.replace(/-sr$/, '') : id;
 
 /* ============================================================
    セリフをアバター別に持つための入れ物。
