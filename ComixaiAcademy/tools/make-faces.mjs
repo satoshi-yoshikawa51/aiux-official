@@ -231,13 +231,40 @@ window.shoot = async (glb, tex, size, tilt) => {
     if (any) { topY = y; break; }
   }
 
+  /* ▍横の中心は**鼻**に合わせる
+     シルエットの真ん中では合わない。**顔が少し横を向いている子がいる**
+     （先輩がいちばん強く、髪の輪郭は真ん中なのに顔だけ左に寄って写っていた）。
+     骨の位置も当てにならない（Headの骨自体が x=0.041 ずれている子がいる）。
+     顔の中心は鼻——頭のあたりでいちばん前（+z）に出ている点で決まる。
+     顎の上下（headTilt）はX軸まわりなので、鼻の横位置には影響しない。 */
+  let noseX = at.x;
+  {
+    const hp = head ? head.getWorldPosition(new THREE.Vector3()) : at.clone();
+    let best = -Infinity;
+    const v = new THREE.Vector3();
+    gltf.scene.traverse((o) => {
+      if (!o.isMesh) return;
+      const p = o.geometry.attributes.position;
+      for (let i = 0; i < p.count; i++) {
+        v.fromBufferAttribute(p, i).applyMatrix4(o.matrixWorld);
+        if (v.y < hp.y || v.y > hp.y + headH) continue;
+        /* 耳や髪を拾わないよう、真ん中の帯だけを見る */
+        if (Math.abs(v.x - hp.x) > headH * 0.25) continue;
+        if (v.z > best) { best = v.z; noseX = v.x; }
+      }
+    });
+  }
+
   /* ▍首の線は**Head の骨を画面に投影して**取る
      「上から下りて幅が落ちた所が首」でも人は取れるが、**猫は取れない**。
      頭が肩に直に乗っていて、くびれが無いうえ、Tポーズの腕がすぐ横に来るので、
      幅が落ちる行が現れない（そのまま腕をいちばん広い行として拾い、
      顔幅91%＝全身、という測定値になった）。骨なら体型によらない。 */
-  const neckPt = (head ? head.getWorldPosition(new THREE.Vector3()) : at.clone()).project(camera);
+  const anchor = (head ? head.getWorldPosition(new THREE.Vector3()) : at.clone());
+  anchor.x = noseX; // 横は鼻、縦は首
+  const neckPt = anchor.clone().project(camera);
   const neckY = Math.min(size - 1, Math.max(0, ((1 - neckPt.y) / 2) * size));
+  const faceX = Math.min(size - 1, Math.max(0, ((neckPt.x + 1) / 2) * size));
 
   /* 首から上でいちばん広い行＝頬の線。外接矩形ではなく行の幅で見るのは、
      王冠や盛り髪の高さに引きずられないため */
@@ -249,12 +276,12 @@ window.shoot = async (glb, tex, size, tilt) => {
   for (let y = topY; y <= neckY; y++) {
     for (let x = 0; x < size; x++) {
       if (!solid[y * size + x]) continue;
-      sideMax = Math.max(sideMax, Math.abs(x - row[wideY].cx));
+      sideMax = Math.max(sideMax, Math.abs(x - faceX));
       break;
     }
     for (let x = size - 1; x >= 0; x--) {
       if (!solid[y * size + x]) continue;
-      sideMax = Math.max(sideMax, Math.abs(x - row[wideY].cx));
+      sideMax = Math.max(sideMax, Math.abs(x - faceX));
       break;
     }
   }
@@ -272,7 +299,7 @@ window.shoot = async (glb, tex, size, tilt) => {
     );
     /* 首の線と顔の中心を、決めた位置へ持っていく */
     const neck = at.clone()
-      .add(right.clone().multiplyScalar((row[wideY].cx - size / 2) * perPx))
+      .add(right.clone().multiplyScalar((faceX - size / 2) * perPx))
       .add(up.clone().multiplyScalar(-(neckY - size / 2) * perPx));
     at.copy(neck).add(up.clone().multiplyScalar((NECK - 0.5) * frame));
     aim();
