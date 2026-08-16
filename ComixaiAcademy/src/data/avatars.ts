@@ -499,24 +499,10 @@ export interface AvatarSkin {
    SRは別モデルなので AVATARS 側に入れてある（→ 上の「SR（衣装違い）」）。
    ここに並ぶのは色違いだけ。
 
-   ▍これから作るR（テクスチャ待ち）
-   全キャラに1本ずつ持たせる方針。**塗る場所がキャラで違う**ので、
-   recolor-sensei.mjs をそのままは使えない（あれは先輩の髪の島に
-   合わせて閾値を詰めてある）。
-
-   | キャラ   | 塗るもの   | 色      | 状態 |
-   |---------|-----------|---------|------|
-   | 先輩     | 髪        | 金      | 済み（下の kin） |
-   | おっとり  | ズボン     | 白      | これから |
-   | かんろく  | 髪        | 白      | これから |
-   | おてんば  | 髪        | ピンク   | これから |
-   | ねっけつ  | スーツ     | 青      | これから |
-
-   髪の2本（かんろく・おてんば）は先輩と同じ考え方でいけるはず。
-   ズボンとスーツの2本は**服を塗る＝いまのツールが守っている側**なので、
-   選ぶ島を逆にする作りが要る。
-
-   できたら `<id>-r-texture.jpg` として置いて、ここに1エントリ足す。
+   ▍6人ぶんそろっている。**焼き直すときのコマンドは下の各エントリに書いてある**
+   塗る場所も色域もキャラごとに違うので（→ tools/recolor-avatar.mjs）、
+   条件を覚えておかないと二度と同じ絵が作れない。テクスチャは
+   `assets/models/<id>-r-texture.jpg`、顔は tools/make-faces.mjs の LOOKS。
    名前は「<ひらがな名>_<色や部位>ver」（→ avatarLabel と同じ書き方）。 */
 export const SKINS: AvatarSkin[] = [
   {
@@ -528,6 +514,73 @@ export const SKINS: AvatarSkin[] = [
     swatch: '#d8a61c',
     texture: require('@/assets/models/sensei-kin-texture.jpg'),
     face: require('@/assets/faces/senpai-kin.png'),
+  },
+  {
+    /* 髪もズボンも靴も、暗い所をまとめて桜色に振った（島を色で選ばない指定）。
+       node tools/recolor-avatar.mjs ottori --lmax 0.30 --edge \
+         --hue 344 --sat 0.40 --lift 0.38 --out ottori-r */
+    id: 'sakura',
+    avatarId: 'ottori',
+    name: 'おっとり_桜ver',
+    rarity: 'R',
+    desc: '春の色。ぽかぽかしてきますね。',
+    swatch: '#b34d68',
+    texture: require('@/assets/models/ottori-r-texture.jpg'),
+    face: require('@/assets/faces/ottori-sakura.png'),
+  },
+  {
+    /* 紺のスーツだけを赤へ。髪（色相8前後）と靴（300〜330）は色相の窓から外れる。
+       node tools/recolor-avatar.mjs nekketsu --hmin 200 --hmax 270 --smin 0.2 --edge \
+         --hue 0 --sat 0.62 --lift 0.68 --out nekketsu-r */
+    id: 'aka',
+    avatarId: 'nekketsu',
+    name: 'ねっけつ_赤スーツver',
+    rarity: 'R',
+    desc: '燃えてきた。今日は負ける気がしねぇ！',
+    swatch: '#9a2529',
+    texture: require('@/assets/models/nekketsu-r-texture.jpg'),
+    face: require('@/assets/faces/nekketsu-aka.png'),
+  },
+  {
+    /* 髪だけ藤色に。**肌と髪は色相が近い**ので 13 で切り、瞳は島ごと避ける。
+       node tools/recolor-avatar.mjs otenba --hmin 13 --hmax 40 --smin 0.25 \
+         --lmax 0.42 --ymin 0.42 --edge --hue 285 --sat 0.40 --lift 0.45 --out otenba-r */
+    id: 'fuji',
+    avatarId: 'otenba',
+    name: 'おてんば_藤色ver',
+    rarity: 'R',
+    desc: 'この色まじエモくない？ 盛れてるっしょ。',
+    swatch: '#a867be',
+    texture: require('@/assets/models/otenba-r-texture.jpg'),
+    face: require('@/assets/faces/otenba-fuji.png'),
+  },
+  {
+    /* 髪を白へ。上着が濃紺で**髪と明るさがほぼ同じ**なので、色相と高さの
+       両方で切らないと上着まで灰色になる。
+       node tools/recolor-avatar.mjs kanroku --hmin 330 --hmax 45 --smax 0.22 \
+         --lmax 0.22 --ymin 0.6 --edge --hue 210 --sat 0.05 --lift 0.32 --out kanroku-r */
+    id: 'shiraga',
+    avatarId: 'kanroku',
+    name: 'かんろく_白髪ver',
+    rarity: 'R',
+    desc: '歳月は、味方にもなるものでね。',
+    swatch: '#8a9199',
+    texture: require('@/assets/models/kanroku-r-texture.jpg'),
+    face: require('@/assets/faces/kanroku-shiraga.png'),
+  },
+  {
+    /* シャツだけ青へ。**--strict が要る**——体との境目は黄緑のぼかしで、
+       島ごと塗ると黄色い体に水色のしみが浮く。
+       node tools/recolor-avatar.mjs neko --hmin 95 --hmax 175 --smin 0.2 --edge --strict \
+         --hue 214 --sat 0.55 --lift 1 --out neko-r */
+    id: 'ao',
+    avatarId: 'neko',
+    name: 'かんばん_青シャツver',
+    rarity: 'R',
+    desc: 'じゃーん！ 着がえてみたよ。にあう？',
+    swatch: '#23548c',
+    texture: require('@/assets/models/neko-r-texture.jpg'),
+    face: require('@/assets/faces/neko-ao.png'),
   },
 ];
 

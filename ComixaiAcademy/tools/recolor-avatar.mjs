@@ -65,6 +65,14 @@ const EYE_R = Number(opt('eye-radius', 3));
    顔まで染まるので、**選ばれなかった島の中の、髪の色をした画素だけ**を塗る。
    これが無いと、前髪と後れ毛だけ元の色で残る（おっとりで実際に残った）。 */
 const EDGE = args.includes('--edge');
+/** ▍拾い足しだけ、別の明るさで切る（--edge-lmax）
+    島は**平均の色**で選ぶので、髪の明るい毛先の島まで拾おうとすると
+    --lmax を上げることになる。ところが --edge は画素ごとなので、同じ値まで
+    上げると**顔の島の肌が丸ごと入ってしまう**（おてんばで頬が紫になった）。
+    島は緩く、拾い足しは厳しく——を別々に指定できるようにする。 */
+const EDGE_LMAX = Number(opt('edge-lmax', LMAX));
+/** 選んだ島の中でも、画素の色が範囲外なら塗らない（→ 塗る所のコメント） */
+const STRICT = args.includes('--strict');
 if (!ID) {
   console.error('使い方: node tools/recolor-avatar.mjs <モデルID> --diagnose');
   process.exit(1);
@@ -225,8 +233,10 @@ for (let p = 0; p < SIZE * SIZE; p++) {
   if (isl < 0) continue;
   const i = p * info.channels;
   const [h, s, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
-  const st = stats.get(isl) ?? { n: 0, hx: 0, hy: 0, s: 0, l: 0 };
+  const st = stats.get(isl) ?? { n: 0, hx: 0, hy: 0, s: 0, l: 0, white: 0 };
   st.n++;
+  /* 白目（明るくて彩度の無い画素）の数。目の島を見分けるのに使う */
+  if (l > 0.7 && s < 0.2) st.white++;
   /* 色相は角度なので、平均は単位ベクトルの和で取る */
   st.hx += Math.cos((h * Math.PI) / 180);
   st.hy += Math.sin((h * Math.PI) / 180);
@@ -247,12 +257,21 @@ const rows = [...stats.entries()]
       彩度: +(st.s / st.n).toFixed(2),
       明度: +(st.l / st.n).toFixed(2),
       高さ: `${b.minY.toFixed(2)}〜${b.maxY.toFixed(2)}`,
+      白目: +(st.white / st.n).toFixed(3),
     };
   })
   .sort((a, b) => b.画素 - a.画素);
 
 if (DIAGNOSE) {
-  console.table(rows.slice(0, 20));
+  /* ▍表は「上から20個」では足りないことがある
+     かんろくは上着（濃紺）の島が細かく割れていて、上位20個が全部そこで
+     埋まった。**髪の島が1つも表に出てこない。** 高さで絞れるように
+     --ymin/--ymax を診断でも効かせて、--top で行数を増やせるようにする。 */
+  const shown = rows.filter((r) => {
+    const b = box.get(r.島);
+    return !(b.maxY < YMIN || b.minY > YMAX);
+  });
+  console.table(shown.slice(0, Number(opt('top', 20))));
   /* 島ごとに色を振った診断テクスチャ。元の明暗は残して、色だけ置き換える */
   const outBuf = Buffer.alloc(SIZE * SIZE * 3);
   const hueOf = new Map(rows.map((r, i) => [r.島, (i * 137.5) % 360]));
@@ -282,6 +301,8 @@ const inHue = (h) => {
   return between(h, HMIN, HMAX);
 };
 const pick = new Set(ISLANDS);
+/** 白目を含む島＝目そのもの。塗らないだけでなく、--edge の拾い足しからも外す */
+const eyeIslands = new Set(rows.filter((r) => r.白目 > 0.03).map((r) => r.島));
 if (!ISLANDS.length) {
   for (const r of rows) {
     const b = box.get(r.島);
@@ -289,6 +310,11 @@ if (!ISLANDS.length) {
     if (r.彩度 < SMIN || r.彩度 > SMAX) continue;
     if (r.明度 < LMIN || r.明度 > LMAX) continue;
     if (b.maxY < YMIN || b.minY > YMAX) continue;
+    /* ▍白目を含む島は、目そのもの。髪の色に近くても塗らない
+       おてんばの瞳は暗い茶色で、島の平均が髪とほぼ同じ。条件だけで拾うと
+       **目が丸ごと染まる**（紫の瞳になった）。白目が混じっているかどうかで
+       見分ける——髪の島に白目ほど白い画素はほとんど無い。 */
+    if (KEEP_EYES && r.白目 > 0.03) continue;
     pick.add(r.島);
   }
   if (!pick.size) {
@@ -305,11 +331,30 @@ let edged = 0;
 for (let p = 0; p < SIZE * SIZE; p++) {
   if (pick.has(islandMap[p])) { mask[p] = 255; continue; }
   if (!EDGE || islandMap[p] < 0) continue;
+  /* ▍拾い足しも、高さの範囲の中だけ
+     --edge は画素の色だけを見るので、放っておくと**体じゅうの暗い画素**を
+     拾う（かんろくは上着が濃紺の暗い色で、髪と明度がほとんど同じ）。
+     その島がモデルのどのあたりにあるかで、まず足切りする。 */
+  const bx = box.get(islandMap[p]);
+  if (bx && (bx.maxY < YMIN || bx.minY > YMAX)) continue;
+  /* ▍目の島には、そもそも入らない
+     白目のまわりを守るやり方（下の guard）は、**白目から数画素の範囲**しか
+     効かない。かんろくの瞳は大きくて、まん中まで届かず**瞳が灰色に
+     染まった**。目は島ごと避けるのがいちばん確実。 */
+  if (KEEP_EYES && eyeIslands.has(islandMap[p])) continue;
   const i = p * info.channels;
   const [h, sPx, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
-  if (l < LMAX && sPx >= SMIN && sPx <= SMAX && inHue(h)) { mask[p] = 255; fromEdge[p] = 255; edged++; }
+  if (l < EDGE_LMAX && sPx >= SMIN && sPx <= SMAX && inHue(h)) { mask[p] = 255; fromEdge[p] = 255; edged++; }
 }
 mask = dilate(mask, 2);
+/* ▍にじませるのは2画素まで。**アトラスの余白を埋めにいってはいけない**
+   島と島のあいだの余白には島番号が付かないので、そこも塗ってしまえば
+   ミップマップで元の色がにじみ出るのを防げる——と思って、塗った所から
+   余白を伝って6画素ぶん広げたことがある。**効果は無く、害だけあった**：
+   ねっけつの袖に残る紺の染みは消えず（あれは余白ではなく別のUV島）、
+   かんろくは**黒い上着の縫い目に白い線**が走った（隣り合う髪の島の
+   余白が白くなり、上着のふちが線形補間でそれを拾う）。
+   ふちのぼかしは、この2画素で足りている。 */
 if (EDGE) console.log(`顔の島の中から拾った画素: ${edged}`);
 
 /* ▍瞳を守る（→ recolor-sensei.mjs のメモ）
@@ -346,7 +391,17 @@ for (let p = 0; p < SIZE * SIZE; p++) {
     out[p * 3] = r0 * 255; out[p * 3 + 1] = g0 * 255; out[p * 3 + 2] = b0 * 255;
     continue;
   }
-  const [, , l] = rgbToHsl(r0, g0, b0);
+  const [hPx, sPx, l] = rgbToHsl(r0, g0, b0);
+  /* ▍ふちの「混ざった色」は残す（--strict）
+     看板キャラの猫は、シャツと体の境目が**黄緑のぼかし**で描いてある。
+     島ごと塗ると、そのぼかしまで色が変わって、黄色い体の上に**水色の
+     しみ**が浮いた（緑のうちは黄色と馴染んでいて目立たなかった）。
+     島で場所を決めたうえで、**画素の色が指定した範囲に入っているかを
+     もう一度見る**。境目のぼかしは元のまま残るので、自然につながる。 */
+  if (STRICT && !(inHue(hPx) && sPx >= SMIN && sPx <= SMAX)) {
+    out[p * 3] = r0 * 255; out[p * 3 + 1] = g0 * 255; out[p * 3 + 2] = b0 * 255;
+    continue;
+  }
   const [r, g, b] = hslToRgb(HUE, SAT, Math.pow(l, LIFT));
   out[p * 3] = r * 255; out[p * 3 + 1] = g * 255; out[p * 3 + 2] = b * 255;
   painted++;

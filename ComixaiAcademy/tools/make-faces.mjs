@@ -51,6 +51,11 @@ const LOOKS = [
   ]),
   /* 色違い（→ data/avatars.ts の SKINS）。モデルは素と同じで、貼る絵だけ違う */
   { out: 'senpai-kin', glb: 'sensei', tex: 'sensei-kin-texture' },
+  { out: 'ottori-sakura', glb: 'ottori', tex: 'ottori-r-texture' },
+  { out: 'nekketsu-aka', glb: 'nekketsu', tex: 'nekketsu-r-texture' },
+  { out: 'otenba-fuji', glb: 'otenba', tex: 'otenba-r-texture' },
+  { out: 'kanroku-shiraga', glb: 'kanroku', tex: 'kanroku-r-texture' },
+  { out: 'neko-ao', glb: 'neko', tex: 'neko-r-texture' },
 ];
 
 /** ▍顔の向きの直し（度・モデルごと）は台帳から読む
