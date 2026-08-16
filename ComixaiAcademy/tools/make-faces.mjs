@@ -55,7 +55,7 @@ const LOOKS = [
      「持っている／持っていない」が並んだときに落ち着かないため。 */
   { out: 'ottori-momoiro', glb: 'ottori', tex: 'ottori-r-texture' },
   { out: 'nekketsu-aka', glb: 'nekketsu', tex: 'nekketsu-r-texture' },
-  { out: 'senpai-karashi', glb: 'sensei', tex: 'sensei-r-texture' },
+  { out: 'senpai-kinari', glb: 'sensei', tex: 'sensei-r-texture' },
   { out: 'otenba-fuji', glb: 'otenba', tex: 'otenba-r-texture' },
   { out: 'kanroku-midori', glb: 'kanroku', tex: 'kanroku-r-texture' },
   { out: 'neko-ao', glb: 'neko', tex: 'neko-r-texture' },

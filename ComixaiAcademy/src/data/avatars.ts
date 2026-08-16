@@ -539,19 +539,31 @@ export const SKINS: AvatarSkin[] = [
     face: require('@/assets/faces/nekketsu-aka.png'),
   },
   {
-    /* ジャケットだけからし色へ。**上着とズボンは高さが重なる**（上着の裾-0.27、
-       ズボンの腰-0.22）ので、高さでは切り分けられない。彩度で分ける——
-       上着0.36〜0.42／ズボン0.22〜0.26。髪は --ymax で外す。
+    /* **この人だけ二度塗り。** ジャケットを生成りにして、インナーを黒に落とす。
+       はじめはジャケットをからし色にしたが、**濃い黄土＋グレーのインナー**が
+       古く見えた。明るい羽織り×黒インナー×チャコールの3色に組み替えている。
+
+       1回目 … 上着だけ生成りへ。**上着とズボンは高さが重なる**（上着の裾-0.27、
+       ズボンの腰-0.22）ので高さでは切れない。彩度で分ける（上着0.36〜0.42／
+       ズボン0.22〜0.26）。髪は --ymax で外す。
+       2回目 … グレーのインナーを黒へ。--in で1回目の出来上がりを読む。
+       **上着はもう色相40なので、色相の窓（185〜235）で自然に外れる。**
+       ズボンの腰が窓に入らないよう --ymin は -0.10 まで上げること（-0.25だと
+       腿の上だけ真っ黒になって、脛と2トーンに見える）。
+
        node tools/recolor-avatar.mjs sensei --hmin 195 --hmax 215 --smin 0.30 --lmax 0.30 \
-         --ymin -0.35 --ymax 0.36 --edge --strict --hue 42 --sat 0.55 --lift 0.60 --out sensei-r */
-    id: 'karashi',
+         --ymin -0.35 --ymax 0.36 --edge --strict --hue 40 --sat 0.18 --lift 0.20 --out sensei-r
+       node tools/recolor-avatar.mjs sensei --in sensei-r --hmin 185 --hmax 235 --smin 0.02 \
+         --smax 0.32 --lmin 0.25 --ymin -0.10 --ymax 0.35 --edge --strict \
+         --hue 220 --sat 0.06 --lift 5 --out sensei-r */
+    id: 'kinari',
     avatarId: 'senpai',
-    name: 'せんぱい_からしジャケットver',
+    name: 'せんぱい_生成りジャケットver',
     rarity: 'R',
     desc: 'これ？ ……まあ、たまには。',
-    swatch: '#9a7a12',
+    swatch: '#c0b49c',
     texture: require('@/assets/models/sensei-r-texture.jpg'),
-    face: require('@/assets/faces/senpai-karashi.png'),
+    face: require('@/assets/faces/senpai-kinari.png'),
   },
   {
     /* セーターだけ藤色へ。レギンス（色相212）と靴は色相と高さの窓から外れる。
