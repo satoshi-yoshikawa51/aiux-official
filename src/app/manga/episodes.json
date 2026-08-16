@@ -1,9 +1,9 @@
 {
   "_comment": "各シリーズの収録エピソード。scripts/fetch-manga-episodes.mjs がnoteから自動生成する（手動で追記してもよい）。desc は note-article-meta.json の excerpt が優先される。",
-  "generatedAt": "2026-08-10",
+  "generatedAt": "2026-08-16",
   "series": {
     "wakaru": {
-      "updatedAt": "2026-08-10",
+      "updatedAt": "2026-08-16",
       "episodes": [
         {
           "title": "マンガでわかる！AI活用 第1話：「生成AIとは？」",
@@ -12,7 +12,7 @@
           "no": 1,
           "date": "2024-09-02",
           "thumb": "https://assets.st-note.com/production/uploads/images/152747436/rectangle_large_type_2_c5040904ab93143ada337a3054b1120a.png?width=800",
-          "likes": 393
+          "likes": 395
         },
         {
           "title": "マンガでわかる！AI活用 第2話：「タイトル未定」",
