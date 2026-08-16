@@ -306,11 +306,29 @@ window.shoot = async (glb, tex, size, tilt) => {
     renderer.render(scene, camera);
   }
 
+  /* ▍焼き上がりをもう一度測る（そろっているかを数字で見るため）
+     「寄っている気がする」を目で追わない。顔の幅と、鼻の横位置を出す。 */
+  ctx.clearRect(0, 0, size, size);
+  ctx.drawImage(renderer.domElement, 0, 0);
+  const px2 = ctx.getImageData(0, 0, size, size).data;
+  const neckPt2 = anchor.clone().project(camera);
+  const faceX2 = ((neckPt2.x + 1) / 2) * size;
+  const neckY2 = ((1 - neckPt2.y) / 2) * size;
+  let got = 0;
+  for (let y = 0; y < Math.min(size, Math.round(neckY2)); y++) {
+    let x0 = -1, x1 = -1;
+    for (let x = 0; x < size; x++) if (px2[(y * size + x) * 4 + 3] > 40) { if (x0 < 0) x0 = x; x1 = x; }
+    if (x0 >= 0) got = Math.max(got, x1 - x0 + 1);
+  }
+
   return {
     png: renderer.domElement.toDataURL('image/png'),
     tall, headH,
-    wide: +(wide / size).toFixed(3),
-    neck: +(neckY / size).toFixed(3),
+    /** 焼き上がりでの、頭のいちばん広いところ（ひげ・耳込み）の幅 */
+    got: +(got / size).toFixed(3),
+    /** 焼き上がりでの、鼻の横位置（0.5 なら真ん中）と首の高さ */
+    nose: +(faceX2 / size).toFixed(3),
+    neck: +(neckY2 / size).toFixed(3),
   };
 };
 </script>`;
@@ -340,7 +358,7 @@ for (const look of LOOKS) {
   fs.writeFileSync(path.join(OUT, `${look.out}.png`), png);
   console.log(
     `${look.out.padEnd(14)} 顔${tilt > 0 ? '+' : ''}${tilt}° ` +
-      `／広く撮った絵での 顔幅${(r.wide * 100).toFixed(0)}% 首${(r.neck * 100).toFixed(0)}% ` +
+      `／焼き上がり: 頭の幅${(r.got*100).toFixed(0)}% 鼻の横${(r.nose*100).toFixed(1)}% 首の高さ${(r.neck*100).toFixed(0)}% ` +
       `→ ${(png.length / 1024).toFixed(0)}KB`,
   );
 }

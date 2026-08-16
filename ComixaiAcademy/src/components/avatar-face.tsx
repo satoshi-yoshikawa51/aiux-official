@@ -49,8 +49,14 @@ export function AvatarFace({ face, swatch, size, dim = false }: Props) {
       }}>
       {face ? (
         /* 焼いた絵は正方形で、顔が真ん中に来るようにしてある。
-           丸く抜くので cover でいっぱいに広げる */
-        <Image source={face} resizeMode="cover" style={{ width: size, height: size }} />
+           丸く抜くので cover でいっぱいに広げる。
+
+           ▍**大きさを size で書かない**（枠の内側は size より小さい）
+           枠は内側に引かれるので、中身が置ける幅は size - 枠の太さ×2。
+           そこへ size ちょうどの絵を入れると、**絵が枠の太さぶん右下へ
+           ずれて、右と下が切れる**（34ptの丸で2ptずれ＝顔が右に寄って見えた）。
+           100% なら枠の内側にぴったり収まり、中央のまま。 */
+        <Image source={face} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
       ) : (
         /* 色の丸。上半分に光を入れて、カプセルと同じ流儀に揃える */
         <View
