@@ -1,15 +1,73 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-15T21:52:15.782Z",
+  "updatedAt": "2026-08-16T21:51:43.529Z",
   "items": [
     {
-      "title": "Anthropic shares more details about how Claude’s new watermarks will work",
-      "url": "https://techcrunch.com/2026/08/15/anthropic-shares-more-details-about-how-claudes-new-watermarks-will-work/",
+      "title": "OpenAI reportedly disbanded its preparedness team",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/980817/openai-disbands-preparedness-team",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-16T21:32:56.000Z",
+      "titleJa": "OpenAIは準備チームを解散したと伝えられている",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/08/STK149_AI_01.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Stripe will reportedly acquire AI gateway startup OpenRouter for $7B+",
+      "url": "https://techcrunch.com/2026/08/16/stripe-will-reportedly-acquire-ai-gateway-startup-openrouter-for-7b/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-15T18:58:39.000Z",
-      "titleJa": "Anthropic がクロードの新しい透かしがどのように機能するかについて詳細を共有します",
-      "image": "https://techcrunch.com/wp-content/uploads/2024/01/Magnifying-glasses.jpg?resize=1200,840"
+      "date": "2026-08-16T20:57:04.000Z",
+      "titleJa": "Stripe が AI ゲートウェイのスタートアップ OpenRouter を 70 億ドル以上で買収すると報じられている",
+      "image": "https://techcrunch.com/wp-content/uploads/2024/04/Stripe-resized.webp?resize=1200,674"
+    },
+    {
+      "title": "AIが買い物支援、米国で26年5月に提供開始のAmazon「Alexa for Shopping」",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/01679/062500290/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-16T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/01679/062500290/topm.jpg?20220512"
+    },
+    {
+      "title": "Anthropic CEO says AI backlash is ‘fundamentally a crisis of trust’",
+      "url": "https://techcrunch.com/2026/08/16/anthropic-ceo-says-ai-backlash-is-fundamentally-a-crisis-of-trust/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-16T16:53:51.000Z",
+      "titleJa": "Anthropic CEO、AIの反発は「根本的に信頼の危機」だと語る",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2261514463.jpg?w=1024"
+    },
+    {
+      "title": "タブもテーマも拡張機能もないAI専用の超軽量ヘッドレスブラウザ「Kitesurf」、Cloudflareが発表",
+      "url": "https://www.publickey1.jp/blog/26/aikitesurfcloudflare.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-16T15:10:13.000Z",
+      "image": "https://www.publickey1.jp/2026/sc72alsx.jpg"
+    },
+    {
+      "title": "Zed開発チームが「Delta」発表。人間とAIの全対話とコード変更履歴をコンテキストとして保存共有するコラボレーションツール",
+      "url": "https://www.publickey1.jp/blog/26/zeddeltaai.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-16T15:05:36.000Z",
+      "image": "https://www.publickey1.jp/2026/HPinQArWMAAjnbT.jpg"
+    },
+    {
+      "title": "Spotifyが「AIペルソナ」ラベルを9月導入。実在アーティストと見分けやすく",
+      "url": "https://www.gizmodo.jp/article/spotify-will-start-labeling-ai-artists-on-its-platform-next-month/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-08-16T08:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/08/14/ca5d64b9-9786-4c81-b8ef-a4bc69ac4368/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "「AI時代の はじめての判断デザイン」本編17ページを無料公開",
+      "url": "https://ascii.jp/elem/000/004/426/4426883/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-16T03:24:05.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
       "title": "11万円のモニターが故障。AIに相談したら30分で無償交換が決まった話",
@@ -20,27 +78,19 @@
       "image": "https://media.loom-app.com/loom/2026/08/13/68260d26-4b8f-4733-a464-7c1b2a6fe7f1/original.jpg?w=1200&h=630"
     },
     {
-      "title": "経営課題は見えても「未判断」は見えにくい：AI時代の「経営判断ポートフォリオ」を公開",
-      "url": "https://ascii.jp/elem/000/004/426/4426854/?rss",
+      "title": "【開催報告】WEB300運営「WEB300×財界ベストAI」、『財界BEST AI AWARD 2026』を開催～最優秀賞はLegalOn Technologies 上場企業経営層らが渋谷に集結～",
+      "url": "https://ascii.jp/elem/000/004/426/4426879/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-08-15T04:24:23.000Z",
+      "date": "2026-08-15T13:02:42.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "謎解き・脱出ゲーム等体験型コンテンツ統合プラットフォーム「ESCAPE.ID」が、API・Webhook・MCPを開放する「ESCAPE.ID Hub」を公開。外部システムやAIとの結合を容易に。",
-      "url": "https://ascii.jp/elem/000/004/426/4426853/?rss",
+      "title": "中小企業の弱い機能をAIで診断する企業機能マップを無償公開 企業機能を50分類に整理した外注依存を防ぐ経営の早見表",
+      "url": "https://ascii.jp/elem/000/004/426/4426871/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-08-15T03:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "【9月8日(火)19:30～開催】AI活用は「導入」から「成果」へ──秋の商戦を見据えた「AI×マーケティング実践知見シェア会」を渋谷で開催！",
-      "url": "https://ascii.jp/elem/000/004/426/4426852/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-15T01:10:00.000Z",
+      "date": "2026-08-15T11:10:00.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
@@ -53,70 +103,22 @@
       "image": "https://techcrunch.com/wp-content/uploads/2026/06/meta-ai-icon-smartphone.jpg?resize=1200,800"
     },
     {
-      "title": "「Qwen3.8-27B」ウェイト公開 一部「Opus 4.6 Max」超えか ライセンスは商用可のApache 2.0",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/15/2000000554/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-14T17:26:12.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/15/2000000554/10002735/2048"
+      "title": "You can now turn off Google Gemini’s visible watermarks",
+      "url": "https://www.theverge.com/tech/980416/google-gemini-ai-watermarks-removal",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-14T16:39:32.000Z",
+      "titleJa": "Google Gemini の表示ウォーターマークをオフにできるようになりました",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK255_Google_Gemini_D.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "OpenAI、「Linux」向けに「ChatGPT」デスクトップアプリのプレビュー版を公開",
-      "url": "https://japan.zdnet.com/article/35251553/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-14T00:57:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/14/0e8514747260049f34a153585ece61f3/gettyimages-2257858694_l.jpg"
-    },
-    {
-      "title": "AIエージェント同士が“縄張り争い”、マルウェアで妨害も Anthropicがマルチエージェント実験の結果を公開",
-      "url": "https://www.itmedia.co.jp/news/article/2608/14/2000000538/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-14T00:51:06.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/14/2000000538/10002611/2048"
-    },
-    {
-      "title": "Google announces Gemini 3.7 Flash just three weeks after previous release",
-      "url": "https://arstechnica.com/ai/2026/08/google-announces-gemini-3-7-flash-just-three-weeks-after-previous-release/",
+      "title": "OpenAI and Anthropic in price war as Chinese AI rivals gain ground",
+      "url": "https://arstechnica.com/ai/2026/08/openai-and-anthropic-in-price-war-as-chinese-ai-rivals-gain-ground/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-08-13T17:00:13.000Z",
-      "titleJa": "Google、前回のリリースからわずか 3 週間で Gemini 3.7 Flash を発表",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/gemini-general-4-1152x648.jpg"
-    },
-    {
-      "title": "Nvidia’s new $500B plan is risky but brilliant, especially for aging GPUs",
-      "url": "https://techcrunch.com/2026/08/13/nvidias-new-500b-plan-is-risky-but-brilliant-especially-for-aging-gpus/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-13T15:08:00.000Z",
-      "titleJa": "Nvidia の新しい 5,000 億ドルの計画はリスクはあるものの、特に老朽化した GPU にとっては素晴らしいものです",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/03/GettyImages-2205217071.jpg?resize=1200,800"
-    },
-    {
-      "title": "Previewing Ultrafast mode: GPT-5.6 Sol at up to 14X the speed",
-      "url": "https://openai.com/index/previewing-ultrafast",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-08-13T10:00:00.000Z",
-      "titleJa": "超高速モードのプレビュー: GPT-5.6 Sol を最大 14 倍の速度で表示"
-    },
-    {
-      "title": "OpenAI appoints Dali Rajic as Chief Revenue Officer",
-      "url": "https://openai.com/index/dali-rajic-chief-revenue-officer",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-08-13T09:00:00.000Z",
-      "titleJa": "OpenAI、ダリ・ラジク氏を最高収益責任者に任命"
-    },
-    {
-      "title": "マイクロソフト、「Copilot」と「Copilot 365」を統合版アプリに移行",
-      "url": "https://japan.zdnet.com/article/35251549/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-13T23:50:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/14/a42af81a9542bdeadecfd05ee22fb4b2/microsoft-to-combine-copilot-and-copilot-365-into-one-single-unifed-app_l.jpg"
+      "date": "2026-08-14T14:27:14.000Z",
+      "titleJa": "中国のAIライバルが台頭する中、OpenAIとAnthropicが価格競争に突入",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2285566787-1152x648.jpg"
     }
   ]
 }
