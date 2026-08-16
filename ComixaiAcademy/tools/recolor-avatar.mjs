@@ -54,6 +54,12 @@ const YMAX = Number(opt('ymax', 99));
 const HUE = Number(opt('hue', 44));
 const SAT = Number(opt('sat', 0.6));
 const LIFT = Number(opt('lift', 1));
+/** ▍暗くするときの下限（--floor）
+    `--lift` は明度の累乗なので、**1より大きくして暗くすると影が潰れる**。
+    せんぱいのインナーを明るいグレーからチャコールに落としたとき、
+    裾の影だけ真っ黒になって腰に帯が出た（元の絵では、ただの影の線）。
+    出来上がりの明度をここより下げない。0で従来どおり。 */
+const FLOOR = Number(opt('floor', 0));
 const OUT = opt('out', `${ID}-r`);
 const KEEP_EYES = !args.includes('--no-eye-guard');
 /** 白目からどれだけ離れた暗い画素までを「瞳・まつげ」とみなすか（画素）。
@@ -472,7 +478,7 @@ for (let p = 0; p < SIZE * SIZE; p++) {
     out[p * 3] = r0 * 255; out[p * 3 + 1] = g0 * 255; out[p * 3 + 2] = b0 * 255;
     continue;
   }
-  const [r, g, b] = hslToRgb(HUE, SAT, Math.pow(l, LIFT));
+  const [r, g, b] = hslToRgb(HUE, SAT, FLOOR + Math.pow(l, LIFT) * (1 - FLOOR));
   out[p * 3] = r * 255; out[p * 3 + 1] = g * 255; out[p * 3 + 2] = b * 255;
   painted++;
 }

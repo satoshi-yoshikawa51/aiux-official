@@ -546,16 +546,21 @@ export const SKINS: AvatarSkin[] = [
        1回目 … 上着だけ生成りへ。**上着とズボンは高さが重なる**（上着の裾-0.27、
        ズボンの腰-0.22）ので高さでは切れない。彩度で分ける（上着0.36〜0.42／
        ズボン0.22〜0.26）。髪は --ymax で外す。
-       2回目 … グレーのインナーを黒へ。--in で1回目の出来上がりを読む。
+       2回目 … 明るいグレーのインナーを、**ズボンと同じチャコール**へ。
+       --in で1回目の出来上がりを読む。
        **上着はもう色相40なので、色相の窓（185〜235）で自然に外れる。**
        ズボンの腰が窓に入らないよう --ymin は -0.10 まで上げること（-0.25だと
        腿の上だけ真っ黒になって、脛と2トーンに見える）。
+
+       色は目分量で合わせない。**焼いてレンダリングして、インナーとズボンの
+       画素を拾って突き合わせる**（どちらも #1f2732 前後になるまで --lift を
+       動かした）。1より大きい --lift は影を潰すので --floor で底を上げる。
 
        node tools/recolor-avatar.mjs sensei --hmin 195 --hmax 215 --smin 0.30 --lmax 0.30 \
          --ymin -0.35 --ymax 0.36 --edge --strict --hue 40 --sat 0.18 --lift 0.20 --out sensei-r
        node tools/recolor-avatar.mjs sensei --in sensei-r --hmin 185 --hmax 235 --smin 0.02 \
          --smax 0.32 --lmin 0.25 --ymin -0.10 --ymax 0.35 --edge --strict \
-         --hue 220 --sat 0.06 --lift 5 --out sensei-r */
+         --hue 213 --sat 0.24 --lift 4.6 --floor 0.03 --out sensei-r */
     id: 'kinari',
     avatarId: 'senpai',
     name: 'せんぱい_生成りジャケットver',
