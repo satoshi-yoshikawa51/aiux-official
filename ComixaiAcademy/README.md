@@ -1787,7 +1787,7 @@ Tripoの自動リグは、**頭が大きく手足が短いデフォルメ体型*
 | 4 | `fix-head-weights.mjs` | 顔を Head 100% の剛体にする | 腕を振ると顔が溶けるとき |
 | 5 | `lock-bone-weights.mjs` | 肩章など**硬い飾り**を鎖骨に固定 | 肩に飾りがある衣装 |
 | 6 | `tuck-head-skirt.mjs` | 服に隠れるあごの下の帯を細くする | あごの脇からギザギザが出るとき |
-| 7 | `cut-head-web.mjs` | 顔と体をまたぐ面を切り離す（穴は空けない） | 4のあと必ず |
+| 7 | `cut-head-web.mjs` | 顔と体をまたぐ面を切り離す（穴は空けない） | **あごと肩のあいだに膜が張るときだけ**。掛けると背中が裂けることがある（下記） |
 | 8 | `find-spikes.mjs` → `pull-in.mjs` / `cut-tearing-faces.mjs` | 残った突起を機械で探して潰す | 仕上げ |
 | 9 | `make-faces.mjs` | 顔サムネイルを焼き直す | 形を触ったら必ず |
 
@@ -1797,12 +1797,23 @@ Tripoの自動リグは、**頭が大きく手足が短いデフォルメ体型*
 node tools/fix-head-weights.mjs in.glb a.glb
 node tools/lock-bone-weights.mjs a.glb b.glb --bone L_Clavicle,R_Clavicle --lock 0.4 --feather 0.25
 node tools/tuck-head-skirt.mjs b.glb c.glb --amount 0.10 --depth 0.04
-node tools/cut-head-web.mjs c.glb d.glb
 node tools/find-spikes.mjs <モデルID>          # 突起の場所を出す
-node tools/pull-in.mjs d.glb e.glb --at 0.316,-0.139,0.145 --bone Head --mirror
+node tools/pull-in.mjs c.glb d.glb --bone Clavicle --at 0.51,-0.02,0.02 --radius 0.10 --amount 0.12 --mirror
+node tools/pull-in.mjs d.glb e.glb --bone Head --at 0.316,-0.139,0.145 --radius 0.12 --amount 0.12 --mirror
 node tools/cut-tearing-faces.mjs e.glb out.glb --at 0.51,0,0.06 --radius 0.16 --mirror
 node tools/make-faces.mjs
 ```
+
+**`cut-head-web` は入れていない。** この子に掛けると背中が裂けた（下記）。
+
+### **必ず、真後ろと真上からも見る**
+
+前からしか見ていないと**まるで気づかない**壊れ方がある。`cut-head-web` を掛けた
+王さまは、正面では直って見えたのに、**お辞儀すると背中の上着が全部ばらばらに
+裂けていた**（頭が大きいので、前から見ると頭に隠れて見えない）。
+
+いちばん残酷な確認は **`bow` の途中（t≈2.0s）を真後ろ・真上から撮る**こと。
+背骨がいちばん曲がるので、剛体にした所と動く所の食い違いが全部出る。
 
 ### 測り方（目で探さない）
 
@@ -1825,6 +1836,8 @@ node tools/make-faces.mjs
 | 裂ける面の剛体化をモデル全体に掛ける | トゲは消えるが**上着じゅうに割れ目**（5601枚が剛体化）。`--at` で範囲を限れば副作用なし（肩まわり171枚で足りた） |
 | `pull-in` を `--bone` 無しで使う | **直らない。** 突き抜けはAがBを貫いている状態なので、両方いっしょに下げても位置関係が変わらない |
 | `lock-bone-weights` を feather 0 で使う | **切った線がそのまま次の裂け目**になる（鎖骨1.0と鎖骨0.39がとなり合って旗のように伸びた） |
+| `cut-head-web` の持ち主判定を「多いほう」にする | あご下ののこぎりは減ったが、切り離す面が74枚→459枚に増え、**お辞儀で背中が全部裂けた**。判定は「半分以上」に戻した |
+| `cut-head-web` を王さまに掛ける | 判定を戻して83枚にしても**背中は裂けたまま**。この子には掛けない。局所の裂けは `cut-tearing-faces` に任せる |
 
 ### 形では直らないもの
 
