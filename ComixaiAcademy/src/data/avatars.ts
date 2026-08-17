@@ -521,12 +521,25 @@ export interface AvatarSkin {
    塗る場所も色域もキャラごとに違うので（→ tools/recolor-avatar.mjs）、
    条件を覚えておかないと二度と同じ絵が作れない。テクスチャは
    `assets/models/<id>-r-texture.jpg`、顔は tools/make-faces.mjs の LOOKS。
-   名前は「<ひらがな名>_<色や部位>ver」（→ avatarLabel と同じ書き方）。 */
+   名前は「<ひらがな名>_<色や部位>ver」（→ avatarLabel と同じ書き方）。
+
+   ▍**焼いたら `node tools/check-recolor.mjs <モデルID> <色違いID>` で測る**
+   目で見て直していたころ、6体そろって「まだらな島が8〜20個・陰影が
+   半分・肌や目のはみ出し」を抱えたまま出してしまった。
+   数字を見てから、レンダリングした絵で決める。
+
+   ▍**Tripoのアトラスは、1つの島が2つの服をまたぐ**
+   胴を横帯に割ってあるので、ジャケットとインナー、猫の黄色い腕と緑の袖、
+   ニットとレギンスが同じ島に載る。**島の平均だけで選ぶと必ず染みが出る。**
+   またいでいる島は --plmin/--plmax（画素の明度で切る）で中を分ける。
+   どの島がまたいでいるかは、診断テクスチャをモデルに貼って
+   3Dで見るのがいちばん早い。 */
 export const SKINS: AvatarSkin[] = [
   {
     /* もも色のズボン。**シャツ（水色・明るい）を残すために --lmax で切る**。
-       node tools/recolor-avatar.mjs ottori --hmin 190 --hmax 250 --smin 0.12 \
-         --lmax 0.45 --edge --strict --hue 345 --sat 0.52 --lift 0.40 --out ottori-r */
+       靴もいっしょに桃色になるが、これは意図どおり（足元まで揃う）。
+       node tools/recolor-avatar.mjs ottori --hmin 190 --hmax 250 --smin 0.05 \
+         --lmax 0.45 --hue 345 --light 0.45 --sat 0.42 --out ottori-r */
     id: 'momoiro',
     avatarId: 'ottori',
     name: 'おっとり_ももズボンver',
@@ -538,8 +551,10 @@ export const SKINS: AvatarSkin[] = [
   },
   {
     /* 紺のスーツだけを赤へ。髪（色相8前後）と靴（300〜330）は色相の窓から外れる。
-       node tools/recolor-avatar.mjs nekketsu --hmin 200 --hmax 270 --smin 0.2 --edge \
-         --hue 0 --sat 0.62 --lift 0.68 --out nekketsu-r */
+       **--edge を付けない。** 付けていたころは顔と靴の暗い青っぽい画素まで
+       拾って、赤い上着の襟・袖口・腿に紺の染みが残った（髪を塗らないなら要らない）。
+       node tools/recolor-avatar.mjs nekketsu --hmin 200 --hmax 270 --smin 0.20 \
+         --lmax 0.45 --hue 0 --light 0.32 --sat 0.62 --out nekketsu-r */
     id: 'aka',
     avatarId: 'nekketsu',
     name: 'ねっけつ_赤スーツver',
@@ -554,24 +569,29 @@ export const SKINS: AvatarSkin[] = [
        はじめはジャケットをからし色にしたが、**濃い黄土＋グレーのインナー**が
        古く見えた。明るい羽織り×黒インナー×チャコールの3色に組み替えている。
 
-       1回目 … 上着だけ生成りへ。**上着とズボンは高さが重なる**（上着の裾-0.27、
-       ズボンの腰-0.22）ので高さでは切れない。彩度で分ける（上着0.36〜0.42／
-       ズボン0.22〜0.26）。髪は --ymax で外す。
-       2回目 … 明るいグレーのインナーを、**ズボンと同じチャコール**へ。
-       --in で1回目の出来上がりを読む。
-       **上着はもう色相40なので、色相の窓（185〜235）で自然に外れる。**
-       ズボンの腰が窓に入らないよう --ymin は -0.10 まで上げること（-0.25だと
-       腿の上だけ真っ黒になって、脛と2トーンに見える）。
+       ▍**胴の島は、ジャケットとインナーをまたいでいる**（ここが要）
+       アトラスが胴を横帯に割っているので、島の平均では分けられない。
+       島の窓は2回とも同じにして（＝胴の帯をぜんぶつかむ）、
+       **中を明度で切る**——0.40より暗い画素がジャケット、明るい画素が
+       インナー。素の絵はこの2つが 0.05〜0.22 と 0.55〜0.80 にきれいに
+       分かれているので、谷の真ん中で切れる。
+       切らずに島ごと塗っていたときは、生成りへ持ち上げた拍子に**インナーが
+       真っ白に飛び**、逆にインナーを黒くすると**ジャケットに黒い染み**が出た。
+
+       2回目は `--stats sensei` で**素の色を見て島を選ぶ**。1回目で
+       ジャケットが生成りになると島の平均がそちらへ寄って、同じ島が
+       もう選べなくなるため。
 
        色は目分量で合わせない。**焼いてレンダリングして、インナーとズボンの
-       画素を拾って突き合わせる**（どちらも #1f2732 前後になるまで --lift を
-       動かした）。1より大きい --lift は影を潰すので --floor で底を上げる。
+       画素を拾って突き合わせる**（どちらも #1f2732 前後）。
 
-       node tools/recolor-avatar.mjs sensei --hmin 195 --hmax 215 --smin 0.30 --lmax 0.30 \
-         --ymin -0.35 --ymax 0.36 --edge --strict --hue 40 --sat 0.18 --lift 0.20 --out sensei-r
-       node tools/recolor-avatar.mjs sensei --in sensei-r --hmin 185 --hmax 235 --smin 0.02 \
-         --smax 0.32 --lmin 0.25 --ymin -0.10 --ymax 0.35 --edge --strict \
-         --hue 213 --sat 0.24 --lift 4.6 --floor 0.03 --out sensei-r */
+       node tools/recolor-avatar.mjs sensei --hmin 195 --hmax 220 --smin 0.15 \
+         --smax 0.55 --lmax 0.60 --ymin -0.15 --ymax 0.36 --plmax 0.40 \
+         --hue 40 --light 0.66 --sat 0.18 --contrast 0.7 --out sensei-r
+       node tools/recolor-avatar.mjs sensei --in sensei-r --stats sensei \
+         --hmin 195 --hmax 220 --smin 0.15 --smax 0.55 --lmax 0.60 \
+         --ymin -0.15 --ymax 0.36 --plmin 0.40 --plmax 0.78 \
+         --hue 213 --light 0.16 --sat 0.25 --contrast 0.5 --out sensei-r */
     id: 'kinari',
     avatarId: 'senpai',
     name: 'せんぱい_生成りジャケットver',
@@ -582,9 +602,13 @@ export const SKINS: AvatarSkin[] = [
     face: require('@/assets/faces/senpai-kinari.png'),
   },
   {
-    /* セーターだけ藤色へ。レギンス（色相212）と靴は色相と高さの窓から外れる。
-       node tools/recolor-avatar.mjs otenba --hmin 185 --hmax 205 --smin 0.25 --ymin -0.3 \
-         --edge --strict --hue 282 --sat 0.36 --lift 0.95 --out otenba-r */
+    /* セーターだけ藤色へ。レギンスは**彩度**で外す（ニット0.30〜0.40／
+       レギンス0.45〜0.50）。靴は彩度と色相の窓から外れる。
+       **裾の島はニットとレギンスをまたぐ**ので --plmin 0.20 で中を切る。
+       これが無いと、右の腿に藤色のくさびが刺さる。
+       node tools/recolor-avatar.mjs otenba --hmin 178 --hmax 215 --smin 0.25 \
+         --smax 0.43 --ymin -0.30 --plmin 0.20 --hue 282 --light 0.40 \
+         --sat 0.38 --out otenba-r */
     id: 'fuji',
     avatarId: 'otenba',
     name: 'おてんば_藤色ニットver',
@@ -598,7 +622,7 @@ export const SKINS: AvatarSkin[] = [
     /* シャツだけ深緑へ。**上下とも真っ黒**なので、高さでしか切り分けられない
        （腿の島は上端-0.13、シャツの裾は-0.25）。眼鏡も黒いので --ymax で外す。
        node tools/recolor-avatar.mjs kanroku --hmin 190 --hmax 260 --smin 0.05 \
-         --ymin -0.10 --ymax 0.45 --edge --strict --hue 155 --sat 0.42 --lift 0.72 --out kanroku-r */
+         --ymin -0.10 --ymax 0.45 --hue 155 --light 0.28 --sat 0.42 --out kanroku-r */
     id: 'midori',
     avatarId: 'kanroku',
     name: 'かんろく_深緑シャツver',
@@ -611,8 +635,13 @@ export const SKINS: AvatarSkin[] = [
   {
     /* シャツだけ青へ。**--strict が要る**——体との境目は黄緑のぼかしで、
        島ごと塗ると黄色い体に水色のしみが浮く。
-       node tools/recolor-avatar.mjs neko --hmin 95 --hmax 175 --smin 0.2 --edge --strict \
-         --hue 214 --sat 0.55 --lift 1 --out neko-r */
+       さらに**袖の島は黄色い腕と緑の袖をまたぐ**（平均は黄緑の色相47〜71）。
+       島を選ぶ窓だけ色相40まで広げて袖の島をつかみ、**塗る窓は85のまま**に
+       して、あいだは --strict に任せる。窓をそろえると黄色い体まで青くなり、
+       広げないと右袖に緑のあて布が残ったままになる。
+       node tools/recolor-avatar.mjs neko --island-hmin 40 --island-hmax 175 \
+         --hmin 85 --hmax 175 --smin 0.20 --strict --strict-fade 25 \
+         --hue 214 --light 0.28 --sat 0.55 --out neko-r */
     id: 'ao',
     avatarId: 'neko',
     name: 'かんばん_青シャツver',

@@ -3,7 +3,11 @@
 
      node tools/recolor-avatar.mjs <モデルID> --diagnose
      node tools/recolor-avatar.mjs <モデルID> --hmin 340 --hmax 30 --lmax 0.35 \
-       --hue 34 --sat 0.45 --lift 0.55 --out <id>-r
+       --hue 34 --light 0.45 --sat 0.55 --out <id>-r
+
+   ▍**焼いたら必ず tools/check-recolor.mjs で測る。**
+   目で見て「なんか変」で止めると同じ所を何度も踏む。見るのは4つ——
+   陰影の残り／まだらな島／まるごと残った島／肌と目のはみ出し。
 
    ▍先に `recolor-sensei.mjs` があるのに、なぜ別に作るのか
    あちらは**先輩の髪だけ**を狙って調律してある（頭に届く寒色の島／
@@ -22,7 +26,15 @@
         --smin/--smax  彩度の範囲
         --lmin/--lmax  明度の範囲（髪と肌は色相が近いので、ここで分ける）
         --ymin/--ymax  モデル上の高さ（足元-1〜頭上1）
-      塗る色は --hue / --sat / --lift（明度の持ち上げ。1=そのまま、小さいほど明るく）
+      塗る色は --hue / --light / --sat（出来上がりの平均をどこへ置くか）
+
+   ▍**島は「服の単位」ではない。** ここでいちばん時間を溶かした
+   Tripoのアトラスは胴を横帯に割るので、1つの島がジャケットとインナー、
+   猫の黄色い腕と緑の袖、ニットとレギンスを**またぐ**。島の平均だけで
+   選ぶと、必ずどちらかが染みになる。またいでいる島は
+   --plmin/--plmax（画素の明度で切る）か --strict（画素の色相で切る）で
+   中を分ける。またいでいるかどうかは、診断テクスチャを
+   **モデルに貼って3Dで見る**のがいちばん早い。
 
    ▍島の番号は、そのGLBの中でだけ意味がある
    頂点をつないで作る番号なので、**モデルを焼き直したら変わる**。
@@ -52,14 +64,32 @@ const LMAX = Number(opt('lmax', 1));
 const YMIN = Number(opt('ymin', -99));
 const YMAX = Number(opt('ymax', 99));
 const HUE = Number(opt('hue', 44));
-const SAT = Number(opt('sat', 0.6));
-const LIFT = Number(opt('lift', 1));
-/** ▍暗くするときの下限（--floor）
-    `--lift` は明度の累乗なので、**1より大きくして暗くすると影が潰れる**。
-    せんぱいのインナーを明るいグレーからチャコールに落としたとき、
-    裾の影だけ真っ黒になって腰に帯が出た（元の絵では、ただの影の線）。
-    出来上がりの明度をここより下げない。0で従来どおり。 */
-const FLOOR = Number(opt('floor', 0));
+/* ============================================================
+   ▍色の指定は「**塗る範囲の平均をどこへ動かすか**」で書く
+
+   もとは --sat と --lift で、彩度は決め打ち・明度は累乗だった。
+   これだと布の折り目も縫い目も全部おなじ色になり、遠目に塗り絵に見える。
+   しかも「暗い服を明るく振る」と相対の差が潰れるので、**同じ数字を
+   入れてもキャラごとに平らさが変わる**（紺のズボンは 0.19±47% が
+   0.50±15% になっていた）。
+
+   いまは塗る範囲の平均を測って、**平均だけを動かし、ずれはそのまま足す**。
+   比で持ち込む形（tgt * (l/mL)^c）も試したが、暗い服を明るく振ると
+   縫い目だけが**ひび割れのように黒く**残った——比で持つと、暗い画素ほど
+   大きく開くため。足し算なら、影の深さが元のまま平行移動する。
+
+   - --light  出来上がりの平均の明度（省略で元のまま）
+   - --sat    出来上がりの平均の彩度（省略で元のまま）
+   - --contrast 陰影の強さ。1で元のまま、小さいほど平ら。既定1
+   - --shadow   影側だけの強さ。**暗い服を明るい色に振るときは要る**。
+                布に焼かれた縫い目やAOは、紺のうちは見えないのに、
+                明るくすると**ひび割れのように黒い線**で浮く。既定は
+                「明るくしたぶんだけ影を薄くする」（元の平均÷目標の平均）。
+   ============================================================ */
+const LIGHT = opt('light', null) === null ? null : Number(opt('light'));
+const SAT = opt('sat', null) === null ? null : Number(opt('sat'));
+const CONTRAST = Number(opt('contrast', 1));
+const SHADOW = opt('shadow', null) === null ? null : Number(opt('shadow'));
 const OUT = opt('out', `${ID}-r`);
 const KEEP_EYES = !args.includes('--no-eye-guard');
 /** 白目からどれだけ離れた暗い画素までを「瞳・まつげ」とみなすか（画素）。
@@ -77,8 +107,33 @@ const EDGE = args.includes('--edge');
     上げると**顔の島の肌が丸ごと入ってしまう**（おてんばで頬が紫になった）。
     島は緩く、拾い足しは厳しく——を別々に指定できるようにする。 */
 const EDGE_LMAX = Number(opt('edge-lmax', LMAX));
-/** 選んだ島の中でも、画素の色が範囲外なら塗らない（→ 塗る所のコメント） */
+/** ▍選んだ島の中でも、色が違いすぎる画素は弱く塗る（--strict）
+    2値で切ると境目が点々になるので、色相がどれだけ外れているかで薄くする。
+    --strict-fade は「何度ぶんで0まで落とすか」（既定30度） */
 const STRICT = args.includes('--strict');
+const STRICT_FADE = Number(opt('strict-fade', 30));
+/* ▍**島を選ぶ色相の窓は、画素を塗る窓より広くできる**（--island-hmin/hmax）
+   看板キャラの猫は、袖の島が黄色い腕と緑のシャツをまたいでいる。島の平均は
+   黄緑（色相47・71）になるので、塗る窓（85〜175）では選べない。かといって
+   塗る窓を47まで下げると、黄色い体まで青くなる。
+   **選ぶのは広く、塗るのは狭く**——を分けて、あいだは --strict に任せる。 */
+const IHMIN = opt('island-hmin', null) === null ? HMIN : Number(opt('island-hmin'));
+const IHMAX = opt('island-hmax', null) === null ? HMAX : Number(opt('island-hmax'));
+/* ============================================================
+   ▍**1つの島に、上着とインナーが同居していることがある**（--plmin/--plmax）
+
+   先輩のアトラスは、胴の島がジャケットとインナーTシャツをまたいでいる。
+   島ごと塗ると、ジャケットを生成りに振ったときにTシャツまで
+   持ち上がって**真っ白に飛ぶ**（実際そうなった）。逆にインナーを黒へ
+   落とすと、同じ島に載っているジャケットの一部が黒い染みになる。
+
+   島は「どのチャートを触るか」までしか決められないので、
+   **その中のどの画素かは明度で切る**。上着は0.15〜0.25、インナーは
+   0.45〜0.60 と、絵の上では十分に離れている。
+   境目は --pfade（既定0.06）でなめらかにする。 */
+const PLMIN = opt('plmin', null) === null ? null : Number(opt('plmin'));
+const PLMAX = opt('plmax', null) === null ? null : Number(opt('plmax'));
+const PFADE = Number(opt('pfade', 0.06));
 if (!ID) {
   console.error('使い方: node tools/recolor-avatar.mjs <モデルID> --diagnose');
   process.exit(1);
@@ -92,6 +147,12 @@ const DIR = new URL('../assets/models/', import.meta.url).pathname;
    `--in <ID>` で元になるテクスチャだけ差し替える（GLBは <モデルID> のまま）。
    ※ 2回目の島の色は1回目の結果で測られる。条件は塗ったあとの色で書くこと。 */
 const SRC = `${DIR}${opt('in', ID)}-texture.jpg`;
+/* ▍**島の色を測るテクスチャは、塗るテクスチャと別にできる**（--stats）
+   二度塗りの2回目は、1回目で塗った色の上で島を選ぶことになる。先輩は
+   胴の島がジャケットとインナーをまたいでいるので、1回目でジャケットを
+   生成りにすると島の平均が生成りに寄って、**同じ島がもう選べなくなる**。
+   選ぶのは素の色で、塗るのは1回目の上で——を分けられるようにする。 */
+const STATS_SRC = `${DIR}${opt('stats', opt('in', ID))}-texture.jpg`;
 const GLB = `${DIR}${ID}.glb`;
 /* ▍テクスチャの一辺は**画像から読む**。決め打ちにしない
    先輩だけ1024で、あとの相棒は512。1024のつもりで読むと、
@@ -99,6 +160,11 @@ const GLB = `${DIR}${ID}.glb`;
 const { data, info } = await sharp(SRC).raw().toBuffer({ resolveWithObject: true });
 const SIZE = info.width;
 if (info.width !== info.height) throw new Error('正方形のテクスチャを想定しています');
+/** 「どこを塗るか」を決めるときに見る色。--stats を省けば塗る絵と同じ */
+const sel = STATS_SRC === SRC ? { data, info } : await sharp(STATS_SRC).raw().toBuffer({ resolveWithObject: true });
+const sdata = sel.data;
+const sch = sel.info.channels;
+if (sel.info.width !== SIZE) throw new Error('--stats のテクスチャは同じ大きさにしてください');
 
 const smooth = (a, b, x) => {
   const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
@@ -243,8 +309,8 @@ const stats = new Map();
 for (let p = 0; p < SIZE * SIZE; p++) {
   const isl = islandMap[p];
   if (isl < 0) continue;
-  const i = p * info.channels;
-  const [h, s, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
+  const i = p * sch;
+  const [h, s, l] = rgbToHsl(sdata[i] / 255, sdata[i + 1] / 255, sdata[i + 2] / 255);
   const st = stats.get(isl) ?? { n: 0, hx: 0, hy: 0, s: 0, l: 0, white: 0 };
   st.n++;
   /* 白目（明るくて彩度の無い画素）の数。目の島を見分けるのに使う */
@@ -256,8 +322,12 @@ for (let p = 0; p < SIZE * SIZE; p++) {
   st.l += l;
   stats.set(isl, st);
 }
+/* ▍**小さい島も拾う。** 200画素で切っていたころ、赤いスーツの襟に
+   125画素の紺の島が残って、遠目に染みに見えた。診断の表は --top で
+   絞れるので、閾値は下げてよい */
+const MIN_ISLAND = Number(opt('min-island', 40));
 const rows = [...stats.entries()]
-  .filter(([, st]) => st.n >= 200)
+  .filter(([, st]) => st.n >= MIN_ISLAND)
   .map(([isl, st]) => {
     let h = (Math.atan2(st.hy, st.hx) * 180) / Math.PI;
     if (h < 0) h += 360;
@@ -323,45 +393,48 @@ if (DIAGNOSE) {
 /* ---------- 塗る島を決める ---------- */
 /** 色相は輪なので、340→30 のようにまたぐ指定を許す */
 const between = (h, lo, hi) => (lo <= hi ? h >= lo && h <= hi : h >= lo || h <= hi);
-const inHue = (h) => {
+const inHue = (h, lo = HMIN, hi = HMAX) => {
   if (XHMIN !== null && XHMAX !== null && between(h, XHMIN, XHMAX)) return false;
-  if (HMIN === null || HMAX === null) return true;
-  return between(h, HMIN, HMAX);
+  if (lo === null || hi === null) return true;
+  return between(h, lo, hi);
 };
-const pick = new Set(ISLANDS);
-/* ▍「白目がある」だけで目とみなしてはいけない。**顔の高さも見る**
-   明るくて彩度の無い画素は、白いシャツのふちや金具のハイライトにもある。
-   高さを見ずに切ったせいで、ねっけつは**上着の襟と袖口の島が「目」に
-   なり**、そこだけ紺のまま残った（赤い上着に紺のまだら）。
-   目は顔にしか無いので、体の上のほうだけを対象にする。 */
+/** 色相の輪の上での距離（度） */
+const hueGap = (h, lo, hi) => {
+  if (HMIN === null || HMAX === null) return 0;
+  if (between(h, lo, hi)) return 0;
+  const d = (a, b) => { const x = Math.abs(a - b) % 360; return x > 180 ? 360 - x : x; };
+  return Math.min(d(h, lo), d(h, hi));
+};
+
+/* ▍「白目がある」だけで目とみなさない。**顔の高さも見る**
+   明るくて彩度の無い画素は、白いシャツのふちや金具にもある。高さを見ずに
+   切ったせいで、ねっけつは上着の襟と袖口の島が「目」になり、そこだけ
+   紺のまま残った（赤い上着に紺のまだら）。 */
 const allY = [...box.values()];
 const bodyMin = Math.min(...allY.map((b) => b.minY));
 const bodyMax = Math.max(...allY.map((b) => b.maxY));
 const EYE_YMIN = Number(opt('eye-ymin', bodyMin + (bodyMax - bodyMin) * 0.72));
 const upperHalf = (isl) => (box.get(isl)?.maxY ?? -99) >= EYE_YMIN;
-/** 白目だらけの島＝目そのもの。塗らないだけでなく、--edge の拾い足しからも外す */
+
+/* 白目だらけの島＝目そのもの。塗らないし、拾い足しからも外す */
 const eyeIslands = new Set(rows.filter((r) => r.白目 > 0.03 && upperHalf(r.島)).map((r) => r.島));
-/** ▍こちらは「**この島のどこかに目がある**」というだけの、ゆるい判定
-    おっとりは左右の目でアトラス上の入り方がまるで違う。片方は目だけの
-    小さな島（白目9.9%）で、もう片方は**顔の大きな塊の隅**にいる（白目1.2%）。
-    後者は上の判定に掛からないので、**片目だけが桜色に染まった**。
-    塗る／塗らないをこの緩さで決めると顔まで残ってしまうので、
-    下の「瞳のたどり」の**起点をどこから探すか**にだけ使う。 */
 const hasEyeIslands = new Set(
   [...stats.entries()].filter(([isl, st]) => st.white >= 12 && upperHalf(isl)).map(([isl]) => isl),
 );
+
+const pick = new Set(ISLANDS);
 if (!ISLANDS.length) {
   for (const r of rows) {
     const b = box.get(r.島);
-    if (!inHue(r.色相)) continue;
+    if (!inHue(r.色相, IHMIN, IHMAX)) continue;
     if (r.彩度 < SMIN || r.彩度 > SMAX) continue;
     if (r.明度 < LMIN || r.明度 > LMAX) continue;
     if (b.maxY < YMIN || b.minY > YMAX) continue;
-    /* ▍白目を含む島は、目そのもの。髪の色に近くても塗らない
-       おてんばの瞳は暗い茶色で、島の平均が髪とほぼ同じ。条件だけで拾うと
-       **目が丸ごと染まる**（紫の瞳になった）。白目が混じっているかどうかで
-       見分ける——髪の島に白目ほど白い画素はほとんど無い。 */
-    if (KEEP_EYES && r.白目 > 0.03) continue;
+    /* ▍瞳ガードは eyeIslands（＝顔の高さも見る）で判定する。
+       ここで白目の割合だけを見ていたころ、**赤いスーツの襟と袖口と腿に
+       紺の染みが残った**。白い縁取りのある島が「目」と誤判定されて、
+       まるごと塗り残されていた。 */
+    if (KEEP_EYES && eyeIslands.has(r.島)) continue;
     pick.add(r.島);
   }
   if (!pick.size) {
@@ -371,70 +444,64 @@ if (!ISLANDS.length) {
   const px = rows.filter((r) => pick.has(r.島)).reduce((a, r) => a + r.画素, 0);
   console.log(`選んだ島: ${pick.size}個 / ${px}画素（テクスチャの${((px / (SIZE * SIZE)) * 100).toFixed(1)}%）`);
 }
-let mask = new Uint8Array(SIZE * SIZE);
+
+/* ============================================================
+   ▍塗る強さは0か1ではなく、**0〜1の重み**で持つ
+
+   もとは「塗る／塗らない」の2値だった。すると、島の中に条件から
+   外れる画素が混ざったとき——布のいちばん濃い影、縫い目、境目の
+   ぼかし——**そこだけ元の色で residual として残り、黒い点々が散る**。
+   実際、6体すべてで「5〜95%だけ塗られた島」が8〜20個あった
+   （→ tools/check-recolor.mjs が数える）。
+
+   重みにすれば、合わない画素は**弱く塗られる**だけで、点にならない。
+   最後に3x3で軽くならして、1画素だけ浮くのも消す。
+   ============================================================ */
+const w = new Float32Array(SIZE * SIZE);
 /* 画素単位で拾ったところ（＝顔の島の中の前髪）。瞳ガードはここにだけ効かせる */
 const fromEdge = new Uint8Array(SIZE * SIZE);
+/** 明度の窓（--plmin/--plmax）で落とした画素。ふちを広げるときも避ける */
+const gated = new Uint8Array(SIZE * SIZE);
 let edged = 0;
 for (let p = 0; p < SIZE * SIZE; p++) {
-  if (pick.has(islandMap[p])) { mask[p] = 255; continue; }
-  if (!EDGE || islandMap[p] < 0) continue;
-  /* ▍拾い足しも、高さの範囲の中だけ
-     --edge は画素の色だけを見るので、放っておくと**体じゅうの暗い画素**を
-     拾う（かんろくは上着が濃紺の暗い色で、髪と明度がほとんど同じ）。
-     その島がモデルのどのあたりにあるかで、まず足切りする。 */
-  const bx = box.get(islandMap[p]);
+  const isl = islandMap[p];
+  if (isl < 0) continue;
+  const i = p * sch;
+  const [h, sPx, l] = rgbToHsl(sdata[i] / 255, sdata[i + 1] / 255, sdata[i + 2] / 255);
+  /* 明度の窓（→ --plmin/--plmax のメモ）。窓の外は0、境目はなめらかに */
+  const lGate =
+    (PLMIN === null ? 1 : smooth(PLMIN - PFADE, PLMIN + PFADE, l)) *
+    (PLMAX === null ? 1 : 1 - smooth(PLMAX - PFADE, PLMAX + PFADE, l));
+  if (lGate < 0.5) gated[p] = 255;
+  if (pick.has(isl)) {
+    /* ▍選んだ島の中でも、色が違いすぎる画素は弱くする（--strict）
+       看板キャラの猫は、シャツと体の境目が黄緑のぼかしで描いてある。
+       島ごと全部塗ると黄色い体に水色のしみが浮き、はっきり切ると
+       境目が点々になる。**間を取って、離れるほど薄く塗る。** */
+    w[p] = (STRICT ? Math.max(0, 1 - hueGap(h, HMIN, HMAX) / STRICT_FADE) : 1) * lGate;
+    continue;
+  }
+  if (!EDGE) continue;
+  const bx = box.get(isl);
   if (bx && (bx.maxY < YMIN || bx.minY > YMAX)) continue;
-  /* ▍目の島には、そもそも入らない
-     白目のまわりを守るやり方（下の guard）は、**白目から数画素の範囲**しか
-     効かない。かんろくの瞳は大きくて、まん中まで届かず**瞳が灰色に
-     染まった**。目は島ごと避けるのがいちばん確実。 */
-  if (KEEP_EYES && eyeIslands.has(islandMap[p])) continue;
-  const i = p * info.channels;
-  const [h, sPx, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
-  if (l < EDGE_LMAX && sPx >= SMIN && sPx <= SMAX && inHue(h)) { mask[p] = 255; fromEdge[p] = 255; edged++; }
+  if (KEEP_EYES && eyeIslands.has(isl)) continue;
+  if (l < EDGE_LMAX && sPx >= SMIN && sPx <= SMAX && inHue(h)) { w[p] = lGate; fromEdge[p] = 255; edged++; }
 }
-mask = dilate(mask, 2);
-/* ▍にじませるのは2画素まで。**アトラスの余白を埋めにいってはいけない**
-   島と島のあいだの余白には島番号が付かないので、そこも塗ってしまえば
-   ミップマップで元の色がにじみ出るのを防げる——と思って、塗った所から
-   余白を伝って6画素ぶん広げたことがある。**効果は無く、害だけあった**：
-   ねっけつの袖に残る紺の染みは消えず（あれは余白ではなく別のUV島）、
-   かんろくは**黒い上着の縫い目に白い線**が走った（隣り合う髪の島の
-   余白が白くなり、上着のふちが線形補間でそれを拾う）。
-   ふちのぼかしは、この2画素で足りている。 */
 if (EDGE) console.log(`顔の島の中から拾った画素: ${edged}`);
 
-/* ▍瞳を守る（→ recolor-sensei.mjs のメモ）
-   白目（明るくて彩度の無い画素）のまわりの暗い画素は、瞳・まつげ・
-   アイライン。髪を塗るときは必ずここを外す。
-
-   **ただし、髪の島の中では効かせない。** 髪にも明るいハイライトがあるので、
-   そのまわりの暗い画素まで守ってしまい、**髪がまだらに染め残る**
-   （おっとりで実際に斑点だらけになった）。瞳がいるのは顔の島なので、
-   画素単位で拾ったところ（fromEdge）にだけ掛ければ足りる。 */
-const guard = new Uint8Array(SIZE * SIZE);
+/* ▍瞳を守る（→ 下のメモ）。守る所は重み0 */
 if (KEEP_EYES) {
   const white = new Uint8Array(SIZE * SIZE);
   const dark = new Uint8Array(SIZE * SIZE);
   for (let p = 0; p < SIZE * SIZE; p++) {
-    const i = p * info.channels;
-    const [, s, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
-    /* ▍白目の判定は**目のある島の中だけ**
-       明るくて彩度の無い画素は、白いシャツにも髪のハイライトにもある。
-       島を見ずに拾うと、そこから下の「たどり」が服や髪へ流れ出す
-       （おっとりでベルトが黒く残り、前髪に黒い筋が走った）。 */
+    const i = p * sch;
+    const [, s, l] = rgbToHsl(sdata[i] / 255, sdata[i + 1] / 255, sdata[i + 2] / 255);
     if (l > 0.75 && s < 0.18 && hasEyeIslands.has(islandMap[p])) white[p] = 255;
     if (l < 0.55) dark[p] = 255;
   }
   /* ▍白目から、**暗い所づたいに**広げる（何画素で切るか、ではなく）
-     前は白目のまわり EYE_R 画素を守っていた。おっとりの片目だけが
-     桜色に染まったのがこれで、瞳がひとつの小さなUV島に分かれていて
-     （白目を含まないので「目の島」の判定にも掛からない）、外周
-     数画素ぶんしか守れていなかった。
-
-     瞳・まつげ・アイラインは**白目と絵の上でつながっている**ので、
-     暗い画素をたどれば島の切れ目に関係なく全部拾える。
-     たどりすぎて前髪へ逃げないよう、白目からの距離で頭打ちにする。 */
+     瞳・まつげ・アイラインは白目と絵の上でつながっているので、暗い画素を
+     たどれば島の切れ目に関係なく全部拾える。前髪へ逃げないよう頭打ちにする。 */
   const MAX = Number(opt('eye-reach', 26));
   const q = [];
   const dist = new Int16Array(SIZE * SIZE).fill(-1);
@@ -449,41 +516,100 @@ if (KEEP_EYES) {
       const np = ny * SIZE + nx;
       if (dist[np] >= 0 || !dark[np]) continue;
       dist[np] = dist[p] + 1;
-      guard[np] = 255;
+      if (fromEdge[np]) w[np] = 0;
       q.push(np);
     }
   }
-  /* 白目のすぐ外側は、暗くなくても守る（アイラインのふちのぼかし） */
   const near = dilate(white, EYE_R);
-  for (let p = 0; p < SIZE * SIZE; p++) if (near[p] && dark[p]) guard[p] = 255;
+  for (let p = 0; p < SIZE * SIZE; p++) if (near[p] && dark[p] && fromEdge[p]) w[p] = 0;
 }
 
+/* ============================================================
+   ▍ふちを2画素ぶん広げる。**アトラスの余白（島と島のあいだ）にも広げる**
+
+   ここを島の中だけに限ると、**塗った服に黒い線が走る**。線の正体は
+   縫い目でも影でもなく、**島の境目の余白**（Tripoがにじみ止めに元の色を
+   広げてある所）で、描画のときの線形補間でそこを拾ってしまう。
+   おっとりのズボンに膝と内股のひび割れが出たのがこれだった。
+
+   ただし**2画素まで**。6画素まで広げたことがあるが、黒い上着の縫い目に
+   白い線が走った（隣り合う別の島の余白まで塗ってしまう）。
+   ============================================================ */
+{
+  const grown = dilate(Uint8Array.from(w, (v) => (v > 0.5 ? 255 : 0)), 2);
+  for (let p = 0; p < SIZE * SIZE; p++) if (grown[p] && !gated[p] && w[p] < 1) w[p] = Math.max(w[p], 1);
+  const sm = new Float32Array(SIZE * SIZE);
+  for (let y = 0; y < SIZE; y++) for (let x = 0; x < SIZE; x++) {
+    let sum = 0, n = 0;
+    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+      const ny = y + dy, nx = x + dx;
+      if (ny < 0 || ny >= SIZE || nx < 0 || nx >= SIZE) continue;
+      sum += w[ny * SIZE + nx]; n++;
+    }
+    sm[y * SIZE + x] = sum / n;
+  }
+  w.set(sm);
+}
+
+/* ============================================================
+   ▍塗り方：**色相だけ置き換えて、陰影は元の比で残す**
+
+   もとは `hslToRgb(HUE, SAT, pow(l, LIFT))`——彩度も明度も決め打ちで、
+   布の折り目も縫い目も全部おなじ色になっていた。暗い服を明るい色に
+   振ったとき、絶対のばらつきは残っても**相対の差が潰れて**、遠目に
+   ただの塗り絵になる（紺のズボン 明度0.19±0.09＝47% が、
+   桃 0.50±0.08＝15% になっていた）。
+
+   いまは塗る範囲の平均を測って、**平均だけを目標へ移し、ばらつきは
+   比で持ち上げる**。--contrast はその比をどれだけ効かせるか（1で完全）。
+   ============================================================ */
+let mL = 0, mS = 0, mW = 0;
+for (let p = 0; p < SIZE * SIZE; p++) {
+  if (w[p] <= 0.01) continue;
+  const i = p * info.channels;
+  const [, s, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
+  mL += l * w[p]; mS += s * w[p]; mW += w[p];
+}
+mL /= Math.max(1e-6, mW);
+mS /= Math.max(1e-6, mW);
+const tgtL = LIGHT === null ? mL : LIGHT;
+const tgtS = SAT === null ? mS : SAT;
+/* 明るくしたぶんだけ影を薄くする（→ 上のメモ）。暗くするときは1のまま */
+const shadowK = SHADOW === null ? Math.min(1, mL / Math.max(0.02, tgtL)) : SHADOW;
+console.log(
+  `塗る範囲の素の色: 明度${mL.toFixed(2)} 彩度${mS.toFixed(2)} → 明度${tgtL.toFixed(2)} 彩度${tgtS.toFixed(2)}` +
+    `（影の強さ ${shadowK.toFixed(2)}）`,
+);
+
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 const out = Buffer.alloc(SIZE * SIZE * 3);
 let painted = 0;
 for (let p = 0; p < SIZE * SIZE; p++) {
   const i = p * info.channels;
   const r0 = data[i] / 255, g0 = data[i + 1] / 255, b0 = data[i + 2] / 255;
-  if (!mask[p] || (guard[p] && fromEdge[p])) {
+  const k = w[p];
+  if (k <= 0.01) {
     out[p * 3] = r0 * 255; out[p * 3 + 1] = g0 * 255; out[p * 3 + 2] = b0 * 255;
     continue;
   }
-  const [hPx, sPx, l] = rgbToHsl(r0, g0, b0);
-  /* ▍ふちの「混ざった色」は残す（--strict）
-     看板キャラの猫は、シャツと体の境目が**黄緑のぼかし**で描いてある。
-     島ごと塗ると、そのぼかしまで色が変わって、黄色い体の上に**水色の
-     しみ**が浮いた（緑のうちは黄色と馴染んでいて目立たなかった）。
-     島で場所を決めたうえで、**画素の色が指定した範囲に入っているかを
-     もう一度見る**。境目のぼかしは元のまま残るので、自然につながる。 */
-  if (STRICT && !(inHue(hPx) && sPx >= SMIN && sPx <= SMAX)) {
-    out[p * 3] = r0 * 255; out[p * 3 + 1] = g0 * 255; out[p * 3 + 2] = b0 * 255;
-    continue;
-  }
-  const [r, g, b] = hslToRgb(HUE, SAT, FLOOR + Math.pow(l, LIFT) * (1 - FLOOR));
-  out[p * 3] = r * 255; out[p * 3 + 1] = g * 255; out[p * 3 + 2] = b * 255;
-  painted++;
+  const [, s, l] = rgbToHsl(r0, g0, b0);
+  /* 平均からのずれを足す。影側だけ弱める（→ 上のメモ）。両端で止める */
+  const dev = l - mL;
+  const l2 = clamp(tgtL + dev * CONTRAST * (dev < 0 ? shadowK : 1), 0.02, 0.97);
+  /* ▍彩度は**比で**運ぶ。足し算だと0を割って灰色になる
+     生成りのジャケット（目標0.18）は、塗る範囲の平均が0.39だった。
+     足し算だと平均より鈍い画素が 0.18-0.17＝0.01 まで落ちて、
+     **上着の下半分だけ無彩色の灰色**になった（実際そう出た）。
+     比なら、鈍い画素は鈍いまま・0を割らない。 */
+  const s2 = clamp(tgtS * (1 + CONTRAST * (s - mS) / Math.max(0.05, mS)), 0, 1);
+  const [r1, g1, b1] = hslToRgb(HUE, s2, l2);
+  out[p * 3] = (r0 + (r1 - r0) * k) * 255;
+  out[p * 3 + 1] = (g0 + (g1 - g0) * k) * 255;
+  out[p * 3 + 2] = (b0 + (b1 - b0) * k) * 255;
+  if (k > 0.5) painted++;
 }
 const file = `${DIR}${OUT}-texture.jpg`;
 await sharp(out, { raw: { width: SIZE, height: SIZE, channels: 3 } })
-  .jpeg({ quality: 88, chromaSubsampling: '4:4:4' }).toFile(file);
+  .jpeg({ quality: 92, chromaSubsampling: '4:4:4' }).toFile(file);
 console.log(`塗った（${painted}画素 / 瞳ガード${KEEP_EYES ? 'あり' : 'なし'}）`);
 console.log('->', file);
