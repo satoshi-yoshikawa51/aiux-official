@@ -6,8 +6,14 @@
    左脚に属する頂点と右脚に属する頂点を「両方含む」三角形を、指定の高さより下で削除する。
    股（ズボンとして本来つながる所。y=-0.25あたり）は残すので --below は -0.30 程度にする。
 
+   ▍「どのくらい脚に乗っていたら脚とみなすか」（--own）
+   既定は0.5（半分以上）。おてんばの**お尻の下**の膜は、脚のウェイトが
+   41〜42%しか乗っていない（残りは Waist と Spine）ので、0.5では
+   「どちらでもない」に落ちて素通りしていた。腰に近い所の膜を取るときは
+   0.35あたりまで下げる。**下げすぎると股のズボンごと消えて穴が空く。**
+
    使い方:
-     node tools/cut-leg-web.mjs in.glb out.glb [--below -0.30]
+     node tools/cut-leg-web.mjs in.glb out.glb [--below -0.30] [--own 0.5]
 
    ※ ウェイトで左右を判定するので、先に fix-leg-weights.mjs をかけてから実行すること
 */
@@ -17,8 +23,12 @@ import { MeshoptDecoder, MeshoptEncoder } from 'meshoptimizer';
 
 const args = process.argv.slice(2);
 const [IN, OUT] = args.filter((a) => !a.startsWith('--'));
-const i = args.indexOf('--below');
-const BELOW = i >= 0 ? Number(args[i + 1]) : -0.3;
+const num = (n, d) => {
+  const i = args.indexOf(`--${n}`);
+  return i >= 0 ? Number(args[i + 1]) : d;
+};
+const BELOW = num('below', -0.3);
+const OWN = num('own', 0.5);
 
 const io = new NodeIO()
   .registerExtensions(ALL_EXTENSIONS)
@@ -52,7 +62,7 @@ for (const mesh of root.listMeshes()) {
         if (s === 'L') l += w[k];
         if (s === 'R') r += w[k];
       }
-      owner[v] = l > 0.5 ? 'L' : r > 0.5 ? 'R' : '-';
+      owner[v] = l > OWN ? 'L' : r > OWN ? 'R' : '-';
     }
 
     const keep = [];
@@ -80,5 +90,5 @@ for (const acc of root.listAccessors()) {
 }
 
 await io.write(OUT, doc);
-console.log(`削除した三角形: ${removed} (below=${BELOW})`);
+console.log(`削除した三角形: ${removed} (below=${BELOW} own=${OWN})`);
 console.log('->', OUT);
