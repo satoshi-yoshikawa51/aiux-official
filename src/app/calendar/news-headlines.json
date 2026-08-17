@@ -1,7 +1,90 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-16T21:51:43.529Z",
+  "updatedAt": "2026-08-17T21:55:14.330Z",
   "items": [
+    {
+      "title": "Nvidia investing $1.5B in SoftBank data center developer behind OpenAI project",
+      "url": "https://techcrunch.com/2026/08/17/nvidia-investing-1-5b-in-softbank-data-center-developer-behind-openai-project/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-17T15:16:24.000Z",
+      "titleJa": "Nvidia、OpenAIプロジェクトの背後にあるSoftBankデータセンター開発者に15億ドルを投資",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/07/GettyImages-2219673294.jpg?resize=1200,750"
+    },
+    {
+      "title": "Wispr raises $280M at $2B valuation as it looks beyond dictation",
+      "url": "https://techcrunch.com/2026/08/17/wispr-raises-280m-at-2b-valuation-as-it-looks-beyond-dictation/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-17T13:10:05.000Z",
+      "titleJa": "Wispr は口述筆記の先を見据えて 20 億ドルの評価額で 2 億 8,000 万ドルを調達",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/02/Wispr-Flow-Android-hero.jpg?resize=1200,718"
+    },
+    {
+      "title": "Get closer to the game with Gemini and Pixel",
+      "url": "https://blog.google/products-and-platforms/products/gemini/google-gemini-pixel-football-club-partnerships/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-08-17T08:00:00.000Z",
+      "titleJa": "Gemini と Pixel でゲームをもっと身近に",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/football_multi-club_hero.width-1300.png"
+    },
+    {
+      "title": "OpenAI joins PORTS-Pike project",
+      "url": "https://openai.com/index/openai-joins-ports-pike-project",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-08-17T05:00:00.000Z",
+      "titleJa": "OpenAIがPORTS-Pikeプロジェクトに参加"
+    },
+    {
+      "title": "Visual Studio Code 1.133正式リリース。プロンプトを見失わない固定スクロール、ローカルHTMLファイルの自動リロード、ClaudeとCopilotの混在可能など新機能",
+      "url": "https://www.publickey1.jp/blog/26/visual_studio_code_1133htmlclaudecopilot.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-17T15:42:34.000Z",
+      "image": "https://www.publickey1.jp/2026/HPidRiCXQAEGSPk.jpg"
+    },
+    {
+      "title": "NTTドコモビジネスとエクサウィザーズ、「クローズドAIエージェント」を提供開始",
+      "url": "https://japan.zdnet.com/article/35251625/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-17T09:41:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/08/20/1266f24cdb864210cdd13f8be520cb6d/250820_edge_as_1280_1423601150.jpg"
+    },
+    {
+      "title": "人型ロボが“人間超え”――助走なしで高さ2mのジャンプ、時速45kmで走行も 中国Unitreeが開発中の新モデルを公開",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/17/2000000567/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-17T07:58:35.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/17/2000000567/10002815/2048"
+    },
+    {
+      "title": "「ChatGPT」新機能の「コンピューター履歴」、プライバシーリスクとなるのか",
+      "url": "https://japan.zdnet.com/article/35251613/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-17T05:15:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/17/6fd8b2d77a179147c9d5a85558c92bf0/chatgpt-mac-app_l.jpg"
+    },
+    {
+      "title": "アカマイ、AIガバナンスを搭載した「Workforce Protector」で安全なウェブ利用へ",
+      "url": "https://japan.zdnet.com/article/35251599/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-17T02:34:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/17/c6f79b5ff78e57b78e87b404802d9383/260807_akamai_001.JPG"
+    },
+    {
+      "title": "Appleの新ツールはAI搭載の接客録音? プライバシー派には気になる話",
+      "url": "https://www.gizmodo.jp/article/apple-has-reportedly-started-recording-and-ai-summarizing-conversations-at-the-genius-bar/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-08-17T02:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/08/17/8513ec49-0236-462e-a850-514f71af00d2/original.jpg?w=1200&h=630"
+    },
     {
       "title": "OpenAI reportedly disbanded its preparedness team",
       "url": "https://www.theverge.com/ai-artificial-intelligence/980817/openai-disbands-preparedness-team",
@@ -21,104 +104,20 @@
       "image": "https://techcrunch.com/wp-content/uploads/2024/04/Stripe-resized.webp?resize=1200,674"
     },
     {
-      "title": "AIが買い物支援、米国で26年5月に提供開始のAmazon「Alexa for Shopping」",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/01679/062500290/",
-      "source": "日経クロステック",
+      "title": "ChatGPT、Macでのクリックや文字入力を記憶する新機能--「あのファイルはどこ？」にも回答",
+      "url": "https://japan.cnet.com/article/35251587/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-08-16T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/01679/062500290/topm.jpg?20220512"
+      "date": "2026-08-16T23:23:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/17/5e534656616f1ce3e4771fe80954e57e/IMG_5814__1_.jpg"
     },
     {
-      "title": "Anthropic CEO says AI backlash is ‘fundamentally a crisis of trust’",
-      "url": "https://techcrunch.com/2026/08/16/anthropic-ceo-says-ai-backlash-is-fundamentally-a-crisis-of-trust/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-16T16:53:51.000Z",
-      "titleJa": "Anthropic CEO、AIの反発は「根本的に信頼の危機」だと語る",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2261514463.jpg?w=1024"
-    },
-    {
-      "title": "タブもテーマも拡張機能もないAI専用の超軽量ヘッドレスブラウザ「Kitesurf」、Cloudflareが発表",
-      "url": "https://www.publickey1.jp/blog/26/aikitesurfcloudflare.html",
-      "source": "Publickey",
+      "title": "Claudeで障害 アクセスできず（復旧）",
+      "url": "https://japan.cnet.com/article/35251584/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-08-16T15:10:13.000Z",
-      "image": "https://www.publickey1.jp/2026/sc72alsx.jpg"
-    },
-    {
-      "title": "Zed開発チームが「Delta」発表。人間とAIの全対話とコード変更履歴をコンテキストとして保存共有するコラボレーションツール",
-      "url": "https://www.publickey1.jp/blog/26/zeddeltaai.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-08-16T15:05:36.000Z",
-      "image": "https://www.publickey1.jp/2026/HPinQArWMAAjnbT.jpg"
-    },
-    {
-      "title": "Spotifyが「AIペルソナ」ラベルを9月導入。実在アーティストと見分けやすく",
-      "url": "https://www.gizmodo.jp/article/spotify-will-start-labeling-ai-artists-on-its-platform-next-month/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-08-16T08:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/08/14/ca5d64b9-9786-4c81-b8ef-a4bc69ac4368/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "「AI時代の はじめての判断デザイン」本編17ページを無料公開",
-      "url": "https://ascii.jp/elem/000/004/426/4426883/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-16T03:24:05.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "11万円のモニターが故障。AIに相談したら30分で無償交換が決まった話",
-      "url": "https://www.gizmodo.jp/article/ai_resolved_gadget_trouble_quickly/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-08-15T13:30:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/08/13/68260d26-4b8f-4733-a464-7c1b2a6fe7f1/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "【開催報告】WEB300運営「WEB300×財界ベストAI」、『財界BEST AI AWARD 2026』を開催～最優秀賞はLegalOn Technologies 上場企業経営層らが渋谷に集結～",
-      "url": "https://ascii.jp/elem/000/004/426/4426879/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-15T13:02:42.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "中小企業の弱い機能をAIで診断する企業機能マップを無償公開 企業機能を50分類に整理した外注依存を防ぐ経営の早見表",
-      "url": "https://ascii.jp/elem/000/004/426/4426871/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-15T11:10:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "Meta’s ‘open’ AI, and a $250M deal gone very wrong",
-      "url": "https://techcrunch.com/podcast/metas-open-ai-and-a-250m-deal-gone-very-wrong/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-14T14:00:00.000Z",
-      "titleJa": "Meta の「オープン」 AI、そして 2 億 5,000 万ドルの取引は大失敗に終わった",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/meta-ai-icon-smartphone.jpg?resize=1200,800"
-    },
-    {
-      "title": "You can now turn off Google Gemini’s visible watermarks",
-      "url": "https://www.theverge.com/tech/980416/google-gemini-ai-watermarks-removal",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-14T16:39:32.000Z",
-      "titleJa": "Google Gemini の表示ウォーターマークをオフにできるようになりました",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK255_Google_Gemini_D.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "OpenAI and Anthropic in price war as Chinese AI rivals gain ground",
-      "url": "https://arstechnica.com/ai/2026/08/openai-and-anthropic-in-price-war-as-chinese-ai-rivals-gain-ground/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-08-14T14:27:14.000Z",
-      "titleJa": "中国のAIライバルが台頭する中、OpenAIとAnthropicが価格競争に突入",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2285566787-1152x648.jpg"
+      "date": "2026-08-16T22:17:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/17/17ad09f888fe0fb6a91990bbb7804ec4/2026-08-17_7.16の画像.jpeg"
     }
   ]
 }
