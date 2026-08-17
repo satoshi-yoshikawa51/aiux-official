@@ -10,7 +10,7 @@
    ============================================================ */
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Pressable, Text, useWindowDimensions, View } from 'react-native';
+import { Image, Pressable, Text, useWindowDimensions, View } from 'react-native';
 
 import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import type { AvatarMotion } from '@/avatar/motions';
@@ -23,7 +23,7 @@ import { Bubble, Button, Cassette, Panel, Pill, Row, Screen, ScreenHead, Tap } f
 import { nextTitle } from '@/data/badges';
 import { getAvatar } from '@/data/avatars';
 import { COURSES } from '@/data/courses';
-import { DEFAULT_HORIZON, getTheme } from '@/data/gacha';
+import { DEFAULT_HORIZON, getTheme, SPIN_COST } from '@/data/gacha';
 import { getRole } from '@/data/roles';
 import { CLASSROOM } from '@/data/stage';
 import { HOME_VOICE, say, smallTalkFor } from '@/data/voice';
@@ -51,12 +51,24 @@ import { C, F, FONT, R, S, T } from '@/theme';
    キャラの横幅は高さの3割ほどなので、置き場が横長になっても見切れない。
    ============================================================ */
 
+/* ———— 床の隅に立つガチャ台 ————
+   ガチャ画面と**同じ絵**を使う（→ app/gacha.tsx の MACHINE）。
+   別の絵にすると、押した先で違うものが出てきて繋がらない。
+   絵の縦横比は 966/640。 */
+const GACHA_MACHINE = require('@/assets/images/gacha-machine.png');
+const MACHINE_W = 30;
+const MACHINE_H = Math.round(MACHINE_W * (966 / 640));
+/** 取り出し口に置くカプセルの直径（絵の幅に対する割合は gacha.tsx と同じ0.187） */
+const CAP = Math.round(MACHINE_W * 0.187) + 1;
+
 export default function HomeScreen() {
   const router = useRouter();
   const { state, ready, claimLoginBonus } = useProgress();
   const stats = useStats();
   /* 装備中の舞台テーマ（ガチャの景品）。教室に色と飾りを重ねる */
   const theme = getTheme(state.themeId);
+  /** いまガチャを1回まわせるか。床のガチャ台の見た目がこれで変わる */
+  const canSpin = state.coins >= SPIN_COST;
 
   /* ▍ログインボーナス
      1日1回、ホームを開いたら +1P。受け取れたときだけ小さく知らせる
@@ -358,31 +370,71 @@ export default function HomeScreen() {
              丸いチップなので radius も丸に合わせる */}
         <Ring
           on={gachaCoach.onHome}
-          radius={R.full}
+          radius={R.sm}
           inset={-2}
           room={4}
           style={{ position: 'absolute', bottom: 6, left: 6, zIndex: 5 }}>
           <Tap onPress={() => router.push('/gacha')} sound="pick">
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 5,
-                backgroundColor: C.ink900,
-                borderRadius: R.full,
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-              }}>
-              <Icon name="egg" size={13} color={C.yellow400} />
-              <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: C.paper50 }}>
-                {state.coins}P
-              </Text>
+            <View style={{ alignItems: 'center', gap: 3 }}>
+              {/* ▍アイコンではなく、**ガチャ台そのもの**を置く
+                   もとは卵のアイコンと「0P」だけのチップだった。Pが何の
+                   ポイントなのかも、押すと何が起きるのかも読み取れない
+                   （実機で「ガチャがわかりにくい」の指摘）。ガチャの画面に
+                   出てくるあの台を、床の隅に小さく立たせる。**同じ絵が
+                   同じ意味で2か所に出る**ので、説明がいらない */}
+              <View style={{ width: MACHINE_W, height: MACHINE_H }}>
+                <Image
+                  source={GACHA_MACHINE}
+                  style={{ width: '100%', height: '100%' }}
+                  resizeMode="contain"
+                />
+                {/* ▍まわせるときは、取り出し口にカプセルを1つ置く
+                     「出てくるものが待っている」を絵で言う。文字を足すより
+                     静かで、絵の一部として収まる。位置と大きさは
+                     app/gacha.tsx の MACHINE.chuteAt と同じ割合 */}
+                {canSpin ? (
+                  <View
+                    pointerEvents="none"
+                    style={{
+                      position: 'absolute',
+                      left: MACHINE_W * 0.4664 - CAP / 2,
+                      top: MACHINE_H * 0.893 - CAP / 2,
+                      width: CAP,
+                      height: CAP,
+                      borderRadius: CAP / 2,
+                      backgroundColor: C.yellow400,
+                      borderWidth: 1,
+                      borderColor: C.ink900,
+                    }}
+                  />
+                ) : null}
+              </View>
+              {/* Pの数は残す（あと何回まわせるかの手がかり）。
+                  まわせるときだけ黄色に反転させて、**数字そのものを合図にする** */}
+              <View
+                style={{
+                  backgroundColor: canSpin ? C.yellow400 : C.ink900,
+                  borderRadius: R.full,
+                  paddingHorizontal: 7,
+                  paddingVertical: 2,
+                }}>
+                <Text
+                  style={{
+                    fontFamily: FONT.mono,
+                    fontSize: 10,
+                    color: canSpin ? C.ink900 : C.paper50,
+                  }}>
+                  {state.coins}P
+                </Text>
+              </View>
             </View>
           </Tap>
         </Ring>
-        {/* ログインボーナスの受け取り。ひと呼吸で消える */}
+        {/* ログインボーナスの受け取り。ひと呼吸で消える。
+            **ガチャ台の高さぶん上に逃がす**（台が45＋すきま3＋Pの札17＝65）。
+            前は卵のチップ1つぶん(38)で足りていた */}
         {bonusShown ? (
-          <PopIn style={{ position: 'absolute', bottom: 38, left: 6, zIndex: 5 }}>
+          <PopIn style={{ position: 'absolute', bottom: 74, left: 6, zIndex: 5 }}>
             <View
               style={{
                 backgroundColor: C.yellow400,
