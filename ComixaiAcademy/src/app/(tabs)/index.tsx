@@ -56,7 +56,7 @@ import { C, F, FONT, R, S, T } from '@/theme';
    別の絵にすると、押した先で違うものが出てきて繋がらない。
    絵の縦横比は 966/640。 */
 const GACHA_MACHINE = require('@/assets/images/gacha-machine.png');
-const MACHINE_W = 30;
+const MACHINE_W = 36;
 const MACHINE_H = Math.round(MACHINE_W * (966 / 640));
 /** 取り出し口に置くカプセルの直径（絵の幅に対する割合は gacha.tsx と同じ0.187） */
 const CAP = Math.round(MACHINE_W * 0.187) + 1;
@@ -373,7 +373,10 @@ export default function HomeScreen() {
           radius={R.sm}
           inset={-2}
           room={4}
-          style={{ position: 'absolute', bottom: 6, left: 6, zIndex: 5 }}>
+          /* ▍左は12・下は6。**左右で寄せ方が違う**
+             下は床の隅なので詰めてよいが、左を6にすると台がコマの縁に
+             貼りついて、置いてあるというより貼ってあるように見えた */
+          style={{ position: 'absolute', bottom: 6, left: 12, zIndex: 5 }}>
           <Tap onPress={() => router.push('/gacha')} sound="pick">
             <View style={{ alignItems: 'center', gap: 3 }}>
               {/* ▍アイコンではなく、**ガチャ台そのもの**を置く
@@ -431,10 +434,10 @@ export default function HomeScreen() {
           </Tap>
         </Ring>
         {/* ログインボーナスの受け取り。ひと呼吸で消える。
-            **ガチャ台の高さぶん上に逃がす**（台が45＋すきま3＋Pの札17＝65）。
+            **ガチャ台の高さぶん上に逃がす**（台が54＋すきま3＋Pの札17＝74）。
             前は卵のチップ1つぶん(38)で足りていた */}
         {bonusShown ? (
-          <PopIn style={{ position: 'absolute', bottom: 74, left: 6, zIndex: 5 }}>
+          <PopIn style={{ position: 'absolute', bottom: 84, left: 12, zIndex: 5 }}>
             <View
               style={{
                 backgroundColor: C.yellow400,
