@@ -18,6 +18,8 @@ import {
   DEFAULT_THEME_ID,
   draw,
   DUPE_REFUND,
+  GACHA_POOL,
+  PITY_AFTER,
   SPIN_COST,
   type GachaPrize,
 } from '@/data/gacha';
@@ -88,6 +90,9 @@ export interface QuizRecord {
   streak: number;
   /** 通算のまちがい回数 */
   wrong: number;
+  /** 最後に段が動いた日（'YYYY-MM-DD'）。**同じ日に2段進めない**ための印
+      （→ answerQuiz）。古い記録には無い——無ければ進めてよい */
+  day?: string;
 }
 
 export interface ProgressState {
@@ -144,6 +149,8 @@ export interface ProgressState {
      まわさずに閉じた人**に、もう一度Pを配ってしまわないため */
   gachaCoinsGiven: boolean;
   seenGachaTutorial: boolean;
+  /** 新しいものが出ないまま、続けて何回まわしたか（→ 救済。data/gacha.ts の PITY_AFTER） */
+  dryStreak: number;
 }
 
 /** まっさらな状態。読み込んだ記録の穴埋めにも使う（→ lib/save.ts） */
@@ -174,9 +181,21 @@ export const EMPTY: ProgressState = {
   musicOn: true,
   gachaCoinsGiven: false,
   seenGachaTutorial: false,
+  dryStreak: 0,
 };
 
 /* ———————————————— 日付ユーティリティ ———————————————— */
+
+/** その日を「学習した日」に入れる。連続日数と「今日のぶんは終わり」の元。
+
+    ▍**レッスンとおまけだけが「学習」ではない**
+    もとは completeLesson と clearExtra だけが days を刻んでいて、
+    アプリが黄色いカセットで自分から促した**復習をやった日ほど
+    連続日数が切れる**ねじれがあった（通しプレイの検証で発覚）。
+    答えた日・受かった日は、ぜんぶ学習した日。 */
+function stampDay<T extends { days: string[] }>(s: T, day: string): T {
+  return s.days.includes(day) ? s : { ...s, days: [day, ...s.days].slice(0, 60) };
+}
 
 export function today(d = new Date()): string {
   const p = (n: number) => String(n).padStart(2, '0');
@@ -283,6 +302,8 @@ export interface SpinResult {
   dupe: boolean;
   /** ダブりで返ってきたP（→ data/gacha.ts の DUPE_REFUND） */
   refund: number;
+  /** 救済で出た（新しいものが出ない回が続いたので、未所持から確定で引いた） */
+  pity: boolean;
 }
 
 interface Ctx {
@@ -507,12 +528,16 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       const prev = ref.current;
       const day = today();
 
-      const r = applyBadges({
-        ...prev,
-        done: { ...prev.done, [lessonId]: prev.done[lessonId] ?? Date.now() },
-        perfect: perfect ? { ...prev.perfect, [lessonId]: prev.perfect[lessonId] ?? Date.now() } : prev.perfect,
-        days: prev.days.includes(day) ? prev.days : [day, ...prev.days].slice(0, 60),
-      });
+      const r = applyBadges(
+        stampDay(
+          {
+            ...prev,
+            done: { ...prev.done, [lessonId]: prev.done[lessonId] ?? Date.now() },
+            perfect: perfect ? { ...prev.perfect, [lessonId]: prev.perfect[lessonId] ?? Date.now() } : prev.perfect,
+          },
+          day,
+        ),
+      );
       persistWith(r);
       return { newBadges: r.newBadges, newTitle: r.newTitle, coinsGained: r.coinsGained };
     },
@@ -527,22 +552,35 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       const prev = ref.current.quiz[quizId];
       if (!prev && correct) return;
       const now = Date.now();
+      const day = today();
+      /* ▍**段が進むのは、同じ問題につき1日1回まで**
+         復習の芯は「日をまたいで3回続けて正解で卒業」。ところがレッスンの
+         再走も修了試験も同じ answerQuiz を通るので、期限を見ずに段を
+         進めると**わざと間違え→同じレッスンを同日に3回再走→即卒業**が
+         通ってしまっていた（通しプレイの検証で発覚）。
+         前倒しの「いま解く」はこれまでどおり段が進む——同じ日の2段目
+         からを止める。間違いはいつでも記録する（段は落ちる）。 */
       const next: QuizRecord = correct
-        ? (() => {
-            const streak = (prev?.streak ?? 0) + 1;
-            const graduated = streak >= REVIEW_GRADUATE;
-            return {
-              streak,
-              wrong: prev?.wrong ?? 0,
-              due: graduated ? 0 : now + REVIEW_STEP_DAYS[streak - 1] * DAY_MS,
-            };
-          })()
-        : { streak: 0, wrong: (prev?.wrong ?? 0) + 1, due: now };
+        ? prev.day === day && prev.streak > 0
+          ? prev
+          : (() => {
+              const streak = prev.streak + 1;
+              const graduated = streak >= REVIEW_GRADUATE;
+              return {
+                streak,
+                wrong: prev.wrong,
+                due: graduated ? 0 : now + REVIEW_STEP_DAYS[streak - 1] * DAY_MS,
+                day,
+              };
+            })()
+        : { streak: 0, wrong: (prev?.wrong ?? 0) + 1, due: now, day };
       /* ▍ここでもバッジ判定を回す（復習の卒業＝review-first / review-10）
          前はレッスンを1本終えるまで判定が走らず、**卒業した瞬間ではなく
          次にレッスンを終えたときに黙って増えていた**。取った瞬間に祝えない
-         のはここが原因のひとつ */
-      persistWith(applyBadges({ ...ref.current, quiz: { ...ref.current.quiz, [quizId]: next } }));
+         のはここが原因のひとつ。復習した日は days にも刻む（→ stampDay） */
+      persistWith(
+        applyBadges(stampDay({ ...ref.current, quiz: { ...ref.current.quiz, [quizId]: next } }, day)),
+      );
     },
     [applyBadges, persistWith],
   );
@@ -563,8 +601,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const passExam = React.useCallback(
     (courseId: string) => {
       if (ref.current.exams[courseId]) return;
-      /* 初回合格はガチャP +2。バッジが同時に取れたらそのぶんも足す */
-      persistWith(applyBadges({ ...ref.current, exams: { ...ref.current.exams, [courseId]: Date.now() } }), 2);
+      /* 初回合格はガチャP +2。バッジが同時に取れたらそのぶんも足す。
+         合格しに来ただけの日も「学習した日」（→ stampDay） */
+      persistWith(
+        applyBadges(
+          stampDay({ ...ref.current, exams: { ...ref.current.exams, [courseId]: Date.now() } }, today()),
+        ),
+        2,
+      );
     },
     [applyBadges, persistWith],
   );
@@ -577,13 +621,11 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     (prizeId: string): CompletionResult => {
       const prev = ref.current;
       const first = !prev.extras[prizeId];
-      const r = applyBadges({
-        ...prev,
-        extras: { ...prev.extras, [prizeId]: prev.extras[prizeId] ?? Date.now() },
-        /* おまけも「今日やった」に数える。連続日数のためにレッスンを
-           1本開かせるのは筋が悪い */
-        days: prev.days.includes(today()) ? prev.days : [today(), ...prev.days].slice(0, 60),
-      });
+      /* おまけも「今日やった」に数える。連続日数のためにレッスンを
+         1本開かせるのは筋が悪い */
+      const r = applyBadges(
+        stampDay({ ...prev, extras: { ...prev.extras, [prizeId]: prev.extras[prizeId] ?? Date.now() } }, today()),
+      );
       const reward = first ? EXTRA_REWARD[rarityOfPrize(prizeId) ?? 'N'] : 0;
       persistWith(r, reward);
       return { newBadges: r.newBadges, newTitle: r.newTitle, coinsGained: r.coinsGained + reward };
@@ -618,18 +660,26 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const spinGacha = React.useCallback((): SpinResult | null => {
     const s = ref.current;
     if (s.coins < SPIN_COST) return null;
-    const prize = draw();
+    /* ▍救済（→ data/gacha.ts の PITY_AFTER）
+       新しいものが出ない回が続いたら、次は**持っていないものから確定**で引く。
+       レア度は見ない——終盤は残りがSRだけになるので、レア度を守ると
+       救済がいちばん要るところで効かなくなる。抽選をここでやるのは、
+       持ち物（themes / skins）を見る必要があるため */
+    const unowned = GACHA_POOL.filter((p) => !(p.kind === 'theme' ? s.themes : s.skins)[p.id]);
+    const pity = s.dryStreak >= PITY_AFTER && unowned.length > 0;
+    const prize = pity ? unowned[Math.floor(Math.random() * unowned.length)] : draw();
     const pocket = prize.kind === 'theme' ? s.themes : s.skins;
     const dupe = !!pocket[prize.id];
     const refund = dupe ? DUPE_REFUND[prize.rarity] : 0;
     const coins = s.coins - SPIN_COST + refund;
     const nextPocket = dupe ? pocket : { ...pocket, [prize.id]: Date.now() };
+    const dryStreak = dupe ? s.dryStreak + 1 : 0;
     persist(
       prize.kind === 'theme'
-        ? { ...s, coins, themes: nextPocket }
-        : { ...s, coins, skins: nextPocket },
+        ? { ...s, coins, dryStreak, themes: nextPocket }
+        : { ...s, coins, dryStreak, skins: nextPocket },
     );
-    return { prize, dupe, refund };
+    return { prize, dupe, refund, pity };
   }, [persist]);
 
   const setTheme = React.useCallback(

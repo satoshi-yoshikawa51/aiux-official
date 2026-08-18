@@ -175,6 +175,7 @@ function sanitize(raw: Record<string, unknown>): ProgressState {
     seenTutorial: bool(raw.seenTutorial, EMPTY.seenTutorial),
     gachaCoinsGiven: bool(raw.gachaCoinsGiven, EMPTY.gachaCoinsGiven),
     seenGachaTutorial: bool(raw.seenGachaTutorial, EMPTY.seenGachaTutorial),
+    dryStreak: Math.max(0, Math.round(num(raw.dryStreak, 0))),
     quiz: quizMap(raw.quiz),
     games: gameMap(raw.games),
     exams: numMap(raw.exams),
@@ -232,6 +233,8 @@ function quizMap(v: unknown): Record<string, QuizRecord> {
       due: Math.max(0, num(val.due, 0)),
       streak: Math.max(0, Math.round(num(val.streak, 0))),
       wrong: Math.max(0, Math.round(num(val.wrong, 0))),
+      // 「同じ日に2段進めない」の印。古い記録には無いので、無ければ無いまま
+      ...(typeof val.day === 'string' ? { day: val.day } : {}),
     };
   }
   return out;
