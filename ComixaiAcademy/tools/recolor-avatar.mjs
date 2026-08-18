@@ -509,16 +509,29 @@ if (PLMIN !== null || PLMAX !== null) {
      Tシャツの影（暗い）は窓の反対側へこぼれる。半径で開いて閉じても
      大きさによっては残るので、**つながった小さいかたまりを、まわりに
      合わせて塗りつぶす**。服は大きなひとかたまり、ハイライトや影は
-     小さなかたまり——という当たり前の事実だけを使う。 */
+     小さなかたまり——という当たり前の事実を使う。
+
+     ただし**大きさだけで決めない**。それだけだと、Tシャツの細い切れ端
+     （数十画素）まで上着あつかいになり、黒いTシャツに**白い点**が乗る
+     （数画素でも白は遠目でいちばん目立つ）。消すのは
+     **境目のすぐそばにいるかたまりだけ**にする——上着のハイライトは
+     しきい値のすぐ上、Tシャツの切れ端はずっと明るい所にいるので、
+     これで見分けがつく。 */
   const AREA = Number(opt('parea', Math.round((SIZE * SIZE) / 12000)));
+  const EDGE_L = Number(opt('pnear', 0.05));
+  const cut = PLMAX !== null ? PLMAX : PLMIN;
   for (const target of [255, 0]) {
     const seen = new Uint8Array(SIZE * SIZE);
     for (let p0 = 0; p0 < SIZE * SIZE; p0++) {
       if (seen[p0] || gate[p0] !== target) continue;
       const comp = [p0];
       seen[p0] = 1;
+      let sumL = 0;
       for (let h = 0; h < comp.length; h++) {
         const p = comp[h], x = p % SIZE, y = (p / SIZE) | 0;
+        const i = p * sch;
+        const [, , l] = rgbToHsl(sdata[i] / 255, sdata[i + 1] / 255, sdata[i + 2] / 255);
+        sumL += l;
         for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
           const nx = x + dx, ny = y + dy;
           if (nx < 0 || nx >= SIZE || ny < 0 || ny >= SIZE) continue;
@@ -527,7 +540,9 @@ if (PLMIN !== null || PLMAX !== null) {
           seen[np] = 1; comp.push(np);
         }
       }
-      if (comp.length < AREA) for (const p of comp) gate[p] = target ? 0 : 255;
+      if (comp.length >= AREA) continue;
+      if (Math.abs(sumL / comp.length - cut) > EDGE_L) continue;
+      for (const p of comp) gate[p] = target ? 0 : 255;
     }
   }
   const R = Number(opt('pclean', 1));
