@@ -41,6 +41,7 @@ import {
   DUPE_REFUND,
   getTheme,
   odds,
+  PITY_AFTER,
   RARITY_COLOR,
   SPIN_COST,
   THEMES,
@@ -627,6 +628,12 @@ export default function GachaScreen() {
                   ? `すでに持っていた。+${result.refund}P 返しておくね。`
                   : result.prize.desc}
               </Text>
+              {/* 救済で出たことは黙らない。「急に当たった」より「約束どおり出た」のほうが信用になる */}
+              {result.pity ? (
+                <Text style={[F.tiny, { textAlign: 'center' }]}>
+                  救済：新しいものが出ない回が続いたので、持っていない中から出したよ
+                </Text>
+              ) : null}
               <Button
                 label={result.dupe ? 'もどる' : result.prize.kind === 'theme' ? 'ホームに飾る' : 'このアバターにする'}
                 size="sm"
@@ -730,6 +737,8 @@ const pct = (n: number) => `${Math.round(n * 10) / 10}%`;
 function OddsBox() {
   const [open, setOpen] = React.useState(false);
   const o = React.useMemo(() => odds(), []);
+  /* 救済の進み具合。約束を書くなら「いま何回目か」も見せる */
+  const { state } = useProgress();
   return (
     <View style={{ gap: S.sm }}>
       <Tap onPress={() => setOpen((v) => !v)} sparks={false} style={{ paddingVertical: 4 }}>
@@ -789,6 +798,10 @@ function OddsBox() {
               比率だと誤解されないよう、そこだけ書いておく */}
           <Text style={F.tiny}>
             上の「背景・キャラ」の割合は、入っている本数から出た結果です（決めた比率ではありません）。
+          </Text>
+          <Text style={F.tiny}>
+            救済：新しいものが{PITY_AFTER}回つづけて出なかったら、次の1回は持っていないものが必ず出ます
+            {state.dryStreak > 0 ? `（いま${state.dryStreak}回つづけてダブり）` : ''}。
           </Text>
         </View>
       ) : null}

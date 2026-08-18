@@ -8,6 +8,7 @@
    ============================================================ */
 import type { IconName } from '@/components/icons';
 
+import { EXTRA_TOTAL } from './extras';
 import { voiceIdOf, type AvatarId, type ByAvatar } from './types';
 
 export interface Badge {
@@ -250,7 +251,9 @@ export const BADGES: Badge[] = [
     art: require('@/assets/badges/extra-all.png'),
     name: '殿堂',
     desc: 'R以上のおまけを、すべてクリアした',
-    hint: '14本すべて。称号には要らない、コレクターだけの1枚',
+    /* 本数を手で書かない。前は「14本」と書いたまま実体が20本になっていた
+       （おまけを増やすたびにここが置いていかれる） */
+    hint: `${EXTRA_TOTAL}本すべて。称号には要らない、コレクターだけの1枚`,
   },
 ];
 
@@ -297,7 +300,7 @@ export function titleSay(title: Title, avatarId: AvatarId | null): string {
     称号の頂点は、駆け抜けた人ではなく通い続けた人のもの。
 
     おまけのバッジ5枚を足して全25枚になったので、マスターは24。
-    **外してあるのは「殿堂」（おまけ14本すべて）の1枚だけ**で、
+    **外してあるのは「殿堂」（おまけ全本クリア）の1枚だけ**で、
     これはガチャの運が大きく効く（SRを5つ揃えるのに中央値459P）。
     運で頂点に届かないのは称号の設計として良くないので、殿堂は
     マスターの上に残る、コレクターだけの目標にしてある。
