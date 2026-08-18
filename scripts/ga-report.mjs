@@ -119,29 +119,59 @@ async function main() {
   }
 
   await section("サマリ", async () => {
-    const r = await runReport(ctx, {
-      metrics: [
-        { name: "activeUsers" },
-        { name: "newUsers" },
-        { name: "sessions" },
-        { name: "screenPageViews" },
-        { name: "averageSessionDuration" },
-      ],
-    });
-    const v = (rows(r)[0]?.values ?? []).map(Number);
+    const METRICS = [
+      { name: "activeUsers" },
+      { name: "newUsers" },
+      { name: "sessions" },
+      { name: "screenPageViews" },
+      { name: "averageSessionDuration" },
+    ];
+    /* 広告経由を除いた「実質」も並べる。yonkoma-test が走っていた時期、
+       滞在15秒・直帰95%のクリックが最大の流入源になり、全体の数字
+       （ユーザー数・回遊・滞在）が広告の出稿量で動くようになった。
+       全体だけ見ていると「伸びた/落ちた」を広告費と取り違える。
+       キャンペーン名ではなく媒体で除くので、次の出稿でも手直し不要。 */
+    const PAID_MEDIA = ["cpc", "ppc", "paid", "demandgen", "display", "paidsearch"];
+    const [all, organic] = await Promise.all([
+      runReport(ctx, { metrics: METRICS }),
+      runReport(ctx, {
+        metrics: METRICS,
+        dimensionFilter: {
+          notExpression: { filter: { fieldName: "sessionMedium", inListFilter: { values: PAID_MEDIA } } },
+        },
+      }),
+    ]);
+    const v = (rows(all)[0]?.values ?? []).map(Number);
+    const o = (rows(organic)[0]?.values ?? []).map(Number);
     const [users, fresh, sessions, views, dur] = v;
-    table(
-      ["指標", "値"],
-      [
-        ["ユーザー", num(users ?? 0)],
-        /* 「新しく届いた人数」が集客の実数。セッションは同じ人の開き直しで膨らむ */
-        ["うち新規", num(fresh ?? 0)],
-        ["セッション", num(sessions ?? 0)],
-        ["表示回数", num(views ?? 0)],
-        ["1セッションの表示", sessions ? (views / sessions).toFixed(2) : "-"],
-        ["平均滞在", `${Math.round(dur ?? 0)}秒`],
-      ],
-    );
+    const hasAds = (v[2] ?? 0) - (o[2] ?? 0) > 0;
+    const line = ([u, f, s, pv, d]) => [
+      num(u ?? 0),
+      num(f ?? 0),
+      num(s ?? 0),
+      num(pv ?? 0),
+      s ? (pv / s).toFixed(2) : "-",
+      `${Math.round(d ?? 0)}秒`,
+    ];
+    const labels = ["ユーザー", "うち新規", "セッション", "表示回数", "1セッションの表示", "平均滞在"];
+    if (hasAds) {
+      const a = line(v);
+      const b = line(o);
+      table(
+        ["指標", "全体", "広告を除く"],
+        labels.map((k, i) => [k, a[i], b[i]]),
+      );
+      console.log(
+        `\n  [2m広告経由が${num(v[2] - o[2])}セッション（全体の${Math.round(((v[2] - o[2]) / v[2]) * 100)}%）。` +
+          `サイトの実力は「広告を除く」の列で見ること。[0m`,
+      );
+    } else {
+      /* 「新しく届いた人数」が集客の実数。セッションは同じ人の開き直しで膨らむ */
+      table(
+        ["指標", "値"],
+        labels.map((k, i) => [k, line([users, fresh, sessions, views, dur])[i]]),
+      );
+    }
   });
 
   await section("よく見られているページ Top 20", async () => {
