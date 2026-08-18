@@ -242,7 +242,9 @@ export const BADGES: Badge[] = [
     art: require('@/assets/badges/extra-sr.png'),
     name: 'SRを開けた',
     desc: 'SRの景品のおまけをクリアした',
-    hint: 'いちばん豪華な1枚には、専用の遊びがついている',
+    /* いまSR専用の遊びが入っているのは金インクだけ（→ data/extras/sr.ts）。
+       それを伏せると、別のSRを当てた人が「おまけが無い」と延々探すことになる */
+    hint: 'SR「金インクの原稿の中」に、専用の遊びがついている',
   },
   {
     id: 'extra-all',
@@ -250,7 +252,9 @@ export const BADGES: Badge[] = [
     art: require('@/assets/badges/extra-all.png'),
     name: '殿堂',
     desc: 'R以上のおまけを、すべてクリアした',
-    hint: '14本すべて。称号には要らない、コレクターだけの1枚',
+    /* 本数は EXTRA_TOTAL（→ data/extras/index.ts）と揃えること。
+       前は「14本」と書いたまま実体が12本になっていた */
+    hint: '全12本。まだ実装中のぶんも含む——称号には要らない、コレクターだけの1枚',
   },
 ];
 
