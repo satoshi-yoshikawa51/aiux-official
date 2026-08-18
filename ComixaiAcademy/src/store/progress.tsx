@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
 import { BADGES, TITLES, titleFor, type Title } from '@/data/badges';
-import { AVATARS, DEFAULT_SKIN_ID, migrateAvatars, ownsAvatar } from '@/data/avatars';
+import { AVATARS, migrateAvatars, ownsAvatar } from '@/data/avatars';
 import {
   DEFAULT_THEME_ID,
   draw,
@@ -124,11 +124,9 @@ export interface ProgressState {
   themes: Record<string, number>;
   /** いまホームに装備している舞台テーマ */
   themeId: string;
-  /** 持っている色違いアバター。ID -> 引いた時刻(ms)
-      （キー名は互換のため skins のまま。中身は「増えたアバター」） */
+  /** ガチャで増えたアバター。ID -> 引いた時刻(ms)
+      （キー名は色違いがあった頃の skins のまま。互換のため変えない） */
   skins: Record<string, number>;
-  /** いま使っている色違い。'' ＝ ノーマル */
-  skinId: string;
   /** 効果音を鳴らすか。既定はオン（→ lib/sound.ts） */
   soundOn: boolean;
   /** BGMを鳴らすか。既定はオン（→ lib/music.ts）。
@@ -168,7 +166,6 @@ export const EMPTY: ProgressState = {
   themes: {},
   themeId: DEFAULT_THEME_ID,
   skins: {},
-  skinId: DEFAULT_SKIN_ID,
   soundOn: true,
   musicOn: true,
   gachaCoinsGiven: false,
@@ -278,8 +275,10 @@ export interface CompletionResult {
 /** ガチャを1回まわした結果 */
 export interface SpinResult {
   prize: GachaPrize;
-  /** すでに持っていた（DUPE_REFUND を返した） */
+  /** すでに持っていた（レア度ぶんのPを返した） */
   dupe: boolean;
+  /** ダブりで返ってきたP（→ data/gacha.ts の DUPE_REFUND） */
+  refund: number;
 }
 
 interface Ctx {
@@ -310,11 +309,9 @@ interface Ctx {
   /** 持っていない舞台も試しに飾る（確認用 → app/stages.tsx）。
       持ち物は増やさないので、コレクションの数もガチャの引きどころも変わらない */
   previewTheme: (id: string) => void;
-  /** 色違いを使う。'' でノーマルに戻す（持っていないものは無視） */
-  setSkin: (id: string) => void;
-  /** アバターを丸ごと切り替える（キャラ＋色違いを一度に）。
-      統一ロスター（設定・ガチャのコレクション）からはこれを呼ぶ */
-  setLook: (avatarId: string, skinId: string) => void;
+  /** 使う相棒を切り替える。統一ロスター（設定・ガチャのコレクション）から呼ぶ。
+      当てていないアバターは無視する */
+  setLook: (avatarId: string) => void;
   /** 効果音のオン・オフ */
   setSoundOn: (on: boolean) => void;
   /** BGMのオン・オフ */
@@ -571,14 +568,15 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     const prize = draw();
     const pocket = prize.kind === 'theme' ? s.themes : s.skins;
     const dupe = !!pocket[prize.id];
-    const coins = s.coins - SPIN_COST + (dupe ? DUPE_REFUND : 0);
+    const refund = dupe ? DUPE_REFUND[prize.rarity] : 0;
+    const coins = s.coins - SPIN_COST + refund;
     const nextPocket = dupe ? pocket : { ...pocket, [prize.id]: Date.now() };
     persist(
       prize.kind === 'theme'
         ? { ...s, coins, themes: nextPocket }
         : { ...s, coins, skins: nextPocket },
     );
-    return { prize, dupe };
+    return { prize, dupe, refund };
   }, [persist]);
 
   const setTheme = React.useCallback(
@@ -595,22 +593,13 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
-  const setSkin = React.useCallback(
-    (id: string) => {
-      if (id !== DEFAULT_SKIN_ID && !ref.current.skins[id]) return;
-      persist({ ...ref.current, skinId: id });
-    },
-    [persist],
-  );
-
   const setLook = React.useCallback(
-    (avatarId: string, skinId: string) => {
-      if (skinId !== DEFAULT_SKIN_ID && !ref.current.skins[skinId]) return;
+    (avatarId: string) => {
       /* 当てていないキャラには着替えられない。最初の2人だけ最初から持っている
-         （キャラ本体も色違いと同じく skins に入る → data/gacha.ts） */
+         （当てたキャラは skins に入る → data/gacha.ts） */
       const base = AVATARS.find((a) => a.id === avatarId);
       if (!base || !ownsAvatar(base, ref.current.skins)) return;
-      const { next } = applyBadges({ ...ref.current, avatarId, skinId });
+      const { next } = applyBadges({ ...ref.current, avatarId });
       persist(next);
     },
     [applyBadges, persist],
@@ -703,7 +692,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       spinGacha,
       setTheme,
       previewTheme,
-      setSkin,
       setLook,
       setSoundOn,
       setMusicOn,
@@ -731,7 +719,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       spinGacha,
       setTheme,
       previewTheme,
-      setSkin,
       setLook,
       setSoundOn,
       setMusicOn,

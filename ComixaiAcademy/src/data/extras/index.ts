@@ -33,7 +33,7 @@ import { AVATAR_EXTRAS } from './avatars';
 import { SR_EXTRAS } from './sr';
 
 export interface Extra {
-  /** 景品ID（THEMES.id か SKINS.id）。これが鍵になる */
+  /** 景品ID（THEMES.id か AVATARS.id）。これが鍵になる */
   prizeId: string;
   /** 見出し */
   title: string;
@@ -58,9 +58,11 @@ export const EXTRA_REWARD: Record<Rarity, number> = { N: 0, R: 2, SR: 5 };
    取り消せない。だから最終形の本数を先に決めて、そこと比べる。
 
    いまは **R以上の景品と1対1でそろっている**：
-   舞台R7 ＋ 色違いR6 ＋ SR9（舞台3・アバター6）= 22。
-   景品を足したら、おまけを1本書いて、ここも増やす。 */
-export const EXTRA_TOTAL = 22;
+   舞台R7 ＋ 相棒R4 ＋ SR9（舞台3・衣装6）= 20。
+   景品を足したら、おまけを1本書いて、ここも増やす。
+   （22だったことがある。色違いアバター6体を景品からやめたぶん、
+     おまけも2本ぶん減った——残り4本はキャラ本体に付け替えてある） */
+export const EXTRA_TOTAL = 20;
 
 export function getExtra(prizeId: string | null | undefined): Extra | undefined {
   return EXTRAS.find((e) => e.prizeId === prizeId);

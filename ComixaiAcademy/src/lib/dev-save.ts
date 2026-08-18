@@ -17,7 +17,7 @@
 
    公開前に、せっていの入口ごと外すこと（→ app/(tabs)/settings.tsx）。
    ============================================================ */
-import { AVATARS, DEFAULT_AVATAR_ID, DEFAULT_SKIN_ID, SKINS } from '@/data/avatars';
+import { AVATARS, DEFAULT_AVATAR_ID } from '@/data/avatars';
 import { ALL_LESSONS, ALL_QUIZ, COURSES, SCORED_GAME_KEYS } from '@/data/courses';
 import { EXTRAS, extraGameKey } from '@/data/extras';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
@@ -69,13 +69,9 @@ export function fullSave(now = Date.now()): ProgressState {
     lastBonusDay: '',
     themes: stamp(THEMES.filter((t) => t.id !== DEFAULT_THEME_ID).map((t) => t.id)),
     themeId: DEFAULT_THEME_ID,
-    /* アバターは「キャラ本体」と「色違い」の両方を入れる。どちらも
-       skins に入る建て付け（→ data/gacha.ts）。最初から選べる2人は入らない */
-    skins: stamp([
-      ...AVATARS.filter((a) => !a.initial && a.model).map((a) => a.id),
-      ...SKINS.map((s) => s.id),
-    ]),
-    skinId: DEFAULT_SKIN_ID,
+    /* 当てたアバターは skins に入る建て付け（→ data/gacha.ts）。
+       最初から選べる2人は入らない */
+    skins: stamp(AVATARS.filter((a) => !a.initial && a.model).map((a) => a.id)),
   };
 
   /* バッジは条件から立てる。ここで手打ちすると、増やしたとき必ずズレる */

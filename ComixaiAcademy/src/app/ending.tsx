@@ -39,7 +39,7 @@ export default function EndingScreen() {
   const router = useRouter();
   const { state } = useProgress();
   const stats = useStats();
-  const avatar = getAvatar(state.avatarId, state.skinId);
+  const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
   const avatarRef = React.useRef<AvatarHandle>(null);
   const { width, height } = useWindowDimensions();

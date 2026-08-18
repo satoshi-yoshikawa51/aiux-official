@@ -17,9 +17,8 @@
    タップする前がいちばん盛り上がる（→ components/capsule-3d.tsx）。
 
    ▍景品は舞台テーマと、アバター（→ data/gacha.ts）
-   アバターには「キャラ本体」（別モデル。おてんば・かんろく・先輩）と
-   「色違い」（テクスチャ違い。せんぱい_金髪ver）の2種類があるが、
-   どちらも**1体増える**体験なので同じ景品として扱う。
+   アバターは素の相棒がR、衣装違いがSR。どちらも**1体増える**体験なので
+   同じ景品として扱う。
    ============================================================ */
 import * as Haptics from 'expo-haptics';
 import React from 'react';
@@ -33,15 +32,7 @@ import { PrizeRays, PrizeTwinkles } from '@/components/prize-shine';
 import { PopIn, useSparkBurst, useTap } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Badge, Button, Panel, Row, Screen, Tap } from '@/components/ui';
-import {
-  AVATARS,
-  DEFAULT_SKIN_ID,
-  avatarLabel,
-  getAvatar,
-  lookOfPrize,
-  ownsAvatar,
-  SKINS,
-} from '@/data/avatars';
+import { AVATARS, avatarLabel, getAvatar, ownsAvatar } from '@/data/avatars';
 import { ExtraList } from '@/components/extra-list';
 import { GachaCoachBand } from '@/components/gacha-coach';
 import { ShareRow } from '@/components/share-row';
@@ -175,13 +166,10 @@ export default function GachaScreen() {
 
   /* 引退したテーマの記録が残っていても数に入れない（→ data/gacha.ts） */
   const ownedThemes = THEMES.filter((t) => t.id !== DEFAULT_THEME_ID && state.themes[t.id]).length;
-  /* アバターの持ち数は「キャラ本体 ＋ 色違い」。景品から外した色違いの
-     記録が残っていても数に入れない（舞台と同じ扱い） */
+  /* 景品から外した色違いの記録が残っていても数に入れない（舞台と同じ扱い） */
   const playable = AVATARS.filter((a) => a.model);
-  const ownedAvatars =
-    playable.filter((a) => ownsAvatar(a, state.skins)).length +
-    SKINS.filter((sk) => state.skins[sk.id]).length;
-  const totalAvatars = playable.length + SKINS.length;
+  const ownedAvatars = playable.filter((a) => ownsAvatar(a, state.skins)).length;
+  const totalAvatars = playable.length;
   const canSpin = state.coins >= SPIN_COST && phase === 'idle';
 
   const spin = () => {
@@ -384,7 +372,8 @@ export default function GachaScreen() {
           style={{ alignSelf: 'stretch', marginTop: S.xs }}
         />
         <Text style={[F.tiny, { marginTop: 6 }]}>
-          Pはログイン・バッジ・称号・修了試験で貯まる ／ ダブりは+{DUPE_REFUND}P
+          Pはログイン・バッジ・称号・修了試験で貯まる ／ ダブりは R+{DUPE_REFUND.R}P・SR+
+          {DUPE_REFUND.SR}P
         </Text>
       </View>
 
@@ -417,9 +406,8 @@ export default function GachaScreen() {
       </View>
 
       {/* ———— あつめたアバター ————
-           色違いも独立した1体として並べる。ガチャで増えていくロスター。
-           まだモデルの無いキャラは「準備中」で見せて、この棚が
-           これから伸びることを予告しておく */}
+           ガチャで増えていくロスター。まだモデルの無いキャラは
+           「準備中」で見せて、この棚がこれから伸びることを予告しておく */}
       <View style={{ gap: S.sm }}>
         <Text style={F.h1}>あつめたアバター</Text>
         <Text style={F.small}>押すとそのアバターに切り替わります（せっていからも変えられます）。</Text>
@@ -428,33 +416,16 @@ export default function GachaScreen() {
             /* 最初の2人は持っている。残りはガチャで当てるまで伏せておく */
             const has = ownsAvatar(a, state.skins);
             return (
-            <React.Fragment key={a.id}>
               <AvatarCard
+                key={a.id}
                 name={has ? avatarLabel(a) : '？？？'}
                 rarity={a.initial ? null : a.rarity}
                 swatch={a.accent}
                 face={has ? a.face : undefined}
                 owned={has}
-                active={state.avatarId === a.id && state.skinId === DEFAULT_SKIN_ID}
-                onPress={() => has && setLook(a.id, DEFAULT_SKIN_ID)}
+                active={state.avatarId === a.id}
+                onPress={() => has && setLook(a.id)}
               />
-              {SKINS.filter((sk) => sk.avatarId === a.id).map((sk) => {
-                const owned = !!state.skins[sk.id];
-                return (
-                  <AvatarCard
-                    key={sk.id}
-                    name={sk.name}
-                    rarity={sk.rarity}
-                    swatch={sk.swatch}
-                    face={owned ? sk.face : undefined}
-                    chip={sk.swatch}
-                    owned={owned}
-                    active={state.avatarId === a.id && state.skinId === sk.id}
-                    onPress={() => owned && setLook(a.id, sk.id)}
-                  />
-                );
-              })}
-            </React.Fragment>
             );
           })}
           {AVATARS.filter((a) => !a.model).map((a) => (
@@ -645,23 +616,16 @@ export default function GachaScreen() {
                     alignItems: 'center',
                     justifyContent: 'flex-end',
                   }}>
-                  <Avatar3D
-                    avatar={(() => {
-                      /* キャラ本体（別モデル）と色違い（テクスチャ違い）の
-                         どちらが当たっても、ここで本人の姿に解決する */
-                      const look = lookOfPrize(result.prize.id);
-                      return getAvatar(look?.avatarId, look?.skinId);
-                    })()}
-                    width={170}
-                    height={182}
-                  />
+                  <Avatar3D avatar={getAvatar(result.prize.id)} width={170} height={182} />
                 </View>
               )}
               <Text style={{ fontFamily: FONT.display, fontSize: 24, lineHeight: 34, color: T.text }}>
                 {result.prize.name}
               </Text>
               <Text style={[F.hand, { textAlign: 'center' }]}>
-                {result.dupe ? 'すでに持っていた。+1P 返しておくね。' : result.prize.desc}
+                {result.dupe
+                  ? `すでに持っていた。+${result.refund}P 返しておくね。`
+                  : result.prize.desc}
               </Text>
               <Button
                 label={result.dupe ? 'もどる' : result.prize.kind === 'theme' ? 'ホームに飾る' : 'このアバターにする'}
@@ -669,10 +633,7 @@ export default function GachaScreen() {
                 onPress={() => {
                   if (!result.dupe) {
                     if (result.prize.kind === 'theme') setTheme(result.prize.id);
-                    else {
-                      const look = lookOfPrize(result.prize.id);
-                      if (look) setLook(look.avatarId, look.skinId);
-                    }
+                    else setLook(result.prize.id);
                   }
                   closeResult();
                 }}
@@ -819,7 +780,8 @@ function OddsBox() {
           ))}
           <Text style={F.tiny}>
             同じレア度の中では等確率です。すでに持っているものも出ます（そのときは
-            {DUPE_REFUND}P返ります）。1回{SPIN_COST}P。
+            N+{DUPE_REFUND.N}P・R+{DUPE_REFUND.R}P・SR+{DUPE_REFUND.SR}P返ります）。1回
+            {SPIN_COST}P。
           </Text>
           {/* ▍上の「背景◯% ・ キャラ◯%」は決めた比率ではない
               種類での重み付けはやめたので（→ data/gacha.ts）、あの数字は
@@ -930,7 +892,6 @@ function AvatarCard({
   rarity,
   swatch,
   face,
-  chip,
   owned,
   active,
   preparing = false,
@@ -942,8 +903,6 @@ function AvatarCard({
   swatch: string;
   /** 顔のサムネイル。無ければ swatch の丸に落ちる */
   face?: number;
-  /** 色違いのときだけ、その色の点を顔に添える（→ components/avatar-face.tsx） */
-  chip?: string;
   owned: boolean;
   active: boolean;
   preparing?: boolean;
@@ -970,7 +929,7 @@ function AvatarCard({
           {owned || preparing ? (
             /* 顔を出す。焼けていない相棒だけ、これまでどおり色の丸
                （→ components/avatar-face.tsx） */
-            <AvatarFace face={face} swatch={swatch} size={44} dim={preparing} chip={chip} />
+            <AvatarFace face={face} swatch={swatch} size={44} dim={preparing} />
           ) : (
             <Icon name="lock" size={20} color={T.disabled} opacity={0.6} />
           )}

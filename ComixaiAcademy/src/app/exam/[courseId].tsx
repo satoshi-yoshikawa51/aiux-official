@@ -48,7 +48,7 @@ export default function ExamScreen() {
   const { courseId } = useLocalSearchParams<{ courseId: string }>();
   const router = useRouter();
   const { state, ready, answerQuiz, passExam } = useProgress();
-  const avatar = getAvatar(state.avatarId, state.skinId);
+  const avatar = getAvatar(state.avatarId);
   const avatarRef = React.useRef<AvatarHandle>(null);
   const { width } = useWindowDimensions();
   const stageW = Math.min(width * 0.4, 165);

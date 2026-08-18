@@ -93,7 +93,7 @@ export default function HomeScreen() {
   const guiding = tutorial.active && tutorial.step?.voice === 'avatar';
 
   const avatarRef = React.useRef<AvatarHandle>(null);
-  const avatar = getAvatar(state.avatarId, state.skinId);
+  const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
 
   /* ———— 背の低い画面 ————
@@ -230,7 +230,7 @@ export default function HomeScreen() {
      ホームのタブは出しっぱなしなので、画面を作り直しても消えない。 */
   React.useEffect(() => {
     setTalk(null);
-  }, [state.avatarId, state.skinId]);
+  }, [state.avatarId]);
 
   /* ▍ガチャの案内（1本目を終えた人に1回だけ）
      最初の案内には入れない——**まわすPも、飾る場所を見た経験も無い**

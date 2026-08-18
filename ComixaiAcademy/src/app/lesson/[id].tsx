@@ -68,7 +68,7 @@ export default function LessonScreen() {
   const { width } = useWindowDimensions();
 
   const avatarRef = React.useRef<AvatarHandle>(null);
-  const avatar = getAvatar(state.avatarId, state.skinId);
+  const avatar = getAvatar(state.avatarId);
   const role = getRole(state.roleId);
   const found = getLesson(String(id));
 

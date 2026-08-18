@@ -7,7 +7,7 @@
    tsc も expo export も素通りする。実際、最初に書いた3本の「削る」は
    全部これで、遊んでみるまで気づかなかった（残す行の合計50に対して予算40）。
 
-   遊べば分かるが、22本を毎回手で遊ぶのは現実的ではないので、
+   遊べば分かるが、20本を毎回手で遊ぶのは現実的ではないので、
    **解の存在だけ機械に確かめさせる**。
 
    使い方:
@@ -33,7 +33,7 @@ const PRIZES = [
   'sakura', 'rooftop-sunset', 'neon-rain', 'office-night', 'beach-dawn',
   'festival-night', 'cabin-fire',
   'datacenter', 'above-clouds', 'gold-ink',
-  'momoiro', 'aka', 'kinari', 'fuji', 'midori', 'ao',
+  'senpai', 'otenba', 'kanroku', 'neko',
   'ottori-sr', 'nekketsu-sr', 'senpai-sr', 'otenba-sr', 'kanroku-sr', 'neko-sr',
 ];
 

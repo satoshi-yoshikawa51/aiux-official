@@ -121,7 +121,8 @@ export interface AvatarDef {
   accent: string;
   /** true = 最初から選べる。false = ガチャの景品（→ data/gacha.ts） */
   initial: boolean;
-  /** ガチャに出るときのレア度。initial: true のキャラでは使われない */
+  /** ガチャに出るときのレア度。相棒は素がR・衣装違いがSR。
+      最初から選べる2人（initial: true）は景品にならないので使われない */
   rarity: Rarity;
   /** 見た目の違い（SRの衣装名など）。**同じ人の別バージョン**を並べたときに
       見分けるための添え名で、名乗りではない。一覧では
@@ -165,7 +166,7 @@ export const AVATARS: AvatarDef[] = [
       'おっとりしていて、人を心から信頼している。実はがんばり屋。やさしい敬語で話す照れ屋。相手を否定しない',
     accent: '#d4589a',
     initial: true,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/ottori.png'),
     model: {
       glb: require('@/assets/models/ottori.glb'),
@@ -183,7 +184,7 @@ export const AVATARS: AvatarDef[] = [
       'まっすぐ正直な熱い男。目標のためならあらゆる努力を惜しまない。感動しいですぐ泣く。タメ口で暑苦しい',
     accent: '#1a6cff',
     initial: true,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/nekketsu.png'),
     model: {
       glb: require('@/assets/models/nekketsu.glb'),
@@ -194,7 +195,7 @@ export const AVATARS: AvatarDef[] = [
   },
   {
     /* もと「先生」。名前だけ先輩に変えたので、性格とモデル（sensei.glb）は
-       そのまま。色違いは この人にだけ付いている（→ SKINS） */
+       そのまま（ファイル名が sensei-*.jpg なのはそのため） */
     id: 'senpai',
     name: '先輩',
     icon: 'person',
@@ -203,7 +204,7 @@ export const AVATARS: AvatarDef[] = [
       '女性上司。一人称「私」・二人称「あなた」・指示は「〜して」のテ形。口数少なめ・言い切り型で、照れ隠し気味に労う。絵文字は使わない',
     accent: '#e60012',
     initial: false,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/senpai.png'),
     model: {
       glb: require('@/assets/models/sensei.glb'),
@@ -221,7 +222,7 @@ export const AVATARS: AvatarDef[] = [
       'ギャル系で芸術肌。ギャル的な言葉を使う（まじで・とりま・〜じゃん）。根はやさしい。臆さず積極的',
     accent: '#f08c00',
     initial: false,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/otenba.png'),
     model: {
       glb: require('@/assets/models/otenba.glb'),
@@ -239,7 +240,7 @@ export const AVATARS: AvatarDef[] = [
       '優しい口調だが、数々の修羅場を越えてきた貫禄がある。物事をフラットに判断し、時には厳しい決断もする。家ではやさしいパパ',
     accent: '#6e635b',
     initial: false,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/kanroku.png'),
     model: {
       glb: require('@/assets/models/kanroku.glb'),
@@ -271,7 +272,7 @@ export const AVATARS: AvatarDef[] = [
       '好奇心旺盛で目立ちたがり。「じゃーん！」と得意げに登場して解説したがる。でも知らないことは素直に「AIに聞いてみよう」と言える——教える人ではなく、いっしょに調べる人。ひらがな多めの短い文、「！」が多い。媚びる「〜だにゃ」は使わない',
     accent: '#e8a33d',
     initial: false,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/neko.png'),
     model: {
       glb: require('@/assets/models/neko.glb'),
@@ -293,12 +294,19 @@ export const AVATARS: AvatarDef[] = [
   /* ———————————————— ここから SR（衣装違い） ————————————————
 
      ▍SRは「同じ人の、別の服」
-     色違い（→ SKINS）はテクスチャの差し替えだけで済むが、衣装は形が
-     変わるので**別のGLB**が要る。なので SKINS ではなく、ここに
+     衣装は形が変わるので**別のGLB**が要る。素の相棒と同じ配列に、
      rarity:'SR' のエントリとして並べる。
 
-     ▍中身は N と同じ
-     同じ人なので tagline も personality も N のまま。**セリフも N のものが
+     ▍**テクスチャを差し替えるだけの「色違い」は、やめた**
+     服だけを塗り替えた色違いを6人ぶん作ったことがある（2026-08）。
+     道具を作り込んで、まだら・陰影・はみ出しを数字で詰めるところまで
+     やったが、**元の絵が塗りで描いてあるので、どう詰めても
+     「塗り直した絵」にしか見えない**。集めたくなる質に届かなかったので、
+     機能ごと落とした。作り方は git の履歴に残っている
+     （tools/recolor-avatar.mjs と tools/check-recolor.mjs）。
+
+     ▍中身は素の相棒と同じ
+     同じ人なので tagline も personality もそのまま。**セリフも素のものが
      出る**——IDの `-sr` を落として引く決まりにしてある
      （→ data/types.ts の voiceIdOf）。ここを個別に書き分けると、
      服を着替えただけで別人になる。 */
@@ -426,10 +434,9 @@ export const INITIAL_AVATAR_IDS = AVATARS.filter((a) => a.initial).map((a) => a.
 
 export const DEFAULT_AVATAR_ID = INITIAL_AVATAR_IDS[0];
 
-/** 一覧に出す名前。**同じ人の別バージョン**を見分けるための添え名を付ける。
-
-    色違い（SKINS）が「せんぱい_金髪ver」と名乗っているのと同じ書き方。
-    ホームのキャプションはここを通さない（あそこは名乗りなので素の name）。 */
+/** 一覧に出す名前。**同じ人の別バージョン**を見分けるための添え名を付ける
+    （「おっとり_浴衣ver」）。ホームのキャプションはここを通さない
+    （あそこは名乗りなので素の name）。 */
 export function avatarLabel(a: AvatarDef): string {
   return a.variant ? `${a.name}_${a.variant}ver` : a.name;
 }
@@ -472,221 +479,14 @@ export function migrateAvatars<T extends { avatarId: string | null; skins: Recor
   return { ...save, avatarId: to, skins };
 }
 
-/* ============================================================
-   ▍色違いアバター
-   「赤いスーツのねっけつ」のような色違いを、**独立した1体のアバター**と
-   して扱う（選べるアバターがガチャでどんどん増えていく建て付け。
-   キャラ本体のモデルが増えたら、それもガチャの景品に足す）。
-   性格・セリフはベースのキャラ（avatarId）から引き継ぐ——
-   色が変わっても同じ人。
-
-   GLBは共通で、テクスチャの差し替えだけで成立する。
-   テクスチャは tools/recolor-avatar.mjs が元の1枚から生成する
-   （作り方はツールの冒頭コメントに）。
-   ガチャの景品になる（→ data/gacha.ts の GACHA_POOL）。
-
-   ▍**塗るのは服だけ。髪はやらない**
-   はじめは髪の色を変えていた（金髪の先生・白髪のかんろく など）。
-   絵として見られるものにはなったが、**どうしてもムラが出る**。
-   髪は毛束ごとに明暗の幅が広く、UVも細かく割れているので、島で選んでも
-   画素で拾っても必ず取りこぼしが残る（前髪だけ元の色、毛先だけ茶色）。
-   服は面が広くて色が平らなので、同じ道具でもきれいに出る。
-   ============================================================ */
-
-export interface AvatarSkin {
-  id: string;
-  /** どのキャラの色違いか（性格・セリフはこのキャラのもの） */
-  avatarId: string;
-  name: string;
-  rarity: Rarity;
-  /** 引いたときに出す一言 */
-  desc: string;
-  /** 選択UIで見せる代表の色。**顔のサムネイル（face）が無いときの代役** */
-  swatch: string;
-  texture: number;
-  /** 顔のサムネイル（→ AvatarDef.face） */
-  face?: number;
-}
-
-/* ▍レア度は「同じキャラで3段」に積む（これから揃えていく方針）
-     N  … キャラ本体（→ AVATARS）
-     R  … 色違い。tools/recolor-avatar.mjs で服を塗り替える（→ このSKINS）
-     SR … 衣装を変えたモデルを別途つくって足す
-   つまり1人につきN・R・SRが1組そろう形を目指す。
-
-   SRは別モデルなので AVATARS 側に入れてある（→ 上の「SR（衣装違い）」）。
-   ここに並ぶのは色違いだけ。
-
-   ▍6人ぶんそろっている。**焼き直すときのコマンドは下の各エントリに書いてある**
-   塗る場所も色域もキャラごとに違うので（→ tools/recolor-avatar.mjs）、
-   条件を覚えておかないと二度と同じ絵が作れない。テクスチャは
-   `assets/models/<id>-r-texture.jpg`、顔は tools/make-faces.mjs の LOOKS。
-   名前は「<ひらがな名>_<色や部位>ver」（→ avatarLabel と同じ書き方）。
-
-   ▍**焼いたら `node tools/check-recolor.mjs <モデルID> <色違いID>` で測る**
-   目で見て直していたころ、6体そろって「まだらな島が8〜20個・陰影が
-   半分・肌や目のはみ出し」を抱えたまま出してしまった。
-   数字を見てから、レンダリングした絵で決める。
-
-   ▍**Tripoのアトラスは、1つの島が2つの服をまたぐ**
-   胴を横帯に割ってあるので、ジャケットとインナー、猫の黄色い腕と緑の袖、
-   ニットとレギンスが同じ島に載る。**島の平均だけで選ぶと必ず染みが出る。**
-   またいでいる島は --plmin/--plmax（画素の明度で切る）で中を分ける。
-   2色に塗り分けたいときは**二度塗りにしない**——--hue2 で1回に塗る
-   （二度塗りは2回とも別の線を引くので、境目が合わずふちが食われる）。
-   どの島がまたいでいるかは、診断テクスチャをモデルに貼って
-   3Dで見るのがいちばん早い。 */
-export const SKINS: AvatarSkin[] = [
-  {
-    /* もも色のズボン。**シャツ（水色・明るい）を残すために --lmax で切る**。
-       靴もいっしょに桃色になるが、これは意図どおり（足元まで揃う）。
-       node tools/recolor-avatar.mjs ottori --hmin 190 --hmax 250 --smin 0.05 \
-         --lmax 0.45 --hue 345 --light 0.45 --sat 0.42 --out ottori-r */
-    id: 'momoiro',
-    avatarId: 'ottori',
-    name: 'おっとり_ももズボンver',
-    rarity: 'R',
-    desc: '春の色にしてみました。ぽかぽかしますね。',
-    swatch: '#c0475f',
-    texture: require('@/assets/models/ottori-r-texture.jpg'),
-    face: require('@/assets/faces/ottori-momoiro.png'),
-  },
-  {
-    /* 紺のスーツだけを赤へ。髪（色相8前後）と靴（300〜330）は色相の窓から外れる。
-       **--edge を付けない。** 付けていたころは顔と靴の暗い青っぽい画素まで
-       拾って、赤い上着の襟・袖口・腿に紺の染みが残った（髪を塗らないなら要らない）。
-       node tools/recolor-avatar.mjs nekketsu --hmin 200 --hmax 270 --smin 0.20 \
-         --lmax 0.45 --hue 0 --light 0.32 --sat 0.62 --out nekketsu-r */
-    id: 'aka',
-    avatarId: 'nekketsu',
-    name: 'ねっけつ_赤スーツver',
-    rarity: 'R',
-    desc: '燃えてきた。今日は負ける気がしねぇ！',
-    swatch: '#9a2529',
-    texture: require('@/assets/models/nekketsu-r-texture.jpg'),
-    face: require('@/assets/faces/nekketsu-aka.png'),
-  },
-  {
-    /* **この人だけ二度塗り。** ジャケットを生成りにして、インナーを黒に落とす。
-       はじめはジャケットをからし色にしたが、**濃い黄土＋グレーのインナー**が
-       古く見えた。明るい羽織り×黒インナー×チャコールの3色に組み替えている。
-
-       ▍**胴の島は、ジャケットとインナーをまたいでいる**（ここが要）
-       アトラスが胴を横帯に割っているので、島の平均では分けられない。
-       島の窓は胴の帯をぜんぶつかむように広げておいて、
-       **中を明度で切る**——0.40より暗い画素がジャケット、明るい画素が
-       インナー。素の絵はこの2つが 0.05〜0.22 と 0.55〜0.80 にきれいに
-       分かれているので、谷の真ん中で切れる。
-       切らずに島ごと塗っていたときは、生成りへ持ち上げた拍子に**インナーが
-       真っ白に飛び**、逆にインナーを黒くすると**ジャケットに黒い染み**が出た。
-
-       ▍**二度塗りではなく、--hue2 で1回に**（ここで一度やり直している）
-       はじめは「1回目でジャケット、2回目でインナー」と分けていた。すると
-       **2回とも別々にしきい値を引く**ので境目が合わず、上着のハイライトが
-       2回目で黒く抜け、Tシャツの影が1回目で生成りに抜けた。数画素の傷
-       なのに、遠目には**ふちが食い破られたように**見えて致命的だった。
-       いまは1本の線の内側を生成り・外側を黒にするので、すき間も重なりも出ない。
-
-       色は目分量で合わせない。**焼いてレンダリングして、インナーとズボンの
-       画素を拾って突き合わせる**（どちらも #1f2732 前後）。
-
-       node tools/recolor-avatar.mjs sensei --hmin 195 --hmax 220 --smin 0.15 \
-         --smax 0.55 --lmax 0.60 --ymin -0.15 --ymax 0.36 --plmax 0.40 \
-         --hue 40 --light 0.66 --sat 0.18 --shadow 1 \
-         --hue2 213 --light2 0.16 --sat2 0.25 --contrast2 0.5 --out sensei-r */
-    id: 'kinari',
-    avatarId: 'senpai',
-    name: 'せんぱい_生成りジャケットver',
-    rarity: 'R',
-    desc: 'これ？ ……まあ、たまには。',
-    swatch: '#c0b49c',
-    texture: require('@/assets/models/sensei-r-texture.jpg'),
-    face: require('@/assets/faces/senpai-kinari.png'),
-  },
-  {
-    /* セーターだけ藤色へ。レギンスは**彩度**で外す（ニット0.30〜0.40／
-       レギンス0.45〜0.50）。靴は彩度と色相の窓から外れる。
-       **裾の島はニットとレギンスをまたぐ**ので --plmin 0.20 で中を切る。
-       これが無いと、右の腿に藤色のくさびが刺さる。
-       node tools/recolor-avatar.mjs otenba --hmin 178 --hmax 215 --smin 0.25 \
-         --smax 0.43 --ymin -0.30 --plmin 0.20 --hue 282 --light 0.40 \
-         --sat 0.38 --out otenba-r */
-    id: 'fuji',
-    avatarId: 'otenba',
-    name: 'おてんば_藤色ニットver',
-    rarity: 'R',
-    desc: 'この色まじエモくない？ 盛れてるっしょ。',
-    swatch: '#7b4a9c',
-    texture: require('@/assets/models/otenba-r-texture.jpg'),
-    face: require('@/assets/faces/otenba-fuji.png'),
-  },
-  {
-    /* シャツだけ深緑へ。**上下とも真っ黒**なので、高さでしか切り分けられない
-       （腿の島は上端-0.13、シャツの裾は-0.25）。眼鏡も黒いので --ymax で外す。
-       node tools/recolor-avatar.mjs kanroku --hmin 190 --hmax 260 --smin 0.05 \
-         --ymin -0.10 --ymax 0.45 --hue 155 --light 0.28 --sat 0.42 --out kanroku-r */
-    id: 'midori',
-    avatarId: 'kanroku',
-    name: 'かんろく_深緑シャツver',
-    rarity: 'R',
-    desc: 'たまには、こういう色もいいだろう。',
-    swatch: '#2c6b45',
-    texture: require('@/assets/models/kanroku-r-texture.jpg'),
-    face: require('@/assets/faces/kanroku-midori.png'),
-  },
-  {
-    /* シャツだけ青へ。**--strict が要る**——体との境目は黄緑のぼかしで、
-       島ごと塗ると黄色い体に水色のしみが浮く。
-       さらに**袖の島は黄色い腕と緑の袖をまたぐ**（平均は黄緑の色相47〜71）。
-       島を選ぶ窓だけ色相40まで広げて袖の島をつかみ、**塗る窓は85のまま**に
-       して、あいだは --strict に任せる。窓をそろえると黄色い体まで青くなり、
-       広げないと右袖に緑のあて布が残ったままになる。
-       node tools/recolor-avatar.mjs neko --island-hmin 40 --island-hmax 175 \
-         --hmin 85 --hmax 175 --smin 0.20 --strict --strict-fade 25 \
-         --hue 214 --light 0.28 --sat 0.55 --out neko-r */
-    id: 'ao',
-    avatarId: 'neko',
-    name: 'かんばん_青シャツver',
-    rarity: 'R',
-    desc: 'じゃーん！ 着がえてみたよ。にあう？',
-    swatch: '#23548c',
-    texture: require('@/assets/models/neko-r-texture.jpg'),
-    face: require('@/assets/faces/neko-ao.png'),
-  },
-];
-
-/** '' ＝ 素の色（きせかえ無し） */
-export const DEFAULT_SKIN_ID = '';
-
-export function getSkin(id: string | null | undefined): AvatarSkin | null {
-  return SKINS.find((s) => s.id === id) ?? null;
-}
-
 /**
- * アバターを引く。skinId を渡すと、その色違いのテクスチャを貼った
- * 姿で返す（名前・性格はそのまま。**色が変わっても同じ人**）。
- * 別のアバターのきせかえを渡されたときは素の姿で返す。
+ * アバターを引く。台帳に無いIDなら先頭（＝最初の相棒）に落とす。
  */
-export function getAvatar(id: string | null | undefined, skinId?: string): AvatarDef {
-  const base = AVATARS.find((a) => a.id === id) ?? AVATARS[0];
-  if (!skinId || !base.model) return base;
-  const skin = getSkin(skinId);
-  if (!skin || skin.avatarId !== base.id) return base;
-  return { ...base, model: { ...base.model, texture: skin.texture } };
+export function getAvatar(id: string | null | undefined): AvatarDef {
+  return AVATARS.find((a) => a.id === id) ?? AVATARS[0];
 }
 
-/**
- * ガチャのアバター景品IDを、切り替えに使う組に直す。
- * キャラ本体が当たったなら skinId は空（素の姿）、
- * 色違いが当たったなら「元のキャラ＋その色」を返す。
- */
-export function lookOfPrize(prizeId: string): { avatarId: string; skinId: string } | null {
-  const skin = getSkin(prizeId);
-  if (skin) return { avatarId: skin.avatarId, skinId: skin.id };
-  const base = AVATARS.find((a) => a.id === prizeId);
-  return base ? { avatarId: base.id, skinId: DEFAULT_SKIN_ID } : null;
-}
-
+/** GLBが置いてあるか（＝選べるか）。null のあいだは「準備中」で並べる */
 export function isReady(a: AvatarDef): boolean {
   return a.model !== null;
 }
