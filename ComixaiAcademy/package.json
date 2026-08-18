@@ -9,6 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
+    "check:extras": "node --experimental-strip-types --no-warnings tools/check-extras.mjs",
     "avatar:convert": "node tools/transcode-avatar.mjs",
     "avatar:check": "node tools/check-motions.mjs",
     "icons:app": "node tools/build-app-icon.mjs",

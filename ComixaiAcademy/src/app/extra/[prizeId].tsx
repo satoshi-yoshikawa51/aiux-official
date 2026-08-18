@@ -22,7 +22,7 @@ import { LessonInteractiveCard } from '@/components/lesson-interactive';
 import { PopIn } from '@/components/motion';
 import { StageEffect, StageGlow } from '@/components/stage-effect';
 import { Badge, Bubble, Button, Card, Panel, Row, Screen } from '@/components/ui';
-import { getAvatar, getSkin } from '@/data/avatars';
+import { getAvatar } from '@/data/avatars';
 import { getBadge } from '@/data/badges';
 import { extraGameKey, getExtra, EXTRA_REWARD } from '@/data/extras';
 import { DEFAULT_HORIZON, GACHA_POOL, getTheme, RARITY_COLOR } from '@/data/gacha';
@@ -103,8 +103,9 @@ export default function ExtraScreen() {
      吹き出しが浮かぶ**画になって落ち着かない（実機で指摘） */
   const theme = prize.kind === 'theme' ? getTheme(prizeId) : getTheme(state.themeId);
   const art = theme.art ?? CLASSROOM;
-  const skin = prize.kind === 'avatar' ? getSkin(prizeId) : getSkin(state.skinId);
-  const avatar = getAvatar(state.avatarId, skin?.id);
+  /* アバターのおまけは**その相棒本人**が出てくる（景品IDがそのままアバターID）。
+     舞台のおまけは誰が出るか決まっていないので、いま使っている相棒 */
+  const avatar = getAvatar(prize.kind === 'avatar' ? prizeId : state.avatarId);
 
   /* 絵は**コマを覆いきる最小の大きさ**で敷き、キャラの目線を絵の地平線に
      乗せる。ズレたぶんが「巨人」「小人」として出るので、ホームと同じ式で
@@ -138,7 +139,7 @@ export default function ExtraScreen() {
           bgRatio={art.ratio}
           bgColor={art.wall}
           bgHeight={bgHeight}
-          caption={prize.kind === 'theme' ? prize.name : (skin?.name ?? prize.name)}
+          caption={prize.name}
           contentStyle={{ height: panelH, padding: S.sm, gap: S.sm, justifyContent: 'flex-end' }}>
           {theme.tint !== 'transparent' ? (
             <View
@@ -183,7 +184,7 @@ export default function ExtraScreen() {
             <View style={{ alignItems: 'center' }}>
               {stageH > 0 ? (
                 <Avatar3D
-                  key={avatar.id + (skin?.id ?? '')}
+                  key={avatar.id}
                   avatar={avatar}
                   width={Math.floor(settled.w)}
                   height={stageH}

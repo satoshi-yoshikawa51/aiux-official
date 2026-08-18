@@ -39,7 +39,7 @@ export default function ReviewScreen() {
   const router = useRouter();
   const { state, ready, answerQuiz } = useProgress();
   const review = useReview();
-  const avatar = getAvatar(state.avatarId, state.skinId);
+  const avatar = getAvatar(state.avatarId);
   const avatarRef = React.useRef<AvatarHandle>(null);
   const { width } = useWindowDimensions();
   const stageW = Math.min(width * 0.4, 165);

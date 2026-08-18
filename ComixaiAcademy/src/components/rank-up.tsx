@@ -39,7 +39,7 @@ import { Icon } from '@/components/icons';
 import { SparkLayer, useSparkBurst } from '@/components/motion';
 import { playSound } from '@/lib/sound';
 import { Bubble } from '@/components/ui';
-import { titleSay, type Title } from '@/data/badges';
+import { prevTitle, titleSay, type Title } from '@/data/badges';
 import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, R, S } from '@/theme';
 
@@ -292,6 +292,17 @@ function Medal({ icon }: { icon: Title['icon'] }) {
 }
 
 /* ———————————————— 本体 ———————————————— */
+
+/** ▍根元に置く見張り（→ app/_layout.tsx）
+    昇格はレッスンの結果画面以外でも起きる（おまけ・ミニゲームの★・
+    復習の卒業）。画面ごとに書くと取りこぼすので、店（store/progress.tsx）が
+    持っている「上がった称号」を見て、ここが出す。
+    **バッジの列が空になるまで待つ**——先に勲章、そのあと昇格。 */
+export function RankUpGate() {
+  const { pendingTitle, dismissTitle, badgeQueue } = useProgress();
+  if (!pendingTitle || badgeQueue.length > 0) return null;
+  return <RankUpScreen from={prevTitle(pendingTitle)} to={pendingTitle} onDone={dismissTitle} />;
+}
 
 export function RankUpScreen({
   from,

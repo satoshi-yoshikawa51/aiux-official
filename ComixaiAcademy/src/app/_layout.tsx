@@ -8,10 +8,13 @@ import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { BadgeUnlock } from '@/components/badge-unlock';
 import { SparkLayer } from '@/components/motion';
+import { RankUpGate } from '@/components/rank-up';
 import { TermSheetProvider } from '@/components/term-text';
 import { playMusic, resumeMusic, stopMusic } from '@/lib/music';
 import { preloadSounds } from '@/lib/sound';
+import { warmTokenizer } from '@/lib/tokenizer';
 import { ProgressProvider, useProgress } from '@/store/progress';
 import { C, FONT, T } from '@/theme';
 
@@ -114,6 +117,15 @@ export default function RootLayout() {
     preloadSounds();
   }, []);
 
+  /* ▍トークンの表（1MB）は、落ち着いたころに裏で取っておく
+     最初のレッスンの体験カードで使う。そこまで来てから取りにいくと、
+     電波が細い所では**カードを開いた目の前で待たされて失敗する**。
+     起動直後は絵とモデルの読み込みで詰まっているので、少し待ってから */
+  React.useEffect(() => {
+    const t = setTimeout(warmTokenizer, 4000);
+    return () => clearTimeout(t);
+  }, []);
+
   if (!fontsReady) return null;
 
   return (
@@ -161,6 +173,12 @@ export default function RootLayout() {
               <Stack.Screen name="sheet" options={{ title: '持ち帰り', headerBackTitle: '戻る' }} />
               <Stack.Screen name="ending" options={{ headerShown: false }} />
             </Stack>
+            {/* ▍ご褒美の演出は、根元に1枚ずつ置く
+                取れる場所が画面じゅうに散っているので、画面ごとに書くと
+                必ず取りこぼす（→ components/badge-unlock.tsx）。
+                **バッジ → 昇格の順**。昇格はバッジが出終わるまで待つ */}
+            <BadgeUnlock />
+            <RankUpGate />
           </OnboardingGate>
           </TermSheetProvider>
           </SparkLayer>

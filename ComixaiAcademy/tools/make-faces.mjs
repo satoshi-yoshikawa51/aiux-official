@@ -41,7 +41,7 @@ const APP = path.join(HERE, '..');
 const ROOT = path.join(APP, '..');
 const OUT = path.join(APP, 'assets', 'faces');
 
-/** 焼く一覧。data/avatars.ts の AVATARS と SKINS に合わせる。
+/** 焼く一覧。data/avatars.ts の AVATARS に合わせる。
     **増やしたらここも足す**（台帳を読むのが理想だが、TSを解釈するために
     ビルドを挟むことになるので、13行の重複を許している） */
 const LOOKS = [
@@ -49,8 +49,6 @@ const LOOKS = [
     { out: id === 'sensei' ? 'senpai' : id, glb: id, tex: `${id}-texture` },
     { out: `${id === 'sensei' ? 'senpai' : id}-sr`, glb: `${id === 'sensei' ? 'senpai' : id}-sr`, tex: `${id === 'sensei' ? 'senpai' : id}-sr-texture` },
   ]),
-  /* 色違い（→ data/avatars.ts の SKINS）。モデルは素と同じで、貼る絵だけ違う */
-  { out: 'senpai-kin', glb: 'sensei', tex: 'sensei-kin-texture' },
 ];
 
 /** ▍顔の向きの直し（度・モデルごと）は台帳から読む

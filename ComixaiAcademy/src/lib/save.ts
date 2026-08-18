@@ -3,7 +3,7 @@
 
    ▍なぜ要るのか
    進捗はこの端末の中にしか無い（→ store/progress.tsx）。集めた舞台も
-   色違いも復習の進み具合も、**端末を変えたら全部消える**。とくにいまは
+   相棒も復習の進み具合も、**端末を変えたら全部消える**。とくにいまは
    Webのプレビューを触っているので、Safariの「Webサイトデータを消去」
    ひとつで飛ぶ。サーバもアカウントも作らずに守る手が、この持ち出し。
 
@@ -19,7 +19,7 @@
    ============================================================ */
 import { Platform } from 'react-native';
 
-import { AVATARS, DEFAULT_SKIN_ID, migrateAvatars, SKINS } from '@/data/avatars';
+import { AVATARS, migrateAvatars } from '@/data/avatars';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { ROLES } from '@/data/roles';
 import type { RoleId } from '@/data/types';
@@ -153,7 +153,8 @@ export function decodeSave(text: string): DecodeResult {
       badges: Object.keys(state.badges).length,
       coins: state.coins,
       themes: Object.keys(state.themes).length,
-      avatars: Object.keys(state.skins).length,
+      /* 景品から外したもの（色違い）の記録が残っていても数に入れない */
+      avatars: AVATARS.filter((a) => state.skins[a.id]).length,
     },
   };
 }
@@ -187,7 +188,6 @@ function sanitize(raw: Record<string, unknown>): ProgressState {
        ホームは装備中のIDで絵を引くので、ここが外れると背景が消える */
     themeId: pickId(raw.themeId, THEMES.map((t) => t.id), DEFAULT_THEME_ID) ?? DEFAULT_THEME_ID,
     skins: numMap(raw.skins),
-    skinId: pickId(raw.skinId, SKINS.map((s) => s.id), DEFAULT_SKIN_ID) ?? DEFAULT_SKIN_ID,
     soundOn: bool(raw.soundOn, EMPTY.soundOn),
     musicOn: bool(raw.musicOn, EMPTY.musicOn),
   };
@@ -206,8 +206,6 @@ const num = (v: unknown, fallback: number) =>
 /** 台帳に載っているIDだけ通す。載っていなければ既定値 */
 function pickId(v: unknown, known: string[], fallback: string | null): string | null {
   if (typeof v !== 'string') return fallback;
-  // 色違いの「ノーマル」は '' なので、空文字も正当な値として通す
-  if (v === '' && fallback === DEFAULT_SKIN_ID) return v;
   return known.includes(v) ? v : fallback;
 }
 

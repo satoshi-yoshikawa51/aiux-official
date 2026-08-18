@@ -33,7 +33,7 @@ interface Props {
 }
 
 export function AvatarFace({ face, swatch, size, dim = false }: Props) {
-  return (
+  const circle = (
     <View
       style={{
         width: size,
@@ -70,4 +70,5 @@ export function AvatarFace({ face, swatch, size, dim = false }: Props) {
       )}
     </View>
   );
+  return circle;
 }

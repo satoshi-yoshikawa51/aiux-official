@@ -13,7 +13,7 @@ import { POP, S } from '@/theme';
 
 export default function RolePickScreen() {
   const { state, setRole } = useProgress();
-  const avatar = getAvatar(state.avatarId, state.skinId);
+  const avatar = getAvatar(state.avatarId);
 
   /* ▍決めるのはポップアップの中
      かつては一覧の下に説明を出し、さらに下に「はじめる」を置いていた。

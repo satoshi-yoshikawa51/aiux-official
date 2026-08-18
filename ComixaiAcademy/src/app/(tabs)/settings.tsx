@@ -19,12 +19,9 @@ import { Badge, Button, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHea
 import {
   avatarLabel,
   AVATARS,
-  DEFAULT_SKIN_ID,
   getAvatar,
-  getSkin,
   isReady,
   ownsAvatar,
-  SKINS,
 } from '@/data/avatars';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { getRole } from '@/data/roles';
@@ -39,9 +36,9 @@ export default function SettingsScreen() {
   const router = useRouter();
   const { state, setRole, setTheme, setLook, setSoundOn, setMusicOn, reset } = useProgress();
   const stats = useStats();
-  const avatar = getAvatar(state.avatarId, state.skinId);
-  /* 見出しには「金髪の先生」のように、いま使っている体の名前を出す */
-  const lookName = getSkin(state.skinId)?.name ?? avatar.name;
+  const avatar = getAvatar(state.avatarId);
+  /* 見出しには「おっとり_浴衣ver」のように、いま使っている体の名前を出す */
+  const lookName = avatarLabel(avatar);
   const role = getRole(state.roleId);
 
   /* ▍確認は画面の中で出す。Alert.alert は使わない
@@ -70,9 +67,8 @@ export default function SettingsScreen() {
   return (
     <Screen header={header} tone="dots">
       {/* アバター
-          ▍色違いも独立した1体として並べる
-          「先生の色を選ぶ」ではなく「選べるアバターがガチャで増えていく」
-          建て付け。持っている体だけがここに並び、当てるたびにリストが伸びる。
+          ▍「選べるアバターがガチャで増えていく」建て付け
+          持っている相棒だけがここに並び、当てるたびにリストが伸びる。
           モデル未完成のキャラは従来どおり「準備中」で待たせる */}
       <View style={{ gap: S.md }}>
         {/* ▍囲うのは**見出しだけ**にする
@@ -123,47 +119,25 @@ export default function SettingsScreen() {
               </PressCard>
             );
           }
-          /* ノーマル＋持っている色違い。1体ずつカードにする */
-          const looks = [
-            {
-              skinId: DEFAULT_SKIN_ID,
-              name: avatarLabel(a),
-              note: a.tagline,
-              dot: a.accent,
-              face: a.face,
-            },
-            ...SKINS.filter((sk) => sk.avatarId === a.id && state.skins[sk.id]).map((sk) => ({
-              skinId: sk.id,
-              name: sk.name,
-              note: sk.desc,
-              dot: sk.swatch,
-              face: sk.face,
-            })),
-          ];
-          return looks.map((look) => {
-            const selected = state.avatarId === a.id && state.skinId === look.skinId;
-            return (
-              <PressCard
-                key={`${a.id}:${look.skinId}`}
-                selected={selected}
-                onPress={() => setLook(a.id, look.skinId)}>
-                <Row style={{ justifyContent: 'space-between' }}>
-                  <Row gap={S.sm} style={{ flex: 1 }}>
-                    {/* ▍色の丸ではなく顔を出す
-                        「せんぱい」と「せんぱい_金髪ver」のように**同じ人の
-                        別バージョン**が並ぶので、色の点だけだと見分けに
-                        名前を読むしかなかった（→ components/avatar-face.tsx） */}
-                    <AvatarFace face={look.face} swatch={look.dot} size={34} />
-                    <View style={{ flex: 1 }}>
-                      <Text style={F.strong}>{look.name}</Text>
-                      <Text style={F.tiny}>{look.note}</Text>
-                    </View>
-                  </Row>
-                  {selected ? <Badge tone="red">選択中</Badge> : null}
+          const selected = state.avatarId === a.id;
+          return (
+            <PressCard key={a.id} selected={selected} onPress={() => setLook(a.id)}>
+              <Row style={{ justifyContent: 'space-between' }}>
+                <Row gap={S.sm} style={{ flex: 1 }}>
+                  {/* ▍色の丸ではなく顔を出す
+                      「おっとり」と「おっとり_浴衣ver」のように**同じ人の
+                      別バージョン**が並ぶので、色の点だけだと見分けに
+                      名前を読むしかなかった（→ components/avatar-face.tsx） */}
+                  <AvatarFace face={a.face} swatch={a.accent} size={34} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={F.strong}>{avatarLabel(a)}</Text>
+                    <Text style={F.tiny}>{a.tagline}</Text>
+                  </View>
                 </Row>
-              </PressCard>
-            );
-          });
+                {selected ? <Badge tone="red">選択中</Badge> : null}
+              </Row>
+            </PressCard>
+          );
         })}
       </View>
 

@@ -150,6 +150,44 @@ export interface RedlineItem {
   };
 }
 
+/** 削る指示文の1行 */
+export interface TrimLine {
+  text: string;
+  /** この行の重さ（トークンのつもり）。予算はこの合計で測る */
+  cost: number;
+  /** 消してはいけない行。消したらミス */
+  keep?: boolean;
+  /** 消したとき／消そうとしたときに出す一言。**全行に書く** */
+  why: string;
+}
+
+/** 聞き出すときの質問の札 */
+export interface InterviewQuestion {
+  /** 聞くこと */
+  q: string;
+  /** 返ってくる答え */
+  a: string;
+  /** 効く質問。**これを全部聞けたら通る** */
+  ok?: boolean;
+  /** 効かない質問のとき、なぜ効かないのか */
+  why?: string;
+  /** 効く質問のとき、その答えで何が決まったか（「わかったこと」に積む1行） */
+  got?: string;
+}
+
+/** 見比べる1問 */
+export interface JudgeRound {
+  /** 何を頼んだのか */
+  ask: string;
+  /** 2つの出力。**片方だけ ok** */
+  a: { label: string; text: string; ok?: boolean };
+  b: { label: string; text: string; ok?: boolean };
+  /** 選んだあとに聞く「なぜそちらか」。正解は1つ */
+  reasons: { text: string; ok?: boolean; why: string }[];
+  /** 悪いほうを選んだときに出す一言 */
+  wrongPick: string;
+}
+
 /** 詰めるときに机へ載せる資料 */
 export interface FitItem {
   name: string;
@@ -259,6 +297,55 @@ export type LessonInteractive = (
       kind: 'redline';
       brief: string;
       lines: RedlineItem[];
+      /** 何回まで外して通れるか。省略すると2回 */
+      allow?: number;
+    }
+  | {
+      /* ▍削る（SRのおまけ用 → data/extras/）
+         長い指示文から、要らない行を消して予算に収める。
+         **足す練習は山ほどあるが、削る練習はどこにも無い。**
+         プロンプトが長くなるほど効くと思い込みがちだが、実際は
+         丁寧語・前置き・重複した念押しが窓を食っているだけ、が起きる。
+
+         `token-budget` は自分で書いて収める。こちらは**人の書いた長文から
+         どれを捨てるかを選ぶ**——現場で起きるのはこちらの形。 */
+      kind: 'trim';
+      brief: string;
+      /** ここまで落とせば通る（合計の cost） */
+      budget: number;
+      lines: TrimLine[];
+      /** 何回まで外して通れるか。省略すると2回 */
+      allow?: number;
+    }
+  | {
+      /* ▍聞き出す（SRのおまけ用 → data/extras/）
+         ふわっとした依頼を、**限られた回数の質問**で仕様に落とす。
+
+         AIに渡す前の仕事を扱う唯一の回。指示がうまく書けないのは
+         書き方の問題ではなく、**決まっていないことが決まっていない**
+         からで、それは相手に聞かないと埋まらない。
+
+         聞ける回数を絞ってあるので、「どれから聞くか」を選ぶことになる。 */
+      kind: 'interview';
+      brief: string;
+      /** 最初に言われたこと（ふわっとした依頼） */
+      request: string;
+      /** 何回聞けるか */
+      turns: number;
+      questions: InterviewQuestion[];
+      /** 効かない質問を何回まで選べるか。省略すると1回 */
+      allow?: number;
+    }
+  | {
+      /* ▍見比べる（SRのおまけ用 → data/extras/）
+         同じ指示から出た2つの出力を並べ、**採用するほうと、その理由**を選ぶ。
+
+         直す（redline）より前の段階。**選べない人は直せない**ので、
+         良し悪しの物差しを言葉にするところをやる。理由まで選ばせるのは、
+         勘で当たっても通らないようにするため。 */
+      kind: 'judge';
+      brief: string;
+      rounds: JudgeRound[];
       /** 何回まで外して通れるか。省略すると2回 */
       allow?: number;
     }

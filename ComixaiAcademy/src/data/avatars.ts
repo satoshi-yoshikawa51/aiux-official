@@ -29,6 +29,17 @@
       必ず a → b の順で（bは左右の帰属をウェイトで判定するため）。
       股（y=-0.25あたり）はズボンとして本来つながっているので、
       --below を -0.30 より上げると穴が開く。
+
+      c. **左右の脚がくっついたまま**のことがある（a も b も効かない）。
+         `node tools/_legprobe.mjs` 相当の測り方で内端の距離を見ると、
+         おてんばは 0.002 しか離れていなかった（ほかは 0.024〜0.037）。
+         離れていないと遠目に黒い筋が1本入り、動かすと片方の面が
+         もう片方を突き抜けて薄い刃が飛び出す。
+         `node tools/open-leg-gap.mjs <in>.glb <out>.glb --below -0.34 --gap 0.022`
+         のあと `cut-leg-web --below -0.20 --own 0.35`（腰寄りの膜は脚の
+         ウェイトが4割しか無く、既定の0.5では素通りする）。
+         **形の問題なので、ウェイトを直しても1枚も減らない。** 実際 a を
+         掛けて255頂点が直っても、裂ける面は150枚のままだった。
    5. 肩に飾り（肩章・パッド）が付いている衣装なら、鎖骨に固定する。
       `node tools/lock-bone-weights.mjs <in>.glb <out>.glb --bone L_Clavicle,R_Clavicle --lock 0.4`
       硬い飾りに鎖骨と上腕が半々に塗られていると、**腕を下ろしたときに
@@ -110,7 +121,8 @@ export interface AvatarDef {
   accent: string;
   /** true = 最初から選べる。false = ガチャの景品（→ data/gacha.ts） */
   initial: boolean;
-  /** ガチャに出るときのレア度。initial: true のキャラでは使われない */
+  /** ガチャに出るときのレア度。相棒は素がR・衣装違いがSR。
+      最初から選べる2人（initial: true）は景品にならないので使われない */
   rarity: Rarity;
   /** 見た目の違い（SRの衣装名など）。**同じ人の別バージョン**を並べたときに
       見分けるための添え名で、名乗りではない。一覧では
@@ -154,7 +166,7 @@ export const AVATARS: AvatarDef[] = [
       'おっとりしていて、人を心から信頼している。実はがんばり屋。やさしい敬語で話す照れ屋。相手を否定しない',
     accent: '#d4589a',
     initial: true,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/ottori.png'),
     model: {
       glb: require('@/assets/models/ottori.glb'),
@@ -172,7 +184,7 @@ export const AVATARS: AvatarDef[] = [
       'まっすぐ正直な熱い男。目標のためならあらゆる努力を惜しまない。感動しいですぐ泣く。タメ口で暑苦しい',
     accent: '#1a6cff',
     initial: true,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/nekketsu.png'),
     model: {
       glb: require('@/assets/models/nekketsu.glb'),
@@ -183,7 +195,7 @@ export const AVATARS: AvatarDef[] = [
   },
   {
     /* もと「先生」。名前だけ先輩に変えたので、性格とモデル（sensei.glb）は
-       そのまま。色違いは この人にだけ付いている（→ SKINS） */
+       そのまま（ファイル名が sensei-*.jpg なのはそのため） */
     id: 'senpai',
     name: '先輩',
     icon: 'person',
@@ -192,7 +204,7 @@ export const AVATARS: AvatarDef[] = [
       '女性上司。一人称「私」・二人称「あなた」・指示は「〜して」のテ形。口数少なめ・言い切り型で、照れ隠し気味に労う。絵文字は使わない',
     accent: '#e60012',
     initial: false,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/senpai.png'),
     model: {
       glb: require('@/assets/models/sensei.glb'),
@@ -210,7 +222,7 @@ export const AVATARS: AvatarDef[] = [
       'ギャル系で芸術肌。ギャル的な言葉を使う（まじで・とりま・〜じゃん）。根はやさしい。臆さず積極的',
     accent: '#f08c00',
     initial: false,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/otenba.png'),
     model: {
       glb: require('@/assets/models/otenba.glb'),
@@ -228,7 +240,7 @@ export const AVATARS: AvatarDef[] = [
       '優しい口調だが、数々の修羅場を越えてきた貫禄がある。物事をフラットに判断し、時には厳しい決断もする。家ではやさしいパパ',
     accent: '#6e635b',
     initial: false,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/kanroku.png'),
     model: {
       glb: require('@/assets/models/kanroku.glb'),
@@ -260,7 +272,7 @@ export const AVATARS: AvatarDef[] = [
       '好奇心旺盛で目立ちたがり。「じゃーん！」と得意げに登場して解説したがる。でも知らないことは素直に「AIに聞いてみよう」と言える——教える人ではなく、いっしょに調べる人。ひらがな多めの短い文、「！」が多い。媚びる「〜だにゃ」は使わない',
     accent: '#e8a33d',
     initial: false,
-    rarity: 'N',
+    rarity: 'R',
     face: require('@/assets/faces/neko.png'),
     model: {
       glb: require('@/assets/models/neko.glb'),
@@ -282,12 +294,19 @@ export const AVATARS: AvatarDef[] = [
   /* ———————————————— ここから SR（衣装違い） ————————————————
 
      ▍SRは「同じ人の、別の服」
-     色違い（→ SKINS）はテクスチャの差し替えだけで済むが、衣装は形が
-     変わるので**別のGLB**が要る。なので SKINS ではなく、ここに
+     衣装は形が変わるので**別のGLB**が要る。素の相棒と同じ配列に、
      rarity:'SR' のエントリとして並べる。
 
-     ▍中身は N と同じ
-     同じ人なので tagline も personality も N のまま。**セリフも N のものが
+     ▍**テクスチャを差し替えるだけの「色違い」は、やめた**
+     服だけを塗り替えた色違いを6人ぶん作ったことがある（2026-08）。
+     道具を作り込んで、まだら・陰影・はみ出しを数字で詰めるところまで
+     やったが、**元の絵が塗りで描いてあるので、どう詰めても
+     「塗り直した絵」にしか見えない**。集めたくなる質に届かなかったので、
+     機能ごと落とした。作り方は git の履歴に残っている
+     （tools/recolor-avatar.mjs と tools/check-recolor.mjs）。
+
+     ▍中身は素の相棒と同じ
+     同じ人なので tagline も personality もそのまま。**セリフも素のものが
      出る**——IDの `-sr` を落として引く決まりにしてある
      （→ data/types.ts の voiceIdOf）。ここを個別に書き分けると、
      服を着替えただけで別人になる。 */
@@ -415,10 +434,9 @@ export const INITIAL_AVATAR_IDS = AVATARS.filter((a) => a.initial).map((a) => a.
 
 export const DEFAULT_AVATAR_ID = INITIAL_AVATAR_IDS[0];
 
-/** 一覧に出す名前。**同じ人の別バージョン**を見分けるための添え名を付ける。
-
-    色違い（SKINS）が「せんぱい_金髪ver」と名乗っているのと同じ書き方。
-    ホームのキャプションはここを通さない（あそこは名乗りなので素の name）。 */
+/** 一覧に出す名前。**同じ人の別バージョン**を見分けるための添え名を付ける
+    （「おっとり_浴衣ver」）。ホームのキャプションはここを通さない
+    （あそこは名乗りなので素の name）。 */
 export function avatarLabel(a: AvatarDef): string {
   return a.variant ? `${a.name}_${a.variant}ver` : a.name;
 }
@@ -461,108 +479,14 @@ export function migrateAvatars<T extends { avatarId: string | null; skins: Recor
   return { ...save, avatarId: to, skins };
 }
 
-/* ============================================================
-   ▍色違いアバター
-   「金髪の先生」のような色違いを、**独立した1体のアバター**として
-   扱う（選べるアバターがガチャでどんどん増えていく建て付け。
-   キャラ本体のモデルが増えたら、それもガチャの景品に足す）。
-   性格・セリフはベースのキャラ（avatarId）から引き継ぐ——
-   色が変わっても同じ人。
-
-   GLBは共通で、テクスチャの差し替えだけで成立する。
-   テクスチャは tools/recolor-sensei.mjs が元の1枚から生成する
-   （髪だけ塗り替える。作り方はツールの冒頭コメントに）。
-   ガチャの景品になる（→ data/gacha.ts の GACHA_POOL）。
-   ============================================================ */
-
-export interface AvatarSkin {
-  id: string;
-  /** どのキャラの色違いか（性格・セリフはこのキャラのもの） */
-  avatarId: string;
-  name: string;
-  rarity: Rarity;
-  /** 引いたときに出す一言 */
-  desc: string;
-  /** 選択UIで見せる髪の色。**顔のサムネイル（face）が無いときの代役** */
-  swatch: string;
-  texture: number;
-  /** 顔のサムネイル（→ AvatarDef.face） */
-  face?: number;
-}
-
-/* ▍レア度は「同じキャラで3段」に積む（これから揃えていく方針）
-     N  … キャラ本体（→ AVATARS）
-     R  … 色違い。tools/recolor-sensei.mjs で髪を塗り替える（→ このSKINS）
-     SR … 衣装を変えたモデルを別途つくって足す
-   つまり1人につきN・R・SRが1組そろう形を目指す。
-
-   SRは別モデルなので AVATARS 側に入れてある（→ 上の「SR（衣装違い）」）。
-   ここに並ぶのは色違いだけ。
-
-   ▍これから作るR（テクスチャ待ち）
-   全キャラに1本ずつ持たせる方針。**塗る場所がキャラで違う**ので、
-   recolor-sensei.mjs をそのままは使えない（あれは先輩の髪の島に
-   合わせて閾値を詰めてある）。
-
-   | キャラ   | 塗るもの   | 色      | 状態 |
-   |---------|-----------|---------|------|
-   | 先輩     | 髪        | 金      | 済み（下の kin） |
-   | おっとり  | ズボン     | 白      | これから |
-   | かんろく  | 髪        | 白      | これから |
-   | おてんば  | 髪        | ピンク   | これから |
-   | ねっけつ  | スーツ     | 青      | これから |
-
-   髪の2本（かんろく・おてんば）は先輩と同じ考え方でいけるはず。
-   ズボンとスーツの2本は**服を塗る＝いまのツールが守っている側**なので、
-   選ぶ島を逆にする作りが要る。
-
-   できたら `<id>-r-texture.jpg` として置いて、ここに1エントリ足す。
-   名前は「<ひらがな名>_<色や部位>ver」（→ avatarLabel と同じ書き方）。 */
-export const SKINS: AvatarSkin[] = [
-  {
-    id: 'kin',
-    avatarId: 'senpai',
-    name: 'せんぱい_金髪ver',
-    rarity: 'R',
-    desc: '金色。教室がまぶしい。',
-    swatch: '#d8a61c',
-    texture: require('@/assets/models/sensei-kin-texture.jpg'),
-    face: require('@/assets/faces/senpai-kin.png'),
-  },
-];
-
-/** '' ＝ 素の色（きせかえ無し） */
-export const DEFAULT_SKIN_ID = '';
-
-export function getSkin(id: string | null | undefined): AvatarSkin | null {
-  return SKINS.find((s) => s.id === id) ?? null;
-}
-
 /**
- * アバターを引く。skinId を渡すと、その色違いのテクスチャを貼った
- * 姿で返す（名前・性格はそのまま。**色が変わっても同じ人**）。
- * 別のアバターのきせかえを渡されたときは素の姿で返す。
+ * アバターを引く。台帳に無いIDなら先頭（＝最初の相棒）に落とす。
  */
-export function getAvatar(id: string | null | undefined, skinId?: string): AvatarDef {
-  const base = AVATARS.find((a) => a.id === id) ?? AVATARS[0];
-  if (!skinId || !base.model) return base;
-  const skin = getSkin(skinId);
-  if (!skin || skin.avatarId !== base.id) return base;
-  return { ...base, model: { ...base.model, texture: skin.texture } };
+export function getAvatar(id: string | null | undefined): AvatarDef {
+  return AVATARS.find((a) => a.id === id) ?? AVATARS[0];
 }
 
-/**
- * ガチャのアバター景品IDを、切り替えに使う組に直す。
- * キャラ本体が当たったなら skinId は空（素の姿）、
- * 色違いが当たったなら「元のキャラ＋その色」を返す。
- */
-export function lookOfPrize(prizeId: string): { avatarId: string; skinId: string } | null {
-  const skin = getSkin(prizeId);
-  if (skin) return { avatarId: skin.avatarId, skinId: skin.id };
-  const base = AVATARS.find((a) => a.id === prizeId);
-  return base ? { avatarId: base.id, skinId: DEFAULT_SKIN_ID } : null;
-}
-
+/** GLBが置いてあるか（＝選べるか）。null のあいだは「準備中」で並べる */
 export function isReady(a: AvatarDef): boolean {
   return a.model !== null;
 }

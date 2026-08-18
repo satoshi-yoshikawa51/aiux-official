@@ -24,6 +24,8 @@ const SIZE = {
   grid: { art: 72, icon: 28 },
   /** レッスンの結果に出る「BADGE UNLOCKED」の行 */
   row: { art: 48, icon: 30 },
+  /** 取った瞬間の演出（→ components/badge-unlock.tsx）。ここだけ大きく出す */
+  pop: { art: 104, icon: 64 },
 } as const;
 
 export function BadgeArt({ badge, at }: { badge: Badge; at: keyof typeof SIZE }) {

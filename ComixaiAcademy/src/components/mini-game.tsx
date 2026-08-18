@@ -51,7 +51,10 @@ import { BuildPlay } from '@/components/games/build-game';
 import { FindPlay } from '@/components/games/find-game';
 import { FitPlay } from '@/components/games/fit-game';
 import { OrderPlay } from '@/components/games/order-game';
+import { InterviewPlay } from '@/components/games/interview-game';
+import { JudgePlay } from '@/components/games/judge-game';
 import { RedlinePlay } from '@/components/games/redline-game';
+import { TrimPlay } from '@/components/games/trim-game';
 import {
   allowLabel,
   starsOf,
@@ -66,7 +69,8 @@ import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
 import { playMusic } from '@/lib/music';
 import { playClear, playSound } from '@/lib/sound';
-import { loadTokenizer, toChips, type TokenChip } from '@/lib/tokenizer';
+import { loadTokenizer, reloadForStaleChunk, toChips, type TokenChip } from '@/lib/tokenizer';
+import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 const NATIVE = Platform.OS !== 'web';
@@ -151,6 +155,27 @@ export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
     how: '直す所を押して、どう直すかを選びます',
     color: '#e8c15a',
   },
+  trim: {
+    name: '指示を削って収めよう',
+    icon: 'target',
+    rule: '長い指示から要らない行を捨てる',
+    how: '消していい行を押して、決められた長さまで削ります',
+    color: '#ff6b6b',
+  },
+  interview: {
+    name: '足りないことを聞き出そう',
+    icon: 'compass',
+    rule: '聞ける回数は決まっている',
+    how: 'ふわっとした依頼を、限られた質問で書ける形にします',
+    color: '#4dd6c1',
+  },
+  judge: {
+    name: 'どちらを採るか決めよう',
+    icon: 'target',
+    rule: '2つの出力を見比べる',
+    how: '採るほうを選んで、そのあと「なぜ」まで選びます',
+    color: '#b8a4ff',
+  },
   'ai-prompt': {
     name: '本物のAIに指示を出そう',
     icon: 'bulb',
@@ -179,6 +204,12 @@ export function allowOf(spec: LessonInteractive): number {
     case 'fit':
       return spec.allow ?? 2;
     case 'redline':
+      return spec.allow ?? 2;
+    case 'trim':
+      return spec.allow ?? 2;
+    case 'interview':
+      return spec.allow ?? 1;
+    case 'judge':
       return spec.allow ?? 2;
     case 'ai-prompt':
       return 2;
@@ -229,6 +260,13 @@ export function MiniGame({
     playMusic('game');
     return () => playMusic('lesson');
   }, []);
+
+  /* ▍開いているあいだ、バッジの祝いを止める
+     ★3を取った瞬間にバッジが立つ（→ store/progress.tsx の recordGame）。
+     祝いの画面もModalなので、このModalの下に隠れたまま自動で閉じてしまう。
+     閉じてから出す。ゲームのクリア画面と祝いが重ならない利点もある */
+  const { holdBadges } = useProgress();
+  React.useEffect(() => holdBadges(), [holdBadges]);
 
   /* ▍タイトルは**押すまで消えない**
      もとは1.3秒で自動で先へ進んでいたが、この画面には遊び方と
@@ -341,6 +379,12 @@ export function MiniGame({
                   <FitPlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'redline' ? (
                   <RedlinePlay key={round} spec={spec} onClear={clear} />
+                ) : spec.kind === 'trim' ? (
+                  <TrimPlay key={round} spec={spec} onClear={clear} />
+                ) : spec.kind === 'interview' ? (
+                  <InterviewPlay key={round} spec={spec} onClear={clear} />
+                ) : spec.kind === 'judge' ? (
+                  <JudgePlay key={round} spec={spec} onClear={clear} />
                 ) : spec.kind === 'ai-prompt' ? (
                   <AiPromptPlay key={round} spec={spec} onClear={clear} />
                 ) : (
@@ -950,6 +994,8 @@ function TokenPlay({
   const [load, setLoad] = React.useState<'loading' | 'ready' | 'failed'>('loading');
   /* 「もう一度よみこむ」を押した回数。増やすと下の読み込みが走り直す */
   const [tries, setTries] = React.useState(0);
+  /* 何回続けて転んだか。2回目からは画面ごと読み直す（→ 下の読み込み） */
+  const fails = React.useRef(0);
   const ready = load === 'ready';
 
   /* 何枚目から先が「新しく増えたぶん」か。ここから右だけを跳ねさせる
@@ -974,7 +1020,19 @@ function TokenPlay({
     setLoad('loading');
     loadTokenizer()
       .then(() => alive && setLoad('ready'))
-      .catch(() => alive && setLoad('failed'));
+      .catch(() => {
+        if (!alive) return;
+        fails.current += 1;
+        /* ▍**押しても直らない**のがいちばん悪い
+           表は名前にハッシュの入った別ファイル。新しい版を配ったあとの
+           古い画面は、もう無いファイル名を取りにいくので、何度押しても
+           同じところで転ぶ（→ lib/tokenizer.ts の reloadForStaleChunk）。
+           1回目は電波かもしれないのでその場で取り直させる。**2回続けて
+           転んだら、画面ごと読み直して名前を仕入れ直す**。
+           読み直したときはこの画面も作り直されるので、あとは何もしない */
+        if (fails.current >= 2 && reloadForStaleChunk()) return;
+        setLoad('failed');
+      });
     return () => {
       alive = false;
     };
@@ -1048,7 +1106,7 @@ function TokenPlay({
                 </Text>
               </View>
               <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>
-                {'区切りを数えるのに、少し大きなデータを取りにいっています。電波の届く所で、もう一度どうぞ。'}
+                {'区切りを数えるのに、少し大きなデータを取りにいっています。電波の届く所で、もう一度どうぞ。\nそれでも届かないときは、画面を読み直します（進み具合は消えません）。'}
               </Text>
               <GameButton label="もう一度よみこむ" onPress={() => setTries((n) => n + 1)} />
             </View>
