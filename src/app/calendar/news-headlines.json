@@ -1,24 +1,89 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-17T21:55:14.330Z",
+  "updatedAt": "2026-08-18T21:53:43.465Z",
   "items": [
     {
-      "title": "Nvidia investing $1.5B in SoftBank data center developer behind OpenAI project",
-      "url": "https://techcrunch.com/2026/08/17/nvidia-investing-1-5b-in-softbank-data-center-developer-behind-openai-project/",
+      "title": "OpenAI institutes new safeguards after Hugging Face breach",
+      "url": "https://techcrunch.com/2026/08/18/openai-institutes-new-safeguards-after-hugging-face-breach/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-17T15:16:24.000Z",
-      "titleJa": "Nvidia、OpenAIプロジェクトの背後にあるSoftBankデータセンター開発者に15億ドルを投資",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/07/GettyImages-2219673294.jpg?resize=1200,750"
+      "date": "2026-08-18T18:00:00.000Z",
+      "titleJa": "OpenAI、Hugging Face 侵害を受けて新たな保護措置を導入",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-green.jpg?w=1024"
     },
     {
-      "title": "Wispr raises $280M at $2B valuation as it looks beyond dictation",
-      "url": "https://techcrunch.com/2026/08/17/wispr-raises-280m-at-2b-valuation-as-it-looks-beyond-dictation/",
+      "title": "Etched’s valuation doubles to $21B in a month",
+      "url": "https://techcrunch.com/2026/08/18/etcheds-valuation-doubles-to-21b-in-a-month/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-17T13:10:05.000Z",
-      "titleJa": "Wispr は口述筆記の先を見据えて 20 億ドルの評価額で 2 億 8,000 万ドルを調達",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/02/Wispr-Flow-Android-hero.jpg?resize=1200,718"
+      "date": "2026-08-18T17:21:58.000Z",
+      "titleJa": "Etched の評価額は 1 か月で 2 倍の 210 億ドルに",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/Etched-co-founder-COO-Robert-Wachen.jpg?resize=1200,1200"
+    },
+    {
+      "title": "OpenAI launches a safer ChatGPT for teens — years after teens started using it",
+      "url": "https://techcrunch.com/2026/08/18/openai-launches-a-safer-chatgpt-for-teens-years-after-teens-started-using-it/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-18T13:50:30.000Z",
+      "titleJa": "OpenAI、10代の若者向けにより安全なChatGPTを開始",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Still-04-HomeworkReminder__1_.webp?resize=1200,675"
+    },
+    {
+      "title": "LIXIL、FAQをAI対応へ再設計 閲覧数3倍・引用数7.3倍に",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11970/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-18T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11970/topm.jpg?20220512"
+    },
+    {
+      "title": "Google、AIモデルをコンパイルして暗号データを復号せずに扱えるように変換する「HEIR」発表。完全準同型暗号を利用し、AIでのセキュリティやプライバシー保護など実現へ",
+      "url": "https://www.publickey1.jp/blog/26/googleaiheirai.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-18T15:55:25.000Z",
+      "image": "https://www.publickey1.jp/2026/heir-google-ann01.png"
+    },
+    {
+      "title": "AIエージェント時代のGitホスティングサービス「Origin」、Cursorが発表。Cursorとの統合、コマンドラインでの操作、GitHubとの同期など提供",
+      "url": "https://www.publickey1.jp/blog/26/aigitorigincursorcursorgithub.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-18T15:43:29.000Z",
+      "image": "https://www.publickey1.jp/2026/cursor-origin-pb01.png"
+    },
+    {
+      "title": "16型で990gを実現した憧れのモバイルノート「Swift Air 16」の新モデル発表",
+      "url": "https://ascii.jp/elem/000/004/427/4427585/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-18T15:01:00.000Z",
+      "image": "https://ascii.jp/img/2026/08/18/4514173/xl/fcebae39ef984071.png?20200122"
+    },
+    {
+      "title": "【竹内択・葛西紀明・高梨沙羅ら集結】新感覚スポーツフェス「teamtaku CUP TAKE AIR 2026」10月12日長野県飯山市で開催決定！本日18時よりチケット販売開始",
+      "url": "https://ascii.jp/elem/000/004/427/4427573/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-18T09:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "AWSジャパン、「LEAP」で産官学金の連携加速へ--地域企業のAI導入を最大5万ドル支援",
+      "url": "https://japan.zdnet.com/article/35251645/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-18T08:05:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/18/b84d196489475f0ffa934f0efad69952/t/1280/960/d/260818_aws_001.jpg"
+    },
+    {
+      "title": "無料で読めるAIエージェントの実践ガイド、Googleが公開 基礎から本番実装まで学べる",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/18/news055.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-18T08:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2608/18/cover_news055.jpg"
     },
     {
       "title": "Get closer to the game with Gemini and Pixel",
@@ -38,52 +103,12 @@
       "titleJa": "OpenAIがPORTS-Pikeプロジェクトに参加"
     },
     {
-      "title": "Visual Studio Code 1.133正式リリース。プロンプトを見失わない固定スクロール、ローカルHTMLファイルの自動リロード、ClaudeとCopilotの混在可能など新機能",
-      "url": "https://www.publickey1.jp/blog/26/visual_studio_code_1133htmlclaudecopilot.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-08-17T15:42:34.000Z",
-      "image": "https://www.publickey1.jp/2026/HPidRiCXQAEGSPk.jpg"
-    },
-    {
-      "title": "NTTドコモビジネスとエクサウィザーズ、「クローズドAIエージェント」を提供開始",
-      "url": "https://japan.zdnet.com/article/35251625/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-17T09:41:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/08/20/1266f24cdb864210cdd13f8be520cb6d/250820_edge_as_1280_1423601150.jpg"
-    },
-    {
-      "title": "人型ロボが“人間超え”――助走なしで高さ2mのジャンプ、時速45kmで走行も 中国Unitreeが開発中の新モデルを公開",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/17/2000000567/",
+      "title": "Cursor、コードホスティング機能「Origin」の初期βを提供開始 GitHubとの双方向同期に対応",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/18/2000000575/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-08-17T07:58:35.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/17/2000000567/10002815/2048"
-    },
-    {
-      "title": "「ChatGPT」新機能の「コンピューター履歴」、プライバシーリスクとなるのか",
-      "url": "https://japan.zdnet.com/article/35251613/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-17T05:15:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/17/6fd8b2d77a179147c9d5a85558c92bf0/chatgpt-mac-app_l.jpg"
-    },
-    {
-      "title": "アカマイ、AIガバナンスを搭載した「Workforce Protector」で安全なウェブ利用へ",
-      "url": "https://japan.zdnet.com/article/35251599/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-17T02:34:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/17/c6f79b5ff78e57b78e87b404802d9383/260807_akamai_001.JPG"
-    },
-    {
-      "title": "Appleの新ツールはAI搭載の接客録音? プライバシー派には気になる話",
-      "url": "https://www.gizmodo.jp/article/apple-has-reportedly-started-recording-and-ai-summarizing-conversations-at-the-genius-bar/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-08-17T02:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/08/17/8513ec49-0236-462e-a850-514f71af00d2/original.jpg?w=1200&h=630"
+      "date": "2026-08-17T23:40:47.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/18/2000000575/10002850/2048"
     },
     {
       "title": "OpenAI reportedly disbanded its preparedness team",
@@ -93,31 +118,6 @@
       "date": "2026-08-16T21:32:56.000Z",
       "titleJa": "OpenAIは準備チームを解散したと伝えられている",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/08/STK149_AI_01.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Stripe will reportedly acquire AI gateway startup OpenRouter for $7B+",
-      "url": "https://techcrunch.com/2026/08/16/stripe-will-reportedly-acquire-ai-gateway-startup-openrouter-for-7b/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-16T20:57:04.000Z",
-      "titleJa": "Stripe が AI ゲートウェイのスタートアップ OpenRouter を 70 億ドル以上で買収すると報じられている",
-      "image": "https://techcrunch.com/wp-content/uploads/2024/04/Stripe-resized.webp?resize=1200,674"
-    },
-    {
-      "title": "ChatGPT、Macでのクリックや文字入力を記憶する新機能--「あのファイルはどこ？」にも回答",
-      "url": "https://japan.cnet.com/article/35251587/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-16T23:23:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/17/5e534656616f1ce3e4771fe80954e57e/IMG_5814__1_.jpg"
-    },
-    {
-      "title": "Claudeで障害 アクセスできず（復旧）",
-      "url": "https://japan.cnet.com/article/35251584/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-16T22:17:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/17/17ad09f888fe0fb6a91990bbb7804ec4/2026-08-17_7.16の画像.jpeg"
     }
   ]
 }
