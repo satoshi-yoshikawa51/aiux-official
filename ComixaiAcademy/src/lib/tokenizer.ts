@@ -39,6 +39,10 @@ let inflight: Promise<Enc> | null = null;
 /** 落ちてこないまま待ち続けない上限。これを過ぎたら失敗として扱う */
 const LOAD_TIMEOUT_MS = 15000;
 
+const WEB = typeof document !== 'undefined';
+/** 読み直しを1周期に1回だけに抑える鍵（→ reloadForStaleChunk） */
+const RELOAD_KEY = 'comixai-tokenizer-reloaded';
+
 /**
  * BPEの表を読み込む。2回目以降は即返る。
  *
@@ -72,6 +76,49 @@ export function loadTokenizer(): Promise<Enc> {
 /** すでに読み込み済みか（読み込み中の表示を出すかの判断に使う） */
 export function tokenizerReady(): boolean {
   return cached !== null;
+}
+
+/* ============================================================
+   ▍**先に温めておく**（→ app/_layout.tsx が起動後に1回呼ぶ）
+
+   表は最初のレッスン（basics-1）の体験カードで使う。そこまで来てから
+   1MBを取りにいくと、電波が細い所では**カードを開いた目の前で15秒待たされて
+   失敗する**。起動して落ち着いたころに裏で取っておけば、たいていは
+   カードに着く前に終わっている。
+
+   失敗しても何もしない（画面には出さない）。使う場所で改めて呼ばれる。
+   ============================================================ */
+export function warmTokenizer(): void {
+  if (cached || inflight) return;
+  loadTokenizer().catch(() => {});
+}
+
+/* ============================================================
+   ▍**古いままの画面を、読み直して直す**（Webだけ）
+
+   表は本体とは別の1MBのファイルで、名前に中身のハッシュが入っている。
+   開いたまま新しい版を配ると、**いま開いている画面が知っているファイル名は
+   もうサーバーに無い**。SPAの決まりで存在しないパスは index.html に寄せて
+   いたので、JSのつもりで**HTMLが返ってきて**読み込みが必ず失敗し、
+   「もう一度よみこむ」を押しても同じHTMLが返るだけで永久に直らなかった
+   （実機で報告）。配信側は直したが（vercel.json）、**すでに古い画面を
+   開いている人は、読み直さないと新しいファイル名を知りようがない**。
+
+   なので、失敗したときに1回だけページを読み直す。同じ周期で何度も
+   読み直してループにならないよう、鍵を1つ置いて見張る。
+   ============================================================ */
+export function reloadForStaleChunk(): boolean {
+  if (!WEB) return false;
+  try {
+    if (sessionStorage.getItem(RELOAD_KEY)) return false;
+    sessionStorage.setItem(RELOAD_KEY, '1');
+  } catch {
+    /* プライベートモードなどで sessionStorage が使えないときは、
+       見張りを持てない。ループを避けるため読み直さない */
+    return false;
+  }
+  location.reload();
+  return true;
 }
 
 /**

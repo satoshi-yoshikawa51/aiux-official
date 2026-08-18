@@ -69,7 +69,7 @@ import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
 import { playMusic } from '@/lib/music';
 import { playClear, playSound } from '@/lib/sound';
-import { loadTokenizer, toChips, type TokenChip } from '@/lib/tokenizer';
+import { loadTokenizer, reloadForStaleChunk, toChips, type TokenChip } from '@/lib/tokenizer';
 import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
@@ -994,6 +994,8 @@ function TokenPlay({
   const [load, setLoad] = React.useState<'loading' | 'ready' | 'failed'>('loading');
   /* 「もう一度よみこむ」を押した回数。増やすと下の読み込みが走り直す */
   const [tries, setTries] = React.useState(0);
+  /* 何回続けて転んだか。2回目からは画面ごと読み直す（→ 下の読み込み） */
+  const fails = React.useRef(0);
   const ready = load === 'ready';
 
   /* 何枚目から先が「新しく増えたぶん」か。ここから右だけを跳ねさせる
@@ -1018,7 +1020,19 @@ function TokenPlay({
     setLoad('loading');
     loadTokenizer()
       .then(() => alive && setLoad('ready'))
-      .catch(() => alive && setLoad('failed'));
+      .catch(() => {
+        if (!alive) return;
+        fails.current += 1;
+        /* ▍**押しても直らない**のがいちばん悪い
+           表は名前にハッシュの入った別ファイル。新しい版を配ったあとの
+           古い画面は、もう無いファイル名を取りにいくので、何度押しても
+           同じところで転ぶ（→ lib/tokenizer.ts の reloadForStaleChunk）。
+           1回目は電波かもしれないのでその場で取り直させる。**2回続けて
+           転んだら、画面ごと読み直して名前を仕入れ直す**。
+           読み直したときはこの画面も作り直されるので、あとは何もしない */
+        if (fails.current >= 2 && reloadForStaleChunk()) return;
+        setLoad('failed');
+      });
     return () => {
       alive = false;
     };
@@ -1092,7 +1106,7 @@ function TokenPlay({
                 </Text>
               </View>
               <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>
-                {'区切りを数えるのに、少し大きなデータを取りにいっています。電波の届く所で、もう一度どうぞ。'}
+                {'区切りを数えるのに、少し大きなデータを取りにいっています。電波の届く所で、もう一度どうぞ。\nそれでも届かないときは、画面を読み直します（進み具合は消えません）。'}
               </Text>
               <GameButton label="もう一度よみこむ" onPress={() => setTries((n) => n + 1)} />
             </View>

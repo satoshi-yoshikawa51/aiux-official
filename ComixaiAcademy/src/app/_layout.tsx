@@ -14,6 +14,7 @@ import { RankUpGate } from '@/components/rank-up';
 import { TermSheetProvider } from '@/components/term-text';
 import { playMusic, resumeMusic, stopMusic } from '@/lib/music';
 import { preloadSounds } from '@/lib/sound';
+import { warmTokenizer } from '@/lib/tokenizer';
 import { ProgressProvider, useProgress } from '@/store/progress';
 import { C, FONT, T } from '@/theme';
 
@@ -114,6 +115,15 @@ export default function RootLayout() {
   /* 効果音を先に読み込む。押された瞬間に読み込むと初回だけ遅れて鳴る */
   React.useEffect(() => {
     preloadSounds();
+  }, []);
+
+  /* ▍トークンの表（1MB）は、落ち着いたころに裏で取っておく
+     最初のレッスンの体験カードで使う。そこまで来てから取りにいくと、
+     電波が細い所では**カードを開いた目の前で待たされて失敗する**。
+     起動直後は絵とモデルの読み込みで詰まっているので、少し待ってから */
+  React.useEffect(() => {
+    const t = setTimeout(warmTokenizer, 4000);
+    return () => clearTimeout(t);
   }, []);
 
   if (!fontsReady) return null;
