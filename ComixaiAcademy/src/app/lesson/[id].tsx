@@ -17,7 +17,6 @@ import { Icon } from '@/components/icons';
 import { LessonInteractiveCard } from '@/components/lesson-interactive';
 import { LessonTitle } from '@/components/lesson-title';
 import { MissTag, QuizChoices, QuizExplain, QuizTimer, TIMED_OUT } from '@/components/quiz';
-import { RankUpScreen } from '@/components/rank-up';
 import { hasTerm, TermHint, TermText } from '@/components/term-text';
 import { SlideIn, Stamp } from '@/components/motion';
 import {
@@ -34,7 +33,7 @@ import {
 import { playSound } from '@/lib/sound';
 import { getAvatar } from '@/data/avatars';
 import { BadgeArt } from '@/components/badge-art';
-import { getBadge, prevTitle, titleSay, type Title } from '@/data/badges';
+import { getBadge, titleSay, type Title } from '@/data/badges';
 import { COURSES, gameKeyOf, getLesson, lessonCards, resolveCard } from '@/data/courses';
 import { getRole } from '@/data/roles';
 import { LESSON_VOICE, say as voice } from '@/data/voice';
@@ -88,7 +87,6 @@ export default function LessonScreen() {
     coinsGained: number;
   } | null>(null);
   /* ランクアップの演出を出しているあいだ。**結果画面より前に**割り込ませる */
-  const [rankUp, setRankUp] = React.useState<Title | null>(null);
   const savedRef = React.useRef(false);
 
   React.useLayoutEffect(() => {
@@ -161,14 +159,14 @@ export default function LessonScreen() {
     savedRef.current = true;
     const r = completeLesson(found.lesson.id, misses === 0);
     setResult(r);
-    /* 称号が上がったら、結果を読ませる前に演出を差し込む。
-       ここでしか上がらないものなので、結果画面のカード1枚では軽すぎる */
-    if (r.newTitle) setRankUp(r.newTitle);
     /* ▍音は「いちばん大きい出来事」だけ鳴らす
        修了・バッジ・昇格が同時に起きるので、全部鳴らすと濁る。
-       昇格があるなら昇格の音は演出側（rank-up.tsx）が鳴らすので、
-       ここは鳴らさない */
-    if (!r.newTitle) playSound(r.newBadges.length > 0 ? 'badge' : 'finish');
+       バッジと昇格の音は演出側（badge-unlock.tsx / rank-up.tsx）が
+       鳴らすので、ここは**何も無かったとき**だけ鳴らす。
+       演出そのものも根元に移した（→ app/_layout.tsx）——結果画面だけに
+       置いていたころは、ミニゲームの★や復習の卒業で取ったバッジが
+       黙って増えるだけだった */
+    if (!r.newTitle && r.newBadges.length === 0) playSound('finish');
     avatarRef.current?.play(misses === 0 ? 'laugh' : 'bow');
     avatarRef.current?.emote(misses === 0 ? 'sparkle' : 'bulb');
   }, [phase, found, misses, completeLesson]);
@@ -672,12 +670,6 @@ export default function LessonScreen() {
           </SlideIn>
         ) : null}
 
-        {/* ———— 称号ランクアップ ————
-             結果を読ませる前に全画面で割り込む。閉じるまで結果は裏にいる。
-             ここでしか上がらないご褒美なので、カード1枚では軽すぎた */}
-        {rankUp ? (
-          <RankUpScreen from={prevTitle(rankUp)} to={rankUp} onDone={() => setRankUp(null)} />
-        ) : null}
       </>
     </Screen>
 

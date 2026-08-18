@@ -70,6 +70,7 @@ import { gradePrompt, type GradeResult } from '@/lib/grade';
 import { playMusic } from '@/lib/music';
 import { playClear, playSound } from '@/lib/sound';
 import { loadTokenizer, toChips, type TokenChip } from '@/lib/tokenizer';
+import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
 const NATIVE = Platform.OS !== 'web';
@@ -259,6 +260,13 @@ export function MiniGame({
     playMusic('game');
     return () => playMusic('lesson');
   }, []);
+
+  /* ▍開いているあいだ、バッジの祝いを止める
+     ★3を取った瞬間にバッジが立つ（→ store/progress.tsx の recordGame）。
+     祝いの画面もModalなので、このModalの下に隠れたまま自動で閉じてしまう。
+     閉じてから出す。ゲームのクリア画面と祝いが重ならない利点もある */
+  const { holdBadges } = useProgress();
+  React.useEffect(() => holdBadges(), [holdBadges]);
 
   /* ▍タイトルは**押すまで消えない**
      もとは1.3秒で自動で先へ進んでいたが、この画面には遊び方と

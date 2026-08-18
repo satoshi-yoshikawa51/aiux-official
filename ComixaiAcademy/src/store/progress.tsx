@@ -35,6 +35,10 @@ import { setSoundEnabled } from '@/lib/sound';
 
 const KEY = 'comixai-academy-v1';
 
+/** 止めているあいだに返す空の列。毎回 [] を作ると、受け取る側が
+    「変わった」と誤解して無駄に描き直す */
+const EMPTY_QUEUE: string[] = [];
+
 /* ============================================================
    ▍復習（間隔をあけて出し直す）
 
@@ -285,6 +289,28 @@ interface Ctx {
   state: ProgressState;
   /** AsyncStorageからの読み込みが終わったか */
   ready: boolean;
+  /* ============================================================
+     ▍**取った瞬間に祝う**ための待ち行列（→ components/badge-unlock.tsx）
+
+     バッジは25種あって、取れる場所もばらばら（レッスンの結果・おまけ・
+     ミニゲームの★・復習の卒業・アバターや職種を決めた瞬間）。
+     祝う仕掛けを画面ごとに書くと必ず取りこぼすので、**獲得を1本の列に
+     集めて、根元に置いた1枚が順番に出す**。
+
+     保存しない（端末に残す意味が無い）。読み込み時のバッジ判定は
+     applyBadges を通らないので、**起動しただけで25連発**にはならない。 */
+  badgeQueue: string[];
+  /** 先頭の1件を出し終えた（→ 次があれば続けて出る） */
+  dismissBadge: () => void;
+  /** 上がった称号。バッジを出し終えてから昇格の演出に入る
+      （→ components/rank-up.tsx。バッジ → 昇格 の順にする） */
+  pendingTitle: Title | null;
+  dismissTitle: () => void;
+  /* ▍ミニゲームのように**別の窓が前に出ている**あいだは出さない
+     祝いの画面はModalなので、ミニゲームのModalの下に隠れて、
+     見えないまま自動で閉じてしまう。開いているあいだは列を止めて、
+     閉じたところで出す。返り値を呼ぶと止めるのをやめる */
+  holdBadges: () => () => void;
   setAvatar: (id: string) => void;
   setRole: (id: RoleId) => void;
   completeLesson: (lessonId: string, perfect: boolean) => CompletionResult;
@@ -405,8 +431,37 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  /** バッジ判定を回して、新しく獲得したものを反映する */
+  /* 祝いの待ち行列（→ Ctx のメモ） */
+  const [badgeQueue, setBadgeQueue] = React.useState<string[]>([]);
+  const [pendingTitle, setPendingTitle] = React.useState<Title | null>(null);
+  const [holds, setHolds] = React.useState(0);
+  const dismissBadge = React.useCallback(() => setBadgeQueue((q) => q.slice(1)), []);
+  const dismissTitle = React.useCallback(() => setPendingTitle(null), []);
+  const holdBadges = React.useCallback(() => {
+    setHolds((n) => n + 1);
+    let released = false;
+    return () => {
+      if (released) return;
+      released = true;
+      setHolds((n) => Math.max(0, n - 1));
+    };
+  }, []);
+
+  /* ============================================================
+     ▍**バッジも称号もPも、ここ1本にまとめる**
+
+     前は「バッジを立てる」だけがここで、称号の判定とPの加算は
+     completeLesson と clearExtra が**それぞれ**持っていた。すると
+     ミニゲームの★や復習の卒業で取れたバッジは、その場では立たず
+     （＝祝えず・Pも出ず）、次にレッスンを終えたときに黙って増えていた。
+     しかもそのとき称号の「前」の値には既に入っているので、
+     **昇格の演出ごと素通り**することがあった。
+
+     判定は1か所。返すのは「新しいバッジ・上がった称号・増えたP」。
+     呼ぶ側は persist するときにPを足すだけでいい。
+     ============================================================ */
   const applyBadges = React.useCallback((base: ProgressState) => {
+    const beforeTitle = titleFor(Object.keys(base.badges).length);
     const earned = evaluateBadges(base);
     const badges = { ...base.badges };
     const newBadges: string[] = [];
@@ -417,49 +472,51 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         newBadges.push(id);
       }
     }
-    return { next: { ...base, badges }, newBadges };
+    const afterTitle = titleFor(Object.keys(badges).length);
+    const newTitle = afterTitle.name !== beforeTitle.name ? afterTitle : null;
+    /* ガチャP：バッジ+1／称号が上がったら+3（→ data/gacha.ts） */
+    const coinsGained = newBadges.length + (newTitle ? 3 : 0);
+    if (newBadges.length) setBadgeQueue((q) => [...q, ...newBadges]);
+    if (newTitle) setPendingTitle(newTitle);
+    return { next: { ...base, badges }, newBadges, newTitle, coinsGained };
   }, []);
+
+  /** 祝ったぶんのPを足して保存する。applyBadges の結果をそのまま渡す */
+  const persistWith = React.useCallback(
+    (r: { next: ProgressState; coinsGained: number }, extraCoins = 0) =>
+      persist({ ...r.next, coins: r.next.coins + r.coinsGained + extraCoins }),
+    [persist],
+  );
 
   const setAvatar = React.useCallback(
     (id: string) => {
-      const { next } = applyBadges({ ...ref.current, avatarId: id });
-      persist(next);
+      persistWith(applyBadges({ ...ref.current, avatarId: id }));
     },
-    [applyBadges, persist],
+    [applyBadges, persistWith],
   );
 
   const setRole = React.useCallback(
     (id: RoleId) => {
-      const { next } = applyBadges({ ...ref.current, roleId: id });
-      persist(next);
+      persistWith(applyBadges({ ...ref.current, roleId: id }));
     },
-    [applyBadges, persist],
+    [applyBadges, persistWith],
   );
 
   const completeLesson = React.useCallback(
     (lessonId: string, perfect: boolean): CompletionResult => {
       const prev = ref.current;
-      const beforeTitle = titleFor(Object.keys(prev.badges).length);
       const day = today();
 
-      const base: ProgressState = {
+      const r = applyBadges({
         ...prev,
         done: { ...prev.done, [lessonId]: prev.done[lessonId] ?? Date.now() },
         perfect: perfect ? { ...prev.perfect, [lessonId]: prev.perfect[lessonId] ?? Date.now() } : prev.perfect,
         days: prev.days.includes(day) ? prev.days : [day, ...prev.days].slice(0, 60),
-      };
-
-      const { next, newBadges } = applyBadges(base);
-
-      const afterTitle = titleFor(Object.keys(next.badges).length);
-      const newTitle = afterTitle.name !== beforeTitle.name ? afterTitle : null;
-      /* ガチャP：バッジ+1／称号が上がったら+3（→ data/gacha.ts） */
-      const coinsGained = newBadges.length + (newTitle ? 3 : 0);
-      persist({ ...next, coins: next.coins + coinsGained });
-
-      return { newBadges, newTitle, coinsGained };
+      });
+      persistWith(r);
+      return { newBadges: r.newBadges, newTitle: r.newTitle, coinsGained: r.coinsGained };
     },
-    [applyBadges, persist],
+    [applyBadges, persistWith],
   );
 
   /* ▍間違えたときだけ記録を作る
@@ -481,9 +538,13 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
             };
           })()
         : { streak: 0, wrong: (prev?.wrong ?? 0) + 1, due: now };
-      persist({ ...ref.current, quiz: { ...ref.current.quiz, [quizId]: next } });
+      /* ▍ここでもバッジ判定を回す（復習の卒業＝review-first / review-10）
+         前はレッスンを1本終えるまで判定が走らず、**卒業した瞬間ではなく
+         次にレッスンを終えたときに黙って増えていた**。取った瞬間に祝えない
+         のはここが原因のひとつ */
+      persistWith(applyBadges({ ...ref.current, quiz: { ...ref.current.quiz, [quizId]: next } }));
     },
-    [persist],
+    [applyBadges, persistWith],
   );
 
   const recordGame = React.useCallback(
@@ -493,22 +554,19 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       const next: GameRecord = better
         ? { stars, misses, ms, plays: (prev?.plays ?? 0) + 1 }
         : { ...prev, plays: prev.plays + 1 };
-      persist({ ...ref.current, games: { ...ref.current.games, [lessonId]: next } });
+      /* ★のバッジ（star-first / star-5 / star-all）も、取った瞬間に */
+      persistWith(applyBadges({ ...ref.current, games: { ...ref.current.games, [lessonId]: next } }));
     },
-    [persist],
+    [applyBadges, persistWith],
   );
 
   const passExam = React.useCallback(
     (courseId: string) => {
       if (ref.current.exams[courseId]) return;
-      persist({
-        ...ref.current,
-        exams: { ...ref.current.exams, [courseId]: Date.now() },
-        /* 初回合格はガチャP +2 */
-        coins: ref.current.coins + 2,
-      });
+      /* 初回合格はガチャP +2。バッジが同時に取れたらそのぶんも足す */
+      persistWith(applyBadges({ ...ref.current, exams: { ...ref.current.exams, [courseId]: Date.now() } }), 2);
     },
-    [persist],
+    [applyBadges, persistWith],
   );
 
   /* ▍おまけのクリア
@@ -518,24 +576,19 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const clearExtra = React.useCallback(
     (prizeId: string): CompletionResult => {
       const prev = ref.current;
-      const beforeTitle = titleFor(Object.keys(prev.badges).length);
       const first = !prev.extras[prizeId];
-      const base: ProgressState = {
+      const r = applyBadges({
         ...prev,
         extras: { ...prev.extras, [prizeId]: prev.extras[prizeId] ?? Date.now() },
         /* おまけも「今日やった」に数える。連続日数のためにレッスンを
            1本開かせるのは筋が悪い */
         days: prev.days.includes(today()) ? prev.days : [today(), ...prev.days].slice(0, 60),
-      };
-      const { next, newBadges } = applyBadges(base);
-      const afterTitle = titleFor(Object.keys(next.badges).length);
-      const newTitle = afterTitle.name !== beforeTitle.name ? afterTitle : null;
+      });
       const reward = first ? EXTRA_REWARD[rarityOfPrize(prizeId) ?? 'N'] : 0;
-      const coinsGained = reward + newBadges.length + (newTitle ? 3 : 0);
-      persist({ ...next, coins: next.coins + coinsGained });
-      return { newBadges, newTitle, coinsGained };
+      persistWith(r, reward);
+      return { newBadges: r.newBadges, newTitle: r.newTitle, coinsGained: r.coinsGained + reward };
     },
-    [applyBadges, persist],
+    [applyBadges, persistWith],
   );
 
   const claimLoginBonus = React.useCallback((): boolean => {
@@ -599,10 +652,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
          （当てたキャラは skins に入る → data/gacha.ts） */
       const base = AVATARS.find((a) => a.id === avatarId);
       if (!base || !ownsAvatar(base, ref.current.skins)) return;
-      const { next } = applyBadges({ ...ref.current, avatarId });
-      persist(next);
+      persistWith(applyBadges({ ...ref.current, avatarId }));
     },
-    [applyBadges, persist],
+    [applyBadges, persistWith],
   );
 
   /* ▍鳴らす側は毎回ストアを見ない
@@ -680,6 +732,12 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     () => ({
       state,
       ready,
+      /* 別の窓（ミニゲーム）が前に出ているあいだは、空に見せて止める */
+      badgeQueue: holds > 0 ? EMPTY_QUEUE : badgeQueue,
+      dismissBadge,
+      pendingTitle: holds > 0 ? null : pendingTitle,
+      dismissTitle,
+      holdBadges,
       setAvatar,
       setRole,
       completeLesson,
@@ -707,6 +765,12 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [
       state,
       ready,
+      badgeQueue,
+      dismissBadge,
+      pendingTitle,
+      dismissTitle,
+      holds,
+      holdBadges,
       setAvatar,
       setRole,
       completeLesson,

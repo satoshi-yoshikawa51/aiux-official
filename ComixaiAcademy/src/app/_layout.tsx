@@ -8,7 +8,9 @@ import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { BadgeUnlock } from '@/components/badge-unlock';
 import { SparkLayer } from '@/components/motion';
+import { RankUpGate } from '@/components/rank-up';
 import { TermSheetProvider } from '@/components/term-text';
 import { playMusic, resumeMusic, stopMusic } from '@/lib/music';
 import { preloadSounds } from '@/lib/sound';
@@ -161,6 +163,12 @@ export default function RootLayout() {
               <Stack.Screen name="sheet" options={{ title: '持ち帰り', headerBackTitle: '戻る' }} />
               <Stack.Screen name="ending" options={{ headerShown: false }} />
             </Stack>
+            {/* ▍ご褒美の演出は、根元に1枚ずつ置く
+                取れる場所が画面じゅうに散っているので、画面ごとに書くと
+                必ず取りこぼす（→ components/badge-unlock.tsx）。
+                **バッジ → 昇格の順**。昇格はバッジが出終わるまで待つ */}
+            <BadgeUnlock />
+            <RankUpGate />
           </OnboardingGate>
           </TermSheetProvider>
           </SparkLayer>
