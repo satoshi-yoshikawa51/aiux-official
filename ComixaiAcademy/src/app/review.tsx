@@ -28,8 +28,10 @@ import { Avatar3D, type AvatarHandle } from '@/avatar/Avatar3D';
 import { Icon } from '@/components/icons';
 import { SlideIn } from '@/components/motion';
 import { MissTag, QuizChoices, QuizExplain } from '@/components/quiz';
-import { Badge, Bubble, Button, Panel, Row, Screen } from '@/components/ui';
+import { RankUpScreen } from '@/components/rank-up';
+import { Badge, Bubble, Button, Card, Panel, Row, Screen } from '@/components/ui';
 import { getAvatar } from '@/data/avatars';
+import { getBadge, prevTitle, type Title } from '@/data/badges';
 import type { QuizEntry } from '@/data/courses';
 import { REVIEW_VOICE, say as voice } from '@/data/voice';
 import { useProgress, useReview } from '@/store/progress';
@@ -63,6 +65,12 @@ export default function ReviewScreen() {
   const [right, setRight] = React.useState(0);
   const [misses, setMisses] = React.useState(0);
   const [done, setDone] = React.useState(false);
+  /* ▍卒業で付いたバッジ・称号は、この画面で見せ切る
+     前は answerQuiz が判定を持たず、復習で最後のバッジが埋まると
+     **次の起動時に無音で**称号が変わっていた。ここで受け取って、
+     結果画面にバッジを、称号はレッスンと同じ全画面の演出を出す */
+  const [gained, setGained] = React.useState<string[]>([]);
+  const [rankUp, setRankUp] = React.useState<Title | null>(null);
 
   const entry = queue?.[i];
   const quiz = entry?.item;
@@ -73,7 +81,9 @@ export default function ReviewScreen() {
     const ok = n === quiz.answer;
     if (ok) setRight((v) => v + 1);
     else setMisses((v) => v + 1);
-    answerQuiz(quiz.id, ok);
+    const r = answerQuiz(quiz.id, ok);
+    if (r.newBadges.length) setGained((g) => [...g, ...r.newBadges]);
+    if (r.newTitle) setRankUp(r.newTitle);
     if (Platform.OS !== 'web') {
       Haptics.notificationAsync(
         ok ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Warning,
@@ -208,8 +218,33 @@ export default function ReviewScreen() {
               <Badge tone="green">卒業 {review.graduated}問</Badge>
             </Row>
           </Panel>
+
+          {gained.length > 0 ? (
+            <Card tone="accent">
+              <Text style={F.kicker}>BADGE UNLOCKED</Text>
+              {gained.map((bid) => {
+                const b = getBadge(bid);
+                if (!b) return null;
+                return (
+                  <Row key={bid} gap={S.sm} style={{ marginTop: S.xs }}>
+                    <Icon name={b.icon} size={30} color={T.text} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={F.h2}>{b.name}</Text>
+                      <Text style={F.tiny}>{b.desc}</Text>
+                    </View>
+                  </Row>
+                );
+              })}
+            </Card>
+          ) : null}
+
           <Button label="ホームにもどる" onPress={() => router.replace('/')} />
         </SlideIn>
+      ) : null}
+
+      {/* 昇格はバッジのカード1枚では軽すぎるので、レッスンと同じ全画面で */}
+      {done && rankUp ? (
+        <RankUpScreen from={prevTitle(rankUp)} to={rankUp} onDone={() => setRankUp(null)} />
       ) : null}
     </Screen>
   );
