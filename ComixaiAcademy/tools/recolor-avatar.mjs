@@ -128,12 +128,29 @@ const IHMAX = opt('island-hmax', null) === null ? HMAX : Number(opt('island-hmax
    落とすと、同じ島に載っているジャケットの一部が黒い染みになる。
 
    島は「どのチャートを触るか」までしか決められないので、
-   **その中のどの画素かは明度で切る**。上着は0.15〜0.25、インナーは
-   0.45〜0.60 と、絵の上では十分に離れている。
-   境目は --pfade（既定0.06）でなめらかにする。 */
+   **その中のどの画素かは明度で切る**。上着は0.05〜0.22、インナーは
+   0.55〜0.80 と、絵の上では十分に離れている（谷の真ん中で切る）。
+   切ったあとの形は --pclean で整える（→ 下の「領域として作る」）。 */
 const PLMIN = opt('plmin', null) === null ? null : Number(opt('plmin'));
 const PLMAX = opt('plmax', null) === null ? null : Number(opt('plmax'));
-const PFADE = Number(opt('pfade', 0.06));
+/* ============================================================
+   ▍**2色をいっぺんに塗る**（--hue2/--light2/--sat2）
+
+   せんぱいは「ジャケットを生成り、インナーを黒」の2色。はじめは
+   二度塗りでやっていたが、**2回とも別々にしきい値を引くので、
+   境目が合わない**——上着のハイライトが2回目で黒く抜け、Tシャツの影が
+   1回目で生成りに抜ける。どちらも数画素の傷なのに、遠目には
+   「ふちが食われた」ように見えて致命的だった。
+
+   いまは1回で塗る。--plmin/--plmax で作った領域の**内側を1色目、
+   外側（同じ島の中だけ）を2色目**にする。同じ1本の線で分けるので、
+   すき間も重なりも原理的に出ない。
+   ============================================================ */
+const HUE2 = opt('hue2', null) === null ? null : Number(opt('hue2'));
+const LIGHT2 = opt('light2', null) === null ? null : Number(opt('light2'));
+const SAT2 = opt('sat2', null) === null ? null : Number(opt('sat2'));
+const CONTRAST2 = Number(opt('contrast2', CONTRAST));
+const SHADOW2 = opt('shadow2', null) === null ? null : Number(opt('shadow2'));
 if (!ID) {
   console.error('使い方: node tools/recolor-avatar.mjs <モデルID> --diagnose');
   process.exit(1);
@@ -166,10 +183,7 @@ const sdata = sel.data;
 const sch = sel.info.channels;
 if (sel.info.width !== SIZE) throw new Error('--stats のテクスチャは同じ大きさにしてください');
 
-const smooth = (a, b, x) => {
-  const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
-  return t * t * (3 - 2 * t);
-};
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 
 /* ---------- GLBを読む（recolor-sensei.mjs と同じ読み方） ---------- */
 function readGlb(p) {
@@ -250,6 +264,13 @@ function dilate(mask, times) {
     src = dst;
   }
   return src;
+}
+
+/** dilate の逆。ふちを削る（開く／閉じるを作るのに要る） */
+function erode(mask, times) {
+  const inv = Uint8Array.from(mask, (v) => (v ? 0 : 255));
+  const grown = dilate(inv, times);
+  return Uint8Array.from(grown, (v) => (v ? 0 : 255));
 }
 
 function rgbToHsl(r, g, b) {
@@ -458,9 +479,61 @@ if (!ISLANDS.length) {
    最後に3x3で軽くならして、1画素だけ浮くのも消す。
    ============================================================ */
 const w = new Float32Array(SIZE * SIZE);
+/** 2色目（明度の窓の外側）。--hue2 を渡したときだけ使う */
+const w2 = new Float32Array(SIZE * SIZE);
 /* 画素単位で拾ったところ（＝顔の島の中の前髪）。瞳ガードはここにだけ効かせる */
 const fromEdge = new Uint8Array(SIZE * SIZE);
-/** 明度の窓（--plmin/--plmax）で落とした画素。ふちを広げるときも避ける */
+
+/* ============================================================
+   ▍明度の窓は**「領域」として作る**。画素ごとにしきい値で切らない
+
+   はじめは画素ごとに明度でなめらかに切っていた。数字の上では正しいのに、
+   **ジャケットのふちがギザギザに食われた**——服の輪郭は絵の上でぼかして
+   描いてあるので、境目の画素は中間の明るさになり、しきい値の前後を
+   行ったり来たりする。しきい値が拾うのは「服の輪郭」ではなく
+   「明るさの等高線」で、そこにノイズが乗る。
+
+   なので2値にしたあと**開いて閉じる**（開く＝はみ出た点を消す、
+   閉じる＝空いた穴を埋める）。輪郭が服の形になり、ふちが落ち着く。
+   ============================================================ */
+const gate = new Uint8Array(SIZE * SIZE).fill(255);
+if (PLMIN !== null || PLMAX !== null) {
+  for (let p = 0; p < SIZE * SIZE; p++) {
+    if (islandMap[p] < 0) continue; // アトラスの余白は塞がない
+    const i = p * sch;
+    const [, , l] = rgbToHsl(sdata[i] / 255, sdata[i + 1] / 255, sdata[i + 2] / 255);
+    if ((PLMIN !== null && l < PLMIN) || (PLMAX !== null && l > PLMAX)) gate[p] = 0;
+  }
+  /* ▍しきい値のノイズは、**小さいかたまりを消す**ことで落とす
+     しきい値そのものは合っていても、上着のハイライト（明るい）と
+     Tシャツの影（暗い）は窓の反対側へこぼれる。半径で開いて閉じても
+     大きさによっては残るので、**つながった小さいかたまりを、まわりに
+     合わせて塗りつぶす**。服は大きなひとかたまり、ハイライトや影は
+     小さなかたまり——という当たり前の事実だけを使う。 */
+  const AREA = Number(opt('parea', Math.round((SIZE * SIZE) / 12000)));
+  for (const target of [255, 0]) {
+    const seen = new Uint8Array(SIZE * SIZE);
+    for (let p0 = 0; p0 < SIZE * SIZE; p0++) {
+      if (seen[p0] || gate[p0] !== target) continue;
+      const comp = [p0];
+      seen[p0] = 1;
+      for (let h = 0; h < comp.length; h++) {
+        const p = comp[h], x = p % SIZE, y = (p / SIZE) | 0;
+        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+          const nx = x + dx, ny = y + dy;
+          if (nx < 0 || nx >= SIZE || ny < 0 || ny >= SIZE) continue;
+          const np = ny * SIZE + nx;
+          if (seen[np] || gate[np] !== target) continue;
+          seen[np] = 1; comp.push(np);
+        }
+      }
+      if (comp.length < AREA) for (const p of comp) gate[p] = target ? 0 : 255;
+    }
+  }
+  const R = Number(opt('pclean', 1));
+  if (R > 0) gate.set(erode(dilate(dilate(erode(gate, R), R), R), R));
+}
+/** 明度の窓で落とした画素。ふちを広げるときも避ける */
 const gated = new Uint8Array(SIZE * SIZE);
 let edged = 0;
 for (let p = 0; p < SIZE * SIZE; p++) {
@@ -468,17 +541,17 @@ for (let p = 0; p < SIZE * SIZE; p++) {
   if (isl < 0) continue;
   const i = p * sch;
   const [h, sPx, l] = rgbToHsl(sdata[i] / 255, sdata[i + 1] / 255, sdata[i + 2] / 255);
-  /* 明度の窓（→ --plmin/--plmax のメモ）。窓の外は0、境目はなめらかに */
-  const lGate =
-    (PLMIN === null ? 1 : smooth(PLMIN - PFADE, PLMIN + PFADE, l)) *
-    (PLMAX === null ? 1 : 1 - smooth(PLMAX - PFADE, PLMAX + PFADE, l));
-  if (lGate < 0.5) gated[p] = 255;
+  /* 明度の窓（→ 上のメモ）。境目のなめらかさは最後の3x3で付く */
+  const lGate = gate[p] ? 1 : 0;
+  if (!lGate) gated[p] = 255;
   if (pick.has(isl)) {
     /* ▍選んだ島の中でも、色が違いすぎる画素は弱くする（--strict）
        看板キャラの猫は、シャツと体の境目が黄緑のぼかしで描いてある。
        島ごと全部塗ると黄色い体に水色のしみが浮き、はっきり切ると
        境目が点々になる。**間を取って、離れるほど薄く塗る。** */
-    w[p] = (STRICT ? Math.max(0, 1 - hueGap(h, HMIN, HMAX) / STRICT_FADE) : 1) * lGate;
+    const base = STRICT ? Math.max(0, 1 - hueGap(h, HMIN, HMAX) / STRICT_FADE) : 1;
+    w[p] = base * lGate;
+    if (HUE2 !== null) w2[p] = base * (1 - lGate);
     continue;
   }
   if (!EDGE) continue;
@@ -525,30 +598,54 @@ if (KEEP_EYES) {
 }
 
 /* ============================================================
-   ▍ふちを2画素ぶん広げる。**アトラスの余白（島と島のあいだ）にも広げる**
+   ▍アトラスの余白は、**いちばん近い島の画素と同じ重み**にする
 
-   ここを島の中だけに限ると、**塗った服に黒い線が走る**。線の正体は
-   縫い目でも影でもなく、**島の境目の余白**（Tripoがにじみ止めに元の色を
-   広げてある所）で、描画のときの線形補間でそこを拾ってしまう。
-   おっとりのズボンに膝と内股のひび割れが出たのがこれだった。
+   塗った服に走る黒い線の正体は、縫い目でも影でもなく**島と島のあいだの
+   余白**（Tripoがにじみ止めに元の色を広げてある所）で、描画のときの
+   線形補間がそこを拾ってしまう。おっとりのズボンのひび割れも、
+   せんぱいの上着のギザギザも、どちらもこれだった。
 
-   ただし**2画素まで**。6画素まで広げたことがあるが、黒い上着の縫い目に
-   白い線が走った（隣り合う別の島の余白まで塗ってしまう）。
+   はじめは「ふちを2画素ぶん広げる」で埋めていた。**足りない**——
+   余白の幅はキャラとチャートでばらばらで、せんぱいの上着では
+   9000画素ぶん残っていた。かといって一律に6画素へ広げると、
+   **隣の島の余白まで塗ってしまう**（黒い上着に白い筋が走った）。
+
+   幅を当てにいくのをやめて、余白を**いちばん近い島の画素に帰属させる**。
+   にじみ止めの余白はもともとそういう作りなので、これなら隣の島へ
+   はみ出さないまま、何画素あっても埋まる。
    ============================================================ */
 {
-  const grown = dilate(Uint8Array.from(w, (v) => (v > 0.5 ? 255 : 0)), 2);
-  for (let p = 0; p < SIZE * SIZE; p++) if (grown[p] && !gated[p] && w[p] < 1) w[p] = Math.max(w[p], 1);
-  const sm = new Float32Array(SIZE * SIZE);
-  for (let y = 0; y < SIZE; y++) for (let x = 0; x < SIZE; x++) {
-    let sum = 0, n = 0;
-    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
-      const ny = y + dy, nx = x + dx;
-      if (ny < 0 || ny >= SIZE || nx < 0 || nx >= SIZE) continue;
-      sum += w[ny * SIZE + nx]; n++;
+  const PAD = Number(opt('pad', 10));
+  const from = new Int32Array(SIZE * SIZE).fill(-1);
+  const dist = new Int16Array(SIZE * SIZE).fill(-1);
+  const q = [];
+  for (let p = 0; p < SIZE * SIZE; p++) if (islandMap[p] >= 0) { from[p] = p; dist[p] = 0; q.push(p); }
+  for (let h = 0; h < q.length; h++) {
+    const p = q[h];
+    if (dist[p] >= PAD) continue;
+    const x = p % SIZE, y = (p / SIZE) | 0;
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const nx = x + dx, ny = y + dy;
+      if (nx < 0 || nx >= SIZE || ny < 0 || ny >= SIZE) continue;
+      const np = ny * SIZE + nx;
+      if (dist[np] >= 0) continue;
+      dist[np] = dist[p] + 1; from[np] = from[p]; q.push(np);
     }
-    sm[y * SIZE + x] = sum / n;
   }
-  w.set(sm);
+  for (const arr of [w, w2]) {
+    for (let p = 0; p < SIZE * SIZE; p++) if (islandMap[p] < 0 && from[p] >= 0) arr[p] = arr[from[p]];
+    const sm = new Float32Array(SIZE * SIZE);
+    for (let y = 0; y < SIZE; y++) for (let x = 0; x < SIZE; x++) {
+      let sum = 0, n = 0;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const ny = y + dy, nx = x + dx;
+        if (ny < 0 || ny >= SIZE || nx < 0 || nx >= SIZE) continue;
+        sum += arr[ny * SIZE + nx]; n++;
+      }
+      sm[y * SIZE + x] = sum / n;
+    }
+    arr.set(sm);
+  }
 }
 
 /* ============================================================
@@ -563,50 +660,68 @@ if (KEEP_EYES) {
    いまは塗る範囲の平均を測って、**平均だけを目標へ移し、ばらつきは
    比で持ち上げる**。--contrast はその比をどれだけ効かせるか（1で完全）。
    ============================================================ */
-let mL = 0, mS = 0, mW = 0;
-for (let p = 0; p < SIZE * SIZE; p++) {
-  if (w[p] <= 0.01) continue;
-  const i = p * info.channels;
-  const [, s, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
-  mL += l * w[p]; mS += s * w[p]; mW += w[p];
+function plan(weights, hue, light, sat, contrast, shadow, label) {
+  let mL = 0, mS = 0, mW = 0;
+  const hist = new Float64Array(101);
+  for (let p = 0; p < SIZE * SIZE; p++) {
+    if (weights[p] <= 0.01) continue;
+    const i = p * info.channels;
+    const [, s, l] = rgbToHsl(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
+    mL += l * weights[p]; mS += s * weights[p]; mW += weights[p];
+    hist[Math.min(100, Math.round(l * 100))] += weights[p];
+  }
+  if (mW < 1) return null;
+  mL /= mW; mS /= mW;
+  /* ▍**その服にありえない明るさは、端で止める**
+     選び分けをどれだけ丁寧にやっても、Tシャツの数画素が上着側に
+     紛れ込むことはある。そのまま平均のずれを足すと、上着の目標0.66に
+     Tシャツの0.63からのずれが乗って**真っ白に飛ぶ**——数画素なのに、
+     白い点は遠目でもいちばん目立つ。塗る範囲の1〜99%の幅で止めておけば、
+     紛れ込んでも「明るめの生成り」で済む。 */
+  let acc = 0, lo = 0, hi = 1;
+  for (let k = 0; k <= 100; k++) { acc += hist[k]; if (acc >= mW * 0.01) { lo = k / 100; break; } }
+  acc = 0;
+  for (let k = 100; k >= 0; k--) { acc += hist[k]; if (acc >= mW * 0.01) { hi = k / 100; break; } }
+  const tgtL = light === null ? mL : light;
+  const tgtS = sat === null ? mS : sat;
+  /* 明るくしたぶんだけ影を薄くする（→ 上のメモ）。暗くするときは1のまま */
+  const shadowK = shadow === null ? Math.min(1, mL / Math.max(0.02, tgtL)) : shadow;
+  console.log(
+    `${label}の素の色: 明度${mL.toFixed(2)} 彩度${mS.toFixed(2)} → 明度${tgtL.toFixed(2)} 彩度${tgtS.toFixed(2)}` +
+      `（影の強さ ${shadowK.toFixed(2)}）`,
+  );
+  return { weights, hue, mL, mS, tgtL, tgtS, contrast, shadowK, lo, hi };
 }
-mL /= Math.max(1e-6, mW);
-mS /= Math.max(1e-6, mW);
-const tgtL = LIGHT === null ? mL : LIGHT;
-const tgtS = SAT === null ? mS : SAT;
-/* 明るくしたぶんだけ影を薄くする（→ 上のメモ）。暗くするときは1のまま */
-const shadowK = SHADOW === null ? Math.min(1, mL / Math.max(0.02, tgtL)) : SHADOW;
-console.log(
-  `塗る範囲の素の色: 明度${mL.toFixed(2)} 彩度${mS.toFixed(2)} → 明度${tgtL.toFixed(2)} 彩度${tgtS.toFixed(2)}` +
-    `（影の強さ ${shadowK.toFixed(2)}）`,
-);
+const coats = [
+  plan(w, HUE, LIGHT, SAT, CONTRAST, SHADOW, '塗る範囲'),
+  HUE2 === null ? null : plan(w2, HUE2, LIGHT2, SAT2, CONTRAST2, SHADOW2, '2色目'),
+].filter(Boolean);
 
-const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 const out = Buffer.alloc(SIZE * SIZE * 3);
 let painted = 0;
 for (let p = 0; p < SIZE * SIZE; p++) {
   const i = p * info.channels;
-  const r0 = data[i] / 255, g0 = data[i + 1] / 255, b0 = data[i + 2] / 255;
-  const k = w[p];
-  if (k <= 0.01) {
-    out[p * 3] = r0 * 255; out[p * 3 + 1] = g0 * 255; out[p * 3 + 2] = b0 * 255;
-    continue;
+  let r = data[i] / 255, g = data[i + 1] / 255, b = data[i + 2] / 255;
+  const [, s, l] = rgbToHsl(r, g, b);
+  let hit = 0;
+  for (const c of coats) {
+    const k = c.weights[p];
+    if (k <= 0.01) continue;
+    /* 平均からのずれを足す。影側だけ弱める（→ 上のメモ）。両端で止める */
+    const dev = clamp(l, c.lo, c.hi) - c.mL;
+    const l2 = clamp(c.tgtL + dev * c.contrast * (dev < 0 ? c.shadowK : 1), 0.02, 0.97);
+    /* ▍彩度は**比で**運ぶ。足し算だと0を割って灰色になる
+       生成りのジャケット（目標0.18）は、塗る範囲の平均が0.39だった。
+       足し算だと平均より鈍い画素が 0.18-0.17＝0.01 まで落ちて、
+       **上着の下半分だけ無彩色の灰色**になった（実際そう出た）。
+       比なら、鈍い画素は鈍いまま・0を割らない。 */
+    const s2 = clamp(c.tgtS * (1 + c.contrast * (s - c.mS) / Math.max(0.05, c.mS)), 0, 1);
+    const [r1, g1, b1] = hslToRgb(c.hue, s2, l2);
+    r += (r1 - r) * k; g += (g1 - g) * k; b += (b1 - b) * k;
+    if (k > 0.5) hit = 1;
   }
-  const [, s, l] = rgbToHsl(r0, g0, b0);
-  /* 平均からのずれを足す。影側だけ弱める（→ 上のメモ）。両端で止める */
-  const dev = l - mL;
-  const l2 = clamp(tgtL + dev * CONTRAST * (dev < 0 ? shadowK : 1), 0.02, 0.97);
-  /* ▍彩度は**比で**運ぶ。足し算だと0を割って灰色になる
-     生成りのジャケット（目標0.18）は、塗る範囲の平均が0.39だった。
-     足し算だと平均より鈍い画素が 0.18-0.17＝0.01 まで落ちて、
-     **上着の下半分だけ無彩色の灰色**になった（実際そう出た）。
-     比なら、鈍い画素は鈍いまま・0を割らない。 */
-  const s2 = clamp(tgtS * (1 + CONTRAST * (s - mS) / Math.max(0.05, mS)), 0, 1);
-  const [r1, g1, b1] = hslToRgb(HUE, s2, l2);
-  out[p * 3] = (r0 + (r1 - r0) * k) * 255;
-  out[p * 3 + 1] = (g0 + (g1 - g0) * k) * 255;
-  out[p * 3 + 2] = (b0 + (b1 - b0) * k) * 255;
-  if (k > 0.5) painted++;
+  out[p * 3] = r * 255; out[p * 3 + 1] = g * 255; out[p * 3 + 2] = b * 255;
+  painted += hit;
 }
 const file = `${DIR}${OUT}-texture.jpg`;
 await sharp(out, { raw: { width: SIZE, height: SIZE, channels: 3 } })
