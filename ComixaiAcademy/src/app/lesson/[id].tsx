@@ -17,6 +17,7 @@ import { Icon } from '@/components/icons';
 import { LessonInteractiveCard } from '@/components/lesson-interactive';
 import { LessonTitle } from '@/components/lesson-title';
 import { MissTag, QuizChoices, QuizExplain, QuizTimer, TIMED_OUT } from '@/components/quiz';
+import { QuizGate } from '@/components/quiz-gate';
 import { hasTerm, TermHint, TermText } from '@/components/term-text';
 import { SlideIn, Stamp } from '@/components/motion';
 import {
@@ -74,6 +75,10 @@ export default function LessonScreen() {
   const [phase, setPhase] = React.useState<Phase>('cards');
   /* 開いた直後の扉ページ（「1-2 タイトル」）。どくまで本文は触れない */
   const [showTitle, setShowTitle] = React.useState(true);
+  /* クイズの黒い幕（→ components/quiz-gate.tsx）。
+     出ているあいだはタイマーを走らせない——幕の裏で15秒が減り始めたら
+     演出のせいで損をする */
+  const [showGate, setShowGate] = React.useState(false);
   const [cardIndex, setCardIndex] = React.useState(0);
   const [quizIndex, setQuizIndex] = React.useState(0);
   const [choice, setChoice] = React.useState<number | null>(null);
@@ -213,7 +218,13 @@ export default function LessonScreen() {
 
   const goNextCard = () => {
     if (cardIndex + 1 < cards.length) setCardIndex((n) => n + 1);
-    else setPhase(lesson.quiz.length > 0 ? 'quiz' : 'result');
+    else if (lesson.quiz.length > 0) {
+      /* 読む番から答える番へ。切り替えを幕で言ってから1問目を出す。
+         「クイズへ」を押した次の瞬間に問題とタイマーが走り出すのは
+         急すぎると実機で指摘された */
+      setPhase('quiz');
+      setShowGate(true);
+    } else setPhase('result');
   };
 
   const answer = (i: number) => {
@@ -485,7 +496,7 @@ export default function LessonScreen() {
               {choice === TIMED_OUT ? <Badge tone="red">時間切れ</Badge> : <MissTag misses={misses} />}
             </Row>
             {/* 制限時間。答えたら止まる。切れたら不正解（→ timeUp） */}
-            <QuizTimer quizId={quiz.id} running={choice === null} onTimeout={timeUp} />
+            <QuizTimer quizId={quiz.id} running={choice === null && !showGate} onTimeout={timeUp} />
             <Text style={F.h1}>{quiz.q}</Text>
             <QuizChoices quiz={quiz} choice={choice} onPick={answer} />
             {choice !== null ? (
@@ -686,6 +697,11 @@ export default function LessonScreen() {
         onDone={() => setShowTitle(false)}
       />
     ) : null}
+
+    {/* ———— クイズの幕 ————
+         読む番から答える番への切り替え。こちらは黒。
+         引けるまでタイマーは走らない（↑ QuizTimer の running） */}
+    {showGate ? <QuizGate count={lesson.quiz.length} onDone={() => setShowGate(false)} /> : null}
     </View>
   );
 }
