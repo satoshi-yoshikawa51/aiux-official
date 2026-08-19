@@ -48,6 +48,7 @@ import {
   type Rarity,
   type StageTheme,
 } from '@/data/gacha';
+import { getExtra } from '@/data/extras';
 import { playSound } from '@/lib/sound';
 import { useProgress, type SpinResult } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
@@ -172,6 +173,9 @@ export default function GachaScreen() {
   const ownedAvatars = playable.filter((a) => ownsAvatar(a, state.skins)).length;
   const totalAvatars = playable.length;
   const canSpin = state.coins >= SPIN_COST && phase === 'idle';
+  /* 新しく当てた景品についてくるおまけ。ダブりのときは新規に手に入れて
+     いないので出さない（前に当てたときに案内済み） */
+  const wonExtra = result && !result.dupe ? getExtra(result.prize.id) : undefined;
 
   const spin = () => {
     if (!canSpin) return;
@@ -290,7 +294,19 @@ export default function GachaScreen() {
     /* 開封カードはスクロールの外に重ねる。Screenの中に置くと、
        コレクション欄が伸びたぶん「中身の中央」＝画面の外に出てしまう */
     <View style={{ flex: 1 }}>
-      <Screen edges={['bottom']} tone="dots" style={{ gap: S.lg }}>
+      <Screen
+        edges={['bottom']}
+        tone="dots"
+        style={{ gap: S.lg }}
+        /* ▍スクロールしたら測り直す
+           カプセルは画面に重ねた層に居て、マシンの口の位置（窓座標）に
+           合わせて置いている。スクロールするとマシンだけが動いて、
+           **カプセルが置き去りになってズレる**（実機で指摘）。
+           動くたびに口の位置を測り直して、カプセルを追いつかせる */
+        onScroll={() => {
+          measureMachine();
+          measureLayer();
+        }}>
       {/* 所持P。増減が主役の画面なので、いちばん上に大きく */}
       <Row style={{ justifyContent: 'space-between' }}>
         <Row gap={7}>
@@ -633,6 +649,35 @@ export default function GachaScreen() {
                 <Text style={[F.tiny, { textAlign: 'center' }]}>
                   救済：新しいものが出ない回が続いたので、持っていない中から出したよ
                 </Text>
+              ) : null}
+              {/* ▍おまけが付いてきたことを、その場で言う
+                  R以上の景品には専用のおまけゲームが1本ずつ付いてくるのに、
+                  当てた画面がそれに触れず、「いつの間にか増えている」に
+                  なっていた（実機で指摘）。何をもらったかと、どこから
+                  遊べるかまでここで言い切る */}
+              {wonExtra ? (
+                <View
+                  style={{
+                    backgroundColor: C.yellow400,
+                    borderWidth: BW.bold,
+                    borderColor: C.ink900,
+                    borderRadius: R.sm,
+                    paddingVertical: S.xs,
+                    paddingHorizontal: S.md,
+                    alignItems: 'center',
+                    gap: 2,
+                    alignSelf: 'stretch',
+                  }}>
+                  <Row gap={6}>
+                    <Icon name="sparkle" size={14} color={C.ink900} />
+                    <Text style={[F.strong, { fontSize: 13.5 }]}>
+                      おまけゲーム「{wonExtra.title}」を手に入れた！
+                    </Text>
+                  </Row>
+                  <Text style={[F.tiny, { textAlign: 'center' }]}>
+                    この画面の下の「おまけ」欄と、まなぶタブから遊べます
+                  </Text>
+                </View>
               ) : null}
               <Button
                 label={result.dupe ? 'もどる' : result.prize.kind === 'theme' ? 'ホームに飾る' : 'このアバターにする'}
