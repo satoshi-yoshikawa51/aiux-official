@@ -174,7 +174,7 @@ export function stopMusic() {
   }
 }
 
-/** せっていの「BGM」。進捗ストアが起動時と切り替え時に流し込む */
+/** 設定の「BGM」。進捗ストアが起動時と切り替え時に流し込む */
 export function setMusicEnabled(on: boolean) {
   enabled = on;
   if (!on) {

@@ -132,7 +132,7 @@ export function GachaCoachBand({ spun }: { spun: boolean }) {
         </Row>
         <Text style={[F.tiny, { color: C.ink300 }]}>
           {spun
-            ? '※ いま変えなくていい。せってい からいつでも変えられる'
+            ? '※ いま変えなくていい。設定 からいつでも変えられる'
             : '※ 何が出るかは「提供割合をみる」で確かめられる'}
         </Text>
         {spun ? (

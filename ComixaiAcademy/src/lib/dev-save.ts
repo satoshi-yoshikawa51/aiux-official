@@ -12,10 +12,10 @@
    あとも直さなくていい。
 
    ▍出口は2つ
-   - せっていの「確認用」から、その場で当てはめる
+   - 設定の「確認用」から、その場で当てはめる
    - 同じものを文字列として書き出して、別の端末に貼る（記録の持ち出しと同じ形）
 
-   公開前に、せっていの入口ごと外すこと（→ app/(tabs)/settings.tsx）。
+   公開前に、設定の入口ごと外すこと（→ app/(tabs)/settings.tsx）。
    ============================================================ */
 import { AVATARS, DEFAULT_AVATAR_ID } from '@/data/avatars';
 import { ALL_LESSONS, ALL_QUIZ, COURSES, SCORED_GAME_KEYS } from '@/data/courses';
