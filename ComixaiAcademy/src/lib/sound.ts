@@ -67,7 +67,7 @@ const FILES: Record<SoundName, number> = {
 
 const players = new Map<SoundName, AudioPlayer>();
 
-/** せっていの「音を鳴らす」。進捗ストアが起動時と切り替え時に流し込む */
+/** 設定の「音を鳴らす」。進捗ストアが起動時と切り替え時に流し込む */
 let enabled = true;
 
 export function setSoundEnabled(on: boolean) {

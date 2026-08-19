@@ -173,7 +173,7 @@ export default function LearnScreen() {
                   {!role
                     ? '職種を選ぶと内容が変わる'
                     : role.generic
-                      ? 'せっていで職種を選ぶと、例が差し替わる'
+                      ? '設定で職種を選ぶと、例が差し替わる'
                       : `${role.name}向けの例が出る`}
                 </Text>
               </Row>

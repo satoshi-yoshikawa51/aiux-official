@@ -107,7 +107,7 @@ export default function AvatarPickScreen() {
 
       {/* ▍機種変更・入れ直しの受け口（→ components/save-transfer.tsx）
           記録はこの端末の中にしかないので、**新しい端末で最初に着くこの画面**に
-          戻し口を置いておく。せっていまで進まないと戻せない作りだと、
+          戻し口を置いておく。設定まで進まないと戻せない作りだと、
           ここで「全部消えた」と思って離脱する */}
       <SaveTransfer mode="restore" />
     </Screen>

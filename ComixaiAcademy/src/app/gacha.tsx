@@ -411,7 +411,7 @@ export default function GachaScreen() {
            「準備中」で見せて、この棚がこれから伸びることを予告しておく */}
       <View style={{ gap: S.sm }}>
         <Text style={F.h1}>あつめたアバター</Text>
-        <Text style={F.small}>押すとそのアバターに切り替わります（せっていからも変えられます）。</Text>
+        <Text style={F.small}>押すとそのアバターに切り替わります（設定からも変えられます）。</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: S.sm, alignItems: 'flex-start' }}>
           {AVATARS.filter((a) => a.model).map((a) => {
             /* 最初の2人は持っている。残りはガチャで当てるまで伏せておく */

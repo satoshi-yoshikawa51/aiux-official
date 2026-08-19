@@ -67,7 +67,7 @@ export interface StageTheme {
   art?: StageArt;
   /** SRだけの縁飾り。コマの内側に光る枠が出て、棚でもひと目で分かる */
   glow?: 'gold' | 'cyan';
-  /** せっていの丸ポチの色。絵つきのテーマは tint が透明なので、
+  /** 設定の丸ポチの色。絵つきのテーマは tint が透明なので、
       その絵らしい色をここに書く（→ (tabs)/settings.tsx） */
   swatch?: string;
 }

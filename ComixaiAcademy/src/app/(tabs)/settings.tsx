@@ -1,4 +1,4 @@
-/* せってい。アバター・職種の変更と、記録のリセット。
+/* 設定。アバター・職種の変更と、記録のリセット。
 
    見た目の作法はホームに揃えてある（黒帯・網点の紙・黒いカセット）。
    この画面には「次にやること」が無いので、**黄色いピルは置かない**。
@@ -58,7 +58,7 @@ export default function SettingsScreen() {
   const header = (
     <ScreenHead
       kicker="SETTINGS"
-      title="せってい"
+      title="設定"
       note={`${lookName} ・ ${role?.name ?? '職種えらび中'}`}
       noteRight="いつでも変えられます"
     />

@@ -24,7 +24,7 @@ const SCREENS: { name: string; title: string; icon: IconName }[] = [
   { name: 'index', title: 'ホーム', icon: 'home' },
   { name: 'learn', title: 'まなぶ', icon: 'learn' },
   { name: 'badges', title: 'バッジ', icon: 'badges' },
-  { name: 'settings', title: 'せってい', icon: 'settings' },
+  { name: 'settings', title: '設定', icon: 'settings' },
 ];
 
 function Bar() {
