@@ -157,13 +157,25 @@ fs.writeFileSync(profilePath, Buffer.from(profile.attributes.profileContent, 'ba
 const apps = await api('GET', `/v1/apps?filter[bundleId]=${encodeURIComponent(BUNDLE_ID)}`);
 const app = apps.data?.[0];
 if (app) {
+  /* 提出用のASC APIキーも eas.json 側に書く。環境変数（EXPO_ASC_*）だけでは
+     eas submit --non-interactive が「API Keys cannot be set up in
+     --non-interactive mode」で止まる（run 4で実際に止まった）。
+     キー本体は credentials/（.gitignore済み）へ複写して相対パスで指す */
+  const keyCopy = path.join(OUT, 'asc-api.p8');
+  fs.copyFileSync(KEY_PATH, keyCopy);
   const easPath = path.join(process.cwd(), 'eas.json');
   const eas = JSON.parse(fs.readFileSync(easPath, 'utf8'));
   eas.submit = eas.submit ?? {};
   eas.submit.production = eas.submit.production ?? {};
-  eas.submit.production.ios = { ...(eas.submit.production.ios ?? {}), ascAppId: app.id };
+  eas.submit.production.ios = {
+    ...(eas.submit.production.ios ?? {}),
+    ascAppId: app.id,
+    ascApiKeyPath: './credentials/asc-api.p8',
+    ascApiKeyId: KEY_ID,
+    ascApiKeyIssuerId: ISSUER_ID,
+  };
   fs.writeFileSync(easPath, JSON.stringify(eas, null, 2) + '\n');
-  console.log(`提出先: ${app.attributes.name}（ascAppId: ${app.id}）を eas.json に書いた`);
+  console.log(`提出先: ${app.attributes.name}（ascAppId: ${app.id}）とAPIキーの場所を eas.json に書いた`);
 } else {
   console.warn(`⚠ App Store Connect に Bundle ID ${BUNDLE_ID} のアプリがまだ無い。`);
   console.warn('  このままだと提出で止まる。appstoreconnect.apple.com → マイApp → ＋ → 新規App で器を作ること。');
