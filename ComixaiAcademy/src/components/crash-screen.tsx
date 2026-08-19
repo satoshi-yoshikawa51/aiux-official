@@ -17,7 +17,7 @@
    問い合わせにスクショを添えてもらえる。
    ============================================================ */
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Platform, ScrollView, Text, View } from 'react-native';
 
 import { C, FONT, S } from '@/theme';
 
@@ -32,7 +32,14 @@ declare const ErrorUtils:
 
 let installed = false;
 function install() {
-  if (installed || typeof ErrorUtils === 'undefined') return;
+  /* ▍**Webには仕掛けない。** Webの ErrorUtils は「エラー係」ではなく
+     分割チャンクの読み込みの一部。import() は「まず同期requireを試す→
+     Requiring unknown module を**わざと投げる**→catch側でチャンクを取りに
+     いく」という作りで、その throw が reportFatalError（既定＝投げ直すだけ）
+     を経由してくる。ここで幕を出して握りつぶすと、**正常な読み込みが
+     全部クラッシュ画面になる**（トークナイザーを温める起動4秒後に必ず出た）。
+     Webで白画面になる描画中のエラーは ErrorBoundary が拾うので、それで足りる */
+  if (installed || Platform.OS === 'web' || typeof ErrorUtils === 'undefined') return;
   installed = true;
   const prev = ErrorUtils.getGlobalHandler();
   ErrorUtils.setGlobalHandler((e, isFatal) => {
