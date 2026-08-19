@@ -171,6 +171,9 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
 
   const [emoteIcon, setEmoteIcon] = React.useState<IconName | null>(null);
   const [status, setStatus] = React.useState<'loading' | 'ready' | 'failed'>('loading');
+  /* 失敗の中身。リリースビルドでは console.warn がどこにも見えないので、
+     フォールバックの画面に小さく出す（実機のスクショで原因が読める） */
+  const [errText, setErrText] = React.useState<string | null>(null);
 
   const model = avatar.model;
 
@@ -358,6 +361,8 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         loop();
       } catch (e) {
         console.warn('[Avatar3D] モデルの読み込みに失敗しました', e);
+        const err = e as Error;
+        setErrText(`${err?.name ?? 'Error'}: ${err?.message ?? String(e)}`.slice(0, 300));
         setStatus('failed');
       }
     },
@@ -370,6 +375,11 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
       <View style={[styles.host, { width, height }, styles.fallback]}>
         <Icon name={avatar.icon} size={Math.min(width, height) * 0.4} color={T.disabled} />
         {status === 'failed' && <Text style={F.tiny}>3D表示に失敗しました</Text>}
+        {errText ? (
+          <Text style={[F.tiny, { paddingHorizontal: 12, textAlign: 'center' }]} numberOfLines={5}>
+            {errText}
+          </Text>
+        ) : null}
       </View>
     );
   }

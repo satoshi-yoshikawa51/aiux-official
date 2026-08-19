@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { BadgeUnlock } from '@/components/badge-unlock';
+import { CrashScreen } from '@/components/crash-screen';
 import { SparkLayer } from '@/components/motion';
 import { RankUpGate } from '@/components/rank-up';
 import { TermSheetProvider } from '@/components/term-text';
@@ -130,6 +131,9 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      {/* 致命エラーの受け皿。リリースビルドは黙って落ちてログも見えないので、
+          何が起きたかを画面に出す（→ components/crash-screen.tsx） */}
+      <CrashScreen>
       <SafeAreaProvider>
         <ProgressProvider>
           {/* ボタンを押したときの星は、ここが全画面ぶんまとめて描く。
@@ -184,6 +188,7 @@ export default function RootLayout() {
           </SparkLayer>
         </ProgressProvider>
       </SafeAreaProvider>
+      </CrashScreen>
     </GestureHandlerRootView>
   );
 }
