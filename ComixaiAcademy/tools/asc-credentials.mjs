@@ -148,7 +148,28 @@ const profile = (
 const profilePath = path.join(OUT, 'appstore.mobileprovision');
 fs.writeFileSync(profilePath, Buffer.from(profile.attributes.profileContent, 'base64'));
 
-/* ———— 4. credentials.json ———— */
+/* ———— 4. 提出先アプリ（ascAppId） ————
+   eas submit --non-interactive は eas.json に ascAppId が無いと止まる
+   （run 3で実際に止まった）。App Store Connectのアプリ番号は
+   Bundle IDから引けるので、ここで調べて eas.json に書き込む。
+   アプリの器がまだ無い場合は作れない（公式APIにアプリ作成が無い）ので、
+   はっきり言って続行する——ビルドは成功させ、提出だけが失敗する */
+const apps = await api('GET', `/v1/apps?filter[bundleId]=${encodeURIComponent(BUNDLE_ID)}`);
+const app = apps.data?.[0];
+if (app) {
+  const easPath = path.join(process.cwd(), 'eas.json');
+  const eas = JSON.parse(fs.readFileSync(easPath, 'utf8'));
+  eas.submit = eas.submit ?? {};
+  eas.submit.production = eas.submit.production ?? {};
+  eas.submit.production.ios = { ...(eas.submit.production.ios ?? {}), ascAppId: app.id };
+  fs.writeFileSync(easPath, JSON.stringify(eas, null, 2) + '\n');
+  console.log(`提出先: ${app.attributes.name}（ascAppId: ${app.id}）を eas.json に書いた`);
+} else {
+  console.warn(`⚠ App Store Connect に Bundle ID ${BUNDLE_ID} のアプリがまだ無い。`);
+  console.warn('  このままだと提出で止まる。appstoreconnect.apple.com → マイApp → ＋ → 新規App で器を作ること。');
+}
+
+/* ———— 5. credentials.json ———— */
 fs.writeFileSync(
   path.join(process.cwd(), 'credentials.json'),
   JSON.stringify(
