@@ -3,10 +3,12 @@
    見た目の作法はホームに揃えてある（黒帯・網点の紙・黒いカセット）。
    この画面には「次にやること」が無いので、**黄色いピルは置かない**。
    黒いカセットは記録（消すと戻せないもの）に使う。 */
+import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { REVISION as THREE_REVISION } from 'three';
 
 import * as Clipboard from 'expo-clipboard';
 
@@ -332,6 +334,14 @@ export default function SettingsScreen() {
         <Tap onPress={() => WebBrowser.openBrowserAsync(SITE)} style={{ paddingVertical: S.xs }}>
           <Text style={[F.strong, { color: T.link }]}>COMIXAI を開く →</Text>
         </Tap>
+        {/* ▍どのビルドかを画面で言えるようにしておく
+            TestFlightは古いビルドが端末に残ることがあり、「直したはずが直って
+            いない」の切り分けが番号なしでは成立しない。three の版も添える
+            （0.162固定 → CLAUDE.md。ここが r163 以上なら固定が外れている） */}
+        <Text style={F.tiny}>
+          バージョン {Constants.expoConfig?.version ?? '?'}（ビルド{' '}
+          {Constants.nativeBuildVersion ?? 'Web'} ・ three r{THREE_REVISION}）
+        </Text>
       </Card>
     </Screen>
   );

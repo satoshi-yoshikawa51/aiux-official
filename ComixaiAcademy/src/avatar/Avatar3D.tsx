@@ -362,7 +362,12 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
       } catch (e) {
         console.warn('[Avatar3D] モデルの読み込みに失敗しました', e);
         const err = e as Error;
-        setErrText(`${err?.name ?? 'Error'}: ${err?.message ?? String(e)}`.slice(0, 300));
+        /* three の版も添える。「直したはずのエラーがまだ出る」とき、
+           スクショ1枚で古いビルドか新しいビルドかを見分けられる */
+        setErrText(
+          `${err?.name ?? 'Error'}: ${err?.message ?? String(e)}`.slice(0, 300) +
+            `（three r${THREE.REVISION}）`,
+        );
         setStatus('failed');
       }
     },
