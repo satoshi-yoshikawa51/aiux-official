@@ -128,6 +128,7 @@ export function Screen({
       ここに置いたぶんの高さは本文の下に自動で空ける */
   footer,
   style,
+  onScroll,
 }: {
   children: React.ReactNode;
   header?: React.ReactNode;
@@ -137,6 +138,11 @@ export function Screen({
   toneOpacity?: number;
   footer?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
+  /** スクロールのたびに知りたい画面だけ渡す。
+      ガチャは、画面に重ねた層のカプセルをマシンの口に合わせて置いていて、
+      **スクロールでマシンだけが動くとカプセルが置き去りになる**。
+      動いた瞬間に測り直せるよう、ScrollViewのイベントをそのまま通す */
+  onScroll?: () => void;
 }) {
   const insets = useSafeAreaInsets();
   /* 固定帯の高さは中身しだいなので、置いてから測る。
@@ -167,6 +173,9 @@ export function Screen({
   const body = scroll ? (
     <ScrollView
       contentContainerStyle={[styles.screenPad, { paddingBottom: bottomPad }, style]}
+      onScroll={onScroll}
+      /* onScroll を渡した画面だけ毎コマ欲しい。渡していない画面は既定のまま */
+      scrollEventThrottle={onScroll ? 16 : undefined}
       showsVerticalScrollIndicator={false}>
       {children}
       {spacer}
