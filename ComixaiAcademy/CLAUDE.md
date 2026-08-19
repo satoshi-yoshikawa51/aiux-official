@@ -43,6 +43,10 @@ localStorage の `comixai-academy-v1` に進捗を流し込めば、どの画面
 - 顔の向きの補正は `src/data/avatars.ts` の `headTilt` が唯一の出どころ。
   変えたら `node tools/make-faces.mjs` で顔サムネイルを焼き直す
 - 割れ目から背景が透ける件は `Avatar3D` の `DoubleSide` で塞いである。戻さないこと
+- **`three` は `0.162.0` に固定（上げない）。** r163 で WebGL 1 対応が消えたが、
+  ネイティブの expo-gl は WebGL 1 相当。上げると実機で
+  「THREE.WebGLRenderer: WebGL 1 is not supported since r163」で3Dが全滅する
+  （TestFlightで実際に落ちた）。上げてよいのは expo-gl が WebGL 2 になってから
 
 ## 手で編集しないもの
 

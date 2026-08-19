@@ -76,6 +76,12 @@ export function Capsule3D({ rarity, size, open = false }: Props) {
   }, []);
 
   const onContextCreate = React.useCallback(async (gl: ExpoWebGLRenderingContext) => {
+    /* ▍失敗してもアプリを落とさない
+       ここに try/catch が無く、three の初期化エラー（WebGL 1 is not
+       supported since r163）がそのまま致命エラーになって、TestFlightで
+       アプリごと落ちていた。失敗したらカプセルの絵が出ないだけにする
+       ——透明なままでもタップの当たり判定（Pressable）は生きている */
+    try {
     const renderer = new Renderer({ gl, alpha: true });
     renderer.setClearColor(0x000000, 0);
 
@@ -179,6 +185,9 @@ export function Capsule3D({ rarity, size, open = false }: Props) {
       gl.endFrameEXP();
     };
     loop();
+    } catch (e) {
+      console.warn('[Capsule3D] 初期化に失敗しました', e);
+    }
   }, []);
 
   return (
