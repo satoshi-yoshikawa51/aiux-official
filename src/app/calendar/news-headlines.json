@@ -1,7 +1,80 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-18T21:53:43.465Z",
+  "updatedAt": "2026-08-19T21:55:31.604Z",
   "items": [
+    {
+      "title": "Replit expands access to software creation with GPT-5.6 Luna",
+      "url": "https://openai.com/index/replit",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-08-19T07:00:00.000Z",
+      "titleJa": "Replit、GPT-5.6 Luna によるソフトウェア作成へのアクセスを拡大"
+    },
+    {
+      "title": "Google、AIで「飛行機雲」を減らす実証実験 一体なぜやる？その意義とは",
+      "url": "https://japan.cnet.com/article/35251725/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-19T21:52:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/20/72db812376d1e242025eb8650a96e450/Google_blog_image.width-2200.format-webp.jpeg"
+    },
+    {
+      "title": "Google Gemini is getting a dedicated student hub",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/982425/google-gemini-student-hub",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-19T19:00:00.000Z",
+      "titleJa": "Google Gemini に専用の学生ハブが登場",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Screenshot-2026-08-19-at-2.05.46-PM.png?quality=90&strip=all&crop=0%2C9.6095766582019%2C100%2C80.780846683596&w=1200"
+    },
+    {
+      "title": "グーグル、AIエージェントによる脆弱性検出のためのブループリントを公開",
+      "url": "https://japan.zdnet.com/article/35251720/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-19T09:07:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/02/17/b6164726d6c7f6e88910a9992ea1aedf/250217_security_as_1280_457718844.jpeg"
+    },
+    {
+      "title": "NEC、ウェブ操作自動化AIエージェントをMicrosoft Marketplaceで販売開始",
+      "url": "https://japan.zdnet.com/article/35251678/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-19T06:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/19/1ea30c941fefd7e4b3b496f85226b781/20260819_adobestock_516309943_1280x960.jpg"
+    },
+    {
+      "title": "IBM、AI投資とビジネス成果を結びつけて可視化する新機能を発表",
+      "url": "https://japan.zdnet.com/article/35251674/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-19T04:30:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/19/9725bf7d7820be0ad800ceb7cc027a29/20260819_adobestock_502220085_startup_1280x960.jpg"
+    },
+    {
+      "title": "Googleや英政府、AIで飛行機雲を回避する大規模実証開始 航空業界の温暖化影響を減らす狙い",
+      "url": "https://www.itmedia.co.jp/news/article/2608/19/2000000613/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-19T02:09:16.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/19/2000000613/10003042/2048"
+    },
+    {
+      "title": "マネックス証券、ChatGPTに話しかけて「評価損益」などを確認できる新機能 主要証券で初",
+      "url": "https://japan.cnet.com/article/35251689/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-19T01:20:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/19/eefdfba8ee068a8d996382d8ce5b08f5/2026-08-19_10.16の画像.jpeg"
+    },
+    {
+      "title": "冷間鍛造FEMをAIで高速予測するサロゲートモデル「ForgeNet」を発表",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2608/19/news030.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-19T00:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/images/logo/1200x630_500x500_mn.gif"
+    },
     {
       "title": "OpenAI institutes new safeguards after Hugging Face breach",
       "url": "https://techcrunch.com/2026/08/18/openai-institutes-new-safeguards-after-hugging-face-breach/",
@@ -21,69 +94,12 @@
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/Etched-co-founder-COO-Robert-Wachen.jpg?resize=1200,1200"
     },
     {
-      "title": "OpenAI launches a safer ChatGPT for teens — years after teens started using it",
-      "url": "https://techcrunch.com/2026/08/18/openai-launches-a-safer-chatgpt-for-teens-years-after-teens-started-using-it/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-18T13:50:30.000Z",
-      "titleJa": "OpenAI、10代の若者向けにより安全なChatGPTを開始",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Still-04-HomeworkReminder__1_.webp?resize=1200,675"
-    },
-    {
-      "title": "LIXIL、FAQをAI対応へ再設計 閲覧数3倍・引用数7.3倍に",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11970/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-08-18T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11970/topm.jpg?20220512"
-    },
-    {
-      "title": "Google、AIモデルをコンパイルして暗号データを復号せずに扱えるように変換する「HEIR」発表。完全準同型暗号を利用し、AIでのセキュリティやプライバシー保護など実現へ",
-      "url": "https://www.publickey1.jp/blog/26/googleaiheirai.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-08-18T15:55:25.000Z",
-      "image": "https://www.publickey1.jp/2026/heir-google-ann01.png"
-    },
-    {
-      "title": "AIエージェント時代のGitホスティングサービス「Origin」、Cursorが発表。Cursorとの統合、コマンドラインでの操作、GitHubとの同期など提供",
-      "url": "https://www.publickey1.jp/blog/26/aigitorigincursorcursorgithub.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-08-18T15:43:29.000Z",
-      "image": "https://www.publickey1.jp/2026/cursor-origin-pb01.png"
-    },
-    {
-      "title": "16型で990gを実現した憧れのモバイルノート「Swift Air 16」の新モデル発表",
-      "url": "https://ascii.jp/elem/000/004/427/4427585/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-18T15:01:00.000Z",
-      "image": "https://ascii.jp/img/2026/08/18/4514173/xl/fcebae39ef984071.png?20200122"
-    },
-    {
-      "title": "【竹内択・葛西紀明・高梨沙羅ら集結】新感覚スポーツフェス「teamtaku CUP TAKE AIR 2026」10月12日長野県飯山市で開催決定！本日18時よりチケット販売開始",
-      "url": "https://ascii.jp/elem/000/004/427/4427573/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-18T09:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "AWSジャパン、「LEAP」で産官学金の連携加速へ--地域企業のAI導入を最大5万ドル支援",
-      "url": "https://japan.zdnet.com/article/35251645/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-18T08:05:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/18/b84d196489475f0ffa934f0efad69952/t/1280/960/d/260818_aws_001.jpg"
-    },
-    {
-      "title": "無料で読めるAIエージェントの実践ガイド、Googleが公開 基礎から本番実装まで学べる",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/18/news055.html",
+      "title": "OpenAI、「ChatGPT for Teens」発表──宿題の“丸投げ”検知、自傷や摂食障害などの保護も強化",
+      "url": "https://www.itmedia.co.jp/news/article/2608/19/2000000606/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-08-18T08:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2608/18/cover_news055.jpg"
+      "date": "2026-08-18T22:54:32.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/19/2000000606/10003009/2048"
     },
     {
       "title": "Get closer to the game with Gemini and Pixel",
@@ -101,23 +117,6 @@
       "lang": "en",
       "date": "2026-08-17T05:00:00.000Z",
       "titleJa": "OpenAIがPORTS-Pikeプロジェクトに参加"
-    },
-    {
-      "title": "Cursor、コードホスティング機能「Origin」の初期βを提供開始 GitHubとの双方向同期に対応",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/18/2000000575/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-17T23:40:47.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/18/2000000575/10002850/2048"
-    },
-    {
-      "title": "OpenAI reportedly disbanded its preparedness team",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/980817/openai-disbands-preparedness-team",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-16T21:32:56.000Z",
-      "titleJa": "OpenAIは準備チームを解散したと伝えられている",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/08/STK149_AI_01.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     }
   ]
 }
