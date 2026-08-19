@@ -43,6 +43,10 @@ export function JudgePlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
   /* 'pick' = どちらを採るか選ぶ / 'why' = 理由を選ぶ / 'done' = この問は終わり */
   const [step, setStep] = React.useState<'pick' | 'why' | 'done'>('pick');
   const [picked, setPicked] = React.useState<'a' | 'b' | null>(null);
+  /* 外したほう。**黙って正解側に持ち替えない**——前は持ち替えだけして
+     いたので、Aを押した人の画面でBに金枠が付き、バグにしか見えなかった
+     （実機で指摘）。押した側に×を残して、外したことを画面で言う */
+  const [wrongPicked, setWrongPicked] = React.useState<'a' | 'b' | null>(null);
   const [misses, setMisses] = React.useState(0);
   const [note, setNote] = React.useState<string | null>(null);
   const [failed, setFailed] = React.useState(false);
@@ -71,7 +75,9 @@ export function JudgePlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
       miss(round.wrongPick);
       /* ▍外しても先へ進める。**正しいほうに直してから理由を聞く**
          外したところで止めると、この問の学び（なぜそちらか）に
-         たどり着けないまま次へ行くことになる */
+         たどり着けないまま次へ行くことになる。
+         押した側は wrongPicked に残して、×付きで見せ続ける */
+      setWrongPicked(side);
       setPicked(round.a.ok ? 'a' : 'b');
     } else {
       playSound('pick');
@@ -99,6 +105,7 @@ export function JudgePlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
     setAt(n);
     setReasons(shuffled(spec.rounds[n].reasons));
     setPicked(null);
+    setWrongPicked(null);
     setNote(null);
     setStep('pick');
   };
@@ -107,6 +114,7 @@ export function JudgePlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
     setAt(0);
     setReasons(shuffled(spec.rounds[0].reasons));
     setPicked(null);
+    setWrongPicked(null);
     setMisses(0);
     setNote(null);
     setFailed(false);
@@ -162,7 +170,8 @@ export function JudgePlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
           label={round.a.label}
           text={round.a.text}
           picked={picked === 'a'}
-          dim={picked !== null && picked !== 'a'}
+          missed={wrongPicked === 'a'}
+          dim={picked !== null && picked !== 'a' && wrongPicked !== 'a'}
           disabled={step !== 'pick' || failed}
           onPress={() => pick('a')}
         />
@@ -171,7 +180,8 @@ export function JudgePlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
           label={round.b.label}
           text={round.b.text}
           picked={picked === 'b'}
-          dim={picked !== null && picked !== 'b'}
+          missed={wrongPicked === 'b'}
+          dim={picked !== null && picked !== 'b' && wrongPicked !== 'b'}
           disabled={step !== 'pick' || failed}
           onPress={() => pick('b')}
         />
@@ -189,7 +199,9 @@ export function JudgePlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
                 backgroundColor: C.ink800,
               }}>
               <Text style={[F.hand, { fontSize: 13, color: C.paper100 }]}>
-                {picked === 'a' ? 'A' : 'B'} を採る。では、なぜそちらか。
+                {wrongPicked
+                  ? `${wrongPicked === 'a' ? 'A' : 'B'} は外れ。採るのは ${picked === 'a' ? 'A' : 'B'}——では、なぜそちらか。`
+                  : `${picked === 'a' ? 'A' : 'B'} を採る。では、なぜそちらか。`}
               </Text>
               {reasons.map((r, i) => (
                 <Choice key={i} text={r.text} onPress={(x, y) => chooseReason(i, x, y)} />
@@ -219,12 +231,13 @@ export function JudgePlay({ spec, onClear }: { spec: Spec; onClear: (score: Game
   );
 }
 
-/* AIの出力1つ。押すと採用され、縁が金になる */
+/* AIの出力1つ。押すと採用され、縁が金になる。外した札は赤い×で残る */
 function Output({
   tag,
   label,
   text,
   picked,
+  missed,
   dim,
   disabled,
   onPress,
@@ -233,19 +246,22 @@ function Output({
   label: string;
   text: string;
   picked: boolean;
+  /** 押したが外れだった。**押した事実を画面に残す**ためのしるし */
+  missed: boolean;
   dim: boolean;
   disabled: boolean;
   onPress: () => void;
 }) {
   /* 判定音とぶつかるのでタップ音は消す（他のゲームと同じ理由） */
   const { pressed, onPressIn, onPressOut } = useTap({ sparks: false, haptic: 'light', sound: 'none' });
+  const edge = picked ? PICKED : missed ? C.red500 : C.ink900;
   return (
     <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onPress} disabled={disabled}>
       <View
         style={{
           backgroundColor: pressed && !disabled ? C.paper100 : C.paper0,
-          borderWidth: picked ? BW.bold : BW.line,
-          borderColor: picked ? PICKED : C.ink900,
+          borderWidth: picked || missed ? BW.bold : BW.line,
+          borderColor: edge,
           borderRadius: R.md,
           padding: S.md,
           gap: 7,
@@ -254,7 +270,7 @@ function Output({
         <View style={{ flexDirection: 'row', gap: 7, alignItems: 'center' }}>
           <View
             style={{
-              backgroundColor: picked ? PICKED : C.ink900,
+              backgroundColor: picked ? PICKED : missed ? C.red500 : C.ink900,
               borderRadius: R.full,
               width: 20,
               height: 20,
@@ -270,6 +286,12 @@ function Output({
             {label}
           </Text>
           {picked ? <Icon name="check" size={14} color={PICKED} /> : null}
+          {missed ? <Icon name="close" size={14} color={C.red500} /> : null}
+          {missed ? (
+            <Text style={{ fontFamily: FONT.mono, fontSize: 10, color: C.red500, letterSpacing: 1 }}>
+              えらんだけど外れ
+            </Text>
+          ) : null}
         </View>
         <Text style={{ fontFamily: FONT.body, fontSize: 13, lineHeight: 22, color: C.ink900 }}>
           {text}

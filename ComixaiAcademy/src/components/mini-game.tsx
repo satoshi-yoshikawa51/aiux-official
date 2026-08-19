@@ -128,10 +128,13 @@ export const GAME: Record<LessonInteractive['kind'], GameMeta> = {
     color: '#7ee08c',
   },
   fit: {
+    /* ▍比喩には正体を添える
+       「AIの机」だけだと、机が何の例えなのか分からない（実機で指摘）。
+       初出のここで（コンテキスト）と正体を言い、以後は比喩だけで通す */
     name: '要るものだけ載せよう',
     icon: 'folder',
-    rule: 'AIの机は広さに限りがある',
-    how: 'AIの作業机は狭い。要るものだけを載せてください',
+    rule: 'AIの机（コンテキスト）は広さに限りがある',
+    how: 'AIの机＝一度に読める量。要るものだけを載せてください',
     color: '#c9a1ff',
   },
   tokenizer: {

@@ -197,7 +197,7 @@ export const AVATARS: AvatarDef[] = [
     /* もと「先生」。名前だけ先輩に変えたので、性格とモデル（sensei.glb）は
        そのまま（ファイル名が sensei-*.jpg なのはそのため） */
     id: 'senpai',
-    name: '先輩',
+    name: 'せんぱい',
     icon: 'person',
     tagline: 'ぶっきらぼうだけど、要所ではちゃんと褒める。',
     personality:
@@ -351,7 +351,7 @@ export const AVATARS: AvatarDef[] = [
   {
     id: 'senpai-sr',
     variant: '白スーツ',
-    name: '先輩',
+    name: 'せんぱい',
     icon: 'person',
     tagline: 'ぶっきらぼうだけど、要所ではちゃんと褒める。',
     personality:
