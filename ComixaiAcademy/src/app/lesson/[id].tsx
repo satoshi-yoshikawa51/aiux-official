@@ -18,6 +18,7 @@ import { LessonInteractiveCard } from '@/components/lesson-interactive';
 import { LessonTitle } from '@/components/lesson-title';
 import { MissTag, QuizChoices, QuizExplain, QuizTimer, TIMED_OUT } from '@/components/quiz';
 import { QuizGate } from '@/components/quiz-gate';
+import { RelatedLinks } from '@/components/related-links';
 import { hasTerm, TermHint, TermText } from '@/components/term-text';
 import { SlideIn, Stamp } from '@/components/motion';
 import {
@@ -640,6 +641,11 @@ export default function LessonScreen() {
             {result?.newBadges.includes('all-clear') ? (
               <Button label="修了の記録を見る" onPress={() => router.push('/ending')} />
             ) : null}
+
+            {/* ———— COMIXAIでもっと知る ————
+                 学び終わった直後がいちばん「もう少し知りたい」。この回の主題に
+                 直結するサイト側の受け皿（用語集・マンガ・体験）への出口を置く */}
+            <RelatedLinks lessonId={lesson.id} />
 
             {/* ———— 次にやること ————
                  ほぼ黒に沈めたコマに入れて、黄色いピルで印を付ける（ホームと同じ） */}

@@ -26,8 +26,10 @@ import React from 'react';
 import { Platform, Text, View } from 'react-native';
 
 import { Icon } from '@/components/icons';
+import { RelatedLinkRows } from '@/components/related-links';
 import { Badge, Button, Card, Panel, Row, Screen } from '@/components/ui';
 import { COURSES, resolveCard } from '@/data/courses';
+import { getRelated, type RelatedLink } from '@/data/related';
 import { getRole } from '@/data/roles';
 import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
@@ -65,6 +67,25 @@ export default function SheetScreen() {
     }
     return out;
   }, [state.done, state.roleId, state.avatarId]);
+
+  /* ▍終えた回のリンクを、重複を抜いて1枚に束ねる
+     レッスンごとに出すと「プロンプト集」が何度も並ぶ。持ち帰りは
+     一覧の場なので、行き先の一覧としてまとめて置く */
+  const related = React.useMemo<RelatedLink[]>(() => {
+    const seen = new Set<string>();
+    const out: RelatedLink[] = [];
+    for (const course of COURSES) {
+      for (const lesson of course.lessons) {
+        if (!state.done[lesson.id]) continue;
+        for (const l of getRelated(lesson.id)) {
+          if (seen.has(l.url)) continue;
+          seen.add(l.url);
+          out.push(l);
+        }
+      }
+    }
+    return out;
+  }, [state.done]);
 
   const copy = async (text: string, key: string) => {
     await Clipboard.setStringAsync(text);
@@ -162,6 +183,15 @@ export default function SheetScreen() {
           ) : null}
         </Panel>
       ))}
+
+      {/* ———— COMIXAIでもっと知る ————
+           終えた回の主題につながるサイト側の受け皿。持ち帰りと同じで、
+           **終えたぶんだけ増えていく** */}
+      {related.length > 0 ? (
+        <Panel contentStyle={{ gap: S.sm, padding: S.md }}>
+          <RelatedLinkRows links={related} />
+        </Panel>
+      ) : null}
     </Screen>
   );
 }
