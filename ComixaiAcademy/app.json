@@ -10,7 +10,10 @@
     "backgroundColor": "#fbf7ef",
     "ios": {
       "bundleIdentifier": "dev.comixai.academy",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "dev.comixai.academy",

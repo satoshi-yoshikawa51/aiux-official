@@ -66,6 +66,17 @@ jobs:
         # app.json にはコミットされない（ランナー内だけ）ので、毎回やる
         run: npx --yes eas-cli@latest init --force --non-interactive
 
+      - name: 署名まわりを用意する（証明書・プロファイル）
+        # eas build --non-interactive は証明書を新規作成してくれない
+        # （「対話モードでやり直せ」と止まる。初回のrunで実際に止まった）。
+        # 代わりにASC APIキーで発行して、credentials.json に書き出す
+        run: node tools/asc-credentials.mjs
+        env:
+          ASC_KEY_PATH: ${{ runner.temp }}/asc.p8
+          ASC_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_API_ISSUER_ID }}
+          BUNDLE_ID: dev.comixai.academy
+
       - name: iOSをビルド
         run: npx --yes eas-cli@latest build --platform ios --profile production --non-interactive --wait
         env:
