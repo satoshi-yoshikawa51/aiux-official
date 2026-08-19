@@ -1,0 +1,78 @@
+# ComixaiAcademy を EASでビルドして TestFlight へ提出する。
+#
+# ▍なぜActionsでやるのか
+# 手元がWindowsでもiOSアプリを出せるようにするため。ビルドの実体は
+# EAS（Expoのクラウド）のMacで走り、ここはその指示出しと提出だけをやる。
+#
+# ▍動かすのに必要なリポジトリSecrets（Settings → Secrets and variables → Actions）
+#   EXPO_TOKEN         … expo.dev → Account settings → Access tokens で作る
+#   ASC_API_KEY_P8     … App Store Connect APIキーの .p8 ファイルの中身（テキスト全部）
+#   ASC_API_KEY_ID     … 同キーの Key ID（例: 2X9R4HXF34）
+#   ASC_API_ISSUER_ID  … 同画面の Issuer ID（UUID形式）
+#   APPLE_TEAM_ID      … developer.apple.com/account → Membership の Team ID（10文字）
+#
+# 手動実行専用（Actionsタブ →「TestFlightへ提出」→ Run workflow）。
+# 「提出までやるか」を外すと、ビルドだけして止まる。
+name: TestFlightへ提出
+
+on:
+  workflow_dispatch:
+    inputs:
+      submit:
+        description: 'ビルド後にApp Store Connectへ提出する'
+        type: boolean
+        default: true
+
+# 同時に2本走ると、証明書の作成がぶつかって両方こける
+concurrency:
+  group: testflight
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90 # EASの順番待ち込み。ふだんは20〜40分
+    defaults:
+      run:
+        working-directory: ComixaiAcademy
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      # Apple側の認証はApp Store Connect APIキーで通す（対話ログイン不要）。
+      # チームIDと種別はキーからは分からないので、明示的に渡す
+      EXPO_ASC_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
+      EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_API_ISSUER_ID }}
+      EXPO_APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      EXPO_APPLE_TEAM_TYPE: INDIVIDUAL
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ComixaiAcademy/package-lock.json
+
+      - name: 依存を入れる
+        run: npm ci
+
+      - name: ASC APIキーをファイルに置く
+        # printf を使う——echo だと .p8 の改行が環境によって化ける
+        run: printf '%s' "$ASC_P8" > "$RUNNER_TEMP/asc.p8"
+        env:
+          ASC_P8: ${{ secrets.ASC_API_KEY_P8 }}
+
+      - name: EASプロジェクトに紐付け
+        # 初回はEXPO_TOKENの持ち主のアカウントにプロジェクトを作る。
+        # app.json にはコミットされない（ランナー内だけ）ので、毎回やる
+        run: npx --yes eas-cli@latest init --force --non-interactive
+
+      - name: iOSをビルド
+        run: npx --yes eas-cli@latest build --platform ios --profile production --non-interactive --wait
+        env:
+          EXPO_ASC_API_KEY_PATH: ${{ runner.temp }}/asc.p8
+
+      - name: App Store Connectへ提出
+        if: ${{ inputs.submit }}
+        run: npx --yes eas-cli@latest submit --platform ios --latest --non-interactive
+        env:
+          EXPO_ASC_API_KEY_PATH: ${{ runner.temp }}/asc.p8
