@@ -101,5 +101,5 @@ App Store Connect の入力欄にそのまま貼れる形でまとめてある�
 
 - [ ] 設定の「確認用」（DevFill・20枚ぜんぶ見る）を外す or 隠し操作化
 - [ ] `app.json` の `version` を確認（1.0.0）
-- [ ] BGM3曲の出どころとライセンス表記（→ docs/licenses.md）
+- [x] 権利の棚卸し完了（BGM=DOVA・Tripo/Midjourney=有料プラン → docs/licenses.md）
 - [ ] プライバシーポリシー/サポートページがサイトに公開済みであること
