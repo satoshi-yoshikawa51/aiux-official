@@ -549,6 +549,12 @@ export default function HomeScreen() {
                 }
                 variant={doneToday ? 'secondary' : 'primary'}
                 size="sm"
+                /* ▍案内中はグレーに沈める
+                   タップ自体は全面の透明レイヤーが奪っている（→ (tabs)/_layout.tsx）ので
+                   押せはしないのだが、赤いままだと**いちばん押せそうな顔**をして
+                   反応しない。どこを押していいか迷わせるので、色でも「いまは
+                   押せない」と言う。案内が終わった瞬間に赤へ戻る */
+                disabled={tutorial.active}
                 onPress={() => router.push(`/lesson/${next.lesson.id}`)}
               />
             </View>
@@ -557,6 +563,7 @@ export default function HomeScreen() {
                 label={`復習 ${due}`}
                 variant="yellow"
                 size="sm"
+                disabled={tutorial.active}
                 onPress={() => router.push('/review')}
               />
             ) : null}

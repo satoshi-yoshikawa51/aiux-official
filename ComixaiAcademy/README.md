@@ -23,6 +23,30 @@ npx expo start
 
 ストアに出す段階になったら EAS Build（`npx eas build`）へ。`app.json` の `ios.bundleIdentifier` / `android.package` は `dev.comixai.academy` を仮置きしてある。
 
+## App Store（TestFlight）に出す
+
+`eas.json` は用意済み。**Apple Developer Programの有効化と、Expoアカウント**が
+そろっていれば、この3コマンドで TestFlight まで届く（すべて `ComixaiAcademy/` で実行）。
+
+```bash
+npx eas-cli login          # 初回だけ。Expoアカウントでログイン
+npx eas-cli build --platform ios --profile production
+npx eas-cli submit --platform ios --latest
+```
+
+- **初回の `build` で聞かれること**：EASプロジェクトの作成（Yes。`app.json` に
+  `extra.eas.projectId` が書き足されるのでコミットする）と、Appleへのサインイン。
+  証明書・プロビジョニングは **EASにおまかせ（Yes連打）** でいい。手で作らない
+- ビルドはEASのクラウドで走る（Mac不要）。終わるとURLが出る
+- `submit` すると App Store Connect に上がり、**処理後にTestFlightへ自動で並ぶ**。
+  App Store Connect 側でアプリの器が無ければ、submit が対話で作ってくれる
+- バージョン番号は `appVersionSource: remote` ＋ `autoIncrement` にしてあるので、
+  ビルド番号の手上げは不要。**マーケティングバージョン（1.0.0）だけ `app.json` で管理**
+- 審査提出に使う文言・スクショ・URLは `docs/appstore.md` にまとめてある
+
+**このサンドボックス（Claude Code）からは実行できない**（Expo/Appleの認証が要る）。
+手元のターミナルか、`EXPO_TOKEN` を持つCIで実行すること。
+
 ## Vercelでプレビューを公開する
 
 Web版（`expo export --platform web`）を出せるので、**スマホのブラウザで触れるURL**を
