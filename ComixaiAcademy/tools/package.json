@@ -1,0 +1,12 @@
+{
+  "name": "comixai-academy-tools",
+  "private": true,
+  "description": "3Dモデルの手当て・画像生成ツール専用の依存。アプリ本体のpackage.jsonに入れない——sharpがEAS（mac）でソースビルドに落ちて npm ci ごと失敗し、iOSビルドが止まった。ツールを使う前に、このフォルダで npm install すること。",
+  "dependencies": {
+    "@gltf-transform/core": "^4.4.1",
+    "@gltf-transform/extensions": "^4.4.1",
+    "@gltf-transform/functions": "^4.4.1",
+    "meshoptimizer": "^1.2.0",
+    "sharp": "^0.35.3"
+  }
+}
