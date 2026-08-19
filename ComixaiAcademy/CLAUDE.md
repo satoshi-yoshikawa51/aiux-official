@@ -34,6 +34,9 @@ localStorage の `comixai-academy-v1` に進捗を流し込めば、どの画面
 
 要点だけ：
 
+- **初回は `tools/` の中で `npm install`**。GLB・画像系の依存（sharp等）は
+  `tools/package.json` に隔離してある——アプリ本体に入れると、EASのMacで
+  sharpがソースビルドに落ちて `npm ci` ごと失敗し、iOSビルドが止まるため
 - 直す前に測る。`tools/stretch-report.mjs`（裂ける面）と
   `tools/find-spikes.mjs`（浮いた突起）が場所と骨を教えてくれる
 - **GLBを書き換える道具は範囲を限って使う。** 全体に掛けると別の壊れ方をする
