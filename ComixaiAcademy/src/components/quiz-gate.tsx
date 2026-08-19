@@ -92,23 +92,20 @@ export function QuizGate({ count, onDone }: { count: number; onDone: () => void 
         }}>
         <Stamp tilt={-1.5} from={1.6}>
           <Animated.View style={{ alignItems: 'center', gap: S.sm }}>
-            <Text
-              style={{
-                fontFamily: FONT.mono,
-                fontSize: 12,
-                letterSpacing: 4,
-                color: C.yellow400,
-              }}>
-              QUIZ TIME
-            </Text>
+            {/* ▍主役は「QUIZ」の一語
+                前は「ここから3問」を大きく出していたが、日本語の説明文が
+                ドンと出ると看板ではなく注意書きに見える（実機で指摘）。
+                ミニゲームの「MINI GAME」と同じ作法で、英語の種目名を掲げて
+                数字は下に添える */}
             <Text
               style={{
                 fontFamily: FONT.display,
-                fontSize: 40,
-                lineHeight: 52,
+                fontSize: 52,
+                lineHeight: 62,
+                letterSpacing: 6,
                 color: C.paper50,
               }}>
-              ここから {count}問
+              QUIZ
             </Text>
             <Animated.View
               style={{
@@ -118,16 +115,16 @@ export function QuizGate({ count, onDone }: { count: number; onDone: () => void 
                 width: line.interpolate({ inputRange: [0, 1], outputRange: [0, 130] }),
               }}
             />
-            {/* 制限時間の予告は下線のあとに出す。全部いっぺんに出すと読まれない */}
+            {/* 問数と制限時間は下線のあとに出す。全部いっぺんに出すと読まれない */}
             <Animated.Text
               style={{
                 fontFamily: FONT.mono,
-                fontSize: 11,
+                fontSize: 11.5,
                 letterSpacing: 1.5,
                 color: C.ink300,
                 opacity: line,
               }}>
-              1問 {QUIZ_SECONDS}秒
+              全{count}問 ・ 1問 {QUIZ_SECONDS}秒
             </Animated.Text>
           </Animated.View>
         </Stamp>
