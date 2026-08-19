@@ -76,10 +76,17 @@ const builds = (
   )
 ).data;
 console.log('—— 直近のビルド ——');
+const betaState = new Map(); // buildId -> internalBuildState
 for (const b of builds) {
   const a = b.attributes;
+  /* ▍processingState=VALID でも、テスターに出るとは限らない
+     TestFlight側の状態（buildBetaDetail）が別にあり、輸出規制の申告待ち
+     （MISSING_EXPORT_COMPLIANCE）だと内部テスターにも配られない。
+     実際、ビルド8がVALIDなのに10時間届かなかったのはこれの疑い */
+  const d = (await api('GET', `/v1/builds/${b.id}/buildBetaDetail`)).data;
+  betaState.set(b.id, d.attributes.internalBuildState);
   console.log(
-    `ビルド${a.version}  ${a.processingState}${a.expired ? '（期限切れ）' : ''}  ${a.uploadedDate}`,
+    `ビルド${a.version}  ${a.processingState}${a.expired ? '（期限切れ）' : ''}  内部: ${d.attributes.internalBuildState}  ${a.uploadedDate}`,
   );
 }
 
@@ -112,6 +119,18 @@ const latest = builds.find((b) => b.attributes.processingState === 'VALID' && !b
 if (!latest) {
   console.log('配信できる（VALID）ビルドがまだ無い。Appleの処理待ちか、処理失敗のメールを確認');
   process.exit(0);
+}
+
+/* ———— 輸出規制の申告が済んでいなければ、済ませる ————
+   このアプリの通信は標準のHTTPSだけ（＝申告不要の区分）。app.json でも
+   ITSAppUsesNonExemptEncryption=false を宣言している。同じ内容をAPIで
+   ビルドに立てると、申告待ちが解けてテスターに配られ始める */
+for (const b of builds) {
+  if (betaState.get(b.id) !== 'MISSING_EXPORT_COMPLIANCE') continue;
+  await api('PATCH', `/v1/builds/${b.id}`, {
+    data: { type: 'builds', id: b.id, attributes: { usesNonExemptEncryption: false } },
+  });
+  console.log(`→ ビルド${b.attributes.version} の輸出規制の申告（暗号化なし）を出した`);
 }
 for (const g of groups) {
   const set = groupBuilds.get(g.id);
