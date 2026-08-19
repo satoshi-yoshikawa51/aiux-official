@@ -1,0 +1,35 @@
+# TestFlightの配信状態を見て、止まっていれば流す（→ ComixaiAcademy/tools/tf-distribute.mjs）。
+#
+# eas submit の成功は「Appleに渡した」まで。その先のAppleの処理と
+# テスターグループへの配信で止まると、テスターには何も届かない
+# （実際にビルド8が10時間届かなかった）。手動実行で状態を出し、
+# 配信漏れがあれば内部グループに流し込む。
+#
+# Secretsは testflight.yml と同じもの（ASC_API_KEY_P8 / ASC_API_KEY_ID / ASC_API_ISSUER_ID）。
+name: TestFlightの配信状態
+
+on:
+  workflow_dispatch:
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: ComixaiAcademy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: ASC APIキーをファイルに置く
+        run: printf '%s' "$ASC_P8" > "$RUNNER_TEMP/asc.p8"
+        env:
+          ASC_P8: ${{ secrets.ASC_API_KEY_P8 }}
+      - name: 状態を見て、配信漏れを流す
+        run: node tools/tf-distribute.mjs
+        env:
+          ASC_KEY_PATH: ${{ runner.temp }}/asc.p8
+          ASC_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_API_ISSUER_ID }}
