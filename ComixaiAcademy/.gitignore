@@ -9,6 +9,10 @@ dist/
 web-build/
 expo-env.d.ts
 
+# 署名まわり（CIが tools/asc-credentials.mjs で毎回作る。絶対にコミットしない）
+credentials/
+credentials.json
+
 # Native
 .kotlin/
 *.orig.*
