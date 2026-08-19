@@ -125,7 +125,12 @@ export function playMusic(track: MusicTrack) {
     const next = playerOf(track);
     const start = () => {
       try {
-        next.seekTo(0).catch(() => {});
+        /* ▍頭出しは「一度でも進んでいるとき」だけ
+           作りたてのプレイヤーに seekTo すると、iOSのネイティブ側で落ちる
+           報告がある（expo/expo#38550。実機でも「BGMが鳴る瞬間に落ちる」）。
+           新品は位置0なので、そもそも seek する意味がない。
+           効果音側（sound.ts の playSound）と同じガード */
+        if (next.currentTime > 0) next.seekTo(0).catch(() => {});
         next.volume = 0;
         next.play();
         /* ここで拒否されていても気にしない。Webなら上の
