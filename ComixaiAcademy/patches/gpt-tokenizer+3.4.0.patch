@@ -1,0 +1,46 @@
+diff --git a/node_modules/gpt-tokenizer/cjs/BytePairEncodingCore.js b/node_modules/gpt-tokenizer/cjs/BytePairEncodingCore.js
+index 0026bab..939e872 100644
+--- a/node_modules/gpt-tokenizer/cjs/BytePairEncodingCore.js
++++ b/node_modules/gpt-tokenizer/cjs/BytePairEncodingCore.js
+@@ -37,8 +37,16 @@ class BytePairEncodingCore {
+         if (mergeCacheSize > 0) {
+             this.mergeCache = new Map();
+         }
+-        // size without array holes (which may be present in the encoder)
+-        this.mergeableBytePairRankCount = Object.keys(bytePairRankDecoder).length;
++        // size without array holes (which may be present in the encoder).
++        // NOTE(comixai): Object.keys() on the ~100k-entry array materializes every
++        // index as a string in one burst, which crashes Hermes' GC on iOS
++        // (HadesGC SEGV during young-gen evacuation). forEach skips holes too,
++        // and allocates nothing. Patched via patch-package.
++        let mergeableCount = 0;
++        bytePairRankDecoder.forEach(() => {
++            mergeableCount += 1;
++        });
++        this.mergeableBytePairRankCount = mergeableCount;
+         const binaryLookup = [];
+         // forEach skips array holes:
+         bytePairRankDecoder.forEach((value, rank) => {
+diff --git a/node_modules/gpt-tokenizer/esm/BytePairEncodingCore.js b/node_modules/gpt-tokenizer/esm/BytePairEncodingCore.js
+index 726068b..b62b2f5 100644
+--- a/node_modules/gpt-tokenizer/esm/BytePairEncodingCore.js
++++ b/node_modules/gpt-tokenizer/esm/BytePairEncodingCore.js
+@@ -34,8 +34,16 @@ export class BytePairEncodingCore {
+         if (mergeCacheSize > 0) {
+             this.mergeCache = new Map();
+         }
+-        // size without array holes (which may be present in the encoder)
+-        this.mergeableBytePairRankCount = Object.keys(bytePairRankDecoder).length;
++        // size without array holes (which may be present in the encoder).
++        // NOTE(comixai): Object.keys() on the ~100k-entry array materializes every
++        // index as a string in one burst, which crashes Hermes' GC on iOS
++        // (HadesGC SEGV during young-gen evacuation). forEach skips holes too,
++        // and allocates nothing. Patched via patch-package.
++        let mergeableCount = 0;
++        bytePairRankDecoder.forEach(() => {
++            mergeableCount += 1;
++        });
++        this.mergeableBytePairRankCount = mergeableCount;
+         const binaryLookup = [];
+         // forEach skips array holes:
+         bytePairRankDecoder.forEach((value, rank) => {

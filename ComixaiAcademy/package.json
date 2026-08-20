@@ -20,7 +20,8 @@
     "tones": "node tools/make-tones.mjs",
     "emaki": "node --experimental-strip-types tools/sync-emaki.mjs",
     "build:web": "expo export --platform web",
-    "sounds": "node tools/build-sounds.mjs"
+    "sounds": "node tools/build-sounds.mjs",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~3.1.1",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@types/react": "~19.2.2",
     "@types/three": "0.162.0",
+    "patch-package": "^8.0.1",
     "subset-font": "^2.5.0",
     "typescript": "~6.0.3"
   }
