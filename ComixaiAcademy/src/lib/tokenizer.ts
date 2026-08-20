@@ -1,29 +1,41 @@
 /* ============================================================
    トークナイザー。cl100k_base（GPT-4 / 従来のChatGPT系）を使う。
 
-   ▍サイトの /tokenizer とは表が違う
-   あちらは o200k_base（GPT-4o系）。同じ文でもトークン数は一致しない
-   （例：「私は会社で事務の仕事をしています。…」がサイト22・アプリ34）。
-   これは表の違いであって、どちらかが間違っているわけではない。
-   **どちらかに揃えるなら、下の import と、この注意書きを直すこと。**
+   ▍WebとiOSで、数える場所が違う
+   ・Web … 手元で数える。BPEの表（約1MB・10万件）を遅延読み込みして、
+     ブラウザ（V8）で encode する。従来どおり。
+   ・ネイティブ（iOS）… **サイトのAPI（/api/tokenize）に数えてもらう。**
+     表をアプリ内で組み立てると、iOSのJSエンジン（Hermes）が初期化中の
+     GCで必ず落ちる（TestFlightビルド9〜13で、Object.keys / Uint8Array /
+     concat と場所を変えて同じ4〜5秒地点のクラッシュを確認。エンジン側の
+     問題で、個別に避けても別の場所で出る）。アプリからは避けようがない
+     ので、表はサーバー（V8）に持たせて結果だけ受け取る。
+     API側の実装は サイトの src/app/api/tokenize/route.ts（chipsの
+     区切りロジックはこのファイルの toChips と同じもの）。
 
-   ▍なぜ遅延読み込みなのか
-   BPEの表だけで約1MBある（cl100k_base）。起動時に読むと、使わない人にも
-   その分の初期化を払わせることになる。実際に体験カードを開いた時に読む。
-   o200k_base は2.2MBあるので、アプリでは採っていない。
+   ▍サイトの /tokenizer とは表が違う
+   あちらは o200k_base（GPT-4o系）。同じ文でもトークン数は一致しない。
+   これは表の違いであって、どちらかが間違っているわけではない。
 
    ▍日本語は「1トークン＝1文字」ではない
    UTF-8のバイト列をまとめる方式なので、日本語の1文字が2〜3トークンに
    割れることがあり、**1トークンだけをdecodeしても文字として成立しない**
-   （置換文字 U+FFFD になる）。表示するときは toChips() を通して、
-   文字として読めるところまで束ねること。
+   （置換文字 U+FFFD になる）。表示するときは chips（読めるところまで
+   束ねた塊）を使うこと。
    ============================================================ */
+import { Platform } from 'react-native';
 
 export interface TokenChip {
   /** 表示する文字列 */
   text: string;
   /** この塊が何トークンぶんか */
   n: number;
+}
+
+/** 数えた結果。カードはこれだけ見ればよい */
+export interface TokenizeResult {
+  count: number;
+  chips: TokenChip[];
 }
 
 interface Enc {
@@ -33,15 +45,19 @@ interface Enc {
   decodeGenerator: (t: Iterable<number>) => Generator<string>;
 }
 
-let cached: Enc | null = null;
-let inflight: Promise<Enc> | null = null;
-
 /** 落ちてこないまま待ち続けない上限。これを過ぎたら失敗として扱う */
 const LOAD_TIMEOUT_MS = 15000;
 
-const WEB = typeof document !== 'undefined';
+const WEB = Platform.OS === 'web';
 /** 読み直しを1周期に1回だけに抑える鍵（→ reloadForStaleChunk） */
 const RELOAD_KEY = 'comixai-tokenizer-reloaded';
+
+/* ————————————————————————————————
+   Web：手元で数える（BPEの表を遅延読み込み）
+   ———————————————————————————————— */
+
+let cached: Enc | null = null;
+let inflight: Promise<Enc> | null = null;
 
 /**
  * BPEの表を読み込む。2回目以降は即返る。
@@ -53,7 +69,7 @@ const RELOAD_KEY = 'comixai-tokenizer-reloaded';
  * その後どれだけ電波が戻っても永久に失敗を返し続けた**（画面を閉じて開き
  * 直しても直らない）。転んだら忘れて、次に呼ばれたら取りにいき直す。
  */
-export function loadTokenizer(): Promise<Enc> {
+function loadTokenizer(): Promise<Enc> {
   if (cached) return Promise.resolve(cached);
   if (!inflight) {
     const load = import('gpt-tokenizer/encoding/cl100k_base').then((m) => {
@@ -73,24 +89,82 @@ export function loadTokenizer(): Promise<Enc> {
   return inflight;
 }
 
-/** すでに読み込み済みか（読み込み中の表示を出すかの判断に使う） */
+/* ————————————————————————————————
+   ネイティブ：サイトのAPIに数えてもらう
+   ———————————————————————————————— */
+
+const TOKENIZE_API = 'https://comixai.dev/api/tokenize';
+/** 打鍵ごとの問い合わせは、表の読み込みより短めに見切る */
+const REMOTE_TIMEOUT_MS = 12000;
+
+/** 一度でも届いたか（tokenizerReady の判断に使う） */
+let remoteOk = false;
+
+async function tokenizeRemote(text: string): Promise<TokenizeResult> {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), REMOTE_TIMEOUT_MS);
+  try {
+    const res = await fetch(TOKENIZE_API, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ text }),
+      signal: ctrl.signal,
+    });
+    if (!res.ok) throw new Error(`tokenize: ${res.status}`);
+    const j = (await res.json()) as Partial<TokenizeResult>;
+    if (typeof j.count !== 'number' || !Array.isArray(j.chips)) {
+      throw new Error('tokenize: 返事の形が違う');
+    }
+    remoteOk = true;
+    return { count: j.count, chips: j.chips };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/* ————————————————————————————————
+   カードが使う入口（プラットフォーム共通）
+   ———————————————————————————————— */
+
+/**
+ * 数える準備をする。体験カードが開いた時に呼び、失敗したら
+ * 「もう一度よみこむ」でやり直せるようにする。
+ * Webは表の読み込み、ネイティブはAPIへの疎通確認。
+ */
+export async function prepareTokenizer(): Promise<void> {
+  if (WEB) {
+    await loadTokenizer();
+    return;
+  }
+  /* 最小の1文字で往復させる。DNS/TLSも温まるので、以後の打鍵が速くなる */
+  await tokenizeRemote('。');
+}
+
+/** 文をトークンに分けて、数と「読める塊」を返す */
+export async function tokenizeText(text: string): Promise<TokenizeResult> {
+  if (!WEB) return tokenizeRemote(text);
+  const enc = await loadTokenizer();
+  const tokens = enc.encode(text);
+  return { count: tokens.length, chips: toChips(tokens, enc) };
+}
+
+/** すでに数えられる状態か（読み込み中の表示を出すかの判断に使う） */
 export function tokenizerReady(): boolean {
-  return cached !== null;
+  return WEB ? cached !== null : remoteOk;
 }
 
 /* ============================================================
    ▍**先に温めておく**（→ app/_layout.tsx が起動後に1回呼ぶ）
 
-   表は最初のレッスン（basics-1）の体験カードで使う。そこまで来てから
-   1MBを取りにいくと、電波が細い所では**カードを開いた目の前で15秒待たされて
-   失敗する**。起動して落ち着いたころに裏で取っておけば、たいていは
-   カードに着く前に終わっている。
-
-   失敗しても何もしない（画面には出さない）。使う場所で改めて呼ばれる。
+   最初のレッスン（basics-1）の体験カードで使う。そこまで来てから
+   用意すると、電波が細い所では**カードを開いた目の前で待たされて失敗する**。
+   起動して落ち着いたころに裏でやっておけば、たいていはカードに着く前に
+   終わっている。Webは表の読み込み、ネイティブはAPIの疎通（＝DNS/TLSの
+   ウォームアップ）。失敗しても何もしない（使う場所で改めて呼ばれる）。
    ============================================================ */
 export function warmTokenizer(): void {
-  if (cached || inflight) return;
-  loadTokenizer().catch(() => {});
+  if (WEB && (cached || inflight)) return;
+  prepareTokenizer().catch(() => {});
 }
 
 /* ============================================================
@@ -108,7 +182,7 @@ export function warmTokenizer(): void {
    読み直してループにならないよう、鍵を1つ置いて見張る。
    ============================================================ */
 export function reloadForStaleChunk(): boolean {
-  if (!WEB) return false;
+  if (!WEB || typeof document === 'undefined') return false;
   try {
     if (sessionStorage.getItem(RELOAD_KEY)) return false;
     sessionStorage.setItem(RELOAD_KEY, '1');
@@ -122,7 +196,7 @@ export function reloadForStaleChunk(): boolean {
 }
 
 /**
- * トークン列を「読める塊」に束ねる。
+ * トークン列を「読める塊」に束ねる（Webの手元計算用。APIも同じ実装を持つ）。
  *
  * ▍decode に「�が出るか」で判定してはいけない
  * かつては1トークンずつ足しながら decode して、置換文字（U+FFFD）が
@@ -138,7 +212,7 @@ export function reloadForStaleChunk(): boolean {
  * だけ文字を返す。これを1トークンずつ流し込んで、返ってきた時点までに
  * 何トークン使ったかを数える。
  */
-export function toChips(tokens: number[], enc: Enc): TokenChip[] {
+function toChips(tokens: number[], enc: Enc): TokenChip[] {
   const chips: TokenChip[] = [];
   /* いま generator に渡し終えた位置と、直前に文字が確定した位置 */
   let at = -1;
