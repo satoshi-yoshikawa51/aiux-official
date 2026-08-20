@@ -69,7 +69,7 @@ import type { LessonInteractive } from '@/data/types';
 import { gradePrompt, type GradeResult } from '@/lib/grade';
 import { playMusic } from '@/lib/music';
 import { playClear, playSound } from '@/lib/sound';
-import { loadTokenizer, reloadForStaleChunk, toChips, type TokenChip } from '@/lib/tokenizer';
+import { prepareTokenizer, reloadForStaleChunk, tokenizeText, type TokenChip } from '@/lib/tokenizer';
 import { useProgress } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
@@ -1021,7 +1021,9 @@ function TokenPlay({
   React.useEffect(() => {
     let alive = true;
     setLoad('loading');
-    loadTokenizer()
+    /* Webは表の読み込み、ネイティブはAPIへの疎通確認（→ lib/tokenizer.ts）。
+       どちらも「失敗＝下の看板とやり直しボタン」に落ちる */
+    prepareTokenizer()
       .then(() => alive && setLoad('ready'))
       .catch(() => {
         if (!alive) return;
@@ -1044,16 +1046,16 @@ function TokenPlay({
   React.useEffect(() => {
     if (!ready) return;
     const t = setTimeout(() => {
-      loadTokenizer()
-        .then((enc) => {
-          const ids = enc.encode(text);
+      tokenizeText(text)
+        .then((r) => {
           setChips((old) => {
             prevChips.current = old.length;
-            return toChips(ids, enc);
+            return r.chips;
           });
-          setCount(ids.length);
+          setCount(r.count);
         })
-        /* 読めていたのに途中で数えられなくなった。表の取り直しから */
+        /* 数えられていたのに途中で失敗した（Webは表の消失、ネイティブは
+           電波）。準備からやり直せる看板に落とす */
         .catch(() => setLoad('failed'));
     }, DEBOUNCE_MS);
     return () => clearTimeout(t);
