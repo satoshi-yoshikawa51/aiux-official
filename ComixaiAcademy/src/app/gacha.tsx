@@ -478,7 +478,12 @@ export default function GachaScreen() {
           <Animated.View
             style={{
               position: 'absolute',
-              left: chute.x - CAP_BOX / 2,
+              /* ▍隠すときは opacity ではなく**画面の外へ**
+                 iOSのGLView（3Dの描画面）は親の opacity を無視して
+                 描き続けるので、透明にしたつもりのカプセルが開封後も
+                 口の中に残って見える（実機で「謎のカプセルがのこる」）。
+                 置いたまま（→ capsule-3d.tsx 冒頭）で、位置だけ逃がす */
+              left: phase === 'idle' ? -CAP_BOX * 3 : chute.x - CAP_BOX / 2,
               top: chute.y - CAP_BOX / 2,
               opacity:
                 phase === 'spinning'
