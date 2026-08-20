@@ -159,12 +159,23 @@ export function playSound(name: SoundName) {
       p = createAudioPlayer(FILES[name]);
       players.set(name, p);
     }
-    /* 2回目以降は再生位置が末尾に残っているので頭出しする。
-       seekTo は Promise を返すが、待つと遅れて聞こえるので待たない。
-       **一度も鳴らしていないときは呼ばない**（位置は0のままで、
-       seek のぶんだけ初回が遅れるのを避ける） */
-    if (p.currentTime > 0) p.seekTo(0).catch(() => {});
-    p.play();
+    /* ▍2回目以降は、頭出しが**終わってから**鳴らす
+       以前は seekTo を待たずに play() していた。すると鳴り終わった
+       プレイヤー（位置が末尾）では、**末尾から再生が始まって即終了＝無音**
+       になり、その押下の seek が後から完了して位置だけ0に戻るので、
+       次の押下は鳴る——「押すたびに交互に鳴ったり鳴らなかったり」
+       （実機のクイズで報告）の正体。読み込み済みプレイヤーの seek は
+       数msなので、待っても遅れは聞き取れない。
+       **一度も鳴らしていないときは seek しない**（位置は0のままで、
+       初回を最速で鳴らす） */
+    if (p.currentTime > 0) {
+      const player = p;
+      p.seekTo(0)
+        .then(() => player.play())
+        .catch(() => {});
+    } else {
+      p.play();
+    }
   } catch {
     /* 鳴らなくても学習は進む */
   }
