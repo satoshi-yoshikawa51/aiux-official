@@ -1,5 +1,5 @@
 diff --git a/node_modules/gpt-tokenizer/cjs/BytePairEncodingCore.js b/node_modules/gpt-tokenizer/cjs/BytePairEncodingCore.js
-index 0026bab..939e872 100644
+index 0026bab..0f36416 100644
 --- a/node_modules/gpt-tokenizer/cjs/BytePairEncodingCore.js
 +++ b/node_modules/gpt-tokenizer/cjs/BytePairEncodingCore.js
 @@ -37,8 +37,16 @@ class BytePairEncodingCore {
@@ -21,8 +21,23 @@ index 0026bab..939e872 100644
          const binaryLookup = [];
          // forEach skips array holes:
          bytePairRankDecoder.forEach((value, rank) => {
+@@ -46,7 +54,13 @@ class BytePairEncodingCore {
+                 this.bytePairStringRankEncoder.set(value, rank);
+                 return;
+             }
+-            const byteArray = new Uint8Array(value);
++            // NOTE(comixai): new Uint8Array(配列) の変換経路が iOS の Hermes で
++            // 壊れたポインタに飛ぶ（ビルド11/12で同一アドレスのSIGBUS）。
++            // 長さで作って1要素ずつ詰める経路はその機構を通らない。patch-package で適用
++            const byteArray = new Uint8Array(value.length);
++            for (let i = 0; i < value.length; i += 1) {
++                byteArray[i] = value[i];
++            }
+             binaryLookup.push([byteArray, rank]);
+             this.bytePairNonUtfRankDecoder.set(rank, byteArray);
+         });
 diff --git a/node_modules/gpt-tokenizer/esm/BytePairEncodingCore.js b/node_modules/gpt-tokenizer/esm/BytePairEncodingCore.js
-index 726068b..b62b2f5 100644
+index 726068b..fc68b70 100644
 --- a/node_modules/gpt-tokenizer/esm/BytePairEncodingCore.js
 +++ b/node_modules/gpt-tokenizer/esm/BytePairEncodingCore.js
 @@ -34,8 +34,16 @@ export class BytePairEncodingCore {
@@ -44,3 +59,18 @@ index 726068b..b62b2f5 100644
          const binaryLookup = [];
          // forEach skips array holes:
          bytePairRankDecoder.forEach((value, rank) => {
+@@ -43,7 +51,13 @@ export class BytePairEncodingCore {
+                 this.bytePairStringRankEncoder.set(value, rank);
+                 return;
+             }
+-            const byteArray = new Uint8Array(value);
++            // NOTE(comixai): new Uint8Array(配列) の変換経路が iOS の Hermes で
++            // 壊れたポインタに飛ぶ（ビルド11/12で同一アドレスのSIGBUS）。
++            // 長さで作って1要素ずつ詰める経路はその機構を通らない。patch-package で適用
++            const byteArray = new Uint8Array(value.length);
++            for (let i = 0; i < value.length; i += 1) {
++                byteArray[i] = value[i];
++            }
+             binaryLookup.push([byteArray, rank]);
+             this.bytePairNonUtfRankDecoder.set(rank, byteArray);
+         });
