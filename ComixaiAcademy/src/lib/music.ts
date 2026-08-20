@@ -80,6 +80,30 @@ if (Platform.OS === 'web' && typeof document !== 'undefined') {
   );
 }
 
+/* ▍ネイティブの「黙って止まる」を自分で直す
+   iOSでは、通知音・Siri・電話などの割り込みや、曲の切り替えの綾で、
+   プレイヤーが**エラーも出さずに止まったまま**になることがある
+   （TestFlightで「この画面で無音になった」の報告）。Webは上の
+   「タップのたびに鳴らし直す」係がいるが、ネイティブにはタップの
+   横取り口が無い。なので数秒おきに見回って、鳴っているはずなのに
+   止まっていたら、そっと戻す。裏に居るあいだ（halted）は見回らない
+   ——裏で鳴らし直すと、ポケットの中で鳴る事故に戻ってしまう */
+let halted = false;
+if (Platform.OS !== 'web') {
+  setInterval(() => {
+    if (!enabled || halted || !current) return;
+    try {
+      const p = players.get(current);
+      if (p && !p.playing) {
+        p.play();
+        if (p.volume < VOLUME - 0.001) fadeTo(p, VOLUME);
+      }
+    } catch {
+      /* 鳴らなくても学習は進む */
+    }
+  }, 3000);
+}
+
 /* フェードのタイマーは**プレイヤーごと**に持つ。1本を共有すると、
    前の曲のフェードアウト中に次の曲のフェードが始まった瞬間、
    前の曲の残りが取り消されて「半分の音量で鳴りっぱなし」になる */
@@ -112,6 +136,8 @@ function fadeTo(p: AudioPlayer, to: number, then?: () => void) {
  * **待たない・失敗を投げない**（sound.ts と同じ扱い）。
  */
 export function playMusic(track: MusicTrack) {
+  /* 場面が動いた＝表で音を出してよい状態。見回りも再開する */
+  halted = false;
   if (!enabled) {
     /* オフのあいだも「いまの場面」は覚えておく。オンに戻した瞬間、
        その場面の曲から始められる */
@@ -157,6 +183,7 @@ export function playMusic(track: MusicTrack) {
 
 /** いまの場面の曲を頭からではなく「続きから」戻す（復帰時用） */
 export function resumeMusic() {
+  halted = false;
   if (!enabled || !current) return;
   try {
     const p = playerOf(current);
@@ -172,6 +199,8 @@ export function resumeMusic() {
 
 /** 全部止める（アプリがバックグラウンドへ行くときなど） */
 export function stopMusic() {
+  /* 止めたものを見回りが起こしてしまわないように */
+  halted = true;
   for (const p of players.values()) {
     try {
       p.pause();

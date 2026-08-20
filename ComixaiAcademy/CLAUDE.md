@@ -48,6 +48,27 @@ localStorage の `comixai-academy-v1` に進捗を流し込めば、どの画面
   「THREE.WebGLRenderer: WebGL 1 is not supported since r163」で3Dが全滅する
   （TestFlightで実際に落ちた）。上げてよいのは expo-gl が WebGL 2 になってから
 
+## 巨大なテーブルをネイティブで組み立てない
+
+**10万件規模のJSオブジェクト/配列の構築を、iOSのHermesにやらせてはいけない。**
+トークナイザー（cl100k_base・約10万件）の初期化で、TestFlightビルド9〜13が
+**起動4〜5秒で必ずクラッシュ**した。落ちる場所は毎回違う（Object.keys →
+new Uint8Array(配列) → concat）が、すべて同じ工程内のGCまわりのメモリ破壊。
+場所を1つ塞いでも別の場所で出る＝エンジンの問題で、アプリ側では避けられない。
+SDK更新（expo 57.0.14 / Hermes 2段階更新）でも直らなかった。
+
+なので**トークンの計算はサイトのAPIに任せる**（`src/lib/tokenizer.ts` が
+ネイティブでは `https://comixai.dev/api/tokenize` を呼ぶ。API実体はサイト側
+`src/app/api/tokenize/route.ts`）。Webアプリは従来どおり手元で計算する
+（ブラウザのV8では起きない）。**gpt-tokenizer をネイティブの実行経路に
+戻さないこと。** patches/ にある gpt-tokenizer のパッチはこの調査の名残
+（Web側は同じコードを通るので、害のない安全化として残している）。
+
+クラッシュの調査手順も残しておく：TestFlightで落ちたら、ユーザーの端末の
+**設定 → プライバシーとセキュリティ → 解析と改善 → 解析データ** にある
+`COMIXAI-….ips` を送ってもらう。exception と faultingThread の frames で
+場所が確定する（このファイル群が実際に決め手になった）。
+
 ## 手で編集しないもの
 
 - `assets/faces/*.png` … `tools/make-faces.mjs` が焼く
