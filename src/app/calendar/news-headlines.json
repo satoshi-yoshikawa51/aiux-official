@@ -1,7 +1,100 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-19T21:55:31.604Z",
+  "updatedAt": "2026-08-20T21:57:17.059Z",
   "items": [
+    {
+      "title": "Stampli cuts launch hours by 68% using ChatGPT Work",
+      "url": "https://openai.com/index/stampli",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-08-20T00:00:00.000Z",
+      "titleJa": "Stampli、ChatGPT Work を使用して起動時間を 68% 削減"
+    },
+    {
+      "title": "「安全な超知能」の米新興がNVIDIAと戦略提携、50億ドル調達の報道",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03065/081900020/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-20T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03065/081900020/topm.jpg?20220512"
+    },
+    {
+      "title": "医師なら時給3万円超え、AIの「学習データ作成サービス」の進化がすごい",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00692/082000195/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-20T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00692/082000195/topm.jpg?20220512"
+    },
+    {
+      "title": "仮想リスクシナリオ1：小売りチェーンの販売戦略AIがSNS裏工作？",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03713/00001/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-20T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03713/00001/topm.jpg?20220512"
+    },
+    {
+      "title": "Ramp launches its own AI model router, called Router",
+      "url": "https://techcrunch.com/2026/08/20/ramp-launches-its-own-ai-model-router-called-router/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-20T16:46:00.000Z",
+      "titleJa": "Ramp が Router と呼ばれる独自の AI モデル ルーターを発表",
+      "image": "https://techcrunch.com/wp-content/uploads/2024/03/GettyImages-1434828961.jpg?w=1024"
+    },
+    {
+      "title": "It’s Greg Brockman’s OpenAI now",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/982774/greg-brockman-openai-role-expansion",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-20T15:45:55.000Z",
+      "titleJa": "今はグレッグ ブロックマンの OpenAI です",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/05/STKP221_GREG_BROCKMAN2.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Fluter 3.47正式リリース。UIライブラリが分離され独立してアップデート可能、デフォルトでWebAssemblyを生成する方向に、など新機能",
+      "url": "https://www.publickey1.jp/blog/26/fluter_347uiwebassembly.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-20T15:02:15.000Z",
+      "image": "https://www.publickey1.jp/2026/flutter347ann.png"
+    },
+    {
+      "title": "Slack is launching collaborative vibe-coding channels",
+      "url": "https://www.theverge.com/tech/982628/slack-code-vibe-coding-channels-launch",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-20T12:00:00.000Z",
+      "titleJa": "Slack が共同のバイブコーディング チャンネルを開始",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/23988538/acastro_STK060_slack_04.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "「僕の60年分のデータを入れた」開始から1週間のnoteが大バズしている松浦勝人氏、ほぼほぼAIまかせで自分がやったのはパスワード入力くらいと明かす",
+      "url": "https://togetter.com/li/2735209",
+      "source": "Togetter",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 341,
+      "date": "2026-08-20T04:34:02.000Z",
+      "image": "https://s.tgstc.com/ogp3/e8c12d1d410119aca76ba9319ac3942b-1200x630.jpeg"
+    },
+    {
+      "title": "OpenAI、「2027年に上場」方針をCFOが示す 成長加速なら前倒しも",
+      "url": "https://japan.cnet.com/article/35251755/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-20T03:20:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/06/19/2f69c7e1c9e263f278871bf1f2fe1bbb/chatgpt-openai-logo-gettyimages-2208674774_1280x960.jpg"
+    },
+    {
+      "title": "Stripe、AIモデルゲートウェイのOpenRouter買収 400以上のAIモデルを束ねる中立基盤は維持",
+      "url": "https://www.itmedia.co.jp/news/article/2608/20/2000000639/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-20T01:43:52.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/20/2000000639/10003173/2048"
+    },
     {
       "title": "Replit expands access to software creation with GPT-5.6 Luna",
       "url": "https://openai.com/index/replit",
@@ -11,112 +104,21 @@
       "titleJa": "Replit、GPT-5.6 Luna によるソフトウェア作成へのアクセスを拡大"
     },
     {
-      "title": "Google、AIで「飛行機雲」を減らす実証実験 一体なぜやる？その意義とは",
-      "url": "https://japan.cnet.com/article/35251725/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-19T21:52:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/20/72db812376d1e242025eb8650a96e450/Google_blog_image.width-2200.format-webp.jpeg"
-    },
-    {
-      "title": "Google Gemini is getting a dedicated student hub",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/982425/google-gemini-student-hub",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-19T19:00:00.000Z",
-      "titleJa": "Google Gemini に専用の学生ハブが登場",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Screenshot-2026-08-19-at-2.05.46-PM.png?quality=90&strip=all&crop=0%2C9.6095766582019%2C100%2C80.780846683596&w=1200"
-    },
-    {
-      "title": "グーグル、AIエージェントによる脆弱性検出のためのブループリントを公開",
-      "url": "https://japan.zdnet.com/article/35251720/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-19T09:07:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/02/17/b6164726d6c7f6e88910a9992ea1aedf/250217_security_as_1280_457718844.jpeg"
-    },
-    {
-      "title": "NEC、ウェブ操作自動化AIエージェントをMicrosoft Marketplaceで販売開始",
-      "url": "https://japan.zdnet.com/article/35251678/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-19T06:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/19/1ea30c941fefd7e4b3b496f85226b781/20260819_adobestock_516309943_1280x960.jpg"
-    },
-    {
-      "title": "IBM、AI投資とビジネス成果を結びつけて可視化する新機能を発表",
-      "url": "https://japan.zdnet.com/article/35251674/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-19T04:30:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/19/9725bf7d7820be0ad800ceb7cc027a29/20260819_adobestock_502220085_startup_1280x960.jpg"
-    },
-    {
-      "title": "Googleや英政府、AIで飛行機雲を回避する大規模実証開始 航空業界の温暖化影響を減らす狙い",
-      "url": "https://www.itmedia.co.jp/news/article/2608/19/2000000613/",
+      "title": "Google、大学生向けに「Google AI Plus」を1年間無料提供 「Gemini」アプリに学生向け新機能も",
+      "url": "https://www.itmedia.co.jp/news/article/2608/20/2000000634/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-08-19T02:09:16.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/19/2000000613/10003042/2048"
+      "date": "2026-08-19T22:58:36.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/20/2000000634/10003157/2048"
     },
     {
-      "title": "マネックス証券、ChatGPTに話しかけて「評価損益」などを確認できる新機能 主要証券で初",
-      "url": "https://japan.cnet.com/article/35251689/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-19T01:20:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/19/eefdfba8ee068a8d996382d8ce5b08f5/2026-08-19_10.16の画像.jpeg"
-    },
-    {
-      "title": "冷間鍛造FEMをAIで高速予測するサロゲートモデル「ForgeNet」を発表",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2608/19/news030.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-19T00:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/images/logo/1200x630_500x500_mn.gif"
-    },
-    {
-      "title": "OpenAI institutes new safeguards after Hugging Face breach",
-      "url": "https://techcrunch.com/2026/08/18/openai-institutes-new-safeguards-after-hugging-face-breach/",
+      "title": "OpenAI seeks to one-up Anthropic with new customer privacy protections",
+      "url": "https://techcrunch.com/2026/08/19/openai-seeks-to-one-up-anthropic-with-new-customer-privacy-protections/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-18T18:00:00.000Z",
-      "titleJa": "OpenAI、Hugging Face 侵害を受けて新たな保護措置を導入",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-green.jpg?w=1024"
-    },
-    {
-      "title": "Etched’s valuation doubles to $21B in a month",
-      "url": "https://techcrunch.com/2026/08/18/etcheds-valuation-doubles-to-21b-in-a-month/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-18T17:21:58.000Z",
-      "titleJa": "Etched の評価額は 1 か月で 2 倍の 210 億ドルに",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/Etched-co-founder-COO-Robert-Wachen.jpg?resize=1200,1200"
-    },
-    {
-      "title": "OpenAI、「ChatGPT for Teens」発表──宿題の“丸投げ”検知、自傷や摂食障害などの保護も強化",
-      "url": "https://www.itmedia.co.jp/news/article/2608/19/2000000606/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-18T22:54:32.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/19/2000000606/10003009/2048"
-    },
-    {
-      "title": "Get closer to the game with Gemini and Pixel",
-      "url": "https://blog.google/products-and-platforms/products/gemini/google-gemini-pixel-football-club-partnerships/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-08-17T08:00:00.000Z",
-      "titleJa": "Gemini と Pixel でゲームをもっと身近に",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/football_multi-club_hero.width-1300.png"
-    },
-    {
-      "title": "OpenAI joins PORTS-Pike project",
-      "url": "https://openai.com/index/openai-joins-ports-pike-project",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-08-17T05:00:00.000Z",
-      "titleJa": "OpenAIがPORTS-Pikeプロジェクトに参加"
+      "date": "2026-08-19T22:10:46.000Z",
+      "titleJa": "OpenAI は、新たな顧客プライバシー保護で Anthropic を上回ることを目指す",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2236544149.jpg?resize=1200,800"
     }
   ]
 }
