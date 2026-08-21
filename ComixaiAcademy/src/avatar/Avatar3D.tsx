@@ -15,6 +15,7 @@
 import { Asset } from 'expo-asset';
 import { File } from 'expo-file-system';
 import { GLView, type ExpoWebGLRenderingContext } from 'expo-gl';
+import { useIsFocused } from 'expo-router';
 import { Renderer, TextureLoader } from 'expo-three';
 import React from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
@@ -175,7 +176,48 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
      フォールバックの画面に小さく出す（実機のスクショで原因が読める） */
   const [errText, setErrText] = React.useState<string | null>(null);
 
-  const model = avatar.model;
+  /* ============================================================
+     ▍相棒の差し替えは、**画面が見えているときだけ**反映する
+
+     ガチャで当てた相棒に設定で替えると、GLViewはkeyの変化で作り直される。
+     その作り直しが起きるのは**設定画面の裏に隠れたホーム**の上で、iOSは
+     隠れている画面のGLコンテキスト作成に失敗することがある（作成イベントが
+     来ないまま＝空のキャンバスのまま）。Webでは起きない。実機で
+     「ガチャで当てた相棒が出ない」として出た。
+
+     なのでモデルの差し替えはこの liveModel で受けて、画面が前に出てから
+     GLViewを作り直す。あわせて前の相棒の残り物（status:'ready' と
+     モーション表）を必ず捨てる——'ready' を引き継ぐと、読み込みが
+     終わらなかったときに**スピナーも失敗表示も出ない空白**になる。 */
+  const focused = useIsFocused();
+  const [liveModel, setLiveModel] = React.useState(avatar.model);
+  React.useEffect(() => {
+    if (!focused || liveModel === avatar.model) return;
+    setLiveModel(avatar.model);
+    setStatus('loading');
+    setErrText(null);
+    actionsRef.current = {};
+    currentRef.current = null;
+    rootRef.current = null;
+    mixerRef.current = null;
+  }, [focused, avatar.model, liveModel]);
+
+  /* ▍読み込みの見張り
+     万一GLコンテキストの作成イベント自体が来ないと、上の catch にも
+     掛からず永遠に loading のままになる。見えている画面で20秒待っても
+     終わらなければ失敗として畳み、フォールバック（立ち絵＋この文言）を
+     出す。実機のスクショで「どこで止まったか」が読めるようにするため */
+  React.useEffect(() => {
+    if (status !== 'loading' || !focused) return;
+    const t = setTimeout(() => {
+      if (disposedRef.current) return;
+      setErrText((prev) => prev ?? '読み込みが20秒たっても終わりませんでした');
+      setStatus((s) => (s === 'loading' ? 'failed' : s));
+    }, 20000);
+    return () => clearTimeout(t);
+  }, [status, focused, liveModel]);
+
+  const model = liveModel;
 
   /* ▍入っていないモーションを頼まれたら、棒立ちにしない
 
