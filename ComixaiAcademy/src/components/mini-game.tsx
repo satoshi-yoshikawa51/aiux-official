@@ -1068,7 +1068,13 @@ function TokenPlay({
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ padding: S.lg, gap: S.md }} keyboardShouldPersistTaps="handled">
+      {/* automaticallyAdjustKeyboardInsets：iOSでキーボードのぶんだけ下に
+          余白を足して、書いている欄を隠さない（「入力欄がキーとかぶって
+          見えない」の実機報告）。iOS以外では何もしない指定 */}
+      <ScrollView
+        contentContainerStyle={{ padding: S.lg, gap: S.md }}
+        keyboardShouldPersistTaps="handled"
+        automaticallyAdjustKeyboardInsets>
         {/* お題 */}
         {budget ? (
           <SlideIn from="right" distance={22} duration={320}>
@@ -1350,7 +1356,13 @@ function AiPromptPlay({
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ padding: S.lg, gap: S.md }} keyboardShouldPersistTaps="handled">
+      {/* automaticallyAdjustKeyboardInsets：iOSでキーボードのぶんだけ下に
+          余白を足して、書いている欄を隠さない（「入力欄がキーとかぶって
+          見えない」の実機報告）。iOS以外では何もしない指定 */}
+      <ScrollView
+        contentContainerStyle={{ padding: S.lg, gap: S.md }}
+        keyboardShouldPersistTaps="handled"
+        automaticallyAdjustKeyboardInsets>
         <SlideIn from="right" distance={22} duration={320}>
           <View style={{ backgroundColor: C.yellow400, borderRadius: R.sm, padding: S.md, gap: 4 }}>
             <Text style={{ fontFamily: FONT.mono, fontSize: 11, letterSpacing: 1, color: C.ink900 }}>
