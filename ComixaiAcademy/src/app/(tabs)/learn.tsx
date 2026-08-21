@@ -75,8 +75,7 @@ export default function LearnScreen() {
     <Screen header={header} tone="dots">
       {/* ———— 直すものがあるなら、新しい1本より先 ————
            まだ身についていないものを置いたまま先に進むと、積み上がるだけ。
-           **期限が来ているぶんだけ**出す（→ store/progress.tsx の useReview）。
-           こちらはスクロールする画面なので、行を足しても何も潰れない */}
+           1回正解すれば消える（→ store/progress.tsx の復習の設計メモ） */}
       {review.due.length > 0 ? (
         <Cassette>
           <Row gap={8}>
@@ -93,24 +92,6 @@ export default function LearnScreen() {
             onPress={() => router.push('/review')}
           />
         </Cassette>
-      ) : review.pending.length > 0 ? (
-        /* 期限前でも、前倒しで解きたい人のために道は残す。
-           急かさないよう、こちらは沈んだ見た目にしない */
-        <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
-          <Row gap={8}>
-            <Icon name="rotate" size={16} color={T.muted} />
-            <Text style={[F.small, { flex: 1 }]}>
-              直しかけの問題が {review.pending.length}問（次の出番は日をあけてから）
-            </Text>
-          </Row>
-          <Button
-            label="いま解く"
-            variant="secondary"
-            size="sm"
-            onPress={() => router.push('/review')}
-            style={{ alignSelf: 'flex-start' }}
-          />
-        </Panel>
       ) : null}
 
       {/* ———— つづき ————

@@ -52,18 +52,13 @@ const EMPTY_QUEUE: string[] = [];
    全問を反復すると、覚えている問題まで毎日出てきて続かない。
    一度も間違えなかった問題は記録すら作らない（＝復習に出てこない）。
 
-   ▍卒業まで3回
-   間違える → その場で復習できる（due = いま）
-   正解する → 翌日 → 3日後 → 7日後 と間隔が伸び、3回続けて正解で卒業。
-   途中で間違えたら連続はゼロに戻る。**日をまたいで3回**なので、
-   その場で3連打しても卒業できない。そこが狙い。
+   ▍1回直したら卒業
+   間違えた問題は、次にどこかで正解した時点で卒業（もう出ない）。
+   はじめは「日をまたいで3回正解で卒業」の間隔反復だったが、
+   直した直後も「直しかけ」が残り続けるのが**壊れているようにしか
+   見えない**（実機の指摘）。このアプリの復習は「間違えたままにしない」
+   ための場所で、記憶術の教材ではない——わかりやすさを取る。
    ============================================================ */
-
-/** 何日後に出し直すか。連続正解1回目・2回目・3回目 */
-const REVIEW_STEP_DAYS = [1, 3, 7];
-/** 連続正解がここに達したら卒業 */
-export const REVIEW_GRADUATE = REVIEW_STEP_DAYS.length;
-const DAY_MS = 24 * 60 * 60 * 1000;
 
 /* ▍ゲームの自己ベスト
 
@@ -553,26 +548,11 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       if (!prev && correct) return;
       const now = Date.now();
       const day = today();
-      /* ▍**段が進むのは、同じ問題につき1日1回まで**
-         復習の芯は「日をまたいで3回続けて正解で卒業」。ところがレッスンの
-         再走も修了試験も同じ answerQuiz を通るので、期限を見ずに段を
-         進めると**わざと間違え→同じレッスンを同日に3回再走→即卒業**が
-         通ってしまっていた（通しプレイの検証で発覚）。
-         前倒しの「いま解く」はこれまでどおり段が進む——同じ日の2段目
-         からを止める。間違いはいつでも記録する（段は落ちる）。 */
+      /* 正解＝その場で卒業（due: 0）。レッスンの再走や修了試験で
+         正解しても同じく卒業する——どの口から直しても「直した」は
+         「直した」。streak は記録として数だけ残す */
       const next: QuizRecord = correct
-        ? prev.day === day && prev.streak > 0
-          ? prev
-          : (() => {
-              const streak = prev.streak + 1;
-              const graduated = streak >= REVIEW_GRADUATE;
-              return {
-                streak,
-                wrong: prev.wrong,
-                due: graduated ? 0 : now + REVIEW_STEP_DAYS[streak - 1] * DAY_MS,
-                day,
-              };
-            })()
+        ? { streak: prev.streak + 1, wrong: prev.wrong, due: 0, day }
         : { streak: 0, wrong: (prev?.wrong ?? 0) + 1, due: now, day };
       /* ▍ここでもバッジ判定を回す（復習の卒業＝review-first / review-10）
          前はレッスンを1本終えるまで判定が走らず、**卒業した瞬間ではなく
@@ -886,10 +866,8 @@ export function useStats() {
    ホームとまなぶタブの導線、復習画面がここを見る */
 
 export interface ReviewSet {
-  /** いま出すべき問題（期限が来ているもの）。少ない順に並ぶ */
+  /** まだ直せていない問題。間違えた回数が多い順に並ぶ */
   due: QuizEntry[];
-  /** まだ卒業していない問題ぜんぶ（期限前も含む）。「まとめて解く」用 */
-  pending: QuizEntry[];
   /** 卒業した問題の数。積み上がりを見せるのに使う */
   graduated: number;
 }
@@ -897,9 +875,7 @@ export interface ReviewSet {
 export function useReview(): ReviewSet {
   const { state } = useProgress();
   return React.useMemo(() => {
-    const now = Date.now();
     const due: QuizEntry[] = [];
-    const pending: QuizEntry[] = [];
     let graduated = 0;
     for (const [id, rec] of Object.entries(state.quiz)) {
       const entry = getQuiz(id);
@@ -910,14 +886,14 @@ export function useReview(): ReviewSet {
         graduated += 1;
         continue;
       }
-      pending.push(entry);
-      if (rec.due <= now) due.push(entry);
+      /* 期限（due の日時）は見ない。3回制のころの記録に未来の期限が
+         残っていても、いま直せるものとして全部出す */
+      due.push(entry);
     }
     /* 出す順は「間違えた回数が多い順」。いちばん怪しいものから当てる */
-    const byWrong = (a: QuizEntry, b: QuizEntry) =>
-      (state.quiz[b.item.id]?.wrong ?? 0) - (state.quiz[a.item.id]?.wrong ?? 0);
-    due.sort(byWrong);
-    pending.sort(byWrong);
-    return { due, pending, graduated };
+    due.sort(
+      (a, b) => (state.quiz[b.item.id]?.wrong ?? 0) - (state.quiz[a.item.id]?.wrong ?? 0),
+    );
+    return { due, graduated };
   }, [state.quiz]);
 }
