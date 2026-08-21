@@ -255,7 +255,7 @@ export function evaluateBadges(s: ProgressState): string[] {
   add('star-5', star3 >= 5);
   add('star-all', star3 >= SCORED_GAME_KEYS.length);
 
-  /* 復習。卒業＝日をまたいで3回続けて正解した問題 */
+  /* 復習。卒業＝間違えたあと、どこかで正解し直した問題 */
   const graduated = Object.values(s.quiz).filter((r) => r.due === 0).length;
   add('review-first', graduated >= 1);
   add('review-10', graduated >= 10);
@@ -616,7 +616,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const claimLoginBonus = React.useCallback((): boolean => {
     const day = today();
     if (ref.current.lastBonusDay === day) return false;
-    persist({ ...ref.current, lastBonusDay: day, coins: ref.current.coins + 1 });
+    /* 1日3P＝ちょうどガチャ1回ぶん。1Pだと「開いても3日ためないと
+       まわせない」で、日々のごほうびとして弱かった（実機の指摘） */
+    persist({ ...ref.current, lastBonusDay: day, coins: ref.current.coins + 3 });
     return true;
   }, [persist]);
 

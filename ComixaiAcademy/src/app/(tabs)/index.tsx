@@ -71,7 +71,7 @@ export default function HomeScreen() {
   const canSpin = state.coins >= SPIN_COST;
 
   /* ▍ログインボーナス
-     1日1回、ホームを開いたら +1P。受け取れたときだけ小さく知らせる
+     1日1回、ホームを開いたら +3P（＝ガチャ1回ぶん）。受け取れたときだけ小さく知らせる
      （毎回音や演出を出すと、開くたびにうるさい） */
   const [bonusShown, setBonusShown] = React.useState(false);
   React.useEffect(() => {
@@ -448,7 +448,7 @@ export default function HomeScreen() {
                 paddingVertical: 3,
               }}>
               <Text style={{ fontFamily: FONT.heading, fontSize: 11, color: C.ink900 }}>
-                ログインボーナス +1P
+                ログインボーナス +3P
               </Text>
             </View>
           </PopIn>
