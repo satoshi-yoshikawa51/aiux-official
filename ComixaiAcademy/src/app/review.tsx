@@ -9,11 +9,11 @@
    ▍出す順は「間違えた回数が多い順」
    いちばん怪しいものから当てにいく（→ store/progress.tsx の useReview）。
 
-   ▍卒業まで3回、日をまたいで
-   正解すると 翌日 → 3日後 → 7日後 と間隔が伸び、3回続けたら出なくなる。
-   その場で3連打しても卒業できないのが狙い（覚えたつもりを防ぐ）。
-   期限前のぶんは「まとめて解く」で前倒しできるが、**前倒しでも
-   間隔は伸びる**。急いで潰したい人の道は塞がない。
+   ▍1回直したら卒業
+   正解した問題はその場で出なくなる。はじめは「日をまたいで3回」の
+   間隔反復だったが、直した直後も一覧に残り続けるのが**壊れている
+   ようにしか見えない**（実機の指摘）。ここは「間違えたままにしない」
+   ための場所で、記憶術の教材ではない——わかりやすさを取った。
 
    ▍レッスンには戻さない
    問題だけを出す。カードを読み直したい人のために、1問ごとに
@@ -56,7 +56,7 @@ export default function ReviewScreen() {
   const [queue, setQueue] = React.useState<QuizEntry[] | null>(null);
   React.useEffect(() => {
     if (!ready || queue !== null) return;
-    setQueue(review.due.length > 0 ? review.due : review.pending);
+    setQueue(review.due);
   }, [ready, queue, review]);
   const [i, setI] = React.useState(0);
   const [choice, setChoice] = React.useState<number | null>(null);
@@ -126,7 +126,7 @@ export default function ReviewScreen() {
        ここで Screen の header も出すと黒帯が2段になる */
     <Screen edges={['bottom']} tone="dots" style={{ gap: S.lg, paddingBottom: S.xxl }}>
       <Row style={{ justifyContent: 'space-between' }}>
-        <Text style={F.kicker}>のこり {review.pending.length}問</Text>
+        <Text style={F.kicker}>のこり {review.due.length}問</Text>
         <Text style={{ fontFamily: FONT.mono, fontSize: 10.5, color: T.muted }}>
           卒業 {review.graduated}
         </Text>
@@ -204,7 +204,7 @@ export default function ReviewScreen() {
                 : '外したぶんは、また出します'}
             </Text>
             <Row gap={6}>
-              <Badge tone="ink">のこり {review.pending.length}問</Badge>
+              <Badge tone="ink">のこり {review.due.length}問</Badge>
               <Badge tone="green">卒業 {review.graduated}問</Badge>
             </Row>
           </Panel>
