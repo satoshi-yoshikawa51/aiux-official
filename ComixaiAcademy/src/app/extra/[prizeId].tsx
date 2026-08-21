@@ -107,6 +107,28 @@ export default function ExtraScreen() {
      舞台のおまけは誰が出るか決まっていないので、いま使っている相棒 */
   const avatar = getAvatar(prize.kind === 'avatar' ? prizeId : state.avatarId);
 
+  /* ▍フキダシのぶんを先に取り分ける
+     キャラの背丈（下の stageH）はコマの高さいっぱいまで伸びるので、
+     そのままだとフキダシの置き場が無くなり、**長いセリフが途中で
+     切れる**（実機で「セリフが切れている」）。このおまけでいちばん
+     長いセリフが入る高さを見積もって、そのぶんキャラを縮める。
+     セリフごとに測り直すと Avatar3D が作り直しで点滅するので、
+     見積もりは画面ごとに1回だけ（＝いちばん長い行に合わせる）。
+     4行を超える長話は、文字を詰めた compact のフキダシで高さを稼ぐ */
+  const linesOf = (s: string, perLine: number) =>
+    s.split('\n').reduce((n, seg) => n + Math.max(1, Math.ceil(seg.length / perLine)), 0);
+  /* フキダシの内寸に入る字数。手書きフォント16px（compactは13.5px） */
+  const perLine = (px: number) => Math.max(8, Math.floor(((box.w || 340) - 46) / px));
+  const longestLines = Math.max(...extra.say.map((s) => linesOf(s, perLine(16))));
+  const compactBubble = longestLines >= 4;
+  const bubbleLines = compactBubble
+    ? Math.max(...extra.say.map((s) => linesOf(s, perLine(13.5))))
+    : longestLines;
+  const bubbleRoom =
+    box.h > 0
+      ? Math.min(bubbleLines * (compactBubble ? 21 : 27) + 40, Math.floor(box.h * 0.55))
+      : 0;
+
   /* 絵は**コマを覆いきる最小の大きさ**で敷き、キャラの目線を絵の地平線に
      乗せる。ズレたぶんが「巨人」「小人」として出るので、ホームと同じ式で
      出す（→ (tabs)/index.tsx の「舞台の大きさ」） */
@@ -116,7 +138,7 @@ export default function ExtraScreen() {
     settled.w > 0 && bgHeight
       ? Math.min(
           Math.round((bgHeight * (1 - (art.horizon ?? DEFAULT_HORIZON))) / 0.877),
-          Math.floor(box.h),
+          Math.floor(box.h) - bubbleRoom,
         )
       : 0;
 
@@ -179,7 +201,7 @@ export default function ExtraScreen() {
             }}>
             {/* フキダシはコマの上端とキャラの頭の中間に置く */}
             <View style={{ flex: 1, justifyContent: 'center' }}>
-              <Bubble text={extra.say[line]} />
+              <Bubble text={extra.say[line]} compact={compactBubble} />
             </View>
             <View style={{ alignItems: 'center' }}>
               {stageH > 0 ? (
