@@ -348,9 +348,6 @@ interface Ctx {
   spinGacha: () => SpinResult | null;
   /** 舞台テーマを装備する（持っていないものは無視） */
   setTheme: (id: string) => void;
-  /** 持っていない舞台も試しに飾る（確認用 → app/stages.tsx）。
-      持ち物は増やさないので、コレクションの数もガチャの引きどころも変わらない */
-  previewTheme: (id: string) => void;
   /** 使う相棒を切り替える。統一ロスター（設定・ガチャのコレクション）から呼ぶ。
       当てていないアバターは無視する */
   setLook: (avatarId: string) => void;
@@ -672,12 +669,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
-  /* 持ち物の確認を通さない版。作った舞台の絵を実機で見るためだけにある */
-  const previewTheme = React.useCallback(
-    (id: string) => persist({ ...ref.current, themeId: id }),
-    [persist],
-  );
-
   const setLook = React.useCallback(
     (avatarId: string) => {
       /* 当てていないキャラには着替えられない。最初の2人だけ最初から持っている
@@ -781,7 +772,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       claimShareBonus,
       spinGacha,
       setTheme,
-      previewTheme,
       setLook,
       setSoundOn,
       setMusicOn,
@@ -814,7 +804,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       claimShareBonus,
       spinGacha,
       setTheme,
-      previewTheme,
       setLook,
       setSoundOn,
       setMusicOn,

@@ -10,15 +10,13 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { REVISION as THREE_REVISION } from 'three';
 
-import * as Clipboard from 'expo-clipboard';
 
-import { Avatar3D } from '@/avatar/Avatar3D';
 import { AvatarFace } from '@/components/avatar-face';
 import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
 import { SaveTransfer } from '@/components/save-transfer';
 import { Spotlight } from '@/components/spotlight';
-import { Badge, Button, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
+import { Badge, Card, Cassette, Panel, PressCard, Row, Screen, ScreenHead, Tap } from '@/components/ui';
 import {
   avatarLabel,
   AVATARS,
@@ -28,8 +26,6 @@ import {
 } from '@/data/avatars';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { getRole } from '@/data/roles';
-import { fullSave, fullSaveText } from '@/lib/dev-save';
-import { CAN_USE_FILE, downloadSave } from '@/lib/save';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
@@ -152,16 +148,6 @@ export default function SettingsScreen() {
             <Text style={[F.hand, { color: T.link }]}>ガチャで増える →</Text>
           </Tap>
         </Row>
-        {/* ▍確認用の入口
-            舞台はガチャの景品なので、当てるまで見られない。作った絵が実機で
-            どう見えるかを確かめる手段が要る（→ app/stages.tsx）。
-            公開前にここごと外すか、隠しの操作に付け替えること */}
-        <Tap onPress={() => router.push('/stages')} sparks={false} style={{ paddingVertical: 2 }}>
-          <Text style={[F.small, { color: T.link }]}>
-            <Text style={{ color: T.muted }}>確認用 </Text>
-            20枚ぜんぶ見る →
-          </Text>
-        </Tap>
         <Row gap={S.xs} style={{ flexWrap: 'wrap' }}>
           {THEMES.map((t) => (
             <PickPill
@@ -271,13 +257,6 @@ export default function SettingsScreen() {
         </Row>
       </Panel>
 
-      {/* ▍確認用：全部そろった状態にする（→ lib/dev-save.ts）
-           舞台やおまけを足すたびに本編17本＋ガチャ数十回をやり直すのは
-           無理があるので、1タップでその状態を作れるようにしてある。
-           **公開前にこの節ごと外すこと。** */}
-      <DevFill />
-      <Dev3D />
-
       {/* ▍記録の持ち出し（→ components/save-transfer.tsx）
            消す口（下の黒いカセット）の**すぐ上**に置く。順番が逆だと、
            消してから「戻せた」と知ることになる */}
@@ -349,168 +328,6 @@ export default function SettingsScreen() {
   );
 }
 
-/* ———— 確認用：3D診断 ————
-   ▍「相棒が出ない」を実機で切り分けるための道具
-   TestFlightで「ガチャで当てた相棒（かんばん）がホームに出ない。
-   スピナーも失敗表示も出ない」が起きた。手元にiOSが無いので、
-   持っている相棒を全員この場で小さく描いて、**どのモデルが・どう
-   落ちるか**を1画面で見られるようにする。出ない相棒のマスに
-   Avatar3Dの失敗表示（エラー文字）が出れば、スクショ1枚で原因が読める。
-   ここで全員出るならモデルは無罪で、ホーム側の配置が犯人。
-
-   **公開前に、この節ごと外すこと。** */
-function Dev3D() {
-  const { state } = useProgress();
-  const [open, setOpen] = React.useState(false);
-  /* 切り分けモード：normal＝ふだんどおり／plain＝テクスチャなし単色／
-     still＝アニメーションなし。白いマスがどのモードで直るかで犯人の工程が割れる */
-  const [mode, setMode] = React.useState<'normal' | 'plain' | 'still'>('normal');
-  /* ▍threeの悲鳴を画面で読む
-     リリースビルドの console はどこにも見えないが、threeはGLやシェーダの
-     問題を console.error/warn に吐く。診断を開いている間だけ横取りして
-     画面に出す——実機のスクショだけで「何が起きたか」が読めるように */
-  const [logs, setLogs] = React.useState<string[]>([]);
-  React.useEffect(() => {
-    if (!open) return;
-    const err = console.error;
-    const warn = console.warn;
-    const grab = (kind: string, args: unknown[]) => {
-      const line = `${kind} ${args.map((a) => String(a)).join(' ')}`.slice(0, 400);
-      /* WebGL1の非推奨警告はコンテキストの数だけ出て枠を食い潰すので拾わない
-         （実際、これで肝心のシェーダエラーの続きが切れていた） */
-      if (line.includes('WebGL 1 support was deprecated')) return;
-      setLogs((prev) => (prev.length > 14 ? prev : [...prev, line]));
-    };
-    console.error = (...a: unknown[]) => { grab('E:', a); err(...a); };
-    console.warn = (...a: unknown[]) => { grab('W:', a); warn(...a); };
-    return () => { console.error = err; console.warn = warn; };
-  }, [open]);
-  const owned = AVATARS.filter((a) => a.model && ownsAvatar(a, state.skins));
-  return (
-    <Card variant="flat">
-      <Row style={{ justifyContent: 'space-between' }}>
-        <Text style={F.h1}>確認用：3D診断</Text>
-        <Badge tone="paper">公開前に外す</Badge>
-      </Row>
-      <Text style={F.small}>
-        持っている相棒を全員この場で描きます。出ないマスと下のログが原因の手がかりです。
-      </Text>
-      {open ? (
-        <View style={{ gap: S.sm }}>
-          <Row gap={S.sm} style={{ flexWrap: 'wrap' }}>
-            <Button label="ふつう" onPress={() => setMode('normal')} variant={mode === 'normal' ? 'primary' : 'secondary'} size="sm" />
-            <Button label="テクスチャなし" onPress={() => setMode('plain')} variant={mode === 'plain' ? 'primary' : 'secondary'} size="sm" />
-            <Button label="動きなし" onPress={() => setMode('still')} variant={mode === 'still' ? 'primary' : 'secondary'} size="sm" />
-          </Row>
-          <Row gap={S.sm} style={{ flexWrap: 'wrap' }}>
-            {owned.map((a) => (
-              <View key={`${a.id}-${mode}`} style={{ alignItems: 'center', width: 100 }}>
-                <View style={{ borderWidth: BW.hair, borderColor: T.border, borderRadius: R.sm }}>
-                  <Avatar3D
-                    avatar={a}
-                    width={98}
-                    height={150}
-                    probe={mode === 'normal' ? undefined : { plain: mode === 'plain', still: mode === 'still' }}
-                  />
-                </View>
-                <Text style={F.tiny}>{avatarLabel(a)}</Text>
-              </View>
-            ))}
-          </Row>
-          {logs.length > 0 ? (
-            <View style={{ gap: 2 }}>
-              {logs.map((l, i) => (
-                <Text key={i} style={[F.tiny, { color: C.red700 }]} numberOfLines={2}>
-                  {l}
-                </Text>
-              ))}
-            </View>
-          ) : (
-            <Text style={F.tiny}>ログ：なし（エラーは出ていません）</Text>
-          )}
-        </View>
-      ) : (
-        <Button label="診断をはじめる" onPress={() => setOpen(true)} variant="secondary" size="sm" />
-      )}
-    </Card>
-  );
-}
-
-/* ———— 確認用：全部そろった状態にする ————
-   ▍作ったものを、作った当日に実機で見るための道具
-   舞台20枚・おまけ・称号・★3まで、台帳から組み立てて丸ごと入れる
-   （→ lib/dev-save.ts）。同じものを文字列にして書き出せるので、
-   別の端末に貼って使うこともできる。
-
-   **公開前に、この節ごと外すこと。** */
-function DevFill() {
-  const router = useRouter();
-  const { replaceAll } = useProgress();
-  const [asking, setAsking] = React.useState(false);
-  const [note, setNote] = React.useState<string | null>(null);
-
-  const apply = () => {
-    setAsking(false);
-    replaceAll(fullSave());
-    router.replace('/');
-  };
-
-  const copy = async () => {
-    const text = fullSaveText();
-    try {
-      await Clipboard.setStringAsync(text);
-      setNote(`コピーしました（${text.length.toLocaleString()}文字）。別の端末の「記録を読み込む」に貼れます。`);
-    } catch {
-      setNote('コピーできませんでした。ファイルに保存を使ってください。');
-    }
-  };
-
-  return (
-    <Card variant="flat">
-      <Row style={{ justifyContent: 'space-between' }}>
-        <Text style={F.h1}>確認用</Text>
-        <Badge tone="paper">公開前に外す</Badge>
-      </Row>
-      <Text style={F.small}>
-        全レッスン修了・全★3・舞台とアバターを全部所持・おまけ全クリア・99Pの状態を作ります。
-        追加した舞台やおまけを、その場で見るための道具です。
-      </Text>
-      {asking ? (
-        <View style={{ gap: S.sm }}>
-          <Row gap={6} style={{ alignItems: 'flex-start' }}>
-            <Icon name="bang" size={14} color={C.red500} />
-            <Text style={[F.tiny, { flex: 1, color: C.red700 }]}>
-              いまの記録は消えます。残したいなら、先に下の「記録を書き出す」で控えを取ってください。
-            </Text>
-          </Row>
-          <Row gap={S.xl} style={{ justifyContent: 'space-between' }}>
-            <Tap onPress={() => setAsking(false)} sparks={false} style={{ paddingVertical: S.sm }}>
-              <Text style={[F.strong, { color: T.muted }]}>やめる</Text>
-            </Tap>
-            <Button label="全部そろえる" onPress={apply} size="sm" />
-          </Row>
-        </View>
-      ) : (
-        <Row gap={S.sm} style={{ flexWrap: 'wrap' }}>
-          <Button label="全部そろった状態にする" onPress={() => setAsking(true)} variant="secondary" size="sm" />
-          <Button label="その記録をコピー" onPress={copy} variant="secondary" size="sm" />
-          {CAN_USE_FILE ? (
-            <Button
-              label="ファイルに保存"
-              onPress={() => {
-                downloadSave(fullSaveText(), 'comixai-academy-all-clear.json');
-                setNote('ファイルに保存しました。');
-              }}
-              variant="secondary"
-              size="sm"
-            />
-          ) : null}
-        </Row>
-      )}
-      {note ? <Text style={F.tiny}>{note}</Text> : null}
-    </Card>
-  );
-}
 
 /* 舞台えらびの1粒。持っていないものは鍵を見せて、ガチャへ誘う */
 function PickPill({
