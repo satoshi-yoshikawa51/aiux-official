@@ -375,7 +375,10 @@ function Dev3D() {
     const err = console.error;
     const warn = console.warn;
     const grab = (kind: string, args: unknown[]) => {
-      const line = `${kind} ${args.map((a) => String(a)).join(' ')}`.slice(0, 160);
+      const line = `${kind} ${args.map((a) => String(a)).join(' ')}`.slice(0, 400);
+      /* WebGL1の非推奨警告はコンテキストの数だけ出て枠を食い潰すので拾わない
+         （実際、これで肝心のシェーダエラーの続きが切れていた） */
+      if (line.includes('WebGL 1 support was deprecated')) return;
       setLogs((prev) => (prev.length > 14 ? prev : [...prev, line]));
     };
     console.error = (...a: unknown[]) => { grab('E:', a); err(...a); };
