@@ -1,32 +1,46 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-21T21:56:03.124Z",
+  "updatedAt": "2026-08-22T21:53:30.228Z",
   "items": [
     {
-      "title": "Nvidia just showed that the harness, not the AI model, is now the real hero",
-      "url": "https://techcrunch.com/2026/08/21/nvidia-just-showed-that-the-harness-not-the-ai-model-is-now-the-real-hero/",
+      "title": "Harvard’s $699 startup bootcamp offers AI avatars of its instructors",
+      "url": "https://techcrunch.com/2026/08/22/harvards-699-startup-bootcamp-offers-ai-avatars-of-its-instructors/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-21T19:43:39.000Z",
-      "titleJa": "Nvidia は、AI モデルではなくハーネスが今や本当の主役であることを示しました。",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Nvidia-VP-of-product-Adel-El-Hallak.jpg?resize=1200,898"
+      "date": "2026-08-22T21:46:56.000Z",
+      "image": "https://techcrunch.com/wp-content/uploads/2024/12/GettyImages-2169079907_27e720-e1734690817769.jpg?resize=1200,800"
     },
     {
-      "title": "Starcloud raises $250 million for orbital data centers as launch options dry up",
-      "url": "https://techcrunch.com/2026/08/21/starcloud-raises-200-million-for-orbital-data-centers-as-launch-options-dry-up/",
+      "title": "OpenAI says California should strengthen its AI safety bill",
+      "url": "https://techcrunch.com/2026/08/22/openai-says-california-should-strengthen-its-ai-safety-bill/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-21T14:00:00.000Z",
-      "titleJa": "打ち上げオプションが枯渇する中、スタークラウドは軌道データセンターのために2億5000万ドルを調達",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Starcloud-Founders-2026.jpg?w=810"
+      "date": "2026-08-22T16:30:34.000Z",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2263890424.jpg?w=1024"
     },
     {
-      "title": "【相互無料提供開始】BarterMatchにて、株式会社Re-railが提供する『AISTAZ（アイスターズ）』の相互無料提供を開始しました",
-      "url": "https://ascii.jp/elem/000/004/428/4428603/?rss",
-      "source": "ASCII.jp",
+      "title": "Anthropic’s Opus 4.6 is a smut-machine",
+      "url": "https://techcrunch.com/2026/08/21/anthropics-opus-4-6-is-a-smut-machine/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-21T23:07:25.000Z",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-157692252.jpg?resize=1200,915"
+    },
+    {
+      "title": "Anthropic、「ミュトス 5」を脆弱性スキャンに開放──「Claude Security」経由でEnterprise顧客が利用可能に",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/22/2000000697/",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-08-21T09:59:33.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "date": "2026-08-21T22:09:30.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/22/2000000697/10003410/2048"
+    },
+    {
+      "title": "FANZA、成人向けAIコンテンツを作成→公開できる新サービス「スタジオ」24日から先行体験",
+      "url": "https://japan.cnet.com/article/35251821/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-21T22:05:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/22/40636cbe5161f1ba383dd188bf5f6518/2026-08-22_6.47の画像.jpeg"
     },
     {
       "title": "Claudeの「透かし」導入、なぜ批判？ AI利用開示は当然の責務だ",
@@ -35,24 +49,6 @@
       "lang": "ja",
       "date": "2026-08-21T08:22:00.000Z",
       "image": "https://japan.cnet.com/storage/2026/08/21/0fc86c3c57b6f1d978c35dd3e57145ff/GettyImages-2271847602_1280x960.jpg"
-    },
-    {
-      "title": "ノイズも値上げもキャンセル中。AmazonでAirPods Pro 3が6,000円も安くなってる",
-      "url": "https://www.gizmodo.jp/article/airpods-pro-3-sale-amazon/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-08-21T06:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/08/20/6c3980a2-9048-4f93-a9b4-726ca64712de/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "Anthropic、「Claude」の学習サイト「Claude Academy」を無償開設／AIの基礎から「Code」「Cowork」まで。興味や学習状況に応じてさまざまなコースを提案",
-      "url": "https://forest.watch.impress.co.jp/docs/news/2134400.html",
-      "source": "窓の杜",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 250,
-      "date": "2026-08-21T04:48:04.000Z",
-      "image": "https://forest.watch.impress.co.jp/img/wf/list/2134/400/image_top.png"
     },
     {
       "title": "FANZAで「成人向けAIコンテンツ制作サービス」開始 8月24日から先行体験",
@@ -71,15 +67,6 @@
       "image": "https://www.itmedia.co.jp/news/article/ogp/2608/21/2000000670/10003305/2048"
     },
     {
-      "title": "AI data startup Micro1 reaches $500M gross run rate amid AI training boom",
-      "url": "https://techcrunch.com/2026/08/20/ai-data-startup-micro1-reaches-500m-gross-run-rate-amid-ai-training-boom/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-21T00:13:44.000Z",
-      "titleJa": "AI データのスタートアップ Micro1 が、AI トレーニング ブームの中で総実行率 5 億ドルを達成",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/12/IMG_2686.jpeg?resize=1200,957"
-    },
-    {
       "title": "「Fable禁止」で仕事が止まったあの日々を振り返る 日本企業が取るべき「脱・単一モデル」戦略",
       "url": "https://www.itmedia.co.jp/aiplus/article/2608/21/2000000666/",
       "source": "ITmedia AI＋",
@@ -92,16 +79,23 @@
       "url": "https://openai.com/index/stampli",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-08-20T00:00:00.000Z",
-      "titleJa": "Stampli、ChatGPT Work を使用して起動時間を 68% 削減"
+      "date": "2026-08-20T00:00:00.000Z"
     },
     {
-      "title": "Snowflakeが過去最高業績 CEOが「他社との差別化は容易になった」と語るワケ",
-      "url": "https://www.itmedia.co.jp/enterprise/articles/2608/24/news009.html",
-      "source": "ITmedia AI＋",
+      "title": "企業のAIエージェント導入が3倍増加--投資対効果が明確に、顧客からも信頼",
+      "url": "https://japan.zdnet.com/article/35251756/",
+      "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-08-20T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/enterprise/articles/2608/24/cover_news009.jpg"
+      "date": "2026-08-20T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/20/43fd8bb38291c44b0d64fe1da2f16919/large-vrtunnel-gettyimages-2226285470.jpg"
+    },
+    {
+      "title": "仮想リスクシナリオ1：小売りチェーンの販売戦略AIがSNS裏工作？",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03713/00001/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-20T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03713/00001/topm.jpg?20220512"
     },
     {
       "title": "It’s Greg Brockman’s OpenAI now",
@@ -109,16 +103,15 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-08-20T15:45:55.000Z",
-      "titleJa": "今はグレッグ ブロックマンの OpenAI です",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/05/STKP221_GREG_BROCKMAN2.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "Replit expands access to software creation with GPT-5.6 Luna",
-      "url": "https://openai.com/index/replit",
-      "source": "OpenAI（公式）",
+      "title": "Slack is launching collaborative vibe-coding channels",
+      "url": "https://www.theverge.com/tech/982628/slack-code-vibe-coding-channels-launch",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-08-19T07:00:00.000Z",
-      "titleJa": "Replit、GPT-5.6 Luna によるソフトウェア作成へのアクセスを拡大"
+      "date": "2026-08-20T12:00:00.000Z",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/23988538/acastro_STK060_slack_04.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     }
   ]
 }
