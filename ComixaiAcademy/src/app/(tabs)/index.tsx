@@ -203,13 +203,23 @@ export default function HomeScreen() {
     if (settled.w <= 0 || !bgHeight || area <= 0) return null;
     /* **置き場の高さ（box.h）は見ない。** フキダシをキャラの上に寄せると
        置き場が縮むので、そこを見ていると縮み合いになる。
-       コマの中身の高さ（area）だけを上限にする */
+       コマの中身の高さ（area）からフキダシの実測ぶんを引いた残りを上限にする。
+
+       ▍area だけを上限にしてはいけない
+       前はそうしていて、SEの案内中に壊れた。案内バーのぶんコマが縮むと
+       地平線由来の高さがコマの中身を超え、キャンバスがコマいっぱいまで
+       伸びる＝フキダシの取り分がゼロになる。フキダシは上へはみ出して
+       パネルに刈られ、**セリフの1行目から読めなくなる**（実機SEで指摘）。
+       bubbleH は「いちばん高かったフキダシ」で固定される値なので、
+       ここから引いても縮み合いにはならない */
     const horizonFromBottom = bgHeight * (1 - (art.horizon ?? DEFAULT_HORIZON));
+    const room = Math.floor(area) - (bubbleH > 0 ? bubbleH + S.sm : 0);
     return {
       w: Math.floor(settled.w),
-      h: Math.min(Math.round(horizonFromBottom / 0.877), Math.floor(area)),
+      /* 極端に狭い端末で引きすぎても、キャラを消さない下限だけ守る */
+      h: Math.max(Math.min(Math.round(horizonFromBottom / 0.877), room), 96),
     };
-  }, [settled.w, area, art.horizon, bgHeight]);
+  }, [settled.w, area, art.horizon, bgHeight, bubbleH]);
 
 
   const next = React.useMemo(() => {
