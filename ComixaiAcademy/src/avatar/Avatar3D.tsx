@@ -326,6 +326,19 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         gltf.scene.traverse((obj) => {
           const mesh = obj as THREE.Mesh;
           if (!mesh.isMesh) return;
+          /* ▍視界判定（frustum culling）を切る
+
+             threeは描く前に境界球で「視界に入っているか」を判定し、
+             **球の計算が壊れる（NaN）と、エラーも出さずにただ描かない**。
+             実機で せんぱい・かんばん・ねっけつ_タキシード だけが
+             「読み込み成功なのに真っ白」になり、3D診断でモデル単位の
+             症状と確定した。境界球の計算は数万頂点の数値ループで、
+             このアプリで2回踏んだHermesの数値ループ不具合と同じ形
+             （データの長さで発症が変わる＝モデルにより出たり出なかったり。
+             ブラウザのV8では起きない）。
+             キャラ1体を必ず画面に入れて描く用途に視界判定は不要なので、
+             判定ごと切って境界球を使う経路を通らなくする */
+          mesh.frustumCulled = false;
           const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
           for (const m of mats) {
             const mat = m as THREE.MeshBasicMaterial;
