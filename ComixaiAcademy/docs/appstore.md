@@ -125,3 +125,104 @@ App Store Connect の入力欄にそのまま貼れる形でまとめてある�
 - [x] `app.json` の `version` を確認（1.0.0）
 - [x] 権利の棚卸し完了（BGM=DOVA・Tripo/Midjourney=有料プラン → docs/licenses.md）
 - [ ] プライバシーポリシー/サポートページがサイトに公開済みであること
+
+## Guideline 2.1（新規アプリの追加情報）への回答
+
+初回提出で必ず来る定型の質問。**次回からはメモ欄に最初から書いておく**（Appleも
+そう案内している）。以下がそのまま貼れる回答。英語で返す——審査は英語で読まれる。
+
+### 回答本文（Notes欄 / 返信にそのまま貼る）
+
+```
+Thank you for the review. Here is the requested information.
+
+2. Devices and OS used for testing
+- iPhone 16 Pro Max (iOS <VERSION>) — physical device, tested through TestFlight
+- Layouts for iPhone SE (375x667 pt), iPhone 16 Pro Max (430x932 pt) and iPad
+  (1024x1366 pt) were additionally verified by running the same UI code in a
+  browser-based harness at those exact dimensions.
+
+3. What the app does and who it is for
+COMIXAI Academy is a Japanese-language educational app that teaches generative-AI
+literacy to working adults who are new to AI.
+Problem it solves: many office workers in Japan have heard of ChatGPT or Claude,
+but do not know what these tools can and cannot do, or how to write an effective
+instruction (prompt). Reading a manual rarely makes this stick.
+What it provides: 17 short lessons (about 5 minutes each) in 5 courses, guided by
+a 3D character companion. Each lesson mixes explanation cards, one of 9 kinds of
+interactive mini-games, and a 3-question quiz. Wrong answers are collected and
+asked again later. There is also an exercise where the user writes a prompt and
+receives an AI critique of it.
+Audience: Japanese-speaking adults, no prior knowledge required. Rated 4+.
+The app is free, has no ads, no in-app purchases and no subscriptions.
+
+4. How to set up and reach the main features
+No account, no login, no credentials and no sample files are required. Every
+feature is available immediately after installing.
+On first launch: opening scene -> choose a companion character -> choose your job
+role -> a 6-step tutorial -> Home.
+- Lessons: on Home, tap the red button ("はじめる"). Lesson 1 contains the
+  tokenizer mini-game and a quiz. One lesson takes about 3 minutes.
+- Prompt critique (uses an external AI service): the "プロンプト道場" course,
+  reachable from the second tab ("まなぶ").
+- Gacha (reward feature, no payment): the capsule-machine icon at the bottom
+  left of the Home panel.
+- Badges and ranks: third tab ("バッジ"). Settings: fourth tab ("設定").
+Content unlocks in order as lessons are completed; nothing is locked behind a
+purchase, a region or an account.
+
+5. External services used
+- Our own server, https://comixai.dev
+  - POST /api/tokenize — counts tokens for the tokenizer mini-game. The submitted
+    text is processed to produce the response and is not stored.
+  - POST /api/academy/grade — the prompt-critique exercise. It forwards the
+    user's practice prompt to Anthropic's Claude API and returns the feedback.
+    The text is not stored on our server.
+- Anthropic Claude API — used only for the prompt critique described above.
+- No analytics SDK, no advertising SDK, no third-party sign-in, no payment
+  processing, and no tracking of any kind are included in the app.
+- If the device is offline or the server cannot be reached, both features fall
+  back automatically (offline scoring / a notice) and the rest of the app
+  continues to work.
+
+6. Regional differences
+None. The app offers identical features and content in every region. The app is
+Japanese-only and free everywhere. There is no geo-gating, no region-specific
+content and no regional pricing.
+
+7. Regulated industry / third-party material
+The app is general education and does not operate in a regulated industry.
+Third-party material bundled in the app, and our rights to it:
+- Background music (3 tracks): from DOVA-SYNDROME. Their terms permit commercial
+  use and inclusion in applications.
+- 3D avatar models (12): generated with Tripo on a paid plan. Assets generated on
+  a paid plan belong to the user and may be used commercially.
+- Stage background images (10): generated with Midjourney on a paid plan.
+  Commercial use is permitted under section 4 of their Terms of Service.
+- Fonts (Zen Kaku Gothic New, Yusei Magic, JetBrains Mono): from Google Fonts,
+  licensed under the SIL Open Font License 1.1, which permits redistribution.
+No other protected third-party material is included.
+
+1. A screen recording of the app running on an iPhone 16 Pro Max is attached.
+The app has no account registration, no login, no account deletion, no paid
+content, no user-generated content shared between users, and it requests no
+permissions (no location, contacts, camera, photos, microphone or App Tracking
+Transparency prompts).
+```
+
+### 画面収録の撮り方（実機・最新OS・起動から）
+
+**先に設定→記録→「記録をぜんぶ消す」でまっさらにしてから撮る**（Appleは
+「起動から通常の利用の流れ」を求めるので、オンボーディングから写っているのが強い）。
+
+1. ホーム画面のアイコンをタップして起動（**アイコンを押すところから**録る）
+2. オープニング → 相棒えらび → 職種えらび → 案内6歩（速めに送ってよい）
+3. ホームで「はじめる」→ レッスンのカードを数枚 → **トークナイザーで文字を打つ**
+   → クイズ1問 → 修了画面
+4. ホームに戻ってガチャを1回まわす（**課金が無いことが分かる絵**）
+5. 「まなぶ」→ プロンプト道場 → 指示文を書いて**AI添削が返るところ**
+   （外部サービスを使う唯一の機能なので、ここは必ず入れる）
+6. 「バッジ」→「設定」（ログイン欄が無いこと・記録が端末内であることが見える）
+
+3〜4分に収める。iPhoneの画面収録（コントロールセンター）でよい。
+撮れたら App Store Connect の App Review ページで返信に添付する。
