@@ -362,6 +362,26 @@ export default function SettingsScreen() {
 function Dev3D() {
   const { state } = useProgress();
   const [open, setOpen] = React.useState(false);
+  /* 切り分けモード：normal＝ふだんどおり／plain＝テクスチャなし単色／
+     still＝アニメーションなし。白いマスがどのモードで直るかで犯人の工程が割れる */
+  const [mode, setMode] = React.useState<'normal' | 'plain' | 'still'>('normal');
+  /* ▍threeの悲鳴を画面で読む
+     リリースビルドの console はどこにも見えないが、threeはGLやシェーダの
+     問題を console.error/warn に吐く。診断を開いている間だけ横取りして
+     画面に出す——実機のスクショだけで「何が起きたか」が読めるように */
+  const [logs, setLogs] = React.useState<string[]>([]);
+  React.useEffect(() => {
+    if (!open) return;
+    const err = console.error;
+    const warn = console.warn;
+    const grab = (kind: string, args: unknown[]) => {
+      const line = `${kind} ${args.map((a) => String(a)).join(' ')}`.slice(0, 160);
+      setLogs((prev) => (prev.length > 14 ? prev : [...prev, line]));
+    };
+    console.error = (...a: unknown[]) => { grab('E:', a); err(...a); };
+    console.warn = (...a: unknown[]) => { grab('W:', a); warn(...a); };
+    return () => { console.error = err; console.warn = warn; };
+  }, [open]);
   const owned = AVATARS.filter((a) => a.model && ownsAvatar(a, state.skins));
   return (
     <Card variant="flat">
@@ -370,19 +390,42 @@ function Dev3D() {
         <Badge tone="paper">公開前に外す</Badge>
       </Row>
       <Text style={F.small}>
-        持っている相棒を全員この場で描きます。出ないマスの文字が原因の手がかりです。
+        持っている相棒を全員この場で描きます。出ないマスと下のログが原因の手がかりです。
       </Text>
       {open ? (
-        <Row gap={S.sm} style={{ flexWrap: 'wrap' }}>
-          {owned.map((a) => (
-            <View key={a.id} style={{ alignItems: 'center', width: 100 }}>
-              <View style={{ borderWidth: BW.hair, borderColor: T.border, borderRadius: R.sm }}>
-                <Avatar3D avatar={a} width={98} height={150} />
+        <View style={{ gap: S.sm }}>
+          <Row gap={S.sm} style={{ flexWrap: 'wrap' }}>
+            <Button label="ふつう" onPress={() => setMode('normal')} variant={mode === 'normal' ? 'primary' : 'secondary'} size="sm" />
+            <Button label="テクスチャなし" onPress={() => setMode('plain')} variant={mode === 'plain' ? 'primary' : 'secondary'} size="sm" />
+            <Button label="動きなし" onPress={() => setMode('still')} variant={mode === 'still' ? 'primary' : 'secondary'} size="sm" />
+          </Row>
+          <Row gap={S.sm} style={{ flexWrap: 'wrap' }}>
+            {owned.map((a) => (
+              <View key={`${a.id}-${mode}`} style={{ alignItems: 'center', width: 100 }}>
+                <View style={{ borderWidth: BW.hair, borderColor: T.border, borderRadius: R.sm }}>
+                  <Avatar3D
+                    avatar={a}
+                    width={98}
+                    height={150}
+                    probe={mode === 'normal' ? undefined : { plain: mode === 'plain', still: mode === 'still' }}
+                  />
+                </View>
+                <Text style={F.tiny}>{avatarLabel(a)}</Text>
               </View>
-              <Text style={F.tiny}>{avatarLabel(a)}</Text>
+            ))}
+          </Row>
+          {logs.length > 0 ? (
+            <View style={{ gap: 2 }}>
+              {logs.map((l, i) => (
+                <Text key={i} style={[F.tiny, { color: C.red700 }]} numberOfLines={2}>
+                  {l}
+                </Text>
+              ))}
             </View>
-          ))}
-        </Row>
+          ) : (
+            <Text style={F.tiny}>ログ：なし（エラーは出ていません）</Text>
+          )}
+        </View>
       ) : (
         <Button label="診断をはじめる" onPress={() => setOpen(true)} variant="secondary" size="sm" />
       )}
