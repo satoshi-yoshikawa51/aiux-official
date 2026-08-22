@@ -133,81 +133,31 @@ App Store Connect の入力欄にそのまま貼れる形でまとめてある�
 
 ### 回答本文（Notes欄 / 返信にそのまま貼る）
 
+**App Reviewの返信欄は4000字までしか入らない。** 下は3,722字に詰めた版で、
+これがそのまま送れる（長い版を書くと送信ボタンで弾かれる）。
+
 ```
 Thank you for the review. Here is the requested information.
 
-2. Devices and OS used for testing
-- iPhone 16 Pro Max (iOS <VERSION>) — physical device, tested through TestFlight
-- Layouts for iPhone SE (375x667 pt), iPhone 16 Pro Max (430x932 pt) and iPad
-  (1024x1366 pt) were additionally verified by running the same UI code in a
-  browser-based harness at those exact dimensions.
+1. Screen recording: attached. Recorded on iPhone 16 Pro Max from app launch, covering onboarding, a lesson with a mini-game and quiz, the AI prompt critique, the gacha, badges and settings. The app has no account registration, no login, no account deletion, no paid content, no user-generated content shared between users, and it requests no permissions (no location, contacts, camera, photos, microphone, or App Tracking Transparency prompts).
 
-3. What the app does and who it is for
-COMIXAI Academy is a Japanese-language educational app that teaches generative-AI
-literacy to working adults who are new to AI.
-Problem it solves: many office workers in Japan have heard of ChatGPT or Claude,
-but do not know what these tools can and cannot do, or how to write an effective
-instruction (prompt). Reading a manual rarely makes this stick.
-What it provides: 17 short lessons (about 5 minutes each) in 5 courses, guided by
-a 3D character companion. Each lesson mixes explanation cards, one of 9 kinds of
-interactive mini-games, and a 3-question quiz. Wrong answers are collected and
-asked again later. There is also an exercise where the user writes a prompt and
-receives an AI critique of it.
-Audience: Japanese-speaking adults, no prior knowledge required. Rated 4+.
-The app is free, has no ads, no in-app purchases and no subscriptions.
+2. Devices and OS tested
+iPhone 16 Pro Max (iOS <VERSION>), physical device, via TestFlight. Layouts for iPhone SE (375x667 pt), iPhone 16 Pro Max (430x932 pt) and iPad (1024x1366 pt) were also verified by running the same UI code at those dimensions.
 
-4. How to set up and reach the main features
-No account, no login, no credentials and no sample files are required. Every
-feature is available immediately after installing.
-On first launch: opening scene -> choose a companion character -> choose your job
-role -> a 6-step tutorial -> Home.
-- Lessons: on Home, tap the red button ("はじめる"). Lesson 1 contains the
-  tokenizer mini-game and a quiz. One lesson takes about 3 minutes.
-- Prompt critique (uses an external AI service): the "プロンプト道場" course,
-  reachable from the second tab ("まなぶ").
-- Gacha (reward feature, no payment): the capsule-machine icon at the bottom
-  left of the Home panel.
-- Badges and ranks: third tab ("バッジ"). Settings: fourth tab ("設定").
-Content unlocks in order as lessons are completed; nothing is locked behind a
-purchase, a region or an account.
+3. Functions and target audience
+COMIXAI Academy teaches generative-AI literacy to Japanese-speaking working adults who are new to AI. Problem: many office workers have heard of ChatGPT or Claude but do not know what these tools can and cannot do, or how to write an effective prompt; reading a manual rarely makes it stick. Value: 17 short lessons (about 5 minutes each) in 5 courses, guided by a 3D character companion. Each lesson mixes explanation cards, one of 9 kinds of interactive mini-games, and a 3-question quiz; wrong answers are asked again later. One exercise lets the user write a prompt and receive an AI critique of it. No prior knowledge required, rated 4+, free, no ads, no in-app purchases, no subscriptions.
 
-5. External services used
-- Our own server, https://comixai.dev
-  - POST /api/tokenize — counts tokens for the tokenizer mini-game. The submitted
-    text is processed to produce the response and is not stored.
-  - POST /api/academy/grade — the prompt-critique exercise. It forwards the
-    user's practice prompt to Anthropic's Claude API and returns the feedback.
-    The text is not stored on our server.
-- Anthropic Claude API — used only for the prompt critique described above.
-- No analytics SDK, no advertising SDK, no third-party sign-in, no payment
-  processing, and no tracking of any kind are included in the app.
-- If the device is offline or the server cannot be reached, both features fall
-  back automatically (offline scoring / a notice) and the rest of the app
-  continues to work.
+4. Setup and access
+No account, login, credentials or sample files are required; all features are available immediately after installing. First launch: opening scene, choose a companion character, choose a job role, a 6-step tutorial, then Home. Lessons start from the red button on Home (Lesson 1 contains the tokenizer mini-game and a quiz, about 3 minutes). The AI prompt critique is in the "プロンプト道場" course on the second tab. The gacha reward feature is the capsule-machine icon at the lower left of the Home panel. Badges are on the third tab, settings on the fourth. Content unlocks in order as lessons are completed; nothing is locked behind a purchase, a region or an account.
+
+5. External services
+Our own server, https://comixai.dev, provides two endpoints: /api/tokenize counts tokens for the tokenizer mini-game, and /api/academy/grade powers the prompt critique by forwarding the user's practice prompt to Anthropic's Claude API and returning the feedback. In both cases the submitted text is processed to produce the response and is not stored on our server. The app contains no analytics SDK, no advertising SDK, no third-party sign-in, no payment processing and no tracking. If the device is offline or the server is unreachable, both features fall back automatically and the rest of the app keeps working.
 
 6. Regional differences
-None. The app offers identical features and content in every region. The app is
-Japanese-only and free everywhere. There is no geo-gating, no region-specific
-content and no regional pricing.
+None. Identical features and content in every region. The app is Japanese-only and free everywhere, with no geo-gating, no region-specific content and no regional pricing.
 
-7. Regulated industry / third-party material
-The app is general education and does not operate in a regulated industry.
-Third-party material bundled in the app, and our rights to it:
-- Background music (3 tracks): from DOVA-SYNDROME. Their terms permit commercial
-  use and inclusion in applications.
-- 3D avatar models (12): generated with Tripo on a paid plan. Assets generated on
-  a paid plan belong to the user and may be used commercially.
-- Stage background images (10): generated with Midjourney on a paid plan.
-  Commercial use is permitted under section 4 of their Terms of Service.
-- Fonts (Zen Kaku Gothic New, Yusei Magic, JetBrains Mono): from Google Fonts,
-  licensed under the SIL Open Font License 1.1, which permits redistribution.
-No other protected third-party material is included.
-
-1. A screen recording of the app running on an iPhone 16 Pro Max is attached.
-The app has no account registration, no login, no account deletion, no paid
-content, no user-generated content shared between users, and it requests no
-permissions (no location, contacts, camera, photos, microphone or App Tracking
-Transparency prompts).
+7. Regulated industry and third-party material
+The app is general education and is not in a regulated industry. Bundled third-party material and our rights: 3 background music tracks from DOVA-SYNDROME, whose terms permit commercial use and inclusion in applications; 12 3D avatar models generated with Tripo on a paid plan, where generated assets belong to the user and may be used commercially; 10 stage background images generated with Midjourney on a paid plan, commercial use permitted under section 4 of their Terms of Service; and three fonts (Zen Kaku Gothic New, Yusei Magic, JetBrains Mono) from Google Fonts under the SIL Open Font License 1.1. No other protected third-party material is included.
 ```
 
 ### 画面収録の撮り方（実機・最新OS・起動から）
