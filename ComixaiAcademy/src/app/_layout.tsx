@@ -171,7 +171,6 @@ export default function RootLayout() {
               {/* おまけ（当てた景品についてくる追加コンテンツ）。題は画面側で入れる */}
               <Stack.Screen name="extra/[prizeId]" options={{ title: 'おまけ', headerBackTitle: '戻る' }} />
               <Stack.Screen name="extras" options={{ title: 'おまけ', headerBackTitle: '戻る' }} />
-              <Stack.Screen name="stages" options={{ title: '舞台の見本', headerBackTitle: '戻る' }} />
               {/* ▍持ち帰りはヘッダーを出す（戻る矢印のため）
                    タブの外の画面なので、ヘッダーを消すと**戻る口が無くなる**
                    （実機で「トップに戻れない」の報告）。レッスン・復習と同じ形 */}
