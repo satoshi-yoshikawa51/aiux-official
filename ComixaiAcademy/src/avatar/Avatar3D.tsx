@@ -61,6 +61,12 @@ interface Props {
   zoom?: number;
   /** モデルの読み込みが終わったら呼ばれる */
   onReady?: () => void;
+  /** ▍切り分け用（設定の3D診断だけが使う）
+      実機で「特定のモデルだけ黙って描かれない」が出たとき、
+      どの工程が犯人かを実機の画面だけで分離するための穴。
+      plain: テクスチャを読まず、単色で描く（テクスチャ経路を外す）
+      still: アニメーションを一切流さない（ミキサーと足踏み補正を外す） */
+  probe?: { plain?: boolean; still?: boolean };
 }
 
 /* ============================================================
@@ -154,7 +160,7 @@ async function readArrayBuffer(mod: number): Promise<ArrayBuffer> {
 }
 
 export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
-  { avatar, width, height, zoom = 1, onReady },
+  { avatar, width, height, zoom = 1, onReady, probe },
   ref,
 ) {
   const mixerRef = React.useRef<THREE.AnimationMixer | null>(null);
@@ -307,9 +313,11 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
 
         const [buffer, texture] = await Promise.all([
           readArrayBuffer(model.glb),
-          new Promise<THREE.Texture>((res, rej) =>
-            new TextureLoader().load(model.texture, res as (t: unknown) => void, undefined, rej),
-          ),
+          probe?.plain
+            ? Promise.resolve(null)
+            : new Promise<THREE.Texture>((res, rej) =>
+                new TextureLoader().load(model.texture, res as (t: unknown) => void, undefined, rej),
+              ),
         ]);
         if (disposedRef.current || genRef.current !== gen) return;
 
@@ -320,9 +328,11 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
 
         /* 外出ししたベースカラーを貼り直す。
            glTFのUVは左上原点なので flipY = false が必須 */
-        texture.flipY = false;
-        texture.colorSpace = THREE.SRGBColorSpace;
-        texture.needsUpdate = true;
+        if (texture) {
+          texture.flipY = false;
+          texture.colorSpace = THREE.SRGBColorSpace;
+          texture.needsUpdate = true;
+        }
         gltf.scene.traverse((obj) => {
           const mesh = obj as THREE.Mesh;
           if (!mesh.isMesh) return;
@@ -342,7 +352,14 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
           for (const m of mats) {
             const mat = m as THREE.MeshBasicMaterial;
-            mat.map = texture;
+            if (texture) {
+              mat.map = texture;
+            } else {
+              /* 切り分け（plain）：テクスチャ抜きの単色。形だけ描ければ
+                 幾何は無罪で、犯人はテクスチャ経路と分かる */
+              mat.map = null;
+              mat.color = new THREE.Color('#e0685f');
+            }
             /* ▍裏面も描く（＝割れ目から背景を見せない）
 
                自動スキニングの粗さで、腕を上げると肩の布が裂けて**背景が
@@ -387,16 +404,22 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         const tilt = ((model.headTilt ?? 0) * Math.PI) / 180;
         const head = tilt ? findHead(gltf.scene) : null;
 
-        const mixer = new THREE.AnimationMixer(gltf.scene);
-        mixerRef.current = mixer;
-        for (const clip of gltf.animations) {
-          /* 静止姿勢を引くのに骨が要る（→ stripTravel のメモ） */
-          stripTravel(clip, gltf.scene);
-          actionsRef.current[clip.name] = mixer.clipAction(clip);
+        /* 切り分け（still）：ミキサーも足踏み補正（stripTravel）も通さず、
+           バインドポーズのまま置く。これで描ければ幾何・スキンは無罪で、
+           犯人はアニメーション側の数値処理と分かる */
+        let mixer: THREE.AnimationMixer | null = null;
+        if (!probe?.still) {
+          mixer = new THREE.AnimationMixer(gltf.scene);
+          mixerRef.current = mixer;
+          for (const clip of gltf.animations) {
+            /* 静止姿勢を引くのに骨が要る（→ stripTravel のメモ） */
+            stripTravel(clip, gltf.scene);
+            actionsRef.current[clip.name] = mixer.clipAction(clip);
+          }
+          /* ワンショットのモーションが終わったら待機に戻す */
+          mixer.addEventListener('finished', () => playByName(IDLE));
+          playByName(IDLE);
         }
-        /* ワンショットのモーションが終わったら待機に戻す */
-        mixer.addEventListener('finished', () => playByName(IDLE));
-        playByName(IDLE);
 
         setStatus('ready');
         onReady?.();
@@ -406,7 +429,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           if (disposedRef.current || genRef.current !== gen) return;
           requestAnimationFrame(loop);
           const dt = clock.getDelta();
-          mixer.update(dt);
+          if (mixer) mixer.update(dt);
           /* 向きたい角度へ、毎フレーム少しずつ寄せる。
              一気に代入すると、歩きながらパッと反転して人形に見える */
           const root = rootRef.current;
@@ -433,7 +456,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         setStatus('failed');
       }
     },
-    [model, onReady, playByName, zoom],
+    [model, onReady, playByName, zoom, probe?.plain, probe?.still],
   );
 
   /* GLBがまだ無いアバター、または読み込みに失敗したとき */
@@ -467,7 +490,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           頭が切れる（狭い端末でフキダシの実測後に枠が縮むと起きた）。
           テクスチャ（色違いアバター）が変わったときも同じ理由で作り直す */}
       <GLView
-        key={`${width}x${height}x${zoom}x${model.texture}`}
+        key={`${width}x${height}x${zoom}x${model.texture}x${probe?.plain ? 'p' : ''}${probe?.still ? 's' : ''}`}
         style={{ width, height }}
         onContextCreate={onContextCreate}
       />
