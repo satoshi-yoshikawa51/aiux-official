@@ -56,6 +56,10 @@ import { C, F, FONT, R, S, T } from '@/theme';
    別の絵にすると、押した先で違うものが出てきて繋がらない。
    絵の縦横比は 966/640。 */
 const GACHA_MACHINE = require('@/assets/images/gacha-machine.png');
+
+/* キャラの目線は、キャンバス下端から高さの87.7%にある（→ stage のメモ）。
+   地平線＝カメラの高さ＝目線、を成立させる要の数字 */
+const EYE = 0.877;
 const MACHINE_W = 36;
 const MACHINE_H = Math.round(MACHINE_W * (966 / 640));
 /** 取り出し口に置くカプセルの直径（絵の幅に対する割合は gacha.tsx と同じ0.187） */
@@ -179,12 +183,42 @@ export default function HomeScreen() {
   /* 絵はテーマごと。まだ描けていないテーマは素の教室に色を重ねる */
   const art = theme.art ?? CLASSROOM;
 
-  const bgHeight = React.useMemo(() => {
+  /* ▍キャラの目線と絵の消失点（地平線）を、必ず一致させる
+
+     絵の縮尺（bgHeight）・沈み（bgDrop）・キャンバスの高さ（h）を
+     ここでまとめて決める。3つは同じ式で結ばれているので、別々に
+     計算すると必ずどこかでズレる。
+
+     縦が足りる端末：絵はコマを覆う最小の大きさで敷き、キャラの高さを
+     地平線に合わせる（従来どおり）。
+
+     縦が足りない端末（SEの案内中など）：キャラは残りの高さいっぱいで
+     立たせ、**絵ごと下へ沈めて地平線を目まで下げる**。キャラを地平線に
+     合わせて縮めるだけだと、目が地平線より下に落ちて「部屋の中の小人」に
+     見えるため（実機SEで指摘）。同じ大きさでも、地平線が目の高さにあれば
+     「カメラが低いだけ」に読める。
+     沈めると絵の上端も下がるので、コマの上が絵から出てしまう場合だけ
+     足りないぶん絵を拡大する（bg*hz + EYE*h ≥ panelH になる最小の bg）。 */
+  const layout = React.useMemo(() => {
     if (box.w <= 0 || area <= 0) return undefined;
+    const hz = art.horizon ?? DEFAULT_HORIZON;
     const panelW = box.w + S.sm * 2;
     const panelH = area + S.sm * 2;
-    return Math.ceil(Math.max(panelH, panelW / art.ratio));
-  }, [box.w, area, art.ratio]);
+    /* コマを覆いきる最小の絵の大きさ（下端・中央ぞろえ） */
+    const cover = Math.max(panelH, panelW / art.ratio);
+    /* キャラに回せる高さ＝コマの中身からフキダシの実測ぶんを引いた残り。
+       bubbleH は「いちばん高かったフキダシ」で固定される値なので、
+       ここから引いても縮み合いにはならない */
+    const room = Math.floor(area) - (bubbleH > 0 ? bubbleH + S.sm : 0);
+    /* 目線（キャンバス下端から87.7%）が地平線に乗る、理想のキャンバス高さ */
+    const ideal = Math.round((cover * (1 - hz)) / EYE);
+    if (ideal <= room) return { bgHeight: Math.ceil(cover), bgDrop: 0, h: ideal };
+    /* 極端に狭い端末で引きすぎても、キャラを消さない下限だけ守る */
+    const h = Math.max(room, 96);
+    const bgHeight = Math.ceil(Math.max(cover, (panelH - EYE * h) / hz));
+    const bgDrop = Math.max(0, Math.round(bgHeight * (1 - hz) - EYE * h));
+    return { bgHeight, bgDrop, h };
+  }, [box.w, area, art.ratio, art.horizon, bubbleH]);
 
   /* ———— キャンバスの高さ＝キャラの大きさ ————
      縦横比は課さない（→ 冒頭のメモ）。高さだけ、絵の地平線に合わせる。
@@ -200,26 +234,18 @@ export default function HomeScreen() {
 
      地平線を持たない絵（素の教室）は今までどおりコマいっぱい。 */
   const stage = React.useMemo(() => {
-    if (settled.w <= 0 || !bgHeight || area <= 0) return null;
     /* **置き場の高さ（box.h）は見ない。** フキダシをキャラの上に寄せると
        置き場が縮むので、そこを見ていると縮み合いになる。
-       コマの中身の高さ（area）からフキダシの実測ぶんを引いた残りを上限にする。
+       高さの取り分は layout（↑）がフキダシの実測から出している。
 
-       ▍area だけを上限にしてはいけない
+       ▍コマの中身（area）いっぱいまで伸ばしてはいけない
        前はそうしていて、SEの案内中に壊れた。案内バーのぶんコマが縮むと
-       地平線由来の高さがコマの中身を超え、キャンバスがコマいっぱいまで
-       伸びる＝フキダシの取り分がゼロになる。フキダシは上へはみ出して
-       パネルに刈られ、**セリフの1行目から読めなくなる**（実機SEで指摘）。
-       bubbleH は「いちばん高かったフキダシ」で固定される値なので、
-       ここから引いても縮み合いにはならない */
-    const horizonFromBottom = bgHeight * (1 - (art.horizon ?? DEFAULT_HORIZON));
-    const room = Math.floor(area) - (bubbleH > 0 ? bubbleH + S.sm : 0);
-    return {
-      w: Math.floor(settled.w),
-      /* 極端に狭い端末で引きすぎても、キャラを消さない下限だけ守る */
-      h: Math.max(Math.min(Math.round(horizonFromBottom / 0.877), room), 96),
-    };
-  }, [settled.w, area, art.horizon, bgHeight, bubbleH]);
+       キャンバスがコマいっぱいまで伸び、フキダシの取り分がゼロになる。
+       フキダシは上へはみ出してパネルに刈られ、**セリフの1行目から
+       読めなくなる**（実機SEで指摘） */
+    if (settled.w <= 0 || !layout) return null;
+    return { w: Math.floor(settled.w), h: layout.h };
+  }, [settled.w, layout]);
 
 
   const next = React.useMemo(() => {
@@ -344,7 +370,8 @@ export default function HomeScreen() {
         bg={art.src}
         bgRatio={art.ratio}
         bgColor={art.wall}
-        bgHeight={bgHeight}
+        bgHeight={layout?.bgHeight}
+        bgDrop={layout?.bgDrop}
         caption={role ? `${avatar.name}・${role.name}` : avatar.name}
         contentStyle={{ padding: S.sm, gap: S.sm }}>
         {/* ———— 舞台テーマ（ガチャの景品） ————
