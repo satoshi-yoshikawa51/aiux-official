@@ -357,6 +357,7 @@ export function Panel({
   bgRatio,
   bgColor,
   bgHeight,
+  bgDrop = 0,
   number,
   caption,
   tilt = 0,
@@ -381,6 +382,11 @@ export function Panel({
       （→ (tabs)/index.tsx）。渡すとコマ幅に合わせる代わりにこの高さで敷き、
       幅は bgRatio から出して中央に置く。はみ出しはコマが切る */
   bgHeight?: number;
+  /** bg をコマの下端からさらに何px沈めるか。**消失点（地平線）を下げる**ために使う。
+      縦が足りない端末ではキャラが小さくなるが、地平線が高いままだと
+      「部屋の中の小人」に見える。絵ごと沈めて地平線を目の高さに合わせると、
+      同じ大きさでも「カメラが低いだけ」に読める（→ (tabs)/index.tsx） */
+  bgDrop?: number;
   number?: string;
   caption?: string;
   /** 傾き（度）。±1〜3くらいが効く */
@@ -416,7 +422,7 @@ export function Panel({
             <View
               style={{
                 position: 'absolute',
-                bottom: 0,
+                bottom: -bgDrop,
                 left: '50%',
                 width: bgHeight * bgRatio,
                 height: bgHeight,
