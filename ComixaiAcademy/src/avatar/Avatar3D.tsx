@@ -25,7 +25,7 @@ import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { IDLE, LOOPING, type AvatarMotion } from './motions';
 import { Icon, type IconName } from '@/components/icons';
 import type { AvatarDef } from '@/data/avatars';
-import { pinWebGL1 } from '@/lib/gl-compat';
+import { detectFlavor, pinFlavor, type GLFlavor } from '@/lib/gl-compat';
 import { F, T } from '@/theme';
 
 export interface AvatarHandle {
@@ -198,11 +198,16 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
      終わらなかったときに**スピナーも失敗表示も出ない空白**になる。 */
   const focused = useIsFocused();
   const [liveModel, setLiveModel] = React.useState(avatar.model);
+  /* ▍GLの顔の再試行フラグ（→ lib/gl-compat.ts）
+     実体どおりの顔でシェーダが組めなかったら、反対の顔でGLViewごと
+     作り直す（1回だけ）。どちらの顔が正解の端末でも自動で正解に落ちる */
+  const [flip, setFlip] = React.useState(false);
   React.useEffect(() => {
     if (!focused || liveModel === avatar.model) return;
     setLiveModel(avatar.model);
     setStatus('loading');
     setErrText(null);
+    setFlip(false);
     actionsRef.current = {};
     currentRef.current = null;
     rootRef.current = null;
@@ -293,18 +298,27 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
       if (!model) return;
       const gen = ++genRef.current;
       try {
-        /* WebGL2の運試しを止める（→ lib/gl-compat.ts）。Renderer より先に */
-        pinWebGL1(gl);
+        /* コンテキストの実体に合う顔を three に教える（→ lib/gl-compat.ts）。
+           Renderer より先。診断のログ欄に足あとを残す */
+        const real = detectFlavor(gl);
+        const use: GLFlavor = flip ? (real === 'gl2' ? 'gl1' : 'gl2') : real;
+        pinFlavor(gl, use);
+        if (Platform.OS !== 'web') console.warn(`[3D] ${avatar.id} 実体=${real} 使用=${use}`);
         const renderer = new Renderer({ gl, alpha: true });
         renderer.setClearColor(0x000000, 0);
-        /* ▍シェーダが組めなかったら、黙って白にせず理由を出す
-           リンク失敗のとき three は console に吐くだけで描画をスキップする。
-           それが「エラーも出ずにキャラが白い」の正体だったので、
-           ここで捕まえて失敗表示（スクショで原因が読める形）に落とす */
+        /* ▍シェーダが組めなかったら、黙って白にしない
+           リンク失敗のとき three は console に吐くだけで描画をスキップする
+           （「エラーも出ずにキャラが白い」の正体）。1回目は反対の顔で
+           GLViewごと作り直して再試行、2回目は理由を画面に出す */
         renderer.debug.onShaderError = (glc, program, vs, fs) => {
+          if (!flip) {
+            setStatus('loading');
+            setFlip(true);
+            return;
+          }
           const cut = (x: string | null) => (x ?? '').trim().slice(0, 110);
           setErrText(
-            `シェーダが組めませんでした / ${cut(glc.getProgramInfoLog(program))} / v:${cut(
+            `シェーダが組めませんでした（${use}） / ${cut(glc.getProgramInfoLog(program))} / v:${cut(
               glc.getShaderInfoLog(vs),
             )} / f:${cut(glc.getShaderInfoLog(fs))}`,
           );
@@ -472,7 +486,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         setStatus('failed');
       }
     },
-    [model, onReady, playByName, zoom, probe?.plain, probe?.still],
+    [model, onReady, playByName, zoom, probe?.plain, probe?.still, flip, avatar.id],
   );
 
   /* GLBがまだ無いアバター、または読み込みに失敗したとき */
@@ -506,7 +520,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           頭が切れる（狭い端末でフキダシの実測後に枠が縮むと起きた）。
           テクスチャ（色違いアバター）が変わったときも同じ理由で作り直す */}
       <GLView
-        key={`${width}x${height}x${zoom}x${model.texture}x${probe?.plain ? 'p' : ''}${probe?.still ? 's' : ''}`}
+        key={`${width}x${height}x${zoom}x${model.texture}x${probe?.plain ? 'p' : ''}${probe?.still ? 's' : ''}${flip ? 'F' : ''}`}
         style={{ width, height }}
         onContextCreate={onContextCreate}
       />
