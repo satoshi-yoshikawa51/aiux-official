@@ -382,6 +382,24 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
           for (const m of mats) {
             const mat = m as THREE.MeshBasicMaterial;
+            /* ▍Tripoが付けたUUID風のマテリアル名を捨てる（実機の白の真犯人）
+
+               threeは material.name をそのまま `#define SHADER_NAME 名前` として
+               シェーダのソースに埋め込む。TripoのUUIDには「92ed」「44ef」
+               「9ee…」のような**数字＋e＋文字**の断片を含むものがあり、iOSの
+               GLSLプリプロセッサはこれを壊れた指数表記として構文エラーにする
+               （v:ERROR: 0:8: syntax error: ERROR___ERROR_IN_EXPONENT）。
+               threeはエラーをconsoleに吐くだけで描画をスキップするので、
+               **エラー画面も出ずにキャラだけ白くなる**。
+
+               どのキャラが白いかは名前のクジ引きだった：
+               ×白: sensei(9ee) / neko(44ef,9ed5) / nekketsu-sr(4efc) /
+                    otenba-sr(92ed)
+               ○出る: 「4a9e-4990」のように偶然正しい指数表記になる名前や、
+                    eを含む断片が文字始まりの名前
+               ブラウザのコンパイラは寛容なのでWebでは一度も再現しなかった。
+               モデルを焼き直すたびに運試しになるので、ここで必ず捨てる */
+            mat.name = 'avatar_mat';
             if (texture) {
               mat.map = texture;
             } else {
