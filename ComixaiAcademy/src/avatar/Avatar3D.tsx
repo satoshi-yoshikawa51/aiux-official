@@ -25,6 +25,7 @@ import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { IDLE, LOOPING, type AvatarMotion } from './motions';
 import { Icon, type IconName } from '@/components/icons';
 import type { AvatarDef } from '@/data/avatars';
+import { pinWebGL1 } from '@/lib/gl-compat';
 import { F, T } from '@/theme';
 
 export interface AvatarHandle {
@@ -292,8 +293,23 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
       if (!model) return;
       const gen = ++genRef.current;
       try {
+        /* WebGL2の運試しを止める（→ lib/gl-compat.ts）。Renderer より先に */
+        pinWebGL1(gl);
         const renderer = new Renderer({ gl, alpha: true });
         renderer.setClearColor(0x000000, 0);
+        /* ▍シェーダが組めなかったら、黙って白にせず理由を出す
+           リンク失敗のとき three は console に吐くだけで描画をスキップする。
+           それが「エラーも出ずにキャラが白い」の正体だったので、
+           ここで捕まえて失敗表示（スクショで原因が読める形）に落とす */
+        renderer.debug.onShaderError = (glc, program, vs, fs) => {
+          const cut = (x: string | null) => (x ?? '').trim().slice(0, 110);
+          setErrText(
+            `シェーダが組めませんでした / ${cut(glc.getProgramInfoLog(program))} / v:${cut(
+              glc.getShaderInfoLog(vs),
+            )} / f:${cut(glc.getShaderInfoLog(fs))}`,
+          );
+          setStatus('failed');
+        };
 
         const scene = new THREE.Scene();
         /* モデルはunlit（KHR_materials_unlit）なのでライトは不要。

@@ -47,6 +47,13 @@ localStorage の `comixai-academy-v1` に進捗を流し込めば、どの画面
   ネイティブの expo-gl は WebGL 1 相当。上げると実機で
   「THREE.WebGLRenderer: WebGL 1 is not supported since r163」で3Dが全滅する
   （TestFlightで実際に落ちた）。上げてよいのは expo-gl が WebGL 2 になってから
+- **Renderer を作る前に必ず `pinWebGL1(gl)`（`src/lib/gl-compat.ts`）を通す。**
+  three は `gl.constructor.name` の名前だけでWebGL2かを判定し、expo-gl の
+  ネイティブコンテキストではこの名前が**コンテキストごとにブレる**。
+  WebGL2扱いになった回は GLSL ES 3.00 のシェーダがリンクできず、
+  エラー画面も出ずに**キャラだけ白くなる**（「ガチャで当てた相棒が出ない」
+  として実機で長引いた原因。モデルのファイルは無関係だった）。
+  新しくGLViewを使う部品を足すときも、この1行を忘れないこと
 
 ## 巨大なテーブルをネイティブで組み立てない
 
