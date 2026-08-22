@@ -26,7 +26,7 @@ import { View } from 'react-native';
 import * as THREE from 'three';
 
 import type { Rarity } from '@/data/gacha';
-import { detectFlavor, pinFlavor } from '@/lib/gl-compat';
+import { detectFlavor, hardenInfoLogs, pinFlavor } from '@/lib/gl-compat';
 
 /** レア度ごとの見た目。body＝下半分（不透明）、lid＝上半分（透ける）、seam＝合わせ目 */
 const LOOK: Record<Rarity, { body: number; lid: number; seam: number; glow: number }> = {
@@ -85,6 +85,7 @@ export function Capsule3D({ rarity, size, open = false }: Props) {
     try {
     /* コンテキストの実体に合う顔を three に教える（→ lib/gl-compat.ts）。Renderer より先に */
     pinFlavor(gl, detectFlavor(gl));
+    hardenInfoLogs(gl);
     const renderer = new Renderer({ gl, alpha: true });
     renderer.setClearColor(0x000000, 0);
 
