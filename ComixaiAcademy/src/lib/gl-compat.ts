@@ -33,6 +33,29 @@ export function detectFlavor(gl: object): GLFlavor {
 }
 
 /** three が読む constructor.name を、指定の顔に固定する */
+/* ▍ログ取得の「undefined」を空文字に直す
+
+   threeはシェーダの初回使用時に getProgramInfoLog() の返り値へ即 .trim() を
+   掛ける（WebGLProgram の onFirstUse）。WebGLの仕様では必ず文字列だが、
+   expo-gl は**ログが無いとき undefined を返すことがあり**、そこで
+   「Cannot read property 'trim' of undefined」でアプリごと落ちる。
+   シェーダが正常に組めるようになって初めて踏む道で、ビルド26の
+   チュートリアルで実際に落ちた。返り値を空文字で受け止める。 */
+export function hardenInfoLogs(gl: object): void {
+  if (Platform.OS === 'web') return;
+  const g = gl as Record<string, unknown>;
+  for (const key of ['getProgramInfoLog', 'getShaderInfoLog', 'getShaderSource']) {
+    const orig = g[key];
+    if (typeof orig !== 'function') continue;
+    try {
+      const bound = (orig as (...a: unknown[]) => unknown).bind(gl);
+      g[key] = (...a: unknown[]) => bound(...a) ?? '';
+    } catch {
+      /* 包めない環境では従来どおり（落ちる前と同じ挙動）に留める */
+    }
+  }
+}
+
 export function pinFlavor(gl: object, flavor: GLFlavor): void {
   if (Platform.OS === 'web') return;
   try {

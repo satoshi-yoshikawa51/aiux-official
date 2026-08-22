@@ -25,7 +25,7 @@ import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { IDLE, LOOPING, type AvatarMotion } from './motions';
 import { Icon, type IconName } from '@/components/icons';
 import type { AvatarDef } from '@/data/avatars';
-import { detectFlavor, pinFlavor, type GLFlavor } from '@/lib/gl-compat';
+import { detectFlavor, hardenInfoLogs, pinFlavor, type GLFlavor } from '@/lib/gl-compat';
 import { F, T } from '@/theme';
 
 export interface AvatarHandle {
@@ -303,6 +303,7 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
         const real = detectFlavor(gl);
         const use: GLFlavor = flip ? (real === 'gl2' ? 'gl1' : 'gl2') : real;
         pinFlavor(gl, use);
+        hardenInfoLogs(gl);
         if (Platform.OS !== 'web') console.warn(`[3D] ${avatar.id} 実体=${real} 使用=${use}`);
         const renderer = new Renderer({ gl, alpha: true });
         renderer.setClearColor(0x000000, 0);
