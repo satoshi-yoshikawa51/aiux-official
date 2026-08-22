@@ -357,7 +357,14 @@ export const Avatar3D = React.forwardRef<AvatarHandle, Props>(function Avatar3D(
           gltf.scene.scale.setScalar(scale);
           gltf.scene.updateMatrixWorld(true);
           const after = new THREE.Box3().setFromObject(gltf.scene).min.y;
-          gltf.scene.position.y += before - after;
+          /* ▍実測が数字にならなかったら、動かさない
+             この足元合わせを通るのは縮めるキャラ（かんばん）だけで、
+             もし実測が Infinity/NaN を返すと position.y が NaN になり、
+             **エラーも出ずにキャラだけ消える**（status は ready のまま）。
+             「出ないのに失敗表示も無い」の疑い筋として塞いでおく */
+          if (Number.isFinite(before) && Number.isFinite(after)) {
+            gltf.scene.position.y += before - after;
+          }
         }
 
         scene.add(gltf.scene);

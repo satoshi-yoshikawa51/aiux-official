@@ -12,6 +12,7 @@ import { REVISION as THREE_REVISION } from 'three';
 
 import * as Clipboard from 'expo-clipboard';
 
+import { Avatar3D } from '@/avatar/Avatar3D';
 import { AvatarFace } from '@/components/avatar-face';
 import { Icon } from '@/components/icons';
 import { RolePicker } from '@/components/role-picker';
@@ -275,6 +276,7 @@ export default function SettingsScreen() {
            無理があるので、1タップでその状態を作れるようにしてある。
            **公開前にこの節ごと外すこと。** */}
       <DevFill />
+      <Dev3D />
 
       {/* ▍記録の持ち出し（→ components/save-transfer.tsx）
            消す口（下の黒いカセット）の**すぐ上**に置く。順番が逆だと、
@@ -344,6 +346,47 @@ export default function SettingsScreen() {
         </Text>
       </Card>
     </Screen>
+  );
+}
+
+/* ———— 確認用：3D診断 ————
+   ▍「相棒が出ない」を実機で切り分けるための道具
+   TestFlightで「ガチャで当てた相棒（かんばん）がホームに出ない。
+   スピナーも失敗表示も出ない」が起きた。手元にiOSが無いので、
+   持っている相棒を全員この場で小さく描いて、**どのモデルが・どう
+   落ちるか**を1画面で見られるようにする。出ない相棒のマスに
+   Avatar3Dの失敗表示（エラー文字）が出れば、スクショ1枚で原因が読める。
+   ここで全員出るならモデルは無罪で、ホーム側の配置が犯人。
+
+   **公開前に、この節ごと外すこと。** */
+function Dev3D() {
+  const { state } = useProgress();
+  const [open, setOpen] = React.useState(false);
+  const owned = AVATARS.filter((a) => a.model && ownsAvatar(a, state.skins));
+  return (
+    <Card variant="flat">
+      <Row style={{ justifyContent: 'space-between' }}>
+        <Text style={F.h1}>確認用：3D診断</Text>
+        <Badge tone="paper">公開前に外す</Badge>
+      </Row>
+      <Text style={F.small}>
+        持っている相棒を全員この場で描きます。出ないマスの文字が原因の手がかりです。
+      </Text>
+      {open ? (
+        <Row gap={S.sm} style={{ flexWrap: 'wrap' }}>
+          {owned.map((a) => (
+            <View key={a.id} style={{ alignItems: 'center', width: 100 }}>
+              <View style={{ borderWidth: BW.hair, borderColor: T.border, borderRadius: R.sm }}>
+                <Avatar3D avatar={a} width={98} height={150} />
+              </View>
+              <Text style={F.tiny}>{avatarLabel(a)}</Text>
+            </View>
+          ))}
+        </Row>
+      ) : (
+        <Button label="診断をはじめる" onPress={() => setOpen(true)} variant="secondary" size="sm" />
+      )}
+    </Card>
   );
 }
 
