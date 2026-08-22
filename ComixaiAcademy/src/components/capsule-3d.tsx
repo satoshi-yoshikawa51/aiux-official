@@ -26,7 +26,7 @@ import { View } from 'react-native';
 import * as THREE from 'three';
 
 import type { Rarity } from '@/data/gacha';
-import { pinWebGL1 } from '@/lib/gl-compat';
+import { detectFlavor, pinFlavor } from '@/lib/gl-compat';
 
 /** レア度ごとの見た目。body＝下半分（不透明）、lid＝上半分（透ける）、seam＝合わせ目 */
 const LOOK: Record<Rarity, { body: number; lid: number; seam: number; glow: number }> = {
@@ -83,8 +83,8 @@ export function Capsule3D({ rarity, size, open = false }: Props) {
        アプリごと落ちていた。失敗したらカプセルの絵が出ないだけにする
        ——透明なままでもタップの当たり判定（Pressable）は生きている */
     try {
-    /* WebGL2の運試しを止める（→ lib/gl-compat.ts）。Renderer より先に */
-    pinWebGL1(gl);
+    /* コンテキストの実体に合う顔を three に教える（→ lib/gl-compat.ts）。Renderer より先に */
+    pinFlavor(gl, detectFlavor(gl));
     const renderer = new Renderer({ gl, alpha: true });
     renderer.setClearColor(0x000000, 0);
 
