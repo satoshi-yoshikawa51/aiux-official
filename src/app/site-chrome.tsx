@@ -233,6 +233,9 @@ export function Footer() {
             <a href="/start" data-ga="nav_click" data-ga-place="footer" data-ga-path="/start" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               <i className="ph-bold ph-rocket-launch" style={{ marginRight: 5 }} />AIのはじめかた
             </a>
+            <a href="/academy" data-ga="nav_click" data-ga-place="footer" data-ga-path="/academy" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+              <i className="ph-bold ph-device-mobile" style={{ marginRight: 5 }} />スマホアプリ
+            </a>
             <a href="/guide" data-ga="nav_click" data-ga-place="footer" data-ga-path="/guide" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               <i className="ph-bold ph-briefcase" style={{ marginRight: 5 }} />職種別AIガイド
             </a>

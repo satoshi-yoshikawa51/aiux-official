@@ -537,6 +537,16 @@ img {
     order: -1;
     max-height: 220px;
   }
+  /* スマホアプリの帯。中身が縦長の実画面なので、教習所バナーの
+     max-height:220 で潰すと何の画面か読めなくなる。幅で決める */
+  .academy-banner {
+    grid-template-columns: 1fr !important;
+  }
+  .academy-banner img {
+    order: -1;
+    max-width: 165px !important;
+    margin-top: 24px !important;
+  }
   .article-row {
     grid-template-columns: 120px 1fr !important;
   }

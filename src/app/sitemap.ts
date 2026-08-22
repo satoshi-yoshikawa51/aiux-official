@@ -121,8 +121,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    /* 学習アプリ（COMIXAI アカデミー）のストア提出に必要な2ページ。
+    /* 学習アプリ（COMIXAI アカデミー）の紹介ページと、
+       ストア提出に必要な2ページ。
        更新日はページ本文の制定日と合わせて手で進める */
+    {
+      url: `${base}/academy`,
+      lastModified: new Date("2026-08-22"),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
     {
       url: `${base}/academy/privacy`,
       lastModified: new Date("2026-08-19"),

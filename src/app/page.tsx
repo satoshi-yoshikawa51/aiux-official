@@ -256,6 +256,63 @@ function SectionHead({ kicker, title, hand }: { kicker: React.ReactNode; title: 
 }
 
 /* ═══════════════ Claude教習所バナー（トップの特設導線） ═══════════════ */
+/* ═══════════════ スマホアプリの帯 ═══════════════ */
+/* 教習所バナー（下）と並ぶので、地の色を黒にして別物に見せている。
+   配信状況の文言は /academy 側の APP_STORE_URL と一対——
+   ストアに並んだら、ここの「まもなく公開」も直すこと */
+function AcademyBanner() {
+  return (
+    <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "36px 0 0" }}>
+      <a
+        href="/academy"
+        style={{ textDecoration: "none", color: "inherit", display: "block" }}
+        data-ga="cta_click"
+        data-ga-place="top-academy-banner"
+      >
+        <div
+          className="academy-banner"
+          style={{
+            display: "grid", gridTemplateColumns: "minmax(0, 11fr) minmax(0, 9fr)", alignItems: "center",
+            border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18, overflow: "hidden",
+            background: "var(--ink-900)", boxShadow: "var(--shadow-pop)",
+            backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.3px, transparent 1.4px)",
+            backgroundSize: "14px 14px",
+          }}
+        >
+          <div style={{ padding: "28px 28px 26px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <span style={{ background: "var(--yellow-400)", color: "var(--ink-900)", borderRadius: 999, padding: "3px 12px", fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 800, letterSpacing: ".08em" }}>
+                APP
+              </span>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.14em", color: "var(--yellow-400)", fontWeight: 700 }}>
+                iPhone / iPad — まもなく公開
+              </span>
+            </div>
+            <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(24px,3.2vw,34px)", lineHeight: 1.3, color: "var(--paper-50)" }}>
+              3Dの相棒と、遊んで学ぶ生成AI。
+            </div>
+            <p style={{ fontSize: 14, lineHeight: 2, color: "var(--paper-200)", margin: 0 }}>
+              学習アプリ「COMIXAI アカデミー」。5コース17レッスン、9種のミニゲーム、AIのプロンプト添削つき。
+              <b style={{ color: "var(--paper-50)" }}>登録不要・広告なし・完全無料</b>で、1日5分から。
+            </p>
+            <div style={{ marginTop: 4 }}>
+              <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+                アプリを見る
+              </Button>
+            </div>
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/academy/shots/home.webp"
+            alt="COMIXAI アカデミーのホーム画面。桜並木の舞台に3Dアバターが立っている"
+            style={{ width: "100%", maxWidth: 210, height: "auto", objectFit: "contain", display: "block", margin: "22px auto -2px", borderRadius: "18px 18px 0 0", border: "var(--bw-line) solid var(--paper-50)", borderBottom: "none" }}
+          />
+        </div>
+      </a>
+    </section>
+  );
+}
+
 function KyoshujoBanner() {
   return (
     <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "40px 0" }}>
@@ -1532,6 +1589,7 @@ export default function Page() {
       <Nav />
       <HeroVideo />
       <NewsStrip />
+      <AcademyBanner />
       <KyoshujoBanner />
       <Profile />
       <Record />
