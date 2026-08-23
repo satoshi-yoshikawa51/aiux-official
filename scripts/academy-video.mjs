@@ -433,14 +433,14 @@ body {
    340pxほど高さを食い、そのぶん**テロップが下がって端末の白い所に
    重なる**。文字は白なので、そこで読めなくなった。
 
-   足元なら、下は端末の黒い帯とページの黒地なので白い板がよく映える。
+   足元なら、下は端末の黒い帯とページの黒地なので、白い縁取りがよく映える。
    動きは .foot のまま——paintFrame が .foot を掴んでいるので、
    ロゴを中に入れておけば一緒に上がってくる。 */
 .foot.end { flex-direction: column; gap: 22px; bottom: 108px; }
 .endlogo {
-  width: 520px; height: auto; display: block;
-  border: 5px solid ${INK}; border-radius: 18px;
-  background: #fff; box-shadow: 9px 9px 0 rgba(0, 0, 0, 0.5);
+  width: 540px; height: auto; display: block;
+  /* 背景の透けたロゴなので、板は敷かない。端末の絵に溶けないよう影だけ */
+  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.75));
 }
 </style></head><body>
   <div class="head">

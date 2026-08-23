@@ -48,19 +48,17 @@ const APP_STORE_URL: string | null = null;
    Vercelが貼る comixai-academy のプレビューURLに ?demo=1 を付けて開く。 */
 const ACADEMY_WEB_DEMO = "https://comixai-academy.vercel.app/?demo=1";
 
-/* ▍ロゴの絵は「白い板」
+/* ▍ロゴは背景の透けたWebP
 
-   もらった元の画像は、透過を表す市松模様が**実ピクセルとして焼き込まれて**
-   いて、アルファチャンネルが無かった。市松だけを抜こうとしたが、文字の
-   白い縁取りと市松の明るいほうがどちらも 243〜255 の無彩色で重なっていて
-   （背景の中に純白が2400px以上ある）、外周から塗りつぶすと
-   **AIの字の縁取りごと持っていかれた**。
+   絵の外周の透明な余白は落としてある（1702x924 → 1471x880 → 1120x670）。
+   余白を残したまま置くと、**枠に対して絵だけが小さく浮いて見える**。
 
-   なので明るい無彩色をぜんぶ純白に倒して、白地の板として置いている。
-   縁取りはもともと白なので無傷。暗いMVの上では、枠と影を付けた
-   ステッカーとして見える——サイトの他のカードと同じ作法なので、
-   これはこれで収まる。**透過PNGが手に入ったら、板をやめて差し替える。** */
-const LOGO = { src: "/academy/logo.webp", w: 1120, h: 678 };
+   字に白い縁取りが入っているので、暗いMVの上でもそのまま読める。
+   地に溶けないよう、影だけ下に敷いてある。
+
+   ※ 最初に届いたPNGは、透過を表す市松模様が実ピクセルとして焼き込まれた
+   もので（アルファ無し）、白い板として置くしかなかった。差し替え済み。 */
+const LOGO = { src: "/academy/logo.webp", w: 1120, h: 670 };
 
 const TITLE = "COMIXAI アカデミー｜3Dの相棒と、遊んで学ぶ生成AI（iPhone / iPad）";
 const DESC =
@@ -366,14 +364,11 @@ export default function AcademyPage() {
                 fetchPriority="high"
                 style={{
                   width: "100%",
-                  maxWidth: "clamp(280px, 42vw, 480px)",
+                  maxWidth: "clamp(290px, 45vw, 540px)",
                   height: "auto",
                   display: "block",
-                  /* 白地の板なので、枠と影を付けてステッカーにする（→ LOGO のメモ） */
-                  borderRadius: 14,
-                  border: "var(--bw-bold) solid var(--ink-900)",
-                  boxShadow: "var(--shadow-pop)",
-                  background: "var(--paper-0)",
+                  /* 後ろが動画なので、影が無いと絵の縁が地に溶ける */
+                  filter: "drop-shadow(0 10px 26px rgba(0,0,0,.6))",
                 }}
               />
             </h1>
