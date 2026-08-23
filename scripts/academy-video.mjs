@@ -5,9 +5,9 @@
 
    仕組み:
      実機の画面録画を素材にする。サイトと同じ書体・デザイントークンで
-     組んだ1080×1920の「板」をPlaywrightで撮り、その中央にくり抜いた
-     端末の枠へ、録画を切り出して流し込む。カットはクロスフェードで
-     つなぎ、下端に進みぐあいのバーを引く。
+     組んだ1080×1920の「板」の中央に端末の枠を置き、そこへ録画を
+     切り出して流し込む。テロップは1フレームずつ描き起こして動かす。
+     カットはクロスフェードでつなぎ、下端に進みぐあいのバーを引く。
 
    ▍なぜ画面録画なのか（静止画に戻さないこと）
    最初は審査提出用のスクショ5枚で作ったが、**このアプリの売りは
@@ -15,6 +15,14 @@
    バッジが跳ねる、称号バーが伸びる、ガチャからカプセルが落ちる。
    静止画をどれだけ寄せ引きしても、そこは映らなかった。
    （静止画版は git の履歴に残っている）
+
+   ▍テロップの動かし方（→ TIMELINE）
+   CSSのアニメーションやtransitionは**使わない**。撮る時刻を
+   こちらから渡して、その時刻の見た目を毎フレーム計算して描く。
+   transitionに任せると、Playwrightが撮る瞬間とブラウザの時計が
+   ずれて、コマが飛んだり同じ絵が2枚続いたりする。
+   動くのは頭の1.75秒だけで、そのあとはffmpeg側で最後のコマを
+   引き伸ばす（全尺ぶん撮ると枚数が10倍になり、絵は同じ）。
 
    素材の置き場:
      academy-video/clips/*.mp4|mov  … 実機の画面収録（Git管理外）
@@ -72,6 +80,22 @@ const INK = "#14110f";
 const PAPER_50 = "#fbf7ef";
 const PAPER_200 = "#e7dcc6";
 const YELLOW = "#ffd23f";
+
+/* ▍テロップの段取り（秒）。カットの頭からの時刻で、[開始, 終了]。
+   ずらして出すのが要点——3つが同時に動くと、何を読めばいいのか
+   分からなくなる。順番は「小見出し → 1行目 → 2行目 → 黄色 → 脚注」。
+
+   最初の 0.30 秒は何も出さない。カットのつなぎ（クロスフェード
+   0.4秒）と重なると、前のカットの文字と混ざって汚れるため。 */
+const TIMELINE = {
+  kicker: [0.30, 0.72],
+  line: [0.44, 0.98], // 1行あたり。2行目以降は LINE_STAGGER ぶん後ろへ
+  hi: [1.22, 1.58], // 黄色いマーカーは、行が着地してから引く
+  foot: [1.35, 1.75],
+};
+const LINE_STAGGER = 0.14;
+const ANIM_SEC = 1.75;
+const ANIM_FRAMES = Math.ceil(ANIM_SEC * FPS);
 
 /* —— 6カット。役割は 登場→中身→体験→ごほうび→ふえる→CTA ——
    hi: 黄色く塗る語（1カット1箇所まで。増やすと効かなくなる）
@@ -201,34 +225,15 @@ function mark(line, hi) {
 const FONTS =
   (await fontCss("zen-kaku-gothic-new", [500, 700, 900])) + (await fontCss("jetbrains-mono", [700]));
 
-/* 板。端末の中身は録画をあとから重ねるので、ここでは白フチと
-   内側の下地だけ描いておく（＝穴を開けるのと同じことをffmpeg側でやる） */
-function boardHtml({ iconDataUri, kicker, lines, hi, foot, end }) {
-  return `<!doctype html><html><head><meta charset="utf-8"><style>
-${FONTS}
+/* ───────── 板（背景と端末のフチ）。全カット共通で1枚 ───────── */
+const boardHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   width: ${W}px; height: ${H}px; overflow: hidden; position: relative;
-  font-family: "Zen Kaku Gothic New", sans-serif; color: ${PAPER_50};
   background: ${INK};
   background-image: radial-gradient(rgba(255,255,255,0.075) 2px, transparent 2.1px);
   background-size: 26px 26px;
 }
-.head { position: absolute; top: 92px; left: 0; right: 0; text-align: center; }
-.kicker {
-  display: inline-block;
-  font-family: "JetBrains Mono", monospace; font-weight: 700;
-  font-size: 29px; letter-spacing: 0.16em; color: ${YELLOW};
-  border: 3px solid ${YELLOW}; border-radius: 999px; padding: 10px 26px;
-}
-.lines { margin-top: 26px; }
-.line {
-  font-weight: 900; font-size: 60px; line-height: 1.4; letter-spacing: 0.01em;
-  display: inline-block; white-space: nowrap;
-}
-/* 黄色マーカーは文字の下2/3に敷く。全部塗ると読みにくい */
-.hi { background: linear-gradient(transparent 58%, rgba(255,210,63,0.92) 58%); color: #fff; }
-${end ? ".line:last-child { font-size: 66px; }" : ""}
 /* 端末。白フチと内側の下地だけ。中身はffmpegが重ねる */
 .bezel {
   position: absolute;
@@ -242,6 +247,52 @@ ${end ? ".line:last-child { font-size: 66px; }" : ""}
   width: ${PHONE_W}px; height: ${PHONE_H}px;
   background: ${INK}; border-radius: ${RADIUS}px;
 }
+</style></head><body><div class="bezel"><div class="screen"></div></div></body></html>`;
+
+/* 画面の角丸マスク。白＝見える／黒＝透ける（ffmpegの alphamerge 用） */
+const maskHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin: 0; padding: 0; }
+body { width: ${PHONE_W}px; height: ${PHONE_H}px; background: #000; }
+div { width: ${PHONE_W}px; height: ${PHONE_H}px; background: #fff; border-radius: ${RADIUS}px; }
+</style></head><body><div></div></body></html>`;
+
+/* ───────── テロップ層（背景は透明。板の上に重ねる） ───────── */
+/* 行は「窓（.lineWrap）＋中身（.line）」の2枚重ね。窓で切って
+   中身を下から持ち上げると、字が地面から生えてくるように出る。
+   opacity のフェードだけだと、この尺では眠く見える。 */
+function textHtml({ iconDataUri, kicker, lines, hi, foot, end }) {
+  return `<!doctype html><html><head><meta charset="utf-8"><style>
+${FONTS}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: ${W}px; height: ${H}px; overflow: hidden; position: relative;
+  font-family: "Zen Kaku Gothic New", sans-serif; color: ${PAPER_50};
+  background: transparent;
+}
+.head { position: absolute; top: 92px; left: 0; right: 0; text-align: center; }
+.kicker {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace; font-weight: 700;
+  font-size: 29px; letter-spacing: 0.16em; color: ${YELLOW};
+  border: 3px solid ${YELLOW}; border-radius: 999px; padding: 10px 26px;
+  transform-origin: 50% 50%;
+}
+.lines { margin-top: 26px; }
+/* 窓。下の余白は、はみ出す文字（ぐ・や の下）を切らないぶん */
+.lineWrap { display: block; overflow: hidden; padding-bottom: 12px; margin-bottom: -12px; }
+.line {
+  font-weight: 900; font-size: 60px; line-height: 1.4; letter-spacing: 0.01em;
+  display: inline-block; white-space: nowrap;
+}
+/* 黄色マーカーは文字の下2/3に敷く。全部塗ると読みにくい。
+   background-size の幅を0→100%へ動かすと、左から引いたように出る */
+.hi {
+  background-image: linear-gradient(transparent 58%, rgba(255,210,63,0.92) 58%);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  color: #fff;
+}
+${end ? ".line:last-child { font-size: 66px; }" : ""}
 .foot {
   position: absolute; left: 0; right: 0; bottom: 96px;
   display: flex; align-items: center; justify-content: center; gap: 16px;
@@ -252,25 +303,57 @@ ${end ? ".line:last-child { font-size: 66px; }" : ""}
   <div class="head">
     <div class="kicker">${esc(kicker)}</div>
     <div class="lines">
-      ${lines.map((l) => `<div><span class="line">${mark(l, hi)}</span></div>`).join("\n      ")}
+      ${lines.map((l) => `<div class="lineWrap"><span class="line">${mark(l, hi)}</span></div>`).join("\n      ")}
     </div>
   </div>
-  <div class="bezel"><div class="screen"></div></div>
   <div class="foot">${end ? `<img class="icon" src="${iconDataUri}">` : ""}<span>${esc(foot)}</span></div>
 </body></html>`;
 }
 
-/* 画面の角丸マスク。白＝見える／黒＝透ける（ffmpegの alphamerge 用） */
-const maskHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
-* { margin: 0; padding: 0; }
-body { width: ${PHONE_W}px; height: ${PHONE_H}px; background: #000; }
-div { width: ${PHONE_W}px; height: ${PHONE_H}px; background: #fff; border-radius: ${RADIUS}px; }
-</style></head><body><div></div></body></html>`;
+/* その時刻の見た目を作る。ページの中で走らせる関数（→ 冒頭の覚え書き） */
+function paintFrame(t, tl, stagger) {
+  /* 0→1 の進み具合。区間の外は 0 か 1 に丸める */
+  const seg = (a, b) => Math.max(0, Math.min(1, (t - a) / (b - a)));
+  /* 終わりぎわで減速する。等速だと機械っぽくなる */
+  const ease = (x) => 1 - Math.pow(1 - x, 3);
+  /* 少し行き過ぎてから戻る。小見出しの「出た」感を作る */
+  const back = (x) => {
+    const c = 1.7;
+    return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2);
+  };
 
-/* ───────── 1. 板とマスクを撮る ───────── */
+  const k = seg(tl.kicker[0], tl.kicker[1]);
+  const kicker = document.querySelector(".kicker");
+  kicker.style.opacity = String(ease(k));
+  kicker.style.transform = `translateY(${(1 - ease(k)) * -22}px) scale(${0.9 + back(k) * 0.1})`;
+
+  document.querySelectorAll(".lineWrap").forEach((wrap, n) => {
+    const p = ease(seg(tl.line[0] + n * stagger, tl.line[1] + n * stagger));
+    /* 窓の下から持ち上げる。110%＝完全に隠れる位置 */
+    wrap.querySelector(".line").style.transform = `translateY(${(1 - p) * 110}%)`;
+  });
+
+  const h = ease(seg(tl.hi[0], tl.hi[1]));
+  document.querySelectorAll(".hi").forEach((el) => {
+    el.style.backgroundSize = `${h * 100}% 100%`;
+  });
+
+  const f = seg(tl.foot[0], tl.foot[1]);
+  const foot = document.querySelector(".foot");
+  foot.style.opacity = String(ease(f));
+  foot.style.transform = `translateY(${(1 - ease(f)) * 16}px)`;
+}
+
+/* ───────── 1. 板・マスク・テロップのコマを撮る ───────── */
 if (!(await exists(CLIP_DIR))) {
   console.error(`素材が無い: ${CLIP_DIR}\n実機の画面収録を academy-video/clips/ に置くこと`);
   process.exit(1);
+}
+for (const cut of CUTS) {
+  if (!(await exists(path.join(CLIP_DIR, cut.clip)))) {
+    console.error(`素材が無い: ${path.join(CLIP_DIR, cut.clip)}`);
+    process.exit(1);
+  }
 }
 await rm(WORK_DIR, { recursive: true, force: true });
 await mkdir(WORK_DIR, { recursive: true });
@@ -280,18 +363,27 @@ const iconDataUri = `data:image/webp;base64,${(
 ).toString("base64")}`;
 
 const browser = await launchBrowser();
-const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
 
+const boardPage = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
+await boardPage.setContent(boardHtml, { waitUntil: "networkidle" });
+await boardPage.screenshot({ path: path.join(WORK_DIR, "board.png") });
+await boardPage.close();
+
+const maskPage = await browser.newPage({ viewport: { width: PHONE_W, height: PHONE_H }, deviceScaleFactor: 1 });
+await maskPage.setContent(maskHtml);
+await maskPage.screenshot({ path: path.join(WORK_DIR, "mask.png") });
+await maskPage.close();
+
+const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
 for (const [i, cut] of CUTS.entries()) {
-  if (!(await exists(path.join(CLIP_DIR, cut.clip)))) {
-    console.error(`素材が無い: ${path.join(CLIP_DIR, cut.clip)}`);
-    process.exit(1);
-  }
-  await page.setContent(boardHtml({ ...cut, iconDataUri }), { waitUntil: "networkidle" });
+  const dir = path.join(WORK_DIR, `text${i}`);
+  await mkdir(dir, { recursive: true });
+  await page.setContent(textHtml({ ...cut, iconDataUri }), { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
   /* テロップは折り返さない（nowrap）ぶん、長い行は自動で縮める。
      文言を書き換えたときに、1文字だけ次の行に落ちる事故を防ぐため。
-     ここを外すと、行が枠の外へ伸びて切れる */
+     ここを外すと、行が枠の外へ伸びて切れる。
+     **動かす前に測る**——transformが掛かった後だと幅が狂う */
   await page.evaluate((maxW) => {
     for (const el of document.querySelectorAll(".line")) {
       const size = parseFloat(getComputedStyle(el).fontSize);
@@ -299,16 +391,22 @@ for (const [i, cut] of CUTS.entries()) {
       if (w > maxW) el.style.fontSize = `${Math.max(40, Math.floor(size * (maxW / w)))}px`;
     }
   }, W - 120);
-  await page.screenshot({ path: path.join(WORK_DIR, `board${i}.png`) });
-  console.log(`  ✔ 板${i + 1} ${cut.lines.join("")}`);
-}
 
-const maskPage = await browser.newPage({ viewport: { width: PHONE_W, height: PHONE_H }, deviceScaleFactor: 1 });
-await maskPage.setContent(maskHtml);
-await maskPage.screenshot({ path: path.join(WORK_DIR, "mask.png") });
+  for (let f = 0; f < ANIM_FRAMES; f++) {
+    await page.evaluate(
+      ([t, tl, stagger, src]) => new Function("t", "tl", "stagger", `(${src})(t, tl, stagger)`)(t, tl, stagger),
+      [f / FPS, TIMELINE, LINE_STAGGER, paintFrame.toString()]
+    );
+    await page.screenshot({
+      path: path.join(dir, `f${String(f).padStart(3, "0")}.png`),
+      omitBackground: true, // 板の上に重ねるので、背景は透明のまま撮る
+    });
+  }
+  console.log(`  ✔ テロップ${i + 1}（${ANIM_FRAMES}コマ） ${cut.lines.join("")}`);
+}
 await browser.close();
 
-/* ───────── 2. カットごとに、録画を板へ流し込む ───────── */
+/* ───────── 2. カットごとに、録画と動くテロップを板へ重ねる ───────── */
 for (const [i, cut] of CUTS.entries()) {
   const speed = cut.speed ?? 1;
   const dur = cutSec(cut);
@@ -320,7 +418,11 @@ for (const [i, cut] of CUTS.entries()) {
     /* 画面の角を丸める */
     `[v0][2:v]alphamerge[vr]`,
     /* 板の上へ置く */
-    `[1:v][vr]overlay=${PHONE_X}:${PHONE_Y}:format=auto[out]`,
+    `[1:v][vr]overlay=${PHONE_X}:${PHONE_Y}:format=auto[base]`,
+    /* テロップは頭の ANIM_SEC ぶんしか撮っていないので、
+       最後のコマを尺の終わりまで引き伸ばす（tpad の clone） */
+    `[3:v]tpad=stop_mode=clone:stop_duration=${Math.ceil(dur)},format=rgba[txt]`,
+    `[base][txt]overlay=0:0:format=auto[out]`,
   ].join(";");
 
   execFileSync(
@@ -328,8 +430,9 @@ for (const [i, cut] of CUTS.entries()) {
     [
       "-y", "-loglevel", "error",
       "-ss", String(cut.in), "-to", String(cut.out), "-i", path.join(CLIP_DIR, cut.clip),
-      "-loop", "1", "-i", path.join(WORK_DIR, `board${i}.png`),
+      "-loop", "1", "-i", path.join(WORK_DIR, "board.png"),
       "-loop", "1", "-i", path.join(WORK_DIR, "mask.png"),
+      "-framerate", String(FPS), "-i", path.join(WORK_DIR, `text${i}`, "f%03d.png"),
       "-filter_complex", chain,
       "-map", "[out]",
       "-t", dur.toFixed(3),
