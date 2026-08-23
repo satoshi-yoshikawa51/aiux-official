@@ -20,11 +20,19 @@ import { Icon } from '@/components/icons';
 import { Badge, Row, Tap } from '@/components/ui';
 import { EXTRA_TOTAL, getExtra } from '@/data/extras';
 import { GACHA_POOL, RARITY_COLOR } from '@/data/gacha';
+import { DEMO } from '@/lib/demo';
 import { useProgress } from '@/store/progress';
 import { BW, F, FONT, R, S, T } from '@/theme';
 
 /** 持っている景品のうち、おまけが遊べるもの */
 export function ownedExtras(state: { themes: Record<string, number>; skins: Record<string, number> }) {
+  /* ▍体験モードでは、おまけは1本も出さない（→ lib/demo.ts）
+     ガチャで「かんばん」を当てると、その景品についてくる回が遊べてしまう。
+     体験版で遊べるのは1本目のレッスンだけ、という約束から外れる。
+
+     ここで止めれば入口は全部塞がる——一覧（この下の ExtraList）も、
+     まなぶの「あそべる◯本」も、おまけの画面も、数えているのはここ1か所。 */
+  if (DEMO) return [];
   return GACHA_POOL.filter((p) =>
     p.rarity === 'N' ? false : p.kind === 'theme' ? !!state.themes[p.id] : !!state.skins[p.id],
   );
