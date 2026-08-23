@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { Metadata } from "next";
 import { Footer, PAGE } from "../site-chrome";
 import { Badge, Button } from "../ds";
@@ -47,6 +49,32 @@ const APP_STORE_URL: string | null = null;
    当てにできない。体験モードそのものを見るときは、PRのコメントに
    Vercelが貼る comixai-academy のプレビューURLに ?demo=1 を付けて開く。 */
 const ACADEMY_WEB_DEMO = "https://comixai-academy.vercel.app/?demo=1";
+
+/* ▍ロゴの絵は「置いてあれば使う」
+
+   置き場は `public/academy/logo.png`（背景の透けた透過PNG）。GitHubの
+   画面からそこへドラッグして置くだけで、MVの見出しがロゴに差し替わる
+   ——コードは触らなくていい（4コマの registry.ts と同じ「置いた物が正」）。
+
+   **無いファイルを指したまま出さない。** ページのいちばん目立つ所が
+   壊れた絵になるので、置かれるまでは文字が代わりを務める。 */
+const LOGO = readPngSize(path.join(process.cwd(), "public/academy/logo.png"));
+
+/** PNGの頭24バイトだけ読んで、幅と高さを返す。**大きさを先に伝えないと、
+    MVでいちばん大きい絵が読み終わった瞬間に、下の文が丸ごと飛ぶ。** */
+function readPngSize(file: string): { w: number; h: number } | null {
+  try {
+    const head = Buffer.alloc(24);
+    const fd = fs.openSync(file, "r");
+    fs.readSync(fd, head, 0, 24, 0);
+    fs.closeSync(fd);
+    /* 署名8 → 長さ4 → 'IHDR' → 幅4 → 高さ4 */
+    if (head.toString("ascii", 12, 16) !== "IHDR") return null;
+    return { w: head.readUInt32BE(16), h: head.readUInt32BE(20) };
+  } catch {
+    return null;
+  }
+}
 
 const TITLE = "COMIXAI アカデミー｜3Dの相棒と、遊んで学ぶ生成AI（iPhone / iPad）";
 const DESC =
@@ -321,40 +349,55 @@ export default function AcademyPage() {
           }}
         >
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/academy/icon.webp"
-                alt="COMIXAI アカデミーのアプリアイコン"
-                width={58}
-                height={58}
-                style={{ width: 58, height: 58, borderRadius: 14, border: "var(--bw-line) solid var(--paper-50)", display: "block" }}
-              />
-              <div>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.16em", color: "var(--yellow-400)", fontWeight: 700 }}>
-                  COMIXAI ACADEMY — iPhone / iPad
-                </div>
-                <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16.5, marginTop: 3, color: "var(--paper-50)" }}>
+            {/* ▍ロゴ＋キャッチの2段。ここがこのページの看板
+                アプリアイコンと「COMIXAI アカデミー」の小さな名札は外した
+                ——ロゴが名前を言っているので、同じ名前が2つ並ぶだけになる */}
+            <h1 style={{ margin: "0 0 clamp(10px, 1.5vw, 16px)" }}>
+              {LOGO ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src="/academy/logo.png"
+                  alt="COMIXAI アカデミー"
+                  width={LOGO.w}
+                  height={LOGO.h}
+                  style={{
+                    width: "100%",
+                    maxWidth: "clamp(300px, 46vw, 560px)",
+                    height: "auto",
+                    display: "block",
+                    /* 背景が動画なので、影が無いと絵の縁が地に溶ける */
+                    filter: "drop-shadow(0 8px 26px rgba(0,0,0,.6))",
+                  }}
+                />
+              ) : (
+                <span
+                  style={{
+                    display: "block",
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 900,
+                    fontSize: "clamp(34px,6vw,62px)",
+                    lineHeight: 1.12,
+                    color: "var(--paper-50)",
+                    textShadow: "0 2px 20px rgba(0,0,0,.5)",
+                  }}
+                >
                   COMIXAI アカデミー
-                </div>
-              </div>
-            </div>
-
-            <h1
+                </span>
+              )}
+            </h1>
+            <p
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 900,
-                fontSize: "clamp(30px,5.2vw,54px)",
-                lineHeight: 1.2,
-                margin: "0 0 14px",
+                fontSize: "clamp(24px,3.8vw,42px)",
+                lineHeight: 1.25,
+                margin: "0 0 clamp(12px, 1.8vw, 18px)",
                 color: "var(--paper-50)",
                 textShadow: "0 2px 20px rgba(0,0,0,.5)",
               }}
             >
-              3Dの相棒と、
-              <br />
-              遊んで学ぶ生成AI。
-            </h1>
+              遊んで学ぶ生成AI
+            </p>
             <p style={{ fontSize: 15.5, lineHeight: 1.95, color: "rgba(251,247,239,.86)", margin: "0 0 18px", maxWidth: 520 }}>
               「AIって、けっきょく何ができて、何がダメなの？」——その疑問に<b style={{ color: "var(--paper-50)" }}>「読む」ではなく「遊ぶ」で答える</b>
               学習アプリです。相棒を選んで、職種を選んだら、あとは1日5分。
