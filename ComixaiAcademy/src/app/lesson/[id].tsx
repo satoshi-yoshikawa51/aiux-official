@@ -32,6 +32,7 @@ import {
   Row,
   Screen,
 } from '@/components/ui';
+import { DEMO, DEMO_LESSON_ID } from '@/lib/demo';
 import { playSound } from '@/lib/sound';
 import { getAvatar } from '@/data/avatars';
 import { BadgeArt } from '@/components/badge-art';
@@ -182,6 +183,35 @@ export default function LessonScreen() {
       <View style={{ flex: 1, backgroundColor: T.bg, padding: S.lg }}>
         <Text style={F.body}>レッスンが見つからなかった。</Text>
       </View>
+    );
+  }
+
+  /* ▍体験モードで開けるのは1本目だけ（→ lib/demo.ts）
+     鍵は**ここ1か所**に置く。一覧の見た目だけで止めると、ホームの赤い
+     ボタン・復習・共有URLと入口が3つも残って必ず漏れる。
+     行き止まりにはせず、そのままアプリへの誘いにしてある */
+  if (DEMO && String(id) !== DEMO_LESSON_ID) {
+    return (
+      <Screen>
+        <Panel contentStyle={{ padding: S.md, gap: S.sm }}>
+          <Row gap={8}>
+            <Icon name="lock" size={18} color={T.muted} />
+            <Text style={[F.h2, { flex: 1 }]}>ここから先はアプリで</Text>
+          </Row>
+          <Text style={F.small}>
+            この体験版で遊べるのは1本目だけです。{COURSES.length}コース
+            {COURSES.reduce((n, c) => n + c.lessons.length, 0)}レッスンと修了試験、
+            バッジと称号、ガチャの全景品はアプリの中にあります。
+          </Text>
+          <Button
+            label="1本目にもどる"
+            variant="secondary"
+            size="sm"
+            onPress={() => router.replace(`/lesson/${DEMO_LESSON_ID}`)}
+            style={{ alignSelf: 'flex-start' }}
+          />
+        </Panel>
+      </Screen>
     );
   }
 

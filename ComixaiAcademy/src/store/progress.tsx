@@ -32,6 +32,7 @@ import {
   type QuizEntry,
 } from '@/data/courses';
 import type { RoleId } from '@/data/types';
+import { DEMO, DEMO_PRIZE_ID } from '@/lib/demo';
 import { setMusicEnabled } from '@/lib/music';
 import { setSoundEnabled } from '@/lib/sound';
 
@@ -177,6 +178,24 @@ export const EMPTY: ProgressState = {
   gachaCoinsGiven: false,
   seenGachaTutorial: false,
   dryStreak: 0,
+};
+
+/* ▍体験モードは、まっさらではなく「始まった直後」から出す（→ lib/demo.ts）
+   LPのスマホの中は数十秒で閉じられる場所なので、入口の演出3つと案内を
+   通させると、ホームに着く前に閉じられる。ガチャPも最初から持たせる
+   ——**まわせない台を見せても伝わらない**。
+   曲を切ってあるのは、人のページに貼りついた小窓だから（効果音は残す）。 */
+const DEMO_STATE: ProgressState = {
+  ...EMPTY,
+  avatarId: 'ottori',
+  roleId: 'sales',
+  seenOpening: true,
+  seenIntro: true,
+  seenTutorial: true,
+  gachaCoinsGiven: true,
+  seenGachaTutorial: true,
+  coins: SPIN_COST * 3,
+  musicOn: false,
 };
 
 /* ———————————————— 日付ユーティリティ ———————————————— */
@@ -379,6 +398,15 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   ref.current = state;
 
   React.useEffect(() => {
+    /* 体験モードは記録を読まない。人のブラウザに残っている本物の進捗を
+       小窓に映してしまわないため（→ lib/demo.ts） */
+    if (DEMO) {
+      setSoundEnabled(DEMO_STATE.soundOn);
+      setMusicEnabled(DEMO_STATE.musicOn);
+      setState(DEMO_STATE);
+      setReady(true);
+      return;
+    }
     let alive = true;
     AsyncStorage.getItem(KEY)
       .then((raw) => {
@@ -439,6 +467,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const persist = React.useCallback((next: ProgressState) => {
     ref.current = next;
     setState(next);
+    /* 体験モードは端末に残さない。閉じれば消える（→ lib/demo.ts） */
+    if (DEMO) return;
     AsyncStorage.setItem(KEY, JSON.stringify(next)).catch(() => {
       /* 保存に失敗しても、その場の学習は続けられるようにする */
     });
@@ -639,6 +669,16 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const spinGacha = React.useCallback((): SpinResult | null => {
     const s = ref.current;
     if (s.coins < SPIN_COST) return null;
+    /* ▍体験モードは「かんばん」しか出さない（→ lib/demo.ts）
+       宣伝で見せている相棒がその場で出ないと話が合わない。Pも減らさない
+       ——1回で品切れになる台にすると、まわした人が続きを触れなくなる */
+    if (DEMO) {
+      const only = GACHA_POOL.find((p) => p.kind === 'avatar' && p.id === DEMO_PRIZE_ID);
+      if (only) {
+        persist({ ...s, skins: { ...s.skins, [only.id]: Date.now() } });
+        return { prize: only, dupe: false, refund: 0, pity: false };
+      }
+    }
     /* ▍救済（→ data/gacha.ts の PITY_AFTER）
        新しいものが出ない回が続いたら、次は**持っていないものから確定**で引く。
        レア度は見ない——終盤は残りがSRだけになるので、レア度を守ると

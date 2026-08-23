@@ -128,3 +128,175 @@ export function ScrollStage({
     </>
   );
 }
+
+/* ============================================================
+   ▍MVのスマホの中で、本物のWeb版を触らせる
+
+   中身は宣伝用の作りものではなく、**アプリと同じビルド**を
+   `?demo=1` で読んでいる（→ ComixaiAcademy/src/lib/demo.ts）。
+   体験モードでは 1本目のレッスンとガチャだけが開いていて、
+   記録は見た人のブラウザに残らない。
+
+   ▍最初は静止画で、押されてから読む
+   Expo製のWeb版はJSも3Dも重い。MVに最初から iframe を置くと、
+   **LPがまだ何も出ていないうちに**その読み込みが始まって、
+   いちばん見せたい1画面目が遅れる。押した人にだけ読ませる。
+
+   ▍中は 390px の画面として描かせて、あとから縮める
+   枠に合わせて iframe を細くすると、アプリ側が「とても細い端末」
+   として崩れた形で組む。**中はふつうのスマホの幅で組ませて、
+   出来上がりを transform で縮める**ほうが、実機と同じ絵になる。
+   ============================================================ */
+
+/** 中に描かせる画面の幅（＝ふつうのスマホ） */
+const PHONE_VW = 390;
+
+export function TryPhone({
+  src,
+  poster,
+  posterAlt,
+}: {
+  src: string;
+  poster: string;
+  posterAlt: string;
+}) {
+  const boxRef = React.useRef<HTMLDivElement>(null);
+  const [live, setLive] = React.useState(false);
+  const [box, setBox] = React.useState({ w: 0, h: 0 });
+
+  React.useEffect(() => {
+    const el = boxRef.current;
+    if (!el) return;
+    const measure = () => setBox({ w: el.clientWidth, h: el.clientHeight });
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const scale = box.w > 0 ? box.w / PHONE_VW : 0;
+
+  return (
+    <div style={{ width: "100%", maxWidth: 288, margin: "0 auto" }}>
+      <div
+        ref={boxRef}
+        style={{
+          position: "relative",
+          width: "100%",
+          /* 静止画（620×1344）と同じ縦横比。押した前後で枠が動かないように */
+          aspectRatio: "620 / 1344",
+          boxSizing: "border-box",
+          borderRadius: 26,
+          border: "6px solid var(--paper-50)",
+          boxShadow: "0 24px 60px rgba(0,0,0,.55)",
+          background: "var(--paper-0)",
+          overflow: "hidden",
+        }}
+      >
+        {live && scale > 0 ? (
+          <iframe
+            src={src}
+            title="COMIXAI アカデミー（体験版）"
+            /* 音は鳴らさない作りだが、効果音のために許しておく */
+            allow="autoplay"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: PHONE_VW,
+              height: box.h / scale,
+              border: 0,
+              transformOrigin: "top left",
+              transform: `scale(${scale})`,
+              display: "block",
+            }}
+          />
+        ) : (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={poster}
+              alt={posterAlt}
+              width={620}
+              height={1344}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => setLive(true)}
+              style={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                /* ▍真ん中に置く
+                   下に寄せると、写っているアプリ自身の赤いボタンの上に
+                   もう1つ赤いボタンが重なって、どちらを押す絵なのか
+                   分からなくなる */
+                justifyContent: "center",
+                gap: 8,
+                padding: "0 12px",
+                border: 0,
+                cursor: "pointer",
+                background: "rgba(20,17,15,.46)",
+                font: "inherit",
+                color: "var(--paper-50)",
+              }}
+            >
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "9px 15px",
+                  borderRadius: 999,
+                  background: "var(--red-500)",
+                  border: "var(--bw-line) solid var(--ink-900)",
+                  boxShadow: "var(--shadow-pop-sm)",
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 900,
+                  fontSize: 13.5,
+                  color: "var(--paper-50)",
+                }}
+              >
+                <i className="ph-bold ph-hand-tap" />
+                さわってみる
+              </span>
+              <span
+                style={{
+                  fontSize: 10.5,
+                  lineHeight: 1.5,
+                  textAlign: "center",
+                  /* 下は舞台の絵（明るい桜のことも暗い夜のこともある）なので、
+                     影を敷いておかないと日によって読めなくなる */
+                  textShadow: "0 1px 6px rgba(0,0,0,.85)",
+                }}
+              >
+                ブラウザで動く体験版
+              </span>
+            </button>
+          </>
+        )}
+      </div>
+      <p
+        style={{
+          margin: "10px 0 0",
+          fontSize: 10.5,
+          lineHeight: 1.6,
+          textAlign: "center",
+          color: "rgba(251,247,239,.7)",
+        }}
+      >
+        体験版で遊べるのは1本目のレッスンとガチャ（かんばん）だけ。記録は残りません。
+      </p>
+    </div>
+  );
+}

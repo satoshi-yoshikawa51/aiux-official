@@ -55,8 +55,10 @@ npm run dev
   3Dアバターを選び、職種を選ぶと、その職種向けにレッスンが変化する学習アプリ。
   クリアするとバッジが増え、称号が上がります。サイトの用語集・職種別ガイド・
   プロンプト集を元ネタにしています。詳細は `ComixaiAcademy/README.md`。
-  サイト側の紹介ページは `/academy`（`src/app/academy/page.tsx`）。載せている数字と
+  サイト側の宣伝ページは `/academy`（`src/app/academy/page.tsx`）。載せている数字と
   スクショはアプリの実装と一対なので、アプリを直したらこちらも直します。
+  メインビジュアルのスマホの中では、**アプリのWeb版そのもの**が動きます
+  （`?demo=1` の体験モード＝1本目のレッスンとガチャだけ。→ `ComixaiAcademy/README.md`）。
   素材と宣伝物は3つのコマンドで作り直せます——`npm run academy:shots`（審査用スクショ
   → 表示用WebP）、`npm run og:academy`（OGP画像）、`npm run academy:video`
   （SNS用の縦ショート動画・約31秒）。動画は**実機の画面録画**が素材で、

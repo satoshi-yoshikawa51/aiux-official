@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Footer, PAGE } from "../site-chrome";
 import { Badge, Button } from "../ds";
 import { ShareRow } from "../site-ui";
-import { ScrollStage } from "./parts";
+import { ScrollStage, TryPhone } from "./parts";
 
 /* ============================================================
    スマホアプリ「COMIXAI アカデミー」の紹介ページ（宣伝LP）。
@@ -35,6 +35,18 @@ import { ScrollStage } from "./parts";
    "https://apps.apple.com/jp/app/id0000000000"）。null のあいだは
    ページ全体が「まもなく公開」の見え方になる */
 const APP_STORE_URL: string | null = null;
+
+/* ▍MVのスマホの中に入れる、さわれるWeb版
+
+   アプリのWeb版は**別のVercelプロジェクト**（root＝ComixaiAcademy/）で、
+   本番はこのURL。`?demo=1` が体験モードの旗で、1本目のレッスンと
+   ガチャだけが開く（→ ComixaiAcademy/src/lib/demo.ts）。
+
+   **プレビューでもここは本番を読む。** ブランチごとのプレビューURLは
+   ビルドされるまで存在せず、名前も毎回変わるので、埋め込み先としては
+   当てにできない。体験モードそのものを見るときは、PRのコメントに
+   Vercelが貼る comixai-academy のプレビューURLに ?demo=1 を付けて開く。 */
+const ACADEMY_WEB_DEMO = "https://comixai-academy.vercel.app/?demo=1";
 
 const TITLE = "COMIXAI アカデミー｜3Dの相棒と、遊んで学ぶ生成AI（iPhone / iPad）";
 const DESC =
@@ -356,24 +368,12 @@ export default function AcademyPage() {
             <Cta place="hero" dark />
           </div>
 
-          {/* 実画面。あとでここを、さわれるWeb版に差し替える */}
+          {/* さわれる実物（→ parts.tsx の TryPhone） */}
           <div style={{ display: "flex", justifyContent: "center" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/academy/shots/home.webp"
-              alt="ホーム画面。桜並木の舞台に3Dアバターが立っている"
-              width={620}
-              height={1344}
-              style={{
-                width: "100%",
-                maxWidth: 288,
-                height: "auto",
-                display: "block",
-                borderRadius: 26,
-                border: "6px solid var(--paper-50)",
-                boxShadow: "0 24px 60px rgba(0,0,0,.55)",
-                background: "var(--paper-0)",
-              }}
+            <TryPhone
+              src={ACADEMY_WEB_DEMO}
+              poster="/academy/shots/home.webp"
+              posterAlt="ホーム画面。桜並木の舞台に3Dアバターが立っている"
             />
           </div>
         </div>
