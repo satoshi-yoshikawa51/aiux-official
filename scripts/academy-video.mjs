@@ -8,6 +8,7 @@
      組んだ1080×1920の「板」の中央に端末の枠を置き、そこへ録画を
      切り出して流し込む。テロップは1フレームずつ描き起こして動かす。
      カットはクロスフェードでつなぎ、下端に進みぐあいのバーを引く。
+     academy-video/bgm.mp3 を置いておくと、BGMも敷く。
 
    ▍なぜ画面録画なのか（静止画に戻さないこと）
    最初は審査提出用のスクショ5枚で作ったが、**このアプリの売りは
@@ -26,6 +27,7 @@
 
    素材の置き場:
      academy-video/clips/*.mp4|mov  … 実機の画面収録（Git管理外）
+     academy-video/bgm.mp3          … BGM（任意・Git管理外）
    出力:
      academy-video/comixai-academy.mp4  … YouTube Shorts / TikTok / Reels / X 共用
      academy-video/comixai-academy.txt  … 投稿用のタイトル・説明文・タグ
@@ -49,11 +51,19 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = path.join(ROOT, "academy-video");
 const CLIP_DIR = path.join(OUT_DIR, "clips");
 const WORK_DIR = path.join(OUT_DIR, ".work");
+/* BGM。置いてあれば敷く。無ければ無音のまま作る（→ 4. の覚え書き） */
+const BGM_PATH = path.join(OUT_DIR, "bgm.mp3");
 
 const KEEP = process.argv.includes("--keep"); // 中間ファイルを残してデバッグ
 
 const FPS = 30;
 const XFADE_SEC = 0.4;
+/* BGMのどこから使うか（秒）。この曲は頭が静かで、20秒あたりから
+   厚くなる。0から使うと「静かに始まって、CTAでいちばん盛り上がる」
+   に自然と揃う */
+const BGM_START = 0;
+const BGM_FADE_IN = 0.4;
+const BGM_FADE_OUT = 1.6;
 const W = 1080;
 const H = 1920;
 
@@ -648,15 +658,45 @@ for (let i = 1; i < CUTS.length; i++) {
 /* 下端の黄色いバー。残り時間が見えると最後まで見てもらいやすい */
 chain += `[xf]drawbox=x=0:y=${H - 14}:w='iw*t/${TOTAL_SEC.toFixed(3)}':h=14:color=${YELLOW.replace("#", "0x")}@1:t=fill[v]`;
 
+/* ▍BGMは「潰さない」で合わせる
+   loudnorm を1回掛けで通すと、音楽では音圧の上げ下げが目立つことが
+   ある（ポンピング）。ここは音がBGM1本きりなので、**いちばん大きい
+   ところを測って、そのぶん下げるだけ**にした。強弱はそのまま残り、
+   割れる心配もない。投稿先が音量を揃えるので、これで足りる。 */
+const hasBgm = await exists(BGM_PATH);
+let audioArgs = ["-an"];
+if (hasBgm) {
+  const probe = execSync(
+    `${FFMPEG} -hide_banner -ss ${BGM_START} -t ${TOTAL_SEC.toFixed(3)} -i ${JSON.stringify(BGM_PATH)} -af volumedetect -f null /dev/null 2>&1`,
+    { shell: "/bin/bash" }
+  ).toString();
+  const peak = parseFloat((probe.match(/max_volume:\s*(-?\d+(?:\.\d+)?) dB/) || [])[1] ?? "0");
+  const gain = -1.5 - peak; // 頭を -1.5dBFS に置く
+  const fadeAt = Math.max(0, TOTAL_SEC - BGM_FADE_OUT);
+  audioArgs = [
+    "-af",
+    `volume=${gain.toFixed(2)}dB,` +
+      `afade=t=in:st=0:d=${BGM_FADE_IN},` +
+      /* 終わりは長めに絞る。ぶつ切りだと、最後のCTAの印象まで持っていかれる */
+      `afade=t=out:st=${fadeAt.toFixed(3)}:d=${BGM_FADE_OUT}`,
+    "-c:a", "aac", "-b:a", "192k", "-ar", "44100",
+  ];
+  console.log(`  ♪ BGM（${BGM_START}秒から／頭 ${peak}dB → ${gain.toFixed(1)}dB 補正）`);
+}
+
 execFileSync(
   FFMPEG,
   [
     "-y", "-loglevel", "error",
     ...inputs,
+    ...(hasBgm ? ["-ss", String(BGM_START), "-i", BGM_PATH] : []),
     "-filter_complex", chain,
     "-map", "[v]",
+    ...(hasBgm ? ["-map", `${CUTS.length}:a`] : []),
     "-r", String(FPS),
-    "-an", "-c:v", "libx264", "-crf", "19", "-preset", "medium", "-pix_fmt", "yuv420p",
+    "-t", TOTAL_SEC.toFixed(3),
+    ...audioArgs,
+    "-c:v", "libx264", "-crf", "19", "-preset", "medium", "-pix_fmt", "yuv420p",
     "-movflags", "+faststart",
     outMp4,
   ],
@@ -685,7 +725,7 @@ https://comixai.dev/academy
 【ハッシュタグ】
 #生成AI #AI学習 #プロンプト #個人開発 #アプリ #ChatGPT #Claude #AIリテラシー
 
-【尺】${TOTAL_SEC.toFixed(1)}秒／${W}×${H}／音声なし（BGMは投稿先のアプリで付ける）
+【尺】${TOTAL_SEC.toFixed(1)}秒／${W}×${H}／${hasBgm ? "BGMあり" : "音声なし"}
 `;
 await writeFile(path.join(OUT_DIR, "comixai-academy.txt"), txt);
 
