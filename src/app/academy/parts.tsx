@@ -308,9 +308,29 @@ export function TryPhone({
    「そっちに置きに来た」ように見える。逆から入れると、通り過ぎて
    戻ってきたように見えて落ち着かない。
 
+   ▍隠すのはJSが動きだしてから（idle → hidden → shown）
+
+   最初これを「初期状態＝隠す」で書いたら、**一度も動かなかった**。
+   サーバーには IntersectionObserver が無いので、素直に書くと
+   サーバー側では「出す」になる。Reactは受け取ったHTMLをそのまま
+   使う（hydrationでは属性を突き合わせない）ので、**opacity:1 が
+   DOMに焼き付いたまま**になり、あとから「出す」に切り替えても
+   見た目が何も変わらない。
+
+   なので順番を逆にした。まず素のまま（idle＝見えている）で描き、
+   JSが動いた瞬間に、まだ画面の下にあるものだけ hidden にして、
+   窓に入ったら shown へ戻す。hidden へ移るときだけ transition を
+   切ってある——切らないと、そこで1→0のフェードが再生されてしまう。
+   画面より下でやるので、この一瞬は誰にも見えない。
+
    一度出したら、もう戻さない（observer を切る）。行ったり来たりの
    たびに動くと、読み返すときに邪魔になるだけ。
    ============================================================ */
+
+/* 描く前に隠したいので layout effect。サーバーでは呼ばれないよう分ける */
+const useBeforePaint =
+  typeof window === "undefined" ? React.useEffect : React.useLayoutEffect;
+
 export function Reveal({
   from,
   style,
@@ -321,39 +341,50 @@ export function Reveal({
   children: React.ReactNode;
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
-  /* 対応していないブラウザでは、動かさず最初から出す（＝隠したままにしない） */
-  const [on, setOn] = React.useState(
-    () => typeof IntersectionObserver === "undefined"
-  );
+  const [phase, setPhase] = React.useState<"idle" | "hidden" | "shown">("idle");
 
-  React.useEffect(() => {
+  useBeforePaint(() => {
     const el = ref.current;
-    if (!el || on) return;
-    /* 動きを減らす設定の人には、動かさずそのまま出す */
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
-      setOn(true);
+    if (!el) return;
+    /* 対応していない／動きを減らす設定なら、動かさずそのまま出す */
+    if (
+      typeof IntersectionObserver === "undefined" ||
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setPhase("shown");
       return;
     }
+    /* すでに画面に入っているものは動かさない。目の前で消えて出直す */
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.85) {
+      setPhase("shown");
+      return;
+    }
+    setPhase("hidden");
     const io = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting) return;
-        setOn(true);
+        setPhase("shown");
         io.disconnect();
       },
       { threshold: 0.15 }
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [on]);
+  }, []);
 
+  const hidden = phase === "hidden";
   return (
     <div
       ref={ref}
       style={{
         ...style,
-        opacity: on ? 1 : 0,
-        transform: on ? "none" : `translateX(${from === "right" ? 56 : -56}px)`,
-        transition: "opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1)",
+        opacity: hidden ? 0 : 1,
+        transform: hidden ? `translateX(${from === "right" ? 72 : -72}px)` : "none",
+        /* hidden へ移る一瞬だけ切る（→ 上のメモ） */
+        transition: hidden
+          ? "none"
+          : "opacity .42s ease-out, transform .55s cubic-bezier(.16,1,.3,1)",
+        willChange: phase === "shown" ? "auto" : "transform, opacity",
       }}
     >
       {children}
