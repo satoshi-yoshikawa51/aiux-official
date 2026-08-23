@@ -194,7 +194,9 @@ const DEMO_STATE: ProgressState = {
   seenTutorial: true,
   gachaCoinsGiven: true,
   seenGachaTutorial: true,
-  coins: SPIN_COST * 3,
+  /* 何回かまわせるだけ持たせる。1回ぶんだけだと、当たった相棒に
+     着替える前に台が止まって「品切れの台」に見える */
+  coins: 20,
   musicOn: false,
 };
 

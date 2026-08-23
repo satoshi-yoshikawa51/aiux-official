@@ -300,3 +300,120 @@ export function TryPhone({
     </div>
   );
 }
+
+/* ============================================================
+   ▍横から滑り込ませる
+
+   特徴カードは左右に振ってあるので、**寄せた側から**入ってくると
+   「そっちに置きに来た」ように見える。逆から入れると、通り過ぎて
+   戻ってきたように見えて落ち着かない。
+
+   一度出したら、もう戻さない（observer を切る）。行ったり来たりの
+   たびに動くと、読み返すときに邪魔になるだけ。
+   ============================================================ */
+export function Reveal({
+  from,
+  style,
+  children,
+}: {
+  from: "left" | "right";
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  /* 対応していないブラウザでは、動かさず最初から出す（＝隠したままにしない） */
+  const [on, setOn] = React.useState(
+    () => typeof IntersectionObserver === "undefined"
+  );
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || on) return;
+    /* 動きを減らす設定の人には、動かさずそのまま出す */
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setOn(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        setOn(true);
+        io.disconnect();
+      },
+      { threshold: 0.15 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [on]);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        ...style,
+        opacity: on ? 1 : 0,
+        transform: on ? "none" : `translateX(${from === "right" ? 56 : -56}px)`,
+        transition: "opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1)",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* ============================================================
+   ▍下に貼りつくダウンロードの帯
+
+   MVを読み終えて下へ進んだ人の手元に、入口を残しておくための帯。
+   **MVが見えているあいだは出さない**——MVに同じボタンがあるので、
+   同じものが画面に2つ並ぶことになる。締めのカードが見えたら引っ込める
+   ——こちらも同じボタンで、本命の大きいほうを隠してしまう。
+
+   隠している間は visibility も落とす。透明なだけだと、見えない
+   ボタンにキーボードのフォーカスが入ってしまう。
+   ============================================================ */
+export function StickyCta({ children }: { children: React.ReactNode }) {
+  const [show, setShow] = React.useState(false);
+
+  React.useEffect(() => {
+    const mv = document.getElementById("academy-mv");
+    const end = document.getElementById("academy-end");
+    if (!mv) return;
+    /* 2つの窓の状態をまとめて見る。片方ずつ setState すると、
+       同じフレームで2回来たときに古いほうで上書きされる */
+    const seen = { mv: true, end: false };
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.target === mv) seen.mv = e.isIntersecting;
+          else seen.end = e.isIntersecting;
+        }
+        setShow(!seen.mv && !seen.end);
+      },
+      { threshold: 0 }
+    );
+    io.observe(mv);
+    if (end) io.observe(end);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      aria-hidden={!show}
+      style={{
+        position: "fixed",
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 40,
+        transform: show ? "none" : "translateY(115%)",
+        visibility: show ? "visible" : "hidden",
+        transition: show
+          ? "transform .34s cubic-bezier(.22,1,.36,1), visibility 0s"
+          : "transform .28s ease, visibility 0s .28s",
+      }}
+    >
+      {children}
+    </div>
+  );
+}

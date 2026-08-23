@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Footer, PAGE } from "../site-chrome";
 import { Badge, Button } from "../ds";
 import { ShareRow } from "../site-ui";
-import { ScrollStage, TryPhone } from "./parts";
+import { Reveal, ScrollStage, StickyCta, TryPhone } from "./parts";
 
 /* ============================================================
    スマホアプリ「COMIXAI アカデミー」の紹介ページ（宣伝LP）。
@@ -245,6 +245,7 @@ function Cta({ place, dark = false }: { place: string; dark?: boolean }) {
           </Button>
         </a>
         <span style={{ fontFamily: "var(--font-hand)", fontSize: 14, color: note }}>iPhone / iPad・無料</span>
+        <AndroidNote tone={note} />
       </div>
     );
   }
@@ -270,7 +271,20 @@ function Cta({ place, dark = false }: { place: string; dark?: boolean }) {
         App Store 審査中 — まもなく公開
       </span>
       <span style={{ fontFamily: "var(--font-hand)", fontSize: 14, color: note }}>iPhone / iPad・無料予定</span>
+      <AndroidNote tone={note} />
     </div>
+  );
+}
+
+/* ▍Androidは「準備中」とだけ言う
+   何も書かないと「iPhoneしか無いアプリ」に見えて、Androidの人が
+   そこで帰る。日付は書かない——守れない約束になる */
+function AndroidNote({ tone }: { tone: string }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12.5, color: tone }}>
+      <i className="ph-bold ph-android-logo" />
+      Google Play は準備中
+    </span>
   );
 }
 
@@ -293,7 +307,10 @@ export default function AcademyPage() {
   return (
     <div style={{ position: "relative" }}>
       {/* ═══════════ MV ═══════════ */}
+      {/* id は、下に貼りつく帯が「MVが見えているか」を見るための目印
+          （→ parts.tsx の StickyCta） */}
       <section
+        id="academy-mv"
         style={{
           position: "relative",
           zIndex: 1,
@@ -401,6 +418,7 @@ export default function AcademyPage() {
             <p style={{ fontSize: 15.5, lineHeight: 1.95, color: "rgba(251,247,239,.86)", margin: "0 0 18px", maxWidth: 520 }}>
               「AIって、けっきょく何ができて、何がダメなの？」——その疑問に<b style={{ color: "var(--paper-50)" }}>「読む」ではなく「遊ぶ」で答える</b>
               学習アプリです。相棒を選んで、職種を選んだら、あとは1日5分。
+              <b style={{ color: "var(--paper-50)" }}>一緒に学ぶ相棒も、その相棒が立つステージも、遊びながら増えていきます。</b>
             </p>
             <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginBottom: 20 }}>
               <Badge tone="red">登録不要</Badge>
@@ -438,75 +456,80 @@ export default function AcademyPage() {
       </section>
 
       {/* ═══════════ できること ═══════════ */}
-      <section style={{ position: "relative", zIndex: 1, background: "var(--paper-50)", padding: SECTION_PAD }}>
+      {/* overflow を切っておく。カードが横56pxずれた位置から入ってくるので、
+          切らないと**その瞬間だけ横スクロールが出る** */}
+      <section style={{ position: "relative", zIndex: 1, background: "var(--paper-50)", padding: SECTION_PAD, overflow: "hidden" }}>
         <div style={{ width: PAGE, margin: "0 auto" }}>
           <Head kicker="WHAT'S INSIDE" title="このアプリでできること" hand="ぜんぶ、遊んでいるうちに" />
-          <div style={{ display: "grid", gap: 14 }}>
-            {FEATURES.map((f, i) => (
-              <div
-                key={f.title}
-                className="academy-feat"
-                style={{
-                  display: "flex",
-                  gap: 22,
-                  alignItems: "stretch",
-                  flexDirection: i % 2 === 1 ? "row-reverse" : "row",
-                  border: "var(--bw-bold) solid var(--ink-900)",
-                  borderRadius: "var(--radius-lg)",
-                  background: "var(--paper-0)",
-                  boxShadow: "var(--shadow-pop)",
-                  padding: 18,
-                }}
-              >
-                {/* ▍画面は「窓」にして、本文の高さに合わせる
-                    端末まるごと出すと縦2倍の絵になり、本文が短い行では
-                    右半分が丸ごと空いた（見てもらって最初に指摘された点）。
-                    上から切って高さを本文に合わせると、余白が消える */}
-                <div
-                  style={{
-                    flex: "0 0 auto",
-                    alignSelf: "stretch",
-                    width: "clamp(150px, 22vw, 208px)",
-                    minHeight: 210,
-                    /* ▍絵は**外に出して**、高さを本文に決めさせる
-                       img をそのまま置くと、縦長の絵がカードの高さを決めて
-                       しまい、本文の右が丸ごと空く。位置を切り離せば、
-                       カードの高さ＝本文の高さになり、絵はその窓に収まる */
-                    position: "relative",
-                    overflow: "hidden",
-                    borderRadius: 16,
-                    border: "var(--bw-line) solid var(--ink-900)",
-                    background: "var(--paper-0)",
-                  }}
+          {/* ▍カードは横幅を2/3にして、左右へ振る
+
+              前は横いっぱいのカードに、**上から切った画面**をはめていた。
+              高さを本文に合わせるための処理だったが、いちばん見せたい所
+              （相棒・ガチャの台・トークンの粒）がその切り口の下に隠れた。
+
+              いまは**絵をまるごと出す**。そのぶん縦に伸びるので、カードを
+              2/3幅にして左右へ寄せた。本文の列が狭くなって行数が増えるので、
+              絵の高さとの差も詰まる。寄せた側から滑り込ませて、
+              左右に振ってあること自体を意味のある動きにしている。 */}
+          <div style={{ display: "grid", gap: 16 }}>
+            {FEATURES.map((f, i) => {
+              /* 1枚目が右、2枚目が左。絵はカードの外側の端に置く */
+              const right = i % 2 === 0;
+              return (
+                <Reveal
+                  key={f.title}
+                  from={right ? "right" : "left"}
+                  style={{ display: "flex", justifyContent: right ? "flex-end" : "flex-start" }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={f.shot}
-                    alt={f.shotAlt}
-                    loading="lazy"
+                  <div
+                    className="academy-feat"
                     style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "top",
-                      display: "block",
+                      width: "min(100%, 720px)",
+                      display: "flex",
+                      gap: 20,
+                      alignItems: "center",
+                      flexDirection: right ? "row-reverse" : "row",
+                      border: "var(--bw-bold) solid var(--ink-900)",
+                      borderRadius: "var(--radius-lg)",
+                      background: "var(--paper-0)",
+                      boxShadow: "var(--shadow-pop)",
+                      padding: 18,
                     }}
-                  />
-                </div>
-                <div style={{ flex: "1 1 300px", display: "flex", flexDirection: "column", justifyContent: "center", padding: "6px 4px" }}>
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 6 }}>
-                    {f.kicker}
+                  >
+                    <div style={{ flex: "0 0 auto", width: "clamp(112px, 13.5vw, 142px)" }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={f.shot}
+                        alt={f.shotAlt}
+                        width={620}
+                        height={1344}
+                        loading="lazy"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          display: "block",
+                          borderRadius: 14,
+                          border: "var(--bw-line) solid var(--ink-900)",
+                          background: "var(--paper-0)",
+                        }}
+                      />
+                    </div>
+                    <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 6 }}>
+                        {f.kicker}
+                      </div>
+                      {/* 本文の列が狭いので、見出しは特徴カードだけ一段小さく。
+                          もとの大きさだと「9種のミニゲー／ム」で折れる */}
+                      <h3 style={{ margin: "0 0 9px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(17px,2.1vw,21px)", lineHeight: 1.45 }}>
+                        <i className={`ph-bold ${f.icon}`} style={{ marginRight: 9, color: "var(--red-500)" }} />
+                        {f.title}
+                      </h3>
+                      <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.9, color: "var(--text-body)" }}>{f.body}</p>
+                    </div>
                   </div>
-                  <h3 style={{ margin: "0 0 9px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(18px,2.3vw,23px)", lineHeight: 1.4 }}>
-                    <i className={`ph-bold ${f.icon}`} style={{ marginRight: 9, color: "var(--red-500)" }} />
-                    {f.title}
-                  </h3>
-                  <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.9, color: "var(--text-body)", maxWidth: 660 }}>{f.body}</p>
-                </div>
-              </div>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -521,7 +544,10 @@ export default function AcademyPage() {
       {/* ═══════════ コース ═══════════ */}
       <section style={{ position: "relative", zIndex: 1, background: "var(--paper-100)", borderTop: "var(--bw-line) solid var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)", padding: SECTION_PAD }}>
         <div style={{ width: PAGE, margin: "0 auto" }}>
-          <Head kicker="COURSES" title="5コース・全17レッスン" hand="1本2〜3分" />
+          {/* ▍本数を見出しに書かない
+              コースもレッスンも足していくので、書いた瞬間から古くなる。
+              数は下の数字バンドが持っている（あちらはアプリと一対で直す） */}
+          <Head kicker="COURSES" title="基本から、応用まで" hand="1本2〜3分" />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(228px, 1fr))", gap: 12 }}>
             {COURSES.map((c) => (
               <div
@@ -542,6 +568,30 @@ export default function AcademyPage() {
                 <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.85, color: "var(--text-body)" }}>{c.desc}</p>
               </div>
             ))}
+          </div>
+
+          {/* ▍「ここで終わり」に見せない
+              全部やり終えた画面が終点に見えると、その日に消される
+              （アプリ側の実機フィードバック）。増えていくことを、
+              始める前から見えるところに置いておく */}
+          <div
+            style={{
+              marginTop: 14,
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 12,
+              border: "var(--bw-line) dashed var(--ink-900)",
+              borderRadius: "var(--radius-lg)",
+              background: "var(--paper-0)",
+              padding: "15px 18px",
+            }}
+          >
+            <i className="ph-bold ph-sparkle" style={{ fontSize: 21, color: "var(--red-500)", flex: "none", marginTop: 2 }} />
+            <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.9, color: "var(--text-body)" }}>
+              レッスンの合間にたまるポイントで<b>ガチャ</b>を回すと、相棒が立つ<b>追加ステージ</b>と、
+              新しい<b>相棒</b>が手に入ります。当てたものには、それぞれ専用のおまけゲームつき。
+              <b>ステージも相棒も、これからも増やしていきます。</b>
+            </p>
           </div>
         </div>
       </section>
@@ -581,7 +631,7 @@ export default function AcademyPage() {
       </section>
 
       {/* ═══════════ 締め ═══════════ */}
-      <section style={{ position: "relative", zIndex: 1, background: "var(--paper-50)", padding: "0 0 clamp(44px, 6vw, 68px)" }}>
+      <section id="academy-end" style={{ position: "relative", zIndex: 1, background: "var(--paper-50)", padding: "0 0 clamp(44px, 6vw, 68px)" }}>
         <div style={{ width: PAGE, margin: "0 auto" }}>
           <div
             style={{
@@ -637,6 +687,88 @@ export default function AcademyPage() {
       <div style={{ position: "relative", zIndex: 1 }}>
         <Footer />
       </div>
+
+      {/* ═══════════ 下に貼りつくダウンロードの帯 ═══════════ */}
+      <StickyCta>
+        <div
+          className="academy-bar"
+          style={{
+            background: "var(--ink-900)",
+            borderTop: "var(--bw-bold) solid var(--ink-900)",
+            boxShadow: "0 -8px 30px rgba(0,0,0,.35)",
+            /* iPhoneのホームバーのぶんを空ける。空けないとボタンの下半分が
+               画面の縁に噛む */
+            padding: "11px 0 calc(11px + env(safe-area-inset-bottom))",
+          }}
+        >
+          <div
+            style={{
+              width: PAGE,
+              margin: "0 auto",
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/academy/icon.webp"
+                alt=""
+                width={38}
+                height={38}
+                style={{ width: 38, height: 38, borderRadius: 9, border: "var(--bw-line) solid var(--paper-50)", display: "block", flex: "none" }}
+              />
+              <div className="academy-bar-name" style={{ minWidth: 0 }}>
+                <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14, color: "var(--paper-50)", whiteSpace: "nowrap" }}>
+                  COMIXAI アカデミー
+                </div>
+                <div style={{ fontSize: 11, color: "rgba(251,247,239,.66)", whiteSpace: "nowrap" }}>
+                  {APP_STORE_URL ? "iPhone / iPad・無料" : "iPhone / iPad・無料予定"}
+                  {" ／ Google Play は準備中"}
+                </div>
+              </div>
+            </div>
+
+            {APP_STORE_URL ? (
+              <a
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none", flex: "none" }}
+                data-ga="academy_install"
+                data-ga-place="sticky"
+              >
+                <Button variant="yellow" size="md" iconLeft={<i className="ph-bold ph-apple-logo" />}>
+                  ダウンロード
+                </Button>
+              </a>
+            ) : (
+              <span
+                style={{
+                  flex: "none",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 7,
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 900,
+                  fontSize: 13.5,
+                  padding: "10px 17px",
+                  borderRadius: "var(--radius-full)",
+                  background: "var(--yellow-400)",
+                  color: "var(--ink-900)",
+                  border: "var(--bw-line) solid var(--ink-900)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <i className="ph-bold ph-hourglass-medium" />
+                App Store 審査中
+              </span>
+            )}
+          </div>
+        </div>
+      </StickyCta>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </div>

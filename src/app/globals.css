@@ -504,19 +504,22 @@ img {
 }
 
 /* LP(/academy)の特徴カード：スマホでは縦積みにして、
-   実画面は「横長の窓」に切り替える。縦積みのまま縦長の絵を出すと、
-   1枚で画面がほぼ埋まって、本文まで指が届かなくなる */
+   実画面は絵の上に本文を積む。**横幅は半分までに抑える**——縦長の絵を
+   幅いっぱいで出すと、1枚で画面がほぼ埋まって本文まで指が届かない */
 @media (max-width: 720px) {
   .academy-feat {
     flex-direction: column !important;
     gap: 14px !important;
+    align-items: stretch !important;
   }
   .academy-feat > div:first-child {
-    width: 100% !important;
+    width: min(48%, 168px) !important;
     flex: none !important;
-    height: 172px !important;
-    min-height: 0 !important;
-    align-self: auto !important;
+    align-self: center !important;
+  }
+  /* 貼りつく帯は、狭い画面ではアプリ名を落としてボタンだけ残す */
+  .academy-bar-name {
+    display: none !important;
   }
 }
 
