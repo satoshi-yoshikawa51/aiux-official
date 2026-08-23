@@ -100,62 +100,56 @@ const ANIM_SEC = 1.80;
 const ANIM_FRAMES = Math.ceil(ANIM_SEC * FPS);
 
 /* —— 6カット。役割は 登場→中身→体験→ごほうび→ふえる→CTA ——
+   shots: そのカットで流す録画。**1カットに複数入れてよい**（テロップは
+   出しっぱなしのまま、中の画だけ切り替わる）。ミニゲームのカットは
+   トークナイザーだけだと画が静かだったので、クイズの正解シーンを
+   後半に足した。尺は元のまま——足すぶん、前半を短くしている。
    hi: 黄色く塗る語（1カット1箇所まで。増やすと効かなくなる）
    speed: 1未満でゆっくり（CTAは読ませたいので少し落としてある） */
 const CUTS = [
   {
-    clip: "1-home.mp4",
-    in: 2.2,
-    out: 6.6,
+    shots: [{ clip: "1-home.mp4", in: 2.2, out: 6.6 }],
     kicker: "NEW — iPhone / iPad",
     lines: ["遊んで学べるAI学習アプリ", "登場！"],
     hi: "遊んで学べる",
     foot: "3Dの相棒が あなたの先生になる",
   },
   {
-    clip: "2-courses.mp4",
-    in: 3.0,
-    out: 7.2,
+    shots: [{ clip: "2-courses.mp4", in: 3.0, out: 7.2 }],
     kicker: "COURSES",
     lines: ["AIの基礎知識から", "応用まで"],
     hi: "基礎知識から",
     foot: "5コース・全17レッスン／1本2〜3分",
   },
   {
-    clip: "3-minigame.mp4",
-    in: 23.8,
-    out: 29.2,
+    shots: [
+      { clip: "3-minigame.mp4", in: 24.9, out: 27.6 }, // 文字がトークンに割れる
+      { clip: "6-quiz.mp4", in: 12.6, out: 15.5 }, // 選んで、正解する
+    ],
     kicker: "MINI GAME",
     lines: ["AIとゲーム感覚で", "遊びながら学べる"],
     hi: "遊びながら学べる",
-    foot: "文字がトークンに割れる——読むより さわる",
+    foot: "トークンに割れる　クイズで確かめる",
   },
   {
-    clip: "4-badge.mov",
     /* ▍ここだけ長い。称号が出るまで＝バッジ→修了→RANK UP の一続きで、
        途中で切るとオチが無くなる（out=6.8 だと「AI研修生」の字が
        次のカットへのフェードに飲まれた） */
-    in: 0.8,
-    out: 9.0,
+    shots: [{ clip: "4-badge.mov", in: 0.8, out: 9.0 }],
     kicker: "BADGE & RANK",
     lines: ["そして集まるバッジ", "積みあがる称号"],
     hi: "積みあがる称号",
     foot: "バッジ25種・称号は5段階",
   },
   {
-    clip: "5-gacha.mp4",
-    in: 3.8,
-    out: 9.7,
+    shots: [{ clip: "5-gacha.mp4", in: 3.8, out: 9.7 }],
     kicker: "GACHA",
     lines: ["無料のガチャで", "相棒もステージも増える"],
     hi: "無料のガチャ",
     foot: "Pは学習でだけ貯まる　課金はなし",
   },
   {
-    clip: "5-gacha.mp4",
-    in: 13.3,
-    out: 17.0,
-    speed: 0.8,
+    shots: [{ clip: "5-gacha.mp4", in: 13.3, out: 17.0, speed: 0.8 }],
     kicker: "COMIXAI アカデミー",
     lines: ["さぁ　あなたも", "遊んでAIをおぼえよう！"],
     hi: "遊んでAIをおぼえよう",
@@ -164,7 +158,11 @@ const CUTS = [
   },
 ];
 
-const cutSec = (c) => (c.out - c.in) / (c.speed ?? 1);
+/* カット内で画を切り替えるときの、短いクロスフェード */
+const SHOT_XFADE = 0.18;
+const shotSec = (sh) => (sh.out - sh.in) / (sh.speed ?? 1);
+const cutSec = (c) =>
+  c.shots.reduce((n, sh) => n + shotSec(sh), 0) - (c.shots.length - 1) * SHOT_XFADE;
 const TOTAL_SEC = CUTS.reduce((n, c) => n + cutSec(c), 0) - (CUTS.length - 1) * XFADE_SEC;
 
 const exists = async (p) => {
@@ -282,6 +280,92 @@ body { width: ${PHONE_W}px; height: ${PHONE_H}px; background: #000; }
 div { width: ${PHONE_W}px; height: ${PHONE_H}px; background: #fff; border-radius: ${RADIUS}px; }
 </style></head><body><div></div></body></html>`;
 
+/* ───────── きらめき。板の余白が黒一色で寂しかったので足した ─────────
+
+   ▍端末より**後ろ**に敷く（→ ffmpeg の重ね順）
+   画面の上に散らすと、肝心のアプリの絵が読めなくなる。置き場は
+   端末の左右にできる帯と、テロップの周り。だから、端末の四角に
+   入る座標は最初から捨てている。
+
+   ▍2.4秒でひと回りするように作る
+   全尺ぶん描くと900枚になるので、短い輪を作って ffmpeg で回す。
+   継ぎ目を出さないため、ひとつぶの明滅の周期は **輪の長さの約数**
+   （2.4 / 1.2 / 0.8秒）だけを使う。半端な周期だと、輪の頭で
+   パッと明るさが飛ぶ。 */
+const SPARKLE_LOOP_SEC = 2.4;
+const SPARKLE_FRAMES = Math.round(SPARKLE_LOOP_SEC * FPS);
+
+/* 乱数は種から作る。実行のたびに配置が変わると、撮り直したときに
+   前の版と見比べられない */
+function seeded(seed) {
+  let x = seed;
+  return () => {
+    x = (x * 1103515245 + 12345) & 0x7fffffff;
+    return x / 0x7fffffff;
+  };
+}
+
+function makeSparkles() {
+  const rnd = seeded(20260823);
+  const out = [];
+  /* 端末の四角（少し外まで余裕をみる） */
+  const pad = 26;
+  const inPhone = (x, y) =>
+    x > PHONE_X - BEZEL - pad &&
+    x < PHONE_X + PHONE_W + BEZEL + pad &&
+    y > PHONE_Y - BEZEL - pad &&
+    y < PHONE_Y + PHONE_H + BEZEL + pad;
+  let guard = 0;
+  while (out.length < 30 && guard++ < 4000) {
+    const x = rnd() * W;
+    const y = 40 + rnd() * (H - 80);
+    if (inPhone(x, y)) continue;
+    out.push({
+      x: Math.round(x),
+      y: Math.round(y),
+      size: Math.round(11 + rnd() * 23),
+      /* 周期は輪の約数だけ（→ 上の覚え書き） */
+      period: [SPARKLE_LOOP_SEC, SPARKLE_LOOP_SEC / 2, SPARKLE_LOOP_SEC / 3][Math.floor(rnd() * 3)],
+      phase: rnd(),
+      /* 3粒に1粒くらいを黄色にする。全部黄色いと安っぽい */
+      gold: rnd() < 0.38,
+      tilt: Math.round(rnd() * 40 - 20),
+    });
+  }
+  return out;
+}
+const SPARKLES = makeSparkles();
+
+const sparkleHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin: 0; padding: 0; }
+body { width: ${W}px; height: ${H}px; overflow: hidden; position: relative; background: transparent; }
+.sp {
+  position: absolute;
+  /* 四方に尖った菱形。丸い点より「きらめき」に見える */
+  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+}
+</style></head><body>
+${SPARKLES.map(
+  (sp, i) =>
+    `<div class="sp" id="sp${i}" style="left:${sp.x}px;top:${sp.y}px;width:${sp.size}px;height:${sp.size}px;` +
+    `margin-left:${-sp.size / 2}px;margin-top:${-sp.size / 2}px;` +
+    `background:${sp.gold ? YELLOW : PAPER_50};opacity:0"></div>`
+).join("\n")}
+</body></html>`;
+
+/* きらめき1コマぶんの見た目。ページの中で走らせる */
+function paintSparkles(t, list) {
+  list.forEach((sp, i) => {
+    const el = document.getElementById(`sp${i}`);
+    /* 0→1→0 の山。3乗して、ほとんどの時間は消えている状態にする
+       （ずっと光っていると、ただの点々にしか見えない） */
+    const wave = 0.5 - 0.5 * Math.cos(2 * Math.PI * (t / sp.period + sp.phase));
+    const p = Math.pow(wave, 3);
+    el.style.opacity = String(p * (sp.gold ? 0.95 : 0.7));
+    el.style.transform = `rotate(${sp.tilt}deg) scale(${0.45 + p * 0.75})`;
+  });
+}
+
 /* ───────── テロップ層（背景は透明。板の上に重ねる） ───────── */
 /* 行は「窓（.lineWrap）＋中身（.line）」の2枚重ね。窓で切って
    中身を下から持ち上げると、字が地面から生えてくるように出る。
@@ -388,9 +472,11 @@ if (!(await exists(CLIP_DIR))) {
   process.exit(1);
 }
 for (const cut of CUTS) {
-  if (!(await exists(path.join(CLIP_DIR, cut.clip)))) {
-    console.error(`素材が無い: ${path.join(CLIP_DIR, cut.clip)}`);
-    process.exit(1);
+  for (const sh of cut.shots) {
+    if (!(await exists(path.join(CLIP_DIR, sh.clip)))) {
+      console.error(`素材が無い: ${path.join(CLIP_DIR, sh.clip)}`);
+      process.exit(1);
+    }
   }
 }
 await rm(WORK_DIR, { recursive: true, force: true });
@@ -411,6 +497,20 @@ const maskPage = await browser.newPage({ viewport: { width: PHONE_W, height: PHO
 await maskPage.setContent(maskHtml);
 await maskPage.screenshot({ path: path.join(WORK_DIR, "mask.png") });
 await maskPage.close();
+
+const spDir = path.join(WORK_DIR, "sparkle");
+await mkdir(spDir, { recursive: true });
+const spPage = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
+await spPage.setContent(sparkleHtml, { waitUntil: "networkidle" });
+for (let f = 0; f < SPARKLE_FRAMES; f++) {
+  await spPage.evaluate(
+    ([t, list, src]) => new Function("t", "list", `(${src})(t, list)`)(t, list),
+    [f / FPS, SPARKLES, paintSparkles.toString()]
+  );
+  await spPage.screenshot({ path: path.join(spDir, `f${String(f).padStart(3, "0")}.png`), omitBackground: true });
+}
+await spPage.close();
+console.log(`  ✔ きらめき（${SPARKLES.length}粒／${SPARKLE_FRAMES}コマで1周）`);
 
 const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
 for (const [i, cut] of CUTS.entries()) {
@@ -449,22 +549,63 @@ for (const [i, cut] of CUTS.entries()) {
 }
 await browser.close();
 
-/* ───────── 2. カットごとに、録画と動くテロップを板へ重ねる ───────── */
+/* ───────── 2-a. カットごとに、端末の中身を作る ───────── */
+/* 1カットに複数の録画が入るので、先に「画面の中だけ」を作ってから
+   板に重ねる。1本ずつ切り出して、短いクロスフェードでつなぐ。 */
 for (const [i, cut] of CUTS.entries()) {
-  const speed = cut.speed ?? 1;
+  const inputs = [];
+  const parts = [];
+  cut.shots.forEach((sh, n) => {
+    const speed = sh.speed ?? 1;
+    inputs.push("-ss", String(sh.in), "-to", String(sh.out), "-i", path.join(CLIP_DIR, sh.clip));
+    /* 上の時刻・録画中の赤い印を落として、板の穴の大きさへ。
+       setpts=PTS-STARTPTS が無いと、2本目以降の頭の時刻がずれて
+       xfade のつなぎ目が合わない */
+    parts.push(
+      `[${n}:v]fps=${FPS},crop=${SRC_W}:${CROP_H}:0:${SB_CROP},scale=${PHONE_W}:${PHONE_H}` +
+        (speed === 1 ? "" : `,setpts=PTS/${speed}`) +
+        `,setpts=PTS-STARTPTS[s${n}]`
+    );
+  });
+  let chain = parts.join(";");
+  let last = "s0";
+  let acc = shotSec(cut.shots[0]);
+  for (let n = 1; n < cut.shots.length; n++) {
+    const label = n === cut.shots.length - 1 ? "pv" : `m${n}`;
+    chain += `;[${last}][s${n}]xfade=transition=fade:duration=${SHOT_XFADE}:offset=${(acc - SHOT_XFADE).toFixed(3)}[${label}]`;
+    acc += shotSec(cut.shots[n]) - SHOT_XFADE;
+    last = label;
+  }
+  if (cut.shots.length === 1) chain += `;[s0]null[pv]`;
+
+  execFileSync(
+    FFMPEG,
+    [
+      "-y", "-loglevel", "error",
+      ...inputs,
+      "-filter_complex", chain,
+      "-map", "[pv]",
+      "-t", cutSec(cut).toFixed(3),
+      "-an", "-c:v", "libx264", "-crf", "16", "-preset", "medium", "-pix_fmt", "yuv420p",
+      path.join(WORK_DIR, `phone${i}.mp4`),
+    ],
+    { stdio: "inherit" }
+  );
+}
+
+/* ───────── 2-b. 板・きらめき・端末・テロップを重ねる ───────── */
+for (const [i, cut] of CUTS.entries()) {
   const dur = cutSec(cut);
   const chain = [
-    /* 上の時刻・録画中の赤い印を落として、板の穴の大きさへ */
-    `[0:v]fps=${FPS},crop=${SRC_W}:${CROP_H}:0:${SB_CROP},scale=${PHONE_W}:${PHONE_H}` +
-      (speed === 1 ? "" : `,setpts=PTS/${speed}`) +
-      `,format=yuva420p[v0]`,
+    `[0:v]format=yuva420p[v0]`,
     /* 画面の角を丸める */
     `[v0][2:v]alphamerge[vr]`,
-    /* 板の上へ置く */
-    `[1:v][vr]overlay=${PHONE_X}:${PHONE_Y}:format=auto[base]`,
+    /* きらめきは端末より後ろ（→ sparkleHtml の覚え書き） */
+    `[1:v][3:v]overlay=0:0:format=auto[bg]`,
+    `[bg][vr]overlay=${PHONE_X}:${PHONE_Y}:format=auto[base]`,
     /* テロップは頭の ANIM_SEC ぶんしか撮っていないので、
        最後のコマを尺の終わりまで引き伸ばす（tpad の clone） */
-    `[3:v]tpad=stop_mode=clone:stop_duration=${Math.ceil(dur)},format=rgba[txt]`,
+    `[4:v]tpad=stop_mode=clone:stop_duration=${Math.ceil(dur)},format=rgba[txt]`,
     `[base][txt]overlay=0:0:format=auto[out]`,
   ].join(";");
 
@@ -472,9 +613,10 @@ for (const [i, cut] of CUTS.entries()) {
     FFMPEG,
     [
       "-y", "-loglevel", "error",
-      "-ss", String(cut.in), "-to", String(cut.out), "-i", path.join(CLIP_DIR, cut.clip),
+      "-i", path.join(WORK_DIR, `phone${i}.mp4`),
       "-loop", "1", "-i", path.join(WORK_DIR, "board.png"),
       "-loop", "1", "-i", path.join(WORK_DIR, "mask.png"),
+      "-framerate", String(FPS), "-loop", "1", "-i", path.join(spDir, "f%03d.png"),
       "-framerate", String(FPS), "-i", path.join(WORK_DIR, `text${i}`, "f%03d.png"),
       "-filter_complex", chain,
       "-map", "[out]",
@@ -484,7 +626,8 @@ for (const [i, cut] of CUTS.entries()) {
     ],
     { stdio: "inherit" }
   );
-  console.log(`  ✔ seg${i}.mp4（${cut.clip} ${cut.in}〜${cut.out}s → ${dur.toFixed(1)}秒）`);
+  const src = cut.shots.map((sh) => `${sh.clip} ${sh.in}〜${sh.out}s`).join(" ＋ ");
+  console.log(`  ✔ seg${i}.mp4（${src} → ${dur.toFixed(1)}秒）`);
 }
 
 /* ───────── 3. クロスフェードでつなぎ、進みぐあいのバーを引く ───────── */
