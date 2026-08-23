@@ -1,12 +1,12 @@
 {
   "_comment": "noteの記事一覧（自動生成）。scripts/fetch-note-articles.mjs が毎週更新する。手で編集しないこと。badge/tone/tags/excerptの手書きは note-article-meta.json 側へ。",
-  "updatedAt": "2026-08-16",
+  "updatedAt": "2026-08-23",
   "articles": [
     {
       "url": "https://note.com/aiux_unite/n/n37529e7ec76e",
       "title": "4コマでわかる！AI用語「プロンプトエンジニアリング」",
       "date": "2026-08-12",
-      "likes": 64,
+      "likes": 80,
       "thumb": "https://assets.st-note.com/production/uploads/images/302747994/rectangle_large_type_2_e7dd84dd7a211a7522b68fdcb7b24498.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回からはじまりました「4コマでわかる！AI用語」 むずかしいAI活用を4コマ漫画でわかりやすくお伝えします！ まずはじめの用語は「プロンプトエンジニアリング…"
     },
@@ -14,7 +14,7 @@
       "url": "https://note.com/aiux_unite/n/nb5a8bfa2d631",
       "title": "Claude/Cowork/Codeをさわって学べる！「5分でわかる！Claude教習所」を公開！",
       "date": "2026-07-24",
-      "likes": 73,
+      "likes": 77,
       "thumb": "https://assets.st-note.com/production/uploads/images/297137346/rectangle_large_type_2_037f0d7f77b2ad96a96e001930cbf5ee.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は、Claude/Cowork/Codeをさわって学べる！「5分でわかる！Claude教習所」を作ったので、是非遊んで、学んでもらって、どうやって作ったか…"
     },
@@ -46,7 +46,7 @@
       "url": "https://note.com/aiux_unite/n/n480de3323d7d",
       "title": "Claude Designでデザインシステムをゼロから構築し、オフィシャルサイトを公開してみた",
       "date": "2026-06-10",
-      "likes": 114,
+      "likes": 119,
       "thumb": "https://assets.st-note.com/production/uploads/images/283493151/rectangle_large_type_2_cc2f011337f41700cf0803c9d7c0dddb.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回はClaude Designでデザインシステムの構築から、Claude Codeにつなげてサイト公開までした話です。 Claude Designで何かして…"
     },
@@ -62,7 +62,7 @@
       "url": "https://note.com/aiux_unite/n/n169ba6bd6c1e",
       "title": "Claude Coworkで業務改善を半自動化してみた～毎朝のAIニュース収集から改善提案まで～",
       "date": "2026-04-17",
-      "likes": 122,
+      "likes": 123,
       "thumb": "https://assets.st-note.com/production/uploads/images/268115959/rectangle_large_type_2_248be67915a76bf17d40201d5d7563b5.png?fit=bounds&quality=85&width=1280",
       "excerpt": "ということで、今回は「業務改善」の半自動化をテーマに 1.毎朝のAIニュース収集 2.そのAIニュースから自分の業務をどう改善できるかの手法の提案 を自動でC…"
     },
@@ -110,7 +110,7 @@
       "url": "https://note.com/aiux_unite/n/n2abeb7d9d9b5",
       "title": "Figma Makeで「デザインを再現」させる技",
       "date": "2025-12-07",
-      "likes": 108,
+      "likes": 109,
       "thumb": "https://assets.st-note.com/production/uploads/images/234495412/rectangle_large_type_2_0c02fd6033e2bd0296ce3d6d5dc873e0.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回はタイトルの通りFigma Makeで「デザインを再現させる」方法を解説します。 AIで元のデザインやデザインシステムを使って新しいページを作りたいが、 …"
     },
@@ -158,17 +158,9 @@
       "url": "https://note.com/aiux_unite/n/nc07acd22ad36",
       "title": "最高すぎて！嬉しすぎて！高松さんありがとうございます！！",
       "date": "2025-06-27",
-      "likes": 38,
+      "likes": 37,
       "thumb": "https://assets.st-note.com/production/uploads/images/199837842/rectangle_large_type_2_fdf54436f2cf176564a2eec21908bdd3.jpg?fit=bounds&quality=85&width=1280",
       "excerpt": ""
-    },
-    {
-      "url": "https://note.com/aiux_unite/n/nc4adf7f5acb0",
-      "title": "6/27（金）19:00から行う高松さんとの無料イベント https://n…",
-      "date": "2025-06-14",
-      "likes": 16,
-      "thumb": "https://assets.st-note.com/production/uploads/images/196018244/aa749401284c6fea365aa247a13749a3.png",
-      "excerpt": "6/27（金）19:00から行う高松さんとの無料イベント https://nijibox.connpass.com/event/355632/ ご登録者400…"
     },
     {
       "url": "https://note.com/aiux_unite/n/nbd39b2f9a740",
@@ -177,6 +169,14 @@
       "likes": 95,
       "thumb": "https://assets.st-note.com/production/uploads/images/196089454/rectangle_large_type_2_43198dc8b4ed80a236d2c9cc8b53f93a.png?fit=bounds&quality=85&width=1280",
       "excerpt": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせたい。 前回はKPIシートを作り、目標達成までの道筋を設定が完了…"
+    },
+    {
+      "url": "https://note.com/aiux_unite/n/nc4adf7f5acb0",
+      "title": "6/27（金）19:00から行う高松さんとの無料イベント https://n…",
+      "date": "2025-06-14",
+      "likes": 16,
+      "thumb": "https://assets.st-note.com/production/uploads/images/196018244/aa749401284c6fea365aa247a13749a3.png",
+      "excerpt": "6/27（金）19:00から行う高松さんとの無料イベント https://nijibox.connpass.com/event/355632/ ご登録者400…"
     },
     {
       "url": "https://note.com/aiux_unite/n/naac3d48a3258",
@@ -211,20 +211,20 @@
       "excerpt": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせる。 その為にnoteの読者数5万UU/月を目指すことになった吉…"
     },
     {
-      "url": "https://note.com/aiux_unite/n/ncb35e2f72a48",
-      "title": "マンガで実践！AI活用のマガジン作りました！ https://note.co…",
-      "date": "2025-05-02",
-      "likes": 37,
-      "thumb": "https://assets.st-note.com/production/uploads/images/187520921/1f965590bfec8beb08b7cc837690146a.png",
-      "excerpt": "マンガで実践！AI活用のマガジン作りました！ https://note.com/aiux_unite/m/m0b7bcbd79d18 「マンガでわかる！AI活…"
-    },
-    {
       "url": "https://note.com/aiux_unite/n/n2744fb1ebdfa",
       "title": "「絵心ゼロでもOK！」手描きイラストから3DモデルをAIで自動生成してみた（ChatGPT×Tripo AI）",
       "date": "2025-05-02",
       "likes": 193,
       "thumb": "https://assets.st-note.com/production/uploads/images/187630665/rectangle_large_type_2_454c8d283a0110454a566932c6c35d04.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は誰でも簡単に自分の手描きイラストから3DモデルをAIで作成する方法を試してみました！ この方法なら落書きレベルのイラストでも、立派な3Dモデルにすること…"
+    },
+    {
+      "url": "https://note.com/aiux_unite/n/ncb35e2f72a48",
+      "title": "マンガで実践！AI活用のマガジン作りました！ https://note.co…",
+      "date": "2025-05-02",
+      "likes": 37,
+      "thumb": "https://assets.st-note.com/production/uploads/images/187520921/1f965590bfec8beb08b7cc837690146a.png",
+      "excerpt": "マンガで実践！AI活用のマガジン作りました！ https://note.com/aiux_unite/m/m0b7bcbd79d18 「マンガでわかる！AI活…"
     },
     {
       "url": "https://note.com/aiux_unite/n/nba0bd5d5c1c5",
@@ -365,7 +365,7 @@
     {
       "url": "https://note.com/aiux_unite/n/ndc6365524f2a",
       "title": "漫画風の動画を生成する！（RunwayGen-3×Midjourney×DomoAI）",
-      "likes": 207,
+      "likes": 206,
       "thumb": "https://assets.st-note.com/production/uploads/images/146738276/rectangle_large_type_2_7296ad9c583019f9670ed96ce80dd901.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は「漫画風の動画を生成する！」がテーマです！ 私がもともと漫画家からキャリアをスタートしたこともありまして（謎キャリアですが。。）昨今の生成AIの進化にお…",
       "date": "2024-07-09"
@@ -374,7 +374,7 @@
       "url": "https://note.com/aiux_unite/n/n7a4b721e42c6",
       "title": "Figma×Lucidchartで作る、フロー図【AI自動生成＆高精度】",
       "date": "2024-06-11",
-      "likes": 146,
+      "likes": 145,
       "thumb": "https://assets.st-note.com/production/uploads/images/143709551/rectangle_large_type_2_5df2f69e6794bfc67b4353916cd2ad5b.png?fit=bounds&quality=85&width=1280",
       "excerpt": "私は業務でよく論点整理や提案資料用にフロー図を作ることが多いのですが、これが結構面倒なので、簡単かつ高精度にAIで作る方法はないか？ と思い今回実験してみまし…"
     },
@@ -382,7 +382,7 @@
       "url": "https://note.com/aiux_unite/n/n5ebba12a9f1d",
       "title": "【Create.xyz × ChatGPT】超高速プロトタイプ制作＆改善術！",
       "date": "2024-05-07",
-      "likes": 169,
+      "likes": 168,
       "thumb": "https://assets.st-note.com/production/uploads/images/139689804/rectangle_large_type_2_99e9b95278211afd88f9937bce593eb4.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回はCreate.xyzとChatGPTを組み合わせて、超高速でプロトタイプを作り、さらにそれを改善していく実験をしました。 通常のプロトタイプ制作ではなか…"
     },
@@ -396,7 +396,7 @@
     {
       "url": "https://note.com/aiux_unite/n/n5d028f1932ed",
       "title": "【Canvaだけで作るプロモーション動画！】「AI試着カメラ」PR動画制作の軌跡",
-      "likes": 219,
+      "likes": 218,
       "thumb": "https://assets.st-note.com/production/uploads/images/133488857/rectangle_large_type_2_da32e252e378a058d6b827bcf48971af.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回、Canvaだけで作ったプロモーション動画について、作り方含め詳しくご紹介します！ 今回は私個人での制作となり、株式会社Sally127様からご相談いただ…",
       "date": "2024-03-12"
@@ -405,7 +405,7 @@
       "url": "https://note.com/aiux_unite/n/nbc43941cd8e6",
       "title": "Azure OpenAI Service「On your data」で実現するセキュリティを担保した社内DX",
       "date": "2024-03-01",
-      "likes": 116,
+      "likes": 115,
       "thumb": "https://assets.st-note.com/production/uploads/images/132008633/rectangle_large_type_2_581aef353030edac654b3fda84a8beb8.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回はAzure OpenAI Serviceで自社データを取り込むことができる「On your data」が一般提供されたので、そのご紹介です！ この機能。…"
     },
@@ -413,14 +413,14 @@
       "url": "https://note.com/aiux_unite/n/n18023e33767c",
       "title": "【Copilot】パワポで自動プレゼン資料作成",
       "date": "2024-02-26",
-      "likes": 149,
+      "likes": 148,
       "thumb": "https://assets.st-note.com/production/uploads/images/126509599/rectangle_large_type_2_d873daea64f17cb0c1222480d8ae9c8c.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回はMicrosoft Copilot(Copilot Pro)をパワポで使って、自動でプレゼン資料を作成することに挑戦してみました。 実務で利用するには、…"
     },
     {
       "url": "https://note.com/aiux_unite/n/n759b5bbfe9e2",
       "title": "【AIで作る】動くストーリーボード",
-      "likes": 212,
+      "likes": 211,
       "thumb": "https://assets.st-note.com/production/uploads/images/129770368/rectangle_large_type_2_e4804db5a363bd8b9fb57de196bdee68.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は「動くストーリーボード」をAIで作ってみました！ なぜ動くストーリーボードを作ろうと思ったか？ そもそもストーリーボードとは、プロダクトやサービスのユー…",
       "date": "2024-02-05"
@@ -429,7 +429,7 @@
       "url": "https://note.com/aiux_unite/n/ncfb9d561cbf5",
       "title": "【Midjourney V6 × Runway】自分の顔を合成した高クオリティ動画作成",
       "date": "2024-01-10",
-      "likes": 151,
+      "likes": 150,
       "thumb": "https://assets.st-note.com/production/uploads/images/126705908/rectangle_large_type_2_4935a63797baf1f36fe198b119c901fe.png?fit=bounds&quality=85&width=1280",
       "excerpt": "2024年もよろしくお願いします！ 今回はMidjourney V6とRunwayを使って、自分の顔を合成したオリジナル動画の作成に挑戦したので紹介します！（…"
     },

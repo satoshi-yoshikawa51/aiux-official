@@ -1,6 +1,6 @@
 {
   "_comment": "各シリーズの収録エピソード。scripts/fetch-manga-episodes.mjs がnoteから自動生成する（手動で追記してもよい）。desc は note-article-meta.json の excerpt が優先される。",
-  "generatedAt": "2026-08-16",
+  "generatedAt": "2026-08-23",
   "series": {
     "wakaru": {
       "updatedAt": "2026-08-16",
@@ -71,7 +71,7 @@
       ]
     },
     "jissen": {
-      "updatedAt": "2026-07-04",
+      "updatedAt": "2026-08-23",
       "episodes": [
         {
           "title": "マンガで実践！AI活用 第1話：「AIで叶える夢」",
@@ -125,12 +125,12 @@
           "no": 6,
           "date": "2025-08-11",
           "thumb": "https://assets.st-note.com/production/uploads/images/207964761/rectangle_large_type_2_714f49231b7bd5c4dc4b6466dbae75f6.png?width=800",
-          "likes": 120
+          "likes": 119
         }
       ]
     },
     "honshitsu": {
-      "updatedAt": "2026-08-10",
+      "updatedAt": "2026-08-23",
       "episodes": [
         {
           "title": "AI時代の「流行」と「本質」：序章_AI時代にAIを叫ぶ",
@@ -146,7 +146,7 @@
           "url": "https://note.com/aiux_unite/n/na87618c2923d",
           "date": "2026-01-05",
           "thumb": "https://assets.st-note.com/production/uploads/images/241595402/rectangle_large_type_2_a064de6ee4a40431b78183268d658ed0.png?width=800",
-          "likes": 171
+          "likes": 172
         },
         {
           "title": "Gemini使ってトルコ・スペイン一人旅 ②バルセロナ編",
