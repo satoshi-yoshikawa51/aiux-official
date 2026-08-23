@@ -87,18 +87,16 @@ const YELLOW = "#ffd23f";
    最初の 0.24 秒は何も出さない。カットのつなぎ（クロスフェード
    0.4秒）と重なると、前のカットの文字と混ざって汚れるため。
 
-   本文は1文字ずつ、CHAR_STAGGER 秒ずらして弾き出す。1文字あたりの
-   動きは CHAR_DUR と短くして、**打ち込むような速さ**にする。
-   ゆっくり出すと、30秒に6カット入るこの尺では間延びする。 */
+   本文は1文字ずつ、CHAR_STAGGER 秒ずらして弾き出す。 */
 const TIMELINE = {
-  kicker: [0.24, 0.60],
+  kicker: [0.24, 0.62],
   line: 0.40, // 1行目の1文字目が動き出す時刻。2行目は LINE_STAGGER 後
-  foot: [1.00, 1.32],
+  foot: [1.36, 1.72],
 };
-const LINE_STAGGER = 0.14;
-const CHAR_STAGGER = 0.028;
-const CHAR_DUR = 0.16;
-const ANIM_SEC = 1.35;
+const LINE_STAGGER = 0.18;
+const CHAR_STAGGER = 0.042;
+const CHAR_DUR = 0.24;
+const ANIM_SEC = 1.80;
 const ANIM_FRAMES = Math.ceil(ANIM_SEC * FPS);
 
 /* —— 6カット。役割は 登場→中身→体験→ごほうび→ふえる→CTA ——
@@ -110,17 +108,17 @@ const CUTS = [
     in: 2.2,
     out: 6.6,
     kicker: "NEW — iPhone / iPad",
-    lines: ["遊んで学べるAI学習アプリ、", "登場。"],
+    lines: ["遊んで学べるAI学習アプリ", "登場！"],
     hi: "遊んで学べる",
-    foot: "3Dの相棒が、あなたの先生になる",
+    foot: "3Dの相棒が あなたの先生になる",
   },
   {
     clip: "2-courses.mp4",
     in: 3.0,
     out: 7.2,
     kicker: "COURSES",
-    lines: ["AIの基礎知識から、", "応用まで。"],
-    hi: "基礎知識から、",
+    lines: ["AIの基礎知識から", "応用まで"],
+    hi: "基礎知識から",
     foot: "5コース・全17レッスン／1本2〜3分",
   },
   {
@@ -128,9 +126,9 @@ const CUTS = [
     in: 23.8,
     out: 29.2,
     kicker: "MINI GAME",
-    lines: ["AIとゲーム感覚で、", "遊びながら学べる。"],
+    lines: ["AIとゲーム感覚で", "遊びながら学べる"],
     hi: "遊びながら学べる",
-    foot: "文字がトークンに割れる——読むより、さわる",
+    foot: "文字がトークンに割れる——読むより さわる",
   },
   {
     clip: "4-badge.mov",
@@ -140,7 +138,7 @@ const CUTS = [
     in: 0.8,
     out: 9.0,
     kicker: "BADGE & RANK",
-    lines: ["そして集まるバッジ、", "積みあがる称号。"],
+    lines: ["そして集まるバッジ", "積みあがる称号"],
     hi: "積みあがる称号",
     foot: "バッジ25種・称号は5段階",
   },
@@ -149,9 +147,9 @@ const CUTS = [
     in: 3.8,
     out: 9.7,
     kicker: "GACHA",
-    lines: ["無料のガチャで、", "相棒もステージも増える。"],
+    lines: ["無料のガチャで", "相棒もステージも増える"],
     hi: "無料のガチャ",
-    foot: "Pは学習でだけ貯まる。課金は、なし",
+    foot: "Pは学習でだけ貯まる　課金はなし",
   },
   {
     clip: "5-gacha.mp4",
@@ -159,7 +157,7 @@ const CUTS = [
     out: 17.0,
     speed: 0.8,
     kicker: "COMIXAI アカデミー",
-    lines: ["さぁ、あなたも", "遊んでAIをおぼえよう！"],
+    lines: ["さぁ　あなたも", "遊んでAIをおぼえよう！"],
     hi: "遊んでAIをおぼえよう",
     foot: "登録不要・広告なし・完全無料　comixai.dev/academy",
     end: true,
@@ -313,12 +311,23 @@ body {
   font-weight: 900; font-size: 60px; line-height: 1.4; letter-spacing: 0.01em;
   display: inline-block; white-space: nowrap;
 }
-/* 1文字。transform を掛けるので inline ではなく inline-block */
-.ch { display: inline-block; }
-/* 強調語。黄色を全面に敷いて、字は黒（→ splitChars の覚え書き） */
-.hi { background: ${YELLOW}; color: ${INK}; padding: 2px 0 4px; }
-.hi-a { padding-left: 8px; border-radius: 8px 0 0 8px; }
-.hi-z { padding-right: 8px; border-radius: 0 8px 8px 0; }
+/* 1文字。transform を掛けるので inline ではなく inline-block。
+   ▍**どの文字にも padding を付けないこと。**
+   強調語だけに上下の padding を入れていた版は、その文字だけ箱が
+   高くなって行の中で浮き、字面がガタついた（1文字ずつに割ったことで
+   目立った）。塗りは line-height ぶんの高さで足りるので、余白は要らない。 */
+.ch { display: inline-block; padding: 0; }
+/* 強調語。黄色を全面に敷いて、字は黒（→ splitChars の覚え書き）。
+   影を左右1pxずつ同じ色で置いているのは、**隣り合う文字の箱のあいだに
+   出る縦の隙間を埋めるため**。1文字ずつ inline-block に割ると、字幅の
+   端数で塗りが1px切れて、黄色の帯に縦線が入る（「AI」の直後で出た）。
+   レイアウトを動かさずに塞げるので、padding ではなく影で埋める。 */
+.hi {
+  background: ${YELLOW}; color: ${INK};
+  box-shadow: 1px 0 0 0 ${YELLOW}, -1px 0 0 0 ${YELLOW};
+}
+.hi-a { border-radius: 10px 0 0 10px; }
+.hi-z { border-radius: 0 10px 10px 0; }
 .foot {
   position: absolute; left: 0; right: 0; bottom: 96px;
   display: flex; align-items: center; justify-content: center; gap: 16px;
