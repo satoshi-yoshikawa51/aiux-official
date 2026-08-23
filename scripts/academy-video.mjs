@@ -21,7 +21,7 @@
    こちらから渡して、その時刻の見た目を毎フレーム計算して描く。
    transitionに任せると、Playwrightが撮る瞬間とブラウザの時計が
    ずれて、コマが飛んだり同じ絵が2枚続いたりする。
-   動くのは頭の1.75秒だけで、そのあとはffmpeg側で最後のコマを
+   動くのは頭の1.35秒だけで、そのあとはffmpeg側で最後のコマを
    引き伸ばす（全尺ぶん撮ると枚数が10倍になり、絵は同じ）。
 
    素材の置き場:
@@ -82,19 +82,23 @@ const PAPER_200 = "#e7dcc6";
 const YELLOW = "#ffd23f";
 
 /* ▍テロップの段取り（秒）。カットの頭からの時刻で、[開始, 終了]。
-   ずらして出すのが要点——3つが同時に動くと、何を読めばいいのか
-   分からなくなる。順番は「小見出し → 1行目 → 2行目 → 黄色 → 脚注」。
+   順番は「小見出し → 本文（1文字ずつ）→ 脚注」。
 
-   最初の 0.30 秒は何も出さない。カットのつなぎ（クロスフェード
-   0.4秒）と重なると、前のカットの文字と混ざって汚れるため。 */
+   最初の 0.24 秒は何も出さない。カットのつなぎ（クロスフェード
+   0.4秒）と重なると、前のカットの文字と混ざって汚れるため。
+
+   本文は1文字ずつ、CHAR_STAGGER 秒ずらして弾き出す。1文字あたりの
+   動きは CHAR_DUR と短くして、**打ち込むような速さ**にする。
+   ゆっくり出すと、30秒に6カット入るこの尺では間延びする。 */
 const TIMELINE = {
-  kicker: [0.30, 0.72],
-  line: [0.44, 0.98], // 1行あたり。2行目以降は LINE_STAGGER ぶん後ろへ
-  hi: [1.22, 1.58], // 黄色いマーカーは、行が着地してから引く
-  foot: [1.35, 1.75],
+  kicker: [0.24, 0.60],
+  line: 0.40, // 1行目の1文字目が動き出す時刻。2行目は LINE_STAGGER 後
+  foot: [1.00, 1.32],
 };
 const LINE_STAGGER = 0.14;
-const ANIM_SEC = 1.75;
+const CHAR_STAGGER = 0.028;
+const CHAR_DUR = 0.16;
+const ANIM_SEC = 1.35;
 const ANIM_FRAMES = Math.ceil(ANIM_SEC * FPS);
 
 /* —— 6カット。役割は 登場→中身→体験→ごほうび→ふえる→CTA ——
@@ -214,12 +218,36 @@ async function fontCss(pkg, weights) {
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-/* 黄色マーカーは1カット1語だけ。行に含まれていれば、その語を包む */
-function mark(line, hi) {
-  const safe = esc(line);
-  if (!hi) return safe;
-  const target = esc(hi);
-  return safe.includes(target) ? safe.replace(target, `<span class="hi">${target}</span>`) : safe;
+/* 行を1文字ずつの span に割る。強調語（hi）に当たる文字には
+   黄色の下地と黒い字の組み合わせを付ける。
+
+   ▍白い字に黄色を敷くのはやめた
+   もとは「白い字＋下半分だけ黄色」だったが、**黄色の上の白は読めない**
+   （明度がほとんど同じ）。強調のつもりが、いちばん読ませたい語を
+   いちばん読みにくくしていた。黄色を全面に敷いて字を黒に落とす——
+   サイトのバッジやCTAと同じ組み合わせ——なら、遠目でも一発で読める。
+   1文字ずつ出す作りとも噛み合う（塗りが文字と一緒に増えていく）。 */
+function splitChars(line, hi) {
+  const arr = [...line];
+  const hiArr = hi ? [...hi] : [];
+  /* 強調語の位置。コードポイントの配列同士で探す（文字数と添字を合わせる） */
+  let start = -1;
+  outer: for (let i = 0; hiArr.length && i + hiArr.length <= arr.length; i++) {
+    for (let j = 0; j < hiArr.length; j++) if (arr[i + j] !== hiArr[j]) continue outer;
+    start = i;
+    break;
+  }
+  const end = start >= 0 ? start + hiArr.length : -1;
+  return arr
+    .map((ch, i) => {
+      const on = start >= 0 && i >= start && i < end;
+      const cls = ["ch"];
+      if (on) cls.push("hi");
+      if (on && i === start) cls.push("hi-a"); // 塗りの左端を丸める
+      if (on && i === end - 1) cls.push("hi-z"); // 右端
+      return `<span class="${cls.join(" ")}">${esc(ch)}</span>`;
+    })
+    .join("");
 }
 
 const FONTS =
@@ -278,21 +306,19 @@ body {
   transform-origin: 50% 50%;
 }
 .lines { margin-top: 26px; }
-/* 窓。下の余白は、はみ出す文字（ぐ・や の下）を切らないぶん */
-.lineWrap { display: block; overflow: hidden; padding-bottom: 12px; margin-bottom: -12px; }
+/* 窓。1文字ずつが下から上がってくるのを、ここで切る。
+   下の余白は、はみ出す文字（ぐ・や の下）を切らないぶん */
+.lineWrap { display: block; overflow: hidden; padding-bottom: 14px; margin-bottom: -14px; }
 .line {
   font-weight: 900; font-size: 60px; line-height: 1.4; letter-spacing: 0.01em;
   display: inline-block; white-space: nowrap;
 }
-/* 黄色マーカーは文字の下2/3に敷く。全部塗ると読みにくい。
-   background-size の幅を0→100%へ動かすと、左から引いたように出る */
-.hi {
-  background-image: linear-gradient(transparent 58%, rgba(255,210,63,0.92) 58%);
-  background-repeat: no-repeat;
-  background-size: 0% 100%;
-  color: #fff;
-}
-${end ? ".line:last-child { font-size: 66px; }" : ""}
+/* 1文字。transform を掛けるので inline ではなく inline-block */
+.ch { display: inline-block; }
+/* 強調語。黄色を全面に敷いて、字は黒（→ splitChars の覚え書き） */
+.hi { background: ${YELLOW}; color: ${INK}; padding: 2px 0 4px; }
+.hi-a { padding-left: 8px; border-radius: 8px 0 0 8px; }
+.hi-z { padding-right: 8px; border-radius: 0 8px 8px 0; }
 .foot {
   position: absolute; left: 0; right: 0; bottom: 96px;
   display: flex; align-items: center; justify-content: center; gap: 16px;
@@ -303,7 +329,7 @@ ${end ? ".line:last-child { font-size: 66px; }" : ""}
   <div class="head">
     <div class="kicker">${esc(kicker)}</div>
     <div class="lines">
-      ${lines.map((l) => `<div class="lineWrap"><span class="line">${mark(l, hi)}</span></div>`).join("\n      ")}
+      ${lines.map((l) => `<div class="lineWrap"><span class="line">${splitChars(l, hi)}</span></div>`).join("\n      ")}
     </div>
   </div>
   <div class="foot">${end ? `<img class="icon" src="${iconDataUri}">` : ""}<span>${esc(foot)}</span></div>
@@ -311,12 +337,12 @@ ${end ? ".line:last-child { font-size: 66px; }" : ""}
 }
 
 /* その時刻の見た目を作る。ページの中で走らせる関数（→ 冒頭の覚え書き） */
-function paintFrame(t, tl, stagger) {
+function paintFrame(t, tl, cfg) {
   /* 0→1 の進み具合。区間の外は 0 か 1 に丸める */
   const seg = (a, b) => Math.max(0, Math.min(1, (t - a) / (b - a)));
   /* 終わりぎわで減速する。等速だと機械っぽくなる */
   const ease = (x) => 1 - Math.pow(1 - x, 3);
-  /* 少し行き過ぎてから戻る。小見出しの「出た」感を作る */
+  /* 少し行き過ぎてから戻る。「出た」感を作る */
   const back = (x) => {
     const c = 1.7;
     return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2);
@@ -327,15 +353,18 @@ function paintFrame(t, tl, stagger) {
   kicker.style.opacity = String(ease(k));
   kicker.style.transform = `translateY(${(1 - ease(k)) * -22}px) scale(${0.9 + back(k) * 0.1})`;
 
+  /* 本文は1文字ずつ、下から弾き出す。行が変わるたびに少し待つ */
   document.querySelectorAll(".lineWrap").forEach((wrap, n) => {
-    const p = ease(seg(tl.line[0] + n * stagger, tl.line[1] + n * stagger));
-    /* 窓の下から持ち上げる。110%＝完全に隠れる位置 */
-    wrap.querySelector(".line").style.transform = `translateY(${(1 - p) * 110}%)`;
-  });
-
-  const h = ease(seg(tl.hi[0], tl.hi[1]));
-  document.querySelectorAll(".hi").forEach((el) => {
-    el.style.backgroundSize = `${h * 100}% 100%`;
+    const base = tl.line + n * cfg.lineStagger;
+    wrap.querySelectorAll(".ch").forEach((el, i) => {
+      const a = base + i * cfg.charStagger;
+      const p = seg(a, a + cfg.charDur);
+      const e = back(p);
+      /* 透明度は動きより先に上げる。最後まで薄いと、速い動きでは
+         文字が消えているようにしか見えない */
+      el.style.opacity = String(Math.min(1, p * 1.7));
+      el.style.transform = `translateY(${(1 - e) * 26}px) scale(${0.7 + e * 0.3})`;
+    });
   });
 
   const f = seg(tl.foot[0], tl.foot[1]);
@@ -394,8 +423,13 @@ for (const [i, cut] of CUTS.entries()) {
 
   for (let f = 0; f < ANIM_FRAMES; f++) {
     await page.evaluate(
-      ([t, tl, stagger, src]) => new Function("t", "tl", "stagger", `(${src})(t, tl, stagger)`)(t, tl, stagger),
-      [f / FPS, TIMELINE, LINE_STAGGER, paintFrame.toString()]
+      ([t, tl, cfg, src]) => new Function("t", "tl", "cfg", `(${src})(t, tl, cfg)`)(t, tl, cfg),
+      [
+        f / FPS,
+        TIMELINE,
+        { lineStagger: LINE_STAGGER, charStagger: CHAR_STAGGER, charDur: CHAR_DUR },
+        paintFrame.toString(),
+      ]
     );
     await page.screenshot({
       path: path.join(dir, `f${String(f).padStart(3, "0")}.png`),
