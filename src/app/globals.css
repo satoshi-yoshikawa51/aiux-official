@@ -503,6 +503,23 @@ img {
   }
 }
 
+/* LP(/academy)の特徴カード：スマホでは縦積みにして、
+   実画面は「横長の窓」に切り替える。縦積みのまま縦長の絵を出すと、
+   1枚で画面がほぼ埋まって、本文まで指が届かなくなる */
+@media (max-width: 720px) {
+  .academy-feat {
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+  .academy-feat > div:first-child {
+    width: 100% !important;
+    flex: none !important;
+    height: 172px !important;
+    min-height: 0 !important;
+    align-self: auto !important;
+  }
+}
+
 /* ニュースのサムネイル：スマホでは少し小さく */
 @media (max-width: 720px) {
   .news-thumb {
@@ -536,6 +553,11 @@ img {
   .kyoshujo-banner img {
     order: -1;
     max-height: 220px;
+  }
+  /* LP(/academy)のMV。文と実画面を縦に積む */
+  .academy-mv {
+    grid-template-columns: 1fr !important;
+    text-align: left;
   }
   /* スマホアプリの帯。中身が縦長の実画面なので、教習所バナーの
      max-height:220 で潰すと何の画面か読めなくなる。幅で決める */
