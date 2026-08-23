@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
 import type { Metadata } from "next";
 import { Footer, PAGE } from "../site-chrome";
 import { Badge, Button } from "../ds";
@@ -50,31 +48,19 @@ const APP_STORE_URL: string | null = null;
    Vercelが貼る comixai-academy のプレビューURLに ?demo=1 を付けて開く。 */
 const ACADEMY_WEB_DEMO = "https://comixai-academy.vercel.app/?demo=1";
 
-/* ▍ロゴの絵は「置いてあれば使う」
+/* ▍ロゴの絵は「白い板」
 
-   置き場は `public/academy/logo.png`（背景の透けた透過PNG）。GitHubの
-   画面からそこへドラッグして置くだけで、MVの見出しがロゴに差し替わる
-   ——コードは触らなくていい（4コマの registry.ts と同じ「置いた物が正」）。
+   もらった元の画像は、透過を表す市松模様が**実ピクセルとして焼き込まれて**
+   いて、アルファチャンネルが無かった。市松だけを抜こうとしたが、文字の
+   白い縁取りと市松の明るいほうがどちらも 243〜255 の無彩色で重なっていて
+   （背景の中に純白が2400px以上ある）、外周から塗りつぶすと
+   **AIの字の縁取りごと持っていかれた**。
 
-   **無いファイルを指したまま出さない。** ページのいちばん目立つ所が
-   壊れた絵になるので、置かれるまでは文字が代わりを務める。 */
-const LOGO = readPngSize(path.join(process.cwd(), "public/academy/logo.png"));
-
-/** PNGの頭24バイトだけ読んで、幅と高さを返す。**大きさを先に伝えないと、
-    MVでいちばん大きい絵が読み終わった瞬間に、下の文が丸ごと飛ぶ。** */
-function readPngSize(file: string): { w: number; h: number } | null {
-  try {
-    const head = Buffer.alloc(24);
-    const fd = fs.openSync(file, "r");
-    fs.readSync(fd, head, 0, 24, 0);
-    fs.closeSync(fd);
-    /* 署名8 → 長さ4 → 'IHDR' → 幅4 → 高さ4 */
-    if (head.toString("ascii", 12, 16) !== "IHDR") return null;
-    return { w: head.readUInt32BE(16), h: head.readUInt32BE(20) };
-  } catch {
-    return null;
-  }
-}
+   なので明るい無彩色をぜんぶ純白に倒して、白地の板として置いている。
+   縁取りはもともと白なので無傷。暗いMVの上では、枠と影を付けた
+   ステッカーとして見える——サイトの他のカードと同じ作法なので、
+   これはこれで収まる。**透過PNGが手に入ったら、板をやめて差し替える。** */
+const LOGO = { src: "/academy/logo.webp", w: 1120, h: 678 };
 
 const TITLE = "COMIXAI アカデミー｜3Dの相棒と、遊んで学ぶ生成AI（iPhone / iPad）";
 const DESC =
@@ -369,38 +355,27 @@ export default function AcademyPage() {
             {/* ▍ロゴ＋キャッチの2段。ここがこのページの看板
                 アプリアイコンと「COMIXAI アカデミー」の小さな名札は外した
                 ——ロゴが名前を言っているので、同じ名前が2つ並ぶだけになる */}
-            <h1 style={{ margin: "0 0 clamp(10px, 1.5vw, 16px)" }}>
-              {LOGO ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src="/academy/logo.png"
-                  alt="COMIXAI アカデミー"
-                  width={LOGO.w}
-                  height={LOGO.h}
-                  style={{
-                    width: "100%",
-                    maxWidth: "clamp(300px, 46vw, 560px)",
-                    height: "auto",
-                    display: "block",
-                    /* 背景が動画なので、影が無いと絵の縁が地に溶ける */
-                    filter: "drop-shadow(0 8px 26px rgba(0,0,0,.6))",
-                  }}
-                />
-              ) : (
-                <span
-                  style={{
-                    display: "block",
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 900,
-                    fontSize: "clamp(34px,6vw,62px)",
-                    lineHeight: 1.12,
-                    color: "var(--paper-50)",
-                    textShadow: "0 2px 20px rgba(0,0,0,.5)",
-                  }}
-                >
-                  COMIXAI アカデミー
-                </span>
-              )}
+            <h1 style={{ margin: "0 0 clamp(12px, 1.7vw, 18px)" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={LOGO.src}
+                alt="COMIXAI アカデミー"
+                width={LOGO.w}
+                height={LOGO.h}
+                /* MVのいちばん上の絵なので、後回しにしない */
+                fetchPriority="high"
+                style={{
+                  width: "100%",
+                  maxWidth: "clamp(280px, 42vw, 480px)",
+                  height: "auto",
+                  display: "block",
+                  /* 白地の板なので、枠と影を付けてステッカーにする（→ LOGO のメモ） */
+                  borderRadius: 14,
+                  border: "var(--bw-bold) solid var(--ink-900)",
+                  boxShadow: "var(--shadow-pop)",
+                  background: "var(--paper-0)",
+                }}
+              />
             </h1>
             <p
               style={{
