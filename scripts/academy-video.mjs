@@ -436,20 +436,35 @@ body {
    足元なら、下は端末の黒い帯とページの黒地なので、白い縁取りがよく映える。
    動きは .foot のまま——paintFrame が .foot を掴んでいるので、
    ロゴを中に入れておけば一緒に上がってくる。 */
-.foot.end { flex-direction: column; gap: 22px; bottom: 108px; }
-.endlogo {
-  width: 540px; height: auto; display: block;
-  /* 背景の透けたロゴなので、板は敷かない。端末の絵に溶けないよう影だけ */
-  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.75));
+/* ▍締めの一枚——画面を落として、真ん中にロゴ
+
+   足元に小さく置いていたときは、端末の絵の情報量に負けて目に入らなかった。
+   画面ぜんぶを黒の半透明で落とし、その上のど真ん中に置く。
+
+   ロゴは**白い板に載せる**。いまのロゴは黒と赤の字だけで白い縁取りが
+   無いので、落とした画面（＝暗い）に直接置くと赤い「MIX」しか見えない。
+
+   body の最初に置いてあるので、あとに来るテロップと脚注はこの上に乗る。 */
+.endcard {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.58);
 }
+.endplate {
+  padding: 34px 44px; border-radius: 26px;
+  background: #fff; border: 6px solid ${INK};
+  box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.55);
+}
+.endplate img { width: 660px; height: auto; display: block; }
 </style></head><body>
+  ${end ? `<div class="endcard"><div class="endplate"><img src="${logoDataUri}"></div></div>` : ""}
   <div class="head">
     <div class="kicker">${esc(kicker)}</div>
     <div class="lines">
       ${lines.map((l) => `<div class="lineWrap"><span class="line">${splitChars(l, hi)}</span></div>`).join("\n      ")}
     </div>
   </div>
-  <div class="foot${end ? " end" : ""}">${end ? `<img class="endlogo" src="${logoDataUri}">` : ""}<span>${esc(foot)}</span></div>
+  <div class="foot"><span>${esc(foot)}</span></div>
 </body></html>`;
 }
 
@@ -464,6 +479,16 @@ function paintFrame(t, tl, cfg) {
     const c = 1.7;
     return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2);
   };
+
+  /* 締めの一枚（→ .endcard）。小見出しと同じ間合いで、少し遅れて。
+     最後のカット以外には無いので、無ければ何もしない */
+  const card = document.querySelector(".endcard");
+  if (card) {
+    const c = seg(tl.kicker[0] + 0.18, tl.kicker[1] + 0.34);
+    card.style.opacity = String(ease(c));
+    const plate = card.querySelector(".endplate");
+    plate.style.transform = `scale(${0.86 + back(c) * 0.14})`;
+  }
 
   const k = seg(tl.kicker[0], tl.kicker[1]);
   const kicker = document.querySelector(".kicker");
