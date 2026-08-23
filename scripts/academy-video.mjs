@@ -380,7 +380,7 @@ function paintSparkles(t, list) {
 /* 行は「窓（.lineWrap）＋中身（.line）」の2枚重ね。窓で切って
    中身を下から持ち上げると、字が地面から生えてくるように出る。
    opacity のフェードだけだと、この尺では眠く見える。 */
-function textHtml({ iconDataUri, kicker, lines, hi, foot, end }) {
+function textHtml({ logoDataUri, kicker, lines, hi, foot, end }) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 ${FONTS}
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -427,7 +427,21 @@ body {
   display: flex; align-items: center; justify-content: center; gap: 16px;
   font-weight: 700; font-size: 29px; color: ${PAPER_200};
 }
-.icon { width: 60px; height: 60px; border-radius: 14px; border: 3px solid ${PAPER_50}; }
+/* ▍ロゴは最後のカットの「締めの札」に置く（頭ではなく足元）
+
+   最初は頭の丸いピルと差し替えてみたが駄目だった。ロゴは板なので
+   340pxほど高さを食い、そのぶん**テロップが下がって端末の白い所に
+   重なる**。文字は白なので、そこで読めなくなった。
+
+   足元なら、下は端末の黒い帯とページの黒地なので白い板がよく映える。
+   動きは .foot のまま——paintFrame が .foot を掴んでいるので、
+   ロゴを中に入れておけば一緒に上がってくる。 */
+.foot.end { flex-direction: column; gap: 22px; bottom: 108px; }
+.endlogo {
+  width: 520px; height: auto; display: block;
+  border: 5px solid ${INK}; border-radius: 18px;
+  background: #fff; box-shadow: 9px 9px 0 rgba(0, 0, 0, 0.5);
+}
 </style></head><body>
   <div class="head">
     <div class="kicker">${esc(kicker)}</div>
@@ -435,7 +449,7 @@ body {
       ${lines.map((l) => `<div class="lineWrap"><span class="line">${splitChars(l, hi)}</span></div>`).join("\n      ")}
     </div>
   </div>
-  <div class="foot">${end ? `<img class="icon" src="${iconDataUri}">` : ""}<span>${esc(foot)}</span></div>
+  <div class="foot${end ? " end" : ""}">${end ? `<img class="endlogo" src="${logoDataUri}">` : ""}<span>${esc(foot)}</span></div>
 </body></html>`;
 }
 
@@ -492,8 +506,9 @@ for (const cut of CUTS) {
 await rm(WORK_DIR, { recursive: true, force: true });
 await mkdir(WORK_DIR, { recursive: true });
 
-const iconDataUri = `data:image/webp;base64,${(
-  await readFile(path.join(ROOT, "public/academy/icon.webp"))
+/* 最後のカットの看板。サイトのMVと同じ絵を使う（→ public/academy/logo.webp） */
+const logoDataUri = `data:image/webp;base64,${(
+  await readFile(path.join(ROOT, "public/academy/logo.webp"))
 ).toString("base64")}`;
 
 const browser = await launchBrowser();
@@ -526,7 +541,7 @@ const page = await browser.newPage({ viewport: { width: W, height: H }, deviceSc
 for (const [i, cut] of CUTS.entries()) {
   const dir = path.join(WORK_DIR, `text${i}`);
   await mkdir(dir, { recursive: true });
-  await page.setContent(textHtml({ ...cut, iconDataUri }), { waitUntil: "networkidle" });
+  await page.setContent(textHtml({ ...cut, logoDataUri }), { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
   /* テロップは折り返さない（nowrap）ぶん、長い行は自動で縮める。
      文言を書き換えたときに、1文字だけ次の行に落ちる事故を防ぐため。
