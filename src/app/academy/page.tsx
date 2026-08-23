@@ -48,18 +48,14 @@ const APP_STORE_URL: string | null = null;
    Vercelが貼る comixai-academy のプレビューURLに ?demo=1 を付けて開く。 */
 const ACADEMY_WEB_DEMO = "https://comixai-academy.vercel.app/?demo=1";
 
-/* ▍ロゴは白い板に載せる
+/* ▍ロゴは背景の透けたWebP
 
-   いまのロゴは**黒と赤の字だけ**で、白い縁取りが無い。暗いMVの上に
-   そのまま置くと、赤い「MIX」以外がほぼ見えなくなる（実際に合成して
-   確認した）。なので紙色の板に載せて、枠と影を付けたステッカーにする
-   ——サイトの他のカードと同じ作法なので、これはこれで収まる。
+   字に白い縁取りが入っているので、暗いMVの上にそのまま置いても読める。
+   地に溶けないよう、影だけ下に敷いてある。
 
-   絵は市松模様（透過を表す背景）が実ピクセルとして焼き込まれた
-   PNGで届いたので、外周と字の中の市松を抜いて透過に戻してある
-   （字の中の白いハイライトは一様な白なので、市松と区別できる）。
-   縁のギザギザを避けるため、境目のグレーは明るさに応じて半透明。 */
-const LOGO = { src: "/academy/logo.webp", w: 1120, h: 567 };
+   外周の透明な余白は落としてある（1708x921 → 1474x530 → 1120x403）。
+   余白を残したまま置くと、**枠に対して絵だけが小さく浮いて見える**。 */
+const LOGO = { src: "/academy/logo.webp", w: 1120, h: 403 };
 
 const TITLE = "COMIXAI アカデミー｜3Dの相棒と、遊んで学ぶ生成AI（iPhone / iPad）";
 const DESC =
@@ -354,18 +350,7 @@ export default function AcademyPage() {
             {/* ▍ロゴ＋キャッチの2段。ここがこのページの看板
                 アプリアイコンと「COMIXAI アカデミー」の小さな名札は外した
                 ——ロゴが名前を言っているので、同じ名前が2つ並ぶだけになる */}
-            <h1
-              style={{
-                margin: "0 0 clamp(12px, 1.7vw, 18px)",
-                width: "100%",
-                maxWidth: "clamp(290px, 45vw, 520px)",
-                padding: "clamp(14px, 2vw, 22px) clamp(18px, 2.6vw, 28px)",
-                borderRadius: 16,
-                background: "var(--paper-0)",
-                border: "var(--bw-bold) solid var(--ink-900)",
-                boxShadow: "var(--shadow-pop)",
-              }}
-            >
+            <h1 style={{ margin: "0 0 clamp(12px, 1.7vw, 18px)" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={LOGO.src}
@@ -374,7 +359,14 @@ export default function AcademyPage() {
                 height={LOGO.h}
                 /* MVのいちばん上の絵なので、後回しにしない */
                 fetchPriority="high"
-                style={{ width: "100%", height: "auto", display: "block" }}
+                style={{
+                  width: "100%",
+                  maxWidth: "clamp(300px, 47vw, 560px)",
+                  height: "auto",
+                  display: "block",
+                  /* 後ろが動画なので、影が無いと絵の縁が地に溶ける */
+                  filter: "drop-shadow(0 10px 26px rgba(0,0,0,.6))",
+                }}
               />
             </h1>
             <p

@@ -441,8 +441,7 @@ body {
    足元に小さく置いていたときは、端末の絵の情報量に負けて目に入らなかった。
    画面ぜんぶを黒の半透明で落とし、その上のど真ん中に置く。
 
-   ロゴは**白い板に載せる**。いまのロゴは黒と赤の字だけで白い縁取りが
-   無いので、落とした画面（＝暗い）に直接置くと赤い「MIX」しか見えない。
+   ロゴは字に白い縁取りが入っているので、落とした画面の上に板なしで置ける。
 
    body の最初に置いてあるので、あとに来るテロップと脚注はこの上に乗る。 */
 .endcard {
@@ -450,12 +449,10 @@ body {
   display: flex; align-items: center; justify-content: center;
   background: rgba(0, 0, 0, 0.58);
 }
-.endplate {
-  padding: 34px 44px; border-radius: 26px;
-  background: #fff; border: 6px solid ${INK};
-  box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.55);
+.endplate img {
+  width: 760px; height: auto; display: block;
+  filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.8));
 }
-.endplate img { width: 660px; height: auto; display: block; }
 </style></head><body>
   ${end ? `<div class="endcard"><div class="endplate"><img src="${logoDataUri}"></div></div>` : ""}
   <div class="head">
