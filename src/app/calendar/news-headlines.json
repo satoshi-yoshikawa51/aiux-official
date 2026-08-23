@@ -1,7 +1,31 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-22T21:53:30.228Z",
+  "updatedAt": "2026-08-23T21:53:02.885Z",
   "items": [
+    {
+      "title": "ルネサス、第3世代MRDIMM用チップセット 次世代AIサーバーへ布石",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11965/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-23T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11965/m.jpg?20220512"
+    },
+    {
+      "title": "AI時代、なぜ「判断できる人」が育たないのか ― 実践研究から見えた「判断経験が残らない4つの構造」を公開",
+      "url": "https://ascii.jp/elem/000/004/428/4428648/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-23T00:43:55.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "OpenAI、「GPT-5.6 Sol」のAPI料金を値下げ 入力20％出力33％安く、11月21日まで",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/23/2000000700/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-22T21:54:23.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/23/2000000700/10003422/2048"
+    },
     {
       "title": "Harvard’s $699 startup bootcamp offers AI avatars of its instructors",
       "url": "https://techcrunch.com/2026/08/22/harvards-699-startup-bootcamp-offers-ai-avatars-of-its-instructors/",
@@ -65,53 +89,6 @@
       "lang": "ja",
       "date": "2026-08-21T01:14:33.000Z",
       "image": "https://www.itmedia.co.jp/news/article/ogp/2608/21/2000000670/10003305/2048"
-    },
-    {
-      "title": "「Fable禁止」で仕事が止まったあの日々を振り返る 日本企業が取るべき「脱・単一モデル」戦略",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/21/2000000666/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-21T00:00:00.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/21/2000000666/10003286/2048"
-    },
-    {
-      "title": "Stampli cuts launch hours by 68% using ChatGPT Work",
-      "url": "https://openai.com/index/stampli",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-08-20T00:00:00.000Z"
-    },
-    {
-      "title": "企業のAIエージェント導入が3倍増加--投資対効果が明確に、顧客からも信頼",
-      "url": "https://japan.zdnet.com/article/35251756/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-20T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/20/43fd8bb38291c44b0d64fe1da2f16919/large-vrtunnel-gettyimages-2226285470.jpg"
-    },
-    {
-      "title": "仮想リスクシナリオ1：小売りチェーンの販売戦略AIがSNS裏工作？",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03713/00001/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-08-20T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03713/00001/topm.jpg?20220512"
-    },
-    {
-      "title": "It’s Greg Brockman’s OpenAI now",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/982774/greg-brockman-openai-role-expansion",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-20T15:45:55.000Z",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/05/STKP221_GREG_BROCKMAN2.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Slack is launching collaborative vibe-coding channels",
-      "url": "https://www.theverge.com/tech/982628/slack-code-vibe-coding-channels-launch",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-20T12:00:00.000Z",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/23988538/acastro_STK060_slack_04.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     }
   ]
 }
