@@ -65,6 +65,16 @@ Vercelに置ける。サイト本体とは**別のVercelプロジェクト**に�
 公開されたURLをiPhoneのSafariで開き、共有 → **「ホーム画面に追加」** すると、
 アドレスバー無しのアプリとして起動する（`public/index.html` でその設定を入れている）。
 
+> **インストールは `npm ci` に固定してあります**（`vercel.json` の `installCommand`）。
+> 既定の `npm install` だと、**Vercelのビルドキャッシュに残った `node_modules` を
+> そのまま使い回す**。patch-package のパッチ（`patches/gpt-tokenizer+3.4.0.patch`）を
+> 更新したとき、キャッシュの中には**古いパッチが当たった gpt-tokenizer** が残っていて、
+> その上から新しいパッチを当てようとして落ちる——
+> `**ERROR** Failed to apply patch for package gpt-tokenizer` で
+> **installごと失敗し、以後どのコミットを積んでも直らない**（2026-08-22〜23に実際に発生）。
+> `npm ci` は入れる前に node_modules を消すので、この詰まり方をしない。
+> **戻さないこと。**
+
 > **SPAの寄せ先から `_expo/` と `assets/` は外してあります**（`vercel.json` の `rewrites`）。
 > Vercelは「ファイルが無いとき」に rewrite を当てるので、**全部を `index.html` に寄せると、
 > 存在しないJSファイルの取得に対して `text/html` の index.html が200で返ります**。
