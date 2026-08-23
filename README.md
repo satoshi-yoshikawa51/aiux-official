@@ -59,7 +59,9 @@ npm run dev
   スクショはアプリの実装と一対なので、アプリを直したらこちらも直します。
   素材と宣伝物は3つのコマンドで作り直せます——`npm run academy:shots`（審査用スクショ
   → 表示用WebP）、`npm run og:academy`（OGP画像）、`npm run academy:video`
-  （SNS用の縦ショート動画・約23秒。出力は `academy-video/` でGit管理外）。
+  （SNS用の縦ショート動画・約31秒）。動画は**実機の画面録画**が素材で、
+  `academy-video/clips/` に置いて使います。素材も出力もGit管理外です
+  （録画は容量が大きく、撮り直しのたびに履歴が膨らむため）。
 - **`PrismNews/`** — パーソナライズドニュースの iPhoneアプリ（SwiftUI）。
 
 ## メモ
