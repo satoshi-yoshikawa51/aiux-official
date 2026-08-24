@@ -1,22 +1,86 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-23T21:53:02.885Z",
+  "updatedAt": "2026-08-24T21:57:25.515Z",
   "items": [
     {
-      "title": "ルネサス、第3世代MRDIMM用チップセット 次世代AIサーバーへ布石",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11965/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-08-23T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11965/m.jpg?20220512"
+      "title": "Valor, Point72 back General Intuition at $6B valuation as AI startup pushes into robotics",
+      "url": "https://techcrunch.com/2026/08/24/valor-point72-back-general-intuition-at-6b-valuation-as-ai-startup-pushes-into-robotics/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-24T15:24:18.000Z",
+      "image": "https://techcrunch.com/wp-content/uploads/2019/03/robocash.jpg?resize=1200,849"
     },
     {
-      "title": "AI時代、なぜ「判断できる人」が育たないのか ― 実践研究から見えた「判断経験が残らない4つの構造」を公開",
-      "url": "https://ascii.jp/elem/000/004/428/4428648/?rss",
+      "title": "Hugging Face reportedly in talks to be acquired for $13B",
+      "url": "https://techcrunch.com/2026/08/24/hugging-face-reportedly-in-talks-to-be-acquired-for-13b/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-24T13:47:26.000Z",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/hugging-face-logo-smartphone.jpg?resize=1200,800"
+    },
+    {
+      "title": "Nvidia senior manager linked to Supermicro scheme smuggling AI servers to China",
+      "url": "https://arstechnica.com/tech-policy/2026/08/nvidia-senior-manager-linked-to-supermicro-scheme-smuggling-ai-servers-to-china/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-08-24T16:41:45.000Z",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2285710586-1024x648.jpg"
+    },
+    {
+      "title": "営業職求人28,704件を調査、東京都12,741件が件数上位3都府県を除く44県の合計10,979件を上回る｜AIアポろうくん",
+      "url": "https://ascii.jp/elem/000/004/428/4428948/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-08-23T00:43:55.000Z",
+      "date": "2026-08-24T09:58:42.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "【復旧済み】「Claude」で障害発生中",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/24/2000000719/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-24T08:55:15.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/24/2000000719/10003038/2048"
+    },
+    {
+      "title": "なぜいま30Bクラスのオープンモデルが“熱い”のか 「27BパラメータでOpus 4.6超え」も",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/24/2000000723/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-24T07:30:16.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/24/2000000723/10003491/2048"
+    },
+    {
+      "title": "“ラスボス”エヌビディアの決算発表を前に、ふたたび「AIトレード」が勢いを増す",
+      "url": "https://www.gizmodo.jp/article/nvidia_ai_trade/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-08-24T05:35:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/08/13/ae98b8a2-59c1-4e78-aebc-ccf26aedc836/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "KDDI、売れる商業施設づくりをAIで支援 市場分析・戦略立案を最短1日で",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11979/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-24T03:30:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11979/topm.jpg?20220512"
+    },
+    {
+      "title": "AI is hitting entry-level jobs hardest, Stanford study finds",
+      "url": "https://arstechnica.com/ai/2026/08/ai-is-hitting-entry-level-jobs-hardest-stanford-study-finds/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-08-24T21:45:53.000Z",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2211086231-1152x648.jpg"
+    },
+    {
+      "title": "ロボットの費用対効果が3年以内に人手を上回る――インテルが調査結果から洞察",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2608/24/news061.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-23T21:30:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2608/24/cover_news061.jpg"
     },
     {
       "title": "OpenAI、「GPT-5.6 Sol」のAPI料金を値下げ 入力20％出力33％安く、11月21日まで",
@@ -35,60 +99,12 @@
       "image": "https://techcrunch.com/wp-content/uploads/2024/12/GettyImages-2169079907_27e720-e1734690817769.jpg?resize=1200,800"
     },
     {
-      "title": "OpenAI says California should strengthen its AI safety bill",
-      "url": "https://techcrunch.com/2026/08/22/openai-says-california-should-strengthen-its-ai-safety-bill/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-22T16:30:34.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2263890424.jpg?w=1024"
-    },
-    {
-      "title": "Anthropic’s Opus 4.6 is a smut-machine",
-      "url": "https://techcrunch.com/2026/08/21/anthropics-opus-4-6-is-a-smut-machine/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-21T23:07:25.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-157692252.jpg?resize=1200,915"
-    },
-    {
-      "title": "Anthropic、「ミュトス 5」を脆弱性スキャンに開放──「Claude Security」経由でEnterprise顧客が利用可能に",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/22/2000000697/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-21T22:09:30.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/22/2000000697/10003410/2048"
-    },
-    {
       "title": "FANZA、成人向けAIコンテンツを作成→公開できる新サービス「スタジオ」24日から先行体験",
       "url": "https://japan.cnet.com/article/35251821/",
       "source": "CNET Japan",
       "lang": "ja",
       "date": "2026-08-21T22:05:00.000Z",
       "image": "https://japan.cnet.com/storage/2026/08/22/40636cbe5161f1ba383dd188bf5f6518/2026-08-22_6.47の画像.jpeg"
-    },
-    {
-      "title": "Claudeの「透かし」導入、なぜ批判？ AI利用開示は当然の責務だ",
-      "url": "https://japan.cnet.com/article/35251814/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-21T08:22:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/21/0fc86c3c57b6f1d978c35dd3e57145ff/GettyImages-2271847602_1280x960.jpg"
-    },
-    {
-      "title": "FANZAで「成人向けAIコンテンツ制作サービス」開始 8月24日から先行体験",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/21/2000000676/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-21T04:08:48.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/21/2000000676/10003327/2048"
-    },
-    {
-      "title": "Googleのオープンモデル「Gemma」、累計10億ダウンロード超 GitHubに公式ディレクトリ公開",
-      "url": "https://www.itmedia.co.jp/news/article/2608/21/2000000670/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-21T01:14:33.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/21/2000000670/10003305/2048"
     }
   ]
 }
