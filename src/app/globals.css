@@ -521,6 +521,23 @@ img {
   .academy-bar-name {
     display: none !important;
   }
+  /* ▍スマホでは、見出しまわりを中央に寄せる
+     絵が中央に立っているのに、その下の見出しだけ左端から始まると
+     カードの重心がずれて見える。**本文だけは左のまま**——
+     10行の日本語を中央揃えにすると、行の頭が毎行ずれて読みにくい */
+  .academy-head,
+  .academy-feat-copy,
+  .academy-end-card {
+    text-align: center;
+  }
+  .academy-head > div:last-child,
+  .academy-end-card > div {
+    justify-content: center;
+  }
+  .academy-feat-copy p,
+  .academy-end-card p {
+    text-align: left;
+  }
 }
 
 /* ニュースのサムネイル：スマホでは少し小さく */
@@ -557,10 +574,20 @@ img {
     order: -1;
     max-height: 220px;
   }
-  /* LP(/academy)のMV。文と実画面を縦に積む */
+  /* LP(/academy)のMV。文と実画面を縦に積む。
+     縦に積むと、下のスマホだけが中央・文は左端という**軸が2本ある**
+     状態になる。看板なので、ここは全部まん中に揃える */
   .academy-mv {
     grid-template-columns: 1fr !important;
-    text-align: left;
+    text-align: center;
+  }
+  .academy-mv-copy h1 img,
+  .academy-mv-copy p {
+    margin-inline: auto;
+  }
+  /* バッジの列とCTAの列（どちらも直下のflex）を中央へ */
+  .academy-mv-copy > div {
+    justify-content: center;
   }
   /* スマホアプリの帯。中身が縦長の実画面なので、教習所バナーの
      max-height:220 で潰すと何の画面か読めなくなる。幅で決める */

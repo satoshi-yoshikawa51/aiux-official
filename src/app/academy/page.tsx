@@ -272,7 +272,7 @@ function AndroidNote({ tone }: { tone: string }) {
 /* 節の見出し。site-ui の SectionHead より余白を詰めたLP用 */
 function Head({ kicker, title, hand }: { kicker: string; title: string; hand?: string }) {
   return (
-    <div style={{ marginBottom: 22 }}>
+    <div className="academy-head" style={{ marginBottom: 22 }}>
       <div style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 6 }}>
         {kicker}
       </div>
@@ -346,7 +346,7 @@ export default function AcademyPage() {
             alignItems: "center",
           }}
         >
-          <div>
+          <div className="academy-mv-copy">
             {/* ▍ロゴ＋キャッチの2段。ここがこのページの看板
                 アプリアイコンと「COMIXAI アカデミー」の小さな名札は外した
                 ——ロゴが名前を言っているので、同じ名前が2つ並ぶだけになる */}
@@ -481,7 +481,7 @@ export default function AcademyPage() {
                         }}
                       />
                     </div>
-                    <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+                    <div className="academy-feat-copy" style={{ flex: "1 1 auto", minWidth: 0 }}>
                       <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.16em", color: "var(--red-600)", fontWeight: 700, marginBottom: 6 }}>
                         {f.kicker}
                       </div>
@@ -601,6 +601,7 @@ export default function AcademyPage() {
       <section id="academy-end" style={{ position: "relative", zIndex: 1, background: "var(--paper-50)", padding: "0 0 clamp(44px, 6vw, 68px)" }}>
         <div style={{ width: PAGE, margin: "0 auto" }}>
           <div
+            className="academy-end-card"
             style={{
               border: "var(--bw-bold) solid var(--ink-900)",
               borderRadius: "var(--radius-lg)",
