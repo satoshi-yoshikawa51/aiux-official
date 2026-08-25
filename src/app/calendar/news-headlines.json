@@ -1,7 +1,71 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-24T21:57:25.515Z",
+  "updatedAt": "2026-08-25T21:56:27.804Z",
   "items": [
+    {
+      "title": "アップル、M6／M5 Pro搭載の新「Mac mini」発表--AI性能4倍 14万9800円〜で9月22日発売",
+      "url": "https://japan.cnet.com/article/35251907/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-25T19:42:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/26/7ee1206a8a82d2943d15ec2510ad14f5/Apple-Mac-mini-hero-260825_big.jpg.large.jpeg"
+    },
+    {
+      "title": "Claude Cowork finally remembers what you told the app in chat",
+      "url": "https://techcrunch.com/2026/08/25/claude-cowork-finally-remembers-what-you-told-the-app-in-chat/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-25T17:50:33.000Z",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Claude-AI-app.jpg?resize=1200,842"
+    },
+    {
+      "title": "突然登場のM6搭載の「Mac mini」、AI性能は最大4倍アップ＆2.5GbEを標準サポート",
+      "url": "https://ascii.jp/elem/000/004/429/4429335/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-25T14:30:00.000Z",
+      "image": "https://ascii.jp/img/2026/08/25/4517236/xl/015be4fe1a33cd4f.jpg?20200122"
+    },
+    {
+      "title": "OpenAI says its Jalapeño chip can power faster AI responses than the competition",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/984290/openai-jalapeno-ai-chip-benchmarks",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-25T14:00:00.000Z",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Jalapeno-chip-final.jpeg?quality=90&strip=all&crop=0%2C15.095986038394%2C100%2C69.808027923211&w=1200"
+    },
+    {
+      "title": "政府、AI事業者向け「知財保護ルール」策定 対象範囲・運用方針は？",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/25/2000000767/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-25T10:28:22.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/25/2000000767/10003713/2048"
+    },
+    {
+      "title": "OpenAI subpoenaed by Alabama AG over Hugging Face hack",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-25T09:15:03.000Z",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK155_OPEN_AI_CVirginia_C-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "シャープ、対話型AIロボ「ポケとも」に新モデル あえて“全肯定しないキャラ”に 「暇だなー」と話しかけると……",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/25/2000000747/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-25T06:56:11.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/25/2000000747/10003637/2048"
+    },
+    {
+      "title": "エージェント型AIの導入拡大に必要なのは、業務プロセスと人材の再構築",
+      "url": "https://japan.zdnet.com/article/35251877/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-25T00:14:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/25/233c4e8d74a83faf13ee77b97afb6141/gettyimages-2288335595_1280.jpg"
+    },
     {
       "title": "Valor, Point72 back General Intuition at $6B valuation as AI startup pushes into robotics",
       "url": "https://techcrunch.com/2026/08/24/valor-point72-back-general-intuition-at-6b-valuation-as-ai-startup-pushes-into-robotics/",
@@ -19,92 +83,36 @@
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/hugging-face-logo-smartphone.jpg?resize=1200,800"
     },
     {
-      "title": "Nvidia senior manager linked to Supermicro scheme smuggling AI servers to China",
+      "title": "ランボルギーニのSDV開発やAI設計改善も、PTCが“アジア初”デモ機公開",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2608/25/news043.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-24T23:15:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2608/25/cover_news043.jpg"
+    },
+    {
+      "title": "建築業でも「Claudeの有料導入」が急増 AI導入レベルが上がった企業を悩ます「新たな壁」とは",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/25/news041.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-24T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2608/25/cover_news041.jpg"
+    },
+    {
+      "title": "クラウデラの首脳が語るソブリンAIとオンプレミス推論--「Anywhere Cloud」を発表",
+      "url": "https://japan.zdnet.com/article/35251817/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-24T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/21/a2b67e2366b89fa9eb9edde2ed8619e8/cloudera-charles_abbasc1.jpg"
+    },
+    {
+      "title": "Nvidia senior manager tied to ex-Supermicro staff's AI smuggling scheme",
       "url": "https://arstechnica.com/tech-policy/2026/08/nvidia-senior-manager-linked-to-supermicro-scheme-smuggling-ai-servers-to-china/",
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-08-24T16:41:45.000Z",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2285710586-1024x648.jpg"
-    },
-    {
-      "title": "営業職求人28,704件を調査、東京都12,741件が件数上位3都府県を除く44県の合計10,979件を上回る｜AIアポろうくん",
-      "url": "https://ascii.jp/elem/000/004/428/4428948/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-24T09:58:42.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "【復旧済み】「Claude」で障害発生中",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/24/2000000719/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-24T08:55:15.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/24/2000000719/10003038/2048"
-    },
-    {
-      "title": "なぜいま30Bクラスのオープンモデルが“熱い”のか 「27BパラメータでOpus 4.6超え」も",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/24/2000000723/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-24T07:30:16.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/24/2000000723/10003491/2048"
-    },
-    {
-      "title": "“ラスボス”エヌビディアの決算発表を前に、ふたたび「AIトレード」が勢いを増す",
-      "url": "https://www.gizmodo.jp/article/nvidia_ai_trade/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-08-24T05:35:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/08/13/ae98b8a2-59c1-4e78-aebc-ccf26aedc836/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "KDDI、売れる商業施設づくりをAIで支援 市場分析・戦略立案を最短1日で",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11979/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-08-24T03:30:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11979/topm.jpg?20220512"
-    },
-    {
-      "title": "AI is hitting entry-level jobs hardest, Stanford study finds",
-      "url": "https://arstechnica.com/ai/2026/08/ai-is-hitting-entry-level-jobs-hardest-stanford-study-finds/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-08-24T21:45:53.000Z",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2211086231-1152x648.jpg"
-    },
-    {
-      "title": "ロボットの費用対効果が3年以内に人手を上回る――インテルが調査結果から洞察",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2608/24/news061.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-23T21:30:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2608/24/cover_news061.jpg"
-    },
-    {
-      "title": "OpenAI、「GPT-5.6 Sol」のAPI料金を値下げ 入力20％出力33％安く、11月21日まで",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/23/2000000700/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-22T21:54:23.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/23/2000000700/10003422/2048"
-    },
-    {
-      "title": "Harvard’s $699 startup bootcamp offers AI avatars of its instructors",
-      "url": "https://techcrunch.com/2026/08/22/harvards-699-startup-bootcamp-offers-ai-avatars-of-its-instructors/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-22T21:46:56.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2024/12/GettyImages-2169079907_27e720-e1734690817769.jpg?resize=1200,800"
-    },
-    {
-      "title": "FANZA、成人向けAIコンテンツを作成→公開できる新サービス「スタジオ」24日から先行体験",
-      "url": "https://japan.cnet.com/article/35251821/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-21T22:05:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/22/40636cbe5161f1ba383dd188bf5f6518/2026-08-22_6.47の画像.jpeg"
     }
   ]
 }
