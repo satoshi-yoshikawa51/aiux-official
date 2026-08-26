@@ -276,7 +276,7 @@ function AcademyBanner() {
       <div
         className="academy-banner"
         style={{
-          display: "grid", gridTemplateColumns: "minmax(0, 12fr) minmax(0, 8fr)", alignItems: "center",
+          display: "grid", gridTemplateColumns: "minmax(0, 11fr) minmax(0, 9fr)", alignItems: "center",
           border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18, overflow: "hidden",
           background: "var(--ink-900)", boxShadow: "var(--shadow-pop)",
           backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.3px, transparent 1.4px)",
@@ -335,13 +335,35 @@ function AcademyBanner() {
             </a>
           </div>
         </div>
+        {/* ▍実画面は2枚重ね（PCだけ）
+            1枚だと右の列が埋まらず、文とのあいだに空きができる。
+            後ろにガチャ画面を傾けて差し込み、product感で埋める。
+            **スマホでは後ろの1枚を出さない**——並べる幅がなく、
+            2枚とも小さくして何の画面か読めなくなる（→ globals.css） */}
         <a className="academy-banner-shot" href="/academy" data-ga="cta_click" data-ga-place="top-academy-banner" style={{ display: "block" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/academy/shots/home.webp"
-            alt="COMIXAI アカデミーのホーム画面。桜並木の舞台に3Dアバターが立っている"
-            style={{ width: "100%", maxWidth: 244, height: "auto", objectFit: "contain", display: "block", margin: "22px auto -2px", borderRadius: "18px 18px 0 0", border: "var(--bw-line) solid var(--paper-50)", borderBottom: "none" }}
-          />
+          <div style={{ position: "relative", display: "flex", justifyContent: "center" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className="academy-banner-shot-back"
+              src="/academy/shots/gacha.webp"
+              alt=""
+              aria-hidden
+              style={{
+                /* 前の1枚より小さく・薄く。同じ明るさで並べると、
+                   どちらが主役か分からなくなる */
+                position: "absolute", left: "1%", top: 112, width: "78%", maxWidth: 190, height: "auto",
+                zIndex: 1, transform: "rotate(-8deg)", transformOrigin: "bottom center", opacity: 0.78,
+                borderRadius: 16, border: "var(--bw-line) solid var(--paper-50)",
+                boxShadow: "0 14px 34px rgba(0,0,0,.55)",
+              }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/academy/shots/home.webp"
+              alt="COMIXAI アカデミーのホーム画面。桜並木の舞台に3Dアバターが立っている"
+              style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: 244, height: "auto", objectFit: "contain", display: "block", margin: "22px auto -2px", borderRadius: "18px 18px 0 0", border: "var(--bw-line) solid var(--paper-50)", borderBottom: "none", boxShadow: "0 12px 30px rgba(0,0,0,.5)" }}
+            />
+          </div>
         </a>
       </div>
     </section>

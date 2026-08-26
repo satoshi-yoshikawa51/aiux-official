@@ -638,6 +638,11 @@ img {
     max-width: 165px !important;
     margin-top: 24px !important;
   }
+  /* 実画面は1枚だけ。2枚並べる幅がなく、小さくすると
+     どちらも何の画面か読めなくなる */
+  .academy-banner-shot-back {
+    display: none !important;
+  }
   .article-row {
     grid-template-columns: 120px 1fr !important;
   }
