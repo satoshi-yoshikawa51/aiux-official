@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Footer, PAGE } from "../site-chrome";
 import { Badge, Button } from "../ds";
 import { ShareRow } from "../site-ui";
-import { Reveal, ScrollStage, StickyCta, TryPhone } from "./parts";
+import { MvVideo, Reveal, ScrollStage, StickyCta, TryPhone } from "./parts";
 import { APP_STORE_URL, AppStoreBadge } from "./store";
 
 /* ============================================================
@@ -300,26 +300,13 @@ export default function AcademyPage() {
           minHeight: "min(100svh, 940px)",
         }}
       >
-        {/* 背景のループ動画。少しぼかして拡大しているのは、
-            文字の下敷きにするのと、端のにじみを画面外へ逃がすため */}
-        <video
-          src="/academy/mv.mp4"
-          poster="/academy/mv-poster.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "blur(2px) saturate(0.92)",
-            transform: "scale(1.05)",
-          }}
+        {/* 背景のループ動画。**PCとスマホで別の素材**を出す
+            （横長を縦画面に敷くと幅の4分の1しか映らない → parts.tsx） */}
+        <MvVideo
+          pc="/academy/mv.mp4"
+          sp="/academy/mv-sp.mp4"
+          posterPc="/academy/mv-poster.jpg"
+          posterSp="/academy/mv-poster-sp.jpg"
         />
         <div
           aria-hidden

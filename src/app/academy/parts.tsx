@@ -148,6 +148,77 @@ export function ScrollStage({
    出来上がりを transform で縮める**ほうが、実機と同じ絵になる。
    ============================================================ */
 
+/* ============================================================
+   ▍MVの背景動画を、PCとスマホで出し分ける
+
+   横長の動画を縦画面に `cover` で敷くと、**幅の4分の1しか映らない**。
+   人物が真ん中に立っていても顔の大アップになってしまうので、
+   縦持ち用に撮った別の動画へ差し替える。
+
+   ▍`<source media="...">` は使えない
+   `<picture>` と違って、`<video>` の中の source の media は
+   **Chromiumが見てくれない**（1280pxでもスマホ用が選ばれることを
+   手元で確認した）。当てにすると、PCで縦動画が出る。
+   なので matchMedia で選ぶ。
+
+   JSが動くまでは何も出さない。節の地色（黒）がそのまま見えるだけで、
+   その上には暗幕を敷いているので、絵が入れ替わってもちらつかない。
+   **向きの違う静止画を先に出すほうが目立つ**ので、あえて出さない。
+   ============================================================ */
+export function MvVideo({
+  pc,
+  sp,
+  posterPc,
+  posterSp,
+  breakpoint = 900,
+}: {
+  pc: string;
+  sp: string;
+  posterPc: string;
+  posterSp: string;
+  breakpoint?: number;
+}) {
+  const [narrow, setNarrow] = React.useState<boolean | null>(null);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    setNarrow(mq.matches);
+    const onChange = () => setNarrow(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, [breakpoint]);
+
+  if (narrow === null) return null;
+  const src = narrow ? sp : pc;
+
+  return (
+    <video
+      /* 幅をまたいだら作り直す。src を差し替えるだけだと、
+         端末によっては前の絵が residual で残る */
+      key={src}
+      src={src}
+      poster={narrow ? posterSp : posterPc}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-hidden
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        /* 少しぼかして拡大しているのは、文字の下敷きにするのと、
+           端のにじみを画面外へ逃がすため */
+        filter: "blur(2px) saturate(0.92)",
+        transform: "scale(1.05)",
+      }}
+    />
+  );
+}
+
 /** 中に描かせる画面の幅（＝ふつうのスマホ） */
 const PHONE_VW = 390;
 
