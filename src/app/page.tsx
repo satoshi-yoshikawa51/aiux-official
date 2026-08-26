@@ -276,7 +276,7 @@ function AcademyBanner() {
       <div
         className="academy-banner"
         style={{
-          display: "grid", gridTemplateColumns: "minmax(0, 11fr) minmax(0, 9fr)", alignItems: "center",
+          display: "grid", gridTemplateColumns: "minmax(0, 12fr) minmax(0, 8fr)", alignItems: "center",
           border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18, overflow: "hidden",
           background: "var(--ink-900)", boxShadow: "var(--shadow-pop)",
           backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.3px, transparent 1.4px)",
@@ -291,13 +291,13 @@ function AcademyBanner() {
               alt="COMIXAI アカデミー"
               width={1120}
               height={403}
-              style={{ width: "100%", maxWidth: "clamp(210px, 26vw, 300px)", height: "auto", display: "block", filter: "drop-shadow(0 6px 16px rgba(0,0,0,.55))" }}
+              style={{ width: "100%", maxWidth: "clamp(210px, 30vw, 340px)", height: "auto", display: "block", filter: "drop-shadow(0 6px 16px rgba(0,0,0,.55))" }}
             />
           </a>
           {/* ▍折り返す場所を「、」に固定する
               放っておくと日本語はどこでも折れるので、「リリー／ス！」と
               語の途中で切れる。読点の前後を塊にして、そこだけで折る */}
-          <div className="academy-banner-lead" style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3vw,32px)", lineHeight: 1.3, color: "var(--paper-50)" }}>
+          <div className="academy-banner-lead" style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px, 3.4vw, 40px)", lineHeight: 1.3, color: "var(--paper-50)" }}>
             <span style={{ whiteSpace: "nowrap" }}>AIを遊んで学べるアプリ、</span>
             <span style={{ whiteSpace: "nowrap" }}>リリース！</span>
           </div>
@@ -305,6 +305,12 @@ function AcademyBanner() {
             5コース17レッスン、9種のミニゲーム、AIのプロンプト添削つき。
             <b style={{ color: "var(--paper-50)", whiteSpace: "nowrap" }}>登録不要・広告なし・完全無料</b>で、1日5分から。
           </p>
+          {/* ▍PCで真ん中が空かないように
+
+              文が短いので、11fr の列に対して中身が3分の2しか埋まらず、
+              実画面との間にぽっかり空白ができていた。列を 12fr:8fr に
+              寄せ、ロゴ・見出し・実画面をそれぞれ一回り大きくして詰めた
+              （実画面 210→244px。カードの高さは 475→548px） */}
           <div className="academy-banner-cta" style={{ marginTop: 4, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             {APP_STORE_URL ? (
               <a
@@ -334,7 +340,7 @@ function AcademyBanner() {
           <img
             src="/academy/shots/home.webp"
             alt="COMIXAI アカデミーのホーム画面。桜並木の舞台に3Dアバターが立っている"
-            style={{ width: "100%", maxWidth: 210, height: "auto", objectFit: "contain", display: "block", margin: "22px auto -2px", borderRadius: "18px 18px 0 0", border: "var(--bw-line) solid var(--paper-50)", borderBottom: "none" }}
+            style={{ width: "100%", maxWidth: 244, height: "auto", objectFit: "contain", display: "block", margin: "22px auto -2px", borderRadius: "18px 18px 0 0", border: "var(--bw-line) solid var(--paper-50)", borderBottom: "none" }}
           />
         </a>
       </div>
