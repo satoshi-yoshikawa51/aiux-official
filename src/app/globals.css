@@ -581,6 +581,31 @@ img {
     grid-template-columns: 1fr !important;
     text-align: center;
   }
+  /* ▍背景動画は上のほうだけ
+
+     縦画面いっぱいに敷くと、下に置いたスマホの実画面と人物の顔が
+     重なって、**どちらも見えなくなる**。上6割で切って、下は地の黒に
+     溶かす。切り口が線で出ないよう、マスクでなだらかに消す */
+  .academy-mv-video {
+    /* 実画面（下に置いたスマホ）の上端は、どの幅でもMVの高さの
+       44〜45%あたりに来る。そこで消え切るように、46%で切って
+       手前からなだらかに薄くする */
+    height: 46% !important;
+    bottom: auto !important;
+    -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
+  }
+  /* 暗幕も縦向きに。下へ行くほど濃くして、動画が消える所と
+     地の黒との継ぎ目を隠す */
+  .academy-mv-veil {
+    background: linear-gradient(
+      to bottom,
+      rgba(20, 17, 15, 0.62) 0%,
+      rgba(20, 17, 15, 0.48) 30%,
+      rgba(20, 17, 15, 0.82) 44%,
+      var(--ink-900) 56%
+    ) !important;
+  }
   .academy-mv-copy h1 img,
   .academy-mv-copy p {
     margin-inline: auto;

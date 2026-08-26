@@ -196,6 +196,10 @@ export function MvVideo({
       /* 幅をまたいだら作り直す。src を差し替えるだけだと、
          端末によっては前の絵が residual で残る */
       key={src}
+      /* スマホでは上のほうだけに収める（→ globals.css）。
+         縦画面いっぱいに敷くと、下に置いたスマホの実画面と
+         人物の顔が重なって、どちらも見えなくなる */
+      className="academy-mv-video"
       src={src}
       poster={narrow ? posterSp : posterPc}
       autoPlay
@@ -210,9 +214,10 @@ export function MvVideo({
         width: "100%",
         height: "100%",
         objectFit: "cover",
-        /* 少しぼかして拡大しているのは、文字の下敷きにするのと、
-           端のにじみを画面外へ逃がすため */
-        filter: "blur(2px) saturate(0.92)",
+        /* ごく浅くぼかして拡大しているのは、文字の下敷きにするのと、
+           端のにじみを画面外へ逃がすため。**強くしない**——
+           せっかくの映像が油絵になる */
+        filter: "blur(1px) saturate(0.96)",
         transform: "scale(1.05)",
       }}
     />

@@ -308,13 +308,20 @@ export default function AcademyPage() {
           posterPc="/academy/mv-poster.jpg"
           posterSp="/academy/mv-poster-sp.jpg"
         />
+        {/* ▍文字を読ませるぶんだけ暗くする
+            濃くすると動画が死ぬ。文字のある左上を厚めに、絵を見せたい
+            右下を薄めにして、必要な所だけ落としている */}
+        {/* ▍文字を読ませるぶんだけ暗くする
+            濃くすると映像が死ぬ。文字のある左上を厚めに、絵を見せたい
+            右下を薄めに。スマホは向きも濃さも別（→ globals.css） */}
         <div
           aria-hidden
+          className="academy-mv-veil"
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(105deg, rgba(20,17,15,.92) 0%, rgba(20,17,15,.80) 42%, rgba(20,17,15,.42) 78%, rgba(20,17,15,.55) 100%)",
+              "linear-gradient(105deg, rgba(20,17,15,.80) 0%, rgba(20,17,15,.64) 42%, rgba(20,17,15,.26) 78%, rgba(20,17,15,.40) 100%)",
           }}
         />
 
@@ -367,7 +374,9 @@ export default function AcademyPage() {
             >
               遊んで学ぶ生成AI
             </p>
-            <p style={{ fontSize: 15.5, lineHeight: 1.95, color: "rgba(251,247,239,.86)", margin: "0 0 18px", maxWidth: 520 }}>
+            {/* 暗幕を薄くしたぶん、文字側で読ませる。明るい服や光の上に
+                乗っても輪郭が残るよう、影を1枚だけ敷いてある */}
+            <p style={{ fontSize: 15.5, lineHeight: 1.95, color: "rgba(251,247,239,.9)", margin: "0 0 18px", maxWidth: 520, textShadow: "0 1px 12px rgba(0,0,0,.72)" }}>
               「AIって、けっきょく何ができて、何がダメなの？」——その疑問に<b style={{ color: "var(--paper-50)" }}>「読む」ではなく「遊ぶ」で答える</b>
               学習アプリです。相棒を選んで、職種を選んだら、あとは1日5分。
               <b style={{ color: "var(--paper-50)" }}>一緒に学ぶ相棒も、その相棒が立つステージも、遊びながら増えていきます。</b>
