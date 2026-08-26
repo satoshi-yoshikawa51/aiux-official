@@ -3,6 +3,7 @@ import { Footer, PAGE } from "../site-chrome";
 import { Badge, Button } from "../ds";
 import { ShareRow } from "../site-ui";
 import { Reveal, ScrollStage, StickyCta, TryPhone } from "./parts";
+import { APP_STORE_URL, AppStoreBadge } from "./store";
 
 /* ============================================================
    スマホアプリ「COMIXAI アカデミー」の紹介ページ（宣伝LP）。
@@ -27,14 +28,10 @@ import { Reveal, ScrollStage, StickyCta, TryPhone } from "./parts";
 
    ▍配信状況は APP_STORE_URL の1行で切り替える
    審査中はダウンロードボタンを出せないので、URLが null のあいだは
-   「審査中」の札に化ける。公開されたらURLを入れるだけでよい
-   （CTAが2箇所あるので、定数1個に寄せてある）。
+   「審査中」の札に化ける。公開されたらURLを入れるだけでよい。
+   **URLと公式バッジは ./store.tsx が持っている**（トップページの帯も
+   同じものを読むため）。
    ============================================================ */
-
-/* App Storeの配信URL。審査を通ったらここに入れる（例:
-   "https://apps.apple.com/jp/app/id0000000000"）。null のあいだは
-   ページ全体が「まもなく公開」の見え方になる */
-const APP_STORE_URL: string | null = null;
 
 /* ▍MVのスマホの中に入れる、さわれるWeb版
 
@@ -220,10 +217,11 @@ function Cta({ place, dark = false }: { place: string; dark?: boolean }) {
   if (APP_STORE_URL) {
     return (
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+        {/* ▍ここはサイトのボタンを使わない
+            Apple公式のバッジをそのまま置く決まりなので、太い黒枠も
+            ポップシャドウも足さない（→ ./store.tsx） */}
         <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }} data-ga="academy_install" data-ga-place={place}>
-          <Button variant={dark ? "yellow" : "primary"} size="lg" iconLeft={<i className="ph-bold ph-apple-logo" />} iconRight={<i className="ph-bold ph-arrow-up-right" />}>
-            App Store でダウンロード
-          </Button>
+          <AppStoreBadge height="clamp(48px, 6vw, 56px)" />
         </a>
         <span style={{ fontFamily: "var(--font-hand)", fontSize: 14, color: note }}>iPhone / iPad・無料</span>
         <AndroidNote tone={note} />
@@ -708,9 +706,7 @@ export default function AcademyPage() {
                 data-ga="academy_install"
                 data-ga-place="sticky"
               >
-                <Button variant="yellow" size="md" iconLeft={<i className="ph-bold ph-apple-logo" />}>
-                  ダウンロード
-                </Button>
+                <AppStoreBadge height={42} />
               </a>
             ) : (
               <span

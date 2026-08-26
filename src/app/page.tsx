@@ -32,6 +32,7 @@ import { track } from "./ga";
 import { EVENTS, dateLabel, isPast } from "./calendar/events";
 import newsJson from "./calendar/news-headlines.json";
 import { PAGE, Nav, Footer } from "./site-chrome";
+import { APP_STORE_URL, AppStoreBadge } from "./academy/store";
 
 const HERO_INTRO =
   "株式会社ニジボックス室長・吉川聡史。マンガとUXの力で、むずかしいAIを「現場で使える武器」に変えていきます。";
@@ -258,57 +259,81 @@ function SectionHead({ kicker, title, hand }: { kicker: React.ReactNode; title: 
 /* ═══════════════ Claude教習所バナー（トップの特設導線） ═══════════════ */
 /* ═══════════════ スマホアプリの帯 ═══════════════ */
 /* 教習所バナー（下）と並ぶので、地の色を黒にして別物に見せている。
-   配信状況の文言は /academy 側の APP_STORE_URL と一対——
-   ストアに並んだら、ここの「まもなく公開」も直すこと */
+
+   ▍名前はロゴが言う
+   ロゴを入れたので、本文から「学習アプリ『COMIXAI アカデミー』」を外した。
+   同じ名前が2つ並ぶだけになるため（/academy のMVと同じ考え）。
+
+   ▍カード全体のリンクをやめた
+   App Storeのバッジを中に置くので、外側を <a> で包むと入れ子になる。
+   行き先が2つ（ストアと紹介ページ）できたぶん、それぞれを押させる。
+
+   配信状況は /academy と同じ ./academy/store.tsx の APP_STORE_URL を
+   見ている。**ここに文言を直書きしない** */
 function AcademyBanner() {
   return (
     <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "36px 0 0" }}>
-      <a
-        href="/academy"
-        style={{ textDecoration: "none", color: "inherit", display: "block" }}
-        data-ga="cta_click"
-        data-ga-place="top-academy-banner"
+      <div
+        className="academy-banner"
+        style={{
+          display: "grid", gridTemplateColumns: "minmax(0, 11fr) minmax(0, 9fr)", alignItems: "center",
+          border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18, overflow: "hidden",
+          background: "var(--ink-900)", boxShadow: "var(--shadow-pop)",
+          backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.3px, transparent 1.4px)",
+          backgroundSize: "14px 14px",
+        }}
       >
-        <div
-          className="academy-banner"
-          style={{
-            display: "grid", gridTemplateColumns: "minmax(0, 11fr) minmax(0, 9fr)", alignItems: "center",
-            border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18, overflow: "hidden",
-            background: "var(--ink-900)", boxShadow: "var(--shadow-pop)",
-            backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.3px, transparent 1.4px)",
-            backgroundSize: "14px 14px",
-          }}
-        >
-          <div style={{ padding: "28px 28px 26px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <span style={{ background: "var(--yellow-400)", color: "var(--ink-900)", borderRadius: 999, padding: "3px 12px", fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 800, letterSpacing: ".08em" }}>
-                APP
-              </span>
+        <div style={{ padding: "28px 28px 26px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 12 }}>
+          <a href="/academy" data-ga="cta_click" data-ga-place="top-academy-banner" style={{ display: "block", textDecoration: "none" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/academy/logo.webp"
+              alt="COMIXAI アカデミー"
+              width={1120}
+              height={403}
+              style={{ width: "100%", maxWidth: "clamp(210px, 26vw, 300px)", height: "auto", display: "block", filter: "drop-shadow(0 6px 16px rgba(0,0,0,.55))" }}
+            />
+          </a>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3vw,32px)", lineHeight: 1.3, color: "var(--paper-50)" }}>
+            3Dの相棒と、遊んで学ぶ生成AI。
+          </div>
+          <p style={{ fontSize: 14, lineHeight: 2, color: "var(--paper-200)", margin: 0 }}>
+            5コース17レッスン、9種のミニゲーム、AIのプロンプト添削つき。
+            <b style={{ color: "var(--paper-50)" }}>登録不要・広告なし・完全無料</b>で、1日5分から。
+          </p>
+          <div className="academy-banner-cta" style={{ marginTop: 4, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            {APP_STORE_URL ? (
+              <a
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none" }}
+                data-ga="academy_install"
+                data-ga-place="top-academy-banner"
+              >
+                <AppStoreBadge height={50} />
+              </a>
+            ) : (
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.14em", color: "var(--yellow-400)", fontWeight: 700 }}>
                 iPhone / iPad — まもなく公開
               </span>
-            </div>
-            <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(24px,3.2vw,34px)", lineHeight: 1.3, color: "var(--paper-50)" }}>
-              3Dの相棒と、遊んで学ぶ生成AI。
-            </div>
-            <p style={{ fontSize: 14, lineHeight: 2, color: "var(--paper-200)", margin: 0 }}>
-              学習アプリ「COMIXAI アカデミー」。5コース17レッスン、9種のミニゲーム、AIのプロンプト添削つき。
-              <b style={{ color: "var(--paper-50)" }}>登録不要・広告なし・完全無料</b>で、1日5分から。
-            </p>
-            <div style={{ marginTop: 4 }}>
-              <Button variant="yellow" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+            )}
+            <a href="/academy" style={{ textDecoration: "none" }} data-ga="cta_click" data-ga-place="top-academy-banner">
+              <Button variant="yellow" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
                 アプリを見る
               </Button>
-            </div>
+            </a>
           </div>
+        </div>
+        <a className="academy-banner-shot" href="/academy" data-ga="cta_click" data-ga-place="top-academy-banner" style={{ display: "block" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/academy/shots/home.webp"
             alt="COMIXAI アカデミーのホーム画面。桜並木の舞台に3Dアバターが立っている"
             style={{ width: "100%", maxWidth: 210, height: "auto", objectFit: "contain", display: "block", margin: "22px auto -2px", borderRadius: "18px 18px 0 0", border: "var(--bw-line) solid var(--paper-50)", borderBottom: "none" }}
           />
-        </div>
-      </a>
+        </a>
+      </div>
     </section>
   );
 }
