@@ -49,6 +49,7 @@ import {
   type StageTheme,
 } from '@/data/gacha';
 import { getExtra } from '@/data/extras';
+import { DEMO } from '@/lib/demo';
 import { playSound } from '@/lib/sound';
 import { useProgress, type SpinResult } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
@@ -408,8 +409,16 @@ export default function GachaScreen() {
         </Text>
       </View>
 
-      {/* 何がどれだけ出るのか（→ 下の OddsBox） */}
-      <OddsBox />
+      {/* 何がどれだけ出るのか（→ 下の OddsBox）。
+          体験モードは「かんばん」しか出ないので、本物の割合を出すと嘘になる
+          （→ lib/demo.ts）。表そのものを引っ込めて、一言に差し替える */}
+      {DEMO ? (
+        <Text style={[F.tiny, { marginTop: 6 }]}>
+          体験版では「かんばん」だけが出ます。全景品と提供割合はアプリの中に。
+        </Text>
+      ) : (
+        <OddsBox />
+      )}
 
       {/* 当てた景品についてくる遊び（→ components/extra-list.tsx）。
           当てた直後にここで気づけるよう、ガチャの中にも置いておく */}

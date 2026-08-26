@@ -26,6 +26,7 @@ import {
 } from '@/data/avatars';
 import { DEFAULT_THEME_ID, THEMES } from '@/data/gacha';
 import { getRole } from '@/data/roles';
+import { DEMO } from '@/lib/demo';
 import { useProgress, useStats } from '@/store/progress';
 import { BW, C, F, FONT, R, S, T } from '@/theme';
 
@@ -257,12 +258,18 @@ export default function SettingsScreen() {
         </Row>
       </Panel>
 
-      {/* ▍記録の持ち出し（→ components/save-transfer.tsx）
-           消す口（下の黒いカセット）の**すぐ上**に置く。順番が逆だと、
+      {/* ▍記録の持ち出しと、消す口
+           体験モード（LPの小窓）では両方とも出さない。**そもそも記録を
+           残していない**ので、持ち出す物も消す物も無い（→ lib/demo.ts）。
+           ここに置いたままだと、書き出しても空、消しても何も起きない
+           ボタンが2つ並ぶことになる。
+
+           持ち出しは、消す口の**すぐ上**に置く。順番が逆だと、
            消してから「戻せた」と知ることになる */}
-      <SaveTransfer />
+      {!DEMO ? <SaveTransfer /> : null}
 
       {/* 記録 */}
+      {!DEMO ? (
       <Cassette>
         <Text style={[F.h1, { color: C.paper50 }]}>記録</Text>
         <Text style={{ fontFamily: FONT.mono, fontSize: 12, color: C.paper100, lineHeight: 20 }}>
@@ -305,6 +312,7 @@ export default function SettingsScreen() {
           </Tap>
         )}
       </Cassette>
+      ) : null}
 
       {/* リンク */}
       <Card>
@@ -319,10 +327,14 @@ export default function SettingsScreen() {
             TestFlightは古いビルドが端末に残ることがあり、「直したはずが直って
             いない」の切り分けが番号なしでは成立しない。three の版も添える
             （0.162固定 → CLAUDE.md。ここが r163 以上なら固定が外れている） */}
-        <Text style={F.tiny}>
-          バージョン {Constants.expoConfig?.version ?? '?'}（ビルド{' '}
-          {Constants.nativeBuildVersion ?? 'Web'} ・ three r{THREE_REVISION}）
-        </Text>
+        {/* 体験モードでは出さない。切り分けのための番号であって、
+            触りに来た人に見せる情報ではない（→ lib/demo.ts） */}
+        {!DEMO ? (
+          <Text style={F.tiny}>
+            バージョン {Constants.expoConfig?.version ?? '?'}（ビルド{' '}
+            {Constants.nativeBuildVersion ?? 'Web'} ・ three r{THREE_REVISION}）
+          </Text>
+        ) : null}
       </Card>
     </Screen>
   );

@@ -128,6 +128,7 @@ GitHub Actions が外部から取得してコミットする：
 - `/news`（Prism）と `/zukan` は `robots: { index: false }`。`sitemap.ts` にも意図的に入れていない。
 - `PrismNews/` はサイト本体とは無関係の SwiftUI iPhoneアプリ（Xcodeで開くもの）。Webのビルド対象ではない。
 - `ComixaiAcademy/` は Expo製の学習アプリ。**サイトとは別プロジェクト**で、検証も別（`npm run typecheck` と `npx expo export --platform web`）。触るときは `ComixaiAcademy/CLAUDE.md` と `ComixaiAcademy/README.md` を読む。とくに**3Dアバターの手当て**は、道具の順番と「試して駄目だったやり方」がREADMEにまとまっている。
+- `/academy` のメインビジュアルは、アプリのWeb版を `?demo=1` で iframe に入れている（→ `ComixaiAcademy/src/lib/demo.ts`）。体験モードの決まりごと（1本目だけ／ガチャはかんばん／記録を残さない）はそのファイル1つに集めてある。**宣伝用の別ビルドは作らない。**
 
 ## Git
 

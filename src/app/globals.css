@@ -503,6 +503,43 @@ img {
   }
 }
 
+/* LP(/academy)の特徴カード：スマホでは縦積みにして、
+   実画面は絵の上に本文を積む。**横幅は半分までに抑える**——縦長の絵を
+   幅いっぱいで出すと、1枚で画面がほぼ埋まって本文まで指が届かない */
+@media (max-width: 720px) {
+  .academy-feat {
+    flex-direction: column !important;
+    gap: 14px !important;
+    align-items: stretch !important;
+  }
+  .academy-feat > div:first-child {
+    width: min(48%, 168px) !important;
+    flex: none !important;
+    align-self: center !important;
+  }
+  /* 貼りつく帯は、狭い画面ではアプリ名を落としてボタンだけ残す */
+  .academy-bar-name {
+    display: none !important;
+  }
+  /* ▍スマホでは、見出しまわりを中央に寄せる
+     絵が中央に立っているのに、その下の見出しだけ左端から始まると
+     カードの重心がずれて見える。**本文だけは左のまま**——
+     10行の日本語を中央揃えにすると、行の頭が毎行ずれて読みにくい */
+  .academy-head,
+  .academy-feat-copy,
+  .academy-end-card {
+    text-align: center;
+  }
+  .academy-head > div:last-child,
+  .academy-end-card > div {
+    justify-content: center;
+  }
+  .academy-feat-copy p,
+  .academy-end-card p {
+    text-align: left;
+  }
+}
+
 /* ニュースのサムネイル：スマホでは少し小さく */
 @media (max-width: 720px) {
   .news-thumb {
@@ -536,6 +573,75 @@ img {
   .kyoshujo-banner img {
     order: -1;
     max-height: 220px;
+  }
+  /* LP(/academy)のMV。文と実画面を縦に積む。
+     縦に積むと、下のスマホだけが中央・文は左端という**軸が2本ある**
+     状態になる。看板なので、ここは全部まん中に揃える */
+  .academy-mv {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+  /* ▍背景動画は上のほうだけ
+
+     縦画面いっぱいに敷くと、下に置いたスマホの実画面と人物の顔が
+     重なって、**どちらも見えなくなる**。上6割で切って、下は地の黒に
+     溶かす。切り口が線で出ないよう、マスクでなだらかに消す */
+  .academy-mv-video {
+    /* 実画面（下に置いたスマホ）の上端は、どの幅でもMVの高さの
+       44〜45%あたりに来る。そこで消え切るように、46%で切って
+       手前からなだらかに薄くする */
+    height: 46% !important;
+    bottom: auto !important;
+    -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
+  }
+  /* 暗幕も縦向きに。下へ行くほど濃くして、動画が消える所と
+     地の黒との継ぎ目を隠す */
+  .academy-mv-veil {
+    background: linear-gradient(
+      to bottom,
+      rgba(20, 17, 15, 0.62) 0%,
+      rgba(20, 17, 15, 0.48) 30%,
+      rgba(20, 17, 15, 0.82) 44%,
+      var(--ink-900) 56%
+    ) !important;
+  }
+  .academy-mv-copy h1 img,
+  .academy-mv-copy p {
+    margin-inline: auto;
+  }
+  /* バッジの列とCTAの列（どちらも直下のflex）を中央へ */
+  .academy-mv-copy > div {
+    justify-content: center;
+  }
+  /* スマホアプリの帯。中身が縦長の実画面なので、教習所バナーの
+     max-height:220 で潰すと何の画面か読めなくなる。幅で決める。
+     **実画面の側だけを名指しする**——帯にはロゴの画像も入っていて、
+     `.academy-banner img` で書くとロゴまで165pxに潰れる */
+  .academy-banner {
+    grid-template-columns: 1fr !important;
+  }
+  .academy-banner-shot {
+    order: -1;
+  }
+  /* ▍看板はまん中に
+     縦積みでは実画面が中央に来るので、ロゴと見出しだけ左端から
+     始まると軸が2本に見える。**本文とボタンは左のまま**——
+     長い日本語を中央揃えにすると行の頭が毎行ずれて読みにくい */
+  .academy-banner-logo img {
+    margin-inline: auto;
+  }
+  .academy-banner-lead {
+    text-align: center;
+  }
+  .academy-banner-shot img {
+    max-width: 165px !important;
+    margin-top: 24px !important;
+  }
+  /* 実画面は1枚だけ。2枚並べる幅がなく、小さくすると
+     どちらも何の画面か読めなくなる */
+  .academy-banner-shot-back {
+    display: none !important;
   }
   .article-row {
     grid-template-columns: 120px 1fr !important;

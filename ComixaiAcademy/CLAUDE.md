@@ -26,6 +26,39 @@ localStorage の `comixai-academy-v1` に進捗を流し込めば、どの画面
 **Claude Codeのサンドボックスから `*.vercel.app` には到達できない**ので、
 実機での見え方はユーザーに頼む（どこを見てほしいかを具体的に書く）。
 
+## パッチを書き換えたら、Vercelのキャッシュを疑う
+
+`patches/` の中身を更新したあと、Vercelのデプロイが
+
+```
+**ERROR** Failed to apply patch for package gpt-tokenizer
+Error: Command "npm install" exited with 1
+```
+
+で落ち続けたことがある（2026-08-22〜23）。**ソースをいくら直しても直らない。**
+
+Vercelの既定は `npm install` で、**ビルドキャッシュに残った `node_modules` を
+そのまま使い回す**。パッチを書き換えても、キャッシュの中には**古いパッチが
+当たった状態のパッケージ**が残っていて、バージョンが同じなので npm は
+入れ替えない。その上から新しいパッチを当てにいって落ちる。
+
+`vercel.json` の `installCommand` を **`npm ci` に固定してある**（入れる前に
+`node_modules` を消すので、この詰まり方をしない）。**戻さないこと。**
+それでも落ちるときは、Vercelの画面から
+**Redeploy →「Use existing Build Cache」のチェックを外す**。
+
+**パッチを弱めて緑にする道は取らない。** あのパッチはiOSのHermesが起動4秒で
+落ちるのを止めているもので、当たらないまま通すほうが危ない（下の
+「巨大なテーブルを〜」を参照）。
+
+## ComixaiAcademy/ を触らないコミットでは、アプリはビルドされない
+
+`vercel.json` の `ignoreCommand`（`git diff --quiet HEAD^ HEAD -- .`）が、
+**head コミット1つだけ**を見る。`ComixaiAcademy/` を直したコミットと、
+サイト側だけのコミットをまとめて push すると、head がサイト側だったときに
+**アプリのビルドは丸ごと飛ぶ**（「Canceled by Ignored Build Step」）。
+アプリ側の修正を確かめたいときは、**それが head になるように push する**。
+
 ## 3Dアバターを触るとき
 
 **必ず `README.md` の「アバターの見た目を直す（Tripo製モデルの手当て）」を読む。**

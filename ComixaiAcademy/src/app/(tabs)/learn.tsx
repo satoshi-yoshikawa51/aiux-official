@@ -24,6 +24,7 @@ import {
 import { COURSES } from '@/data/courses';
 import { ownedExtras } from '@/components/extra-list';
 import { getRole } from '@/data/roles';
+import { DEMO, DEMO_LESSON_ID } from '@/lib/demo';
 import { useProgress, useReview } from '@/store/progress';
 import { C, F, FONT, R, S, T } from '@/theme';
 
@@ -176,10 +177,15 @@ export default function LearnScreen() {
                 /* 上のカセットと同じレッスンには印を付ける。
                    黄色は使わない（1画面に1つ）ので、赤の枠で示す。
                    案内中だけは、この上に黄色い枠が重なる（→ Spotlight） */
-                const isNext = next?.lesson.id === lesson.id;
+                /* 体験モード（LPの小窓）で開けるのは1本目だけ。
+                   ここは見た目の鍵で、実際に止めているのは
+                   app/lesson/[id].tsx（→ lib/demo.ts） */
+                const locked = DEMO && lesson.id !== DEMO_LESSON_ID;
+                const isNext = next?.lesson.id === lesson.id && !locked;
                 const card = (
                   <PressCard
                     selected={isNext}
+                    disabled={locked}
                     onPress={() => router.push(`/lesson/${lesson.id}`)}
                     style={isNext ? undefined : { backgroundColor: done ? T.sunk : T.surface }}>
                     <Row style={{ justifyContent: 'space-between' }}>
@@ -195,7 +201,7 @@ export default function LearnScreen() {
                         </View>
                       </Row>
                       <Icon
-                        name={perfect ? 'perfect' : done ? 'check' : 'play'}
+                        name={locked ? 'lock' : perfect ? 'perfect' : done ? 'check' : 'play'}
                         size={17}
                         color={isNext ? T.accent : done ? T.ok : T.muted}
                       />
@@ -224,7 +230,7 @@ export default function LearnScreen() {
                 const examAllow = Math.max(1, Math.round(examTotal * 0.2));
                 return (
                   <PressCard
-                    disabled={!cleared}
+                    disabled={!cleared || DEMO}
                     onPress={() => router.push(`/exam/${course.id}`)}
                     style={{ backgroundColor: examPassed ? T.sunk : T.surface }}>
                     <Row style={{ justifyContent: 'space-between' }}>
@@ -233,7 +239,9 @@ export default function LearnScreen() {
                         <View style={{ flex: 1, gap: 2 }}>
                           <Text style={[F.strong, { fontSize: 14.5 }]}>修了試験</Text>
                           <Text style={{ fontFamily: FONT.mono, fontSize: 11, color: T.muted }}>
-                            {examPassed
+                            {DEMO
+                              ? 'アプリで受けられます'
+                              : examPassed
                               ? '合格ずみ ・ 受け直せます'
                               : cleared
                                 ? `全${examTotal}問 ・ ${examTotal - examAllow}問正解で合格`
@@ -242,9 +250,9 @@ export default function LearnScreen() {
                         </View>
                       </Row>
                       <Icon
-                        name={examPassed ? 'perfect' : cleared ? 'play' : 'lock'}
+                        name={DEMO ? 'lock' : examPassed ? 'perfect' : cleared ? 'play' : 'lock'}
                         size={17}
-                        color={examPassed ? T.ok : cleared ? T.accent : T.muted}
+                        color={!DEMO && examPassed ? T.ok : !DEMO && cleared ? T.accent : T.muted}
                       />
                     </Row>
                   </PressCard>

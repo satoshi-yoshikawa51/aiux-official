@@ -34,5 +34,6 @@ gcp-*.json
 *.tsbuildinfo
 next-env.d.ts
 
-# 4コマのショート動画（生成物。アップロードしたら消してよい）
+# ショート動画（生成物。アップロードしたら消してよい）
 /yonkoma-videos/
+/academy-video/
