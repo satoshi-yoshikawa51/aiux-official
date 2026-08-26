@@ -294,12 +294,16 @@ function AcademyBanner() {
               style={{ width: "100%", maxWidth: "clamp(210px, 26vw, 300px)", height: "auto", display: "block", filter: "drop-shadow(0 6px 16px rgba(0,0,0,.55))" }}
             />
           </a>
+          {/* ▍折り返す場所を「、」に固定する
+              放っておくと日本語はどこでも折れるので、「リリー／ス！」と
+              語の途中で切れる。読点の前後を塊にして、そこだけで折る */}
           <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3vw,32px)", lineHeight: 1.3, color: "var(--paper-50)" }}>
-            3Dの相棒と、遊んで学ぶ生成AI。
+            <span style={{ whiteSpace: "nowrap" }}>AIを遊んで学べるアプリ、</span>
+            <span style={{ whiteSpace: "nowrap" }}>リリース！</span>
           </div>
           <p style={{ fontSize: 14, lineHeight: 2, color: "var(--paper-200)", margin: 0 }}>
             5コース17レッスン、9種のミニゲーム、AIのプロンプト添削つき。
-            <b style={{ color: "var(--paper-50)" }}>登録不要・広告なし・完全無料</b>で、1日5分から。
+            <b style={{ color: "var(--paper-50)", whiteSpace: "nowrap" }}>登録不要・広告なし・完全無料</b>で、1日5分から。
           </p>
           <div className="academy-banner-cta" style={{ marginTop: 4, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             {APP_STORE_URL ? (
