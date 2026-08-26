@@ -284,7 +284,7 @@ function AcademyBanner() {
         }}
       >
         <div style={{ padding: "28px 28px 26px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 12 }}>
-          <a href="/academy" data-ga="cta_click" data-ga-place="top-academy-banner" style={{ display: "block", textDecoration: "none" }}>
+          <a className="academy-banner-logo" href="/academy" data-ga="cta_click" data-ga-place="top-academy-banner" style={{ display: "block", textDecoration: "none" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/academy/logo.webp"
@@ -297,7 +297,7 @@ function AcademyBanner() {
           {/* ▍折り返す場所を「、」に固定する
               放っておくと日本語はどこでも折れるので、「リリー／ス！」と
               語の途中で切れる。読点の前後を塊にして、そこだけで折る */}
-          <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3vw,32px)", lineHeight: 1.3, color: "var(--paper-50)" }}>
+          <div className="academy-banner-lead" style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(22px,3vw,32px)", lineHeight: 1.3, color: "var(--paper-50)" }}>
             <span style={{ whiteSpace: "nowrap" }}>AIを遊んで学べるアプリ、</span>
             <span style={{ whiteSpace: "nowrap" }}>リリース！</span>
           </div>

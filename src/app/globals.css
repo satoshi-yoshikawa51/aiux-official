@@ -624,6 +624,16 @@ img {
   .academy-banner-shot {
     order: -1;
   }
+  /* ▍看板はまん中に
+     縦積みでは実画面が中央に来るので、ロゴと見出しだけ左端から
+     始まると軸が2本に見える。**本文とボタンは左のまま**——
+     長い日本語を中央揃えにすると行の頭が毎行ずれて読みにくい */
+  .academy-banner-logo img {
+    margin-inline: auto;
+  }
+  .academy-banner-lead {
+    text-align: center;
+  }
   .academy-banner-shot img {
     max-width: 165px !important;
     margin-top: 24px !important;
