@@ -5,8 +5,15 @@
      node scripts/generate-academy-og.mjs
      （npm run og:academy でも実行できる）
 
-   出力は public/og/academy.png。**PNGのまま置く**——WebPを解釈しない
+   出力は public/og/academy-v2.png。**PNGのまま置く**——WebPを解釈しない
    SNSがあるため（→ scripts/optimize-images.mjs の注意2）。
+
+   ▍絵を作り直したら、ファイル名も変える
+   SNS（X・LINE・Slack等）はOGP画像を**URL単位でキャッシュする**。
+   同じ名前のまま中身を差し替えても、数日は古い絵が出続ける。
+   名前を変えれば、キャッシュに関係なく新しい絵が読まれる。
+   古い名前（academy.png）にも同じ絵を書いておく——すでにシェア
+   された投稿が、キャッシュ切れのあとに404にならないように。
 
    絵づくりは用語集のOGP（generate-og-images.mjs）と同じ作法で、
    サイトのフォントとデザイントークンをそのまま持ってきて
@@ -20,7 +27,7 @@
 
    スクショを撮り直したら `npm run academy:shots` のあとに流す。
    ============================================================ */
-import { mkdir, readFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile } from "node:fs/promises";
 import { execSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -142,7 +149,9 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 await mkdir(OUT_DIR, { recursive: true });
 await page.setContent(html, { waitUntil: "networkidle" });
 await page.evaluate(() => document.fonts.ready);
-await page.screenshot({ path: path.join(OUT_DIR, "academy.png") });
+/* 新しい名前（metadataが指す先）と、古い名前（既存のシェア向け）の両方へ */
+await page.screenshot({ path: path.join(OUT_DIR, "academy-v2.png") });
+await copyFile(path.join(OUT_DIR, "academy-v2.png"), path.join(OUT_DIR, "academy.png"));
 await browser.close();
 
-console.log("✔ public/og/academy.png");
+console.log("✔ public/og/academy-v2.png（+ 旧名 academy.png にも同じ絵）");

@@ -70,7 +70,8 @@ export const metadata: Metadata = {
     description: "1日5分。相棒を選んで、職種を選んで、あとは遊ぶだけ。登録不要・広告なし・完全無料の学習アプリ。",
     url: "/academy",
     locale: "ja_JP",
-    images: [{ url: "/og/academy.png", width: 1200, height: 630, alt: "COMIXAI アカデミー" }],
+    /* 絵を作り直したら**ファイル名も変える**（SNSはURL単位でキャッシュする → scripts/generate-academy-og.mjs） */
+    images: [{ url: "/og/academy-v2.png", width: 1200, height: 630, alt: "COMIXAI アカデミー" }],
   },
   twitter: { card: "summary_large_image" },
 };
