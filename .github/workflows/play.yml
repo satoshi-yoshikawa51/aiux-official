@@ -1,0 +1,98 @@
+# ComixaiAcademy を EASでビルドして Google Play へ出す（Android版）。
+#
+# ▍testflight.yml のAndroid版
+# 手元がWindowsでもストアに出せるよう、ビルドはEAS（Expoのクラウド）で走る。
+# 署名鍵（キーストア）はEASのサーバーが作って預かる——iOSと違って
+# Androidは**全アップデートを同じ鍵で署名する必要がある**ので、
+# 毎回作り直す方式は使えない。EAS預かりなら勝手に使い回してくれる。
+#
+# ▍初回だけ手作業が要る（Playの仕様）
+# Google Play APIは「アプリの器の作成」と「最初のAABのアップロード」が
+# できない。初回はこのワークフローを「提出までやるか」を外して実行し、
+# Actionsの成果物（app-release.aab）を落として、Play Consoleで
+# アプリを作成 → 内部テストに手でアップロードする。2回目からは
+# 提出までここで自動化できる。
+#
+# ▍動かすのに必要なリポジトリSecrets
+#   EXPO_TOKEN                … TestFlight用と同じもの（設定済み）
+#   PLAY_SERVICE_ACCOUNT_JSON … Google CloudのサービスアカウントのJSONキー全文。
+#                               提出（2回目以降）にだけ要る。ビルドだけなら不要。
+#                               作り方: Play Console → 設定 → APIアクセス から
+#                               Google Cloudプロジェクトを紐付け → サービスアカウント作成 →
+#                               鍵(JSON)を発行 → Play Console側で「リリースの管理」権限を付与
+#
+# 手動実行専用（Actionsタブ →「Google Playへ提出」→ Run workflow）。
+name: Google Playへ提出
+
+on:
+  workflow_dispatch:
+    inputs:
+      submit:
+        description: 'ビルド後にGoogle Playの内部テストへ提出する（初回は外す）'
+        type: boolean
+        default: false
+
+# 同時に2本走ると、バージョンコードの自動採番がぶつかる
+concurrency:
+  group: play
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90 # EASの順番待ち込み。ふだんは15〜30分
+    defaults:
+      run:
+        working-directory: ComixaiAcademy
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ComixaiAcademy/package-lock.json
+
+      - name: 依存を入れる
+        run: npm ci
+
+      - name: EASプロジェクトに紐付け
+        # 初回はEXPO_TOKENの持ち主のアカウントにプロジェクトを作る。
+        # app.json にはコミットされない（ランナー内だけ）ので、毎回やる
+        run: npx --yes eas-cli@latest init --force --non-interactive
+
+      - name: Androidをビルド（AAB）
+        # キーストアが無い初回は、EASが作ってサーバーに預ける
+        # （--non-interactive でも作られる。以後の全ビルドで同じ鍵が使われる）
+        run: npx --yes eas-cli@latest build --platform android --profile production --non-interactive --wait --json > "$RUNNER_TEMP/build.json"
+
+      - name: AABを成果物として置く
+        # 初回の手動アップロード用に、ActionsのページからAABを落とせるようにする。
+        # ビルド結果JSONから成果物URLを拾って取得する
+        run: |
+          URL=$(node -e "const b=require(process.env.BUILD_JSON); console.log((Array.isArray(b)?b[0]:b).artifacts.buildUrl)")
+          echo "成果物: $URL"
+          curl -fsSL "$URL" -o "$RUNNER_TEMP/app-release.aab"
+        env:
+          BUILD_JSON: ${{ runner.temp }}/build.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: ${{ runner.temp }}/app-release.aab
+          retention-days: 14
+
+      - name: サービスアカウントの鍵を置く
+        if: ${{ inputs.submit }}
+        # printf を使う——echo だとJSON内の改行が環境によって化ける
+        run: |
+          mkdir -p credentials
+          printf '%s' "$PLAY_SA_JSON" > credentials/play-service-account.json
+        env:
+          PLAY_SA_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+
+      - name: Google Play（内部テスト）へ提出
+        if: ${{ inputs.submit }}
+        run: npx --yes eas-cli@latest submit --platform android --latest --non-interactive
