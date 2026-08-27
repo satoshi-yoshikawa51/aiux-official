@@ -1,118 +1,118 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-25T21:56:27.804Z",
+  "updatedAt": "2026-08-27T01:01:56.742Z",
   "items": [
     {
-      "title": "アップル、M6／M5 Pro搭載の新「Mac mini」発表--AI性能4倍 14万9800円〜で9月22日発売",
-      "url": "https://japan.cnet.com/article/35251907/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-25T19:42:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/26/7ee1206a8a82d2943d15ec2510ad14f5/Apple-Mac-mini-hero-260825_big.jpg.large.jpeg"
-    },
-    {
-      "title": "Claude Cowork finally remembers what you told the app in chat",
-      "url": "https://techcrunch.com/2026/08/25/claude-cowork-finally-remembers-what-you-told-the-app-in-chat/",
+      "title": "Viral AI startup Instinct has raised $350 million at a $2.5 billion valuation",
+      "url": "https://techcrunch.com/2026/08/26/viral-ai-startup-instinct-has-raised-350-million-at-a-2-5-billion-valuation/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-25T17:50:33.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Claude-AI-app.jpg?resize=1200,842"
+      "date": "2026-08-27T00:24:57.000Z",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2255991416.jpg?resize=1200,795"
     },
     {
-      "title": "突然登場のM6搭載の「Mac mini」、AI性能は最大4倍アップ＆2.5GbEを標準サポート",
-      "url": "https://ascii.jp/elem/000/004/429/4429335/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-25T14:30:00.000Z",
-      "image": "https://ascii.jp/img/2026/08/25/4517236/xl/015be4fe1a33cd4f.jpg?20200122"
-    },
-    {
-      "title": "OpenAI says its Jalapeño chip can power faster AI responses than the competition",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/984290/openai-jalapeno-ai-chip-benchmarks",
+      "title": "Nvidia is about to be a hundred-billion-dollar-a-quarter company",
+      "url": "https://www.theverge.com/tech/985387/nvidia-hundred-billion-dollar-quarterly-revenue",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-08-25T14:00:00.000Z",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Jalapeno-chip-final.jpeg?quality=90&strip=all&crop=0%2C15.095986038394%2C100%2C69.808027923211&w=1200"
+      "date": "2026-08-26T21:40:53.000Z",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/06/STK083_NVIDIA_2.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "政府、AI事業者向け「知財保護ルール」策定 対象範囲・運用方針は？",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/25/2000000767/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-25T10:28:22.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/25/2000000767/10003713/2048"
-    },
-    {
-      "title": "OpenAI subpoenaed by Alabama AG over Hugging Face hack",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-25T09:15:03.000Z",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK155_OPEN_AI_CVirginia_C-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "シャープ、対話型AIロボ「ポケとも」に新モデル あえて“全肯定しないキャラ”に 「暇だなー」と話しかけると……",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/25/2000000747/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-25T06:56:11.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/25/2000000747/10003637/2048"
-    },
-    {
-      "title": "エージェント型AIの導入拡大に必要なのは、業務プロセスと人材の再構築",
-      "url": "https://japan.zdnet.com/article/35251877/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-25T00:14:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/25/233c4e8d74a83faf13ee77b97afb6141/gettyimages-2288335595_1280.jpg"
-    },
-    {
-      "title": "Valor, Point72 back General Intuition at $6B valuation as AI startup pushes into robotics",
-      "url": "https://techcrunch.com/2026/08/24/valor-point72-back-general-intuition-at-6b-valuation-as-ai-startup-pushes-into-robotics/",
+      "title": "Anthropic continues compute-gobbling streak in $45B deal with Nscale",
+      "url": "https://techcrunch.com/2026/08/26/anthropic-continues-compute-gobbling-streak-in-45-billion-deal-with-nscale/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-24T15:24:18.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2019/03/robocash.jpg?resize=1200,849"
+      "date": "2026-08-26T21:37:39.000Z",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/Claude-photo.jpg?w=1024"
     },
     {
-      "title": "Hugging Face reportedly in talks to be acquired for $13B",
-      "url": "https://techcrunch.com/2026/08/24/hugging-face-reportedly-in-talks-to-be-acquired-for-13b/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-24T13:47:26.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/hugging-face-logo-smartphone.jpg?resize=1200,800"
-    },
-    {
-      "title": "ランボルギーニのSDV開発やAI設計改善も、PTCが“アジア初”デモ機公開",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2608/25/news043.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-24T23:15:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2608/25/cover_news043.jpg"
-    },
-    {
-      "title": "建築業でも「Claudeの有料導入」が急増 AI導入レベルが上がった企業を悩ます「新たな壁」とは",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/25/news041.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-24T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2608/25/cover_news041.jpg"
-    },
-    {
-      "title": "クラウデラの首脳が語るソブリンAIとオンプレミス推論--「Anywhere Cloud」を発表",
-      "url": "https://japan.zdnet.com/article/35251817/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-24T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/21/a2b67e2366b89fa9eb9edde2ed8619e8/cloudera-charles_abbasc1.jpg"
-    },
-    {
-      "title": "Nvidia senior manager tied to ex-Supermicro staff's AI smuggling scheme",
-      "url": "https://arstechnica.com/tech-policy/2026/08/nvidia-senior-manager-linked-to-supermicro-scheme-smuggling-ai-servers-to-china/",
+      "title": "Google announces Gemini 3.5 Transcribe for AI-powered speech-to-text",
+      "url": "https://arstechnica.com/ai/2026/08/google-announces-gemini-3-5-transcribe-for-ai-powered-speech-to-text/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-08-24T16:41:45.000Z",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2285710586-1024x648.jpg"
+      "date": "2026-08-26T19:19:22.000Z",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/gemini-general-6-1152x648.jpg"
+    },
+    {
+      "title": "OpenAI releases its official report on the Hugging Face breach",
+      "url": "https://techcrunch.com/2026/08/26/openai-releases-its-official-report-on-the-hugging-face-breach/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-26T19:05:22.000Z",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
+    },
+    {
+      "title": "OpenAI’s rogue AI model incident was worse than we thought",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/985385/openais-rogue-ai-model-hugging-face-cybersecurity-incident-reports-metr",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-26T21:36:06.000Z",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/04/STK_414_AI_CHATBOT_R2_CVirginia_B.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "AI電話自動受付「Callnote」、会話ボットとMCPサーバーの提供を開始",
+      "url": "https://ascii.jp/elem/000/004/429/4429732/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-26T18:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "MCPの新ロードマップ公開、今後はAIエージェント対応、HTTP通信への統一、アイデンティティ、よりよいデベロッパー体験などに注力",
+      "url": "https://www.publickey1.jp/blog/26/mcpaihttp.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-26T15:29:13.000Z",
+      "image": "https://www.publickey1.jp/2026/thenewmcproadmap202608.jpg"
+    },
+    {
+      "title": "非公開の「AI学習データ工場」に潜入 人型ロボ30台超が稼働、意外と知らない「データ収集」の裏側とは",
+      "url": "https://www.itmedia.co.jp/business/articles/2608/26/news082.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-26T09:10:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2608/26/cover_news082.jpg"
+    },
+    {
+      "title": "韓国SK Hynix、宮城県に半導体工場の計画浮上 「何か知り得ているものはない」と村井知事",
+      "url": "https://www.itmedia.co.jp/news/article/2608/26/2000000820/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-26T08:55:22.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/26/2000000820/10003917/2048"
+    },
+    {
+      "title": "Okta、AIエージェント向けシングルサインオン機能の一般提供を開始",
+      "url": "https://japan.zdnet.com/article/35251936/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-26T06:45:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/26/97790cf729b7e6e29cff70cbce3eb4b8/20260825_nobudget_20_okta_1280x960.jpg"
+    },
+    {
+      "title": "AI導入への意欲とセキュリティ対策に大きなギャップ--F5調査",
+      "url": "https://japan.zdnet.com/article/35251932/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-26T06:44:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/03/13/0685712ce071f4bb5a7e7cf8db30b675/t/1280/960/d/260313_security_as_1280_744471190.jpg"
+    },
+    {
+      "title": "ClaudeとCoworkのメモリが統合、過去の会話で蓄積した情報を引き継ぎ",
+      "url": "https://japan.cnet.com/article/35251918/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-26T01:21:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/26/6dfa13e1b62dca36ff173eadcdc272c0/Claude-improved-memory-hero-customize-off-1_1280x960.jpg"
+    },
+    {
+      "title": "Perplexity、ローカルAIエージェント「Portable Computer」を発表",
+      "url": "https://japan.zdnet.com/article/35251917/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-26T00:54:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/26/bf63b718bd8234211756c8ce37d7911d/perplexity-ai_1280.jpg"
     }
   ]
 }
