@@ -3,7 +3,7 @@ import { seoTitle } from "../../seo";
 import { notFound } from "next/navigation";
 import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
-import { Breadcrumb, SectionHead, ShareRow } from "../../site-ui";
+import { AcademyCard, Breadcrumb, SectionHead, ShareRow } from "../../site-ui";
 import { GUIDES, GUIDES_UPDATED, getGuide } from "../data";
 
 export const dynamicParams = false;
@@ -208,6 +208,9 @@ export default async function GuidePage({ params }: Props) {
               他の職種のガイド
             </Button>
           </a>
+        </div>
+        <div style={{ marginBottom: 26 }}>
+          <AcademyCard place="guide-next" wide />
         </div>
         <ShareRow path={`/guide/${g.slug}`} text={`${g.title}——今日から使える実践パターン`} />
       </section>

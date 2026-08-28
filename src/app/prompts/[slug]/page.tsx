@@ -3,7 +3,7 @@ import { seoTitle } from "../../seo";
 import { notFound } from "next/navigation";
 import { Nav, Footer, PAGE } from "../../site-chrome";
 import { Badge, Button, Card } from "../../ds";
-import { Breadcrumb, SectionHead, ShareRow } from "../../site-ui";
+import { AcademyCard, Breadcrumb, SectionHead, ShareRow } from "../../site-ui";
 import { TERMS } from "../../glossary/data";
 import { RECIPES, getRecipe } from "../data";
 import { CopyPromptButton } from "../copy-button";
@@ -361,6 +361,8 @@ export default async function PromptRecipePage({ params }: Props) {
                   </div>
                 </Card>
               )}
+
+              <AcademyCard place="prompts-side" />
 
               <a href="/prompts" style={{ textDecoration: "none" }}>
                 <Button variant="secondary" size="md" block iconRight={<i className="ph-bold ph-arrow-right" />}>
