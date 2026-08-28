@@ -1,14 +1,94 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-27T01:01:56.742Z",
+  "updatedAt": "2026-08-28T05:36:04.866Z",
   "items": [
     {
-      "title": "Viral AI startup Instinct has raised $350 million at a $2.5 billion valuation",
+      "title": "Anthropic、AIで物理機器を制御する共通規格「MHS」発表 将来オープンソース化へ",
+      "url": "https://www.itmedia.co.jp/news/article/2608/28/2000000897/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-28T05:20:45.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/28/2000000897/10004218/2048"
+    },
+    {
+      "title": "「インテリジェンスをユーザーの近くへ」--アカマイが示すAI推論時代の基盤戦略",
+      "url": "https://japan.zdnet.com/article/35252023/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-28T03:14:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/28/d01b23747581223e9ff23ecd81c0b3f6/0820_PH1.JPG"
+    },
+    {
+      "title": "研修を「やって終わり」にしない。ディレクターズコネクト、経営・IT・AIの実行に伴走する月額顧問サービスを提供開始",
+      "url": "https://ascii.jp/elem/000/004/430/4430265/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-28T02:43:58.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "祖父の故郷・三重県尾鷲の海と熊野古道の記憶を纏う 8月25日よりアロマバスソルト「KAI La grace（カイ・ラグレイス）」発売開始",
+      "url": "https://ascii.jp/elem/000/004/430/4430279/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-28T02:15:43.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "営業AIエージェント「Stockwork」、社内の営業資料を商談の文脈でAIが自動活用する「ライブラリ」機能を正式リリース。組織の資産を有効活用し、営業のナレッジマネジメントを加速",
+      "url": "https://ascii.jp/elem/000/004/430/4430268/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-28T02:10:53.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "サムスン「Galaxy S26 FE」発表、AIカメラ機能充実もコスパに陰り",
+      "url": "https://japan.cnet.com/article/35252008/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-08-28T00:33:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/08/28/a0ebdc0020b23b4deff392c39b1366e6/Samsung-S26-FE-24_1280x960.jpg"
+    },
+    {
+      "title": "Google、動画生成AI「Gemini Omni 1.1 Flash」公開 10秒分の文脈を参照して最長40秒まで延長",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/28/2000000878/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-28T00:07:14.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/28/2000000878/10004148/2048"
+    },
+    {
+      "title": "Elon Musk’s xAI used child porn to train Grok models, lawsuit says",
+      "url": "https://arstechnica.com/tech-policy/2026/08/elon-musks-xai-used-child-porn-to-train-grok-models-lawsuit-says/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-08-27T20:52:31.000Z",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2280412936-1024x648.jpg"
+    },
+    {
+      "title": "Report: Nvidia to acquire AI model repository Hugging Face for $13 billion",
+      "url": "https://arstechnica.com/ai/2026/08/report-nvidia-to-acquire-ai-model-repository-hugging-face-for-13-billion/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-08-27T19:55:22.000Z",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2024/09/hugging_face_3-1152x648.jpg"
+    },
+    {
+      "title": "Viral AI startup Instinct has raised $350M at a $2.5B valuation",
       "url": "https://techcrunch.com/2026/08/26/viral-ai-startup-instinct-has-raised-350-million-at-a-2-5-billion-valuation/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-08-27T00:24:57.000Z",
       "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2255991416.jpg?resize=1200,795"
+    },
+    {
+      "title": "OpenAI、AIサイバー攻撃への「集団的対応」を訴える公開書簡 Anthropic、Google、Microsoftなど100以上の組織が署名",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2608/28/2000000876/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-27T22:56:31.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/28/2000000876/10004140/2048"
     },
     {
       "title": "Nvidia is about to be a hundred-billion-dollar-a-quarter company",
@@ -33,86 +113,6 @@
       "lang": "en",
       "date": "2026-08-26T19:19:22.000Z",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/gemini-general-6-1152x648.jpg"
-    },
-    {
-      "title": "OpenAI releases its official report on the Hugging Face breach",
-      "url": "https://techcrunch.com/2026/08/26/openai-releases-its-official-report-on-the-hugging-face-breach/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-26T19:05:22.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
-    },
-    {
-      "title": "OpenAI’s rogue AI model incident was worse than we thought",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/985385/openais-rogue-ai-model-hugging-face-cybersecurity-incident-reports-metr",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-26T21:36:06.000Z",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/04/STK_414_AI_CHATBOT_R2_CVirginia_B.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "AI電話自動受付「Callnote」、会話ボットとMCPサーバーの提供を開始",
-      "url": "https://ascii.jp/elem/000/004/429/4429732/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-26T18:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "MCPの新ロードマップ公開、今後はAIエージェント対応、HTTP通信への統一、アイデンティティ、よりよいデベロッパー体験などに注力",
-      "url": "https://www.publickey1.jp/blog/26/mcpaihttp.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-08-26T15:29:13.000Z",
-      "image": "https://www.publickey1.jp/2026/thenewmcproadmap202608.jpg"
-    },
-    {
-      "title": "非公開の「AI学習データ工場」に潜入 人型ロボ30台超が稼働、意外と知らない「データ収集」の裏側とは",
-      "url": "https://www.itmedia.co.jp/business/articles/2608/26/news082.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-26T09:10:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2608/26/cover_news082.jpg"
-    },
-    {
-      "title": "韓国SK Hynix、宮城県に半導体工場の計画浮上 「何か知り得ているものはない」と村井知事",
-      "url": "https://www.itmedia.co.jp/news/article/2608/26/2000000820/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-26T08:55:22.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/26/2000000820/10003917/2048"
-    },
-    {
-      "title": "Okta、AIエージェント向けシングルサインオン機能の一般提供を開始",
-      "url": "https://japan.zdnet.com/article/35251936/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-26T06:45:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/26/97790cf729b7e6e29cff70cbce3eb4b8/20260825_nobudget_20_okta_1280x960.jpg"
-    },
-    {
-      "title": "AI導入への意欲とセキュリティ対策に大きなギャップ--F5調査",
-      "url": "https://japan.zdnet.com/article/35251932/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-26T06:44:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/03/13/0685712ce071f4bb5a7e7cf8db30b675/t/1280/960/d/260313_security_as_1280_744471190.jpg"
-    },
-    {
-      "title": "ClaudeとCoworkのメモリが統合、過去の会話で蓄積した情報を引き継ぎ",
-      "url": "https://japan.cnet.com/article/35251918/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-08-26T01:21:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/26/6dfa13e1b62dca36ff173eadcdc272c0/Claude-improved-memory-hero-customize-off-1_1280x960.jpg"
-    },
-    {
-      "title": "Perplexity、ローカルAIエージェント「Portable Computer」を発表",
-      "url": "https://japan.zdnet.com/article/35251917/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-26T00:54:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/26/bf63b718bd8234211756c8ce37d7911d/perplexity-ai_1280.jpg"
     }
   ]
 }
