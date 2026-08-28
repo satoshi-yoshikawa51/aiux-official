@@ -236,17 +236,116 @@ async function fetchOgImage(url) {
   }
 }
 
-/* 英語見出しの日本語訳（無料の翻訳エンドポイント。失敗したらnull） */
+/* ---- 英語見出しの日本語訳 ----------------------------------------
+   2026-08-22 から、gtx（無料の翻訳エンドポイント）が GitHub Actions の
+   IPを弾くようになり、6日連続で0/6本だった。手元からは同じURLが通る
+   ので、エンドポイントの廃止ではなくIP起因のブロック。
+   1本に依存せず、順に試して最初に日本語が返ったものを採る。
+   どのエンジンで何本成功したかをログに出す（次に壊れたとき、CIログ
+   だけで切り分けられるように）。 ---------------------------------- */
+
+const JA_RE = /[ぁ-んァ-ヶ一-龯]/;
+
+async function viaGtx(text) {
+  const u =
+    "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ja&dt=t&q=" +
+    encodeURIComponent(text);
+  const res = await fetch(u, { headers: { "User-Agent": UA } });
+  if (!res.ok) return null;
+  const j = await res.json();
+  const out = (j?.[0] || []).map((seg) => seg?.[0] || "").join("").trim();
+  return out || null;
+}
+
+/* 同じGoogleでもクライアント種別が違うと通ることがある */
+async function viaChrome(text) {
+  const u =
+    "https://translate.googleapis.com/translate_a/t?client=dict-chrome-ex&sl=en&tl=ja&q=" +
+    encodeURIComponent(text);
+  const res = await fetch(u, { headers: { "User-Agent": UA } });
+  if (!res.ok) return null;
+  const j = await res.json();
+  const first = Array.isArray(j) ? j[0] : null;
+  const out = typeof first === "string" ? first : Array.isArray(first) ? first[0] : "";
+  return (out || "").trim() || null;
+}
+
+/* Googleと別ホストの無料API（匿名は1日5,000字まで。見出し6本なら余裕）。
+   失敗時も200で英語のまま返すことがあるので、日本語が入っているか見る */
+async function viaMyMemory(text) {
+  const u =
+    "https://api.mymemory.translated.net/get?langpair=en%7Cja&q=" + encodeURIComponent(text);
+  const res = await fetch(u, { headers: { "User-Agent": UA } });
+  if (!res.ok) return null;
+  const j = await res.json();
+  const out = String(j?.responseData?.translatedText || "").trim();
+  return JA_RE.test(out) ? out : null;
+}
+
+const ENGINES = [
+  ["gtx", viaGtx],
+  ["chrome", viaChrome],
+  ["mymemory", viaMyMemory],
+];
+const engineWins = Object.fromEntries(ENGINES.map(([n]) => [n, 0]));
+
 async function translateToJa(text) {
+  for (const [name, fn] of ENGINES) {
+    try {
+      const out = await fn(text);
+      if (out && JA_RE.test(out)) {
+        engineWins[name]++;
+        return out;
+      }
+    } catch {
+      /* 次のエンジンへ */
+    }
+  }
+  return null;
+}
+
+/* ANTHROPIC_API_KEY があるときは Claude で一括翻訳（1リクエスト）。
+   機械翻訳より見出しとして自然で、ActionsのIPで弾かれる心配もない。
+   キー未設定・失敗時は上の無料エンドポイントに降格する
+   （サイトのAPIルート search / uketsuke と同じ方針）。
+   ワークフロー側で secrets.ANTHROPIC_API_KEY を渡している。未設定でも
+   空になるだけで、ここが理由で落ちることはない。 */
+async function translateAllWithClaude(titles) {
+  const key = process.env.ANTHROPIC_API_KEY;
+  if (!key || titles.length === 0) return null;
   try {
-    const u =
-      "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ja&dt=t&q=" +
-      encodeURIComponent(text);
-    const res = await fetch(u, { headers: { "User-Agent": UA } });
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": key,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "claude-opus-5",
+        max_tokens: 2000,
+        system:
+          "あなたはITニュースの見出しの翻訳者。日本の技術系メディアの見出しらしい、簡潔で自然な日本語にする。製品名・企業名・モデル名は原文の表記のまま残す。",
+        messages: [
+          {
+            role: "user",
+            content:
+              "次の英語見出しを日本語に訳し、JSON配列（文字列のみ・同じ順・同じ本数）だけを返してください。\n" +
+              JSON.stringify(titles),
+          },
+        ],
+      }),
+    });
     if (!res.ok) return null;
-    const j = await res.json();
-    const out = (j?.[0] || []).map((seg) => seg?.[0] || "").join("").trim();
-    return out || null;
+    const data = await res.json();
+    const text = (data.content || [])
+      .filter((b) => b.type === "text")
+      .map((b) => b.text)
+      .join("");
+    const m = text.match(/\[[\s\S]*\]/);
+    const arr = JSON.parse(m ? m[0] : text);
+    if (!Array.isArray(arr) || arr.length !== titles.length) return null;
+    return arr.map((s) => String(s ?? "").trim());
   } catch {
     return null;
   }
@@ -342,17 +441,30 @@ const en = dropNearDup([...ja, ...select(ranked.filter((a) => a.lang === "en"), 
   .filter((a) => a.lang === "en")
   .slice(0, MAX_EN);
 
-/* 海外見出しを翻訳（1本ずつ・失敗しても続行）。
+/* 海外見出しを翻訳。
    「— here's how ...」のような飾り節は翻訳が崩れる元なので先に落とす */
-for (const a of en) {
-  let src = a.title;
-  const m = src.match(/^(.{30,}?)\s+[—–]\s+/);
-  if (m) src = m[1];
-  const t = await translateToJa(src.trim());
-  if (t) a.titleJa = t.replace(/\s*[-–—:：]\s*$/, "").replace(/\s+/g, " ").trim();
-  await new Promise((r) => setTimeout(r, 300));
+const tidy = (t) => t.replace(/\s*[-–—:：]\s*$/, "").replace(/\s+/g, " ").trim();
+const enSources = en.map((a) => {
+  const m = a.title.match(/^(.{30,}?)\s+[—–]\s+/);
+  return (m ? m[1] : a.title).trim();
+});
+
+const claudeResult = await translateAllWithClaude(enSources);
+if (claudeResult) {
+  en.forEach((a, i) => {
+    if (claudeResult[i]) a.titleJa = tidy(claudeResult[i]);
+  });
+  console.log(`  翻訳: ${en.filter((a) => a.titleJa).length}/${en.length}本 成功（claude）`);
+} else {
+  /* 無料エンドポイントは1本ずつ・失敗しても続行 */
+  for (let i = 0; i < en.length; i++) {
+    const t = await translateToJa(enSources[i]);
+    if (t) en[i].titleJa = tidy(t);
+    await new Promise((r) => setTimeout(r, 300));
+  }
+  const detail = ENGINES.map(([n]) => `${n} ${engineWins[n]}`).join(" / ");
+  console.log(`  翻訳: ${en.filter((a) => a.titleJa).length}/${en.length}本 成功（${detail}）`);
 }
-console.log(`  翻訳: ${en.filter((a) => a.titleJa).length}/${en.length}本 成功`);
 
 /* 採用が決まった記事だけ、サムネイル（OGP画像）を取得 */
 const withImage = [...ja, ...en];
