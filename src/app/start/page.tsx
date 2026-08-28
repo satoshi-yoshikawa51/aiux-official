@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Badge, Button } from "../ds";
-import { Breadcrumb } from "../site-ui";
+import { AcademyCard, Breadcrumb } from "../site-ui";
 import { MANGA_SERIES } from "../manga/data";
 
 export const metadata: Metadata = {
@@ -343,6 +343,11 @@ export default function StartPage() {
           <a href="/guide" style={{ textDecoration: "none" }}>
             <Button variant="primary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>職種別AI活用ガイドへ</Button>
           </a>
+        </div>
+
+        {/* スマホでも続ける（→ site-ui.tsx の覚え書き） */}
+        <div style={{ marginTop: 18 }}>
+          <AcademyCard place="start-end" wide />
         </div>
       </section>
 

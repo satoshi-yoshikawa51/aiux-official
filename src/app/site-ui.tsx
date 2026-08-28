@@ -3,9 +3,71 @@
    デザインはトップページ(page.tsx)のトーンをそのまま踏襲する。
    ============================================================ */
 import type React from "react";
-import { Badge, Card } from "./ds";
+import { Badge, Button, Card } from "./ds";
 import { PAGE } from "./site-chrome";
+import { APP_STORE_URL, AppStoreBadge } from "./academy/store";
 import type { Tone, Article } from "./data";
+
+/* ============================================================
+   ▍アプリへの導線を、記事の中にも置く
+
+   検索から「AIを学びたい人」が入ってくるのは、用語集・ガイド・
+   プロンプト集。ところがアプリへの導線はトップの帯とフッターの
+   2箇所しかなく、**すでに来ている人に見せていなかった**。
+   広告でお金を払って連れてくる前に、ここを繋ぐ。
+
+   `place` はGAの印。「どのページの導線が効いたか」を見るために、
+   置く場所ごとに違う名前を渡すこと（例: glossary-side）。
+   ============================================================ */
+export function AcademyCard({ place, wide = false }: { place: string; wide?: boolean }) {
+  return (
+    <div
+      style={{
+        border: "var(--bw-bold) solid var(--ink-900)",
+        borderRadius: "var(--radius-lg)",
+        background: "var(--ink-900)",
+        backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.2px, transparent 1.3px)",
+        backgroundSize: "13px 13px",
+        boxShadow: "var(--shadow-pop-sm)",
+        padding: wide ? "20px 22px" : "16px 18px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: 10,
+      }}
+    >
+      <a href="/academy" data-ga="cta_click" data-ga-place={place} data-ga-path="/academy" style={{ display: "block", textDecoration: "none" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/academy/logo.webp"
+          alt="COMIXAI アカデミー"
+          width={1120}
+          height={403}
+          loading="lazy"
+          style={{ width: "100%", maxWidth: wide ? 250 : 190, height: "auto", display: "block" }}
+        />
+      </a>
+      <p style={{ margin: 0, fontSize: wide ? 14 : 13, lineHeight: 1.9, color: "var(--paper-200)" }}>
+        3Dの相棒と、遊びながら学べるスマホアプリ。
+        <b style={{ color: "var(--paper-50)" }}>登録不要・広告なし・完全無料</b>で、1日5分から。
+      </p>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <a href="/academy" data-ga="cta_click" data-ga-place={place} data-ga-path="/academy" style={{ textDecoration: "none" }}>
+          <Button variant="yellow" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>
+            アプリを見る
+          </Button>
+        </a>
+        {/* 幅のある置き場所でだけ、ストアへの直行も出す。狭い所で
+            並べるとバッジが縮んで、Appleの決まり（高さ40px以上）を割る */}
+        {wide && APP_STORE_URL ? (
+          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" data-ga="academy_install" data-ga-place={place} style={{ textDecoration: "none" }}>
+            <AppStoreBadge height={42} />
+          </a>
+        ) : null}
+      </div>
+    </div>
+  );
+}
 
 export const toneBg = (tone: Tone): string =>
   ({
