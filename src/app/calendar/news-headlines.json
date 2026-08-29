@@ -1,14 +1,22 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-28T20:36:09.148Z",
+  "updatedAt": "2026-08-29T03:21:35.397Z",
   "items": [
+    {
+      "title": "ErudAite SBM Web版のFAQを公開",
+      "url": "https://ascii.jp/elem/000/004/430/4430485/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-29T00:50:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
     {
       "title": "Neocloud Lambda secures $1B in debt to buy more chips",
       "url": "https://techcrunch.com/2026/08/28/neocloud-lambda-secures-1b-in-debt-to-buy-more-chips/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-08-28T20:24:11.000Z",
-      "titleJa": "Neocloud Lambda、さらにチップを購入するために 10 億ドルの負債を確保",
+      "titleJa": "Neocloud Lambda、さらに多くのチップを購入するために 10 億ドルの負債を確保",
       "image": "https://techcrunch.com/wp-content/uploads/2026/06/Chip-chips-dollar-signs-money.png?resize=1200,960"
     },
     {
@@ -18,14 +26,6 @@
       "lang": "ja",
       "date": "2026-08-28T13:00:00.000Z",
       "image": "https://media.loom-app.com/loom/2026/08/28/98174f1b-fd35-461f-8c32-acc5dd1a4017/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "Samsung Galaxy S26 FEが出る！50ドル値上げだけどAI機能をがっつり遊べる",
-      "url": "https://www.gizmodo.jp/article/samsung_galaxy_s26_fe_release/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-08-28T09:45:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/08/28/a355a962-e675-4692-bc78-e7ad74e64b3c/original.jpg?w=1200&h=630"
     },
     {
       "title": "「半導体はAIが設計、人間は監督に」 次世代EDAへの取り組み",
@@ -41,7 +41,7 @@
       "source": "ITmedia",
       "lang": "ja",
       "kind": "buzz",
-      "count": 103,
+      "count": 142,
       "date": "2026-08-28T06:42:56.000Z",
       "image": "https://www.itmedia.co.jp/news/article/ogp/2608/28/2000000897/10004218/2048"
     },
@@ -92,7 +92,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-08-27T19:55:22.000Z",
-      "titleJa": "レポート: Nvidia、AI モデル リポジトリの Hugging Face を 130 億ドルで買収へ",
+      "titleJa": "レポート: Nvidia が AI モデル リポジトリの Hugging Face を 130 億ドルで買収へ",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2024/09/hugging_face_3-1152x648.jpg"
     },
     {
