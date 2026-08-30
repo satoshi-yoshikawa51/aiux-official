@@ -1,7 +1,57 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-29T23:34:42.996Z",
+  "updatedAt": "2026-08-30T23:48:19.477Z",
   "items": [
+    {
+      "title": "ソニー・ミュージックパブリッシングとワーナー・チャペル、Anthropicを著作権侵害で提訴",
+      "url": "https://www.itmedia.co.jp/news/article/2608/31/2000000950/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-30T23:21:28.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/31/2000000950/10004423/2048"
+    },
+    {
+      "title": "【無料】日本語のAI学習サイトをAnthropicが公開 「Claude Code入門」など357のコンテンツが学べる",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/31/news015.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-30T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2608/31/cover_news015.jpg"
+    },
+    {
+      "title": "ソフトクリエイトのAI戦略、中堅・中小企業向け独自AIツールと知財を軸に従来型SIからの脱却図る",
+      "url": "https://japan.zdnet.com/article/35252041/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-30T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/28/4852dbf0fe8d14741d551af09f0d3cff/20260827_okame_1280x960.jpg"
+    },
+    {
+      "title": "JetBrains、Mac上で動作するコーディングエージェント「Junie Local」提供開始。Claude Sonnet 4.5と同等の能力、RTX5909対応も開発中",
+      "url": "https://www.publickey1.jp/blog/26/jetbrainsmacjunie_localclaude_sonnet_45rtx5909.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-08-30T15:07:47.000Z",
+      "image": "https://www.publickey1.jp/2026/HQfo5eBWAAAWhrP.png"
+    },
+    {
+      "title": "Hugging Face侵害事件、OpenAIとMETRが最終報告書公開──約1200体のAIエージェントが“闇掲示板”で結託し700体が攻撃に参加",
+      "url": "https://www.itmedia.co.jp/news/article/2608/30/2000000949/",
+      "source": "ITmedia",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 122,
+      "date": "2026-08-30T09:58:21.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/30/2000000949/10004419/2048"
+    },
+    {
+      "title": "Ryzen AI 5 340+512GB SSD搭載で22万円台！ FMVの一体型デスクトップPCがお買い得",
+      "url": "https://ascii.jp/elem/000/004/429/4429931/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-08-30T07:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+    },
     {
       "title": "OpenAI、Cursorへのモデル提供を11月12日に終了 SpaceXによる買収が理由",
       "url": "https://www.itmedia.co.jp/news/article/2608/30/2000000945/",
@@ -11,29 +61,22 @@
       "image": "https://www.itmedia.co.jp/news/article/ogp/2608/30/2000000945/10004402/2048"
     },
     {
-      "title": "Sony Music and Warner Chappell are suing Anthropic",
+      "title": "Sony Music Publishing and Warner Chappell are suing Anthropic",
       "url": "https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright",
       "source": "The Verge",
       "lang": "en",
       "date": "2026-08-29T18:19:53.000Z",
-      "titleJa": "ソニー・ミュージックとワーナー・チャペルがAnthropic社を告訴",
+      "titleJa": "ソニー・ミュージック・パブリッシングとワーナー・チャペルがAnthropic社を告訴",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/01/STK269_ANTHROPIC_2_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "Ryzen AI 5 340搭載で、23.8型ディスプレーの一体型デスクトップPCが22万円台！",
-      "url": "https://ascii.jp/elem/000/004/429/4429930/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-29T07:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
-    },
-    {
-      "title": "「介護施設のシフト作成が大変すぎる」現場の声から誕生、施設長が生成AIと開発したシフト自動作成アプリ「shiftsemi（シフトゼミ）」を提供開始",
-      "url": "https://ascii.jp/elem/000/004/430/4430497/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-29T05:30:41.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "title": "Nvidia’s AI advantage is moving beyond the GPU",
+      "url": "https://techcrunch.com/2026/08/29/nvidias-ai-advantage-is-moving-beyond-the-gpu/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-29T13:00:00.000Z",
+      "titleJa": "Nvidia の AI の優位性は GPU を超えつつあります",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/jense-nvidi-chip-GettyImages-2266485392.jpg?resize=1200,800"
     },
     {
       "title": "Neocloud Lambda secures $1B in debt to buy more chips",
@@ -45,14 +88,22 @@
       "image": "https://techcrunch.com/wp-content/uploads/2026/06/Chip-chips-dollar-signs-money.png?resize=1200,960"
     },
     {
-      "title": "ローカルLLMの壁を打ち破る「Unsloth Desktop」登場！ 画像生成・コード実行・API化を1つのアプリに統合",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/28/news020.html",
-      "source": "＠IT",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 163,
-      "date": "2026-08-28T23:36:09.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2608/28/cover_news020.jpg"
+      "title": "An Anthropic researcher just gave us a peek at self-improving AI",
+      "url": "https://techcrunch.com/2026/08/28/an-anthropic-researcher-just-gave-us-a-peek-at-self-improving-ai/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-28T19:30:38.000Z",
+      "titleJa": "ある人類研究者が、自己改善型 AI について教えてくれました。",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2287646148.jpg?resize=1200,901"
+    },
+    {
+      "title": "Trump blacklisting of \"woke\" Anthropic deemed illegal by federal judge",
+      "url": "https://arstechnica.com/tech-policy/2026/08/trump-blacklisting-of-woke-anthropic-deemed-illegal-by-federal-judge/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-08-28T18:07:55.000Z",
+      "titleJa": "トランプ大統領、「目覚めた」Anthropicをブラックリストに載せ、連邦判事が違法とみなした",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/03/claude-app-1152x648.jpg"
     },
     {
       "title": "「半導体はAIが設計、人間は監督に」 次世代EDAへの取り組み",
@@ -63,63 +114,13 @@
       "image": "https://image.itmedia.co.jp/ee/articles/2608/28/cover_news088.jpg"
     },
     {
-      "title": "Hugging Face、あひる型ロボット「Microduck」発表 399ドルで予約開始",
-      "url": "https://www.itmedia.co.jp/news/article/2608/28/2000000901/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-28T06:09:08.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/28/2000000901/10004227/2048"
-    },
-    {
-      "title": "Anthropic、AIで物理機器を制御する共通規格「MHS」発表 将来オープンソース化へ",
-      "url": "https://www.itmedia.co.jp/news/article/2608/28/2000000897/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-28T05:20:45.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/28/2000000897/10004218/2048"
-    },
-    {
-      "title": "NTTデータ、AI基盤「LITRON」に新機能 AI秘書が会議前に資料作成",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11992/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-08-28T05:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/11992/topm.jpg?20220512"
-    },
-    {
-      "title": "Elon Musk’s xAI used child porn to train Grok models, lawsuit says",
-      "url": "https://arstechnica.com/tech-policy/2026/08/elon-musks-xai-used-child-porn-to-train-grok-models-lawsuit-says/",
-      "source": "Ars Technica",
+      "title": "Anthropic was illegally blacklisted by the Trump administration, court rules",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/985947/anthropic-supply-chain-risk-lawsuit-judge-ruling",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-08-27T20:52:31.000Z",
-      "titleJa": "イーロン・マスク氏のxAIはGrokモデルのトレーニングに児童ポルノを使用していた、と訴訟で明らかに",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2280412936-1024x648.jpg"
-    },
-    {
-      "title": "Report: Nvidia to acquire AI model repository Hugging Face for $13 billion",
-      "url": "https://arstechnica.com/ai/2026/08/report-nvidia-to-acquire-ai-model-repository-hugging-face-for-13-billion/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-08-27T19:55:22.000Z",
-      "titleJa": "レポート: Nvidia、AI モデル リポジトリの Hugging Face を 130 億ドルで買収へ",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2024/09/hugging_face_3-1152x648.jpg"
-    },
-    {
-      "title": "Viral AI startup Instinct has raised $350M at a $2.5B valuation",
-      "url": "https://techcrunch.com/2026/08/26/viral-ai-startup-instinct-has-raised-350-million-at-a-2-5-billion-valuation/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-27T00:24:57.000Z",
-      "titleJa": "バイラル AI スタートアップ Instinct が 25 億ドルの評価額で 3 億 5,000 万ドルを調達",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2255991416.jpg?resize=1200,795"
-    },
-    {
-      "title": "Expanding OpenAI’s presence in Brazil",
-      "url": "https://openai.com/index/expanding-our-presence-in-brazil",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-08-27T03:00:00.000Z",
-      "titleJa": "ブラジルでの OpenAI の存在感を拡大"
+      "date": "2026-08-28T03:14:06.000Z",
+      "titleJa": "Anthropicはトランプ政権によって違法にブラックリストに掲載された、裁判所の判決",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/DCD_0617_Fable5.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     }
   ]
 }
