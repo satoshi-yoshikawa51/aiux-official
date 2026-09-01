@@ -1,7 +1,76 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-30T23:48:19.477Z",
+  "updatedAt": "2026-09-01T00:46:05.052Z",
   "items": [
+    {
+      "title": "Nvidia’s $3.5B MediaTek bet reveals its plan for tackling Big Tech’s AI chip buildout",
+      "url": "https://techcrunch.com/2026/08/31/nvidias-3-5b-mediatek-bet-reveals-its-plan-for-tackling-big-techs-ai-chip-buildout/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-31T15:15:25.000Z",
+      "titleJa": "Nvidia の 35 億ドル MediaTek への賭けにより、ビッグテックの AI チップ構築に取り組む計画が明らかに",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/03/GettyImages-2205761844.jpg?resize=1200,846"
+    },
+    {
+      "title": "「ChatGPT」広告、年換算の売上高10億ドルに 開始200日足らずで達成",
+      "url": "https://www.itmedia.co.jp/news/article/2609/01/2000000997/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-08-31T23:27:31.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/01/2000000997/10004610/2048"
+    },
+    {
+      "title": "IT大手19社の増収率がついに30％台、2026年4～6月決算で AI特需がけん引",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00848/00195/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-08-31T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00848/00195/topm.jpg?20220512"
+    },
+    {
+      "title": "Harvard Law dropout raises $6M for Blue Voice to build a ‘Harvey for police officers’",
+      "url": "https://techcrunch.com/2026/08/31/harvard-law-dropout-raises-6m-for-blue-voice-to-build-a-harvey-for-police-officers/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-08-31T18:35:11.000Z",
+      "titleJa": "ハーバード大学法学部中退者が「警察官のためのハーベイ」を構築するためにブルーボイスに600万ドルを集める",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/BlueVoice_Founders.png?resize=1200,600"
+    },
+    {
+      "title": "“Zlibrary my beloved”: Anthropic staff chats extolling piracy cited in Sony suit",
+      "url": "https://arstechnica.com/tech-policy/2026/08/zlibrary-my-beloved-anthropic-staff-chats-extolling-piracy-cited-in-sony-suit/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-08-31T18:10:45.000Z",
+      "titleJa": "「愛するZlibrary」：ソニーの訴訟で引用された著作権侵害を称賛する人類スタッフの雑談",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-172575622-1152x648.jpg"
+    },
+    {
+      "title": "Debian won’t ban AI code from its Linux distribution",
+      "url": "https://www.theverge.com/tech/986789/linux-debian-generative-ai-policy",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-31T15:34:58.000Z",
+      "titleJa": "Debian は Linux ディストリビューションから AI コードを禁止しない",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/09/STK414_AI_CVIRGINIA_I__0009_7.png?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "ChatGPT to face tougher regulation in the EU",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-08-31T13:27:36.000Z",
+      "titleJa": "ChatGPTはEUでより厳しい規制に直面する",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/08/STK155_OPEN_AI_4_CVirginia_B.png?quality=90&strip=all&crop=0%2C10.742221417566%2C100%2C78.515557164868&w=1200"
+    },
+    {
+      "title": "導入速度はクラウド以上--「高度で複雑なシステム」なAIエージェントはどう選ぶべきか",
+      "url": "https://japan.zdnet.com/article/35251771/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-08-31T07:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/20/f2d959e87b5285a33996a532274c7eda/20260713_gartner_1280x960.jpg"
+    },
     {
       "title": "ソニー・ミュージックパブリッシングとワーナー・チャペル、Anthropicを著作権侵害で提訴",
       "url": "https://www.itmedia.co.jp/news/article/2608/31/2000000950/",
@@ -27,7 +96,7 @@
       "image": "https://japan.zdnet.com/storage/2026/08/28/4852dbf0fe8d14741d551af09f0d3cff/20260827_okame_1280x960.jpg"
     },
     {
-      "title": "JetBrains、Mac上で動作するコーディングエージェント「Junie Local」提供開始。Claude Sonnet 4.5と同等の能力、RTX5909対応も開発中",
+      "title": "JetBrains、Mac上で動作するコーディングエージェント「Junie Local」提供開始。Claude Sonnet 4.5と同等の能力、RTX5090対応も開発中",
       "url": "https://www.publickey1.jp/blog/26/jetbrainsmacjunie_localclaude_sonnet_45rtx5909.html",
       "source": "Publickey",
       "lang": "ja",
@@ -37,90 +106,19 @@
     {
       "title": "Hugging Face侵害事件、OpenAIとMETRが最終報告書公開──約1200体のAIエージェントが“闇掲示板”で結託し700体が攻撃に参加",
       "url": "https://www.itmedia.co.jp/news/article/2608/30/2000000949/",
-      "source": "ITmedia",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "kind": "buzz",
-      "count": 122,
-      "date": "2026-08-30T09:58:21.000Z",
+      "date": "2026-08-30T09:23:12.000Z",
       "image": "https://www.itmedia.co.jp/news/article/ogp/2608/30/2000000949/10004419/2048"
     },
     {
-      "title": "Ryzen AI 5 340+512GB SSD搭載で22万円台！ FMVの一体型デスクトップPCがお買い得",
-      "url": "https://ascii.jp/elem/000/004/429/4429931/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-08-30T07:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
-    },
-    {
-      "title": "OpenAI、Cursorへのモデル提供を11月12日に終了 SpaceXによる買収が理由",
-      "url": "https://www.itmedia.co.jp/news/article/2608/30/2000000945/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-29T23:12:23.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/30/2000000945/10004402/2048"
-    },
-    {
-      "title": "Sony Music Publishing and Warner Chappell are suing Anthropic",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-29T18:19:53.000Z",
-      "titleJa": "ソニー・ミュージック・パブリッシングとワーナー・チャペルがAnthropic社を告訴",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/01/STK269_ANTHROPIC_2_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Nvidia’s AI advantage is moving beyond the GPU",
-      "url": "https://techcrunch.com/2026/08/29/nvidias-ai-advantage-is-moving-beyond-the-gpu/",
+      "title": "‘We’re not doing 30 bets a year’: Vijay Pande on betting small after running $4B at a16z",
+      "url": "https://techcrunch.com/2026/08/29/were-not-doing-30-bets-a-year-vijay-pande-on-betting-small-after-running-4-billion-at-a16z/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-29T13:00:00.000Z",
-      "titleJa": "Nvidia の AI の優位性は GPU を超えつつあります",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/jense-nvidi-chip-GettyImages-2266485392.jpg?resize=1200,800"
-    },
-    {
-      "title": "Neocloud Lambda secures $1B in debt to buy more chips",
-      "url": "https://techcrunch.com/2026/08/28/neocloud-lambda-secures-1b-in-debt-to-buy-more-chips/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-28T20:24:11.000Z",
-      "titleJa": "Neocloud Lambda、さらにチップを購入するために 10 億ドルの負債を確保",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/Chip-chips-dollar-signs-money.png?resize=1200,960"
-    },
-    {
-      "title": "An Anthropic researcher just gave us a peek at self-improving AI",
-      "url": "https://techcrunch.com/2026/08/28/an-anthropic-researcher-just-gave-us-a-peek-at-self-improving-ai/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-28T19:30:38.000Z",
-      "titleJa": "ある人類研究者が、自己改善型 AI について教えてくれました。",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2287646148.jpg?resize=1200,901"
-    },
-    {
-      "title": "Trump blacklisting of \"woke\" Anthropic deemed illegal by federal judge",
-      "url": "https://arstechnica.com/tech-policy/2026/08/trump-blacklisting-of-woke-anthropic-deemed-illegal-by-federal-judge/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-08-28T18:07:55.000Z",
-      "titleJa": "トランプ大統領、「目覚めた」Anthropicをブラックリストに載せ、連邦判事が違法とみなした",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/03/claude-app-1152x648.jpg"
-    },
-    {
-      "title": "「半導体はAIが設計、人間は監督に」 次世代EDAへの取り組み",
-      "url": "https://eetimes.itmedia.co.jp/ee/articles/2608/28/news088.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-28T07:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ee/articles/2608/28/cover_news088.jpg"
-    },
-    {
-      "title": "Anthropic was illegally blacklisted by the Trump administration, court rules",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/985947/anthropic-supply-chain-risk-lawsuit-judge-ruling",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-28T03:14:06.000Z",
-      "titleJa": "Anthropicはトランプ政権によって違法にブラックリストに掲載された、裁判所の判決",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/DCD_0617_Fable5.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "date": "2026-08-29T17:36:47.000Z",
+      "titleJa": "「年間30回も賭けているわけではない」：a16zで40億ドルを稼いだ後、少額の賭けをするビジェイ・パンデ",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Vijay-Pande.png?resize=1200,800"
     }
   ]
 }
