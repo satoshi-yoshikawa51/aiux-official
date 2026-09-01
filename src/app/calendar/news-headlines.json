@@ -1,7 +1,107 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-01T00:46:05.052Z",
+  "updatedAt": "2026-09-01T23:32:26.448Z",
   "items": [
+    {
+      "title": "AfterQuery reportedly becomes Y Combinator’s fastest-ever unicorn, now valued at $3.2B",
+      "url": "https://techcrunch.com/2026/09/01/afterquery-reportedly-becomes-y-combinators-fastest-ever-unicorn-now-valued-at-3-2b/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-01T22:08:24.000Z",
+      "titleJa": "AfterQuery は Y Combinator 史上最速のユニコーンとなり、その評価額は現在 32 億ドルと伝えられています",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/10/GettyImages-1569337822.jpg?resize=1200,800"
+    },
+    {
+      "title": "Anthropic’s new Fable release is cheaper, less restrictive",
+      "url": "https://techcrunch.com/2026/09/01/anthropics-new-fable-release-is-cheaper-less-restrictive/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-01T19:39:22.000Z",
+      "titleJa": "Anthropic の新しい Fable リリースは安価で、制限が緩和されています",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/04/GettyImages-2269811684.jpg?w=1024"
+    },
+    {
+      "title": "The latest AI news we announced in August 2026",
+      "url": "https://blog.google/innovation-and-ai/technology/google-ai-updates-august-2026/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-09-01T20:45:00.000Z",
+      "titleJa": "2026年8月に発表したAI最新ニュース",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/August_AI_Recap_social.width-1300.png"
+    },
+    {
+      "title": "Anthropic、「Claude Fable 5.1」と「Claude Mythos 5.1」発表 「監視の難しさ」への懸念も開示",
+      "url": "https://www.itmedia.co.jp/news/article/2609/02/2000001048/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-01T22:23:30.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/02/2000001048/10004803/2048"
+    },
+    {
+      "title": "新AI「Claude Fable 5.1」リリース。“最強に賢い”だけじゃもう売れない？",
+      "url": "https://www.gizmodo.jp/article/anthropic_released_claude_fable_5_1/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-01T22:05:39.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/01/dcab74e3-96db-46be-8b16-249fd65e8ac8/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "エンジニアの「AI協働力」を測る評価基準を無償公開",
+      "url": "https://ascii.jp/elem/000/004/431/4431047/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-01T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/01/4519987/xl/05831960c889ef23.jpg"
+    },
+    {
+      "title": "AIが設計した軌道で恒星間へ、到達まで最大8万年の探査計画",
+      "url": "https://ascii.jp/elem/000/004/431/4431466/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-01T21:54:13.000Z",
+      "image": "https://ascii.jp/img/2019/11/06/1510916/xl/ed8de61ce6796246.png?20200122"
+    },
+    {
+      "title": "OpenAI delayed its new model’s development after the Hugging Face hack",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/987695/openai-astra-unreleased-model-cybersecurity-delay",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-01T20:45:49.000Z",
+      "titleJa": "OpenAIはHugging Faceハッキングの後、新モデルの開発を遅らせた",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25461999/STK155_OPEN_AI_CVirginia_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "AIエージェントがRedshiftを操作してDWH構築や集計分析など可能に、Amazon RedshiftがAgent Toolkit for AWSと統合",
+      "url": "https://www.publickey1.jp/blog/26/airedshiftdwhamazon_redshiftagent_toolkit_for_aws.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-09-01T15:07:04.000Z",
+      "image": "https://www.publickey1.jp/2026/redshift-agenttool4aws-in.jpg"
+    },
+    {
+      "title": "MacBook Air M5がAmazonで値下げ！ 15インチ・1TBモデルが31万8800円→28万6920円",
+      "url": "https://ascii.jp/elem/000/004/431/4431000/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-01T11:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/01/4519930/xl/3211c4863824697a.jpg?20200122"
+    },
+    {
+      "title": "総務省、「AX・新技術戦略室」を新設 AI推進に注力",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/01/2000001044/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-01T10:37:56.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/01/2000001044/10004779/2048"
+    },
+    {
+      "title": "ChatGPT広告、開始200日足らずで年換算1600億円の売上に",
+      "url": "https://japan.cnet.com/article/35252141/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-01T09:20:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/01/d65b6687d664dce0a4c0ffdb64861dd4/chatgpt-openai-gettyimages-2242398021.jpg"
+    },
     {
       "title": "Nvidia’s $3.5B MediaTek bet reveals its plan for tackling Big Tech’s AI chip buildout",
       "url": "https://techcrunch.com/2026/08/31/nvidias-3-5b-mediatek-bet-reveals-its-plan-for-tackling-big-techs-ai-chip-buildout/",
@@ -12,113 +112,12 @@
       "image": "https://techcrunch.com/wp-content/uploads/2025/03/GettyImages-2205761844.jpg?resize=1200,846"
     },
     {
-      "title": "「ChatGPT」広告、年換算の売上高10億ドルに 開始200日足らずで達成",
-      "url": "https://www.itmedia.co.jp/news/article/2609/01/2000000997/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-31T23:27:31.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/01/2000000997/10004610/2048"
-    },
-    {
-      "title": "IT大手19社の増収率がついに30％台、2026年4～6月決算で AI特需がけん引",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00848/00195/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-08-31T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00848/00195/topm.jpg?20220512"
-    },
-    {
-      "title": "Harvard Law dropout raises $6M for Blue Voice to build a ‘Harvey for police officers’",
-      "url": "https://techcrunch.com/2026/08/31/harvard-law-dropout-raises-6m-for-blue-voice-to-build-a-harvey-for-police-officers/",
-      "source": "TechCrunch",
+      "title": "OpenAI supports California’s bill to advance youth AI safety",
+      "url": "https://openai.com/index/supporting-california-bill-advance-ai-youth-safety",
+      "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-08-31T18:35:11.000Z",
-      "titleJa": "ハーバード大学法学部中退者が「警察官のためのハーベイ」を構築するためにブルーボイスに600万ドルを集める",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/BlueVoice_Founders.png?resize=1200,600"
-    },
-    {
-      "title": "“Zlibrary my beloved”: Anthropic staff chats extolling piracy cited in Sony suit",
-      "url": "https://arstechnica.com/tech-policy/2026/08/zlibrary-my-beloved-anthropic-staff-chats-extolling-piracy-cited-in-sony-suit/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-08-31T18:10:45.000Z",
-      "titleJa": "「愛するZlibrary」：ソニーの訴訟で引用された著作権侵害を称賛する人類スタッフの雑談",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-172575622-1152x648.jpg"
-    },
-    {
-      "title": "Debian won’t ban AI code from its Linux distribution",
-      "url": "https://www.theverge.com/tech/986789/linux-debian-generative-ai-policy",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-31T15:34:58.000Z",
-      "titleJa": "Debian は Linux ディストリビューションから AI コードを禁止しない",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/09/STK414_AI_CVIRGINIA_I__0009_7.png?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "ChatGPT to face tougher regulation in the EU",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-31T13:27:36.000Z",
-      "titleJa": "ChatGPTはEUでより厳しい規制に直面する",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/08/STK155_OPEN_AI_4_CVirginia_B.png?quality=90&strip=all&crop=0%2C10.742221417566%2C100%2C78.515557164868&w=1200"
-    },
-    {
-      "title": "導入速度はクラウド以上--「高度で複雑なシステム」なAIエージェントはどう選ぶべきか",
-      "url": "https://japan.zdnet.com/article/35251771/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
       "date": "2026-08-31T07:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/20/f2d959e87b5285a33996a532274c7eda/20260713_gartner_1280x960.jpg"
-    },
-    {
-      "title": "ソニー・ミュージックパブリッシングとワーナー・チャペル、Anthropicを著作権侵害で提訴",
-      "url": "https://www.itmedia.co.jp/news/article/2608/31/2000000950/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-30T23:21:28.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/31/2000000950/10004423/2048"
-    },
-    {
-      "title": "【無料】日本語のAI学習サイトをAnthropicが公開 「Claude Code入門」など357のコンテンツが学べる",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/31/news015.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-30T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2608/31/cover_news015.jpg"
-    },
-    {
-      "title": "ソフトクリエイトのAI戦略、中堅・中小企業向け独自AIツールと知財を軸に従来型SIからの脱却図る",
-      "url": "https://japan.zdnet.com/article/35252041/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-30T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/28/4852dbf0fe8d14741d551af09f0d3cff/20260827_okame_1280x960.jpg"
-    },
-    {
-      "title": "JetBrains、Mac上で動作するコーディングエージェント「Junie Local」提供開始。Claude Sonnet 4.5と同等の能力、RTX5090対応も開発中",
-      "url": "https://www.publickey1.jp/blog/26/jetbrainsmacjunie_localclaude_sonnet_45rtx5909.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-08-30T15:07:47.000Z",
-      "image": "https://www.publickey1.jp/2026/HQfo5eBWAAAWhrP.png"
-    },
-    {
-      "title": "Hugging Face侵害事件、OpenAIとMETRが最終報告書公開──約1200体のAIエージェントが“闇掲示板”で結託し700体が攻撃に参加",
-      "url": "https://www.itmedia.co.jp/news/article/2608/30/2000000949/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-30T09:23:12.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2608/30/2000000949/10004419/2048"
-    },
-    {
-      "title": "‘We’re not doing 30 bets a year’: Vijay Pande on betting small after running $4B at a16z",
-      "url": "https://techcrunch.com/2026/08/29/were-not-doing-30-bets-a-year-vijay-pande-on-betting-small-after-running-4-billion-at-a16z/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-08-29T17:36:47.000Z",
-      "titleJa": "「年間30回も賭けているわけではない」：a16zで40億ドルを稼いだ後、少額の賭けをするビジェイ・パンデ",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Vijay-Pande.png?resize=1200,800"
+      "titleJa": "OpenAI、青少年の AI の安全性を推進するカリフォルニア州の法案を支持"
     }
   ]
 }
