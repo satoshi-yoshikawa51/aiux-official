@@ -1,7 +1,106 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-02T23:32:14.405Z",
+  "updatedAt": "2026-09-03T23:30:50.547Z",
   "items": [
+    {
+      "title": "Daybreak for Frontline Defenders: $1B to protect essential services",
+      "url": "https://openai.com/index/daybreak-for-frontline-defenders",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-03T13:15:00.000Z",
+      "titleJa": "最前線の防御者のための夜明け: 重要なサービスの保護に 10 億ドル"
+    },
+    {
+      "title": "Accel reportedly in talks to lead $1B round for Thinking Machines at $40B valuation",
+      "url": "https://techcrunch.com/2026/09/03/accel-reportedly-in-talks-to-lead-1b-round-for-thinking-machines-at-40b-valuation/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-03T19:36:29.000Z",
+      "titleJa": "伝えられるところによると、アクセルは評価額400億ドルのThinking Machinesに対して10億ドルのラウンドをリードする交渉を行っていると報じられている",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/Mira-Murati-at-Bloomberg.jpg?w=1024"
+    },
+    {
+      "title": "OpenAI launches Astra, its powerful (and controversial) new model",
+      "url": "https://techcrunch.com/2026/09/03/openai-launches-astra-its-powerful-and-controversial-new-model/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-03T18:01:45.000Z",
+      "titleJa": "OpenAI、強力な (そして物議を醸す) 新モデル Astra を発表",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/04/GettyImages-2182154299.jpg?w=1024"
+    },
+    {
+      "title": "OpenAI、「GPT-6」（Astra）正式発表--数日中にChatGPTへ展開 追加料金不要",
+      "url": "https://japan.cnet.com/article/35252269/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-03T22:22:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/04/6190f1703c11a9a2c91a3b60732634d3/GPT-6.jpeg"
+    },
+    {
+      "title": "新AI「GPT-6 Astra」リリース。AGI時代にはキーボードなど叩かない",
+      "url": "https://www.gizmodo.jp/article/openai_gpt_6_astra_release/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-03T22:14:41.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/03/1d881eef-fef3-4327-9968-c19856bc6ac9/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "3つの調査が示したAIエージェント導入における不都合な真実",
+      "url": "https://japan.zdnet.com/article/35252062/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-03T21:30:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/08/30/a34a5c3b228f389022985fafaccb2e91/humametagettyimages-1770574235_l.jpg"
+    },
+    {
+      "title": "複数のAIサービスで障害発生 ChatGPT／Claude／Grok【復旧済み】",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/04/2000001152/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-03T18:10:08.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/04/2000001152/10005144/2048"
+    },
+    {
+      "title": "NVIDIAがHugging Face買収で合意 約2兆円 ジェンスン・フアンCEOはオープンモデルの重要性に言及",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/03/2000001150/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-03T13:34:49.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/03/2000001150/10005142/2048"
+    },
+    {
+      "title": "【特許権利化】AIエージェントが買い物を代行する「エージェンティックコマース」元年。誤発注、なりすまし、偽物購入を「確定前」に止め、証跡は「BaaS」へ刻む日本初の特許を権利化（※1）",
+      "url": "https://ascii.jp/elem/000/004/432/4432191/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-03T09:11:08.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "約9割の日本企業が「AI導入のスピードが人材・組織の適応を上回っている」と実感",
+      "url": "https://japan.zdnet.com/article/35252217/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-03T06:45:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/03/17/05d4257d2a795da2665b7b6e977934d2/250317_worker_as_1280_8707039.jpeg"
+    },
+    {
+      "title": "Adobe、Slackから「Photoshop」などのツールを使える「Adobe for Slack」提供開始 会話からPDFや動画を生成",
+      "url": "https://www.itmedia.co.jp/news/article/2609/03/2000001114/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-03T04:51:58.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/03/2000001114/10005049/2048"
+    },
+    {
+      "title": "Google releases Gemini 3.8 Flash, its third Flash model in six weeks",
+      "url": "https://arstechnica.com/ai/2026/09/google-releases-gemini-3-8-flash-its-third-flash-model-in-six-weeks/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-02T18:13:54.000Z",
+      "titleJa": "Google、6週間で3番目のFlashモデルとなるGemini 3.8 Flashをリリース",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/gemini-general-1-1152x648.jpg"
+    },
     {
       "title": "Researchers fear safety disaster ahead of OpenAI’s Astra release",
       "url": "https://www.theverge.com/ai-artificial-intelligence/988334/openai-astra-ai-monitoring-safety",
@@ -17,108 +116,8 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-09-02T16:12:25.000Z",
-      "titleJa": "トランプ政権はNYT著作権訴訟でOpenAIを支持",
+      "titleJa": "トランプ政権、NYT著作権訴訟でOpenAIを支持",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25462046/STK155_OPEN_AI_CVirginia_2_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Wonderful more than doubles its valuation to $5B in under 6 months",
-      "url": "https://techcrunch.com/2026/09/02/wonderful-more-than-doubles-its-valuation-to-5b-in-under-6-months/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-02T16:04:10.000Z",
-      "titleJa": "Wonderful は 6 か月以内に評価額を 2 倍以上の 50 億ドルに引き上げ",
-      "image": "https://techcrunch.com/wp-content/uploads/2018/02/tc-backlight-e1689786273147.png?w=1200"
-    },
-    {
-      "title": "OpenAI faces 30 more lawsuits tied to Tumbler Ridge shooting",
-      "url": "https://techcrunch.com/2026/09/02/openai-faces-30-more-lawsuits-tied-to-tumbler-ridge-shooting/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-02T12:09:42.000Z",
-      "titleJa": "OpenAI、タンブラーリッジ銃乱射事件に関連してさらに30件の訴訟に直面",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/tim-cook-sam-altman-GettyImages-2233062347.jpg?w=1024"
-    },
-    {
-      "title": "Anthropic、Claudeの「AI透かし」を判別するツール公開--現時点でテキストは未対応",
-      "url": "https://japan.cnet.com/article/35252211/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-02T22:50:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/03/735c43d3579b1516889be346dfd9478b/03.jpeg"
-    },
-    {
-      "title": "Google、「Gemini 3.8 Flash」公開 3.7から3週間、価格据え置きで防御特化の「Cyber」も",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/03/2000001096/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-02T22:42:19.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/03/2000001096/10004966/2048"
-    },
-    {
-      "title": "Google、AI画像作成ツール「Google Pics」発表 Nano Banana活用",
-      "url": "https://japan.cnet.com/article/35252209/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-02T21:34:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/03/d64387fed633989a86becff95202b7a4/01.jpeg"
-    },
-    {
-      "title": "NECがAnthropicの「Mythos」利用権、社内の脆弱性管理に活用",
-      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03370/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-02T09:35:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03370/topm.jpg?20220512"
-    },
-    {
-      "title": "OrcaRouter、AIエージェントの実行を記録・再生・分岐できるOSSツール「OrcaReplay」を公開サブタイトル",
-      "url": "https://ascii.jp/elem/000/004/431/4431808/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-02T09:30:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "Runway、コード不要でデジタル世界を構築するAIモデル「Solaris」発表",
-      "url": "https://japan.cnet.com/article/35252199/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-02T08:30:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/02/e524b50cca04f17981b0a5a1ef325769/082626-solaris-blogpost-thumbnail-2fe8ad11-4846-4ba2-bbbf-a8db3feaa725_1280x960.jpg"
-    },
-    {
-      "title": "NEC、先進AI「Claude Mythos」ついに導入 Anthropic主導“セキュリティ防衛連合”で、何ができる？",
-      "url": "https://www.itmedia.co.jp/business/articles/2609/02/news095.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-02T07:30:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2609/02/cover_news095.jpg"
-    },
-    {
-      "title": "NEC、AI活用の脆弱性対策マネージドサービスを発表",
-      "url": "https://japan.zdnet.com/article/35252195/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-02T07:16:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/02/9e30786d3affd87d443bf5f019751dc1/nec0902_l.jpg"
-    },
-    {
-      "title": "AfterQuery reportedly becomes Y Combinator’s fastest-ever unicorn, now valued at $3.2B",
-      "url": "https://techcrunch.com/2026/09/01/afterquery-reportedly-becomes-y-combinators-fastest-ever-unicorn-now-valued-at-3-2b/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-01T22:08:24.000Z",
-      "titleJa": "AfterQuery は Y Combinator 史上最速のユニコーンとなり、その評価額は現在 32 億ドルと伝えられています",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/10/GettyImages-1569337822.jpg?resize=1200,800"
-    },
-    {
-      "title": "The latest AI news we announced in August 2026",
-      "url": "https://blog.google/innovation-and-ai/technology/google-ai-updates-august-2026/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-09-01T20:45:00.000Z",
-      "titleJa": "2026年8月に発表したAI最新ニュース",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/August_AI_Recap_social.width-1300.png"
     }
   ]
 }
