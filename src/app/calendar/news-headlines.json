@@ -1,14 +1,97 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-03T23:30:50.547Z",
+  "updatedAt": "2026-09-04T23:15:33.919Z",
   "items": [
+    {
+      "title": "AI compute provider Nscale is looking for $3.5B in pre-IPO financing",
+      "url": "https://techcrunch.com/2026/09/04/ai-compute-provider-nscale-is-looking-for-3-5b-in-pre-ipo-financing/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-04T21:12:11.000Z",
+      "titleJa": "AIコンピューティングプロバイダーのNscaleは、IPO前の資金調達で35億$を探しています",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-2266843677.jpg?resize=1200,800"
+    },
+    {
+      "title": "Anthropic’s $2 trillion IPO puts powerful external trustees in spotlight",
+      "url": "https://arstechnica.com/ai/2026/09/anthropics-2-trillion-ipo-puts-powerful-external-trustees-in-spotlight/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-04T16:22:18.000Z",
+      "titleJa": "Anthropicの2兆$のIPOは、強力な外部受託者にスポットライトを当てます",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2285051730-1152x648.jpg"
+    },
+    {
+      "title": "Crusoe reportedly raises $3B at a $30B valuation",
+      "url": "https://techcrunch.com/2026/09/03/crusoe-reportedly-raises-3b-at-a-30b-valuation/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-04T00:48:42.000Z",
+      "titleJa": "Crusoeは300億ドルの評価で30億ドルを調達したと伝えられています",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2245923419.jpg?resize=1200,800"
+    },
+    {
+      "title": "シャープが統合AI「NIAH」発表、家電横断で利用者の暮らし理解",
+      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03372/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-04T07:30:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03372/topm.jpg?20220512"
+    },
+    {
+      "title": "OpenAIが「GPT-6 Astra」を提供開始、サイバー攻撃能力懸念で一時開発停止",
+      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03373/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-04T04:30:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03373/topm.jpg?20220512"
+    },
+    {
+      "title": "ChatGPTの利用制限、新モデル「Astra」提供まで“毎日リセット” 有料ユーザー向け",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/04/2000001165/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-04T03:25:16.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/04/2000001165/10005195/2048"
+    },
+    {
+      "title": "大和鋼管工業、情シスAI「zooba」を導入--SaaS管理とコスト最適化を推進",
+      "url": "https://japan.zdnet.com/article/35252289/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-04T03:06:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/05/08/184ba104d0062af259cfea2003d77d8f/260508_software_as_1280_625979046.jpg"
+    },
+    {
+      "title": "シュナイダーエレクトリック、AIデータセンタービジネスを総合支援する新体制を発表",
+      "url": "https://japan.zdnet.com/article/35252264/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-04T02:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/03/66a9b0f9b2b5853fa6b47c1742fa1ee4/260903_se_l.jpg"
+    },
+    {
+      "title": "OpenAI、最新モデル「Astra」を公開--セキュリティ専門家からは懸念の声も",
+      "url": "https://japan.zdnet.com/article/35252295/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-04T01:31:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/04/ee78a921913862fc09566d0e20ee701b/openais-gpt-5-launch-could-be-as-early-as-this-week-heres-what-to-expect_87a620_1280.jpg"
+    },
+    {
+      "title": "ChatGPT、Claude、Grokで同時に障害 復旧済み",
+      "url": "https://japan.cnet.com/article/35252276/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-04T00:31:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/04/4dbccd9885e102155033e018d62342be/87b4eb30-1aad-4fca-a417-3235e48fe46c_1280x960.jpg"
+    },
     {
       "title": "Daybreak for Frontline Defenders: $1B to protect essential services",
       "url": "https://openai.com/index/daybreak-for-frontline-defenders",
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-09-03T13:15:00.000Z",
-      "titleJa": "最前線の防御者のための夜明け: 重要なサービスの保護に 10 億ドル"
+      "titleJa": "前線防衛者の夜明け：必需品を守るために10億$"
     },
     {
       "title": "Accel reportedly in talks to lead $1B round for Thinking Machines at $40B valuation",
@@ -16,108 +99,25 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-03T19:36:29.000Z",
-      "titleJa": "伝えられるところによると、アクセルは評価額400億ドルのThinking Machinesに対して10億ドルのラウンドをリードする交渉を行っていると報じられている",
+      "titleJa": "Accelは、Thinking Machinesのバリュエーション400億ドルで10億ドルのラウンドをリードするための話し合いを行っていると伝えられています",
       "image": "https://techcrunch.com/wp-content/uploads/2026/06/Mira-Murati-at-Bloomberg.jpg?w=1024"
     },
     {
-      "title": "OpenAI launches Astra, its powerful (and controversial) new model",
-      "url": "https://techcrunch.com/2026/09/03/openai-launches-astra-its-powerful-and-controversial-new-model/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-03T18:01:45.000Z",
-      "titleJa": "OpenAI、強力な (そして物議を醸す) 新モデル Astra を発表",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/04/GettyImages-2182154299.jpg?w=1024"
-    },
-    {
-      "title": "OpenAI、「GPT-6」（Astra）正式発表--数日中にChatGPTへ展開 追加料金不要",
-      "url": "https://japan.cnet.com/article/35252269/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-03T22:22:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/04/6190f1703c11a9a2c91a3b60732634d3/GPT-6.jpeg"
-    },
-    {
-      "title": "新AI「GPT-6 Astra」リリース。AGI時代にはキーボードなど叩かない",
-      "url": "https://www.gizmodo.jp/article/openai_gpt_6_astra_release/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-09-03T22:14:41.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/03/1d881eef-fef3-4327-9968-c19856bc6ac9/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "3つの調査が示したAIエージェント導入における不都合な真実",
-      "url": "https://japan.zdnet.com/article/35252062/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-03T21:30:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/30/a34a5c3b228f389022985fafaccb2e91/humametagettyimages-1770574235_l.jpg"
-    },
-    {
-      "title": "複数のAIサービスで障害発生 ChatGPT／Claude／Grok【復旧済み】",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/04/2000001152/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-03T18:10:08.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/04/2000001152/10005144/2048"
-    },
-    {
-      "title": "NVIDIAがHugging Face買収で合意 約2兆円 ジェンスン・フアンCEOはオープンモデルの重要性に言及",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/03/2000001150/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-03T13:34:49.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/03/2000001150/10005142/2048"
-    },
-    {
-      "title": "【特許権利化】AIエージェントが買い物を代行する「エージェンティックコマース」元年。誤発注、なりすまし、偽物購入を「確定前」に止め、証跡は「BaaS」へ刻む日本初の特許を権利化（※1）",
-      "url": "https://ascii.jp/elem/000/004/432/4432191/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-03T09:11:08.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "約9割の日本企業が「AI導入のスピードが人材・組織の適応を上回っている」と実感",
-      "url": "https://japan.zdnet.com/article/35252217/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-03T06:45:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/03/17/05d4257d2a795da2665b7b6e977934d2/250317_worker_as_1280_8707039.jpeg"
-    },
-    {
-      "title": "Adobe、Slackから「Photoshop」などのツールを使える「Adobe for Slack」提供開始 会話からPDFや動画を生成",
-      "url": "https://www.itmedia.co.jp/news/article/2609/03/2000001114/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-03T04:51:58.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/03/2000001114/10005049/2048"
-    },
-    {
-      "title": "Google releases Gemini 3.8 Flash, its third Flash model in six weeks",
-      "url": "https://arstechnica.com/ai/2026/09/google-releases-gemini-3-8-flash-its-third-flash-model-in-six-weeks/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-02T18:13:54.000Z",
-      "titleJa": "Google、6週間で3番目のFlashモデルとなるGemini 3.8 Flashをリリース",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/gemini-general-1-1152x648.jpg"
-    },
-    {
-      "title": "Researchers fear safety disaster ahead of OpenAI’s Astra release",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/988334/openai-astra-ai-monitoring-safety",
+      "title": "Nvidia launches free tool that links idle computers into a personal AI data center",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/989435/nvidia-pair-personal-ai-router-home-local-llm-compute-tool-rtx-macbook",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-09-02T16:40:50.000Z",
-      "titleJa": "研究者らはOpenAIのAstraリリースを前に安全上の災害を懸念している",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2287521404.jpg?quality=90&strip=all&crop=0%2C10.737892056687%2C100%2C78.524215886627&w=1200"
+      "date": "2026-09-03T16:00:00.000Z",
+      "titleJa": "NVIDIA、アイドル状態のコンピューターを個人のAIデータセンターにリンクする無料ツールを発表",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/Screenshot-2026-09-03-at-10.42.02-AM.png?quality=90&strip=all&crop=0%2C3.342396806572%2C100%2C93.315206386856&w=1200"
     },
     {
-      "title": "The Trump administration is supporting OpenAI in the NYT copyright lawsuit",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/988344/trump-administration-new-york-times-openai-lawsuit",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-02T16:12:25.000Z",
-      "titleJa": "トランプ政権、NYT著作権訴訟でOpenAIを支持",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25462046/STK155_OPEN_AI_CVirginia_2_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "title": "OpenAI、「GPT-6 Astra」を一部組織向けに公開 サイバー能力が初の「Critical」に",
+      "url": "https://www.itmedia.co.jp/news/article/2609/04/2000001153/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-03T23:19:48.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/04/2000001153/10005152/2048"
     }
   ]
 }
