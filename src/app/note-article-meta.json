@@ -1,5 +1,23 @@
 {
   "_comment": "note記事のメタ情報（カテゴリ・色・説明文・タグ）。サイトの data.ts はこのファイル＋note APIから自動生成されます。新しい記事を新着/人気に出したいのにメタが無いと警告されたら、その記事URLのエントリをここに追記してください。tone は yellow|red|ink|blue|paper のいずれか。",
+  "https://note.com/aiux_unite/n/nfbb473284e7a": {
+    "badge": "アカデミー",
+    "tone": "yellow",
+    "excerpt": "AIを遊んで学べるiOSアプリ「COMIXAIアカデミー」の制作記。クイズ・ミニゲーム・ガチャ・3Dの相棒まで、Claudeでどう作ったかの一部始終。",
+    "tags": [
+      "アカデミー",
+      "アプリ開発"
+    ]
+  },
+  "https://note.com/aiux_unite/n/n37529e7ec76e": {
+    "badge": "4コマ",
+    "tone": "red",
+    "excerpt": "むずかしいAI用語を手描きの4コマ漫画で解説する新シリーズ第1回。「プロンプトエンジニアリング」を4コマで。",
+    "tags": [
+      "4コマ",
+      "AI用語"
+    ]
+  },
   "https://note.com/aiux_unite/n/nb5a8bfa2d631": {
     "badge": "Claude教習所",
     "tone": "yellow",
