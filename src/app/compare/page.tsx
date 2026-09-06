@@ -173,7 +173,7 @@ export default function ComparePage() {
       <section style={{ maxWidth: "min(760px, 92vw)", margin: "0 auto", padding: "0 0 56px" }}>
         <div style={{ border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "16px 20px", marginBottom: 18 }}>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 2, fontWeight: 700 }}>
-            覚えておくのはこれだけ：<b>「1社に忠誠を誓わない」</b>。得意分野は各社ずっと入れ替わり続けています。乗り換えられる人がいちばん強い——だから道具の名前より、<a href="/glossary" style={{ color: "var(--ink-900)" }}>用語＝共通の考え方</a>を覚えるのが結局いちばんの近道です。
+            得意分野は各社ずっと入れ替わり続けています。だから道具の名前より、<a href="/glossary" style={{ color: "var(--ink-900)" }}>用語＝共通の考え方</a>を覚えておくのが結局いちばんの近道です。
           </p>
         </div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>

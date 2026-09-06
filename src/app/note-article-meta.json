@@ -1,5 +1,14 @@
 {
   "_comment": "note記事のメタ情報（カテゴリ・色・説明文・タグ）。サイトの data.ts はこのファイル＋note APIから自動生成されます。新しい記事を新着/人気に出したいのにメタが無いと警告されたら、その記事URLのエントリをここに追記してください。tone は yellow|red|ink|blue|paper のいずれか。",
+  "https://note.com/aiux_unite/n/n12b682fee951": {
+    "badge": "GPT-6 Astra",
+    "tone": "blue",
+    "excerpt": "リリース直後のGPT-6 AstraをChatGPT Workで動かし、3Dゲーム「CORE SHIFT」を一発指示で制作→ChatGPT Sitesで公開するまでの一部始終。",
+    "tags": [
+      "GPT-6",
+      "3Dゲーム"
+    ]
+  },
   "https://note.com/aiux_unite/n/nfbb473284e7a": {
     "badge": "アカデミー",
     "tone": "yellow",
