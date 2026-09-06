@@ -66,7 +66,7 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
   {
     slug: "claude-fable",
     term: "Claude Fable／Claude Mythos",
-    yomi: "くろーど ふぇいぶる／みそす",
+    yomi: "くろーど ふぇいぶる／みゅとす",
     en: "Claude Fable / Claude Mythos",
     category: "開発・活用",
     short:
