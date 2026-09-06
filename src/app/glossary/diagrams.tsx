@@ -1180,7 +1180,7 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
         <B x={95} y={155} w={160} h={80} label={"チャット\n（GPT-6 Pro）"} sub="Pro以上・週の回数制限" />
         <B x={270} y={155} w={160} h={80} label={"Work・Codex"} sub="Plusはここが入口" />
         <B x={445} y={155} w={135} h={80} label={"API"} sub="従量課金" />
-        <T x={300} y={272} text="普段使いはGPT-5.6系のまま。最上位は「ここぞ」で呼び出す設計" size={12.5} />
+        <T x={300} y={272} text="普段使いはGPT-5.6系のまま。最上位は「ここぞ」で呼ぶ" size={14} />
       </Svg>
     ),
   },
@@ -1195,8 +1195,8 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
         <AH x1={245} x2={315} y={55} label="同じモデル" />
         <B x={320} y={30} w={250} h={60} label={"Fable＝一般提供"} sub="強い安全対策つき" fill={RED} color="#fff" />
         <B x={320} y={110} w={250} h={60} label={"Mythos＝審査制"} sub="サイバー・生命科学の業務向け" dashed />
-        <T x={445} y={205} text="違いは「賢さ」ではなく「安全対策の強さ」" size={12.5} />
-        <T x={300} y={295} text="個人プランでは利用枠が別建て（Pro=クレジット制／Max=週間上限の50%まで）" size={12} />
+        <T x={445} y={205} text="違いは安全対策の強さだけ" size={13.5} />
+        <T x={300} y={295} text="利用枠は別建て：Pro=クレジット制／Max=週上限の50%まで" size={13.5} />
       </Svg>
     ),
   },
@@ -1213,7 +1213,7 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
         <B x={450} y={35} w={135} h={50} label="4Kに拡大" />
         <B x={450} y={105} w={135} h={50} label={"続きを生成"} sub="最大40秒" />
         <B x={450} y={175} w={135} h={50} label={"キャラを維持"} />
-        <T x={300} y={258} text="動画生成は2026年9月時点で3社の中の一番手。本格利用はAI Ultraが中心" size={12.5} />
+        <T x={300} y={258} text="動画生成は3社の中の一番手。本格利用はAI Ultraが中心" size={14} />
       </Svg>
     ),
   },
@@ -1227,7 +1227,7 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
         <B x={40} y={125} w={230} h={60} label={"数学・科学・PC操作"} sub="共通ベンチマークで優勢" fill={YELLOW} />
         <B x={330} y={125} w={230} h={60} label={"エージェント型コーディング"} sub="独立系指標で僅差の首位" fill={YELLOW} />
         <B x={135} y={210} w={330} h={50} label={"API価格は両者同じ"} sub="入力$10／出力$50（100万トークン）" fill={RED} color="#fff" />
-        <T x={300} y={290} text="日常用途では差を体感しにくい。「どちらが最強」より「どこで使うか」" size={12.5} />
+        <T x={300} y={290} text="「どちらが最強」より「どこで使うか」で選ぶ" size={14} />
       </Svg>
     ),
   },
@@ -1245,7 +1245,7 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
         <T x={455} y={90} text="ここでは開かない" size={13.5} color={RED} anchor="start" bold />
         <AH x1={430} x2={460} y={215} />
         <B x={465} y={180} w={120} h={70} label={"高度な\n能力"} dashed />
-        <T x={300} y={285} text="OpenAIもAnthropicも2026年に採用した「能力の開け方」の新方式" size={12.5} />
+        <T x={300} y={285} text="OpenAIもAnthropicも2026年に採用した新方式" size={14} />
       </Svg>
     ),
   },
