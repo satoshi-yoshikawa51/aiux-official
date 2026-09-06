@@ -148,7 +148,7 @@ export default function YonkomaGalleryPage() {
                 AI用語集を読む
               </div>
               <p style={{ fontSize: 13.5, lineHeight: 1.9, color: "var(--text-muted)", margin: 0 }}>
-                4コマの元になっている150語の解説。マンガ付きの語から読むのがおすすめ。
+                4コマの元になっている155語の解説。マンガ付きの語から読むのがおすすめ。
               </p>
             </Card>
           </a>
