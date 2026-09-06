@@ -1173,13 +1173,13 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
     caption: "同じGPT-6 Astraでも、プランによって入口が違う",
     render: () => (
       <Svg h={300} title="GPT-6 Astraの入口の図解">
-        <B x={95} y={30} w={485} h={70} label={"GPT-6 Astra"} sub="2026年9月の最上位" fill={YELLOW} />
-        <AV x={175} y1={105} y2={150} />
-        <AV x={350} y1={105} y2={150} />
-        <AV x={512} y1={105} y2={150} />
-        <B x={95} y={155} w={160} h={80} label={"チャット\n（GPT-6 Pro）"} sub="Pro以上・週の回数制限" />
-        <B x={270} y={155} w={160} h={80} label={"Work・Codex"} sub="Plusはここが入口" />
-        <B x={445} y={155} w={135} h={80} label={"API"} sub="従量課金" />
+        <B x={58} y={30} w={485} h={70} label={"GPT-6 Astra"} sub="2026年9月の最上位" fill={YELLOW} />
+        <AV x={138} y1={105} y2={150} />
+        <AV x={313} y1={105} y2={150} />
+        <AV x={475} y1={105} y2={150} />
+        <B x={58} y={155} w={160} h={80} label={"チャット\n（GPT-6 Pro）"} sub="Pro以上・週の回数制限" />
+        <B x={233} y={155} w={160} h={80} label={"Work・Codex"} sub="Plusはここが入口" />
+        <B x={408} y={155} w={135} h={80} label={"API"} sub="従量課金" />
         <T x={300} y={272} text="普段使いはGPT-5.6系のまま。最上位は「ここぞ」で呼ぶ" size={14} />
       </Svg>
     ),
