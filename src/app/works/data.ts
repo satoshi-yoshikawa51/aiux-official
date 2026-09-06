@@ -46,6 +46,52 @@ export interface WorkDetail {
 
 export const WORK_DETAILS: WorkDetail[] = [
   {
+    slug: "core-shift",
+    category: "ゲーム",
+    title: "CORE SHIFT",
+    tagline: "青と琥珀、2つの世界を切り替えて浮遊都市を駆け抜ける3Dアクション。",
+    appUrl: "https://comixai-core-shift.baystars-nigaoe-555.chatgpt.site/",
+    cta: "あそぶ",
+    image: "/works/core-shift.jpg",
+    tone: "blue",
+    badge: "GPT-6 Astra製",
+    lastUpdated: "2026-09-06",
+    metaTitle: "CORE SHIFT｜世界を書き換える3Dアクション（GPT-6 Astra製）",
+    metaDescription:
+      "青と琥珀の世界を切り替えながら浮遊都市を攻略する3Dアクションゲーム。切り替えると橋が現れ、敵の弾をすり抜けられる。3エリア＋ボス戦。ChatGPT Work＋GPT-6 Astraへの一発指示で生まれ、ChatGPT Sitesで公開。PC・スマホのブラウザで無料で遊べます。",
+    keywords: [
+      "GPT-6 Astra 作例",
+      "ChatGPT Work ゲーム制作",
+      "ChatGPT Sites 公開",
+      "AI 3Dゲーム",
+      "ブラウザゲーム 無料",
+    ],
+    intro: [
+      "青の世界と琥珀の世界——2つの位相を「コアシフト」で切り替えながら、空に浮かぶ都市を駆け抜ける3Dアクションです。切り替えると消えていた橋が現れ、敵の弾をすり抜けられる。この1つのルールから、道探し・弾幕回避・コア回収のすべてが生まれます。3エリア＋ボス戦、ダッシュ攻撃、動く水面や発光・粒子の演出まで入って、PC・スマホのブラウザですぐ遊べます。",
+      "実はこのゲーム、Claude製のこのサイトに並ぶ初のChatGPT製作品。2026年9月に登場したGPT-6 AstraをChatGPT Work（自律エージェント）で動かし、「このサイトの1コンテンツとして超高クオリティの3Dゲームを作って」という一発の指示から生まれ、ChatGPT Sitesでそのまま公開しました。/compare で書いている「1社に忠誠を誓わない」の実践例でもあります。どう作ったかは制作ストーリーの記事でどうぞ。",
+    ],
+    features: [
+      {
+        icon: "ph-arrows-clockwise",
+        title: "世界を切り替えて道を作る",
+        text: "青⇄琥珀のコアシフトが唯一にして最大のルール。橋が現れ、弾をすり抜け、世界の見え方が一変する。",
+      },
+      {
+        icon: "ph-flag-checkered",
+        title: "3エリア＋ボス戦",
+        text: "ダッシュ攻撃・弾幕回避・コア回収。エリアごとに攻略の組み立てが変わるステージ設計。",
+      },
+      {
+        icon: "ph-sparkle",
+        title: "一発指示で生まれた演出",
+        text: "動く水面・発光・粒子・サウンドまで、GPT-6 Astraへのひとつの指示から。制作過程そのものが見どころ。",
+      },
+    ],
+    tech: ["GPT-6 Astra", "ChatGPT Work", "ChatGPT Sites"],
+    schemaType: "VideoGame",
+    storyUrls: ["https://note.com/aiux_unite/n/n12b682fee951"],
+  },
+  {
     slug: "claude-code-quest",
     category: "ゲーム",
     title: "Claude Code Quest",
