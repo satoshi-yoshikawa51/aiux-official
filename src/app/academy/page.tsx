@@ -622,7 +622,7 @@ export default function AcademyPage() {
               ブラウザでも学べます
             </h2>
             <p style={{ margin: "0 0 11px", fontSize: 13.5, lineHeight: 1.9 }}>
-              このアプリのもとになっている学習コンテンツは、サイト側にもあります。用語集150語、プロンプト集24レシピ、体験ゲーム——全部無料です。
+              このアプリのもとになっている学習コンテンツは、サイト側にもあります。用語集155語、プロンプト集24レシピ、体験ゲーム——全部無料です。
             </p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               <a href="/start" style={{ textDecoration: "none" }}>

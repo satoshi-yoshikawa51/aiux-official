@@ -7,9 +7,9 @@ import { ROWS, USES, PRICING, COMPARE_FAQ, COMPARE_UPDATED } from "./data";
 const UPDATED = COMPARE_UPDATED;
 
 export const metadata: Metadata = {
-  title: "ChatGPT・Claude・Gemini比較｜料金と使い分け【2026年7月】",
+  title: "ChatGPT・Claude・Gemini比較｜料金と使い分け【2026年9月】",
   description:
-    "ChatGPT・Claude・Gemini、結局どれを使えばいい？最新モデル（GPT-5.6／Claude Fable 5／Gemini Omni）と料金プランを2026年7月時点で比較。得意分野・用途別おすすめ・「どっちがいい？」の一問一答つき。答えは「使い分け」——全部無料で試せます。",
+    "ChatGPT・Claude・Gemini、結局どれを使えばいい？最新モデル（GPT-6 Astra／Claude Fable 5.1／Gemini Omni）と料金プランを2026年9月時点で比較。得意分野・用途別おすすめ・「どっちがいい？」の一問一答つき。答えは「使い分け」——全部無料で試せます。",
   keywords: ["ChatGPT Claude 違い", "ChatGPT Gemini どっち", "AI 比較 2026", "生成AI おすすめ", "ChatGPT Claude Gemini 料金"],
   alternates: { canonical: "/compare" },
   openGraph: {
@@ -111,7 +111,7 @@ export default function ComparePage() {
       <section style={{ maxWidth: "min(880px, 92vw)", margin: "0 auto", padding: "0 0 34px" }}>
         <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(20px,3vw,26px)", margin: "0 0 6px" }}><i className="ph-bold ph-currency-jpy" style={{ marginRight: 8, color: "var(--red-500)" }} />料金プラン早見表</h2>
         <p style={{ fontSize: 13.5, color: "var(--text-muted)", margin: "0 0 16px", lineHeight: 1.9 }}>
-          2026年7月時点・日本円は税込目安（為替とプラン改定で変わります）。結論：<b>まず無料、定番は月3,000円前後</b>。
+          2026年9月時点・日本円は税込目安（為替とプラン改定で変わります）。結論：<b>まず無料、定番は月3,000円前後</b>。
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }} className="articles-grid">
           {PRICING.map((s) => (
@@ -178,7 +178,7 @@ export default function ComparePage() {
         </div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           <a href="/glossary" style={{ textDecoration: "none" }}>
-            <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>AI用語集（全150語）</Button>
+            <Button variant="ink" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>AI用語集（全155語）</Button>
           </a>
           <a href="/faq" style={{ textDecoration: "none" }}>
             <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>AIのよくある質問</Button>
@@ -188,7 +188,7 @@ export default function ComparePage() {
           </a>
         </div>
         <div style={{ marginTop: 26 }}>
-          <ShareRow path="/compare" text="ChatGPT・Claude・Gemini比較 2026年7月版（料金・使い分け）" />
+          <ShareRow path="/compare" text="ChatGPT・Claude・Gemini比較 2026年9月版（料金・使い分け）" />
         </div>
       </section>
 

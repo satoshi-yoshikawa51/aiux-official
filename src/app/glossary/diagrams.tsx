@@ -1169,6 +1169,86 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "gpt-6": {
+    caption: "同じGPT-6 Astraでも、プランによって入口が違う",
+    render: () => (
+      <Svg h={300} title="GPT-6 Astraの入口の図解">
+        <B x={58} y={30} w={485} h={70} label={"GPT-6 Astra"} sub="2026年9月の最上位" fill={YELLOW} />
+        <AV x={138} y1={105} y2={150} />
+        <AV x={313} y1={105} y2={150} />
+        <AV x={475} y1={105} y2={150} />
+        <B x={58} y={155} w={160} h={80} label={"チャット\n（GPT-6 Pro）"} sub="Pro以上・週の回数制限" />
+        <B x={233} y={155} w={160} h={80} label={"Work・Codex"} sub="Plusはここが入口" />
+        <B x={408} y={155} w={135} h={80} label={"API"} sub="従量課金" />
+        <T x={300} y={272} text="普段使いはGPT-5.6系のまま。最上位は「ここぞ」で呼ぶ" size={14} />
+      </Svg>
+    ),
+  },
+  "claude-fable": {
+    caption: "Opusの上に新設された階級。FableとMythosは同じモデルで安全対策だけ違う",
+    render: () => (
+      <Svg h={320} title="Claude Fable／Mythosの位置づけ図解">
+        <B x={30} y={210} w={120} h={50} label="Haiku" sub="速い・安い" />
+        <B x={30} y={150} w={150} h={50} label="Sonnet" sub="バランス" />
+        <B x={30} y={90} w={180} h={50} label="Opus" sub="従来の最上位" />
+        <B x={30} y={30} w={210} h={50} label="Fable（新階級）" sub="その上へ" fill={YELLOW} />
+        <AH x1={245} x2={315} y={55} label="同じモデル" />
+        <B x={320} y={30} w={250} h={60} label={"Fable＝一般提供"} sub="強い安全対策つき" fill={RED} color="#fff" />
+        <B x={320} y={110} w={250} h={60} label={"Mythos＝審査制"} sub="サイバー・生命科学の業務向け" dashed />
+        <T x={445} y={205} text="違いは安全対策の強さだけ" size={13.5} />
+        <T x={300} y={295} text="利用枠は別建て：Pro=クレジット制／Max=週上限の50%まで" size={13.5} />
+      </Svg>
+    ),
+  },
+  "gemini-omni": {
+    caption: "生成して終わりではなく、「伸ばす・磨く」編集までできるようになった",
+    render: () => (
+      <Svg h={280} title="Gemini Omniの動画生成の図解">
+        <B x={20} y={95} w={140} h={70} label="プロンプト" sub="「こんな動画を」" />
+        <AH x1={165} x2={225} y={130} />
+        <B x={230} y={85} w={150} h={90} label={"Gemini\nOmni 1.1"} fill={YELLOW} />
+        <AH x1={385} x2={445} y={60} />
+        <AH x1={385} x2={445} y={130} />
+        <AH x1={385} x2={445} y={200} />
+        <B x={450} y={35} w={135} h={50} label="4Kに拡大" />
+        <B x={450} y={105} w={135} h={50} label={"続きを生成"} sub="最大40秒" />
+        <B x={450} y={175} w={135} h={50} label={"キャラを維持"} />
+        <T x={300} y={258} text="動画生成は3社の中の一番手。本格利用はAI Ultraが中心" size={14} />
+      </Svg>
+    ),
+  },
+  "frontier-model": {
+    caption: "最先端の2強は、価格が同じで得意分野が分かれる接戦",
+    render: () => (
+      <Svg h={310} title="フロンティアモデルの勢力図の図解">
+        <B x={40} y={30} w={230} h={65} label={"GPT-6 Astra"} sub="OpenAI" />
+        <B x={330} y={30} w={230} h={65} label={"Claude Fable 5.1"} sub="Anthropic" />
+        <T x={300} y={68} text="VS" size={18} color={INK} bold />
+        <B x={40} y={125} w={230} h={60} label={"数学・科学・PC操作"} sub="共通ベンチマークで優勢" fill={YELLOW} />
+        <B x={330} y={125} w={230} h={60} label={"エージェント型コーディング"} sub="独立系指標で僅差の首位" fill={YELLOW} />
+        <B x={135} y={210} w={330} h={50} label={"API価格は両者同じ"} sub="入力$10／出力$50（100万トークン）" fill={RED} color="#fff" />
+        <T x={300} y={290} text="「どちらが最強」より「どこで使うか」で選ぶ" size={14} />
+      </Svg>
+    ),
+  },
+  "trusted-access": {
+    caption: "全開放でも全封印でもなく、審査を通った相手にだけ開ける",
+    render: () => (
+      <Svg h={300} title="トラステッドアクセスのしくみ図解">
+        <B x={20} y={40} w={150} h={70} label={"一般ユーザー"} />
+        <B x={20} y={180} w={150} h={70} label={"審査を通った\n組織"} sub="正当な業務あり" />
+        <AH x1={175} x2={250} y={75} />
+        <AH x1={175} x2={250} y={215} label="審査" />
+        <B x={255} y={40} w={170} h={70} label={"標準版"} sub="危険な依頼は断る" fill={YELLOW} />
+        <B x={255} y={180} w={170} h={70} label={"緩和版"} sub="Daybreak／Mythos" fill={RED} color="#fff" />
+        <T x={455} y={70} text="✕ 高度な能力は" size={13.5} color={RED} anchor="start" bold />
+        <T x={455} y={90} text="ここでは開かない" size={13.5} color={RED} anchor="start" bold />
+        <AH x1={430} x2={460} y={215} />
+        <B x={465} y={180} w={120} h={70} label={"高度な\n能力"} dashed />
+        <T x={300} y={285} text="OpenAIもAnthropicも2026年に採用した新方式" size={14} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {

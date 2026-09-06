@@ -104,7 +104,7 @@ export default function GuideIndexPage() {
         <div style={{ border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)", background: "var(--yellow-400)", padding: "16px 20px", marginBottom: 18 }}>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 2, fontWeight: 700 }}>
             職種を問わない基礎は<a href="/start" style={{ color: "var(--ink-900)" }}>AIのはじめかた</a>、道具選びは<a href="/compare" style={{ color: "var(--ink-900)" }}>3大AI比較</a>、
-            言葉の意味は<a href="/glossary" style={{ color: "var(--ink-900)" }}>AI用語集（全150語）</a>へ。
+            言葉の意味は<a href="/glossary" style={{ color: "var(--ink-900)" }}>AI用語集（全155語）</a>へ。
           </p>
         </div>
         <ShareRow path="/guide" text="職種別AI活用ガイド（営業・マーケ・事務・クリエイター・人事・サポート・企画・経営者・情シスの9職種）" />
