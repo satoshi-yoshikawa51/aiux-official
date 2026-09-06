@@ -54,7 +54,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     cta: "あそぶ",
     image: "/works/core-shift.jpg",
     tone: "blue",
-    badge: "GPT-6 Astra製",
+    badge: "3D",
     lastUpdated: "2026-09-06",
     metaTitle: "CORE SHIFT｜世界を書き換える3Dアクション（GPT-6 Astra製）",
     metaDescription:
@@ -292,7 +292,7 @@ export const WORK_DETAILS: WorkDetail[] = [
     image: "/claude-app/ogp.png",
     imageFit: "cover",
     tone: "red",
-    badge: "新作",
+    badge: "教習所",
     lastUpdated: "2026-07-24",
     metaTitle: "Claude教習所｜さわって覚えるClaude入門シミュレーター",
     metaDescription:
