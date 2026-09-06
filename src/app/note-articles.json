@@ -1,12 +1,20 @@
 {
   "_comment": "noteの記事一覧（自動生成）。scripts/fetch-note-articles.mjs が毎週更新する。手で編集しないこと。badge/tone/tags/excerptの手書きは note-article-meta.json 側へ。",
-  "updatedAt": "2026-08-31",
+  "updatedAt": "2026-09-06",
   "articles": [
+    {
+      "url": "https://note.com/aiux_unite/n/n12b682fee951",
+      "title": "GPT-6 Astraとは？~3Dゲームを作りながら、わかりやすく完全解説！~",
+      "date": "2026-09-06",
+      "likes": 5,
+      "thumb": "https://assets.st-note.com/production/uploads/images/310918535/rectangle_large_type_2_37799f867d29eb60f48337f73fc8ed81.png?fit=bounds&quality=85&width=1280",
+      "excerpt": "。。！ そのビビった部分ふくめ、是非ご覧ください！ 1.GPT-6 Astraとは？ OpenAIが2026年9月3日（日本時間9月4日）に発表した次世代の最…"
+    },
     {
       "url": "https://note.com/aiux_unite/n/nfbb473284e7a",
       "title": "AIを遊んで学べるiOSアプリ「COMIXAIアカデミー」を作ってみた一部始終を公開します！",
       "date": "2026-08-30",
-      "likes": 11,
+      "likes": 38,
       "thumb": "https://assets.st-note.com/production/uploads/images/308348490/rectangle_large_type_2_69e70c79e0dd44a14138e2cbc2c2cbf6.png?fit=bounds&quality=85&width=1280",
       "excerpt": "作ったアプリはAIを遊んで学べるアプリ「COMIXAIアカデミー」！！ AIを初歩から学びながら、クイズ・実際のAIと遊べるミニゲーム・条件で集まるバッジ・バ…"
     },
@@ -14,7 +22,7 @@
       "url": "https://note.com/aiux_unite/n/n37529e7ec76e",
       "title": "4コマでわかる！AI用語「プロンプトエンジニアリング」",
       "date": "2026-08-12",
-      "likes": 84,
+      "likes": 96,
       "thumb": "https://assets.st-note.com/production/uploads/images/302747994/rectangle_large_type_2_e7dd84dd7a211a7522b68fdcb7b24498.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回からはじまりました「4コマでわかる！AI用語」 むずかしいAI活用を4コマ漫画でわかりやすくお伝えします！ まずはじめの用語は「プロンプトエンジニアリング…"
     },
@@ -22,7 +30,7 @@
       "url": "https://note.com/aiux_unite/n/nb5a8bfa2d631",
       "title": "Claude/Cowork/Codeをさわって学べる！「5分でわかる！Claude教習所」を公開！",
       "date": "2026-07-24",
-      "likes": 79,
+      "likes": 85,
       "thumb": "https://assets.st-note.com/production/uploads/images/297137346/rectangle_large_type_2_037f0d7f77b2ad96a96e001930cbf5ee.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は、Claude/Cowork/Codeをさわって学べる！「5分でわかる！Claude教習所」を作ったので、是非遊んで、学んでもらって、どうやって作ったか…"
     },
@@ -30,7 +38,7 @@
       "url": "https://note.com/aiux_unite/n/n0a9924b1f747",
       "title": "【Claude Fable 5】AIの75年の歴史を振り返る「AI歴史絵巻」を超リッチにつくってみた",
       "date": "2026-07-09",
-      "likes": 100,
+      "likes": 102,
       "thumb": "https://assets.st-note.com/production/uploads/images/292887228/rectangle_large_type_2_ebe9c60589ff3923f885953cb65aa568.png?fit=bounds&quality=85&width=1280",
       "excerpt": "そこから始まったAIの歴史 今回は2026年現在までの歴史を、3Dアニメーション動画と、それぞれの歴史を感じられるパーティクルなどの豪華演出で"
     },
@@ -38,7 +46,7 @@
       "url": "https://note.com/aiux_unite/n/ndd10e1acf1b1",
       "title": "手書きイラストを3Dゲームに！Claudeで作った一部始終",
       "date": "2026-06-22",
-      "likes": 103,
+      "likes": 106,
       "thumb": "https://assets.st-note.com/production/uploads/images/287386173/rectangle_large_type_2_1f7bc7d23bb8871d27d4bc8f23a638c5.png?fit=bounds&quality=85&width=1280",
       "excerpt": "いやー！Claude最高に面白い！！ 今回は手書きのイラストをハイクオリティの3Dゲームにするまでの一部始終をお送りします！ 早速ですが出来たゲームがこちら …"
     },
@@ -46,7 +54,7 @@
       "url": "https://note.com/aiux_unite/n/n750de90c0668",
       "title": "【Fable 5】ClaudeCodeのスマホアプリ版で、通勤時間にニュースアプリをつくってみた",
       "date": "2026-06-13",
-      "likes": 65,
+      "likes": 68,
       "thumb": "https://assets.st-note.com/production/uploads/images/285110954/rectangle_large_type_2_8ea63c5cd0ad0bb88d1a118d1ad659a4.png?fit=bounds&quality=85&width=1280",
       "excerpt": "Fable 5が使えなくなったという衝撃のニュースから数時間。。！ ちょうど今朝、電車で移動中の1時間くらいでFable 5でニュースアプリを作ってみて、とて…"
     },
@@ -54,7 +62,7 @@
       "url": "https://note.com/aiux_unite/n/n480de3323d7d",
       "title": "Claude Designでデザインシステムをゼロから構築し、オフィシャルサイトを公開してみた",
       "date": "2026-06-10",
-      "likes": 120,
+      "likes": 121,
       "thumb": "https://assets.st-note.com/production/uploads/images/283493151/rectangle_large_type_2_cc2f011337f41700cf0803c9d7c0dddb.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回はClaude Designでデザインシステムの構築から、Claude Codeにつなげてサイト公開までした話です。 Claude Designで何かして…"
     },
@@ -70,7 +78,7 @@
       "url": "https://note.com/aiux_unite/n/n169ba6bd6c1e",
       "title": "Claude Coworkで業務改善を半自動化してみた～毎朝のAIニュース収集から改善提案まで～",
       "date": "2026-04-17",
-      "likes": 123,
+      "likes": 125,
       "thumb": "https://assets.st-note.com/production/uploads/images/268115959/rectangle_large_type_2_248be67915a76bf17d40201d5d7563b5.png?fit=bounds&quality=85&width=1280",
       "excerpt": "ということで、今回は「業務改善」の半自動化をテーマに 1.毎朝のAIニュース収集 2.そのAIニュースから自分の業務をどう改善できるかの手法の提案 を自動でC…"
     },
@@ -78,7 +86,7 @@
       "url": "https://note.com/aiux_unite/n/n09103ac67356",
       "title": "「Claude Codeを学べるAIゲームアプリ」を、新規事業開発の手法を駆使し、Claudeで作ってみた",
       "date": "2026-03-24",
-      "likes": 246,
+      "likes": 247,
       "thumb": "https://assets.st-note.com/production/uploads/images/261705593/rectangle_large_type_2_13fb73c997f2fa76331922a9966a1fcb.png?fit=bounds&quality=85&width=1280",
       "excerpt": "ということで、さっそく出来たゲームがこちら！ 是非、一度遊んでみてほしいですが、どんなゲームかというと 1.ステージをクリアしていくことでClaude Cod…"
     },
@@ -126,7 +134,7 @@
       "url": "https://note.com/aiux_unite/n/nff496f7dcb30",
       "title": "AI時代の「流行」と「本質」：序章_AI時代にAIを叫ぶ",
       "date": "2025-11-30",
-      "likes": 148,
+      "likes": 150,
       "thumb": "https://assets.st-note.com/production/uploads/images/234391578/rectangle_large_type_2_16f5322764bba3c85123b46d58b5d31a.png?fit=bounds&quality=85&width=1280",
       "excerpt": "新シリーズスタートです！ ※「マンガで実践！AI活用」もまだ途中ですが、こっちもちゃんと描きます。。！ AI時代・・仕事が楽になるかと思いきや、どんどん難しく…"
     },
@@ -171,14 +179,6 @@
       "excerpt": ""
     },
     {
-      "url": "https://note.com/aiux_unite/n/nc4adf7f5acb0",
-      "title": "6/27（金）19:00から行う高松さんとの無料イベント https://n…",
-      "date": "2025-06-14",
-      "likes": 16,
-      "thumb": "https://assets.st-note.com/production/uploads/images/196018244/aa749401284c6fea365aa247a13749a3.png",
-      "excerpt": "6/27（金）19:00から行う高松さんとの無料イベント https://nijibox.connpass.com/event/355632/ ご登録者400…"
-    },
-    {
       "url": "https://note.com/aiux_unite/n/nbd39b2f9a740",
       "title": "マンガで実践！AI活用 第4話：「ペルソナ」",
       "date": "2025-06-14",
@@ -187,9 +187,17 @@
       "excerpt": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせたい。 前回はKPIシートを作り、目標達成までの道筋を設定が完了…"
     },
     {
+      "url": "https://note.com/aiux_unite/n/nc4adf7f5acb0",
+      "title": "6/27（金）19:00から行う高松さんとの無料イベント https://n…",
+      "date": "2025-06-14",
+      "likes": 16,
+      "thumb": "https://assets.st-note.com/production/uploads/images/196018244/aa749401284c6fea365aa247a13749a3.png",
+      "excerpt": "6/27（金）19:00から行う高松さんとの無料イベント https://nijibox.connpass.com/event/355632/ ご登録者400…"
+    },
+    {
       "url": "https://note.com/aiux_unite/n/naac3d48a3258",
       "title": "【Figma × Claude】MCPでつなぐ、デザインシステムに沿ったワイヤーフレーム自動生成＆編集フロー！",
-      "likes": 216,
+      "likes": 217,
       "thumb": "https://assets.st-note.com/production/uploads/images/193686050/rectangle_large_type_2_539e9f4779406da36984937b9a62e6a6.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は「【Figma × Claude】MCPでつなぐ、自動ワイヤーフレーム生成＆編集フロー！」というタイトルでご紹介していきますが、何をしたかというと 1.…",
       "date": "2025-06-02"
@@ -219,20 +227,20 @@
       "excerpt": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせる。 その為にnoteの読者数5万UU/月を目指すことになった吉…"
     },
     {
-      "url": "https://note.com/aiux_unite/n/ncb35e2f72a48",
-      "title": "マンガで実践！AI活用のマガジン作りました！ https://note.co…",
-      "date": "2025-05-02",
-      "likes": 37,
-      "thumb": "https://assets.st-note.com/production/uploads/images/187520921/1f965590bfec8beb08b7cc837690146a.png",
-      "excerpt": "マンガで実践！AI活用のマガジン作りました！ https://note.com/aiux_unite/m/m0b7bcbd79d18 「マンガでわかる！AI活…"
-    },
-    {
       "url": "https://note.com/aiux_unite/n/n2744fb1ebdfa",
       "title": "「絵心ゼロでもOK！」手描きイラストから3DモデルをAIで自動生成してみた（ChatGPT×Tripo AI）",
       "date": "2025-05-02",
       "likes": 195,
       "thumb": "https://assets.st-note.com/production/uploads/images/187630665/rectangle_large_type_2_454c8d283a0110454a566932c6c35d04.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は誰でも簡単に自分の手描きイラストから3DモデルをAIで作成する方法を試してみました！ この方法なら落書きレベルのイラストでも、立派な3Dモデルにすること…"
+    },
+    {
+      "url": "https://note.com/aiux_unite/n/ncb35e2f72a48",
+      "title": "マンガで実践！AI活用のマガジン作りました！ https://note.co…",
+      "date": "2025-05-02",
+      "likes": 37,
+      "thumb": "https://assets.st-note.com/production/uploads/images/187520921/1f965590bfec8beb08b7cc837690146a.png",
+      "excerpt": "マンガで実践！AI活用のマガジン作りました！ https://note.com/aiux_unite/m/m0b7bcbd79d18 「マンガでわかる！AI活…"
     },
     {
       "url": "https://note.com/aiux_unite/n/nba0bd5d5c1c5",
@@ -246,7 +254,7 @@
       "url": "https://note.com/aiux_unite/n/nd8c3cec60650",
       "title": "マンガで実践！AI活用 第1話：「AIで叶える夢」",
       "date": "2025-04-23",
-      "likes": 187,
+      "likes": 188,
       "thumb": "https://assets.st-note.com/production/uploads/images/185789127/rectangle_large_type_2_9fc628dc764b6eb239338b9eda830ffa.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回から始まった新シリーズ 「マンガで実践！AI活用」 前シリーズ「マンガでわかる！AI活用」と何が違うのか？ 物語のはじまりをぜひご覧ください！ ・・・風呂…"
     },
@@ -277,7 +285,7 @@
     {
       "url": "https://note.com/aiux_unite/n/n3254dbb5e6b1",
       "title": "マンガでわかる！AI活用 第6話：「プロンプトを攻略する」",
-      "likes": 222,
+      "likes": 223,
       "thumb": "https://assets.st-note.com/production/uploads/images/178188346/rectangle_large_type_2_1a3b426cb0bc9ec0973cbf59b2455313.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回のマンガでわかる！AI活用は「プロンプトを攻略する」というタイトルで、制作現場において簡単かつ最適なプロンプトの作り方を紹介します。 プロンプトって実際目…",
       "date": "2025-03-09"
@@ -294,7 +302,7 @@
       "url": "https://note.com/aiux_unite/n/n503cb1dd7ce5",
       "title": "「Felo」のドメイン指定検索とCanva連携で、自動で作る研修動画（プレゼン動画）",
       "date": "2025-01-13",
-      "likes": 160,
+      "likes": 159,
       "thumb": "https://assets.st-note.com/production/uploads/images/169914645/rectangle_large_type_2_38243cc42351471bad499b92c6288035.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は日本発のAI検索エンジン「Felo（フェロー）」を使い、研修動画（プレゼン動画）を自動で作ってみました。 なぜ作ろうと思ったかというと、Feloで最近加…"
     },
@@ -325,7 +333,7 @@
     {
       "url": "https://note.com/aiux_unite/n/nbbdec3944965",
       "title": "マンガでわかる！AI活用 第4話：「7ページで解説！AIアプリ制作」",
-      "likes": 247,
+      "likes": 249,
       "thumb": "https://assets.st-note.com/production/uploads/images/161279677/rectangle_large_type_2_bbb52d0e3ddcd8c629055fcd8f8c8d03.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回は、ついにAIアプリを作っていきます！ ChatGPTのAPIを使った、一番簡単（？）なアプリ制作方法を解説します。 今回、マンガを描くにあたって実際にア…",
       "date": "2024-11-10"
@@ -341,7 +349,7 @@
     {
       "url": "https://note.com/aiux_unite/n/n185107973a2f",
       "title": "マンガでわかる！AI活用 第3話：「RAGとファインチューニング」",
-      "likes": 201,
+      "likes": 200,
       "thumb": "https://assets.st-note.com/production/uploads/images/154542114/rectangle_large_type_2_24f4f59647fa4290d420221b09a347d1.png?fit=bounds&quality=85&width=1280",
       "excerpt": "第3話は「なぜAIを業務で活用できないのか？」という問いに対しての、 まずは考えるべきことを描きました！ AI活用について第3話から本格的になってきました。 …",
       "date": "2024-09-17"
@@ -357,7 +365,7 @@
     {
       "url": "https://note.com/aiux_unite/n/n39742e82cd30",
       "title": "マンガでわかる！AI活用 第1話：「生成AIとは？」",
-      "likes": 397,
+      "likes": 400,
       "thumb": "https://assets.st-note.com/production/uploads/images/152747436/rectangle_large_type_2_c5040904ab93143ada337a3054b1120a.png?fit=bounds&quality=85&width=1280",
       "excerpt": "これまでAI活用術について記事を書いてきましたが、今回は「漫画」です！ なぜ漫画なのか 私は、もう10年以上前になりますが、週刊少年チャンピオンで1年弱漫画連…",
       "date": "2024-09-02"
@@ -404,7 +412,7 @@
     {
       "url": "https://note.com/aiux_unite/n/n5d028f1932ed",
       "title": "【Canvaだけで作るプロモーション動画！】「AI試着カメラ」PR動画制作の軌跡",
-      "likes": 218,
+      "likes": 219,
       "thumb": "https://assets.st-note.com/production/uploads/images/133488857/rectangle_large_type_2_da32e252e378a058d6b827bcf48971af.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回、Canvaだけで作ったプロモーション動画について、作り方含め詳しくご紹介します！ 今回は私個人での制作となり、株式会社Sally127様からご相談いただ…",
       "date": "2024-03-12"

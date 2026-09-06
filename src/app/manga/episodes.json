@@ -1,9 +1,9 @@
 {
   "_comment": "各シリーズの収録エピソード。scripts/fetch-manga-episodes.mjs がnoteから自動生成する（手動で追記してもよい）。desc は note-article-meta.json の excerpt が優先される。",
-  "generatedAt": "2026-08-23",
+  "generatedAt": "2026-09-06",
   "series": {
     "wakaru": {
-      "updatedAt": "2026-08-16",
+      "updatedAt": "2026-09-06",
       "episodes": [
         {
           "title": "マンガでわかる！AI活用 第1話：「生成AIとは？」",
@@ -12,7 +12,7 @@
           "no": 1,
           "date": "2024-09-02",
           "thumb": "https://assets.st-note.com/production/uploads/images/152747436/rectangle_large_type_2_c5040904ab93143ada337a3054b1120a.png?width=800",
-          "likes": 395
+          "likes": 397
         },
         {
           "title": "マンガでわかる！AI活用 第2話：「タイトル未定」",
@@ -30,7 +30,7 @@
           "no": 3,
           "date": "2024-09-17",
           "thumb": "https://assets.st-note.com/production/uploads/images/154542114/rectangle_large_type_2_24f4f59647fa4290d420221b09a347d1.png?width=800",
-          "likes": 202
+          "likes": 201
         },
         {
           "title": "マンガでわかる！AI活用 第4話：「7ページで解説！AIアプリ制作」",
@@ -57,7 +57,7 @@
           "no": 6,
           "date": "2025-03-09",
           "thumb": "https://assets.st-note.com/production/uploads/images/178188346/rectangle_large_type_2_1a3b426cb0bc9ec0973cbf59b2455313.png?width=800",
-          "likes": 223
+          "likes": 222
         },
         {
           "title": "マンガでわかる！AI活用 第7話：「AIワークフロー」",
@@ -130,7 +130,7 @@
       ]
     },
     "honshitsu": {
-      "updatedAt": "2026-08-23",
+      "updatedAt": "2026-09-06",
       "episodes": [
         {
           "title": "AI時代の「流行」と「本質」：序章_AI時代にAIを叫ぶ",
@@ -138,7 +138,7 @@
           "url": "https://note.com/aiux_unite/n/nff496f7dcb30",
           "date": "2025-11-30",
           "thumb": "https://assets.st-note.com/production/uploads/images/234391578/rectangle_large_type_2_16f5322764bba3c85123b46d58b5d31a.png?width=800",
-          "likes": 147
+          "likes": 148
         },
         {
           "title": "AI時代の「流行」と「本質」：AIの先にあるべきもの",
@@ -146,7 +146,7 @@
           "url": "https://note.com/aiux_unite/n/na87618c2923d",
           "date": "2026-01-05",
           "thumb": "https://assets.st-note.com/production/uploads/images/241595402/rectangle_large_type_2_a064de6ee4a40431b78183268d658ed0.png?width=800",
-          "likes": 172
+          "likes": 174
         },
         {
           "title": "Gemini使ってトルコ・スペイン一人旅 ②バルセロナ編",
