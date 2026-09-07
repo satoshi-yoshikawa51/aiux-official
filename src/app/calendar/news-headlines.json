@@ -1,7 +1,82 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-06T23:05:57.579Z",
+  "updatedAt": "2026-09-07T23:43:59.955Z",
   "items": [
+    {
+      "title": "The complex corporate web behind a $3.2 billion AI data center",
+      "url": "https://arstechnica.com/features/2026/09/the-ai-data-center-boom-is-causing-new-accountability-problems/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-07T11:00:03.000Z",
+      "titleJa": "32 億ドルの AI データ センターの背後にある複雑な企業ウェブ",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/LakeMariner-1152x648.png"
+    },
+    {
+      "title": "人事・営業向けAIの導入による「データの分断」を防ぐ統合基盤",
+      "url": "https://ascii.jp/elem/000/004/432/4432362/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-07T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/04/4521665/xl/dd9c7ef0ba0db448.gif"
+    },
+    {
+      "title": "パラメーター数抑える「Looped Transformer」、OpenAIもAstraで採用と報道",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12012/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-07T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12012/topm.jpg?20220512"
+    },
+    {
+      "title": "独自AI搭載の「国産四足歩行ロボ」、デモ動画を公開 東大発スタートアップのHighlanders",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/07/2000001223/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-07T07:58:42.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/07/2000001223/10005416/2048"
+    },
+    {
+      "title": "M365 Copilotを配っても「使われない」 でもAI活用が進んだ福島県庁の\"逆張り\"戦略",
+      "url": "https://kn.itmedia.co.jp/kn/article/2609/07/2000000807/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-07T06:31:29.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/07/2000000807/10003867/2048"
+    },
+    {
+      "title": "Teslaのロボタクシー「Cybercab」が日本で実車初公開 東京・大阪・名古屋で",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/07/2000001207/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-07T05:10:57.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/07/2000001207/10005368/2048"
+    },
+    {
+      "title": "日立、フィジカルAIの4つの新サービスを発表 「なんちゃってFDE」で終わらせないアプローチとは",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2609/07/news040.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-07T03:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/enterprise/articles/2609/07/cover_news040.jpg"
+    },
+    {
+      "title": "AIで脆弱性を発見するAisleに注目--セキュリティ専門家らも称賛",
+      "url": "https://japan.zdnet.com/article/35252340/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-07T01:20:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/07/9be4199e71a9d112b1e48f913f3358f3/GettyImages-1435604927_c99c64_1280.jpg"
+    },
+    {
+      "title": "Microsoft、“世界でもっとも高速・高精度で安価”とうたう音声認識モデルを発表、「MAI-Transcribe-2」／60言語の平均単語誤り率（WER）で比較対象中トップ、処理速度も向上",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2138699.html",
+      "source": "窓の杜",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 53,
+      "date": "2026-09-07T06:35:00.000Z",
+      "image": "https://forest.watch.impress.co.jp/img/wf/list/2138/699/image1.png"
+    },
     {
       "title": "Research acceleration: The view inside OpenAI",
       "url": "https://openai.com/index/research-acceleration-view-inside-openai",
@@ -11,28 +86,31 @@
       "titleJa": "研究の加速: OpenAI 内部の見解"
     },
     {
-      "title": "クレディセゾンは「総合職のAI変革」に手応えあり、計画しすぎないが肝要",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03076/090400030/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-06T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03076/090400030/topm.jpg?20220512"
+      "title": "Seattle Times and Newsday sue OpenAI and Microsoft for infringement",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/990932/seattle-times-newsday-lawsuit-openai-microsoft",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-06T23:36:04.000Z",
+      "titleJa": "シアトル・タイムズとニューズデイ、OpenAIとマイクロソフトを侵害で提訴",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2292926705.jpg?quality=90&strip=all&crop=0%2C10.654918655606%2C100%2C78.690162688789&w=1200"
     },
     {
-      "title": "AI時代、「新人のためのアート思考」を公開 ― 最初の一仕事から、自分の見方と問いを育てる",
-      "url": "https://ascii.jp/elem/000/004/432/4432617/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-06T06:49:18.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "title": "Authors push back as publishers and agents make claims on Anthropic settlement",
+      "url": "https://techcrunch.com/2026/09/06/authors-push-back-as-publishers-and-agents-seek-share-of-anthropic-settlement/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-06T20:47:37.000Z",
+      "titleJa": "出版社や代理店が人類の和解について主張する中、著者らは反発",
+      "image": "https://techcrunch.com/wp-content/uploads/2024/12/49688202642_09fd5ccc38_k.jpg?resize=1200,800"
     },
     {
-      "title": "AI時代、「営業・顧客接点のためのアート思考」を公開 ― 提案を磨く前に、自分は相手の何を見ていたか",
-      "url": "https://ascii.jp/elem/000/004/432/4432612/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-06T03:39:42.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "title": "Hikers rescued after using Google Gemini for planning",
+      "url": "https://techcrunch.com/2026/09/05/hikers-rescued-after-using-google-gemini-for-planning/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-05T19:35:24.000Z",
+      "titleJa": "Google Gemini を使用して計画を立てたハイカーが救出される",
+      "image": "https://techcrunch.com/wp-content/uploads/2017/11/gettyimages-677147499.jpg?resize=1200,600"
     },
     {
       "title": "OpenAI admits to German wiki ‘incident’",
@@ -42,82 +120,6 @@
       "date": "2026-09-05T11:15:55.000Z",
       "titleJa": "OpenAI、ドイツ語ウィキの「事件」を認める",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS533_AI_AGENTS_HACKING_D_54a015.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
-    },
-    {
-      "title": "「最大45％コスト減」 Anthropicが「Claude Fable 5.1」発表 脆弱性検知にも対応",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/05/news009.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-05T04:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2609/05/cover_news009.jpg"
-    },
-    {
-      "title": "OpenAIのAIエージェント、休眠サイトを掲示板化してタスク回答を共有か 研究団体が報告書公開",
-      "url": "https://www.itmedia.co.jp/news/article/2609/05/2000001200/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-05T03:06:58.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/05/2000001200/10005337/2048"
-    },
-    {
-      "title": "XDOF, just three months out of stealth, is in talks for a Series B at a $1.2B valuation",
-      "url": "https://techcrunch.com/2026/09/04/xdof-just-three-months-out-of-stealth-is-in-talks-for-a-series-b-at-a-1-2b-valuation/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-04T23:36:14.000Z",
-      "titleJa": "ステルス状態からわずか 3 か月の XDOF が、評価額 12 億ドルでシリーズ B の交渉中",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/DSC_2479.jpg?resize=1200,800"
-    },
-    {
-      "title": "AI compute provider Nscale is looking for $3.5B in pre-IPO financing",
-      "url": "https://techcrunch.com/2026/09/04/ai-compute-provider-nscale-is-looking-for-3-5b-in-pre-ipo-financing/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-04T21:12:11.000Z",
-      "titleJa": "AI コンピューティングプロバイダーの Nscale は、IPO 前の資金調達で 35 億ドルを求めています",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-2266843677.jpg?resize=1200,800"
-    },
-    {
-      "title": "Anthropic’s $2 trillion IPO puts powerful external trustees in spotlight",
-      "url": "https://arstechnica.com/ai/2026/09/anthropics-2-trillion-ipo-puts-powerful-external-trustees-in-spotlight/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-04T16:22:18.000Z",
-      "titleJa": "Anthropic の 2 兆ドル IPO により、強力な外部受託者が注目を集める",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2285051730-1152x648.jpg"
-    },
-    {
-      "title": "Crusoe reportedly raises $3B at a $30B valuation",
-      "url": "https://techcrunch.com/2026/09/03/crusoe-reportedly-raises-3b-at-a-30b-valuation/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-04T00:48:42.000Z",
-      "titleJa": "Crusoeは300億ドルの評価額で30億ドルを調達したと伝えられている",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2245923419.jpg?resize=1200,800"
-    },
-    {
-      "title": "シャープが統合AI「NIAH」発表、家電横断で利用者の暮らし理解",
-      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03372/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-04T07:30:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03372/topm.jpg?20220512"
-    },
-    {
-      "title": "OpenAIが「GPT-6 Astra」を提供開始、サイバー攻撃能力懸念で一時開発停止",
-      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03373/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-04T04:30:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03373/topm.jpg?20220512"
-    },
-    {
-      "title": "ChatGPTの利用制限、新モデル「Astra」提供まで“毎日リセット” 有料ユーザー向け",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/04/2000001165/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-04T03:25:16.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/04/2000001165/10005195/2048"
     }
   ]
 }
