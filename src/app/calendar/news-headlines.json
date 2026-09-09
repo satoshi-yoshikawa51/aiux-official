@@ -1,7 +1,107 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-08T23:38:25.348Z",
+  "updatedAt": "2026-09-09T23:29:27.507Z",
   "items": [
+    {
+      "title": "Paul Christiano joins OpenAI Foundation Board",
+      "url": "https://openai.com/index/paul-christiano-joins-openai-foundation-board",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-09T17:00:00.000Z",
+      "titleJa": "ポール・クリスティアーノが OpenAI Foundation 理事会に参加",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/182NzFWut4sS5hBGtIVsq5/c2620026fe60121fe6543a992c7477ea/paul-christiano-joins-openai-foundation-board--seo-v001.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "GPT-6 Astra: The next generation in intelligence for work",
+      "url": "https://openai.com/index/gpt-6-astra-next-generation-work",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-09T11:00:00.000Z",
+      "titleJa": "GPT-6 アストラ: 仕事のための次世代インテリジェンス",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/1UclxTs0019dGYT78njfV7/564c2815192122bcdcedce7b4ab36e3a/Business_blog_16x9.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "OpenAI adds a prominent AI doomer to its board of directors",
+      "url": "https://techcrunch.com/2026/09/09/openai-adds-a-prominent-ai-doomer-to-its-board-of-directors/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-09T22:25:22.000Z",
+      "titleJa": "OpenAI、著名な AI の破滅者を取締役会に追加",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
+    },
+    {
+      "title": "5分でわかるアップル発表まとめ--「iPhone Duo」以外の新製品は？ 新AirPods、新Apple Watchも",
+      "url": "https://japan.cnet.com/article/35252454/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-09T22:02:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/10/6d5e34588274974b5413e33325d40625/011.jpeg"
+    },
+    {
+      "title": "AI導入前にまず問おう 売り上げデータの意味と責任者",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/022000534/090700008/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-09T22:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/022000534/090700008/topm.jpg?20220512"
+    },
+    {
+      "title": "「Apple Watch Ultra 4」発表、Siri AIや音声検知に対応 9月18日発売へ",
+      "url": "https://japan.cnet.com/article/35252452/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-09T21:23:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/10/2ffbc9468a4894c84341b65b1d69e0b8/Screenshot-2026-09-09-at-1.50.40-PM_1280x960.jpg"
+    },
+    {
+      "title": "アップルが「AirPods 5」発表 最安モデルにもノイズキャンセリング搭載、2万3800円から、9月18日発売",
+      "url": "https://japan.cnet.com/article/35252453/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-09T21:17:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/10/5062080a503a625c958c65d51a77a35b/05.jpeg"
+    },
+    {
+      "title": "GENIACの活動はAI×ロボティクスへ、ロボット基盤モデル開発の採択事業者を発表",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2609/10/news053.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-09T21:15:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2609/10/cover_news053.jpg"
+    },
+    {
+      "title": "iPhone 17や17e、Airが7月に続く値上げ……米国価格上昇に合わせて iPhone 17は15万9800円に",
+      "url": "https://ascii.jp/elem/000/004/433/4433660/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-09T21:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/10/4523887/xl/9c69f31533626072.jpg?20200122"
+    },
+    {
+      "title": "ANC付きが標準になって、実質大幅値下げ！ 「AirPods 5」登場",
+      "url": "https://ascii.jp/elem/000/004/433/4433655/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-09T19:45:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/10/4523841/xl/8f61ac3d2acbe6ed.jpg?20200122"
+    },
+    {
+      "title": "【速報】129ドルから！ オープンイヤーなのにノイキャン搭載の新型「AirPods 5」がコスパ最強すぎる",
+      "url": "https://ascii.jp/elem/000/004/433/4433651/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-09T18:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/10/4523804/xl/92ba0cb2a5818a14.png?20200122"
+    },
+    {
+      "title": "Anthropic researcher quits with a warning: Self-improving AI could \"kill us all\"",
+      "url": "https://arstechnica.com/ai/2026/09/anthropic-researcher-quits-with-a-warning-self-improving-ai-could-kill-us-all/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-09T16:59:40.000Z",
+      "titleJa": "人類研究者が警告を発して辞任：自己改善型AIは「人類を滅ぼす」可能性がある",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-504013302-1152x648-1788971374.jpg"
+    },
     {
       "title": "Why this month's Microsoft patch release is a doozy",
       "url": "https://arstechnica.com/security/2026/09/microsoft-patches-a-record-972-vulnerabilities-112-of-them-critical/",
@@ -12,88 +112,6 @@
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2023/07/exploit-vulnerability-security.jpg"
     },
     {
-      "title": "OpenAI expands initiatives to support journalism from classrooms to newsrooms",
-      "url": "https://openai.com/index/supporting-journalism-from-classrooms-to-newsrooms",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-08T00:00:00.000Z",
-      "titleJa": "OpenAI、教室からニュース編集室までジャーナリズムをサポートする取り組みを拡大"
-    },
-    {
-      "title": "Google DeepMind、90億通りの全塩基変異の影響を予測した「AlphaGenome Atlas」 学術向けに無償提供",
-      "url": "https://www.itmedia.co.jp/news/article/2609/09/2000001296/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-08T23:13:49.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/09/2000001296/10005700/2048"
-    },
-    {
-      "title": "Armが3つの新プロダクトを発表、モバイルとAIインフラ、フィジカルAI向け",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2609/09/news059.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-08T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2609/09/cover_news059.jpg"
-    },
-    {
-      "title": "Meta、パーソナルAIエージェント「Muse」発表 メール送信や買い物も代行（まずは米国で無料提供開始）",
-      "url": "https://www.itmedia.co.jp/news/article/2609/09/2000001294/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-08T21:41:57.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/09/2000001294/10005695/2048"
-    },
-    {
-      "title": "Hackers are stealing Claude tokens from subscribers",
-      "url": "https://techcrunch.com/2026/09/08/hackers-are-stealing-claude-tokens-from-subscribers/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-08T21:10:27.000Z",
-      "titleJa": "ハッカーが加入者からクロードトークンを盗んでいる",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/GettyImages-2278736523.jpeg?resize=1200,798"
-    },
-    {
-      "title": "Drama swirls around OpenAI’s legendary mathematical milestone",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/991710/openai-navier-stokes-solution",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-08T20:53:52.000Z",
-      "titleJa": "OpenAI の伝説的な数学的マイルストーンを巡るドラマが渦巻く",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25844039/STK155_OPEN_AI_CVirginia__A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "「AI PC」はNPU搭載が基本、AI処理に特化しGPUより省電力",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/01842/081800117/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-08T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/01842/081800117/topm.jpg?20220512"
-    },
-    {
-      "title": "AIが答えを出す時代に、エンジニアの「判断力」を鍛える研修を提供開始",
-      "url": "https://ascii.jp/elem/000/004/433/4433267/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-08T09:15:55.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "OpenAI「GPT-6 Astra」発表 Codexのコーディングは前世代からどれだけ進化？",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/08/news035.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-08T08:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2609/08/cover_news035.jpg"
-    },
-    {
-      "title": "NTTPCら、水冷GPU搭載のオンプレミスAI基盤をパッケージで提供",
-      "url": "https://japan.zdnet.com/article/35252395/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-08T07:18:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/09/16/0bb24828315a33581896d75feb6cb9be/250916_datacenter_as_1280_1440519189_02.jpg"
-    },
-    {
       "title": "The complex corporate web behind a $3.2 billion AI data center",
       "url": "https://arstechnica.com/features/2026/09/the-ai-data-center-boom-is-causing-new-accountability-problems/",
       "source": "Ars Technica",
@@ -101,22 +119,6 @@
       "date": "2026-09-07T11:00:03.000Z",
       "titleJa": "32 億ドルの AI データ センターの背後にある複雑な企業ウェブ",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/LakeMariner-1152x648.png"
-    },
-    {
-      "title": "AIで脆弱性を発見するAisleに注目--セキュリティ専門家らも称賛",
-      "url": "https://japan.zdnet.com/article/35252340/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-07T01:20:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/07/9be4199e71a9d112b1e48f913f3358f3/GettyImages-1435604927_c99c64_1280.jpg"
-    },
-    {
-      "title": "Research acceleration: The view inside OpenAI",
-      "url": "https://openai.com/index/research-acceleration-view-inside-openai",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-06T08:00:00.000Z",
-      "titleJa": "研究の加速: OpenAI 内部の見解"
     }
   ]
 }
