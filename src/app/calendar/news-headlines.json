@@ -1,7 +1,98 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-09T23:29:27.507Z",
+  "updatedAt": "2026-09-10T23:22:26.872Z",
   "items": [
+    {
+      "title": "ファーストアカウンティング、AIが税務を「判断」する新製品--サントリーGで全件AI精査を開始",
+      "url": "https://japan.zdnet.com/article/35252495/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-10T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/06/19/e34353b9e18837801c552eaa30cc3d2a/260618_document_as_1280_617232874.jpg"
+    },
+    {
+      "title": "好業績なのに“上場廃止” なぜネットワンはSCSKとの「攻めの統合」に賭けたのか",
+      "url": "https://www.itmedia.co.jp/business/articles/2609/11/news020.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-10T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2609/11/cover_news020.jpg"
+    },
+    {
+      "title": "Jensen Huang explains why Nvidia will grow an astounding 70% next year",
+      "url": "https://techcrunch.com/2026/09/10/jensen-huang-explains-why-nvidia-will-grow-an-astounding-70-next-year/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-10T21:51:59.000Z",
+      "titleJa": "ジェンスン・ファン氏が、Nvidia が来年 70% という驚異的な成長を遂げる理由を説明します",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/03/jensen-huang-gtc-getty.jpg?resize=1200,781"
+    },
+    {
+      "title": "OpenAI puts Pro subscriptions on hold due to Astra demand",
+      "url": "https://techcrunch.com/2026/09/10/openai-puts-pro-subscriptions-on-hold-due-to-astra-demand/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-10T20:59:51.000Z",
+      "titleJa": "OpenAI、Astra の需要により Pro サブスクリプションを保留",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
+    },
+    {
+      "title": "Anthropic details distillation campaigns from Alibaba, Moonshot AI, and DeepSeek",
+      "url": "https://techcrunch.com/2026/09/10/anthropic-details-distillation-campaigns-from-alibaba-moonshot-ai-and-deepseek/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-10T20:57:30.000Z",
+      "titleJa": "Alibaba、Moonshot AI、DeepSeek による人間性の詳細を抽出するキャンペーン",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2287646148.jpg?resize=1200,901"
+    },
+    {
+      "title": "AI訓練のRiver AIが11億ドル調達、Valar Atomicsは原子炉の量産へ",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03065/090900021/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-10T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03065/090900021/topm.jpg?20220512"
+    },
+    {
+      "title": "RTX Sparkには2つのSKUが!!＝HPが薄型AIノートPC「HP OmniBook Ultra 16 / X 14」を発表",
+      "url": "https://ascii.jp/elem/000/004/433/4433889/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-10T15:01:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/10/4524137/xl/0e23b64229874fd7.png?20200122"
+    },
+    {
+      "title": "“Google弱体化説”にDeepMindエンジニアが反論 「最新モデルはセキュリティでMythos超え」、「Gemini 4」にも言及",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/10/2000001381/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-10T09:23:08.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/10/2000001381/10006071/2048"
+    },
+    {
+      "title": "まさかの「AIが面接に来た」 話し方に“違和感” AIベンチャー代表が動画公開し注意喚起",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/10/2000001378/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-10T08:16:19.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/10/2000001378/10006055/2048"
+    },
+    {
+      "title": "「DeepSeek-V4.1-Flash」発表 値上げから一転「より低コストでフラッグシップ超え」うたう",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/10/2000001374/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-10T08:16:11.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/10/2000001374/10006054/2048"
+    },
+    {
+      "title": "VAIO、3つのスタイルに変化する「VAIO T/VAIO T work」を発表--ノートPCからタブレットへ",
+      "url": "https://japan.zdnet.com/article/35252458/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-10T05:43:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/10/79d854efcde9b532da97ec0fdd2ba7c2/260910_vaio_l.jpg"
+    },
     {
       "title": "Paul Christiano joins OpenAI Foundation Board",
       "url": "https://openai.com/index/paul-christiano-joins-openai-foundation-board",
@@ -21,88 +112,6 @@
       "image": "https://images.ctfassets.net/kftzwdyauwt9/1UclxTs0019dGYT78njfV7/564c2815192122bcdcedce7b4ab36e3a/Business_blog_16x9.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "OpenAI adds a prominent AI doomer to its board of directors",
-      "url": "https://techcrunch.com/2026/09/09/openai-adds-a-prominent-ai-doomer-to-its-board-of-directors/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-09T22:25:22.000Z",
-      "titleJa": "OpenAI、著名な AI の破滅者を取締役会に追加",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
-    },
-    {
-      "title": "5分でわかるアップル発表まとめ--「iPhone Duo」以外の新製品は？ 新AirPods、新Apple Watchも",
-      "url": "https://japan.cnet.com/article/35252454/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-09T22:02:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/10/6d5e34588274974b5413e33325d40625/011.jpeg"
-    },
-    {
-      "title": "AI導入前にまず問おう 売り上げデータの意味と責任者",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/022000534/090700008/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-09T22:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/022000534/090700008/topm.jpg?20220512"
-    },
-    {
-      "title": "「Apple Watch Ultra 4」発表、Siri AIや音声検知に対応 9月18日発売へ",
-      "url": "https://japan.cnet.com/article/35252452/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-09T21:23:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/10/2ffbc9468a4894c84341b65b1d69e0b8/Screenshot-2026-09-09-at-1.50.40-PM_1280x960.jpg"
-    },
-    {
-      "title": "アップルが「AirPods 5」発表 最安モデルにもノイズキャンセリング搭載、2万3800円から、9月18日発売",
-      "url": "https://japan.cnet.com/article/35252453/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-09T21:17:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/10/5062080a503a625c958c65d51a77a35b/05.jpeg"
-    },
-    {
-      "title": "GENIACの活動はAI×ロボティクスへ、ロボット基盤モデル開発の採択事業者を発表",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2609/10/news053.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-09T21:15:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2609/10/cover_news053.jpg"
-    },
-    {
-      "title": "iPhone 17や17e、Airが7月に続く値上げ……米国価格上昇に合わせて iPhone 17は15万9800円に",
-      "url": "https://ascii.jp/elem/000/004/433/4433660/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-09T21:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/10/4523887/xl/9c69f31533626072.jpg?20200122"
-    },
-    {
-      "title": "ANC付きが標準になって、実質大幅値下げ！ 「AirPods 5」登場",
-      "url": "https://ascii.jp/elem/000/004/433/4433655/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-09T19:45:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/10/4523841/xl/8f61ac3d2acbe6ed.jpg?20200122"
-    },
-    {
-      "title": "【速報】129ドルから！ オープンイヤーなのにノイキャン搭載の新型「AirPods 5」がコスパ最強すぎる",
-      "url": "https://ascii.jp/elem/000/004/433/4433651/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-09T18:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/10/4523804/xl/92ba0cb2a5818a14.png?20200122"
-    },
-    {
-      "title": "Anthropic researcher quits with a warning: Self-improving AI could \"kill us all\"",
-      "url": "https://arstechnica.com/ai/2026/09/anthropic-researcher-quits-with-a-warning-self-improving-ai-could-kill-us-all/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-09T16:59:40.000Z",
-      "titleJa": "人類研究者が警告を発して辞任：自己改善型AIは「人類を滅ぼす」可能性がある",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-504013302-1152x648-1788971374.jpg"
-    },
-    {
       "title": "Why this month's Microsoft patch release is a doozy",
       "url": "https://arstechnica.com/security/2026/09/microsoft-patches-a-record-972-vulnerabilities-112-of-them-critical/",
       "source": "Ars Technica",
@@ -110,15 +119,6 @@
       "date": "2026-09-08T21:11:46.000Z",
       "titleJa": "今月の Microsoft パッチ リリースがとんでもない理由",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2023/07/exploit-vulnerability-security.jpg"
-    },
-    {
-      "title": "The complex corporate web behind a $3.2 billion AI data center",
-      "url": "https://arstechnica.com/features/2026/09/the-ai-data-center-boom-is-causing-new-accountability-problems/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-07T11:00:03.000Z",
-      "titleJa": "32 億ドルの AI データ センターの背後にある複雑な企業ウェブ",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/LakeMariner-1152x648.png"
     }
   ]
 }
