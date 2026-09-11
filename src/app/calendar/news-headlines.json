@@ -1,97 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-10T23:22:26.872Z",
+  "updatedAt": "2026-09-11T23:30:56.854Z",
   "items": [
     {
-      "title": "ファーストアカウンティング、AIが税務を「判断」する新製品--サントリーGで全件AI精査を開始",
-      "url": "https://japan.zdnet.com/article/35252495/",
+      "title": "Rapidly scaling online storage to serve over 1 billion ChatGPT users",
+      "url": "https://openai.com/index/scaling-storage-one-billion-users-part-one",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-11T10:00:00.000Z",
+      "titleJa": "オンライン ストレージを迅速に拡張して 10 億人を超える ChatGPT ユーザーにサービスを提供",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/5D3TSOEPUfq7vsrX6Vsp0Q/3ac45b90943bcbcdd0eac9b80e0f679a/SEO.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Kimi-maker Moonshot AI targets $2B in annual revenue",
+      "url": "https://techcrunch.com/2026/09/11/kimi-maker-moonshot-ai-targets-2-billion-in-annual-revenue/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-11T19:35:54.000Z",
+      "titleJa": "Kimi-maker Moonshot AI は年間収益 20 億ドルを目指す",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-2286500505.jpg?resize=1200,800"
+    },
+    {
+      "title": "Mecka AI nears $500M valuation in Sequoia-led deal amid rush for robot training data",
+      "url": "https://techcrunch.com/2026/09/11/mecka-ai-nears-500m-valuation-in-sequoia-led-deal-amid-rush-for-robot-training-data/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-11T22:58:17.000Z",
+      "titleJa": "ロボットトレーニングデータの需要が殺到する中、Mecka AI、Sequoia主導の取引で評価額5億ドルに近づく",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2082335389.jpg?resize=1200,857"
+    },
+    {
+      "title": "「ChatGPT」で落書きを楽しもう--新機能「Sketch」が手描きの絵を洗練された画像に変換",
+      "url": "https://japan.zdnet.com/article/35252496/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-09-10T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/06/19/e34353b9e18837801c552eaa30cc3d2a/260618_document_as_1280_617232874.jpg"
+      "date": "2026-09-11T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/10/34d10ff88f32820d56321ba99e56a616/large-Figure-Top-I-used-ChatGPTs-new-Sketch-tool-to-turn-my-crude-drawings-into-cool-images.jpg"
     },
     {
-      "title": "好業績なのに“上場廃止” なぜネットワンはSCSKとの「攻めの統合」に賭けたのか",
-      "url": "https://www.itmedia.co.jp/business/articles/2609/11/news020.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-10T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2609/11/cover_news020.jpg"
-    },
-    {
-      "title": "Jensen Huang explains why Nvidia will grow an astounding 70% next year",
-      "url": "https://techcrunch.com/2026/09/10/jensen-huang-explains-why-nvidia-will-grow-an-astounding-70-next-year/",
+      "title": "OpenAI’s feud with mathematicians is only escalating",
+      "url": "https://techcrunch.com/2026/09/11/openais-feud-with-mathematicians-is-only-escalating/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-10T21:51:59.000Z",
-      "titleJa": "ジェンスン・ファン氏が、Nvidia が来年 70% という驚異的な成長を遂げる理由を説明します",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/03/jensen-huang-gtc-getty.jpg?resize=1200,781"
+      "date": "2026-09-11T20:57:36.000Z",
+      "titleJa": "OpenAIと数学者との確執は激化するばかり",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
     },
     {
-      "title": "OpenAI puts Pro subscriptions on hold due to Astra demand",
-      "url": "https://techcrunch.com/2026/09/10/openai-puts-pro-subscriptions-on-hold-due-to-astra-demand/",
-      "source": "TechCrunch",
+      "title": "Anthropic spent this week in hot water over cybersecurity",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/994064/anthropic-spent-this-week-in-hot-water-over-cybersecurity",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-09-10T20:59:51.000Z",
-      "titleJa": "OpenAI、Astra の需要により Pro サブスクリプションを保留",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
+      "date": "2026-09-11T16:09:14.000Z",
+      "titleJa": "人類は今週、サイバーセキュリティをめぐって苦難の日々を過ごした",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS533_AI_AGENTS_HACKING_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
-      "title": "Anthropic details distillation campaigns from Alibaba, Moonshot AI, and DeepSeek",
-      "url": "https://techcrunch.com/2026/09/10/anthropic-details-distillation-campaigns-from-alibaba-moonshot-ai-and-deepseek/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-10T20:57:30.000Z",
-      "titleJa": "Alibaba、Moonshot AI、DeepSeek による人間性の詳細を抽出するキャンペーン",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2287646148.jpg?resize=1200,901"
-    },
-    {
-      "title": "AI訓練のRiver AIが11億ドル調達、Valar Atomicsは原子炉の量産へ",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03065/090900021/",
-      "source": "日経クロステック",
+      "title": "AirPods 5、さっそく試してきた。魅惑の「値下げ」と、クリアな低音",
+      "url": "https://www.gizmodo.jp/article/airpods-5-wireless-charging-case-hands-on/",
+      "source": "GIZMODO JAPAN",
       "lang": "ja",
-      "date": "2026-09-10T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03065/090900021/topm.jpg?20220512"
+      "date": "2026-09-11T07:35:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/11/3e0b2439-3cd9-4c91-97b5-4389a5a38f4e/original.jpg?w=1200&h=630"
     },
     {
-      "title": "RTX Sparkには2つのSKUが!!＝HPが薄型AIノートPC「HP OmniBook Ultra 16 / X 14」を発表",
-      "url": "https://ascii.jp/elem/000/004/433/4433889/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-10T15:01:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/10/4524137/xl/0e23b64229874fd7.png?20200122"
-    },
-    {
-      "title": "“Google弱体化説”にDeepMindエンジニアが反論 「最新モデルはセキュリティでMythos超え」、「Gemini 4」にも言及",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/10/2000001381/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-10T09:23:08.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/10/2000001381/10006071/2048"
-    },
-    {
-      "title": "まさかの「AIが面接に来た」 話し方に“違和感” AIベンチャー代表が動画公開し注意喚起",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/10/2000001378/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-10T08:16:19.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/10/2000001378/10006055/2048"
-    },
-    {
-      "title": "「DeepSeek-V4.1-Flash」発表 値上げから一転「より低コストでフラッグシップ超え」うたう",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/10/2000001374/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-10T08:16:11.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/10/2000001374/10006054/2048"
-    },
-    {
-      "title": "VAIO、3つのスタイルに変化する「VAIO T/VAIO T work」を発表--ノートPCからタブレットへ",
-      "url": "https://japan.zdnet.com/article/35252458/",
+      "title": "リコー、AIが自ら賢くなる「Hermes Agent」搭載--オンプレLLM活用を加速",
+      "url": "https://japan.zdnet.com/article/35252524/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-09-10T05:43:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/10/79d854efcde9b532da97ec0fdd2ba7c2/260910_vaio_l.jpg"
+      "date": "2026-09-11T04:15:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/05/08/184ba104d0062af259cfea2003d77d8f/260508_software_as_1280_625979046.jpg"
+    },
+    {
+      "title": "Sakana AI、一部「GPT-6 Astra」「Fable 5.1」超えうたうFugu最新版 連携先に「両モデルは含まず」",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/11/2000001405/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-11T04:11:32.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/11/2000001405/10006164/2048"
+    },
+    {
+      "title": "NASAとIBM、月探査向けAIモデルをオープンソースで公開",
+      "url": "https://japan.cnet.com/article/35252541/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-11T03:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/11/9856efdb2d43d812df9a147dcbbacf67/Dark-Craters-Bright-Views_1280x960.jpg"
+    },
+    {
+      "title": "Windows用「Gemini」アプリ提供開始 画面上に重ねて作業を中断せず利用可能に",
+      "url": "https://www.itmedia.co.jp/news/article/2609/11/2000001399/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-11T02:06:11.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/11/2000001399/10006136/2048"
+    },
+    {
+      "title": "Amazon、OpenAIと広告で提携 Amazon DSPの広告主が「ChatGPT」内に広告出稿可能に",
+      "url": "https://www.itmedia.co.jp/news/article/2609/11/2000001396/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-11T01:03:13.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/11/2000001396/10006124/2048"
+    },
+    {
+      "title": "ChatGPT、最上位プランの新規受付を一時停止 「Astra」需要対応のため 既存加入者には影響なし",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/11/2000001394/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-11T00:31:23.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/11/2000001394/10006118/2048"
     },
     {
       "title": "Paul Christiano joins OpenAI Foundation Board",
@@ -101,24 +119,6 @@
       "date": "2026-09-09T17:00:00.000Z",
       "titleJa": "ポール・クリスティアーノが OpenAI Foundation 理事会に参加",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/182NzFWut4sS5hBGtIVsq5/c2620026fe60121fe6543a992c7477ea/paul-christiano-joins-openai-foundation-board--seo-v001.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "GPT-6 Astra: The next generation in intelligence for work",
-      "url": "https://openai.com/index/gpt-6-astra-next-generation-work",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-09T11:00:00.000Z",
-      "titleJa": "GPT-6 アストラ: 仕事のための次世代インテリジェンス",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/1UclxTs0019dGYT78njfV7/564c2815192122bcdcedce7b4ab36e3a/Business_blog_16x9.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Why this month's Microsoft patch release is a doozy",
-      "url": "https://arstechnica.com/security/2026/09/microsoft-patches-a-record-972-vulnerabilities-112-of-them-critical/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-08T21:11:46.000Z",
-      "titleJa": "今月の Microsoft パッチ リリースがとんでもない理由",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2023/07/exploit-vulnerability-security.jpg"
     }
   ]
 }
