@@ -37,8 +37,8 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       },
     ],
     links: [
-      { label: "用語：シンギュラリティ（過熱と期待の議論つながり）", href: "/glossary/singularity" },
-      { label: "用語：GPU（投資が集中している半導体）", href: "/glossary/gpu" },
+      { label: "AI歴史絵巻（ブームと冬の繰り返しを一気読み）", href: "/history" },
+      { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
       { label: "用語：NVIDIA（AIバブル論の中心にいる企業）", href: "/glossary/nvidia" },
     ],
     relatedSlugs: ["nvidia", "gpu", "openai", "agi", "singularity", "deepseek"],
@@ -87,9 +87,9 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       },
     ],
     links: [
+      { label: "体験ゲーム：AI運動会（ベンチマークの読み方を体感）", href: "/undokai" },
       { label: "用語：DeepSeek（同じ文脈で語られる中国発AI）", href: "/glossary/deepseek" },
       { label: "用語：ローカルLLM（自分の環境でモデルを動かす話）", href: "/glossary/local-llm" },
-      { label: "用語：LLM（大規模言語モデルの基礎）", href: "/glossary/llm" },
     ],
     relatedSlugs: ["deepseek", "llama", "local-llm", "llm", "ai-agent", "coding-agent"],
     faq: [
@@ -187,9 +187,9 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       },
     ],
     links: [
-      { label: "用語：Claude（本体サービスの解説）", href: "/glossary/claude" },
+      { label: "Claude Coworkで業務改善を半自動化してみた", href: "https://note.com/aiux_unite/n/n169ba6bd6c1e" },
+      { label: "Claude教習所（5分でわかるClaudeアプリ入門）", href: "/claude-app" },
       { label: "用語：Claude Code（Coworkの技術的な土台）", href: "/glossary/claude-code" },
-      { label: "用語：AIエージェント（「働くAI」の基礎概念）", href: "/glossary/ai-agent" },
     ],
     relatedSlugs: ["claude", "claude-code", "anthropic", "ai-agent", "claude-fable", "ai-workflow"],
     faq: [
