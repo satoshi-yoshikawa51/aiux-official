@@ -1325,6 +1325,32 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "pacing-the-frontier": {
+    caption: "できることから：1社の自主対応→業界の申し合わせ→国家間協調へ",
+    render: () => (
+      <Svg h={345} title="Pacing the Frontier（3段階のペース調整案）の図解">
+        <B x={100} y={20} w={400} h={75} label={"① 外部評価者に\n常時アクセス"} sub="バッジ・端末・社員なみの権限で検証" fill={YELLOW} />
+        <AV x={300} y1={95} y2={130} label="実現できたら次へ" />
+        <B x={100} y={135} w={400} h={75} label={"② 業界内の申し合わせ"} sub="民主主義国の主要AI企業で安全基準を共通化" />
+        <AV x={300} y1={210} y2={245} label="さらに広げて" />
+        <B x={100} y={250} w={400} h={75} label={"③ 政府間の協調"} sub="中国など体制の異なる国とも協議（実現は険しい）" dashed />
+        <T x={300} y={335} text="今すぐ動いているのは①だけ。②③は各社・各国の合意が前提" size={13} />
+      </Svg>
+    ),
+  },
+  "chatgpt-sketch": {
+    caption: "配置はスケッチ、雰囲気と質感は言葉——役割を分けて指定する",
+    render: () => (
+      <Svg h={290} title="ChatGPT Sketchのしくみの図解">
+        <B x={40} y={30} w={220} h={70} label={"手描きのラフ"} sub="＠Sketchで描く・構図の土台" fill={YELLOW} />
+        <T x={300} y={70} text="＋" size={22} color={INK} bold />
+        <B x={340} y={30} w={220} h={70} label={"テキスト指示"} sub="スタイル・素材・雰囲気" />
+        <AV x={300} y1={110} y2={150} label="組み合わせて生成" />
+        <B x={140} y={155} w={320} h={80} label={"清書された画像"} sub="構図は保ったまま仕上げ" fill={RED} color="#fff" />
+        <T x={300} y={270} text="言葉だけで配置を説明する手間を、絵で肩代わりする発想" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
