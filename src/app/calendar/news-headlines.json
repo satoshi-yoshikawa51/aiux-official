@@ -1,7 +1,69 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-11T23:30:56.854Z",
+  "updatedAt": "2026-09-12T23:16:54.767Z",
   "items": [
+    {
+      "title": "Perplexity trusts GPT-6 Astra with end-to-end systems",
+      "url": "https://openai.com/index/perplexity-improving-accuracy-with-astra",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-14T00:00:00.000Z",
+      "titleJa": "Perplexity はエンドツーエンド システムで GPT-6 Astra を信頼します",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/2ONJEXhA8M9IGON14JgHTc/4450550ce2d8b38c7fe2e7825839c92a/og.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Sam Altman says OpenAI going public in 2026 would be ‘ill-advised’",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/994384/sam-altman-no-openai-ipo-ill-advised",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-12T21:16:28.000Z",
+      "titleJa": "サム・アルトマン氏、OpenAIが2026年に上場するのは「賢明ではない」と語る",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STK201_SAM_ALTMAN_CVIRGINIA2D-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Anthropic CEO outlines plan to slow AI development",
+      "url": "https://techcrunch.com/2026/09/12/anthropic-ceo-outlines-plan-to-pace-the-frontier/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-12T19:34:44.000Z",
+      "titleJa": "Anthropic CEO、AI開発を遅らせる計画を概説",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/03/Dario-Amodei-Anthropic-1.jpg?w=1024"
+    },
+    {
+      "title": "Anthropic CEO says it’s time to pump the brakes on AI",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/994337/anthropic-ceo-slow-down-ai-development",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-12T16:23:40.000Z",
+      "titleJa": "Anthropic CEO、AI にブレーキをかける時が来たと語る",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK485_STK414_AI_SAFETY_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "新型AirPods 5を前世代AirPods 4と比較。進化はノイキャンだけじゃない",
+      "url": "https://www.gizmodo.jp/article/airpods-5-vs-airpods-4-anc-isnt-the-only-upgrade/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-12T08:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/11/3a7e705c-e347-4f04-9e86-dfc130f20838/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "レベルファイブ日野社長、“AI盛り込みトレイラー発表会”について「派手にしたかった」ためと弁明。ただ発売するゲームには、“安易なAI出力データ”は入れない - AUTOMATON",
+      "url": "https://automaton-media.com/articles/newsjp/20260912-467049/",
+      "source": "AUTOMATON",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 129,
+      "date": "2026-09-12T07:36:59.000Z",
+      "image": "https://automaton-media.com/wp-content/uploads/2026/09/20260912-467049-header.jpg"
+    },
+    {
+      "title": "FMV直販、Ryzen AI 5 340+512GB SSD搭載の一体型デスクトップPCを24万4200円で販売中！",
+      "url": "https://ascii.jp/elem/000/004/433/4433765/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-12T07:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+    },
     {
       "title": "Rapidly scaling online storage to serve over 1 billion ChatGPT users",
       "url": "https://openai.com/index/scaling-storage-one-billion-users-part-one",
@@ -21,47 +83,12 @@
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-2286500505.jpg?resize=1200,800"
     },
     {
-      "title": "Mecka AI nears $500M valuation in Sequoia-led deal amid rush for robot training data",
-      "url": "https://techcrunch.com/2026/09/11/mecka-ai-nears-500m-valuation-in-sequoia-led-deal-amid-rush-for-robot-training-data/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-11T22:58:17.000Z",
-      "titleJa": "ロボットトレーニングデータの需要が殺到する中、Mecka AI、Sequoia主導の取引で評価額5億ドルに近づく",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2082335389.jpg?resize=1200,857"
-    },
-    {
       "title": "「ChatGPT」で落書きを楽しもう--新機能「Sketch」が手描きの絵を洗練された画像に変換",
       "url": "https://japan.zdnet.com/article/35252496/",
       "source": "ZDNET Japan",
       "lang": "ja",
       "date": "2026-09-11T22:00:00.000Z",
       "image": "https://japan.zdnet.com/storage/2026/09/10/34d10ff88f32820d56321ba99e56a616/large-Figure-Top-I-used-ChatGPTs-new-Sketch-tool-to-turn-my-crude-drawings-into-cool-images.jpg"
-    },
-    {
-      "title": "OpenAI’s feud with mathematicians is only escalating",
-      "url": "https://techcrunch.com/2026/09/11/openais-feud-with-mathematicians-is-only-escalating/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-11T20:57:36.000Z",
-      "titleJa": "OpenAIと数学者との確執は激化するばかり",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
-    },
-    {
-      "title": "Anthropic spent this week in hot water over cybersecurity",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/994064/anthropic-spent-this-week-in-hot-water-over-cybersecurity",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-11T16:09:14.000Z",
-      "titleJa": "人類は今週、サイバーセキュリティをめぐって苦難の日々を過ごした",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS533_AI_AGENTS_HACKING_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
-    },
-    {
-      "title": "AirPods 5、さっそく試してきた。魅惑の「値下げ」と、クリアな低音",
-      "url": "https://www.gizmodo.jp/article/airpods-5-wireless-charging-case-hands-on/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-09-11T07:35:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/11/3e0b2439-3cd9-4c91-97b5-4389a5a38f4e/original.jpg?w=1200&h=630"
     },
     {
       "title": "リコー、AIが自ら賢くなる「Hermes Agent」搭載--オンプレLLM活用を加速",
@@ -94,31 +121,6 @@
       "lang": "ja",
       "date": "2026-09-11T02:06:11.000Z",
       "image": "https://www.itmedia.co.jp/news/article/ogp/2609/11/2000001399/10006136/2048"
-    },
-    {
-      "title": "Amazon、OpenAIと広告で提携 Amazon DSPの広告主が「ChatGPT」内に広告出稿可能に",
-      "url": "https://www.itmedia.co.jp/news/article/2609/11/2000001396/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-11T01:03:13.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/11/2000001396/10006124/2048"
-    },
-    {
-      "title": "ChatGPT、最上位プランの新規受付を一時停止 「Astra」需要対応のため 既存加入者には影響なし",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/11/2000001394/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-11T00:31:23.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/11/2000001394/10006118/2048"
-    },
-    {
-      "title": "Paul Christiano joins OpenAI Foundation Board",
-      "url": "https://openai.com/index/paul-christiano-joins-openai-foundation-board",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-09T17:00:00.000Z",
-      "titleJa": "ポール・クリスティアーノが OpenAI Foundation 理事会に参加",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/182NzFWut4sS5hBGtIVsq5/c2620026fe60121fe6543a992c7477ea/paul-christiano-joins-openai-foundation-board--seo-v001.png?w=1600&h=900&fit=fill"
     }
   ]
 }
