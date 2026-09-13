@@ -1194,10 +1194,20 @@ html.splash-hold .hero-burst {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
+/* displayはインラインで書かずここで持つ。クローンの出し分け
+   （下のdisplay:none）がインラインに負けてしまうため */
+.top-banner-slide {
+  display: block;
+}
 .top-banner-arrow {
   display: none;
 }
 .top-banner-dots {
+  display: none;
+}
+/* 無限ループ用の「1枚目のクローン」。2枚並べのPCでは重複して
+   見えてしまうので、カルーセルになる幅でだけ出す */
+.top-banner-clone {
   display: none;
 }
 @media (max-width: 900px) {
@@ -1215,6 +1225,9 @@ html.splash-hold .hero-burst {
   .top-banner-slide {
     flex: 0 0 100%;
     scroll-snap-align: start;
+  }
+  .top-banner-clone {
+    display: block;
   }
   .top-banner-arrow {
     display: grid;
