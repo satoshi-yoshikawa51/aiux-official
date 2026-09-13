@@ -87,6 +87,7 @@ export const RECORD_GROUPS: RecordGroup[] = [
     client: "株式会社ニジボックスの業務として",
     linkLabel: "記事を読む",
     urls: [
+      "https://blog.nijibox.jp/article/claude-cowork_claude-code_chat",
       "https://blog.nijibox.jp/article/ai_wireframe_2",
       "https://blog.nijibox.jp/article/ai-coding",
       "https://blog.nijibox.jp/article/ai-agents",
