@@ -56,7 +56,7 @@ export const RECORD_GROUPS: RecordGroup[] = [
     client: "株式会社ニジボックスの業務として",
     linkLabel: "動画を見る",
     urls: [
-      "https://www.youtube.com/watch?v=mAuMdpBv9vA",
+      "https://www.youtube.com/watch?v=5Xz9OMSUXRw",
       "https://www.youtube.com/watch?v=tzHltsmZH2s",
       "https://www.youtube.com/watch?v=8fzACTQxme0",
     ],
