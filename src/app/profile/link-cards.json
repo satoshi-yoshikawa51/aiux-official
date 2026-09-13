@@ -1,6 +1,6 @@
 {
   "_comment": "外部記事・動画のOGP。scripts/fetch-link-cards.mjs がCIで自動生成する（手で編集しない）。取得元URLは src/app/profile/records.ts から拾う。",
-  "generatedAt": "2026-08-04",
+  "generatedAt": "2026-09-13",
   "cards": {
     "https://blog.nijibox.jp/article/ai-shift-claude": {
       "url": "https://blog.nijibox.jp/article/ai-shift-claude",
@@ -9,14 +9,6 @@
       "image": "https://blog.nijibox.jp/wp-content/uploads/2026/07/bizcr_YouTube_thumbnail_20260630-560x315.png",
       "siteName": "株式会社ニジボックス",
       "date": "2026-07-23"
-    },
-    "https://www.youtube.com/watch?v=iCXRhKaAB6M": {
-      "url": "https://www.youtube.com/watch?v=iCXRhKaAB6M",
-      "title": "【Claude活用入門編】スキルを簡単につくって使いこなすコツ",
-      "description": "",
-      "image": "https://i.ytimg.com/vi/iCXRhKaAB6M/hqdefault.jpg",
-      "siteName": "株式会社ニジボックス",
-      "date": ""
     },
     "https://blog.nijibox.jp/article/ai_wireframe_2": {
       "url": "https://blog.nijibox.jp/article/ai_wireframe_2",
@@ -57,14 +49,6 @@
       "image": "https://blog.nijibox.jp/wp-content/uploads/2026/05/mv_NIJIBOXCollege_eventreport-560x363.png",
       "siteName": "株式会社ニジボックス",
       "date": "2026-05-25"
-    },
-    "https://www.youtube.com/watch?v=c7ahkpVh2bU": {
-      "url": "https://www.youtube.com/watch?v=c7ahkpVh2bU",
-      "title": "Claude、実際どう使ってる？— Chat / Cowork / Code 実践使い分け —",
-      "description": "",
-      "image": "https://i.ytimg.com/vi/c7ahkpVh2bU/hqdefault.jpg",
-      "siteName": "株式会社ニジボックス",
-      "date": ""
     },
     "https://www.youtube.com/watch?v=g2kTo6uRlF0": {
       "url": "https://www.youtube.com/watch?v=g2kTo6uRlF0",
@@ -185,6 +169,46 @@
       "image": "https://assets.st-note.com/production/uploads/images/163996598/rectangle_large_type_2_bae47efef045703315e142594a79454c.png?fit=bounds&quality=85&width=1280",
       "siteName": "note（ノート）",
       "date": ""
+    },
+    "https://www.youtube.com/watch?v=mAuMdpBv9vA": {
+      "url": "https://www.youtube.com/watch?v=mAuMdpBv9vA",
+      "title": "なぜ現場のAI活用は“成果”につながらないのか 〜効率化で終わらせないAX/UX設計〜／株式会社ニジボックス",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/mAuMdpBv9vA/hqdefault.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=tzHltsmZH2s": {
+      "url": "https://www.youtube.com/watch?v=tzHltsmZH2s",
+      "title": "【Claude活用入門編】スキルを簡単につくって使いこなすコツ",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/tzHltsmZH2s/hqdefault.jpg",
+      "siteName": "ニジボックスのサブチャンネル",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=8fzACTQxme0": {
+      "url": "https://www.youtube.com/watch?v=8fzACTQxme0",
+      "title": "Claude、実際どう使ってる？— Chat / Cowork / Code 実践使い分け —",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/8fzACTQxme0/hqdefault.jpg",
+      "siteName": "ニジボックスのサブチャンネル",
+      "date": ""
+    },
+    "https://www.youtube.com/watch?v=5Xz9OMSUXRw": {
+      "url": "https://www.youtube.com/watch?v=5Xz9OMSUXRw",
+      "title": "チャットAIとAIエージェントの違い— まだ「相談相手」で止まっていませんか？ —",
+      "description": "",
+      "image": "https://i.ytimg.com/vi/5Xz9OMSUXRw/hqdefault.jpg",
+      "siteName": "ニジボックスのサブチャンネル",
+      "date": ""
+    },
+    "https://blog.nijibox.jp/article/claude-cowork_claude-code_chat": {
+      "url": "https://blog.nijibox.jp/article/claude-cowork_claude-code_chat",
+      "title": "【動画あり】Claude Cowork / Claude Code / Chatの違いと使い分けを解説",
+      "description": "昨今、機能追加が話題となっている生成AIツール『Claude』。本記事ではツールの使い方ではなく、ニジボックスのAXコンサルタントである吉川 聡史（株式会社ニジボックス UI UXデザイン統括本部 UX・ディレクション室 室長）がどのように使っているかという「実践論」をお伝えします。",
+      "image": "https://blog.nijibox.jp/wp-content/uploads/2026/08/MV_%E3%80%90%E5%8B%95%E7%94%BB%E3%81%82%E3%82%8A%E3%80%91Claude-Cowork_Claude-Code_Chat%E3%81%AE%E9%81%95%E3%81%84%E3%81%A8%E4%BD%BF%E3%81%84%E5%88%86%E3%81%91%E3%82%92%E8%A7%A3%E8%AA%AC_B%E6%A1%88-560x363.jpg",
+      "siteName": "株式会社ニジボックス",
+      "date": "2026-08-19"
     }
   }
 }

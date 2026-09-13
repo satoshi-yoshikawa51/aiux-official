@@ -566,13 +566,8 @@ img {
   }
   .articles-grid,
   .mag-grid,
-  .social-grid,
-  .kyoshujo-banner {
+  .social-grid {
     grid-template-columns: 1fr !important;
-  }
-  .kyoshujo-banner img {
-    order: -1;
-    max-height: 220px;
   }
   /* LP(/academy)のMV。文と実画面を縦に積む。
      縦に積むと、下のスマホだけが中央・文は左端という**軸が2本ある**
@@ -613,35 +608,6 @@ img {
   /* バッジの列とCTAの列（どちらも直下のflex）を中央へ */
   .academy-mv-copy > div {
     justify-content: center;
-  }
-  /* スマホアプリの帯。中身が縦長の実画面なので、教習所バナーの
-     max-height:220 で潰すと何の画面か読めなくなる。幅で決める。
-     **実画面の側だけを名指しする**——帯にはロゴの画像も入っていて、
-     `.academy-banner img` で書くとロゴまで165pxに潰れる */
-  .academy-banner {
-    grid-template-columns: 1fr !important;
-  }
-  .academy-banner-shot {
-    order: -1;
-  }
-  /* ▍看板はまん中に
-     縦積みでは実画面が中央に来るので、ロゴと見出しだけ左端から
-     始まると軸が2本に見える。**本文とボタンは左のまま**——
-     長い日本語を中央揃えにすると行の頭が毎行ずれて読みにくい */
-  .academy-banner-logo img {
-    margin-inline: auto;
-  }
-  .academy-banner-lead {
-    text-align: center;
-  }
-  .academy-banner-shot img {
-    max-width: 165px !important;
-    margin-top: 24px !important;
-  }
-  /* 実画面は1枚だけ。2枚並べる幅がなく、小さくすると
-     どちらも何の画面か読めなくなる */
-  .academy-banner-shot-back {
-    display: none !important;
   }
   .article-row {
     grid-template-columns: 120px 1fr !important;
@@ -1218,5 +1184,42 @@ html.splash-hold .hero-burst {
 @media (pointer: coarse) {
   .tap-input {
     font-size: 16px !important;
+  }
+}
+
+/* ═══ トップ特設バナーのカルーセル（top-banners.tsx） ═══
+   PC(>900px)は2枚並べ。矢印・ドットはスマホ(≤900px)だけ出す */
+.top-banner-track {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.top-banner-arrow {
+  display: none;
+}
+.top-banner-dots {
+  display: none;
+}
+@media (max-width: 900px) {
+  .top-banner-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .top-banner-track::-webkit-scrollbar {
+    display: none;
+  }
+  .top-banner-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+  }
+  .top-banner-arrow {
+    display: grid;
+  }
+  .top-banner-dots {
+    display: flex;
   }
 }
