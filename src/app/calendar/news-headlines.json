@@ -1,6 +1,6 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-12T23:16:54.767Z",
+  "updatedAt": "2026-09-13T23:27:36.494Z",
   "items": [
     {
       "title": "Perplexity trusts GPT-6 Astra with end-to-end systems",
@@ -10,6 +10,62 @@
       "date": "2026-09-14T00:00:00.000Z",
       "titleJa": "Perplexity はエンドツーエンド システムで GPT-6 Astra を信頼します",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/2ONJEXhA8M9IGON14JgHTc/4450550ce2d8b38c7fe2e7825839c92a/og.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "予測モデルAIを搭載した可搬重量60kgの産業用4足歩行ロボット",
+      "url": "https://ascii.jp/elem/000/004/433/4433558/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-13T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/09/4523612/xl/d762371017d26ba4.jpg"
+    },
+    {
+      "title": "AI技術を“無料で公開”、なぜ？ 米IT業界の文化「オープン化」の裏にしたたかな戦略、日本は追随できるか",
+      "url": "https://www.itmedia.co.jp/business/articles/2609/14/news047.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-13T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2609/14/cover_news047.jpg"
+    },
+    {
+      "title": "AIのせいでエンジニアの75％を解雇したCSSフレームワークのTailwind、Shopifyによる買収を発表。今後も安定的な開発を維持すると",
+      "url": "https://www.publickey1.jp/blog/26/ai75csstailwindshopify.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-09-13T15:20:00.000Z",
+      "image": "https://www.publickey1.jp/2026/HRx2QG7aoAEAhna.jpg"
+    },
+    {
+      "title": "TailscaleのVPNにAIエージェントを組み込める「Aperture」正式リリース。AIによるTailscaleやノードの操作も可能に",
+      "url": "https://www.publickey1.jp/blog/26/tailscalevpnaiapertureaitailscale.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-09-13T15:08:50.000Z",
+      "image": "https://www.publickey1.jp/2026/HQqrtHdWQAA9MSg.jpg"
+    },
+    {
+      "title": "新型AirPods 5とAirPods 4、深夜便で聴きくらべたらバキバキに目が覚めてしまった",
+      "url": "https://www.gizmodo.jp/article/new-airpods5-airplane-review/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-13T09:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/13/af735ff2-e5d5-4116-8b65-2208a7600e2d/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "FMV直販、Ryzen AI 5 340搭載の一体型デスクトップPCが24万4200円！",
+      "url": "https://ascii.jp/elem/000/004/433/4433766/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-13T07:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+    },
+    {
+      "title": "AnthropicのアモデイCEO、AI開発の「ペース調整」訴えるエッセイ公開 アルトマン氏とマスク氏も賛同",
+      "url": "https://www.itmedia.co.jp/news/article/2609/13/2000001432/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-12T23:06:11.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/13/2000001432/10006301/2048"
     },
     {
       "title": "Sam Altman says OpenAI going public in 2026 would be ‘ill-advised’",
@@ -39,32 +95,6 @@
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK485_STK414_AI_SAFETY_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "新型AirPods 5を前世代AirPods 4と比較。進化はノイキャンだけじゃない",
-      "url": "https://www.gizmodo.jp/article/airpods-5-vs-airpods-4-anc-isnt-the-only-upgrade/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-09-12T08:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/11/3a7e705c-e347-4f04-9e86-dfc130f20838/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "レベルファイブ日野社長、“AI盛り込みトレイラー発表会”について「派手にしたかった」ためと弁明。ただ発売するゲームには、“安易なAI出力データ”は入れない - AUTOMATON",
-      "url": "https://automaton-media.com/articles/newsjp/20260912-467049/",
-      "source": "AUTOMATON",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 129,
-      "date": "2026-09-12T07:36:59.000Z",
-      "image": "https://automaton-media.com/wp-content/uploads/2026/09/20260912-467049-header.jpg"
-    },
-    {
-      "title": "FMV直販、Ryzen AI 5 340+512GB SSD搭載の一体型デスクトップPCを24万4200円で販売中！",
-      "url": "https://ascii.jp/elem/000/004/433/4433765/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-12T07:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
-    },
-    {
       "title": "Rapidly scaling online storage to serve over 1 billion ChatGPT users",
       "url": "https://openai.com/index/scaling-storage-one-billion-users-part-one",
       "source": "OpenAI（公式）",
@@ -89,38 +119,6 @@
       "lang": "ja",
       "date": "2026-09-11T22:00:00.000Z",
       "image": "https://japan.zdnet.com/storage/2026/09/10/34d10ff88f32820d56321ba99e56a616/large-Figure-Top-I-used-ChatGPTs-new-Sketch-tool-to-turn-my-crude-drawings-into-cool-images.jpg"
-    },
-    {
-      "title": "リコー、AIが自ら賢くなる「Hermes Agent」搭載--オンプレLLM活用を加速",
-      "url": "https://japan.zdnet.com/article/35252524/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-11T04:15:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/05/08/184ba104d0062af259cfea2003d77d8f/260508_software_as_1280_625979046.jpg"
-    },
-    {
-      "title": "Sakana AI、一部「GPT-6 Astra」「Fable 5.1」超えうたうFugu最新版 連携先に「両モデルは含まず」",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/11/2000001405/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-11T04:11:32.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/11/2000001405/10006164/2048"
-    },
-    {
-      "title": "NASAとIBM、月探査向けAIモデルをオープンソースで公開",
-      "url": "https://japan.cnet.com/article/35252541/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-11T03:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/11/9856efdb2d43d812df9a147dcbbacf67/Dark-Craters-Bright-Views_1280x960.jpg"
-    },
-    {
-      "title": "Windows用「Gemini」アプリ提供開始 画面上に重ねて作業を中断せず利用可能に",
-      "url": "https://www.itmedia.co.jp/news/article/2609/11/2000001399/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-11T02:06:11.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/11/2000001399/10006136/2048"
     }
   ]
 }
