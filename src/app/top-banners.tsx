@@ -2,143 +2,41 @@
 /* ============================================================
    トップの特設バナー（スマホアプリ＋Claude教習所）のカルーセル。
 
+   ・1枚のバナー＝1枚の横長画像（1200×480）＋リンク1つ。
+     画像は scripts/generate-top-banners.mjs（npm run banners:top）で
+     生成する。デザインツールで作った絵に差し替えるときは、
+     public/top-banners/<name>.webp を置き換えるだけでよい。
    ・PC（>900px）：2枚を横に並べるだけ。矢印もドットも出さない
      （枚数が増えてPCでも入り切らなくなったら、そのとき考える）。
    ・スマホ（≤900px）：1枚ずつの横スワイプ。左右の矢印と
      下の●○ドットで「まだ隣にある」ことを示す。
-   ・バナーを増やすときは SLIDES に1枚足すだけ。ドットと矢印は
+   ・バナーを増やすときは SLIDES に1件足すだけ。ドットと矢印は
      枚数から自動で追従する。
 
    GAの計測名（data-ga-place）は縦積み時代のバナーから引き継ぐ。
    変えると過去のデータと繋がらなくなるので、ここは動かさない。
    ============================================================ */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "./ds";
-import { APP_STORE_URL, AppStoreBadge } from "./academy/store";
 
 /* site-chrome の PAGE と同じ値。クライアント側に Nav/Footer まで
    引き込まないよう、定数だけ書き写している */
 const PAGE = "min(1080px, 92vw)";
 
-/* ── スライド1：スマホアプリの帯（黒地・ドット模様） ── */
-function AcademySlide() {
-  return (
-    <div
-      style={{
-        height: "100%",
-        display: "grid", gridTemplateColumns: "minmax(0, 3fr) minmax(0, 2fr)", alignItems: "stretch",
-        border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18, overflow: "hidden",
-        background: "var(--ink-900)", boxShadow: "var(--shadow-pop)",
-        backgroundImage: "radial-gradient(rgba(255,255,255,0.07) 1.3px, transparent 1.4px)",
-        backgroundSize: "14px 14px",
-      }}
-    >
-      <div style={{ padding: "18px 4px 18px 20px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 10 }}>
-        <a href="/academy" data-ga="cta_click" data-ga-place="top-academy-banner" style={{ display: "block", textDecoration: "none" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/academy/logo.webp"
-            alt="COMIXAI アカデミー"
-            width={1120}
-            height={403}
-            style={{ width: "100%", maxWidth: 175, height: "auto", display: "block", filter: "drop-shadow(0 5px 12px rgba(0,0,0,.55))" }}
-          />
-        </a>
-        <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(15.5px, 1.7vw, 19px)", lineHeight: 1.45, color: "var(--paper-50)" }}>
-          AIを遊んで学べるアプリ、<wbr />リリース！
-        </div>
-        <p style={{ fontSize: 12, lineHeight: 1.8, color: "var(--paper-200)", margin: 0 }}>
-          <b style={{ color: "var(--paper-50)" }}>登録不要・広告なし・完全無料</b>で、1日5分から。
-        </p>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-          {APP_STORE_URL ? (
-            <a
-              href={APP_STORE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none" }}
-              data-ga="academy_install"
-              data-ga-place="top-academy-banner"
-            >
-              <AppStoreBadge height={40} />
-            </a>
-          ) : (
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.14em", color: "var(--yellow-400)", fontWeight: 700 }}>
-              iPhone / iPad — まもなく公開
-            </span>
-          )}
-          <a
-            href="/academy"
-            data-ga="cta_click"
-            data-ga-place="top-academy-banner"
-            style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 12.5, color: "var(--yellow-400)", textDecoration: "none", whiteSpace: "nowrap" }}
-          >
-            アプリを見る <i className="ph-bold ph-arrow-right" style={{ verticalAlign: "-1px" }} />
-          </a>
-        </div>
-      </div>
-      {/* 実画面は1枚だけ。下端をカードの底に食い込ませてproduct感を出す */}
-      <a href="/academy" data-ga="cta_click" data-ga-place="top-academy-banner" style={{ display: "flex", alignItems: "flex-end", justifyContent: "center", overflow: "hidden" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/academy/shots/home.webp"
-          alt="COMIXAI アカデミーのホーム画面。桜並木の舞台に3Dアバターが立っている"
-          style={{ width: "100%", maxWidth: 132, height: "auto", objectFit: "contain", display: "block", margin: "16px 12px -2px", borderRadius: "14px 14px 0 0", border: "var(--bw-line) solid var(--paper-50)", borderBottom: "none", boxShadow: "0 10px 24px rgba(0,0,0,.5)" }}
-        />
-      </a>
-    </div>
-  );
-}
-
-/* ── スライド2：Claude教習所（紙地） ── */
-function KyoshujoSlide() {
-  return (
-    <a
-      href="/claude-app"
-      style={{ textDecoration: "none", color: "inherit", display: "block", height: "100%" }}
-      data-ga="cta_click"
-      data-ga-place="top-kyoshujo-banner"
-    >
-      <div
-        style={{
-          height: "100%",
-          display: "grid", gridTemplateColumns: "minmax(0, 3fr) minmax(0, 2fr)", alignItems: "stretch",
-          border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18, overflow: "hidden",
-          background: "var(--paper-0)", boxShadow: "var(--shadow-pop)",
-        }}
-      >
-        <div style={{ padding: "18px 6px 18px 20px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.14em", color: "var(--red-600)", fontWeight: 700 }}>
-              さわって覚えるClaude入門
-            </span>
-          </div>
-          <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(16.5px, 1.9vw, 21px)", lineHeight: 1.4 }}>
-            5分で覚える！Claude教習所
-          </div>
-          <p style={{ fontSize: 12, lineHeight: 1.8, color: "var(--text-body)", margin: 0 }}>
-            本物そっくりの練習画面を講師が案内。<b>1コース約5分・登録不要</b>の無料コース。
-          </p>
-          <div>
-            <Button variant="primary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
-              無料ではじめる
-            </Button>
-          </div>
-        </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/claude-app/banner.webp"
-          alt="5分で覚える！Claude教習所 — 練習画面を講師が案内"
-          style={{ width: "100%", height: "100%", minHeight: 180, objectFit: "cover", display: "block" }}
-        />
-      </div>
-    </a>
-  );
-}
-
-const SLIDES: { key: string; label: string; node: React.ReactNode }[] = [
-  { key: "academy", label: "スマホアプリ COMIXAI アカデミー", node: <AcademySlide /> },
-  { key: "kyoshujo", label: "5分で覚える！Claude教習所", node: <KyoshujoSlide /> },
+const SLIDES: { key: string; href: string; img: string; alt: string; gaPlace: string }[] = [
+  {
+    key: "academy",
+    href: "/academy",
+    img: "/top-banners/academy.webp",
+    alt: "AIを遊んで学べる、無料アプリ。COMIXAI アカデミー — 登録不要・広告なし・1日5分から",
+    gaPlace: "top-academy-banner",
+  },
+  {
+    key: "kyoshujo",
+    href: "/claude-app",
+    img: "/top-banners/kyoshujo.webp",
+    alt: "5分で覚える！Claude教習所 — 練習画面を講師が案内。登録不要・無料",
+    gaPlace: "top-kyoshujo-banner",
+  },
 ];
 
 export function TopBanners() {
@@ -187,9 +85,21 @@ export function TopBanners() {
       <div style={{ position: "relative" }}>
         <div ref={trackRef} className="top-banner-track">
           {SLIDES.map((s) => (
-            <div key={s.key} className="top-banner-slide" aria-label={s.label}>
-              {s.node}
-            </div>
+            <a
+              key={s.key}
+              className="top-banner-slide"
+              href={s.href}
+              data-ga="cta_click"
+              data-ga-place={s.gaPlace}
+              style={{
+                display: "block",
+                border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18,
+                overflow: "hidden", boxShadow: "var(--shadow-pop)", background: "var(--paper-0)",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={s.img} alt={s.alt} width={1200} height={480} style={{ width: "100%", height: "auto", display: "block" }} />
+            </a>
           ))}
         </div>
         <button type="button" className="top-banner-arrow" aria-label="前のバナー" onClick={() => goTo(index - 1)} disabled={index === 0} style={{ ...arrowStyle, left: 4, opacity: index === 0 ? 0.35 : 1 }}>
@@ -204,7 +114,7 @@ export function TopBanners() {
           <button
             key={s.key}
             type="button"
-            aria-label={`${i + 1}枚目：${s.label}`}
+            aria-label={`${i + 1}枚目のバナーへ`}
             aria-current={i === index}
             onClick={() => goTo(i)}
             style={{
