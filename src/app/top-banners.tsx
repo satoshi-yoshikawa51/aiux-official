@@ -91,11 +91,7 @@ export function TopBanners() {
               href={s.href}
               data-ga="cta_click"
               data-ga-place={s.gaPlace}
-              style={{
-                display: "block",
-                border: "var(--bw-bold) solid var(--ink-900)", borderRadius: 18,
-                overflow: "hidden", boxShadow: "var(--shadow-pop)", background: "var(--paper-0)",
-              }}
+              style={{ display: "block" }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={s.img} alt={s.alt} width={1200} height={480} style={{ width: "100%", height: "auto", display: "block" }} />
