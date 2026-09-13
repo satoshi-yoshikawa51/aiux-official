@@ -72,6 +72,30 @@ export function TopBanners() {
     if (target) el.scrollTo({ left: target.offsetLeft, behavior: "smooth" });
   };
 
+  /* ── 自動送り ──
+     AUTO_MS ごとに次へ進み、最後まで行ったら先頭へ戻る。
+     ・動くのはカルーセルになるスマホ幅（≤900px）だけ。PCは2枚とも
+       見えているので送る意味がない
+     ・指で触っている間は止める。手で動かしたら（スワイプ・矢印・ドット
+       いずれも index が変わるので）そこから数え直し
+     ・タブが裏にある間と、OSの「動きを減らす」設定では動かさない */
+  const AUTO_MS = 5000;
+  const pausedRef = useRef(false);
+  useEffect(() => {
+    if (SLIDES.length < 2) return;
+    const iv = setInterval(() => {
+      if (pausedRef.current || document.hidden) return;
+      if (!window.matchMedia("(max-width: 900px)").matches) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const el = trackRef.current;
+      if (!el) return;
+      const next = (index + 1) % SLIDES.length;
+      const target = el.children[next] as HTMLElement | undefined;
+      if (target) el.scrollTo({ left: target.offsetLeft, behavior: "smooth" });
+    }, AUTO_MS);
+    return () => clearInterval(iv);
+  }, [index]);
+
   const arrowStyle: React.CSSProperties = {
     position: "absolute", top: "50%", transform: "translateY(-50%)", zIndex: 3,
     width: 32, height: 32, borderRadius: "50%",
@@ -82,7 +106,13 @@ export function TopBanners() {
 
   return (
     <section aria-label="特設バナー" style={{ maxWidth: PAGE, margin: "0 auto", padding: "36px 0 40px" }}>
-      <div style={{ position: "relative" }}>
+      <div
+        style={{ position: "relative" }}
+        onPointerDown={() => { pausedRef.current = true; }}
+        onPointerUp={() => { pausedRef.current = false; }}
+        onPointerCancel={() => { pausedRef.current = false; }}
+        onPointerLeave={() => { pausedRef.current = false; }}
+      >
         <div ref={trackRef} className="top-banner-track">
           {SLIDES.map((s) => (
             <a
