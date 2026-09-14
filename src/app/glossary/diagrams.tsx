@@ -1351,6 +1351,25 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "sakana-ai": {
+    caption: "Fuguは自分で全部解かず、得意なAIに振り分けて結果をまとめる",
+    render: () => (
+      <Svg h={330} title="Sakana AIのオーケストレーション型モデルFuguの図解">
+        <B x={40} y={25} w={200} h={65} label={"仕事の依頼"} sub="調査・コード・資料づくり" />
+        <AH x1={245} x2={315} y={57} label="内容を読む" />
+        <B x={320} y={20} w={240} h={75} label={"Fugu"} sub="指揮者：適任のAIを選んで采配" fill={YELLOW} />
+        <AV x={370} y1={95} y2={135} />
+        <AV x={440} y1={95} y2={135} />
+        <AV x={510} y1={95} y2={135} />
+        <B x={310} y={140} w={90} h={65} label={"文章が\n得意なAI"} />
+        <B x={410} y={140} w={90} h={65} label={"コードが\n得意なAI"} />
+        <B x={510} y={140} w={80} h={65} label={"分析が\n得意なAI"} />
+        <AV x={440} y1={205} y2={240} label="結果をまとめる" />
+        <B x={320} y={245} w={240} h={60} label={"ひとつの回答"} fill={RED} color="#fff" />
+        <T x={300} y={322} text="「巨大AIを1つ育てる」とは別の、「群れの采配」で性能を出す設計" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
