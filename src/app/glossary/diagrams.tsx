@@ -1351,6 +1351,30 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "open-weight": {
+    caption: "「オープン」と言っても、手に入る範囲は3段階ある",
+    render: () => (
+      <Svg h={310} title="クローズド・オープンウェイト・オープンソースの違いの図解">
+        <B x={180} y={18} w={132} h={72} label={"クローズド"} sub="API経由で使うだけ" />
+        <B x={318} y={18} w={132} h={72} label={"オープン\nウェイト"} sub="重みが手に入る" fill={YELLOW} />
+        <B x={456} y={18} w={132} h={72} label={"オープン\nソース"} sub="作り方まで分かる" />
+        <T x={172} y={124} text="自分の環境で動かす" size={13} anchor="end" color={INK} />
+        <T x={246} y={124} text="✕" size={19} color={MUTED} />
+        <T x={384} y={124} text="○" size={19} color={INK} />
+        <T x={522} y={124} text="○" size={19} color={INK} />
+        <T x={172} y={162} text="中身を調べる・追加学習" size={13} anchor="end" color={INK} />
+        <T x={246} y={162} text="✕" size={19} color={MUTED} />
+        <T x={384} y={162} text="○" size={19} color={INK} />
+        <T x={522} y={162} text="○" size={19} color={INK} />
+        <T x={172} y={200} text="学習データ・訓練コード" size={13} anchor="end" color={INK} />
+        <T x={246} y={200} text="✕" size={19} color={MUTED} />
+        <T x={384} y={200} text="✕" size={19} color={MUTED} />
+        <T x={522} y={200} text="○" size={19} color={INK} />
+        <T x={300} y={250} text="世に「オープンソースAI」と呼ばれるモデルの多くは、実はまん中" size={13.5} color={INK} />
+        <T x={300} y={278} text="重みが公開でも条件は公開元しだい。商用前にライセンスを読む" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
