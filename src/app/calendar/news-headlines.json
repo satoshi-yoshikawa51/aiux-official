@@ -1,7 +1,25 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-13T23:27:36.494Z",
+  "updatedAt": "2026-09-14T23:58:28.787Z",
   "items": [
+    {
+      "title": "OpenAI buys smartphone camera maker Glass Imaging for $300 million, report says",
+      "url": "https://techcrunch.com/2026/09/14/openai-buys-smartphone-camera-maker-glass-imaging-for-300-million-report-says/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-14T20:44:14.000Z",
+      "titleJa": "OpenAIがスマートフォンカメラメーカーGlass Imagingを3億ドルで買収、報道によると",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-1252369470.jpg?resize=1200,802"
+    },
+    {
+      "title": "Apple releases iOS 27, macOS Golden Gate 27 with Siri AI and Liquid Glass refinements",
+      "url": "https://arstechnica.com/apple/2026/09/apple-releases-ios-27-macos-golden-gate-27-with-siri-ai-and-liquid-glass-refinements/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-14T19:28:42.000Z",
+      "titleJa": "Apple、Siri AIとLiquid Glassを改良したiOS 27、macOS Golden Gate 27をリリース",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Apple-OS-27-1152x648-1789411862.jpg"
+    },
     {
       "title": "Perplexity trusts GPT-6 Astra with end-to-end systems",
       "url": "https://openai.com/index/perplexity-improving-accuracy-with-astra",
@@ -12,60 +30,86 @@
       "image": "https://images.ctfassets.net/kftzwdyauwt9/2ONJEXhA8M9IGON14JgHTc/4450550ce2d8b38c7fe2e7825839c92a/og.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "予測モデルAIを搭載した可搬重量60kgの産業用4足歩行ロボット",
-      "url": "https://ascii.jp/elem/000/004/433/4433558/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-13T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/09/4523612/xl/d762371017d26ba4.jpg"
-    },
-    {
-      "title": "AI技術を“無料で公開”、なぜ？ 米IT業界の文化「オープン化」の裏にしたたかな戦略、日本は追随できるか",
-      "url": "https://www.itmedia.co.jp/business/articles/2609/14/news047.html",
+      "title": "ビル管理で進む「属人化」解消なるか 東京建物らが開設、新たな「基地」が持つ5つの機能",
+      "url": "https://www.itmedia.co.jp/business/articles/2609/15/news052.html",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-09-13T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2609/14/cover_news047.jpg"
+      "date": "2026-09-14T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2609/15/cover_news052.jpg"
     },
     {
-      "title": "AIのせいでエンジニアの75％を解雇したCSSフレームワークのTailwind、Shopifyによる買収を発表。今後も安定的な開発を維持すると",
-      "url": "https://www.publickey1.jp/blog/26/ai75csstailwindshopify.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-09-13T15:20:00.000Z",
-      "image": "https://www.publickey1.jp/2026/HRx2QG7aoAEAhna.jpg"
-    },
-    {
-      "title": "TailscaleのVPNにAIエージェントを組み込める「Aperture」正式リリース。AIによるTailscaleやノードの操作も可能に",
-      "url": "https://www.publickey1.jp/blog/26/tailscalevpnaiapertureaitailscale.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-09-13T15:08:50.000Z",
-      "image": "https://www.publickey1.jp/2026/HQqrtHdWQAA9MSg.jpg"
-    },
-    {
-      "title": "新型AirPods 5とAirPods 4、深夜便で聴きくらべたらバキバキに目が覚めてしまった",
-      "url": "https://www.gizmodo.jp/article/new-airpods5-airplane-review/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-09-13T09:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/13/af735ff2-e5d5-4116-8b65-2208a7600e2d/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "FMV直販、Ryzen AI 5 340搭載の一体型デスクトップPCが24万4200円！",
-      "url": "https://ascii.jp/elem/000/004/433/4433766/?rss",
+      "title": "値上げ確定のVAIOは今が買い時！ オススメは使用目的に沿ってカスタマイズできる「VAIO F14」だ",
+      "url": "https://ascii.jp/elem/000/004/434/4434380/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-09-13T07:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+      "date": "2026-09-14T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/13/4525064/xl/3272698310de979a.png?20200122"
     },
     {
-      "title": "AnthropicのアモデイCEO、AI開発の「ペース調整」訴えるエッセイ公開 アルトマン氏とマスク氏も賛同",
-      "url": "https://www.itmedia.co.jp/news/article/2609/13/2000001432/",
+      "title": "Nvidia CEO Jensen Huang tells Trump ‘we’re not going to let [an AI slowdown] happen’",
+      "url": "https://techcrunch.com/2026/09/14/nvidia-ceo-jensen-huang-tells-trump-were-not-going-to-let-an-ai-slowdown-happen/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-14T21:51:02.000Z",
+      "titleJa": "Nvidia CEOのジェンセン・ファン氏、トランプ大統領に「（AIの減速を）許すつもりはない」",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2256813240.jpg?resize=1200,800"
+    },
+    {
+      "title": "OpenAI stuck fighting Musk antitrust suit after Apple finds a way out",
+      "url": "https://arstechnica.com/tech-policy/2026/09/musk-drops-apple-from-antitrust-suit-but-keeps-gunning-for-openai/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-14T19:45:13.000Z",
+      "titleJa": "Appleが活路を見出した後、OpenAIはマスク独禁法訴訟との戦いに行き詰る",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-2256018320-1024x648.jpg"
+    },
+    {
+      "title": "「iOS 27」配信開始！ 対応するのはiPhone 11以降 日本語のSiri AIは10月開始予定",
+      "url": "https://ascii.jp/elem/000/004/434/4434738/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-14T17:50:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/15/4525638/xl/07db69019ef03db1.png?20200122"
+    },
+    {
+      "title": "OpenAIやAnthropicなどAIベンダごとのAPIの違いを吸収し統合する「Agent Router」、Linux Foundation傘下で業界標準へ",
+      "url": "https://www.publickey1.jp/blog/26/openaianthropicapiagent_routerlinux_foundation.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-09-14T15:51:16.000Z",
+      "image": "https://www.publickey1.jp/2026/HR0EGYVWAAUUQRC.jpg"
+    },
+    {
+      "title": "アトラシアン、エージェント型開発を大規模展開するための新機能群を発表",
+      "url": "https://japan.zdnet.com/article/35252608/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-14T06:57:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/04/18/202e8ef6bef5f6d8200603dfaf8dc44a/250418_ai_agent_as_1280_1257156629.jpg"
+    },
+    {
+      "title": "米トランプ大統領、広がるAI規制論に反論 「中国へのリードを維持したい」",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/14/2000001449/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-09-12T23:06:11.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/13/2000001432/10006301/2048"
+      "date": "2026-09-14T05:59:09.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/14/2000001449/10006358/2048"
+    },
+    {
+      "title": "パナソニック エナジー、AIデータセンター市場で放つ「一気通貫」の蓄電システム戦略--売上高1兆円へ",
+      "url": "https://japan.zdnet.com/article/35252552/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-14T02:56:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/11/b01aa67a7583d6fe413dbccea39b1141/260910_pe_l.jpg"
+    },
+    {
+      "title": "楽天モバイルが「フィジカルAI」導入を発表 その中身とは",
+      "url": "https://japan.cnet.com/article/35252592/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-14T02:10:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/14/69f7f23e70752f37bcc68b1ada07a132/01.jpeg"
     },
     {
       "title": "Sam Altman says OpenAI going public in 2026 would be ‘ill-advised’",
@@ -75,50 +119,6 @@
       "date": "2026-09-12T21:16:28.000Z",
       "titleJa": "サム・アルトマン氏、OpenAIが2026年に上場するのは「賢明ではない」と語る",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STK201_SAM_ALTMAN_CVIRGINIA2D-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Anthropic CEO outlines plan to slow AI development",
-      "url": "https://techcrunch.com/2026/09/12/anthropic-ceo-outlines-plan-to-pace-the-frontier/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-12T19:34:44.000Z",
-      "titleJa": "Anthropic CEO、AI開発を遅らせる計画を概説",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/03/Dario-Amodei-Anthropic-1.jpg?w=1024"
-    },
-    {
-      "title": "Anthropic CEO says it’s time to pump the brakes on AI",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/994337/anthropic-ceo-slow-down-ai-development",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-12T16:23:40.000Z",
-      "titleJa": "Anthropic CEO、AI にブレーキをかける時が来たと語る",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK485_STK414_AI_SAFETY_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Rapidly scaling online storage to serve over 1 billion ChatGPT users",
-      "url": "https://openai.com/index/scaling-storage-one-billion-users-part-one",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-11T10:00:00.000Z",
-      "titleJa": "オンライン ストレージを迅速に拡張して 10 億人を超える ChatGPT ユーザーにサービスを提供",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5D3TSOEPUfq7vsrX6Vsp0Q/3ac45b90943bcbcdd0eac9b80e0f679a/SEO.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Kimi-maker Moonshot AI targets $2B in annual revenue",
-      "url": "https://techcrunch.com/2026/09/11/kimi-maker-moonshot-ai-targets-2-billion-in-annual-revenue/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-11T19:35:54.000Z",
-      "titleJa": "Kimi-maker Moonshot AI は年間収益 20 億ドルを目指す",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-2286500505.jpg?resize=1200,800"
-    },
-    {
-      "title": "「ChatGPT」で落書きを楽しもう--新機能「Sketch」が手描きの絵を洗練された画像に変換",
-      "url": "https://japan.zdnet.com/article/35252496/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-11T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/10/34d10ff88f32820d56321ba99e56a616/large-Figure-Top-I-used-ChatGPTs-new-Sketch-tool-to-turn-my-crude-drawings-into-cool-images.jpg"
     }
   ]
 }
