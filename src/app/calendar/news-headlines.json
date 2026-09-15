@@ -1,7 +1,89 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-14T23:58:28.787Z",
+  "updatedAt": "2026-09-15T23:40:06.221Z",
   "items": [
+    {
+      "title": "統合型ホテルOSとAIエージェントを組み合わせた伴走支援事業",
+      "url": "https://ascii.jp/elem/000/004/434/4434687/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-15T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/14/4525446/xl/b7c69fa017cf3ca7.jpg"
+    },
+    {
+      "title": "Meta expands subscription push with new AI-focused plans",
+      "url": "https://techcrunch.com/2026/09/15/meta-expands-subscription-push-with-new-ai-focused-plans/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-15T17:05:24.000Z",
+      "titleJa": "Meta が AI に重点を置いた新しいプランでサブスクリプションの推進を拡大",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/meta-muse-app-GettyImages-2293792137.jpg?w=1024"
+    },
+    {
+      "title": "オラクル、Javaのセキュリティパッチを毎月提供開始、AIが脆弱性の発見を加速しているとして",
+      "url": "https://www.publickey1.jp/blog/26/javaai.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-09-15T15:49:38.000Z",
+      "image": "https://www.publickey1.jp/2026/java-frequent-updates.png"
+    },
+    {
+      "title": "OpenAI, Anthropic, Google have been in talks on AI safety for weeks",
+      "url": "https://techcrunch.com/2026/09/15/openai-anthropic-google-have-been-in-talks-on-ai-safety-for-weeks/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-15T15:47:03.000Z",
+      "titleJa": "OpenAI、Anthropic、GoogleはAIの安全性について数週間にわたって協議を行っている",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/09/53203224992_ceaa387ca4_k-1.jpg?resize=1200,800"
+    },
+    {
+      "title": "アップル、日本語でのSiri AIの10月提供開始を正式発表 EUと中国では規制対応で当初利用不可",
+      "url": "https://ascii.jp/elem/000/004/435/4435151/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-15T14:30:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/15/4526069/xl/bdc2737fe9f1d558.jpg?20200122"
+    },
+    {
+      "title": "【日本初】ECサイトへの「エージェンティックコマース」導入の鍵は、「買うAI」を迎える「入り口」に立つ「売るAI」の設計。「売るAI」が騙されれば、サイトごと騙される。「入り口」を守る必須技術を権利化",
+      "url": "https://ascii.jp/elem/000/004/435/4435139/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-15T09:33:28.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "AnthropicのCEOがAI開発の一時停止らしきものを提案。その中身は…？",
+      "url": "https://www.gizmodo.jp/article/2609-anthropic-ceo-ai-development-slowdown/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-15T08:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/15/129f56ae-c5ae-4fa6-977d-0c2ca487ec36/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "「ブラウザを開く手間」を解消 作業画面に直接呼び出せるWindows版「Gemini」公開",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/15/news076.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-15T08:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2609/15/cover_news076.jpg"
+    },
+    {
+      "title": "アップル、「Siri AI」をClaudeやGPTに置き換え可能に？ 「iOS 27」のコードが示す新機能",
+      "url": "https://japan.cnet.com/article/35252632/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-15T06:39:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/15/995a696825141e407e3472fd71c800a4/GettyImages-2156791504_1280x960.jpg"
+    },
+    {
+      "title": "シャープ、AIサーバー事業に本格参入--鴻海の供給力と国内保守網で2030年度売上高2500億円へ",
+      "url": "https://japan.zdnet.com/article/35252633/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-15T06:03:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/15/fb5e180dbf3832f91fcf935db52063c8/260915_sharp_l.jpg"
+    },
     {
       "title": "OpenAI buys smartphone camera maker Glass Imaging for $300 million, report says",
       "url": "https://techcrunch.com/2026/09/14/openai-buys-smartphone-camera-maker-glass-imaging-for-300-million-report-says/",
@@ -17,7 +99,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-09-14T19:28:42.000Z",
-      "titleJa": "Apple、Siri AIとLiquid Glassを改良したiOS 27、macOS Golden Gate 27をリリース",
+      "titleJa": "Apple、Siri AI と液体ガラスの改良を備えた iOS 27、macOS Golden Gate 27 をリリース",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Apple-OS-27-1152x648-1789411862.jpg"
     },
     {
@@ -30,95 +112,13 @@
       "image": "https://images.ctfassets.net/kftzwdyauwt9/2ONJEXhA8M9IGON14JgHTc/4450550ce2d8b38c7fe2e7825839c92a/og.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "ビル管理で進む「属人化」解消なるか 東京建物らが開設、新たな「基地」が持つ5つの機能",
-      "url": "https://www.itmedia.co.jp/business/articles/2609/15/news052.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-14T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2609/15/cover_news052.jpg"
-    },
-    {
-      "title": "値上げ確定のVAIOは今が買い時！ オススメは使用目的に沿ってカスタマイズできる「VAIO F14」だ",
-      "url": "https://ascii.jp/elem/000/004/434/4434380/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-14T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/13/4525064/xl/3272698310de979a.png?20200122"
-    },
-    {
-      "title": "Nvidia CEO Jensen Huang tells Trump ‘we’re not going to let [an AI slowdown] happen’",
-      "url": "https://techcrunch.com/2026/09/14/nvidia-ceo-jensen-huang-tells-trump-were-not-going-to-let-an-ai-slowdown-happen/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-14T21:51:02.000Z",
-      "titleJa": "Nvidia CEOのジェンセン・ファン氏、トランプ大統領に「（AIの減速を）許すつもりはない」",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2256813240.jpg?resize=1200,800"
-    },
-    {
       "title": "OpenAI stuck fighting Musk antitrust suit after Apple finds a way out",
       "url": "https://arstechnica.com/tech-policy/2026/09/musk-drops-apple-from-antitrust-suit-but-keeps-gunning-for-openai/",
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-09-14T19:45:13.000Z",
-      "titleJa": "Appleが活路を見出した後、OpenAIはマスク独禁法訴訟との戦いに行き詰る",
+      "titleJa": "Appleが活路を見つけた後、OpenAIはマスク独禁法訴訟との戦いに行き詰る",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-2256018320-1024x648.jpg"
-    },
-    {
-      "title": "「iOS 27」配信開始！ 対応するのはiPhone 11以降 日本語のSiri AIは10月開始予定",
-      "url": "https://ascii.jp/elem/000/004/434/4434738/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-14T17:50:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/15/4525638/xl/07db69019ef03db1.png?20200122"
-    },
-    {
-      "title": "OpenAIやAnthropicなどAIベンダごとのAPIの違いを吸収し統合する「Agent Router」、Linux Foundation傘下で業界標準へ",
-      "url": "https://www.publickey1.jp/blog/26/openaianthropicapiagent_routerlinux_foundation.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-09-14T15:51:16.000Z",
-      "image": "https://www.publickey1.jp/2026/HR0EGYVWAAUUQRC.jpg"
-    },
-    {
-      "title": "アトラシアン、エージェント型開発を大規模展開するための新機能群を発表",
-      "url": "https://japan.zdnet.com/article/35252608/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-14T06:57:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/04/18/202e8ef6bef5f6d8200603dfaf8dc44a/250418_ai_agent_as_1280_1257156629.jpg"
-    },
-    {
-      "title": "米トランプ大統領、広がるAI規制論に反論 「中国へのリードを維持したい」",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/14/2000001449/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-14T05:59:09.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/14/2000001449/10006358/2048"
-    },
-    {
-      "title": "パナソニック エナジー、AIデータセンター市場で放つ「一気通貫」の蓄電システム戦略--売上高1兆円へ",
-      "url": "https://japan.zdnet.com/article/35252552/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-14T02:56:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/11/b01aa67a7583d6fe413dbccea39b1141/260910_pe_l.jpg"
-    },
-    {
-      "title": "楽天モバイルが「フィジカルAI」導入を発表 その中身とは",
-      "url": "https://japan.cnet.com/article/35252592/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-14T02:10:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/14/69f7f23e70752f37bcc68b1ada07a132/01.jpeg"
-    },
-    {
-      "title": "Sam Altman says OpenAI going public in 2026 would be ‘ill-advised’",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/994384/sam-altman-no-openai-ipo-ill-advised",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-12T21:16:28.000Z",
-      "titleJa": "サム・アルトマン氏、OpenAIが2026年に上場するのは「賢明ではない」と語る",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STK201_SAM_ALTMAN_CVIRGINIA2D-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     }
   ]
 }
