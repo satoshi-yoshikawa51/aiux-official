@@ -1375,6 +1375,20 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "apple-intelligence": {
+    caption: "端末でできることは端末で。外に出るのは足りない分だけ",
+    render: () => (
+      <Svg h={300} title="Apple Intelligenceの処理の流れの図解">
+        <B x={15} y={105} w={120} h={75} label={"あなたの\n頼みごと"} />
+        <AH x1={140} x2={195} y={142} />
+        <B x={200} y={95} w={150} h={95} label={"端末の中で処理"} sub="多くはここで完結" fill={YELLOW} />
+        <AH x1={355} x2={440} y={142} label="重い処理だけ" />
+        <B x={445} y={95} w={140} h={95} label={"Apple専用の\nサーバー"} sub="暗号化して送る" />
+        <T x={300} y={232} text="個人データを扱う部分は、できる限り手元の端末で終わらせる設計" size={13.5} color={INK} />
+        <T x={300} y={262} text="Appleの説明では、サーバーに送った分も保存されないとされる" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
