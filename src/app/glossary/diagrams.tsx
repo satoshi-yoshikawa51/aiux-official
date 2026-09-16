@@ -1389,6 +1389,26 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "agentic-commerce": {
+    caption: "買い物客が「人」から「人に頼まれたAI」に変わる",
+    render: () => (
+      <Svg h={285} title="エージェンティックコマースの流れの図解">
+        <T x={313} y={74} text="これまで人がやっていた部分" size={13} />
+        <line x1={173} y1={84} x2={454} y2={84} stroke={MUTED} strokeWidth={2} strokeDasharray="6 4" />
+        <line x1={173} y1={84} x2={173} y2={94} stroke={MUTED} strokeWidth={2} />
+        <line x1={454} y1={84} x2={454} y2={94} stroke={MUTED} strokeWidth={2} />
+        <B x={10} y={100} w={118} h={80} label={"あなた"} sub="予算と条件を伝える" />
+        <AH x1={133} x2={168} y={140} />
+        <B x={173} y={100} w={118} h={80} label={"買うAI"} sub="探す・比べる" fill={YELLOW} />
+        <AH x1={296} x2={331} y={140} />
+        <B x={336} y={100} w={118} h={80} label={"店のサイト"} sub="売る側の受け口" />
+        <AH x1={459} x2={494} y={140} />
+        <B x={499} y={100} w={95} h={80} label={"決済"} sub="許可の証明" />
+        <T x={300} y={218} text="人が一つひとつ見なくても、AI同士のやり取りで買い物が進む" size={13.5} color={INK} />
+        <T x={300} y={248} text="売る側は「AIに正しく伝わるか」、買う側は「権限を絞れているか」" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
