@@ -1,97 +1,97 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-15T23:40:06.221Z",
+  "updatedAt": "2026-09-16T23:47:59.754Z",
   "items": [
     {
-      "title": "統合型ホテルOSとAIエージェントを組み合わせた伴走支援事業",
-      "url": "https://ascii.jp/elem/000/004/434/4434687/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-15T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/14/4525446/xl/b7c69fa017cf3ca7.jpg"
-    },
-    {
-      "title": "Meta expands subscription push with new AI-focused plans",
-      "url": "https://techcrunch.com/2026/09/15/meta-expands-subscription-push-with-new-ai-focused-plans/",
+      "title": "Amazon launches Alexa+ in India with Hindi support",
+      "url": "https://techcrunch.com/2026/09/16/amazon-launches-alexa-in-india-with-hindi-support/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-15T17:05:24.000Z",
-      "titleJa": "Meta が AI に重点を置いた新しいプランでサブスクリプションの推進を拡大",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/meta-muse-app-GettyImages-2293792137.jpg?w=1024"
+      "date": "2026-09-16T10:34:47.000Z",
+      "titleJa": "Amazon、ヒンディー語をサポートするAlexa+をインドで開始",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/08/alexa-logo-1600x900-1.jpg?resize=1200,675"
     },
     {
-      "title": "オラクル、Javaのセキュリティパッチを毎月提供開始、AIが脆弱性の発見を加速しているとして",
-      "url": "https://www.publickey1.jp/blog/26/javaai.html",
+      "title": "Anthropic、Claudeの「チャット」と「Cowork」を統合 資料作成の「Docs」「Slides」も",
+      "url": "https://www.itmedia.co.jp/news/article/2609/17/2000001565/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-16T23:05:35.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/17/2000001565/10006799/2048"
+    },
+    {
+      "title": "三菱重工、インフラ・防衛向けAIでPFNと資本業務提携 100億円出資し共同開発",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/17/2000001563/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-16T23:00:00.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/17/2000001563/10006791/2048"
+    },
+    {
+      "title": "NTTデータ、統合AI基盤に新機能 AI秘書が会議前に資料作成",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/091001499/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-16T22:03:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/091001499/topm.jpg?20220512"
+    },
+    {
+      "title": "IT部門が格下でリストラ続きだった訳、AI時代に経営戦略の要へ復活できるか",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00849/00199/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-16T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00849/00199/topm.jpg?20220512"
+    },
+    {
+      "title": "Devinが仮想環境でmacOSの提供開始。Macの実機不要でDevinがコード生成、テスト、デバッグ、実行、AppStore配信前のベータ公開まで実行",
+      "url": "https://www.publickey1.jp/blog/26/devinmacosmacdevinappstore.html",
       "source": "Publickey",
       "lang": "ja",
-      "date": "2026-09-15T15:49:38.000Z",
-      "image": "https://www.publickey1.jp/2026/java-frequent-updates.png"
+      "date": "2026-09-16T16:00:51.000Z",
+      "image": "https://www.publickey1.jp/2026/devin-macos-04.png"
     },
     {
-      "title": "OpenAI, Anthropic, Google have been in talks on AI safety for weeks",
-      "url": "https://techcrunch.com/2026/09/15/openai-anthropic-google-have-been-in-talks-on-ai-safety-for-weeks/",
+      "title": "Former Infosys chief’s AI startup nabs another $53M",
+      "url": "https://techcrunch.com/2026/09/16/former-infosys-chiefs-ai-startup-adds-50m-to-seed-weeks-after-initial-raise/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-15T15:47:03.000Z",
-      "titleJa": "OpenAI、Anthropic、GoogleはAIの安全性について数週間にわたって協議を行っている",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/09/53203224992_ceaa387ca4_k-1.jpg?resize=1200,800"
+      "date": "2026-09-16T13:00:00.000Z",
+      "titleJa": "元 Infosys 責任者の AI スタートアップがさらに 5,300 万ドルを獲得",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/vishal-sikka.jpg?resize=1200,800"
     },
     {
-      "title": "アップル、日本語でのSiri AIの10月提供開始を正式発表 EUと中国では規制対応で当初利用不可",
-      "url": "https://ascii.jp/elem/000/004/435/4435151/?rss",
+      "title": "1年半、公開せずに企業へ納品し続けてきた、AIネイティブの経営基盤OS「SATELLITE OS」を正式発表",
+      "url": "https://ascii.jp/elem/000/004/435/4435541/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-09-15T14:30:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/15/4526069/xl/bdc2737fe9f1d558.jpg?20200122"
-    },
-    {
-      "title": "【日本初】ECサイトへの「エージェンティックコマース」導入の鍵は、「買うAI」を迎える「入り口」に立つ「売るAI」の設計。「売るAI」が騙されれば、サイトごと騙される。「入り口」を守る必須技術を権利化",
-      "url": "https://ascii.jp/elem/000/004/435/4435139/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-15T09:33:28.000Z",
+      "date": "2026-09-16T09:09:36.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "AnthropicのCEOがAI開発の一時停止らしきものを提案。その中身は…？",
-      "url": "https://www.gizmodo.jp/article/2609-anthropic-ceo-ai-development-slowdown/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-09-15T08:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/15/129f56ae-c5ae-4fa6-977d-0c2ca487ec36/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "「ブラウザを開く手間」を解消 作業画面に直接呼び出せるWindows版「Gemini」公開",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/15/news076.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-15T08:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2609/15/cover_news076.jpg"
-    },
-    {
-      "title": "アップル、「Siri AI」をClaudeやGPTに置き換え可能に？ 「iOS 27」のコードが示す新機能",
-      "url": "https://japan.cnet.com/article/35252632/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-15T06:39:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/15/995a696825141e407e3472fd71c800a4/GettyImages-2156791504_1280x960.jpg"
-    },
-    {
-      "title": "シャープ、AIサーバー事業に本格参入--鴻海の供給力と国内保守網で2030年度売上高2500億円へ",
-      "url": "https://japan.zdnet.com/article/35252633/",
+      "title": "日本IBMと琉球銀行が提携--「AI活用元年」として全行的な業務変革を推進",
+      "url": "https://japan.zdnet.com/article/35252698/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-09-15T06:03:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/15/fb5e180dbf3832f91fcf935db52063c8/260915_sharp_l.jpg"
+      "date": "2026-09-16T08:51:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/02/13/d12991349388b7fccc3b6530b79c215f/260213_money_as_1280_1840868252.jpg"
     },
     {
-      "title": "OpenAI buys smartphone camera maker Glass Imaging for $300 million, report says",
-      "url": "https://techcrunch.com/2026/09/14/openai-buys-smartphone-camera-maker-glass-imaging-for-300-million-report-says/",
-      "source": "TechCrunch",
+      "title": "AIが設計から製造、運用までをつなぐ--Autodesk、次世代アシスタントを発表",
+      "url": "https://japan.zdnet.com/article/35252679/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-16T06:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/16/2ea26e46ff9941ff13bed618f2eb1059/t/1280/960/d/260916_autodesk_001.jpg"
+    },
+    {
+      "title": "A brief history of AI executives calling for regulation",
+      "url": "https://www.theverge.com/policy/995534/a-brief-history-of-ai-executives-calling-for-regulation",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-09-14T20:44:14.000Z",
-      "titleJa": "OpenAIがスマートフォンカメラメーカーGlass Imagingを3億ドルで買収、報道によると",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-1252369470.jpg?resize=1200,802"
+      "date": "2026-09-16T12:00:00.000Z",
+      "titleJa": "規制を求める AI 幹部の簡単な歴史",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/AI_extinction.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
       "title": "Apple releases iOS 27, macOS Golden Gate 27 with Siri AI and Liquid Glass refinements",
