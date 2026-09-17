@@ -188,13 +188,20 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
           "注意点は2つ。第一に、実ファイルを触るAIなので、大事なデータはバックアップやコピーの上で試すこと。AIの自律作業は便利なぶん、指示のあいまいさがそのまま結果のズレになります。第二に、最初から大仕事を渡さないこと。小さなフォルダで試して、指示の出し方のコツ（何を・どこまで・どんな形式で）を掴んでから本番に使うのが、エージェント型AI全般に共通する安全な入り方です。",
         ],
       },
+      {
+        heading: "2026年9月の統合で何が変わった？（追記）",
+        body: [
+          "2026年9月16日、AnthropicはCoworkを独立した入り口として置くのをやめ、Claudeアプリ本体に統合すると発表しました。上の節では「チャット」「Claude Code」「Cowork」の3つに分かれていると説明していますが、このうちチャットとCoworkの境目は解消される方向です。理由として挙げられているのは「どちらで作業すべきか迷う」という利用者の声で、統合後は同じ会話の中で、ちょっとした質問から複数手順の作業まで続けて扱えるようになります。あわせて、編集できる文書を作る「Claude Docs」と、プレゼン資料を作る「Claude Slides」がベータで追加され、デザイン機能も会話の中から呼び出せるようになりました。DocsはWordやGoogleドキュメント、SlidesはPowerPointやPDFへの書き出しに対応すると案内されています。",
+          "展開は段階的で、まずPro・Maxの有料プランに向けてWeb・デスクトップ・モバイルへ数週間かけて広がり、無料プランやチーム向けはその後とされています。読者にとっての実務的な意味はシンプルで、「チャットとCoworkのどちらを開くか」を覚える必要が薄れたぶん、身につける価値があるのは渡す仕事の切り出し方のほうだ、ということです（なお当サイトはAnthropic製のClaude Codeで作られているため、その点は割り引いてお読みください）。",
+        ],
+      },
     ],
     links: [
       { label: "Claude Coworkで業務改善を半自動化してみた", href: "https://note.com/aiux_unite/n/n169ba6bd6c1e" },
       { label: "Claude教習所（5分でわかるClaudeアプリ入門）", href: "/claude-app" },
       { label: "用語：Claude Code（Coworkの技術的な土台）", href: "/glossary/claude-code" },
     ],
-    relatedSlugs: ["claude", "claude-code", "anthropic", "ai-agent", "claude-fable", "ai-workflow"],
+    relatedSlugs: ["claude", "claude-code", "anthropic", "ai-agent", "claude-fable", "ai-workflow", "gamma"],
     faq: [
       {
         q: "プログラミングができなくても使えますか？",
@@ -208,8 +215,16 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
         q: "勝手にファイルを消したりしませんか？",
         a: "作業の前に確認を挟む設計になっていますが、実ファイルを操作するAIである以上、指示のあいまいさが事故につながる可能性はゼロではありません。大事なデータはコピーの上で試す・小さな作業から始める、がエージェント型AI共通の安全策です。",
       },
+      {
+        q: "Coworkは単独のアプリとして使えなくなるのですか？",
+        a: "2026年9月16日の発表で、CoworkはClaudeアプリ本体に統合されることが示されました。別々の入り口を使い分けるのではなく、同じ会話の中で質問と作業の両方を扱う形になります。展開はPro・Maxの有料プランから数週間かけて順次進み、無料プランやチーム向けはその後とされているため、切り替わる時期はプランによって異なります。",
+      },
+      {
+        q: "Claude DocsとClaude Slidesでは何ができますか？",
+        a: "Docsは編集できる文書を、Slidesはプレゼン資料をClaudeとのやり取りの中で作れる機能です。2026年9月時点ではベータとして有料プランに先行提供されており、DocsはWordやGoogleドキュメント、SlidesはPowerPointやPDFへの書き出しに対応すると案内されています。",
+      },
     ],
-    lastUpdated: "2026-09-12",
+    lastUpdated: "2026-09-18",
   },
   {
     slug: "pacing-the-frontier",
