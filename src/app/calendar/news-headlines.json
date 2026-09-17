@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-16T23:47:59.754Z",
+  "updatedAt": "2026-09-17T23:39:00.946Z",
   "items": [
     {
-      "title": "Amazon launches Alexa+ in India with Hindi support",
-      "url": "https://techcrunch.com/2026/09/16/amazon-launches-alexa-in-india-with-hindi-support/",
+      "title": "Crusoe raises $3.9B to build massive data centers and small modular “AI factories”",
+      "url": "https://techcrunch.com/2026/09/17/crusoe-raises-3-9b-to-build-massive-data-centers-and-small-modular-ai-factories/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-16T10:34:47.000Z",
-      "titleJa": "Amazon、ヒンディー語をサポートするAlexa+をインドで開始",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/08/alexa-logo-1600x900-1.jpg?resize=1200,675"
+      "date": "2026-09-17T23:25:52.000Z",
+      "titleJa": "Crusoe は大規模なデータセンターと小規模なモジュール式「AI ファクトリー」を構築するために 39 億ドルを調達",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/crusoe-ceo-getty.jpg?resize=1200,800"
     },
     {
-      "title": "Anthropic、Claudeの「チャット」と「Cowork」を統合 資料作成の「Docs」「Slides」も",
-      "url": "https://www.itmedia.co.jp/news/article/2609/17/2000001565/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-16T23:05:35.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/17/2000001565/10006799/2048"
-    },
-    {
-      "title": "三菱重工、インフラ・防衛向けAIでPFNと資本業務提携 100億円出資し共同開発",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/17/2000001563/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-16T23:00:00.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/17/2000001563/10006791/2048"
-    },
-    {
-      "title": "NTTデータ、統合AI基盤に新機能 AI秘書が会議前に資料作成",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/091001499/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-16T22:03:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/091001499/topm.jpg?20220512"
-    },
-    {
-      "title": "IT部門が格下でリストラ続きだった訳、AI時代に経営戦略の要へ復活できるか",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00849/00199/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-16T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00849/00199/topm.jpg?20220512"
-    },
-    {
-      "title": "Devinが仮想環境でmacOSの提供開始。Macの実機不要でDevinがコード生成、テスト、デバッグ、実行、AppStore配信前のベータ公開まで実行",
-      "url": "https://www.publickey1.jp/blog/26/devinmacosmacdevinappstore.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-09-16T16:00:51.000Z",
-      "image": "https://www.publickey1.jp/2026/devin-macos-04.png"
-    },
-    {
-      "title": "Former Infosys chief’s AI startup nabs another $53M",
-      "url": "https://techcrunch.com/2026/09/16/former-infosys-chiefs-ai-startup-adds-50m-to-seed-weeks-after-initial-raise/",
+      "title": "Google DeepMind launches institute to widen the AGI debate",
+      "url": "https://techcrunch.com/2026/09/17/google-deepmind-launches-institute-to-widen-the-agi-debate/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-16T13:00:00.000Z",
-      "titleJa": "元 Infosys 責任者の AI スタートアップがさらに 5,300 万ドルを獲得",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/vishal-sikka.jpg?resize=1200,800"
+      "date": "2026-09-17T23:21:17.000Z",
+      "titleJa": "Google DeepMind が AGI の議論を広げるための研究所を設立",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/05/GettyImages-1481927442.jpg?resize=1200,800"
     },
     {
-      "title": "1年半、公開せずに企業へ納品し続けてきた、AIネイティブの経営基盤OS「SATELLITE OS」を正式発表",
-      "url": "https://ascii.jp/elem/000/004/435/4435541/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-16T09:09:36.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "title": "Google announces new experimental \"CC\" AI agent for families",
+      "url": "https://arstechnica.com/google/2026/09/google-announces-new-experimental-cc-ai-agent-for-families/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-17T20:24:34.000Z",
+      "titleJa": "Google、家族向けの新しい実験的なAIエージェント「CC」を発表",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Google-CC-1152x648.png"
     },
     {
-      "title": "日本IBMと琉球銀行が提携--「AI活用元年」として全行的な業務変革を推進",
-      "url": "https://japan.zdnet.com/article/35252698/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-16T08:51:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/02/13/d12991349388b7fccc3b6530b79c215f/260213_money_as_1280_1840868252.jpg"
-    },
-    {
-      "title": "AIが設計から製造、運用までをつなぐ--Autodesk、次世代アシスタントを発表",
-      "url": "https://japan.zdnet.com/article/35252679/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-16T06:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/16/2ea26e46ff9941ff13bed618f2eb1059/t/1280/960/d/260916_autodesk_001.jpg"
-    },
-    {
-      "title": "A brief history of AI executives calling for regulation",
-      "url": "https://www.theverge.com/policy/995534/a-brief-history-of-ai-executives-calling-for-regulation",
+      "title": "Claude Code relaunches Projects to manage multiple AI agents in the cloud",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/997134/anthropic-claude-code-projects",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-09-16T12:00:00.000Z",
-      "titleJa": "規制を求める AI 幹部の簡単な歴史",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/AI_extinction.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "date": "2026-09-17T18:58:05.000Z",
+      "titleJa": "Claude Code がクラウドで複数の AI エージェントを管理するプロジェクトを再起動",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/videoframe_18541.png?quality=90&strip=all&crop=0%2C3.4613147178592%2C100%2C93.077370564282&w=1200"
     },
     {
-      "title": "Apple releases iOS 27, macOS Golden Gate 27 with Siri AI and Liquid Glass refinements",
-      "url": "https://arstechnica.com/apple/2026/09/apple-releases-ios-27-macos-golden-gate-27-with-siri-ai-and-liquid-glass-refinements/",
+      "title": "Huawei plans Q1 2027 launch of new AI chip as it takes on Nvidia",
+      "url": "https://techcrunch.com/2026/09/17/huawei-plans-q1-2027-launch-of-new-ai-chip-as-it-takes-on-nvidia/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-17T14:06:14.000Z",
+      "titleJa": "ファーウェイはNvidiaに対抗し、2027年第1四半期に新しいAIチップの発売を計画",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/02/20230228_162746.jpg?resize=1200,900"
+    },
+    {
+      "title": "経営者は「AI導入」に夢中、現場は「IT環境」に疲弊 ITサポート軽視が招く時間・人件費ロスの実態",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/18/news036.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-17T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2609/18/cover_news036.jpg"
+    },
+    {
+      "title": "カスハラ対策義務化に即応。既存の電話環境のまま導入できるリアルタイムAI音声解析",
+      "url": "https://ascii.jp/elem/000/004/435/4435535/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-17T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/16/4526633/xl/5b313668bbaf2788.jpg"
+    },
+    {
+      "title": "「AIで人類絶滅論」がOpenAIらの権力を強化 「規制される者が規制を作る」構図に",
+      "url": "https://japan.cnet.com/article/35252760/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-17T21:27:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/18/7e266a8f90fa1a8664255c673e195b4c/01.jpeg"
+    },
+    {
+      "title": "Covert uploads and megalomania: OpenAI details new \"misaligned\" agent incidents",
+      "url": "https://arstechnica.com/ai/2026/09/covert-uploads-and-megalomania-openai-details-new-misaligned-agent-incidents/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-09-14T19:28:42.000Z",
-      "titleJa": "Apple、Siri AI と液体ガラスの改良を備えた iOS 27、macOS Golden Gate 27 をリリース",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Apple-OS-27-1152x648-1789411862.jpg"
+      "date": "2026-09-17T16:18:34.000Z",
+      "titleJa": "秘密アップロードと誇大妄想: OpenAI が新たな「不一致」エージェントのインシデントを詳述",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-875641-001-1152x648.jpg"
     },
     {
-      "title": "Perplexity trusts GPT-6 Astra with end-to-end systems",
-      "url": "https://openai.com/index/perplexity-improving-accuracy-with-astra",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-14T00:00:00.000Z",
-      "titleJa": "Perplexity はエンドツーエンド システムで GPT-6 Astra を信頼します",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/2ONJEXhA8M9IGON14JgHTc/4450550ce2d8b38c7fe2e7825839c92a/og.png?w=1600&h=900&fit=fill"
+      "title": "FMVの「目玉品」に注目！ 23.8型ディスプレーの一体型デスクトップPCが、Ryzen AI 5 340搭載で24万円台！",
+      "url": "https://ascii.jp/elem/000/004/435/4435937/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-17T11:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
     },
     {
-      "title": "OpenAI stuck fighting Musk antitrust suit after Apple finds a way out",
-      "url": "https://arstechnica.com/tech-policy/2026/09/musk-drops-apple-from-antitrust-suit-but-keeps-gunning-for-openai/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-14T19:45:13.000Z",
-      "titleJa": "Appleが活路を見つけた後、OpenAIはマスク独禁法訴訟との戦いに行き詰る",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-2256018320-1024x648.jpg"
+      "title": "AI学習は拒否、検索クロールは維持……Cloudflareの新機能「AI学習の不許可」 Google、Apple、Microsoftが対応",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/17/2000001584/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-17T06:19:43.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/17/2000001584/10006864/2048"
+    },
+    {
+      "title": "東急東横線、運転士のドア閉扉判断を支援するAIシステムを導入",
+      "url": "https://japan.zdnet.com/article/35252719/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-17T05:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/17/e75145d98b374c935aea5b7a4670f16e/20260917_adobestock_390323189_1280x960.jpg"
+    },
+    {
+      "title": "製造業のAI活用、データのガバナンスと業務フローへの統合が課題",
+      "url": "https://japan.zdnet.com/article/35252714/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-17T04:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/17/dd53835e6fdffa8a78ad12690cc67439/20260917_adobestock_242229794_electronics_1280x960.jpg"
+    },
+    {
+      "title": "ロボットが自律的に太陽光発電所を建設、Googleも出資 AIで急増する電力需要に対応",
+      "url": "https://japan.cnet.com/article/35252723/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-17T02:15:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/17/d9758ae535e3250147b7b67a1e74026c/012.jpeg"
     }
   ]
 }
