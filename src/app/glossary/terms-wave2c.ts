@@ -210,9 +210,31 @@ export const TERMS_WAVE2C: GlossaryTerm[] = [
       "GooglebotがWebを巡回して検索インデックスを作るように、AI企業のクローラー（GPTBot、ClaudeBotなど）もWebを巡回しています。目的は大きく2つ——モデルの学習用データの収集と、AI検索がリアルタイムに回答の根拠を取りに来るアクセスです。",
       "サイト運営者には新しい経営判断が生まれました。学習収集は拒否しつつAI検索の参照は歓迎する、といった選別をrobots.txtで意思表示できます。「米国からの謎のアクセス増」の正体が実はAIクローラーだった、というのはアクセス解析あるあるです。AI検索経由の読者を迎えたいなら、llms.txt整備とセットで考える論点です。",
     ],
-    links: [{ label: "実物：当サイトのllms.txt（AIクローラー向け案内）", href: "/llms.txt" }],
+    sections: [
+      {
+        heading: "AI学習だけ断って、検索には載り続けられる？（追記）",
+        body: [
+          "長らく悩ましかったのが「検索結果には載りたいが、AIの学習には使われたくない」という場合の扱いです。Google・Microsoft・Appleのクローラーは、検索用のインデックス作りとAI学習に使いうる収集を兼ねていたため、robots.txtでまるごと断ると検索結果からも消えてしまう——事実上の二者択一でした。2026年9月、Cloudflareが「AI学習の不許可（Disallow AI Training）」という設定を公開し、この状況が動きます。有効にすると、robots.txtにGoogleの「Google-Extended」とAppleの「Applebot-Extended」を拒否する記述が自動で加わります。この2つはAI学習向けに用意された名前で、両社とも、拒否しても検索の掲載や順位には影響しないと説明しています。",
+          "ただし2026年9月時点では穴もあります。MicrosoftのBingはrobots.txtでの学習拒否への対応を2027年初頭を目標としている段階で、それまではページ側でNOARCHIVEを指定する方法が案内されています。一方、OpenAI・Anthropic・Meta・Amazonはもともと検索用と学習用のクローラーを分けているため、学習用の名前だけを拒否すれば済みます。実務としては「全部ブロックか全部許可か」で考えるのをやめ、相手ごとに分けて意思表示するのが2026年後半の作法です。Cloudflareを使っていないサイトでも、robots.txtに同じ記述を自分で書けば、意思表示は同じように伝わります。",
+        ],
+      },
+    ],
+    links: [
+      { label: "実物：当サイトのllms.txt（AIクローラー向け案内）", href: "/llms.txt" },
+      { label: "用語：生成AIと著作権（学習と生成で論点が違う話）", href: "/glossary/ai-copyright" },
+    ],
     relatedSlugs: ["llmo", "llms-txt", "training-data", "ai-copyright"],
-    lastUpdated: "2026-07-16",
+    faq: [
+      {
+        q: "AI学習を拒否すると、検索結果に出なくなりますか？",
+        a: "GoogleとAppleについては、AI学習向けの名前（Google-Extended、Applebot-Extended）を拒否しても検索の掲載や順位には影響しないと両社が説明しています。MicrosoftのBingはrobots.txtでの学習拒否への対応を2027年初頭を目標としている段階で、2026年9月時点ではページ側のNOARCHIVE指定が案内されています。",
+      },
+      {
+        q: "Cloudflareを使っていないサイトでもAI学習を断れますか？",
+        a: "断れます。Cloudflareの「AI学習の不許可」は、robots.txtへの記述を代わりに書き込んでくれる設定です。自分でrobots.txtにAI学習向けクローラーを拒否する記述を書けば、同じ意思表示になります。",
+      },
+    ],
+    lastUpdated: "2026-09-19",
   },
   {
     slug: "ai-detector",
