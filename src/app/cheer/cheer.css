@@ -1,0 +1,293 @@
+/* ============================================================
+   きょうの きみに — プロトタイプ専用の見た目。
+   サイト本体のトークン（globals.css）とは別の世界観なので、
+   .cheer-root にスコープした独自トークンで完結させる。
+   ============================================================ */
+
+.cheer-root {
+  --ch-bg: #f2ecff;
+  --ch-card: #ffffff;
+  --ch-ink: #3b3350;
+  --ch-sub: #8a80a6;
+  --ch-line: #e4dcf6;
+  --ch-peach: #ffb199;
+  --ch-peach-ink: #7a3a26;
+  --ch-chip: #f8f5ff;
+  --ch-chip-on: #3b3350;
+  --ch-chip-on-ink: #ffffff;
+  --ch-shadow: 0 10px 30px rgba(59, 51, 80, 0.1);
+}
+@media (prefers-color-scheme: dark) {
+  .cheer-root {
+    --ch-bg: #1f1a30;
+    --ch-card: #2a2440;
+    --ch-ink: #f1ecff;
+    --ch-sub: #a79fc2;
+    --ch-line: #3d3556;
+    --ch-peach: #ff9e80;
+    --ch-peach-ink: #2b1610;
+    --ch-chip: #332c4d;
+    --ch-chip-on: #f1ecff;
+    --ch-chip-on-ink: #2a2440;
+    --ch-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.cheer-root {
+  box-sizing: border-box;
+  min-height: 100dvh;
+  background: var(--ch-bg);
+  color: var(--ch-ink);
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", "Yu Gothic",
+    sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  padding: max(20px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+}
+.cheer-root *,
+.cheer-root *::before,
+.cheer-root *::after {
+  box-sizing: border-box;
+}
+.cheer-main {
+  max-width: 440px;
+  margin: 0 auto;
+}
+.cheer-root h1 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ch-sub);
+  margin: 4px 0 18px;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+/* ---------- ask ---------- */
+.cheer-root .q {
+  margin: 0 0 10px;
+  font-weight: 700;
+  font-size: 20px;
+}
+.cheer-root .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+.cheer-root .chip {
+  appearance: none;
+  border: 0;
+  background: var(--ch-chip);
+  color: var(--ch-ink);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.12s, background 0.15s, color 0.15s;
+}
+.cheer-root .chip:active {
+  transform: scale(0.95);
+}
+.cheer-root .chip[aria-pressed="true"] {
+  background: var(--ch-chip-on);
+  color: var(--ch-chip-on-ink);
+}
+.cheer-root .chip:focus-visible,
+.cheer-root .go:focus-visible,
+.cheer-root .sub-btn:focus-visible {
+  outline: 3px solid var(--ch-peach);
+  outline-offset: 3px;
+}
+.cheer-root .note {
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid var(--ch-line);
+  background: transparent;
+  color: var(--ch-ink);
+  font: inherit;
+  font-size: 17px;
+  padding: 8px 2px;
+  margin-bottom: 6px;
+}
+.cheer-root .note::placeholder {
+  color: var(--ch-sub);
+}
+.cheer-root .note:focus {
+  outline: 0;
+  border-bottom-color: var(--ch-peach);
+}
+.cheer-root .hint {
+  font-size: 13px;
+  color: var(--ch-sub);
+  margin: 0 0 28px;
+}
+.cheer-root .go {
+  display: block;
+  width: 100%;
+  appearance: none;
+  border: 0;
+  border-radius: 22px;
+  background: var(--ch-peach);
+  color: var(--ch-peach-ink);
+  font: inherit;
+  font-size: 19px;
+  font-weight: 700;
+  padding: 16px;
+  cursor: pointer;
+  box-shadow: var(--ch-shadow);
+  transition: transform 0.12s, opacity 0.2s;
+}
+.cheer-root .go:active {
+  transform: scale(0.98);
+}
+.cheer-root .go:disabled {
+  opacity: 0.45;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* ---------- result ---------- */
+.cheer-root .stage {
+  background: var(--ch-card);
+  border-radius: 28px;
+  box-shadow: var(--ch-shadow);
+  padding: 26px 22px 22px;
+  text-align: center;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cheer-root .pet {
+  width: 150px;
+  height: 150px;
+  margin: 6px 0 4px;
+}
+.cheer-root .pet svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.cheer-root .bob {
+  animation: cheer-bob 2.6s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes cheer-bob {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.02, 0.98);
+  }
+}
+.cheer-root .eye {
+  animation: cheer-blink 4.2s infinite;
+  transform-origin: center;
+}
+@keyframes cheer-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.08);
+  }
+}
+.cheer-root .thinking .eye {
+  animation: none;
+  transform: scaleY(0.12);
+}
+.cheer-root .thinking .bob {
+  animation-duration: 1.4s;
+}
+.cheer-root .petname {
+  font-size: 14px;
+  color: var(--ch-sub);
+  margin: 0 0 14px;
+}
+.cheer-root .lines {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.55;
+  margin: 0;
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+.cheer-root .lines span {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.cheer-root .lines span.in {
+  opacity: 1;
+  transform: none;
+}
+.cheer-root .dots {
+  color: var(--ch-sub);
+  letter-spacing: 0.3em;
+}
+.cheer-root .credit {
+  font-size: 13px;
+  color: var(--ch-sub);
+  margin: 14px 0 0;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+.cheer-root .credit.in {
+  opacity: 1;
+}
+.cheer-root .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+.cheer-root .sub-btn {
+  appearance: none;
+  border: 0;
+  background: var(--ch-chip);
+  color: var(--ch-ink);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 13px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+.cheer-root .sub-btn:active {
+  transform: scale(0.97);
+}
+.cheer-root .sub-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.cheer-root .sub-btn.primary {
+  background: var(--ch-peach);
+  color: var(--ch-peach-ink);
+}
+.cheer-root .msg {
+  font-size: 14px;
+  color: var(--ch-sub);
+  text-align: center;
+  margin: 10px 0 0;
+  min-height: 1.4em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cheer-root .bob,
+  .cheer-root .eye {
+    animation: none;
+  }
+  .cheer-root .lines span,
+  .cheer-root .credit {
+    transition: none;
+  }
+}
