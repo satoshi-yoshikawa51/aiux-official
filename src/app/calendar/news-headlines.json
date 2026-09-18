@@ -1,9 +1,75 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-17T23:39:00.946Z",
+  "updatedAt": "2026-09-18T23:33:18.720Z",
   "items": [
     {
-      "title": "Crusoe raises $3.9B to build massive data centers and small modular “AI factories”",
+      "title": "Manus seeks $4B valuation in new $500M fundraise as it resumes independent ops",
+      "url": "https://techcrunch.com/2026/09/18/manus-seeks-4b-valuation-in-new-500m-fundraise-as-it-resumes-independent-ops/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-18T16:35:49.000Z",
+      "titleJa": "マナスは独立した事業を再開するため、新たな5億ドルの資金調達で40億ドルの評価額を求める",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2278374931.jpg?w=1024"
+    },
+    {
+      "title": "AI導入は6割、でも8割超が「チャット止まり」 業務自動化まで進まない原因は？",
+      "url": "https://kn.itmedia.co.jp/kn/article/2609/19/2000001624/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-18T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/19/2000001624/10006994/2048"
+    },
+    {
+      "title": "OpenAI and Microsoft knew they were starting a ‘doom loop’ for the web",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/997633/openai-microsoft-chatgpt-ai-new-york-times-doom-loop-theft-google-zero",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-18T21:07:24.000Z",
+      "titleJa": "OpenAI と Microsoft は、ウェブの「破滅ループ」が始まっていることを認識していました",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS534_AI_DOOMSDAY2_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
+    },
+    {
+      "title": "2in1でペン入力できる10型UMPC「Note Pro AI」が13万円台で発売開始",
+      "url": "https://ascii.jp/elem/000/004/436/4436472/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-18T21:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/18/4528213/xl/27f4144dfd347310.png?20200122"
+    },
+    {
+      "title": "23.8型ディスプレーの一体型デスクトップPCが、Ryzen AI 5 340搭載で24万円台！",
+      "url": "https://ascii.jp/elem/000/004/435/4435938/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-18T11:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+    },
+    {
+      "title": "GeminiをOSの中心に据えた新しいPC。「Googlebook」9月21日に予約開始",
+      "url": "https://www.gizmodo.jp/article/2609-googlebook-preorder-2026-september/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-18T09:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/18/fc433c0e-636d-474a-9eac-88628311af22/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "NTTドコモビジネスら5社、「ワット・ビット連携」の実証開始-分散データセンター間でAI処理を最適化",
+      "url": "https://japan.zdnet.com/article/35252801/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-18T08:34:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/06/26/ccfb5157a7a8d18b93f691e55b344f78/250626_datacenter_as_1280_1464288338.jpg"
+    },
+    {
+      "title": "自然言語や画像から3D CADモデルを生成、資金調達で開発と海外展開を加速",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2609/18/news015.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-18T00:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2609/18/cover_news015.jpg"
+    },
+    {
+      "title": "Crusoe raises $3.9B to build massive data centers and small modular ‘AI factories’",
       "url": "https://techcrunch.com/2026/09/17/crusoe-raises-3-9b-to-build-massive-data-centers-and-small-modular-ai-factories/",
       "source": "TechCrunch",
       "lang": "en",
@@ -39,15 +105,6 @@
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/videoframe_18541.png?quality=90&strip=all&crop=0%2C3.4613147178592%2C100%2C93.077370564282&w=1200"
     },
     {
-      "title": "Huawei plans Q1 2027 launch of new AI chip as it takes on Nvidia",
-      "url": "https://techcrunch.com/2026/09/17/huawei-plans-q1-2027-launch-of-new-ai-chip-as-it-takes-on-nvidia/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-17T14:06:14.000Z",
-      "titleJa": "ファーウェイはNvidiaに対抗し、2027年第1四半期に新しいAIチップの発売を計画",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/02/20230228_162746.jpg?resize=1200,900"
-    },
-    {
       "title": "経営者は「AI導入」に夢中、現場は「IT環境」に疲弊 ITサポート軽視が招く時間・人件費ロスの実態",
       "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/18/news036.html",
       "source": "ITmedia AI＋",
@@ -56,69 +113,12 @@
       "image": "https://image.itmedia.co.jp/ait/articles/2609/18/cover_news036.jpg"
     },
     {
-      "title": "カスハラ対策義務化に即応。既存の電話環境のまま導入できるリアルタイムAI音声解析",
-      "url": "https://ascii.jp/elem/000/004/435/4435535/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-17T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/16/4526633/xl/5b313668bbaf2788.jpg"
-    },
-    {
       "title": "「AIで人類絶滅論」がOpenAIらの権力を強化 「規制される者が規制を作る」構図に",
       "url": "https://japan.cnet.com/article/35252760/",
       "source": "CNET Japan",
       "lang": "ja",
       "date": "2026-09-17T21:27:00.000Z",
       "image": "https://japan.cnet.com/storage/2026/09/18/7e266a8f90fa1a8664255c673e195b4c/01.jpeg"
-    },
-    {
-      "title": "Covert uploads and megalomania: OpenAI details new \"misaligned\" agent incidents",
-      "url": "https://arstechnica.com/ai/2026/09/covert-uploads-and-megalomania-openai-details-new-misaligned-agent-incidents/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-17T16:18:34.000Z",
-      "titleJa": "秘密アップロードと誇大妄想: OpenAI が新たな「不一致」エージェントのインシデントを詳述",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-875641-001-1152x648.jpg"
-    },
-    {
-      "title": "FMVの「目玉品」に注目！ 23.8型ディスプレーの一体型デスクトップPCが、Ryzen AI 5 340搭載で24万円台！",
-      "url": "https://ascii.jp/elem/000/004/435/4435937/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-17T11:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
-    },
-    {
-      "title": "AI学習は拒否、検索クロールは維持……Cloudflareの新機能「AI学習の不許可」 Google、Apple、Microsoftが対応",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/17/2000001584/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-17T06:19:43.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/17/2000001584/10006864/2048"
-    },
-    {
-      "title": "東急東横線、運転士のドア閉扉判断を支援するAIシステムを導入",
-      "url": "https://japan.zdnet.com/article/35252719/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-17T05:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/17/e75145d98b374c935aea5b7a4670f16e/20260917_adobestock_390323189_1280x960.jpg"
-    },
-    {
-      "title": "製造業のAI活用、データのガバナンスと業務フローへの統合が課題",
-      "url": "https://japan.zdnet.com/article/35252714/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-17T04:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/17/dd53835e6fdffa8a78ad12690cc67439/20260917_adobestock_242229794_electronics_1280x960.jpg"
-    },
-    {
-      "title": "ロボットが自律的に太陽光発電所を建設、Googleも出資 AIで急増する電力需要に対応",
-      "url": "https://japan.cnet.com/article/35252723/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-17T02:15:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/17/d9758ae535e3250147b7b67a1e74026c/012.jpeg"
     }
   ]
 }
