@@ -2,9 +2,9 @@
 
 /* ============================================================
    きょうの きみに — 画面まるごとのクライアントコンポーネント。
-   台詞は「ペットの前口上（手書き）＋名言ストック（手書き）＋
-   締めの一言（手書き）」の組み立てで、AI（/api/cheer）は
-   名言を選ぶだけ。通信に失敗したらこの場でランダム選書する。
+   結果画面は「犬のループ動画を全画面＋名言をオーバーレイ」。
+   名言は quotes.ts の手書きストックそのままで、AI（/api/cheer）は
+   選ぶだけ。通信に失敗したらこの場でランダム選書する。
    ============================================================ */
 
 import { useEffect, useRef, useState } from "react";
@@ -17,10 +17,6 @@ type Screen = "ask" | "result";
 function pick<T>(arr: T[], avoid?: T | null): T {
   const pool = avoid ? arr.filter((x) => x !== avoid) : arr;
   return pool[Math.floor(Math.random() * pool.length)];
-}
-
-function petSvg(p: Pet): string {
-  return `<svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-label="${p.name}">${p.draw(p)}</svg>`;
 }
 
 interface Selected {
@@ -60,6 +56,10 @@ async function askServer(
     };
   }
   return null;
+}
+
+function creditFor(who: string): string {
+  return who === "ことわざ" ? "ことわざ" : `${who}のことば`;
 }
 
 function Chips({
@@ -108,6 +108,7 @@ export function CheerApp() {
   const linesRef = useRef<string[] | null>(null);
   const creditRef = useRef("");
   const petRef = useRef<Pet | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => () => ctlRef.current?.abort(), []);
 
@@ -130,7 +131,6 @@ export function CheerApp() {
     setCredit("");
     setMsg("");
     setDone(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
 
     const debug = new URLSearchParams(window.location.search).has("debug");
     let sel: Selected | null = null;
@@ -151,15 +151,12 @@ export function CheerApp() {
     lastQuoteRef.current = sel.id;
     if (debug) setMsg(`でばっぐ：${sel.source}${sel.reason ? "/" + sel.reason : ""}`);
 
-    /* 前口上＋名言＋締めの一言に組み立てる */
-    const all = [...pick(p.intros), ...sel.lines, ...pick(p.outros)];
-
     setThinking(false);
-    setLines(all);
-    linesRef.current = all;
-    await playLines(all, signal);
+    setLines(sel.lines);
+    linesRef.current = sel.lines;
+    await playLines(sel.lines, signal);
     if (signal.aborted) return;
-    const c = `${sel.who}（${p.ja}やく）`;
+    const c = creditFor(sel.who);
     setCredit(c);
     creditRef.current = c;
     setDone(true);
@@ -191,11 +188,12 @@ export function CheerApp() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  /* canvasに描いて <a download> で保存 */
+  /* いまの動画フレームを背景に、名言を載せた画像を保存する */
   async function saveImage() {
     const p = petRef.current;
     const ls = linesRef.current;
-    if (!p || !ls) return;
+    const video = videoRef.current;
+    if (!p || !ls || !video) return;
     const W = 1080;
     const H = 1350;
     const cv = document.createElement("canvas");
@@ -204,40 +202,59 @@ export function CheerApp() {
     const g = cv.getContext("2d");
     if (!g) return;
     try {
-      /* Webフォントが未ロードだと canvas がシステムフォントで描かれるので先に読む */
-      await document.fonts.load("500 60px 'Zen Maru Gothic'");
+      await document.fonts.load("700 60px 'Zen Maru Gothic'");
     } catch {
       /* 読めなくてもフォールバックフォントで描く */
     }
-    g.fillStyle = "#F2ECFF";
-    g.fillRect(0, 0, W, H);
-    g.fillStyle = "#FFFFFF";
-    roundRect(g, 80, 120, W - 160, H - 240, 72);
-    g.fill();
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" width="420" height="420">${p.draw(p)}</svg>`;
-    const img = new Image();
-    await new Promise((res) => {
-      img.onload = res;
-      img.onerror = res;
-      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-    });
-    g.drawImage(img, (W - 420) / 2, 170, 420, 420);
-    /* 行数が多いときは詰めて、カードからはみ出さないようにする */
+    /* 動画フレームを cover でトリミングして敷く。動画がまだ読めていなければポスターで代用 */
+    let frame: CanvasImageSource = video;
+    let vw = video.videoWidth;
+    let vh = video.videoHeight;
+    if (video.readyState < 2 || !vw || !vh) {
+      const img = new Image();
+      await new Promise((res) => {
+        img.onload = res;
+        img.onerror = res;
+        img.src = p.poster;
+      });
+      frame = img;
+      vw = img.naturalWidth || 9;
+      vh = img.naturalHeight || 16;
+    }
+    const scale = Math.max(W / vw, H / vh);
+    const dw = vw * scale;
+    const dh = vh * scale;
+    g.drawImage(frame, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    /* 上部に白のスクリムをかけて文字を読みやすく */
+    const grad = g.createLinearGradient(0, 0, 0, H * 0.62);
+    grad.addColorStop(0, "rgba(255,255,255,0.92)");
+    grad.addColorStop(0.55, "rgba(255,255,255,0.55)");
+    grad.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = grad;
+    g.fillRect(0, 0, W, H * 0.62);
+    /* 名言 */
     const n = ls.length;
-    const fontSize = n <= 5 ? 60 : n <= 7 ? 52 : 46;
-    const lineH = n <= 5 ? 92 : n <= 7 ? 78 : 66;
-    let y = 880 - ((n - 1) * lineH) / 2;
+    const fontSize = n <= 3 ? 64 : 56;
+    const lineH = fontSize * 1.55;
+    let y = 170;
     g.fillStyle = "#3B3350";
     g.textAlign = "center";
-    g.font = `500 ${fontSize}px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif`;
+    g.font = `700 ${fontSize}px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif`;
     ls.forEach((l) => {
       g.fillText(l, W / 2, y);
       y += lineH;
     });
-    g.fillStyle = "#8A80A6";
     g.font = "500 34px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
-    g.fillText(creditRef.current, W / 2, H - 190);
-    g.fillText("きょうの きみに", W / 2, H - 70);
+    g.fillStyle = "#6B6285";
+    g.fillText(creditRef.current, W / 2, y + 20);
+    /* 下部のクレジット */
+    const gradB = g.createLinearGradient(0, H - 200, 0, H);
+    gradB.addColorStop(0, "rgba(255,255,255,0)");
+    gradB.addColorStop(1, "rgba(255,255,255,0.85)");
+    g.fillStyle = gradB;
+    g.fillRect(0, H - 200, W, 200);
+    g.fillStyle = "#6B6285";
+    g.fillText("きょうの きみに", W / 2, H - 50);
     const blob = await new Promise<Blob | null>((r) => cv.toBlob(r, "image/png"));
     if (!blob) {
       setMsg("ほぞん できなかった");
@@ -254,10 +271,9 @@ export function CheerApp() {
 
   return (
     <div className="cheer-root">
-      <main className="cheer-main">
-        <h1>きょうの きみに</h1>
-
-        {screen === "ask" && (
+      {screen === "ask" && (
+        <main className="cheer-main">
+          <h1>きょうの きみに</h1>
           <section>
             <p className="q">いまの きもち は？</p>
             <Chips items={FEELS} value={feel} onPick={setFeel} />
@@ -277,63 +293,52 @@ export function CheerApp() {
               きいてもらう
             </button>
           </section>
-        )}
+        </main>
+      )}
 
-        {screen === "result" && (
-          <section>
-            <div className={`stage${thinking ? " thinking" : ""}`}>
-              {pet && (
-                <div
-                  className="pet"
-                  /* SVGはペット定義ファイル（pets/）のマークアップ文字列をそのまま流す */
-                  dangerouslySetInnerHTML={{ __html: petSvg(pet) }}
-                />
+      {screen === "result" && pet && (
+        <section className="film">
+          <video
+            ref={videoRef}
+            key={pet.id}
+            className="film-video"
+            src={pet.video}
+            poster={pet.poster}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
+          <div className="film-scrim" />
+          <div className="film-body">
+            <p className="film-lines">
+              {lines ? (
+                lines.map((l, i) => (
+                  <span key={`${l}-${i}`} className={i < shown ? "in" : ""}>
+                    {l}
+                  </span>
+                ))
+              ) : (
+                <span className="dots in">・・・</span>
               )}
-              <p className="petname">{pet?.name}</p>
-              <p className="lines">
-                {lines ? (
-                  lines.map((l, i) => (
-                    <span key={`${l}-${i}`} className={i < shown ? "in" : ""}>
-                      {l}
-                    </span>
-                  ))
-                ) : (
-                  <span className="dots in">・・・</span>
-                )}
-              </p>
-              <p className={`credit${credit ? " in" : ""}`}>{credit}</p>
-            </div>
-            <div className="actions">
-              {done && (
-                <button className="sub-btn" type="button" onClick={saveImage}>
-                  がぞうを ほぞん
-                </button>
-              )}
-              <button className="sub-btn primary" type="button" onClick={restart}>
-                はじめから
+            </p>
+            <p className={`film-credit${credit ? " in" : ""}`}>{credit}</p>
+          </div>
+          <p className="film-petname">{pet.name}</p>
+          <p className="film-msg">{msg}</p>
+          <div className="film-actions">
+            {done && (
+              <button className="film-btn" type="button" onClick={saveImage}>
+                がぞうを ほぞん
               </button>
-            </div>
-            <p className="msg">{msg}</p>
-          </section>
-        )}
-      </main>
+            )}
+            <button className="film-btn primary" type="button" onClick={restart}>
+              はじめから
+            </button>
+          </div>
+        </section>
+      )}
     </div>
   );
-}
-
-function roundRect(
-  g: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  r: number,
-) {
-  g.beginPath();
-  g.moveTo(x + r, y);
-  g.arcTo(x + w, y, x + w, y + h, r);
-  g.arcTo(x + w, y + h, x, y + h, r);
-  g.arcTo(x, y + h, x, y, r);
-  g.arcTo(x, y, x + w, y, r);
-  g.closePath();
 }

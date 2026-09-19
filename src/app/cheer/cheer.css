@@ -149,7 +149,134 @@
   box-shadow: none;
 }
 
-/* ---------- result ---------- */
+/* ---------- result（全画面の犬動画＋名言オーバーレイ） ---------- */
+/* 動画の上に載せる色はテーマに依らず固定（明るい映像に白スクリム＋インク文字） */
+.cheer-root .film {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--ch-bg);
+}
+.cheer-root .film-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cheer-root .film-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.6) 20%,
+    rgba(255, 255, 255, 0) 44%,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+}
+.cheer-root .film-body {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 36px);
+  left: 22px;
+  right: 22px;
+  text-align: center;
+  color: #3b3350;
+}
+.cheer-root .film-lines {
+  margin: 0;
+  font-size: clamp(21px, 5.6vw, 27px);
+  font-weight: 700;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.8);
+}
+.cheer-root .film-lines span {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.cheer-root .film-lines span.in {
+  opacity: 1;
+  transform: none;
+}
+.cheer-root .film-credit {
+  font-size: 13px;
+  color: #6b6285;
+  margin: 12px 0 0;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+.cheer-root .film-credit.in {
+  opacity: 1;
+}
+.cheer-root .film-petname {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(env(safe-area-inset-bottom) + 182px);
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  color: #6b6285;
+}
+.cheer-root .film-msg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(env(safe-area-inset-bottom) + 158px);
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: #6b6285;
+  min-height: 1.4em;
+}
+.cheer-root .film-actions {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: calc(env(safe-area-inset-bottom) + 22px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cheer-root .film-btn {
+  appearance: none;
+  border: 0;
+  background: rgba(255, 255, 255, 0.82);
+  color: #3b3350;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 13px;
+  border-radius: 18px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform 0.12s;
+}
+.cheer-root .film-btn:active {
+  transform: scale(0.97);
+}
+.cheer-root .film-btn.primary {
+  background: rgba(255, 177, 153, 0.92);
+  color: #7a3a26;
+}
+.cheer-root .film-btn:focus-visible {
+  outline: 3px solid var(--ch-peach);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cheer-root .film-lines span,
+  .cheer-root .film-credit {
+    transition: none;
+  }
+}
+
+/* ---------- (旧SVGペット用・未使用) ---------- */
 .cheer-root .stage {
   background: var(--ch-card);
   border-radius: 28px;
