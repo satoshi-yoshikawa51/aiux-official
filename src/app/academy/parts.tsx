@@ -307,6 +307,11 @@ export function TryPhone({
             <button
               type="button"
               onClick={() => setLive(true)}
+              /* Androidの人やDLを迷っている人のコンバージョン。
+                 iOSのDLはApp Storeを挟むと追えないので、広告の効果測定は
+                 academy_install（バッジ押下）とこれの2本で見る */
+              data-ga="academy_demo_start"
+              data-ga-place="mv"
               style={{
                 position: "absolute",
                 inset: 0,
