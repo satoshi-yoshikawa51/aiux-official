@@ -85,7 +85,6 @@ export function CheerApp() {
   const [shown, setShown] = useState(0); // 何行目までフェードインしたか
   const [credit, setCredit] = useState("");
   const [msg, setMsg] = useState("");
-  const [busy, setBusy] = useState(false); // 再生中は「べつの こ」を無効に
   const [done, setDone] = useState(false); // 全行出たら保存ボタンを出す
 
   const ctlRef = useRef<AbortController | null>(null);
@@ -117,7 +116,6 @@ export function CheerApp() {
     setShown(0);
     setCredit("");
     setMsg("");
-    setBusy(true);
     setDone(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -152,7 +150,6 @@ export function CheerApp() {
     const c = source === "ai" ? `${quote.who}（${p.ja}やく）` : `${p.ja}の ことば`;
     setCredit(c);
     creditRef.current = c;
-    setBusy(false);
     setDone(true);
   }
 
@@ -179,7 +176,6 @@ export function CheerApp() {
   function restart() {
     ctlRef.current?.abort();
     setScreen("ask");
-    setBusy(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -292,15 +288,12 @@ export function CheerApp() {
               <p className={`credit${credit ? " in" : ""}`}>{credit}</p>
             </div>
             <div className="actions">
-              <button className="sub-btn primary" type="button" disabled={busy} onClick={start}>
-                べつの こにも きいてみる
-              </button>
               {done && (
                 <button className="sub-btn" type="button" onClick={saveImage}>
                   がぞうを ほぞん
                 </button>
               )}
-              <button className="sub-btn" type="button" onClick={restart}>
+              <button className="sub-btn primary" type="button" onClick={restart}>
                 はじめから
               </button>
             </div>
