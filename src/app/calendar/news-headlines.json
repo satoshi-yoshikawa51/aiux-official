@@ -1,23 +1,40 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-18T23:33:18.720Z",
+  "updatedAt": "2026-09-19T21:16:09.361Z",
   "items": [
     {
-      "title": "Manus seeks $4B valuation in new $500M fundraise as it resumes independent ops",
-      "url": "https://techcrunch.com/2026/09/18/manus-seeks-4b-valuation-in-new-500m-fundraise-as-it-resumes-independent-ops/",
+      "title": "Google’s Gemini is the latest AI model to hack other companies",
+      "url": "https://techcrunch.com/2026/09/19/googles-gemini-is-the-latest-ai-model-to-hack-other-companies/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-18T16:35:49.000Z",
-      "titleJa": "マナスは独立した事業を再開するため、新たな5億ドルの資金調達で40億ドルの評価額を求める",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2278374931.jpg?w=1024"
+      "date": "2026-09-19T17:30:00.000Z",
+      "titleJa": "GoogleのGeminiは他社をハッキングする最新のAIモデル",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
     },
     {
-      "title": "AI導入は6割、でも8割超が「チャット止まり」 業務自動化まで進まない原因は？",
-      "url": "https://kn.itmedia.co.jp/kn/article/2609/19/2000001624/",
-      "source": "ITmedia AI＋",
+      "title": "Ryzen AI 5 340搭載で24万円台！ 23.8型ディスプレーの一体型デスクトップPCがFMV直販「目玉品」で登場！",
+      "url": "https://ascii.jp/elem/000/004/435/4435939/?rss",
+      "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-09-18T22:00:00.000Z",
-      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/19/2000001624/10006994/2048"
+      "date": "2026-09-19T11:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+    },
+    {
+      "title": "文字起こし字幕編集ソフト「Zimaku」を公開。話者ごとの自動分離とAIチャット修正で、文字起こしから字幕修正を簡単に。ローカルでの文字起こしは無料。",
+      "url": "https://ascii.jp/elem/000/004/436/4436505/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-19T05:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "Anthropic is operating a lab that conducts biology experiments",
+      "url": "https://techcrunch.com/2026/09/18/anthropic-is-operating-a-lab-that-conducts-biology-experiments/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-18T23:13:31.000Z",
+      "titleJa": "Anthropic は生物学の実験を行う研究室を運営しています",
+      "image": "https://techcrunch.com/wp-content/uploads/2021/08/DNA-—-Xero-2.jpg?resize=1200,750"
     },
     {
       "title": "OpenAI and Microsoft knew they were starting a ‘doom loop’ for the web",
@@ -29,28 +46,30 @@
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS534_AI_DOOMSDAY2_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
-      "title": "2in1でペン入力できる10型UMPC「Note Pro AI」が13万円台で発売開始",
-      "url": "https://ascii.jp/elem/000/004/436/4436472/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-18T21:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/18/4528213/xl/27f4144dfd347310.png?20200122"
+      "title": "Manus seeks $4B valuation in new $500M fundraise as it resumes independent ops",
+      "url": "https://techcrunch.com/2026/09/18/manus-seeks-4b-valuation-in-new-500m-fundraise-as-it-resumes-independent-ops/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-18T16:35:49.000Z",
+      "titleJa": "マナスは独立した事業を再開するため、新たな5億ドルの資金調達で40億ドルの評価額を求める",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2278374931.jpg?w=1024"
     },
     {
-      "title": "23.8型ディスプレーの一体型デスクトップPCが、Ryzen AI 5 340搭載で24万円台！",
-      "url": "https://ascii.jp/elem/000/004/435/4435938/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-18T11:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+      "title": "Security researchers used Claude to help them hack into OpenAI",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/997444/openai-hack-claude-heif-heist",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-18T15:30:16.000Z",
+      "titleJa": "セキュリティ研究者は OpenAI へのハッキングにクロードを利用しました",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS533_AI_AGENTS_HACKING_D.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
-      "title": "GeminiをOSの中心に据えた新しいPC。「Googlebook」9月21日に予約開始",
-      "url": "https://www.gizmodo.jp/article/2609-googlebook-preorder-2026-september/",
-      "source": "GIZMODO JAPAN",
+      "title": "AI導入は6割、でも8割超が「チャット止まり」 業務自動化まで進まない原因は？",
+      "url": "https://kn.itmedia.co.jp/kn/article/2609/19/2000001624/",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-09-18T09:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/18/fc433c0e-636d-474a-9eac-88628311af22/original.jpg?w=1200&h=630"
+      "date": "2026-09-18T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/19/2000001624/10006994/2048"
     },
     {
       "title": "NTTドコモビジネスら5社、「ワット・ビット連携」の実証開始-分散データセンター間でAI処理を最適化",
@@ -69,24 +88,6 @@
       "image": "https://image.itmedia.co.jp/mn/articles/2609/18/cover_news015.jpg"
     },
     {
-      "title": "Crusoe raises $3.9B to build massive data centers and small modular ‘AI factories’",
-      "url": "https://techcrunch.com/2026/09/17/crusoe-raises-3-9b-to-build-massive-data-centers-and-small-modular-ai-factories/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-17T23:25:52.000Z",
-      "titleJa": "Crusoe は大規模なデータセンターと小規模なモジュール式「AI ファクトリー」を構築するために 39 億ドルを調達",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/crusoe-ceo-getty.jpg?resize=1200,800"
-    },
-    {
-      "title": "Google DeepMind launches institute to widen the AGI debate",
-      "url": "https://techcrunch.com/2026/09/17/google-deepmind-launches-institute-to-widen-the-agi-debate/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-17T23:21:17.000Z",
-      "titleJa": "Google DeepMind が AGI の議論を広げるための研究所を設立",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/05/GettyImages-1481927442.jpg?resize=1200,800"
-    },
-    {
       "title": "Google announces new experimental \"CC\" AI agent for families",
       "url": "https://arstechnica.com/google/2026/09/google-announces-new-experimental-cc-ai-agent-for-families/",
       "source": "Ars Technica",
@@ -94,15 +95,6 @@
       "date": "2026-09-17T20:24:34.000Z",
       "titleJa": "Google、家族向けの新しい実験的なAIエージェント「CC」を発表",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Google-CC-1152x648.png"
-    },
-    {
-      "title": "Claude Code relaunches Projects to manage multiple AI agents in the cloud",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/997134/anthropic-claude-code-projects",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-17T18:58:05.000Z",
-      "titleJa": "Claude Code がクラウドで複数の AI エージェントを管理するプロジェクトを再起動",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/videoframe_18541.png?quality=90&strip=all&crop=0%2C3.4613147178592%2C100%2C93.077370564282&w=1200"
     },
     {
       "title": "経営者は「AI導入」に夢中、現場は「IT環境」に疲弊 ITサポート軽視が招く時間・人件費ロスの実態",
@@ -119,6 +111,14 @@
       "lang": "ja",
       "date": "2026-09-17T21:27:00.000Z",
       "image": "https://japan.cnet.com/storage/2026/09/18/7e266a8f90fa1a8664255c673e195b4c/01.jpeg"
+    },
+    {
+      "title": "東急東横線、運転士のドア閉扉判断を支援するAIシステムを導入",
+      "url": "https://japan.zdnet.com/article/35252719/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-17T05:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/17/e75145d98b374c935aea5b7a4670f16e/20260917_adobestock_390323189_1280x960.jpg"
     }
   ]
 }
