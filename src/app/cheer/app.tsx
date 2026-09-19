@@ -192,7 +192,7 @@ export function CheerApp() {
   const [sel, setSel] = useState<Selected | null>(null);
   const [cur, setCur] = useState<{ li: number; out: boolean }>({ li: 0, out: false }); // いま出している行
   const [msg, setMsg] = useState("");
-  const [videoBusy, setVideoBusy] = useState(false); // 動画レンダリング中
+  const [videoBusy, setVideoBusy] = useState(false); // シェアシート表示中の二度押しよけ
 
   const ctlRef = useRef<AbortController | null>(null);
   const lastPetRef = useRef<Pet | null>(null);
@@ -200,6 +200,8 @@ export function CheerApp() {
   const selRef = useRef<Selected | null>(null);
   const petRef = useRef<Pet | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  /* シェア用動画：行アニメの裏で先に録っておく。null=作成中 / "error"=不可 */
+  const videoFileRef = useRef<File | null | "error">(null);
 
   useEffect(() => () => ctlRef.current?.abort(), []);
 
@@ -241,6 +243,12 @@ export function CheerApp() {
     if (debug) setMsg(`でばっぐ：${picked.source}${picked.reason ? "/" + picked.reason : ""}`);
 
     setSel(picked);
+
+    /* シェア用動画を裏で先に録りはじめる（ボタンを押したら即渡せるように） */
+    videoFileRef.current = null;
+    renderShareVideo(p, picked, signal).then((f) => {
+      if (!signal.aborted) videoFileRef.current = f ?? "error";
+    });
 
     /* reduced-motion なら演出を飛ばして全文＋シェアへ */
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -334,18 +342,16 @@ export function CheerApp() {
     setMsg("ほぞんしたよ");
   }
 
-  /* 名言アニメーション付きの縦動画（9:16）をブラウザ内で録画してシェアする。
-     Safariは mp4、Chrome系は WebM になる（MediaRecorderの仕様）。
-     シェアシートが使えない環境ではファイル保存に落とす */
-  async function makeVideo() {
-    const p = petRef.current;
-    const s = selRef.current;
+  /* 名言アニメーション付きの縦動画（9:16）を、画面の行アニメと並行して
+     ブラウザ内で録画しておく（リアルタイム録画＝画面とほぼ同じ時間で完成）。
+     Safariは mp4、Chrome系は WebM系 になる（MediaRecorderの仕様） */
+  async function renderShareVideo(
+    p: Pet,
+    s: Selected,
+    signal: AbortSignal,
+  ): Promise<File | null> {
     const video = videoRef.current;
-    if (!p || !s || !video || videoBusy) return;
-    if (typeof MediaRecorder === "undefined") {
-      setMsg("この ぶらうざでは つくれなかった");
-      return;
-    }
+    if (!video || typeof MediaRecorder === "undefined") return null;
     const mime = [
       "video/mp4;codecs=avc1.42E01E",
       "video/mp4",
@@ -353,18 +359,19 @@ export function CheerApp() {
       "video/webm;codecs=vp8",
       "video/webm",
     ].find((c) => MediaRecorder.isTypeSupported(c));
-    if (!mime) {
-      setMsg("この ぶらうざでは つくれなかった");
-      return;
-    }
-    setVideoBusy(true);
-    setMsg("どうがを つくってるよ ……");
+    if (!mime) return null;
     try {
       await document.fonts.load("700 46px 'Zen Maru Gothic'");
     } catch {
       /* フォールバックフォントで描く */
     }
     video.play().catch(() => {});
+    /* 最初のフレームが黒抜けしないよう、動画が読めるまで少しだけ待つ */
+    const waitFrom = performance.now();
+    while (video.readyState < 2 && performance.now() - waitFrom < 2000 && !signal.aborted) {
+      await sleep(100, signal);
+    }
+    if (signal.aborted) return null;
 
     const W = 720;
     const H = 1280;
@@ -418,7 +425,7 @@ export function CheerApp() {
         const widths = chars.map((ch) => g.measureText(ch === " " ? " " : ch).width);
         const totalW = widths.reduce((a, b) => a + b, 0);
         let x = (W - totalW) / 2;
-        const y = H - 150 - lineRise;
+        const y = H - 270 - lineRise;
         chars.forEach((ch, ci) => {
           const born = sc.start + START_DELAY_MS + ci * CHAR_MS;
           const a = Math.min(1, Math.max(0, (t - born) / CHAR_FADE));
@@ -437,7 +444,7 @@ export function CheerApp() {
         g.globalAlpha = a;
         g.fillStyle = "#3B3350";
         g.font = "700 34px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
-        g.fillText(creditFor(s.who), W / 2, H - 170);
+        g.fillText(creditFor(s.who), W / 2, H - 210);
         g.globalAlpha = 1;
       }
       /* 常時の小さなロゴ */
@@ -461,6 +468,7 @@ export function CheerApp() {
     const begin = performance.now();
     await new Promise<void>((res) => {
       const tick = () => {
+        if (signal.aborted) return res();
         const t = performance.now() - begin;
         drawFrame(t);
         if (t >= total) return res();
@@ -470,29 +478,46 @@ export function CheerApp() {
     });
     rec.stop();
     await stopped;
+    if (signal.aborted) return null;
 
     const type = mime.startsWith("video/mp4") ? "video/mp4" : "video/webm";
     const ext = type === "video/mp4" ? "mp4" : "webm";
     const blob = new Blob(chunks, { type });
-    const file = new File([blob], `kyou-no-kimini-${p.id}.${ext}`, { type });
+    return new File([blob], `kyou-no-kimini-${p.id}.${ext}`, { type });
+  }
+
+  /* シェアボタン：裏で録っておいた動画をその場でシェアシートに渡す */
+  async function shareVideo() {
+    const s = selRef.current;
+    if (!s || videoBusy) return;
+    const f = videoFileRef.current;
+    if (f === null) {
+      setMsg("どうがを じゅんびちゅう…… すこししたら もういちど おしてね");
+      return;
+    }
+    if (f === "error") {
+      setMsg("この ぶらうざでは どうがを つくれなかった");
+      return;
+    }
+    setVideoBusy(true);
     const shareText = `${s.lines.join(" ")}（${creditFor(s.who)}）| きょうの きみに https://comixai.dev/cheer`;
-    setVideoBusy(false);
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    if (navigator.canShare && navigator.canShare({ files: [f] })) {
       try {
-        await navigator.share({ files: [file], text: shareText });
+        await navigator.share({ files: [f], text: shareText });
         setMsg("");
       } catch {
         setMsg(""); /* シェアシートを閉じただけ */
       }
     } else {
-      const url = URL.createObjectURL(blob);
+      const url = URL.createObjectURL(f);
       const a = document.createElement("a");
       a.href = url;
-      a.download = file.name;
+      a.download = f.name;
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 10_000);
       setMsg("どうがを ほぞんしたよ");
     }
+    setVideoBusy(false);
   }
 
   return (
@@ -572,13 +597,13 @@ export function CheerApp() {
                 type="button"
                 className="video-share-btn"
                 disabled={videoBusy}
-                onClick={makeVideo}
+                onClick={shareVideo}
                 data-ga="share_click"
                 data-ga-network="video"
                 data-ga-path="/cheer"
               >
                 <i className="ph-bold ph-film-strip" style={{ marginRight: 6 }} />
-                {videoBusy ? "つくってるよ ……" : "どうがで シェア"}
+                どうがで シェア
               </button>
             </div>
           )}
