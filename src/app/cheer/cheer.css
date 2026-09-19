@@ -1,0 +1,383 @@
+/* ============================================================
+   きょうの きみに — プロトタイプ専用の見た目。
+   サイト本体のトークン（globals.css）とは別の世界観なので、
+   .cheer-root にスコープした独自トークンで完結させる。
+   結果画面（.film）は動画の上に載せるため、テーマに依らず固定色。
+   ============================================================ */
+
+.cheer-root {
+  --ch-bg: #f2ecff;
+  --ch-card: #ffffff;
+  --ch-ink: #3b3350;
+  --ch-sub: #8a80a6;
+  --ch-line: #e4dcf6;
+  --ch-peach: #ffb199;
+  --ch-peach-ink: #7a3a26;
+  --ch-chip: #f8f5ff;
+  --ch-chip-on: #3b3350;
+  --ch-chip-on-ink: #ffffff;
+  --ch-shadow: 0 10px 30px rgba(59, 51, 80, 0.1);
+}
+@media (prefers-color-scheme: dark) {
+  .cheer-root {
+    --ch-bg: #1f1a30;
+    --ch-card: #2a2440;
+    --ch-ink: #f1ecff;
+    --ch-sub: #a79fc2;
+    --ch-line: #3d3556;
+    --ch-peach: #ff9e80;
+    --ch-peach-ink: #2b1610;
+    --ch-chip: #332c4d;
+    --ch-chip-on: #f1ecff;
+    --ch-chip-on-ink: #2a2440;
+    --ch-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.cheer-root {
+  box-sizing: border-box;
+  min-height: 100dvh;
+  background: var(--ch-bg);
+  color: var(--ch-ink);
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", "Yu Gothic",
+    sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  padding: max(20px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+}
+.cheer-root *,
+.cheer-root *::before,
+.cheer-root *::after {
+  box-sizing: border-box;
+}
+.cheer-main {
+  max-width: 440px;
+  margin: 0 auto;
+}
+.cheer-root h1 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ch-sub);
+  margin: 4px 0 18px;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+/* ---------- ask ---------- */
+.cheer-root .q {
+  margin: 0 0 10px;
+  font-weight: 700;
+  font-size: 20px;
+}
+.cheer-root .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+.cheer-root .chip {
+  appearance: none;
+  border: 0;
+  background: var(--ch-chip);
+  color: var(--ch-ink);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.12s, background 0.15s, color 0.15s;
+}
+.cheer-root .chip:active {
+  transform: scale(0.95);
+}
+.cheer-root .chip[aria-pressed="true"] {
+  background: var(--ch-chip-on);
+  color: var(--ch-chip-on-ink);
+}
+.cheer-root .chip:focus-visible,
+.cheer-root .go:focus-visible,
+.cheer-root .film-top-btn:focus-visible {
+  outline: 3px solid var(--ch-peach);
+  outline-offset: 3px;
+}
+.cheer-root .note {
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid var(--ch-line);
+  background: transparent;
+  color: var(--ch-ink);
+  font: inherit;
+  font-size: 17px;
+  padding: 8px 2px;
+  margin-bottom: 6px;
+}
+.cheer-root .note::placeholder {
+  color: var(--ch-sub);
+}
+.cheer-root .note:focus {
+  outline: 0;
+  border-bottom-color: var(--ch-peach);
+}
+.cheer-root .hint {
+  font-size: 13px;
+  color: var(--ch-sub);
+  margin: 0 0 28px;
+}
+.cheer-root .go {
+  display: block;
+  width: 100%;
+  appearance: none;
+  border: 0;
+  border-radius: 22px;
+  background: var(--ch-peach);
+  color: var(--ch-peach-ink);
+  font: inherit;
+  font-size: 19px;
+  font-weight: 700;
+  padding: 16px;
+  cursor: pointer;
+  box-shadow: var(--ch-shadow);
+  transition: transform 0.12s, opacity 0.2s;
+}
+.cheer-root .go:active {
+  transform: scale(0.98);
+}
+.cheer-root .go:disabled {
+  opacity: 0.45;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* ---------- result（全画面の犬動画＋名言オーバーレイ） ---------- */
+.cheer-root .film {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--ch-bg);
+}
+.cheer-root .film-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* 文字は下側に置くので、スクリムも下を厚めに。上はアイコンボタンぶんだけ薄く */
+.cheer-root .film-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0) 13%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.5) 78%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+}
+
+/* 左上：もどる ／ 右上：がぞうをほぞん */
+.cheer-root .film-top-btn {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 14px);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.72);
+  color: #3b3350;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform 0.12s, opacity 0.3s;
+}
+.cheer-root .film-top-btn:active {
+  transform: scale(0.92);
+}
+.cheer-root .film-top-btn.left {
+  left: 14px;
+}
+.cheer-root .film-top-btn.right {
+  right: 14px;
+}
+
+/* 保存完了などの小メッセージ（上部中央） */
+.cheer-root .film-msg {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 24px);
+  left: 70px;
+  right: 70px;
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: #6b6285;
+  min-height: 1.4em;
+}
+
+/* 名言（顔より下・1文字ずつ出る） */
+.cheer-root .film-body {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: calc(env(safe-area-inset-bottom) + 148px);
+  text-align: center;
+  color: #3b3350;
+}
+.cheer-root .film-lines {
+  margin: 0;
+  font-size: clamp(21px, 5.6vw, 27px);
+  font-weight: 700;
+  line-height: 1.6;
+  text-shadow: 0 1px 14px rgba(255, 255, 255, 0.9);
+}
+.cheer-root .film-lines.out {
+  animation: cheer-line-out 0.35s ease forwards;
+}
+@keyframes cheer-line-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.3em);
+  }
+}
+.cheer-root .film-lines .ch {
+  display: inline-block;
+  opacity: 0;
+  animation: cheer-char-in 0.55s ease forwards;
+}
+@keyframes cheer-char-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cheer-root .dots {
+  color: #6b6285;
+  letter-spacing: 0.3em;
+  font-size: 24px;
+}
+
+/* 全部出たあと：全文（小さめ）＋シェア */
+.cheer-root .film-after {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: calc(env(safe-area-inset-bottom) + 18px);
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 20px;
+  padding: 12px 14px 10px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #3b3350;
+  animation: cheer-after-in 0.6s ease both;
+}
+@keyframes cheer-after-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cheer-root .after-lines {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+.cheer-root .after-credit {
+  margin: 4px 0 10px;
+  font-size: 12px;
+  color: #6b6285;
+}
+
+/* 丸アイコンのシェア列（サイトのフッターのトーン） */
+.cheer-root .share-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 14px;
+}
+.cheer-root .share-btn {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #3b3350;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+.cheer-root .share-btn:active {
+  transform: scale(0.92);
+}
+.cheer-root .share-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid #3b3350;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.6);
+}
+.cheer-root .line-word {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.cheer-root .share-label {
+  font-size: 10px;
+  color: #6b6285;
+}
+.cheer-root .video-share-btn {
+  appearance: none;
+  border: 0;
+  width: 100%;
+  margin-top: 12px;
+  padding: 11px;
+  border-radius: 16px;
+  background: #ffb199;
+  color: #7a3a26;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s, opacity 0.2s;
+}
+.cheer-root .video-share-btn:active {
+  transform: scale(0.97);
+}
+.cheer-root .video-share-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cheer-root .film-lines .ch {
+    animation: none;
+    opacity: 1;
+  }
+  .cheer-root .film-after {
+    animation: none;
+  }
+}
