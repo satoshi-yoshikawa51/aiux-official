@@ -3,20 +3,38 @@
 /* ============================================================
    きょうの きみに — 画面まるごとのクライアントコンポーネント。
    結果画面は「犬のループ動画を全画面＋名言をオーバーレイ」。
-   名言は quotes.ts の手書きストックそのままで、AI（/api/cheer）は
-   選ぶだけ。通信に失敗したらこの場でランダム選書する。
+   名言は下側に1文字ずつゆっくり出し、出終わったら全文（小さめ）と
+   シェア導線（サイト共通の ShareRow）に切り替わる。
+   AI（/api/cheer）は名言を選ぶだけ。失敗したらこの場でランダム選書。
    ============================================================ */
 
 import { useEffect, useRef, useState } from "react";
+import { ShareRow } from "../site-ui";
 import { FEELS, WHYS, type Choice } from "./data";
 import { kotobaFor, type Kotoba } from "./quotes";
 import { PETS, type Pet } from "./pets";
 
 type Screen = "ask" | "result";
+type Phase = "thinking" | "play" | "after";
+
+/* 1文字あたりの間隔と、行間の溜め（ミリ秒） */
+const CHAR_MS = 90;
+const LINE_PAUSE_MS = 700;
+const START_DELAY_MS = 500;
 
 function pick<T>(arr: T[], avoid?: T | null): T {
   const pool = avoid ? arr.filter((x) => x !== avoid) : arr;
   return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function sleep(ms: number, signal: AbortSignal): Promise<void> {
+  return new Promise((res) => {
+    const t = setTimeout(res, ms);
+    signal.addEventListener("abort", () => {
+      clearTimeout(t);
+      res();
+    });
+  });
 }
 
 interface Selected {
@@ -25,6 +43,10 @@ interface Selected {
   lines: string[];
   source: string;
   reason?: string;
+}
+
+function creditFor(who: string): string {
+  return who === "ことわざ" ? "ことわざ" : `${who}のことば`;
 }
 
 /* /api/cheer に選書してもらう。返事が変なら null（→ローカル選書へ） */
@@ -56,10 +78,6 @@ async function askServer(
     };
   }
   return null;
-}
-
-function creditFor(who: string): string {
-  return who === "ことわざ" ? "ことわざ" : `${who}のことば`;
 }
 
 function Chips({
@@ -95,18 +113,15 @@ export function CheerApp() {
   const [note, setNote] = useState("");
 
   const [pet, setPet] = useState<Pet | null>(null);
-  const [thinking, setThinking] = useState(false);
-  const [lines, setLines] = useState<string[] | null>(null);
-  const [shown, setShown] = useState(0); // 何行目までフェードインしたか
-  const [credit, setCredit] = useState("");
+  const [phase, setPhase] = useState<Phase>("thinking");
+  const [sel, setSel] = useState<Selected | null>(null);
+  const [delays, setDelays] = useState<number[][]>([]); // 各文字のanimation-delay
   const [msg, setMsg] = useState("");
-  const [done, setDone] = useState(false); // 全行出たら保存ボタンを出す
 
   const ctlRef = useRef<AbortController | null>(null);
   const lastPetRef = useRef<Pet | null>(null);
   const lastQuoteRef = useRef(""); // 直前に出した名言のid（連続で同じものを出さない）
-  const linesRef = useRef<string[] | null>(null);
-  const creditRef = useRef("");
+  const selRef = useRef<Selected | null>(null);
   const petRef = useRef<Pet | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -125,17 +140,14 @@ export function CheerApp() {
 
     setScreen("result");
     setPet(p);
-    setThinking(true);
-    setLines(null);
-    setShown(0);
-    setCredit("");
+    setPhase("thinking");
+    setSel(null);
     setMsg("");
-    setDone(false);
 
     const debug = new URLSearchParams(window.location.search).has("debug");
-    let sel: Selected | null = null;
+    let picked: Selected | null = null;
     try {
-      sel = await askServer(
+      picked = await askServer(
         { feel, why, note: note.trim(), avoid: lastQuoteRef.current },
         signal,
       );
@@ -143,43 +155,35 @@ export function CheerApp() {
       if (signal.aborted) return;
     }
     if (signal.aborted) return;
-    if (!sel) {
+    if (!picked) {
       /* サーバーに届かなかったら、この場でランダム選書（ストックは手元にもある） */
       const k: Kotoba = pick(kotobaFor(feel, lastQuoteRef.current));
-      sel = { id: k.id, who: k.who, lines: k.lines, source: "local" };
+      picked = { id: k.id, who: k.who, lines: k.lines, source: "local" };
     }
-    lastQuoteRef.current = sel.id;
-    if (debug) setMsg(`でばっぐ：${sel.source}${sel.reason ? "/" + sel.reason : ""}`);
+    lastQuoteRef.current = picked.id;
+    selRef.current = picked;
+    if (debug) setMsg(`でばっぐ：${picked.source}${picked.reason ? "/" + picked.reason : ""}`);
 
-    setThinking(false);
-    setLines(sel.lines);
-    linesRef.current = sel.lines;
-    await playLines(sel.lines, signal);
-    if (signal.aborted) return;
-    const c = creditFor(sel.who);
-    setCredit(c);
-    creditRef.current = c;
-    setDone(true);
-  }
-
-  /* 1行ずつふわっと出す。reduced-motion なら全部すぐ出す */
-  function playLines(ls: string[], signal: AbortSignal): Promise<void> {
+    /* 1文字ずつのanimation-delayを組み立てる（行の間には溜めを入れる） */
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setShown(ls.length);
-      return Promise.resolve();
-    }
-    return new Promise((res) => {
-      let i = 0;
-      const tick = () => {
-        if (signal.aborted) return res();
-        if (i >= ls.length) return void setTimeout(res, 300);
-        i += 1;
-        setShown(i);
-        setTimeout(tick, 850);
-      };
-      setTimeout(tick, 500);
+    let t = reduce ? 0 : START_DELAY_MS;
+    const ds = picked.lines.map((line) => {
+      const arr = [...line].map(() => {
+        const d = t;
+        if (!reduce) t += CHAR_MS;
+        return d;
+      });
+      if (!reduce) t += LINE_PAUSE_MS;
+      return arr;
     });
+    setDelays(ds);
+    setSel(picked);
+    setPhase("play");
+
+    /* 全文が出きってひと呼吸おいたら、小さい全文＋シェアに切り替える */
+    await sleep(t + (reduce ? 400 : 1200), signal);
+    if (signal.aborted) return;
+    setPhase("after");
   }
 
   function restart() {
@@ -191,9 +195,9 @@ export function CheerApp() {
   /* いまの動画フレームを背景に、名言を載せた画像を保存する */
   async function saveImage() {
     const p = petRef.current;
-    const ls = linesRef.current;
+    const s = selRef.current;
     const video = videoRef.current;
-    if (!p || !ls || !video) return;
+    if (!p || !s || !video) return;
     const W = 1080;
     const H = 1350;
     const cv = document.createElement("canvas");
@@ -225,36 +229,28 @@ export function CheerApp() {
     const dw = vw * scale;
     const dh = vh * scale;
     g.drawImage(frame, (W - dw) / 2, (H - dh) / 2, dw, dh);
-    /* 上部に白のスクリムをかけて文字を読みやすく */
-    const grad = g.createLinearGradient(0, 0, 0, H * 0.62);
-    grad.addColorStop(0, "rgba(255,255,255,0.92)");
-    grad.addColorStop(0.55, "rgba(255,255,255,0.55)");
-    grad.addColorStop(1, "rgba(255,255,255,0)");
+    /* 画面と同じく、下側に白のスクリム＋名言 */
+    const grad = g.createLinearGradient(0, H * 0.42, 0, H);
+    grad.addColorStop(0, "rgba(255,255,255,0)");
+    grad.addColorStop(0.5, "rgba(255,255,255,0.65)");
+    grad.addColorStop(1, "rgba(255,255,255,0.95)");
     g.fillStyle = grad;
-    g.fillRect(0, 0, W, H * 0.62);
-    /* 名言 */
-    const n = ls.length;
-    const fontSize = n <= 3 ? 64 : 56;
-    const lineH = fontSize * 1.55;
-    let y = 170;
+    g.fillRect(0, H * 0.42, W, H * 0.58);
+    const n = s.lines.length;
+    const fontSize = n <= 3 ? 60 : 52;
+    const lineH = fontSize * 1.6;
+    let y = H - 250 - (n - 1) * lineH;
     g.fillStyle = "#3B3350";
     g.textAlign = "center";
     g.font = `700 ${fontSize}px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif`;
-    ls.forEach((l) => {
+    s.lines.forEach((l) => {
       g.fillText(l, W / 2, y);
       y += lineH;
     });
-    g.font = "500 34px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
+    g.font = "500 32px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
     g.fillStyle = "#6B6285";
-    g.fillText(creditRef.current, W / 2, y + 20);
-    /* 下部のクレジット */
-    const gradB = g.createLinearGradient(0, H - 200, 0, H);
-    gradB.addColorStop(0, "rgba(255,255,255,0)");
-    gradB.addColorStop(1, "rgba(255,255,255,0.85)");
-    g.fillStyle = gradB;
-    g.fillRect(0, H - 200, W, 200);
-    g.fillStyle = "#6B6285";
-    g.fillText("きょうの きみに", W / 2, H - 50);
+    g.fillText(creditFor(s.who), W / 2, y + 8);
+    g.fillText("きょうの きみに", W / 2, H - 60);
     const blob = await new Promise<Blob | null>((r) => cv.toBlob(r, "image/png"));
     if (!blob) {
       setMsg("ほぞん できなかった");
@@ -311,32 +307,60 @@ export function CheerApp() {
             preload="auto"
           />
           <div className="film-scrim" />
-          <div className="film-body">
-            <p className="film-lines">
-              {lines ? (
-                lines.map((l, i) => (
-                  <span key={`${l}-${i}`} className={i < shown ? "in" : ""}>
-                    {l}
-                  </span>
-                ))
+
+          {/* 名言：顔より下に、1文字ずつゆっくり */}
+          {phase !== "after" && (
+            <div className="film-body">
+              {phase === "thinking" || !sel ? (
+                <span className="dots">・・・</span>
               ) : (
-                <span className="dots in">・・・</span>
+                <p className="film-lines">
+                  {sel.lines.map((line, li) => (
+                    <span key={li}>
+                      {[...line].map((ch, ci) => (
+                        <span
+                          key={ci}
+                          className="ch"
+                          style={{ animationDelay: `${delays[li]?.[ci] ?? 0}ms` }}
+                        >
+                          {ch === " " ? " " : ch}
+                        </span>
+                      ))}
+                    </span>
+                  ))}
+                </p>
               )}
-            </p>
-            <p className={`film-credit${credit ? " in" : ""}`}>{credit}</p>
-          </div>
-          <p className="film-petname">{pet.name}</p>
-          <p className="film-msg">{msg}</p>
-          <div className="film-actions">
-            {done && (
-              <button className="film-btn" type="button" onClick={saveImage}>
-                がぞうを ほぞん
-              </button>
-            )}
-            <button className="film-btn primary" type="button" onClick={restart}>
-              はじめから
+            </div>
+          )}
+
+          {/* 出し終わり：全文（小さめ）＋シェア */}
+          {phase === "after" && sel && (
+            <div className="film-after">
+              <p className="after-lines">{sel.lines.join("\n")}</p>
+              <p className="after-credit">{creditFor(sel.who)}</p>
+              <ShareRow
+                path="/cheer"
+                text={`${sel.lines.join(" ")}（${creditFor(sel.who)}）`}
+                label="シェア→"
+              />
+            </div>
+          )}
+
+          {/* 左上：もどる ／ 右上：ダウンロード（出し終わってから） */}
+          <button className="film-top-btn left" type="button" onClick={restart} aria-label="はじめにもどる">
+            <i className="ph-bold ph-arrow-left" />
+          </button>
+          {phase === "after" && (
+            <button
+              className="film-top-btn right"
+              type="button"
+              onClick={saveImage}
+              aria-label="がぞうを ほぞん"
+            >
+              <i className="ph-bold ph-download-simple" />
             </button>
-          </div>
+          )}
+          <p className="film-msg">{msg}</p>
         </section>
       )}
     </div>
