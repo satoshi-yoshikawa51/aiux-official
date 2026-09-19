@@ -118,7 +118,16 @@ const ANIM_FRAMES = Math.ceil(ANIM_SEC * FPS);
    speed: 1未満でゆっくり（CTAは読ませたいので少し落としてある） */
 const CUTS = [
   {
-    shots: [{ clip: "1-home.mp4", in: 2.2, out: 6.6 }],
+    /* ▍つかみはガチャ
+
+       もとはホーム画面から始めていたが、1秒目に**動きと色**が要る。
+       赤いガチャ台が回ってカプセルが落ちるところを頭に置き、
+       落ちた瞬間に白く飛ばしてホームへ繋ぐ（flash）。
+       アプリの「遊べる」が、テロップを読む前に絵で伝わる。 */
+    shots: [
+      { clip: "5-gacha.mp4", in: 4.25, out: 6.65 }, // 押す→玉が回る→カプセルが落ちる
+      { clip: "1-home.mp4", in: 2.5, out: 4.8, flash: 0.18 }, // パッと光ってホームへ
+    ],
     kicker: "NEW — iPhone / iPad",
     lines: ["遊んで学べるAI学習アプリ", "登場！"],
     hi: "遊んで学べる",
@@ -168,11 +177,15 @@ const CUTS = [
   },
 ];
 
-/* カット内で画を切り替えるときの、短いクロスフェード */
+/* カット内で画を切り替えるときの、短いクロスフェード。
+   **shot に `flash: 秒` を書くと、そのつなぎだけ白を通って切り替わる**
+   （ffmpegの fadewhite）。ガチャのカプセルが落ちた瞬間に使っている。
+   ふつうのフェードより気持ち長めにしないと、光ったのが分からない */
 const SHOT_XFADE = 0.18;
+const shotXfade = (sh) => sh.flash ?? SHOT_XFADE;
 const shotSec = (sh) => (sh.out - sh.in) / (sh.speed ?? 1);
 const cutSec = (c) =>
-  c.shots.reduce((n, sh) => n + shotSec(sh), 0) - (c.shots.length - 1) * SHOT_XFADE;
+  c.shots.reduce((n, sh, i) => n + shotSec(sh) - (i > 0 ? shotXfade(sh) : 0), 0);
 const TOTAL_SEC = CUTS.reduce((n, c) => n + cutSec(c), 0) - (CUTS.length - 1) * XFADE_SEC;
 
 const exists = async (p) => {
@@ -618,9 +631,12 @@ for (const [i, cut] of CUTS.entries()) {
   let last = "s0";
   let acc = shotSec(cut.shots[0]);
   for (let n = 1; n < cut.shots.length; n++) {
+    const sh = cut.shots[n];
     const label = n === cut.shots.length - 1 ? "pv" : `m${n}`;
-    chain += `;[${last}][s${n}]xfade=transition=fade:duration=${SHOT_XFADE}:offset=${(acc - SHOT_XFADE).toFixed(3)}[${label}]`;
-    acc += shotSec(cut.shots[n]) - SHOT_XFADE;
+    const dur = shotXfade(sh);
+    const tr = sh.flash ? "fadewhite" : "fade";
+    chain += `;[${last}][s${n}]xfade=transition=${tr}:duration=${dur}:offset=${(acc - dur).toFixed(3)}[${label}]`;
+    acc += shotSec(sh) - dur;
     last = label;
   }
   if (cut.shots.length === 1) chain += `;[s0]null[pv]`;
