@@ -8,8 +8,12 @@ export interface Pet {
   name: string;
   /* クレジット表記用のひらがな名（「◯◯やく」） */
   ja: string;
-  /* Claudeに渡す性格づけ。絵とは独立 */
+  /* 性格づけ（前口上・締めの言葉のトーンの元。コメント用） */
   voice: string;
+  /* 名言のまえに言う前口上（1セット1〜2行・ひらがな）。ランダムに1つ選ばれる */
+  intros: string[][];
+  /* 名言のあとに言う締めの一言（同上） */
+  outros: string[][];
   /* 配色（draw内から参照） */
   color: string;
   ear: string;

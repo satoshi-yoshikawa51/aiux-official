@@ -2,13 +2,14 @@
 
 /* ============================================================
    きょうの きみに — 画面まるごとのクライアントコンポーネント。
-   生成は /api/cheer（Claude Haiku）に投げ、使えないときは
-   STOCK のストック台詞に降格する。ロジックはプロトタイプ
-   （pet-cheer.html）をそのまま移植。
+   台詞は「ペットの前口上（手書き）＋名言ストック（手書き）＋
+   締めの一言（手書き）」の組み立てで、AI（/api/cheer）は
+   名言を選ぶだけ。通信に失敗したらこの場でランダム選書する。
    ============================================================ */
 
 import { useEffect, useRef, useState } from "react";
-import { FEELS, WHYS, QUOTES, STOCK, REPEAT, type Choice } from "./data";
+import { FEELS, WHYS, type Choice } from "./data";
+import { kotobaFor, type Kotoba } from "./quotes";
 import { PETS, type Pet } from "./pets";
 
 type Screen = "ask" | "result";
@@ -22,32 +23,43 @@ function petSvg(p: Pet): string {
   return `<svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-label="${p.name}">${p.draw(p)}</svg>`;
 }
 
-/* /api/cheer に台詞をもらいに行く。降格すべきときは lines:null＋理由、
-   レート制限は {code:"rate_limited"} を投げる */
+interface Selected {
+  id: string;
+  who: string;
+  lines: string[];
+  source: string;
+  reason?: string;
+}
+
+/* /api/cheer に選書してもらう。返事が変なら null（→ローカル選書へ） */
 async function askServer(
-  payload: { feel: string; why: string; pet: string; quote: number; note: string },
+  payload: { feel: string; why: string; note: string; avoid: string },
   signal: AbortSignal,
-): Promise<{ lines: string[] | null; reason?: string }> {
+): Promise<Selected | null> {
   const res = await fetch("/api/cheer", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(payload),
     signal,
   });
-  if (res.status === 429) throw { code: "rate_limited" };
-  if (!res.ok) return { lines: null, reason: `http_${res.status}` };
-  const data = (await res.json()) as { lines?: unknown; fallback?: boolean; reason?: string };
+  if (!res.ok) return null;
+  const data = (await res.json()) as Partial<Selected>;
   if (
+    typeof data.id === "string" &&
+    typeof data.who === "string" &&
     Array.isArray(data.lines) &&
     data.lines.length > 0 &&
     data.lines.every((l) => typeof l === "string")
   ) {
-    return { lines: data.lines as string[] };
+    return {
+      id: data.id,
+      who: data.who,
+      lines: data.lines,
+      source: typeof data.source === "string" ? data.source : "unknown",
+      reason: typeof data.reason === "string" ? data.reason : undefined,
+    };
   }
-  /* ストック降格の原因調査用（?debug=1 のときだけ画面にも出す） */
-  const reason = data.reason ?? "no_api_key";
-  console.debug("cheer: fallback", reason);
-  return { lines: null, reason };
+  return null;
 }
 
 function Chips({
@@ -92,7 +104,7 @@ export function CheerApp() {
 
   const ctlRef = useRef<AbortController | null>(null);
   const lastPetRef = useRef<Pet | null>(null);
-  const lastKeyRef = useRef("");
+  const lastQuoteRef = useRef(""); // 直前に出した名言のid（連続で同じものを出さない）
   const linesRef = useRef<string[] | null>(null);
   const creditRef = useRef("");
   const petRef = useRef<Pet | null>(null);
@@ -109,8 +121,6 @@ export function CheerApp() {
     const p = pick(PETS, lastPetRef.current);
     lastPetRef.current = p;
     petRef.current = p;
-    const quoteIndex = Math.floor(Math.random() * QUOTES[feel].length);
-    const quote = QUOTES[feel][quoteIndex];
 
     setScreen("result");
     setPet(p);
@@ -123,39 +133,33 @@ export function CheerApp() {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     const debug = new URLSearchParams(window.location.search).has("debug");
-    let result: string[] | null = null;
-    let source: "ai" | "stock" = "ai";
+    let sel: Selected | null = null;
     try {
-      const r = await askServer(
-        { feel, why, pet: p.id, quote: quoteIndex, note: note.trim() },
+      sel = await askServer(
+        { feel, why, note: note.trim(), avoid: lastQuoteRef.current },
         signal,
       );
-      result = r.lines;
-      if (!result && debug) setMsg(`でばっぐ：${r.reason}`);
-    } catch (e) {
+    } catch {
       if (signal.aborted) return;
-      source = "stock";
-      if (e && typeof e === "object" && (e as { code?: string }).code === "rate_limited") {
-        setMsg("いっぱい はなしたから すこし やすませてね");
-      } else if (debug) {
-        setMsg("でばっぐ：network");
-      }
     }
     if (signal.aborted) return;
-    if (!result) {
-      source = "stock";
-      result = STOCK[feel][0];
+    if (!sel) {
+      /* サーバーに届かなかったら、この場でランダム選書（ストックは手元にもある） */
+      const k: Kotoba = pick(kotobaFor(feel, lastQuoteRef.current));
+      sel = { id: k.id, who: k.who, lines: k.lines, source: "local" };
     }
-    const key = result.join("|");
-    if (key === lastKeyRef.current) result = REPEAT;
-    lastKeyRef.current = key;
+    lastQuoteRef.current = sel.id;
+    if (debug) setMsg(`でばっぐ：${sel.source}${sel.reason ? "/" + sel.reason : ""}`);
+
+    /* 前口上＋名言＋締めの一言に組み立てる */
+    const all = [...pick(p.intros), ...sel.lines, ...pick(p.outros)];
 
     setThinking(false);
-    setLines(result);
-    linesRef.current = result;
-    await playLines(result, signal);
+    setLines(all);
+    linesRef.current = all;
+    await playLines(all, signal);
     if (signal.aborted) return;
-    const c = source === "ai" ? `${quote.who}（${p.ja}やく）` : `${p.ja}の ことば`;
+    const c = `${sel.who}（${p.ja}やく）`;
     setCredit(c);
     creditRef.current = c;
     setDone(true);
@@ -187,7 +191,7 @@ export function CheerApp() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  /* canvasに描いて <a download> で保存（プロトタイプの downloads 置き換え） */
+  /* canvasに描いて <a download> で保存 */
   async function saveImage() {
     const p = petRef.current;
     const ls = linesRef.current;
@@ -218,13 +222,17 @@ export function CheerApp() {
       img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
     });
     g.drawImage(img, (W - 420) / 2, 170, 420, 420);
+    /* 行数が多いときは詰めて、カードからはみ出さないようにする */
+    const n = ls.length;
+    const fontSize = n <= 5 ? 60 : n <= 7 ? 52 : 46;
+    const lineH = n <= 5 ? 92 : n <= 7 ? 78 : 66;
+    let y = 880 - ((n - 1) * lineH) / 2;
     g.fillStyle = "#3B3350";
     g.textAlign = "center";
-    g.font = "500 60px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
-    let y = 700;
+    g.font = `500 ${fontSize}px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif`;
     ls.forEach((l) => {
       g.fillText(l, W / 2, y);
-      y += 92;
+      y += lineH;
     });
     g.fillStyle = "#8A80A6";
     g.font = "500 34px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
