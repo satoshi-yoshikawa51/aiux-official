@@ -1,6 +1,6 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-19T21:16:09.361Z",
+  "updatedAt": "2026-09-19T21:21:21.040Z",
   "items": [
     {
       "title": "Google’s Gemini is the latest AI model to hack other companies",
@@ -46,13 +46,13 @@
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS534_AI_DOOMSDAY2_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
-      "title": "Manus seeks $4B valuation in new $500M fundraise as it resumes independent ops",
-      "url": "https://techcrunch.com/2026/09/18/manus-seeks-4b-valuation-in-new-500m-fundraise-as-it-resumes-independent-ops/",
+      "title": "A new kind of AI model from a ChatGPT inventor is thrilling developers",
+      "url": "https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-18T16:35:49.000Z",
-      "titleJa": "マナスは独立した事業を再開するため、新たな5億ドルの資金調達で40億ドルの評価額を求める",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2278374931.jpg?w=1024"
+      "date": "2026-09-18T18:49:30.000Z",
+      "titleJa": "ChatGPT 発明者による新しい種類の AI モデルが開発者を興奮させている",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/typesafe-ai.jpg?resize=1174,1200"
     },
     {
       "title": "Security researchers used Claude to help them hack into OpenAI",
