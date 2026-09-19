@@ -123,6 +123,12 @@ function sanitize(raw: unknown): CheerRequest | null {
   return { feel, why, pet, quote, note };
 }
 
+/* 診断用：AI生成が有効か（キーが設定されているか）だけ返す。
+   プレビュー環境でストック台詞ばかり出るときの切り分けに使う */
+export async function GET() {
+  return Response.json({ ai: Boolean(process.env.ANTHROPIC_API_KEY) });
+}
+
 export async function POST(req: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {

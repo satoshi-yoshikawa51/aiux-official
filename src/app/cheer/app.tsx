@@ -36,7 +36,9 @@ async function askServer(
   });
   if (res.status === 429) throw { code: "rate_limited" };
   if (!res.ok) return null;
-  const data = (await res.json()) as { lines?: unknown };
+  const data = (await res.json()) as { lines?: unknown; fallback?: boolean; reason?: string };
+  /* ストック降格の原因調査用（画面には出さない） */
+  if (data.fallback) console.debug("cheer: fallback", data.reason ?? "no_api_key");
   if (
     Array.isArray(data.lines) &&
     data.lines.length > 0 &&
