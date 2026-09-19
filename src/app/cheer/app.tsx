@@ -9,7 +9,6 @@
    ============================================================ */
 
 import { useEffect, useRef, useState } from "react";
-import { ShareRow } from "../site-ui";
 import { FEELS, WHYS, type Choice } from "./data";
 import { kotobaFor, type Kotoba } from "./quotes";
 import { PETS, type Pet } from "./pets";
@@ -17,10 +16,11 @@ import { PETS, type Pet } from "./pets";
 type Screen = "ask" | "result";
 type Phase = "thinking" | "play" | "after";
 
-/* 1文字あたりの間隔と、行間の溜め（ミリ秒） */
+/* 1文字あたりの間隔・行の読ませ時間・行が消えるフェード（ミリ秒） */
 const CHAR_MS = 90;
-const LINE_PAUSE_MS = 700;
-const START_DELAY_MS = 500;
+const LINE_HOLD_MS = 1000;
+const LINE_FADE_MS = 350;
+const START_DELAY_MS = 400;
 
 function pick<T>(arr: T[], avoid?: T | null): T {
   const pool = avoid ? arr.filter((x) => x !== avoid) : arr;
@@ -80,6 +80,81 @@ async function askServer(
   return null;
 }
 
+/* サイトのフッターと同じ「丸アイコン」のシェア列。
+   はてブはやめて主要SNSに。PhosphorにLINEのロゴグリフが無いので
+   （商標を描き直さない方針）、LINEだけ文字で出す。 */
+function CheerShare({ text, onCopied }: { text: string; onCopied: () => void }) {
+  const url = "https://comixai.dev/cheer";
+  const full = `${text} ${url}`;
+  const links = [
+    {
+      id: "x",
+      label: "X",
+      icon: <i className="ph-bold ph-x-logo" />,
+      href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+    },
+    {
+      id: "line",
+      label: "LINE",
+      icon: <span className="line-word">LINE</span>,
+      href: `https://line.me/R/share?text=${encodeURIComponent(full)}`,
+    },
+    {
+      id: "facebook",
+      label: "Facebook",
+      icon: <i className="ph-bold ph-facebook-logo" />,
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+    },
+    {
+      id: "threads",
+      label: "Threads",
+      icon: <i className="ph-bold ph-threads-logo" />,
+      href: `https://www.threads.net/intent/post?text=${encodeURIComponent(full)}`,
+    },
+  ];
+  return (
+    <div className="share-row">
+      {links.map((it) => (
+        <a
+          key={it.id}
+          className="share-btn"
+          href={it.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${it.label}でシェア`}
+          data-ga="share_click"
+          data-ga-network={it.id}
+          data-ga-path="/cheer"
+        >
+          <span className="share-circle">{it.icon}</span>
+          <span className="share-label">{it.label}</span>
+        </a>
+      ))}
+      <button
+        type="button"
+        className="share-btn"
+        aria-label="リンクをコピー"
+        data-ga="share_click"
+        data-ga-network="copy"
+        data-ga-path="/cheer"
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(full);
+            onCopied();
+          } catch {
+            /* コピーできない環境では何もしない */
+          }
+        }}
+      >
+        <span className="share-circle">
+          <i className="ph-bold ph-link" />
+        </span>
+        <span className="share-label">コピー</span>
+      </button>
+    </div>
+  );
+}
+
 function Chips({
   items,
   value,
@@ -115,7 +190,7 @@ export function CheerApp() {
   const [pet, setPet] = useState<Pet | null>(null);
   const [phase, setPhase] = useState<Phase>("thinking");
   const [sel, setSel] = useState<Selected | null>(null);
-  const [delays, setDelays] = useState<number[][]>([]); // 各文字のanimation-delay
+  const [cur, setCur] = useState<{ li: number; out: boolean }>({ li: 0, out: false }); // いま出している行
   const [msg, setMsg] = useState("");
 
   const ctlRef = useRef<AbortController | null>(null);
@@ -164,25 +239,26 @@ export function CheerApp() {
     selRef.current = picked;
     if (debug) setMsg(`でばっぐ：${picked.source}${picked.reason ? "/" + picked.reason : ""}`);
 
-    /* 1文字ずつのanimation-delayを組み立てる（行の間には溜めを入れる） */
-    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let t = reduce ? 0 : START_DELAY_MS;
-    const ds = picked.lines.map((line) => {
-      const arr = [...line].map(() => {
-        const d = t;
-        if (!reduce) t += CHAR_MS;
-        return d;
-      });
-      if (!reduce) t += LINE_PAUSE_MS;
-      return arr;
-    });
-    setDelays(ds);
     setSel(picked);
-    setPhase("play");
 
-    /* 全文が出きってひと呼吸おいたら、小さい全文＋シェアに切り替える */
-    await sleep(t + (reduce ? 400 : 1200), signal);
-    if (signal.aborted) return;
+    /* reduced-motion なら演出を飛ばして全文＋シェアへ */
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPhase("after");
+      return;
+    }
+
+    /* 1行ずつ：1文字ずつ出す → 読ませる → ふっと消す → 次の行 */
+    setCur({ li: 0, out: false });
+    setPhase("play");
+    for (let li = 0; li < picked.lines.length; li++) {
+      setCur({ li, out: false });
+      const chars = [...picked.lines[li]].length;
+      await sleep(START_DELAY_MS + chars * CHAR_MS + LINE_HOLD_MS, signal);
+      if (signal.aborted) return;
+      setCur({ li, out: true });
+      await sleep(LINE_FADE_MS, signal);
+      if (signal.aborted) return;
+    }
     setPhase("after");
   }
 
@@ -308,24 +384,20 @@ export function CheerApp() {
           />
           <div className="film-scrim" />
 
-          {/* 名言：顔より下に、1文字ずつゆっくり */}
+          {/* 名言：顔より下に、いまの1行だけを1文字ずつ。前の行は消す */}
           {phase !== "after" && (
             <div className="film-body">
               {phase === "thinking" || !sel ? (
                 <span className="dots">・・・</span>
               ) : (
-                <p className="film-lines">
-                  {sel.lines.map((line, li) => (
-                    <span key={li}>
-                      {[...line].map((ch, ci) => (
-                        <span
-                          key={ci}
-                          className="ch"
-                          style={{ animationDelay: `${delays[li]?.[ci] ?? 0}ms` }}
-                        >
-                          {ch === " " ? " " : ch}
-                        </span>
-                      ))}
+                <p key={cur.li} className={`film-lines${cur.out ? " out" : ""}`}>
+                  {[...(sel.lines[cur.li] ?? "")].map((ch, ci) => (
+                    <span
+                      key={ci}
+                      className="ch"
+                      style={{ animationDelay: `${START_DELAY_MS + ci * CHAR_MS}ms` }}
+                    >
+                      {ch === " " ? " " : ch}
                     </span>
                   ))}
                 </p>
@@ -338,10 +410,9 @@ export function CheerApp() {
             <div className="film-after">
               <p className="after-lines">{sel.lines.join("\n")}</p>
               <p className="after-credit">{creditFor(sel.who)}</p>
-              <ShareRow
-                path="/cheer"
-                text={`${sel.lines.join(" ")}（${creditFor(sel.who)}）`}
-                label="シェア→"
+              <CheerShare
+                text={`${sel.lines.join(" ")}（${creditFor(sel.who)}）| きょうの きみに`}
+                onCopied={() => setMsg("りんくを こぴーしたよ")}
               />
             </div>
           )}
