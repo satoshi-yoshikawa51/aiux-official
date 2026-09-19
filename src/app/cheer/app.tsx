@@ -22,12 +22,12 @@ function petSvg(p: Pet): string {
   return `<svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-label="${p.name}">${p.draw(p)}</svg>`;
 }
 
-/* /api/cheer に台詞をもらいに行く。降格すべきときは null、
+/* /api/cheer に台詞をもらいに行く。降格すべきときは lines:null＋理由、
    レート制限は {code:"rate_limited"} を投げる */
 async function askServer(
   payload: { feel: string; why: string; pet: string; quote: number; note: string },
   signal: AbortSignal,
-): Promise<string[] | null> {
+): Promise<{ lines: string[] | null; reason?: string }> {
   const res = await fetch("/api/cheer", {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -35,18 +35,19 @@ async function askServer(
     signal,
   });
   if (res.status === 429) throw { code: "rate_limited" };
-  if (!res.ok) return null;
+  if (!res.ok) return { lines: null, reason: `http_${res.status}` };
   const data = (await res.json()) as { lines?: unknown; fallback?: boolean; reason?: string };
-  /* ストック降格の原因調査用（画面には出さない） */
-  if (data.fallback) console.debug("cheer: fallback", data.reason ?? "no_api_key");
   if (
     Array.isArray(data.lines) &&
     data.lines.length > 0 &&
     data.lines.every((l) => typeof l === "string")
   ) {
-    return data.lines as string[];
+    return { lines: data.lines as string[] };
   }
-  return null;
+  /* ストック降格の原因調査用（?debug=1 のときだけ画面にも出す） */
+  const reason = data.reason ?? "no_api_key";
+  console.debug("cheer: fallback", reason);
+  return { lines: null, reason };
 }
 
 function Chips({
@@ -121,18 +122,23 @@ export function CheerApp() {
     setDone(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
 
+    const debug = new URLSearchParams(window.location.search).has("debug");
     let result: string[] | null = null;
     let source: "ai" | "stock" = "ai";
     try {
-      result = await askServer(
+      const r = await askServer(
         { feel, why, pet: p.id, quote: quoteIndex, note: note.trim() },
         signal,
       );
+      result = r.lines;
+      if (!result && debug) setMsg(`でばっぐ：${r.reason}`);
     } catch (e) {
       if (signal.aborted) return;
       source = "stock";
       if (e && typeof e === "object" && (e as { code?: string }).code === "rate_limited") {
         setMsg("いっぱい はなしたから すこし やすませてね");
+      } else if (debug) {
+        setMsg("でばっぐ：network");
       }
     }
     if (signal.aborted) return;
