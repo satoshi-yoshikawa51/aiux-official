@@ -1409,6 +1409,29 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  jev: {
+    caption: "文章を書かせて読み取る回り道を、まるごと省く",
+    render: () => (
+      <Svg h={310} title="Jevと従来のLLMの違いの図解">
+        <T x={300} y={32} text="これまで：文章を書かせてから、判断を取り出す" size={13} />
+        <B x={15} y={45} w={110} h={60} label={"アプリの\n状態"} />
+        <AH x1={130} x2={165} y={75} />
+        <B x={170} y={45} w={105} h={60} label={"LLM"} />
+        <AH x1={280} x2={315} y={75} />
+        <B x={320} y={45} w={120} h={60} label={"文章を生成"} />
+        <AH x1={445} x2={480} y={75} />
+        <B x={485} y={45} w={105} h={60} label={"判断を\n取り出す"} />
+        <T x={300} y={152} text="Jev：判断そのものを返す" size={13} />
+        <B x={15} y={165} w={110} h={60} label={"アプリの\n状態"} />
+        <AH x1={130} x2={200} y={195} />
+        <B x={205} y={165} w={130} h={60} label={"Jev"} sub="文章を書かない" fill={YELLOW} />
+        <AH x1={340} x2={395} y={195} />
+        <B x={400} y={165} w={190} h={60} label={"判断＋確からしさ"} sub="型の決まった値" />
+        <T x={300} y={258} text="一語ずつ書かせる工程が無いぶん、速くて安い" size={13.5} color={INK} />
+        <T x={300} y={288} text="ただし「型から外れない」だけで、判断を間違えないわけではない" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
