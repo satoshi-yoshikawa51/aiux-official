@@ -106,10 +106,71 @@ function sanitize(raw: unknown): CheerRequest | null {
   return { feel, why, pet, quote, note };
 }
 
-/* 診断用：AI生成が有効か（キーが設定されているか）だけ返す。
-   プレビュー環境でストック台詞ばかり出るときの切り分けに使う */
-export async function GET() {
-  return Response.json({ ai: Boolean(process.env.ANTHROPIC_API_KEY) });
+/* 生成本体。検証に落ちたら1回だけ引き直す（プロトタイプと同じ2回試行）。
+   失敗時は理由と、直近の生の出力（診断用）を返す */
+async function generateLines(
+  apiKey: string,
+  prompt: string,
+): Promise<{ lines?: string[]; reason?: string; raw?: string }> {
+  const client = new Anthropic({ apiKey });
+  let raw = "";
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const res = await client.messages.create({
+      model: MODEL,
+      max_tokens: 500,
+      messages: [{ role: "user", content: prompt }],
+    });
+    raw = res.content
+      .filter((c) => c.type === "text")
+      .map((c) => c.text)
+      .join("");
+    const lines = parseLines(raw);
+    if (valid(lines)) {
+      return { lines: lines.map((l) => l.trim()) };
+    }
+  }
+  return { reason: "invalid", raw: raw.slice(0, 300) };
+}
+
+function buildPrompt(input: CheerRequest): string {
+  const pet = PETS.find((p) => p.id === input.pet)!;
+  const quote = QUOTES[input.feel][input.quote];
+  return fill(RULES, {
+    pet: pet.name,
+    voice: pet.voice,
+    feel: FEELS.find((f) => f.id === input.feel)!.label,
+    why: WHYS.find((w) => w.id === input.why)!.label,
+    note: input.note || "（なし）",
+    who: quote.who,
+    gist: quote.gist,
+  });
+}
+
+/* 診断用：キーの有無を返す。?probe=1 なら固定入力で実際に1回生成し、
+   成功した台詞 or 失敗の理由（HTTPステータス・エラー種別・生出力）を返す。
+   プレビューでストック台詞ばかり出るときの切り分けに使う */
+export async function GET(req: Request) {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const ai = Boolean(apiKey);
+  if (!ai || !new URL(req.url).searchParams.has("probe")) {
+    return Response.json({ ai });
+  }
+  const prompt = buildPrompt({ feel: "sad", why: "none", pet: "inu", quote: 0, note: "" });
+  try {
+    const r = await generateLines(apiKey!, prompt);
+    return Response.json({ ai, probe: r.lines ? "ok" : r.reason, ...r });
+  } catch (e) {
+    if (e instanceof Anthropic.APIError) {
+      return Response.json({
+        ai,
+        probe: "api_error",
+        status: e.status,
+        error: e.name,
+        message: String(e.message).slice(0, 300),
+      });
+    }
+    return Response.json({ ai, probe: "api_error", error: String(e).slice(0, 300) });
+  }
 }
 
 export async function POST(req: Request) {
@@ -129,41 +190,17 @@ export async function POST(req: Request) {
     return Response.json({ error: "bad_request" }, { status: 400 });
   }
 
-  const pet = PETS.find((p) => p.id === input.pet)!;
-  const quote = QUOTES[input.feel][input.quote];
-  const prompt = fill(RULES, {
-    pet: pet.name,
-    voice: pet.voice,
-    feel: FEELS.find((f) => f.id === input.feel)!.label,
-    why: WHYS.find((w) => w.id === input.why)!.label,
-    note: input.note || "（なし）",
-    who: quote.who,
-    gist: quote.gist,
-  });
-
-  const client = new Anthropic({ apiKey });
   try {
-    /* 検証に落ちたら1回だけ引き直す（プロトタイプと同じ2回試行） */
-    for (let attempt = 0; attempt < 2; attempt++) {
-      const res = await client.messages.create({
-        model: MODEL,
-        max_tokens: 500,
-        messages: [{ role: "user", content: prompt }],
-      });
-      const text = res.content
-        .filter((c) => c.type === "text")
-        .map((c) => c.text)
-        .join("");
-      const lines = parseLines(text);
-      if (valid(lines)) {
-        return Response.json({ lines: lines.map((l) => l.trim()) });
-      }
+    const r = await generateLines(apiKey, buildPrompt(input));
+    if (r.lines) {
+      return Response.json({ lines: r.lines });
     }
-    return Response.json({ fallback: true, reason: "invalid" });
+    return Response.json({ fallback: true, reason: r.reason });
   } catch (e) {
     if (e instanceof Anthropic.RateLimitError) {
       return Response.json({ fallback: true, reason: "rate_limited" }, { status: 429 });
     }
-    return Response.json({ fallback: true, reason: "api_error" });
+    const status = e instanceof Anthropic.APIError ? e.status : undefined;
+    return Response.json({ fallback: true, reason: status ? `api_error_${status}` : "api_error" });
   }
 }
