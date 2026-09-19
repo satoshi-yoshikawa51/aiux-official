@@ -119,7 +119,7 @@ const EN_NOISE =
    AI専門カテゴリで EN_NOISE の除外だけで足りるので、採用条件からは外し、
    score() の加点にだけ使う */
 const EN_HARD =
-  /launch|unveil|release|announce|introduc|debut|roll(s|ed|ing)? out|raise|funding|valuation|acquir|acquisition|merger|partner|invest|ban|law|regulat|court|sue|lawsuit|settle|fine[ds]?|appoint|resign|layoff|cuts?|outage|leak|breach|record (profit|revenue|high)|billion|\$[0-9]|GPT-|Claude|Gemini|Llama|OpenAI|Anthropic|DeepMind|Nvidia|new model|update|expand|deal|report[s:]|study|pilot|test(s|ing) /i;
+  /launch|unveil|release|announce|introduc|debut|roll(s|ed|ing)? out|raise|funding|valuation|acquir|acquisition|merger|partner|invest|ban|law|regulat|court|sue|lawsuit|settle|fine[ds]?|appoint|resign|layoff|cuts?|outage|leak|breach|record (profit|revenue|high)|billion|\$[0-9]|GPT-|ChatGPT|Claude|Gemini|Llama|OpenAI|Anthropic|DeepMind|Nvidia|new (kind of )?(AI )?model|update|expand|deal|report[s:]|study|pilot|test(s|ing) /i;
 
 /* 「キャッチアップすべき動き」を示す語。並び順のスコアに使う */
 const IMPORTANT =
@@ -469,7 +469,7 @@ for (const a of screened) {
 
 /* 「大きなニュース」の指標：巨額・主要プレイヤー・主要モデル・規制/IPO */
 const MEGA =
-  /billion|\$\d+(\.\d+)?\s?(B|bn|billion)|OpenAI|Anthropic|Google|DeepMind|Meta|Microsoft|Nvidia|Apple|Amazon|xAI|GPT-\d|Claude|Gemini|Llama|Grok|EU\b|antitrust|White House|IPO|frontier model/i;
+  /billion|\$\d+(\.\d+)?\s?(B|bn|billion)|OpenAI|Anthropic|Google|DeepMind|Meta|Microsoft|Nvidia|Apple|Amazon|xAI|GPT-\d|ChatGPT|Claude|Gemini|Llama|Grok|EU\b|antitrust|White House|IPO|frontier model|new kind of/i;
 
 /* 見出しの「キャッチアップ価値」スコア。採用順・表示順に使う */
 function score(a) {
