@@ -192,6 +192,7 @@ export function CheerApp() {
   const [sel, setSel] = useState<Selected | null>(null);
   const [cur, setCur] = useState<{ li: number; out: boolean }>({ li: 0, out: false }); // いま出している行
   const [msg, setMsg] = useState("");
+  const [videoBusy, setVideoBusy] = useState(false); // 動画レンダリング中
 
   const ctlRef = useRef<AbortController | null>(null);
   const lastPetRef = useRef<Pet | null>(null);
@@ -268,12 +269,11 @@ export function CheerApp() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  /* いまの動画フレームを背景に、名言を載せた画像を保存する */
+  /* ポスター（動画の1フレーム目＝正面カット）を背景に、名言を載せた画像を保存する */
   async function saveImage() {
     const p = petRef.current;
     const s = selRef.current;
-    const video = videoRef.current;
-    if (!p || !s || !video) return;
+    if (!p || !s) return;
     const W = 1080;
     const H = 1350;
     const cv = document.createElement("canvas");
@@ -286,25 +286,18 @@ export function CheerApp() {
     } catch {
       /* 読めなくてもフォールバックフォントで描く */
     }
-    /* 動画フレームを cover でトリミングして敷く。動画がまだ読めていなければポスターで代用 */
-    let frame: CanvasImageSource = video;
-    let vw = video.videoWidth;
-    let vh = video.videoHeight;
-    if (video.readyState < 2 || !vw || !vh) {
-      const img = new Image();
-      await new Promise((res) => {
-        img.onload = res;
-        img.onerror = res;
-        img.src = p.poster;
-      });
-      frame = img;
-      vw = img.naturalWidth || 9;
-      vh = img.naturalHeight || 16;
-    }
+    const img = new Image();
+    await new Promise((res) => {
+      img.onload = res;
+      img.onerror = res;
+      img.src = p.poster;
+    });
+    const vw = img.naturalWidth || 9;
+    const vh = img.naturalHeight || 16;
     const scale = Math.max(W / vw, H / vh);
     const dw = vw * scale;
     const dh = vh * scale;
-    g.drawImage(frame, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    g.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
     /* 画面と同じく、下側に白のスクリム＋名言 */
     const grad = g.createLinearGradient(0, H * 0.42, 0, H);
     grad.addColorStop(0, "rgba(255,255,255,0)");
@@ -339,6 +332,167 @@ export function CheerApp() {
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 10_000);
     setMsg("ほぞんしたよ");
+  }
+
+  /* 名言アニメーション付きの縦動画（9:16）をブラウザ内で録画してシェアする。
+     Safariは mp4、Chrome系は WebM になる（MediaRecorderの仕様）。
+     シェアシートが使えない環境ではファイル保存に落とす */
+  async function makeVideo() {
+    const p = petRef.current;
+    const s = selRef.current;
+    const video = videoRef.current;
+    if (!p || !s || !video || videoBusy) return;
+    if (typeof MediaRecorder === "undefined") {
+      setMsg("この ぶらうざでは つくれなかった");
+      return;
+    }
+    const mime = [
+      "video/mp4;codecs=avc1.42E01E",
+      "video/mp4",
+      "video/webm;codecs=vp9",
+      "video/webm;codecs=vp8",
+      "video/webm",
+    ].find((c) => MediaRecorder.isTypeSupported(c));
+    if (!mime) {
+      setMsg("この ぶらうざでは つくれなかった");
+      return;
+    }
+    setVideoBusy(true);
+    setMsg("どうがを つくってるよ ……");
+    try {
+      await document.fonts.load("700 46px 'Zen Maru Gothic'");
+    } catch {
+      /* フォールバックフォントで描く */
+    }
+    video.play().catch(() => {});
+
+    const W = 720;
+    const H = 1280;
+    const cv = document.createElement("canvas");
+    cv.width = W;
+    cv.height = H;
+    const g = cv.getContext("2d")!;
+
+    /* 各行の表示スケジュール（画面のアニメーションと同じリズム） */
+    const CHAR_FADE = 550;
+    const lines = s.lines.map((line) => [...line]);
+    let t0 = 0;
+    const sched = lines.map((chars) => {
+      const start = t0;
+      const charsEnd = start + START_DELAY_MS + chars.length * CHAR_MS;
+      const holdEnd = charsEnd + LINE_HOLD_MS;
+      const fadeEnd = holdEnd + LINE_FADE_MS;
+      t0 = fadeEnd;
+      return { start, holdEnd, fadeEnd };
+    });
+    const TAIL = 1600; // 最後にクレジットを見せる時間
+    const total = t0 + TAIL;
+
+    const drawFrame = (t: number) => {
+      /* 背景：動画（読めない環境ではそのまま何も出ないがポスター色で埋める） */
+      g.fillStyle = "#F2ECFF";
+      g.fillRect(0, 0, W, H);
+      const vw = video.videoWidth || 0;
+      const vh = video.videoHeight || 0;
+      if (vw && vh) {
+        const scale = Math.max(W / vw, H / vh);
+        g.drawImage(video, (W - vw * scale) / 2, (H - vh * scale) / 2, vw * scale, vh * scale);
+      }
+      /* 下側スクリム */
+      const grad = g.createLinearGradient(0, H * 0.6, 0, H);
+      grad.addColorStop(0, "rgba(255,255,255,0)");
+      grad.addColorStop(0.7, "rgba(255,255,255,0.55)");
+      grad.addColorStop(1, "rgba(255,255,255,0.85)");
+      g.fillStyle = grad;
+      g.fillRect(0, H * 0.6, W, H * 0.4);
+      /* いまの行を1文字ずつ */
+      g.textAlign = "center";
+      const li = sched.findIndex((sc) => t < sc.fadeEnd);
+      if (li >= 0 && t >= sched[li].start) {
+        const sc = sched[li];
+        const chars = lines[li];
+        const fontSize = 46;
+        g.font = `700 ${fontSize}px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif`;
+        const lineAlpha = t > sc.holdEnd ? Math.max(0, 1 - (t - sc.holdEnd) / LINE_FADE_MS) : 1;
+        const lineRise = t > sc.holdEnd ? ((t - sc.holdEnd) / LINE_FADE_MS) * fontSize * 0.3 : 0;
+        const widths = chars.map((ch) => g.measureText(ch === " " ? " " : ch).width);
+        const totalW = widths.reduce((a, b) => a + b, 0);
+        let x = (W - totalW) / 2;
+        const y = H - 150 - lineRise;
+        chars.forEach((ch, ci) => {
+          const born = sc.start + START_DELAY_MS + ci * CHAR_MS;
+          const a = Math.min(1, Math.max(0, (t - born) / CHAR_FADE));
+          if (a > 0) {
+            g.globalAlpha = a * lineAlpha;
+            g.fillStyle = "#3B3350";
+            g.fillText(ch === " " ? " " : ch, x + widths[ci] / 2, y + (1 - a) * fontSize * 0.35);
+          }
+          x += widths[ci];
+        });
+        g.globalAlpha = 1;
+      }
+      /* 最後：クレジット */
+      if (t > t0) {
+        const a = Math.min(1, (t - t0) / 500);
+        g.globalAlpha = a;
+        g.fillStyle = "#3B3350";
+        g.font = "700 34px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
+        g.fillText(creditFor(s.who), W / 2, H - 170);
+        g.globalAlpha = 1;
+      }
+      /* 常時の小さなロゴ */
+      g.globalAlpha = 0.85;
+      g.fillStyle = "#6B6285";
+      g.font = "500 24px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
+      g.fillText("きょうの きみに", W / 2, H - 46);
+      g.globalAlpha = 1;
+    };
+
+    const stream = cv.captureStream(30);
+    const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 4_000_000 });
+    const chunks: Blob[] = [];
+    rec.ondataavailable = (e) => {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+    const stopped = new Promise<void>((res) => {
+      rec.onstop = () => res();
+    });
+    rec.start(500);
+    const begin = performance.now();
+    await new Promise<void>((res) => {
+      const tick = () => {
+        const t = performance.now() - begin;
+        drawFrame(t);
+        if (t >= total) return res();
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+    rec.stop();
+    await stopped;
+
+    const type = mime.startsWith("video/mp4") ? "video/mp4" : "video/webm";
+    const ext = type === "video/mp4" ? "mp4" : "webm";
+    const blob = new Blob(chunks, { type });
+    const file = new File([blob], `kyou-no-kimini-${p.id}.${ext}`, { type });
+    const shareText = `${s.lines.join(" ")}（${creditFor(s.who)}）| きょうの きみに https://comixai.dev/cheer`;
+    setVideoBusy(false);
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], text: shareText });
+        setMsg("");
+      } catch {
+        setMsg(""); /* シェアシートを閉じただけ */
+      }
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = file.name;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 10_000);
+      setMsg("どうがを ほぞんしたよ");
+    }
   }
 
   return (
@@ -414,6 +568,18 @@ export function CheerApp() {
                 text={`${sel.lines.join(" ")}（${creditFor(sel.who)}）| きょうの きみに`}
                 onCopied={() => setMsg("りんくを こぴーしたよ")}
               />
+              <button
+                type="button"
+                className="video-share-btn"
+                disabled={videoBusy}
+                onClick={makeVideo}
+                data-ga="share_click"
+                data-ga-network="video"
+                data-ga-path="/cheer"
+              >
+                <i className="ph-bold ph-film-strip" style={{ marginRight: 6 }} />
+                {videoBusy ? "つくってるよ ……" : "どうがで シェア"}
+              </button>
             </div>
           )}
 
