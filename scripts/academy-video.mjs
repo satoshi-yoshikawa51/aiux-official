@@ -125,7 +125,7 @@ const CUTS = [
        落ちた瞬間に白く飛ばしてホームへ繋ぐ（flash）。
        アプリの「遊べる」が、テロップを読む前に絵で伝わる。 */
     shots: [
-      { clip: "5-gacha.mp4", in: 4.25, out: 6.65 }, // 押す→玉が回る→カプセルが落ちる
+      { clip: "5-gacha.mp4", in: 4.6, out: 6.65 }, // 押した瞬間→玉が回る→カプセルが落ちる
       { clip: "1-home.mp4", in: 2.5, out: 4.8, flash: 0.18 }, // パッと光ってホームへ
     ],
     kicker: "NEW — iPhone / iPad",
@@ -186,6 +186,27 @@ const shotXfade = (sh) => sh.flash ?? SHOT_XFADE;
 const shotSec = (sh) => (sh.out - sh.in) / (sh.speed ?? 1);
 const cutSec = (c) =>
   c.shots.reduce((n, sh, i) => n + shotSec(sh) - (i > 0 ? shotXfade(sh) : 0), 0);
+
+/* ▍光は画面の中だけでは足りない
+
+   端末の中だけを白くしても、まわりの黒い板が暗いままなので
+   「パッと光った」に見えない。**板ごと白く飛ばす**ために、
+   つなぎがカットの何秒目に来るかをここで出して、2-b で全面に
+   白を重ねる。テロップの下に入れるので、文字は白飛びしない。 */
+const FLASH_FALL = 0.13; // 光ってから消えるまで（立ち上がりはつなぎの半分）
+/* 0.22秒だと、白いあとに灰色の膜が残って「閃光」ではなく「幕」に見えた */
+function flashesOf(cut) {
+  const out = [];
+  let acc = shotSec(cut.shots[0]);
+  for (let n = 1; n < cut.shots.length; n++) {
+    const sh = cut.shots[n];
+    const dur = shotXfade(sh);
+    /* 画面の中が真っ白になるのは、つなぎのまんなか。そこへ山を合わせる */
+    if (sh.flash) out.push({ peak: acc - dur / 2, rise: dur / 2 });
+    acc += shotSec(sh) - dur;
+  }
+  return out;
+}
 const TOTAL_SEC = CUTS.reduce((n, c) => n + cutSec(c), 0) - (CUTS.length - 1) * XFADE_SEC;
 
 const exists = async (p) => {
@@ -666,10 +687,22 @@ for (const [i, cut] of CUTS.entries()) {
     /* きらめきは端末より後ろ（→ sparkleHtml の覚え書き） */
     `[1:v][3:v]overlay=0:0:format=auto[bg]`,
     `[bg][vr]overlay=${PHONE_X}:${PHONE_Y}:format=auto[base]`,
+    /* 板ごと白く飛ばす層（→ flashesOf の覚え書き）。
+       立ち上がりは一瞬、落ちは少し尾を引かせると「閃光」に見える */
+    ...flashesOf(cut).flatMap((f, n) => {
+      const src = n === 0 ? "base" : `fl${n - 1}`;
+      const dst = n === flashesOf(cut).length - 1 ? "lit" : `fl${n}`;
+      return [
+        `color=white:s=${W}x${H}:r=${FPS}:d=${dur.toFixed(3)},format=yuva420p,` +
+          `fade=t=in:st=${(f.peak - f.rise).toFixed(3)}:d=${f.rise.toFixed(3)}:alpha=1,` +
+          `fade=t=out:st=${f.peak.toFixed(3)}:d=${FLASH_FALL}:alpha=1[w${n}]`,
+        `[${src}][w${n}]overlay=0:0:format=auto[${dst}]`,
+      ];
+    }),
     /* テロップは頭の ANIM_SEC ぶんしか撮っていないので、
        最後のコマを尺の終わりまで引き伸ばす（tpad の clone） */
     `[4:v]tpad=stop_mode=clone:stop_duration=${Math.ceil(dur)},format=rgba[txt]`,
-    `[base][txt]overlay=0:0:format=auto[out]`,
+    `[${flashesOf(cut).length ? "lit" : "base"}][txt]overlay=0:0:format=auto[out]`,
   ].join(";");
 
   execFileSync(
