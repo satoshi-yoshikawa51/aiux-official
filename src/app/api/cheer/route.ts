@@ -13,23 +13,6 @@ import { PETS } from "../../cheer/pets";
 
 const MODEL = "claude-haiku-4-5";
 
-/* —— 簡易レートリミット（インスタンス内メモリ・ベストエフォート）——
-   同一IPで1分5回まで。uketsuke/search と同じ方式 */
-const RATE_WINDOW_MS = 60 * 1000;
-const RATE_MAX = 5;
-const hits = new Map<string, { n: number; t: number }>();
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const h = hits.get(ip);
-  if (!h || now - h.t > RATE_WINDOW_MS) {
-    hits.set(ip, { n: 1, t: now });
-    return false;
-  }
-  h.n += 1;
-  if (hits.size > 5000) hits.clear(); // 念のためのメモリ保険
-  return h.n > RATE_MAX;
-}
-
 /* プロンプト。プレースホルダは fill() で埋める（プロトタイプのRULESそのまま） */
 const RULES = `あなたは、落ち込んだ人のそばにいる小さなペットです。役は「\${pet}」。
 性格：\${voice}
@@ -133,11 +116,6 @@ export async function POST(req: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return Response.json({ fallback: true });
-  }
-
-  const ip = (req.headers.get("x-forwarded-for") || "unknown").split(",")[0].trim();
-  if (rateLimited(ip)) {
-    return Response.json({ fallback: true, reason: "rate_limited" }, { status: 429 });
   }
 
   let body: unknown;
