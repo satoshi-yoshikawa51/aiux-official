@@ -52,23 +52,29 @@ const RULES = `あなたは、落ち込んだ人のそばにいる小さなペ�
 - ひとこと：\${note}
 使う名言（\${who}）：\${gist}
 
-出力は JSON だけ。{"lines":["…","…"]} の形。他の文章は書かない。`;
+出力は JSON だけ。{"lines":["…","…"]} の形。コードブロック（\`\`\`）で囲まない。他の文章は書かない。`;
 
 function fill(t: string, m: Record<string, string>): string {
   return t.replace(/\$\{(\w+)\}/g, (_, k) => m[k] ?? "");
 }
 
-/* 生成結果の検証（プロトタイプの valid() そのまま） */
+/* 生成結果の検証。文字数上限はお手本の最長行（12文字）が通るよう14に緩めてある
+   （プロトタイプの10だと、お手本に倣った出力が落ち続ける矛盾があった） */
+const MAX_LINE_CHARS = 14;
 function valid(lines: unknown): lines is string[] {
   if (!Array.isArray(lines) || lines.length < 3 || lines.length > 7) return false;
-  return lines.every((l) => {
-    if (typeof l !== "string") return false;
-    const s = l.trim();
-    if (!s || s.replace(/\s/g, "").length > 10) return false;
-    if (/[一-鿿]/.test(s)) return false;
-    if (/(がんばって|がんばれ|だから|つまり)/.test(s)) return false;
-    return true;
-  });
+  return lines.every((l) => lineIssue(l) === null);
+}
+
+/* 1行が検証に落ちる理由を返す（診断でも使う）。問題なければ null */
+function lineIssue(l: unknown): string | null {
+  if (typeof l !== "string") return "not_string";
+  const s = l.trim();
+  if (!s) return "empty";
+  if (s.replace(/\s/g, "").length > MAX_LINE_CHARS) return `too_long(${s.replace(/\s/g, "").length})`;
+  if (/[一-鿿]/.test(s)) return "kanji";
+  if (/(がんばって|がんばれ|だから|つまり)/.test(s)) return "banned_word";
+  return null;
 }
 
 /* 返答本文（JSONのみのはず）から lines を取り出す。コードフェンス混入にも耐える */
@@ -111,7 +117,7 @@ function sanitize(raw: unknown): CheerRequest | null {
 async function generateLines(
   apiKey: string,
   prompt: string,
-): Promise<{ lines?: string[]; reason?: string; raw?: string }> {
+): Promise<{ lines?: string[]; reason?: string; raw?: string; issues?: (string | null)[] }> {
   const client = new Anthropic({ apiKey });
   let raw = "";
   for (let attempt = 0; attempt < 2; attempt++) {
@@ -129,7 +135,10 @@ async function generateLines(
       return { lines: lines.map((l) => l.trim()) };
     }
   }
-  return { reason: "invalid", raw: raw.slice(0, 300) };
+  /* 診断用に、どの行がどのルールで落ちたかも添える */
+  const parsed = parseLines(raw);
+  const issues = Array.isArray(parsed) ? parsed.map((l) => lineIssue(l)) : ["no_lines_array"];
+  return { reason: "invalid", raw: raw.slice(0, 300), issues };
 }
 
 function buildPrompt(input: CheerRequest): string {
@@ -149,19 +158,26 @@ function buildPrompt(input: CheerRequest): string {
 /* 診断用：キーの有無を返す。?probe=1 なら固定入力で実際に1回生成し、
    成功した台詞 or 失敗の理由（HTTPステータス・エラー種別・生出力）を返す。
    プレビューでストック台詞ばかり出るときの切り分けに使う */
+/* ブラウザ直開きでも日本語が化けないよう charset を明示する */
+function jsonUtf8(data: unknown): Response {
+  return new Response(JSON.stringify(data, null, 1), {
+    headers: { "content-type": "application/json; charset=utf-8" },
+  });
+}
+
 export async function GET(req: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   const ai = Boolean(apiKey);
   if (!ai || !new URL(req.url).searchParams.has("probe")) {
-    return Response.json({ ai });
+    return jsonUtf8({ ai });
   }
   const prompt = buildPrompt({ feel: "sad", why: "none", pet: "inu", quote: 0, note: "" });
   try {
     const r = await generateLines(apiKey!, prompt);
-    return Response.json({ ai, probe: r.lines ? "ok" : r.reason, ...r });
+    return jsonUtf8({ ai, probe: r.lines ? "ok" : r.reason, ...r });
   } catch (e) {
     if (e instanceof Anthropic.APIError) {
-      return Response.json({
+      return jsonUtf8({
         ai,
         probe: "api_error",
         status: e.status,
@@ -169,7 +185,7 @@ export async function GET(req: Request) {
         message: String(e.message).slice(0, 300),
       });
     }
-    return Response.json({ ai, probe: "api_error", error: String(e).slice(0, 300) });
+    return jsonUtf8({ ai, probe: "api_error", error: String(e).slice(0, 300) });
   }
 }
 
