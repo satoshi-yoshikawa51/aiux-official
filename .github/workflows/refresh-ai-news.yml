@@ -15,7 +15,7 @@ on:
   # 開発ブランチではスクリプト/ワークフロー変更のpushでも起動する
   push:
     branches:
-      - "claude/fable-content-strategy-ho65di"
+      - "claude/comixai-news-logic-review-nctc2c"
     paths:
       - "scripts/fetch-ai-news.mjs"
       - ".github/workflows/refresh-ai-news.yml"
