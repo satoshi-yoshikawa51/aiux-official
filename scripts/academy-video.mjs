@@ -125,8 +125,16 @@ const CUTS = [
        落ちた瞬間に白く飛ばしてホームへ繋ぐ（flash）。
        アプリの「遊べる」が、テロップを読む前に絵で伝わる。 */
     shots: [
-      { clip: "5-gacha.mp4", in: 4.6, out: 6.65 }, // 押した瞬間→玉が回る→カプセルが落ちる
-      { clip: "1-home.mp4", in: 2.5, out: 4.8, flash: 0.18 }, // パッと光ってホームへ
+      /* **1コマ目から動いていること**が大事。玉が回っている途中から
+         入り、カプセルが落ちたら受け口に寄る（zoom）。止まった絵で
+         始めると、そこで指が動く */
+      {
+        clip: "5-gacha.mp4",
+        in: 5.15,
+        out: 6.75, // 玉が回る → カプセルが落ちる
+        zoom: { start: 0.75, to: 1.75, cx: 0.5, cy: 0.66 }, // 受け口のカプセルへ
+      },
+      { clip: "1-home.mp4", in: 2.5, out: 5.0, flash: 0.18 }, // 白く飛んでホームへ
     ],
     kicker: "NEW — iPhone / iPad",
     lines: ["遊んで学べるAI学習アプリ", "登場！"],
@@ -193,19 +201,28 @@ const cutSec = (c) =>
    「パッと光った」に見えない。**板ごと白く飛ばす**ために、
    つなぎがカットの何秒目に来るかをここで出して、2-b で全面に
    白を重ねる。テロップの下に入れるので、文字は白飛びしない。 */
-const FLASH_FALL = 0.13; // 光ってから消えるまで（立ち上がりはつなぎの半分）
-/* 0.22秒だと、白いあとに灰色の膜が残って「閃光」ではなく「幕」に見えた */
-function flashesOf(cut) {
-  const out = [];
-  let acc = shotSec(cut.shots[0]);
-  for (let n = 1; n < cut.shots.length; n++) {
-    const sh = cut.shots[n];
-    const dur = shotXfade(sh);
-    /* 画面の中が真っ白になるのは、つなぎのまんなか。そこへ山を合わせる */
-    if (sh.flash) out.push({ peak: acc - dur / 2, rise: dur / 2 });
-    acc += shotSec(sh) - dur;
-  }
-  return out;
+/* ▍寄り（shot の `zoom`）
+
+   `{ start: 秒, to: 倍率, cx, cy }` で、ショートの途中から
+   （cx, cy）＝画面を0〜1で見た位置へ寄っていく。
+
+   zoompan は入力の解像度のまま動かすと、寄りの途中で1px単位の
+   ガタつきが出る。**先に2倍に伸ばしてから**зoompanに渡して、
+   出口で端末の大きさへ戻すと滑らかになる。
+   時刻は `on`（出力コマ番号）で数える——`in_time` は環境によって
+   使えないことがある。 */
+function zoomChain(sh) {
+  if (!sh.zoom) return "";
+  const { start = 0, to = 1.6, cx = 0.5, cy = 0.5 } = sh.zoom;
+  const f0 = Math.round(start * FPS);
+  const fSpan = Math.max(1, Math.round((shotSec(sh) - start) * FPS));
+  const z = `min(1+${(to - 1).toFixed(3)}*max(0\\,on-${f0})/${fSpan}\\,${to})`;
+  return (
+    `,scale=${PHONE_W * 2}:${PHONE_H * 2}` +
+    `,zoompan=z='${z}':d=1:fps=${FPS}:s=${PHONE_W}x${PHONE_H}` +
+    `:x='max(0\\,min(iw-iw/zoom\\,iw*${cx}-(iw/zoom)/2))'` +
+    `:y='max(0\\,min(ih-ih/zoom\\,ih*${cy}-(ih/zoom)/2))'`
+  );
 }
 const TOTAL_SEC = CUTS.reduce((n, c) => n + cutSec(c), 0) - (CUTS.length - 1) * XFADE_SEC;
 
@@ -645,7 +662,9 @@ for (const [i, cut] of CUTS.entries()) {
     parts.push(
       `[${n}:v]fps=${FPS},crop=${SRC_W}:${CROP_H}:0:${SB_CROP},scale=${PHONE_W}:${PHONE_H}` +
         (speed === 1 ? "" : `,setpts=PTS/${speed}`) +
-        `,setpts=PTS-STARTPTS[s${n}]`
+        `,setpts=PTS-STARTPTS` +
+        zoomChain(sh) +
+        `[s${n}]`
     );
   });
   let chain = parts.join(";");
@@ -687,22 +706,13 @@ for (const [i, cut] of CUTS.entries()) {
     /* きらめきは端末より後ろ（→ sparkleHtml の覚え書き） */
     `[1:v][3:v]overlay=0:0:format=auto[bg]`,
     `[bg][vr]overlay=${PHONE_X}:${PHONE_Y}:format=auto[base]`,
-    /* 板ごと白く飛ばす層（→ flashesOf の覚え書き）。
-       立ち上がりは一瞬、落ちは少し尾を引かせると「閃光」に見える */
-    ...flashesOf(cut).flatMap((f, n) => {
-      const src = n === 0 ? "base" : `fl${n - 1}`;
-      const dst = n === flashesOf(cut).length - 1 ? "lit" : `fl${n}`;
-      return [
-        `color=white:s=${W}x${H}:r=${FPS}:d=${dur.toFixed(3)},format=yuva420p,` +
-          `fade=t=in:st=${(f.peak - f.rise).toFixed(3)}:d=${f.rise.toFixed(3)}:alpha=1,` +
-          `fade=t=out:st=${f.peak.toFixed(3)}:d=${FLASH_FALL}:alpha=1[w${n}]`,
-        `[${src}][w${n}]overlay=0:0:format=auto[${dst}]`,
-      ];
-    }),
+    /* ▍光らせるのは端末の中だけ
+       板ごと白く飛ばす案も試したが、画面全体が真っ白になるのは強すぎた。
+       スマホの画面が光るだけで、暗い板との差で十分「パッ」と見える */
     /* テロップは頭の ANIM_SEC ぶんしか撮っていないので、
        最後のコマを尺の終わりまで引き伸ばす（tpad の clone） */
     `[4:v]tpad=stop_mode=clone:stop_duration=${Math.ceil(dur)},format=rgba[txt]`,
-    `[${flashesOf(cut).length ? "lit" : "base"}][txt]overlay=0:0:format=auto[out]`,
+    `[base][txt]overlay=0:0:format=auto[out]`,
   ].join(";");
 
   execFileSync(
