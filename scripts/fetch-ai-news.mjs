@@ -390,7 +390,12 @@ async function judgeAiNewsWithClaude(titles) {
       },
       body: JSON.stringify({
         model: "claude-opus-5",
-        max_tokens: 1500,
+        /* Opus 5は思考（thinking）が既定でONで、思考分もmax_tokensを消費する。
+           1500では100本前後の判定の思考中に尽きて、配列を書く前に切れて全滅した
+           （2026-09-20のCIログで確認）。単純な判定なのでeffortを低くしつつ、
+           枠は思考込みで余裕を持たせる */
+        max_tokens: 8000,
+        output_config: { effort: "low" },
         system:
           "あなたはAIニュース欄の編集者。見出しごとに「AI（人工知能）分野の動きのキャッチアップに役立つか」を判定する。" +
           "採用（true）: 新モデル・新製品・新サービス・新企業の登場、発表・提携・買収・調達・規制・障害などの出来事、新しく話題になっているAIプロダクトや技術の解説。" +
@@ -405,17 +410,30 @@ async function judgeAiNewsWithClaude(titles) {
         ],
       }),
     });
-    if (!res.ok) return null;
+    /* 失敗の理由をログに残す（次に壊れたとき、CIログだけで切り分けられるように） */
+    if (!res.ok) {
+      console.log(`  AI判定: APIエラー HTTP ${res.status}`);
+      return null;
+    }
     const data = await res.json();
+    if (data.stop_reason === "max_tokens") {
+      console.log("  AI判定: 応答がmax_tokensで途切れた（max_tokensを増やすこと）");
+    }
     const text = (data.content || [])
       .filter((b) => b.type === "text")
       .map((b) => b.text)
       .join("");
     const m = text.match(/\[[\s\S]*\]/);
     const arr = JSON.parse(m ? m[0] : text);
-    if (!Array.isArray(arr) || arr.length !== titles.length) return null;
+    if (!Array.isArray(arr) || arr.length !== titles.length) {
+      console.log(
+        `  AI判定: 応答の本数が不一致（${Array.isArray(arr) ? arr.length : "配列以外"} / ${titles.length}本）`
+      );
+      return null;
+    }
     return arr.map(Boolean);
-  } catch {
+  } catch (e) {
+    console.log(`  AI判定: 失敗（${e.message}）`);
     return null;
   }
 }
