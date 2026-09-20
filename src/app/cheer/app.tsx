@@ -83,21 +83,17 @@ async function askServer(
 /* サイトのフッターと同じ「丸アイコン」のシェア列。
    はてブはやめて主要SNSに。PhosphorにLINEのロゴグリフが無いので
    （商標を描き直さない方針）、LINEだけ文字で出す。
-   スマホで動画ができていれば、アイコンタップで「動画付きの
-   シェアシート」を開く（Webの仕様上、各SNSのシェアURLには
-   ファイルを添付できないため）。PCや動画未完成時はリンクシェア。 */
+   アイコンは各SNSの投稿画面へワンタップ直行（投稿には
+   /cheer/k/ のOGPカードが付く）。動画ファイルを載せたい人は
+   「どうがで シェア」からシェアシートで */
 function CheerShare({
   text,
   url,
-  getVideo,
   onCopied,
-  onGuide,
 }: {
   text: string;
   url: string;
-  getVideo: () => File | null | "error";
   onCopied: () => void;
-  onGuide: (label: string) => void;
 }) {
   const full = `${text} ${url}`;
   const links = [
@@ -139,19 +135,6 @@ function CheerShare({
           data-ga="share_click"
           data-ga-network={it.id}
           data-ga-path="/cheer"
-          onClick={(e) => {
-            /* 動画ができていて、シェアシートが使える環境なら動画付きで */
-            const f = getVideo();
-            if (
-              f instanceof File &&
-              navigator.canShare &&
-              navigator.canShare({ files: [f] })
-            ) {
-              e.preventDefault();
-              onGuide(it.label);
-              navigator.share({ files: [f], text: full }).catch(() => {});
-            }
-          }}
         >
           <span className="share-circle">{it.icon}</span>
           <span className="share-label">{it.label}</span>
@@ -619,9 +602,7 @@ export function CheerApp() {
               <CheerShare
                 text={`${sel.lines.join(" ")}（${creditFor(sel.who)}）| きょうの きみに`}
                 url={`https://comixai.dev/cheer/k/${sel.id}`}
-                getVideo={() => videoFileRef.current}
                 onCopied={() => setMsg("りんくを こぴーしたよ")}
-                onGuide={(label) => setMsg(`しーとから ${label} を えらんでね`)}
               />
               <button
                 type="button"
