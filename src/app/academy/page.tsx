@@ -244,11 +244,20 @@ const SAFETY: { icon: string; title: string; body: string }[] = [
 ];
 
 /* —— CTAブロック。ページ内で2回使うので部品にしてある —— */
-function Cta({ place, dark = false }: { place: string; dark?: boolean }) {
+function Cta({ place, dark = false, center = false }: { place: string; dark?: boolean; center?: boolean }) {
   const note = dark ? "rgba(251,247,239,.72)" : "var(--text-muted)";
+  /* center は締めのカードだけ。バッジと「iPhone / iPad・無料」までを
+     ひとかたまりと見て、その塊ごと中央に置く */
+  const row: React.CSSProperties = {
+    display: "flex",
+    gap: 10,
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: center ? "center" : "flex-start",
+  };
   if (APP_STORE_URL) {
     return (
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+      <div style={row}>
         {/* ▍ここはサイトのボタンを使わない
             Apple公式のバッジをそのまま置く決まりなので、太い黒枠も
             ポップシャドウも足さない（→ ./store.tsx） */}
@@ -261,7 +270,7 @@ function Cta({ place, dark = false }: { place: string; dark?: boolean }) {
     );
   }
   return (
-    <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+    <div style={row}>
       <span
         style={{
           display: "inline-flex",
@@ -648,12 +657,13 @@ export default function AcademyPage() {
               通勤の5分で、AIと働く自分に追いつく。登録もお金もかかりません。
               {!APP_STORE_URL && <>（いまはApp Storeの審査中です。公開されたら、このページにダウンロードのボタンが出ます）</>}
             </p>
-            <Cta place="footer" />
+            <Cta place="footer" center />
           </div>
 
           {/* ▍サイト本体への回遊
 
-              アプリはきっかけで、続きはサイトにある——という並びで出す。
+              アプリを入口として売り込むのではなく、**アプリの元がこのサイト**だと言う。
+              そのほうが「もっとある」が伝わる。
               前はボタンを4つ並べただけで、押す理由が書いていなかった。
               **何が読めるのかを1行ずつ添える**ほうが押される。
               先頭はマンガ。ここがいちばんCOMIXAIらしく、他所と違う */}
@@ -663,8 +673,8 @@ export default function AcademyPage() {
               もっと面白く、AIを学びたいなら
             </h2>
             <p style={{ margin: "0 0 16px", fontSize: 13.5, lineHeight: 1.95, color: "var(--text-body)" }}>
-              アプリは入口です。<b>COMIXAI</b> には、マンガで読む・用語で引く・そのまま使える指示文を真似る——
-              続きがあります。<b>どれも登録なしで、全部無料。</b>
+              {/* 改行するとJSXが空白を1つ入れてしまうので、文は1行で持つ */}
+              このアプリの元になったサイト <b>COMIXAI</b> には、マンガで読む・用語で引く・そのまま使える指示文を真似る——アプリの先の続きがあります。<b>どれも登録なしで、全部無料。</b>
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(214px, 1fr))", gap: 10 }}>
               {MORE.map((m) => (
@@ -690,9 +700,10 @@ export default function AcademyPage() {
                 </a>
               ))}
             </div>
-            <div style={{ marginTop: 14 }}>
+            {/* カードの中でいちばん押してほしいのがこれ。赤・中央に置く */}
+            <div style={{ marginTop: 16, display: "flex", justifyContent: "center" }}>
               <a href="/" data-ga="cta_click" data-ga-place="academy-more" data-ga-path="/" style={{ textDecoration: "none" }}>
-                <Button variant="ink" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>COMIXAI のトップを見る</Button>
+                <Button variant="primary" iconRight={<i className="ph-bold ph-arrow-right" />}>COMIXAI のトップを見る</Button>
               </a>
             </div>
           </div>
