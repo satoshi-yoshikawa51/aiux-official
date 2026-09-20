@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Footer, PAGE } from "../site-chrome";
+import { Footer, Nav, PAGE } from "../site-chrome";
 import { Badge, Button } from "../ds";
 import { ShareRow } from "../site-ui";
 import { MvVideo, Reveal, ScrollStage, StickyCta, TryPhone } from "./parts";
@@ -8,11 +8,12 @@ import { APP_STORE_URL, AppStoreBadge } from "./store";
 /* ============================================================
    スマホアプリ「COMIXAI アカデミー」の紹介ページ（宣伝LP）。
 
-   ▍ここだけヘッダーとパンくずを出さない
-   サイトの他のページと違い、これは**1本で完結させる宣伝ページ**。
-   上にナビを置くと、読み始めた人がすぐ他所へ逃げられる導線になって
-   しまう。回遊はページの終わりでまとめて出す。フッターは、
-   プライバシーポリシーとサポートへの動線が要るので残す。
+   ▍ヘッダーは出す（パンくずは出さない）
+   はじめは「1本で完結させる宣伝ページ」として上のナビを外していた。
+   読み始めた人がすぐ他所へ逃げる導線になるのを避けたかったため。
+   **いまは出している**——アプリを知った人に「作っている人／他の
+   コンテンツ」まで見てもらうほうが、結局この場所の値打ちが高い。
+   パンくずは宣伝ページに要らないので引き続き出さない。
 
    ▍背景の動画は2本ある
    - MV … ヒーローの中だけで回る。暗く落として文字の下敷きにする
@@ -205,6 +206,36 @@ const COURSES: { icon: string; title: string; n: number; desc: string }[] = [
   { icon: "ph-rocket-launch", title: "これからのAI", n: 3, desc: "一問一答の次に来る話。ここまで来たら、もう詳しい人の側だ。" },
 ];
 
+/* —— 締めに出す、サイト本体への回遊先 ——
+   マンガを先頭に置く。**そこがこのサイトの他所と違うところ**で、
+   「アプリの次」を探している人にいちばん効く */
+const MORE: { icon: string; title: string; desc: string; href: string }[] = [
+  {
+    icon: "ph-book-open-text",
+    title: "マンガで学ぶAI活用",
+    desc: "週刊少年チャンピオンで連載した漫画家が描く、AIの入門マンガ。",
+    href: "/manga",
+  },
+  {
+    icon: "ph-list-magnifying-glass",
+    title: "AI用語集 150語",
+    desc: "「なんとなく」で流していた言葉を、図と例で引ける。",
+    href: "/glossary",
+  },
+  {
+    icon: "ph-clipboard-text",
+    title: "プロンプト集 24レシピ",
+    desc: "コピーして貼るだけ。仕事でそのまま使える指示文。",
+    href: "/prompts",
+  },
+  {
+    icon: "ph-flag-banner",
+    title: "AIのはじめかた",
+    desc: "何から手をつけるか迷ったら、この順番で。",
+    href: "/start",
+  },
+];
+
 /* —— 「安心して使える」の3点。プライバシーポリシーと一対 —— */
 const SAFETY: { icon: string; title: string; body: string }[] = [
   { icon: "ph-user-circle-dashed", title: "登録なし", body: "アカウントもメールアドレスも要りません。ひらいた瞬間から始められます。" },
@@ -286,6 +317,11 @@ function Head({ kicker, title, hand }: { kicker: string; title: string; hand?: s
 export default function AcademyPage() {
   return (
     <div style={{ position: "relative" }}>
+      {/* サイト共通のヘッダー。貼りつくので、MVの上にも乗る */}
+      <div style={{ position: "relative", zIndex: 61 }}>
+        <Nav home={false} />
+      </div>
+
       {/* ═══════════ MV ═══════════ */}
       {/* id は、下に貼りつく帯が「MVが見えているか」を見るための目印
           （→ parts.tsx の StickyCta） */}
@@ -615,27 +651,48 @@ export default function AcademyPage() {
             <Cta place="footer" />
           </div>
 
-          {/* サイト本体への回遊は、ここでまとめて出す（→ 冒頭の覚え書き） */}
-          <div style={{ marginTop: 16, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-lg)", background: "var(--paper-0)", padding: "18px 20px", boxShadow: "var(--shadow-pop-sm)" }}>
-            <h2 style={{ margin: "0 0 7px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(16px,2.4vw,21px)" }}>
-              <i className="ph-bold ph-browser" style={{ marginRight: 8, color: "var(--red-500)" }} />
-              ブラウザでも学べます
+          {/* ▍サイト本体への回遊
+
+              アプリはきっかけで、続きはサイトにある——という並びで出す。
+              前はボタンを4つ並べただけで、押す理由が書いていなかった。
+              **何が読めるのかを1行ずつ添える**ほうが押される。
+              先頭はマンガ。ここがいちばんCOMIXAIらしく、他所と違う */}
+          <div style={{ marginTop: 16, border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-lg)", background: "var(--paper-0)", padding: "20px 22px", boxShadow: "var(--shadow-pop-sm)" }}>
+            <h2 style={{ margin: "0 0 8px", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(17px,2.6vw,23px)", lineHeight: 1.4 }}>
+              <i className="ph-bold ph-books" style={{ marginRight: 8, color: "var(--red-500)" }} />
+              もっと面白く、AIを学びたいなら
             </h2>
-            <p style={{ margin: "0 0 11px", fontSize: 13.5, lineHeight: 1.9 }}>
-              このアプリのもとになっている学習コンテンツは、サイト側にもあります。用語集150語、プロンプト集24レシピ、体験ゲーム——全部無料です。
+            <p style={{ margin: "0 0 16px", fontSize: 13.5, lineHeight: 1.95, color: "var(--text-body)" }}>
+              アプリは入口です。<b>COMIXAI</b> には、マンガで読む・用語で引く・そのまま使える指示文を真似る——
+              続きがあります。<b>どれも登録なしで、全部無料。</b>
             </p>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <a href="/start" style={{ textDecoration: "none" }}>
-                <Button variant="ink" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>AIのはじめかた</Button>
-              </a>
-              <a href="/glossary" style={{ textDecoration: "none" }}>
-                <Button variant="secondary" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>AI用語集</Button>
-              </a>
-              <a href="/prompts" style={{ textDecoration: "none" }}>
-                <Button variant="secondary" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>プロンプト集</Button>
-              </a>
-              <a href="/" style={{ textDecoration: "none" }}>
-                <Button variant="ghost" size="sm" iconRight={<i className="ph-bold ph-house" />}>COMIXAI トップ</Button>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(214px, 1fr))", gap: 10 }}>
+              {MORE.map((m) => (
+                <a
+                  key={m.href}
+                  href={m.href}
+                  data-ga="cta_click"
+                  data-ga-place="academy-more"
+                  data-ga-path={m.href}
+                  style={{
+                    display: "flex", gap: 11, alignItems: "flex-start", textDecoration: "none", color: "inherit",
+                    border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-md)",
+                    background: "var(--paper-50)", padding: "13px 15px", boxShadow: "var(--shadow-pop-sm)",
+                  }}
+                >
+                  <i className={`ph-bold ${m.icon}`} style={{ fontSize: 21, color: "var(--red-500)", flex: "none", marginTop: 1 }} />
+                  <span style={{ minWidth: 0 }}>
+                    <span style={{ display: "block", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14.5, marginBottom: 3 }}>
+                      {m.title}
+                    </span>
+                    <span style={{ display: "block", fontSize: 12.5, lineHeight: 1.75, color: "var(--text-muted)" }}>{m.desc}</span>
+                  </span>
+                </a>
+              ))}
+            </div>
+            <div style={{ marginTop: 14 }}>
+              <a href="/" data-ga="cta_click" data-ga-place="academy-more" data-ga-path="/" style={{ textDecoration: "none" }}>
+                <Button variant="ink" size="sm" iconRight={<i className="ph-bold ph-arrow-right" />}>COMIXAI のトップを見る</Button>
               </a>
             </div>
           </div>
