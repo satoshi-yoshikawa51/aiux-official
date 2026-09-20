@@ -48,6 +48,10 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+/* ストアのURLはサイトと同じ1か所から。**ここに直書きしない** */
+const APP_STORE_URL = (
+  await readFile(path.join(ROOT, "src/app/academy/store.tsx"), "utf8")
+).match(/APP_STORE_URL[^=]*=\s*"([^"]+)"/)?.[1] ?? "https://comixai.dev/academy";
 const OUT_DIR = path.join(ROOT, "academy-video");
 const CLIP_DIR = path.join(OUT_DIR, "clips");
 const WORK_DIR = path.join(OUT_DIR, ".work");
@@ -118,7 +122,29 @@ const ANIM_FRAMES = Math.ceil(ANIM_SEC * FPS);
    speed: 1未満でゆっくり（CTAは読ませたいので少し落としてある） */
 const CUTS = [
   {
-    shots: [{ clip: "1-home.mp4", in: 2.2, out: 6.6 }],
+    /* ▍つかみはガチャ
+
+       もとはホーム画面から始めていたが、1秒目に**動きと色**が要る。
+       赤いガチャ台が回ってカプセルが落ちるところを頭に置き、
+       落ちた瞬間に白く飛ばしてホームへ繋ぐ（flash）。
+       アプリの「遊べる」が、テロップを読む前に絵で伝わる。 */
+    shots: [
+      /* **1コマ目から動いていること**が大事。玉が回っている途中から
+         入り、カプセルが落ちたら受け口に寄る（zoom）。止まった絵で
+         始めると、そこで指が動く */
+      {
+        clip: "5-gacha.mp4",
+        in: 5.15,
+        out: 6.75, // 玉が回る → カプセルが落ちる
+        zoom: { start: 0.75, to: 1.75, cx: 0.5, cy: 0.66 }, // 受け口のカプセルへ
+      },
+      /* ▍光ったあとも止めない
+         2.5〜5.0秒のあたりは、タップの星が散ったあと**赤い星が1個だけ
+         頭の横に残って動かない**（3.9〜5.1秒）。そこへ着地すると、
+         せっかく光って出てきたのに絵が止まって見えた。
+         星が消えてキャラが回り出す5.3秒から使う */
+      { clip: "1-home.mp4", in: 5.3, out: 8.0, flash: 0.18 }, // 白く飛んで、動いているホームへ
+    ],
     kicker: "NEW — iPhone / iPad",
     lines: ["遊んで学べるAI学習アプリ", "登場！"],
     hi: "遊んで学べる",
@@ -168,11 +194,45 @@ const CUTS = [
   },
 ];
 
-/* カット内で画を切り替えるときの、短いクロスフェード */
+/* カット内で画を切り替えるときの、短いクロスフェード。
+   **shot に `flash: 秒` を書くと、そのつなぎだけ白を通って切り替わる**
+   （ffmpegの fadewhite）。ガチャのカプセルが落ちた瞬間に使っている。
+   ふつうのフェードより気持ち長めにしないと、光ったのが分からない */
 const SHOT_XFADE = 0.18;
+const shotXfade = (sh) => sh.flash ?? SHOT_XFADE;
 const shotSec = (sh) => (sh.out - sh.in) / (sh.speed ?? 1);
 const cutSec = (c) =>
-  c.shots.reduce((n, sh) => n + shotSec(sh), 0) - (c.shots.length - 1) * SHOT_XFADE;
+  c.shots.reduce((n, sh, i) => n + shotSec(sh) - (i > 0 ? shotXfade(sh) : 0), 0);
+
+/* ▍光は画面の中だけでは足りない
+
+   端末の中だけを白くしても、まわりの黒い板が暗いままなので
+   「パッと光った」に見えない。**板ごと白く飛ばす**ために、
+   つなぎがカットの何秒目に来るかをここで出して、2-b で全面に
+   白を重ねる。テロップの下に入れるので、文字は白飛びしない。 */
+/* ▍寄り（shot の `zoom`）
+
+   `{ start: 秒, to: 倍率, cx, cy }` で、ショートの途中から
+   （cx, cy）＝画面を0〜1で見た位置へ寄っていく。
+
+   zoompan は入力の解像度のまま動かすと、寄りの途中で1px単位の
+   ガタつきが出る。**先に2倍に伸ばしてから**зoompanに渡して、
+   出口で端末の大きさへ戻すと滑らかになる。
+   時刻は `on`（出力コマ番号）で数える——`in_time` は環境によって
+   使えないことがある。 */
+function zoomChain(sh) {
+  if (!sh.zoom) return "";
+  const { start = 0, to = 1.6, cx = 0.5, cy = 0.5 } = sh.zoom;
+  const f0 = Math.round(start * FPS);
+  const fSpan = Math.max(1, Math.round((shotSec(sh) - start) * FPS));
+  const z = `min(1+${(to - 1).toFixed(3)}*max(0\\,on-${f0})/${fSpan}\\,${to})`;
+  return (
+    `,scale=${PHONE_W * 2}:${PHONE_H * 2}` +
+    `,zoompan=z='${z}':d=1:fps=${FPS}:s=${PHONE_W}x${PHONE_H}` +
+    `:x='max(0\\,min(iw-iw/zoom\\,iw*${cx}-(iw/zoom)/2))'` +
+    `:y='max(0\\,min(ih-ih/zoom\\,ih*${cy}-(ih/zoom)/2))'`
+  );
+}
 const TOTAL_SEC = CUTS.reduce((n, c) => n + cutSec(c), 0) - (CUTS.length - 1) * XFADE_SEC;
 
 const exists = async (p) => {
@@ -611,16 +671,21 @@ for (const [i, cut] of CUTS.entries()) {
     parts.push(
       `[${n}:v]fps=${FPS},crop=${SRC_W}:${CROP_H}:0:${SB_CROP},scale=${PHONE_W}:${PHONE_H}` +
         (speed === 1 ? "" : `,setpts=PTS/${speed}`) +
-        `,setpts=PTS-STARTPTS[s${n}]`
+        `,setpts=PTS-STARTPTS` +
+        zoomChain(sh) +
+        `[s${n}]`
     );
   });
   let chain = parts.join(";");
   let last = "s0";
   let acc = shotSec(cut.shots[0]);
   for (let n = 1; n < cut.shots.length; n++) {
+    const sh = cut.shots[n];
     const label = n === cut.shots.length - 1 ? "pv" : `m${n}`;
-    chain += `;[${last}][s${n}]xfade=transition=fade:duration=${SHOT_XFADE}:offset=${(acc - SHOT_XFADE).toFixed(3)}[${label}]`;
-    acc += shotSec(cut.shots[n]) - SHOT_XFADE;
+    const dur = shotXfade(sh);
+    const tr = sh.flash ? "fadewhite" : "fade";
+    chain += `;[${last}][s${n}]xfade=transition=${tr}:duration=${dur}:offset=${(acc - dur).toFixed(3)}[${label}]`;
+    acc += shotSec(sh) - dur;
     last = label;
   }
   if (cut.shots.length === 1) chain += `;[s0]null[pv]`;
@@ -650,6 +715,9 @@ for (const [i, cut] of CUTS.entries()) {
     /* きらめきは端末より後ろ（→ sparkleHtml の覚え書き） */
     `[1:v][3:v]overlay=0:0:format=auto[bg]`,
     `[bg][vr]overlay=${PHONE_X}:${PHONE_Y}:format=auto[base]`,
+    /* ▍光らせるのは端末の中だけ
+       板ごと白く飛ばす案も試したが、画面全体が真っ白になるのは強すぎた。
+       スマホの画面が光るだけで、暗い板との差で十分「パッ」と見える */
     /* テロップは頭の ANIM_SEC ぶんしか撮っていないので、
        最後のコマを尺の終わりまで引き伸ばす（tpad の clone） */
     `[4:v]tpad=stop_mode=clone:stop_duration=${Math.ceil(dur)},format=rgba[txt]`,
@@ -740,27 +808,39 @@ execFileSync(
   { stdio: "inherit" }
 );
 
-/* ───────── 4. 投稿用の文言 ───────── */
+/* ───────── 4. 投稿用の文言 ─────────
+   ▍YouTube Shorts を主にした形にしてある
+   説明文は**頭の2行が命**（「…もっと見る」の前に出るのはそこだけ）。
+   フックとリンクを先頭に置き、中身の箇条書きはその下へ。
+   Xに出すときは、この本文からリンクを外して動画だけで投稿し、
+   リンクはリプライに置く（本文にリンクを入れると伸びにくい）。
+
+   **配信状況を直書きしない。** ストアのURLは
+   src/app/academy/store.tsx が持っている（サイトと食い違わせない）。 */
 const txt = `【タイトル】
-遊んで学べるAI学習アプリ、登場｜COMIXAI アカデミー
+遊んで学べるAI学習アプリ、作りました｜COMIXAI アカデミー
 
 【説明文】
 「AIって、けっきょく何ができて、何がダメなの？」
-その疑問に“読む”ではなく“遊ぶ”で答える学習アプリを作りました。
+——その疑問に“読む”ではなく“遊ぶ”で答えるアプリを作りました。
 
-・3Dの相棒キャラクターがあなたの先生
+▼ App Store（無料）
+${APP_STORE_URL}
+
+3Dの相棒がホーム画面に住みついて、続けた日数を数えて声をかけてきます。
+職種を選ぶと、レッスンの例文とプロンプトがその仕事向けに差し替わります。
+
 ・5コース／全17レッスン（1本2〜3分）
 ・レッスンに挟まる9種のミニゲーム
-・書いたプロンプトをAIが添削
-・バッジ25種と、AI見習い→AIマスターの称号
+・書いたプロンプトをAIが添削して返す
+・バッジ25種と、AI見習い → AIマスターの称号
 ・学習で貯まるPだけで回るガチャ（課金なし）
 
-登録不要・広告なし・完全無料。
-iPhone / iPad — まもなく公開
-https://comixai.dev/academy
+登録不要・広告なし・完全無料。記録は端末の中だけに残ります。
+ブラウザでさわれる体験版もあります → https://comixai.dev/academy
 
 【ハッシュタグ】
-#生成AI #AI学習 #プロンプト #個人開発 #アプリ #ChatGPT #Claude #AIリテラシー
+#生成AI #AI学習 #プロンプト #個人開発 #アプリ紹介 #ChatGPT #AIリテラシー #Shorts
 
 【尺】${TOTAL_SEC.toFixed(1)}秒／${W}×${H}／${hasBgm ? "BGMあり" : "音声なし"}
 `;
