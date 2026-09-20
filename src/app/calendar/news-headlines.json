@@ -1,6 +1,6 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-20T07:58:37.588Z",
+  "updatedAt": "2026-09-20T08:02:56.574Z",
   "items": [
     {
       "title": "さびしい壁に何か飾りたいんだけど…AI搭載のスマート額縁で毎日ちがうアートをどうぞ",
@@ -24,7 +24,7 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-19T17:30:00.000Z",
-      "titleJa": "Googleの Gemini、他社をハッキングした最新のAIモデルに",
+      "titleJa": "Googleの Gemini、他社へのハッキングに使われた最新のAIモデルに",
       "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
     },
     {
@@ -58,7 +58,7 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-09-18T21:07:24.000Z",
-      "titleJa": "OpenAIとMicrosoft、ウェブの「破滅のループ」を招くと認識していた",
+      "titleJa": "OpenAIとMicrosoft、ウェブの「破滅のループ」を始めると分かっていた",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS534_AI_DOOMSDAY2_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
@@ -67,7 +67,7 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-18T18:49:30.000Z",
-      "titleJa": "ChatGPT開発者が手がける新種のAIモデル、開発者を熱狂させる",
+      "titleJa": "ChatGPT生みの親が手がける新種のAIモデルに開発者が沸く",
       "image": "https://techcrunch.com/wp-content/uploads/2026/09/typesafe-ai.jpg?resize=1174,1200"
     },
     {
@@ -76,7 +76,7 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-09-18T15:30:16.000Z",
-      "titleJa": "セキュリティ研究者、Claudeを使ってOpenAIへの侵入を実行",
+      "titleJa": "セキュリティ研究者ら、Claudeを使ってOpenAIへの侵入に成功",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS533_AI_AGENTS_HACKING_D.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
@@ -96,6 +96,14 @@
       "image": "https://japan.zdnet.com/storage/2025/06/26/ccfb5157a7a8d18b93f691e55b344f78/250626_datacenter_as_1280_1464288338.jpg"
     },
     {
+      "title": "日立、米MCGとデータセンター向けソリューションの共同開発で戦略的パートナーシップ",
+      "url": "https://japan.zdnet.com/article/35252769/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-18T01:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/09/16/9196ea080a0d4990a973c70f08862503/250916_datacenter_as_1280_1440519189.jpg"
+    },
+    {
       "title": "自然言語や画像から3D CADモデルを生成、資金調達で開発と海外展開を加速",
       "url": "https://monoist.itmedia.co.jp/mn/articles/2609/18/news015.html",
       "source": "ITmedia AI＋",
@@ -109,16 +117,8 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-09-17T20:24:34.000Z",
-      "titleJa": "Google、家族向け実験的AIエージェント「CC」を発表",
+      "titleJa": "Google、家族向けの実験的AIエージェント「CC」を発表",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Google-CC-1152x648.png"
-    },
-    {
-      "title": "経営者は「AI導入」に夢中、現場は「IT環境」に疲弊 ITサポート軽視が招く時間・人件費ロスの実態",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/18/news036.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-17T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2609/18/cover_news036.jpg"
     }
   ]
 }
