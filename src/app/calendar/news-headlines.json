@@ -1,15 +1,39 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-19T21:21:21.040Z",
+  "updatedAt": "2026-09-20T07:58:37.588Z",
   "items": [
+    {
+      "title": "さびしい壁に何か飾りたいんだけど…AI搭載のスマート額縁で毎日ちがうアートをどうぞ",
+      "url": "https://www.gizmodo.jp/article/2609-jitrainno-ai-e-paper-frame/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-20T06:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/14/49d26e3c-c0d0-4527-8fec-6a477bd512b4/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "Claude・ChatGPTのサブスクで使えるデスクトップAIエージェントアプリ「Kari」をGotoAIが無償公開",
+      "url": "https://ascii.jp/elem/000/004/436/4436526/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-20T01:46:53.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
     {
       "title": "Google’s Gemini is the latest AI model to hack other companies",
       "url": "https://techcrunch.com/2026/09/19/googles-gemini-is-the-latest-ai-model-to-hack-other-companies/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-19T17:30:00.000Z",
-      "titleJa": "GoogleのGeminiは他社をハッキングする最新のAIモデル",
+      "titleJa": "Googleの Gemini、他社をハッキングした最新のAIモデルに",
       "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
+    },
+    {
+      "title": "AI導入でつまずく中小企業、「何を・誰が・どう変えるか」を丸ごと支援",
+      "url": "https://kn.itmedia.co.jp/kn/article/2609/20/2000001627/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-19T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/20/2000001627/10007004/2048"
     },
     {
       "title": "Ryzen AI 5 340搭載で24万円台！ 23.8型ディスプレーの一体型デスクトップPCがFMV直販「目玉品」で登場！",
@@ -20,20 +44,12 @@
       "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
     },
     {
-      "title": "文字起こし字幕編集ソフト「Zimaku」を公開。話者ごとの自動分離とAIチャット修正で、文字起こしから字幕修正を簡単に。ローカルでの文字起こしは無料。",
-      "url": "https://ascii.jp/elem/000/004/436/4436505/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-19T05:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
       "title": "Anthropic is operating a lab that conducts biology experiments",
       "url": "https://techcrunch.com/2026/09/18/anthropic-is-operating-a-lab-that-conducts-biology-experiments/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-18T23:13:31.000Z",
-      "titleJa": "Anthropic は生物学の実験を行う研究室を運営しています",
+      "titleJa": "Anthropic、生物学実験を行うラボを運営",
       "image": "https://techcrunch.com/wp-content/uploads/2021/08/DNA-—-Xero-2.jpg?resize=1200,750"
     },
     {
@@ -42,7 +58,7 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-09-18T21:07:24.000Z",
-      "titleJa": "OpenAI と Microsoft は、ウェブの「破滅ループ」が始まっていることを認識していました",
+      "titleJa": "OpenAIとMicrosoft、ウェブの「破滅のループ」を招くと認識していた",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS534_AI_DOOMSDAY2_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
@@ -51,7 +67,7 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-18T18:49:30.000Z",
-      "titleJa": "ChatGPT 発明者による新しい種類の AI モデルが開発者を興奮させている",
+      "titleJa": "ChatGPT開発者が手がける新種のAIモデル、開発者を熱狂させる",
       "image": "https://techcrunch.com/wp-content/uploads/2026/09/typesafe-ai.jpg?resize=1174,1200"
     },
     {
@@ -60,7 +76,7 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-09-18T15:30:16.000Z",
-      "titleJa": "セキュリティ研究者は OpenAI へのハッキングにクロードを利用しました",
+      "titleJa": "セキュリティ研究者、Claudeを使ってOpenAIへの侵入を実行",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS533_AI_AGENTS_HACKING_D.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
@@ -93,7 +109,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-09-17T20:24:34.000Z",
-      "titleJa": "Google、家族向けの新しい実験的なAIエージェント「CC」を発表",
+      "titleJa": "Google、家族向け実験的AIエージェント「CC」を発表",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Google-CC-1152x648.png"
     },
     {
@@ -103,22 +119,6 @@
       "lang": "ja",
       "date": "2026-09-17T23:00:00.000Z",
       "image": "https://image.itmedia.co.jp/ait/articles/2609/18/cover_news036.jpg"
-    },
-    {
-      "title": "「AIで人類絶滅論」がOpenAIらの権力を強化 「規制される者が規制を作る」構図に",
-      "url": "https://japan.cnet.com/article/35252760/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-17T21:27:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/18/7e266a8f90fa1a8664255c673e195b4c/01.jpeg"
-    },
-    {
-      "title": "東急東横線、運転士のドア閉扉判断を支援するAIシステムを導入",
-      "url": "https://japan.zdnet.com/article/35252719/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-17T05:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/17/e75145d98b374c935aea5b7a4670f16e/20260917_adobestock_390323189_1280x960.jpg"
     }
   ]
 }
