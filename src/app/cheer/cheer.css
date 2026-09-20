@@ -381,3 +381,41 @@
     animation: none;
   }
 }
+
+/* ---------- 結果ページ（/cheer/k/[id]） ---------- */
+.cheer-root .k-card {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: calc(env(safe-area-inset-bottom) + 24px);
+  background: rgba(255, 255, 255, 0.78);
+  border-radius: 22px;
+  padding: 18px 18px 14px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #3b3350;
+}
+.cheer-root .k-card .after-lines {
+  font-size: 17px;
+}
+.cheer-root .k-cta {
+  display: block;
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 16px;
+  background: #ffb199;
+  color: #7a3a26;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.12s;
+}
+.cheer-root .k-cta:active {
+  transform: scale(0.97);
+}
+.cheer-root .k-brand {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #6b6285;
+}
