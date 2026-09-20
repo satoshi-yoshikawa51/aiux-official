@@ -48,6 +48,10 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+/* ストアのURLはサイトと同じ1か所から。**ここに直書きしない** */
+const APP_STORE_URL = (
+  await readFile(path.join(ROOT, "src/app/academy/store.tsx"), "utf8")
+).match(/APP_STORE_URL[^=]*=\s*"([^"]+)"/)?.[1] ?? "https://comixai.dev/academy";
 const OUT_DIR = path.join(ROOT, "academy-video");
 const CLIP_DIR = path.join(OUT_DIR, "clips");
 const WORK_DIR = path.join(OUT_DIR, ".work");
@@ -804,27 +808,39 @@ execFileSync(
   { stdio: "inherit" }
 );
 
-/* ───────── 4. 投稿用の文言 ───────── */
+/* ───────── 4. 投稿用の文言 ─────────
+   ▍YouTube Shorts を主にした形にしてある
+   説明文は**頭の2行が命**（「…もっと見る」の前に出るのはそこだけ）。
+   フックとリンクを先頭に置き、中身の箇条書きはその下へ。
+   Xに出すときは、この本文からリンクを外して動画だけで投稿し、
+   リンクはリプライに置く（本文にリンクを入れると伸びにくい）。
+
+   **配信状況を直書きしない。** ストアのURLは
+   src/app/academy/store.tsx が持っている（サイトと食い違わせない）。 */
 const txt = `【タイトル】
-遊んで学べるAI学習アプリ、登場｜COMIXAI アカデミー
+遊んで学べるAI学習アプリ、作りました｜COMIXAI アカデミー
 
 【説明文】
 「AIって、けっきょく何ができて、何がダメなの？」
-その疑問に“読む”ではなく“遊ぶ”で答える学習アプリを作りました。
+——その疑問に“読む”ではなく“遊ぶ”で答えるアプリを作りました。
 
-・3Dの相棒キャラクターがあなたの先生
+▼ App Store（無料）
+${APP_STORE_URL}
+
+3Dの相棒がホーム画面に住みついて、続けた日数を数えて声をかけてきます。
+職種を選ぶと、レッスンの例文とプロンプトがその仕事向けに差し替わります。
+
 ・5コース／全17レッスン（1本2〜3分）
 ・レッスンに挟まる9種のミニゲーム
-・書いたプロンプトをAIが添削
-・バッジ25種と、AI見習い→AIマスターの称号
+・書いたプロンプトをAIが添削して返す
+・バッジ25種と、AI見習い → AIマスターの称号
 ・学習で貯まるPだけで回るガチャ（課金なし）
 
-登録不要・広告なし・完全無料。
-iPhone / iPad — まもなく公開
-https://comixai.dev/academy
+登録不要・広告なし・完全無料。記録は端末の中だけに残ります。
+ブラウザでさわれる体験版もあります → https://comixai.dev/academy
 
 【ハッシュタグ】
-#生成AI #AI学習 #プロンプト #個人開発 #アプリ #ChatGPT #Claude #AIリテラシー
+#生成AI #AI学習 #プロンプト #個人開発 #アプリ紹介 #ChatGPT #AIリテラシー #Shorts
 
 【尺】${TOTAL_SEC.toFixed(1)}秒／${W}×${H}／${hasBgm ? "BGMあり" : "音声なし"}
 `;
