@@ -1,0 +1,34 @@
+# Vercelの古いプレビューデプロイを削除する（→ scripts/vercel-prune.mjs）。
+#
+# 過去のデプロイの成果物はDeployment Storage（無料枠10GB）に積み上がり、
+# PRのプレビューと毎朝のニュース自動更新の積み重ねで実際に使い切った。
+# マージ済みPRのプレビューは誰も見ないので、週1で30日より古いものを消す。
+# 本番（production）と、各プロジェクトの最新プレビュー1件は消さない。
+#
+# 必要なリポジトリSecrets:
+#   VERCEL_TOKEN … Vercelの Account Settings → Tokens で作る
+name: Vercelの掃除
+
+on:
+  schedule:
+    - cron: '40 20 * * 0' # 月曜 5:40 JST（ニュース更新より前の静かな時間）
+  workflow_dispatch:
+    inputs:
+      days:
+        description: '何日より古いプレビューを消すか'
+        default: '30'
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 古いプレビューを削除
+        run: node scripts/vercel-prune.mjs
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          PRUNE_DAYS: ${{ inputs.days || '30' }}

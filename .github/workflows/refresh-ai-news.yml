@@ -33,6 +33,11 @@ jobs:
           node-version: 20
       - name: Fetch AI news headlines
         run: node scripts/fetch-ai-news.mjs
+        env:
+          # 英語見出しの翻訳をClaude APIで行うためのキー。
+          # リポジトリのSecretsに未設定なら空になるだけで、スクリプトは
+          # 無料の翻訳エンドポイントに降格する（落ちはしない）
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       - name: Commit & push if changed
         run: |
           if git diff --quiet; then

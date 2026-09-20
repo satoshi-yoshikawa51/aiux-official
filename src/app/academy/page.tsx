@@ -218,7 +218,7 @@ const MORE: { icon: string; title: string; desc: string; href: string }[] = [
   },
   {
     icon: "ph-list-magnifying-glass",
-    title: "AI用語集 150語",
+    title: "AI用語集 155語",
     desc: "「なんとなく」で流していた言葉を、図と例で引ける。",
     href: "/glossary",
   },

@@ -1169,6 +1169,287 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "gpt-6": {
+    caption: "同じGPT-6 Astraでも、プランによって入口が違う",
+    render: () => (
+      <Svg h={300} title="GPT-6 Astraの入口の図解">
+        <B x={58} y={30} w={485} h={70} label={"GPT-6 Astra"} sub="2026年9月の最上位" fill={YELLOW} />
+        <AV x={138} y1={105} y2={150} />
+        <AV x={313} y1={105} y2={150} />
+        <AV x={475} y1={105} y2={150} />
+        <B x={58} y={155} w={160} h={80} label={"チャット\n（GPT-6 Pro）"} sub="Pro以上・週の回数制限" />
+        <B x={233} y={155} w={160} h={80} label={"Work・Codex"} sub="Plusはここが入口" />
+        <B x={408} y={155} w={135} h={80} label={"API"} sub="従量課金" />
+        <T x={300} y={272} text="普段使いはGPT-5.6系のまま。最上位は「ここぞ」で呼ぶ" size={14} />
+      </Svg>
+    ),
+  },
+  "claude-fable": {
+    caption: "Opusの上に新設された階級。FableとMythosは同じモデルで安全対策だけ違う",
+    render: () => (
+      <Svg h={320} title="Claude Fable／Mythosの位置づけ図解">
+        <B x={30} y={210} w={120} h={50} label="Haiku" sub="速い・安い" />
+        <B x={30} y={150} w={150} h={50} label="Sonnet" sub="バランス" />
+        <B x={30} y={90} w={180} h={50} label="Opus" sub="従来の最上位" />
+        <B x={30} y={30} w={210} h={50} label="Fable（新階級）" sub="その上へ" fill={YELLOW} />
+        <AH x1={245} x2={315} y={55} label="同じモデル" />
+        <B x={320} y={30} w={250} h={60} label={"Fable＝一般提供"} sub="強い安全対策つき" fill={RED} color="#fff" />
+        <B x={320} y={110} w={250} h={60} label={"Mythos＝審査制"} sub="サイバー・生命科学の業務向け" dashed />
+        <T x={445} y={205} text="違いは安全対策の強さだけ" size={13.5} />
+        <T x={300} y={295} text="利用枠は別建て：Pro=クレジット制／Max=週上限の50%まで" size={13.5} />
+      </Svg>
+    ),
+  },
+  "gemini-omni": {
+    caption: "生成して終わりではなく、「伸ばす・磨く」編集までできるようになった",
+    render: () => (
+      <Svg h={280} title="Gemini Omniの動画生成の図解">
+        <B x={20} y={95} w={140} h={70} label="プロンプト" sub="「こんな動画を」" />
+        <AH x1={165} x2={225} y={130} />
+        <B x={230} y={85} w={150} h={90} label={"Gemini\nOmni 1.1"} fill={YELLOW} />
+        <AH x1={385} x2={445} y={60} />
+        <AH x1={385} x2={445} y={130} />
+        <AH x1={385} x2={445} y={200} />
+        <B x={450} y={35} w={135} h={50} label="4Kに拡大" />
+        <B x={450} y={105} w={135} h={50} label={"続きを生成"} sub="最大40秒" />
+        <B x={450} y={175} w={135} h={50} label={"キャラを維持"} />
+        <T x={300} y={258} text="動画生成は3社の中の一番手。本格利用はAI Ultraが中心" size={14} />
+      </Svg>
+    ),
+  },
+  "frontier-model": {
+    caption: "最先端の2強は、価格が同じで得意分野が分かれる接戦",
+    render: () => (
+      <Svg h={310} title="フロンティアモデルの勢力図の図解">
+        <B x={40} y={30} w={230} h={65} label={"GPT-6 Astra"} sub="OpenAI" />
+        <B x={330} y={30} w={230} h={65} label={"Claude Fable 5.1"} sub="Anthropic" />
+        <T x={300} y={68} text="VS" size={18} color={INK} bold />
+        <B x={40} y={125} w={230} h={60} label={"数学・科学・PC操作"} sub="共通ベンチマークで優勢" fill={YELLOW} />
+        <B x={330} y={125} w={230} h={60} label={"エージェント型コーディング"} sub="独立系指標で僅差の首位" fill={YELLOW} />
+        <B x={135} y={210} w={330} h={50} label={"API価格は両者同じ"} sub="入力$10／出力$50（100万トークン）" fill={RED} color="#fff" />
+        <T x={300} y={290} text="「どちらが最強」より「どこで使うか」で選ぶ" size={14} />
+      </Svg>
+    ),
+  },
+  "trusted-access": {
+    caption: "全開放でも全封印でもなく、審査を通った相手にだけ開ける",
+    render: () => (
+      <Svg h={300} title="トラステッドアクセスのしくみ図解">
+        <B x={20} y={40} w={150} h={70} label={"一般ユーザー"} />
+        <B x={20} y={180} w={150} h={70} label={"審査を通った\n組織"} sub="正当な業務あり" />
+        <AH x1={175} x2={250} y={75} />
+        <AH x1={175} x2={250} y={215} label="審査" />
+        <B x={255} y={40} w={170} h={70} label={"標準版"} sub="危険な依頼は断る" fill={YELLOW} />
+        <B x={255} y={180} w={170} h={70} label={"緩和版"} sub="Daybreak／Mythos" fill={RED} color="#fff" />
+        <T x={455} y={70} text="✕ 高度な能力は" size={13.5} color={RED} anchor="start" bold />
+        <T x={455} y={90} text="ここでは開かない" size={13.5} color={RED} anchor="start" bold />
+        <AH x1={430} x2={460} y={215} />
+        <B x={465} y={180} w={120} h={70} label={"高度な\n能力"} dashed />
+        <T x={300} y={285} text="OpenAIもAnthropicも2026年に採用した新方式" size={14} />
+      </Svg>
+    ),
+  },
+  "ai-glasses": {
+    caption: "視界と両手を自由にしたままAIを使える。スマホの置き換えではなく補助",
+    render: () => (
+      <Svg h={300} title="AIグラスのしくみ図解">
+        <B x={10} y={115} w={130} h={70} label={"目の前の光景"} sub="見て・聞いている" />
+        <AH x1={145} x2={225} y={150} label="そのまま入力" />
+        <B x={230} y={100} w={150} h={100} label={"AIグラス"} sub="カメラ＋マイク＋AI" fill={YELLOW} />
+        <AH x1={385} x2={445} y={55} />
+        <AH x1={385} x2={445} y={120} />
+        <AH x1={385} x2={445} y={180} />
+        <AH x1={385} x2={445} y={245} />
+        <B x={450} y={30} w={130} h={50} label="見て質問" />
+        <B x={450} y={95} w={130} h={50} label="翻訳" />
+        <B x={450} y={155} w={130} h={50} label={"撮影"} sub="ハンズフリー" />
+        <B x={450} y={220} w={130} h={50} label="音楽・通話" />
+      </Svg>
+    ),
+  },
+  "ai-bubble": {
+    caption: "「AIは無価値」論ではなく「投資ペースは速すぎないか」論",
+    render: () => (
+      <Svg h={305} title="AIバブル論争の構図の図解">
+        <B x={30} y={30} w={260} h={130} label={"流れ込むお金"} sub="データセンター・GPU・株価" fill={YELLOW} />
+        <B x={360} y={75} w={200} h={60} label={"AIが生む利益"} sub="まだ小さい" dashed />
+        <AH x1={295} x2={355} y={105} label="ギャップ" />
+        <AV x={160} y1={165} y2={195} />
+        <AV x={460} y1={140} y2={195} />
+        <B x={95} y={200} w={410} h={55} label={"バブル論争"} sub="需要が追いつくのか、先走りすぎか" fill={RED} color="#fff" />
+        <T x={300} y={290} text="ITバブルの教訓：株価が崩れても、技術とインフラは残る" size={13.5} />
+      </Svg>
+    ),
+  },
+  kimi: {
+    caption: "重みが公開されているから「どこで動かすか」を自分で選べる",
+    render: () => (
+      <Svg h={290} title="Kimi（オープンウェイトモデル）の使い方の図解">
+        <B x={100} y={25} w={400} h={60} label={"Kimi K2"} sub="オープンウェイト＝モデルの中身（重み）を公開" fill={YELLOW} />
+        <AV x={165} y1={90} y2={130} />
+        <AV x={435} y1={90} y2={130} />
+        <B x={40} y={135} w={250} h={85} label={"公式アプリ・API"} sub="手軽で安いが、データは開発元へ" />
+        <B x={310} y={135} w={250} h={85} label={"自社サーバーで動かす"} sub="データは外に出ない" />
+        <T x={300} y={255} text="機密データを扱うなら右。これはAPI専用の商用モデルにはない選択肢" size={13.5} />
+      </Svg>
+    ),
+  },
+  "humanoid-robot": {
+    caption: "環境が管理されている場所ほど早く実用化する。家庭は最後",
+    render: () => (
+      <Svg h={310} title="ヒューマノイドロボットの構成と実用の順番の図解">
+        <B x={40} y={30} w={240} h={65} label={"頭脳：生成AI"} sub="見て・聞いて・考える" />
+        <B x={320} y={30} w={240} h={65} label={"体：人型"} sub="人間仕様の環境で働ける" />
+        <T x={300} y={68} text="＋" size={22} color={INK} bold />
+        <AV x={300} y1={100} y2={135} />
+        <B x={155} y={140} w={290} h={55} label={"ヒューマノイドロボット"} fill={YELLOW} />
+        <AV x={300} y1={200} y2={230} label="実用の順番" />
+        <B x={30} y={235} w={160} h={55} label={"工場・倉庫"} sub="いまここ" />
+        <AH x1={195} x2={235} y={262} />
+        <B x={240} y={235} w={150} h={55} label={"店舗・施設"} />
+        <AH x1={395} x2={435} y={262} />
+        <B x={440} y={235} w={130} h={55} label={"家庭"} sub="最後" />
+      </Svg>
+    ),
+  },
+  "claude-cowork": {
+    caption: "チャット（Claude）＝相談相手、Cowork＝手を動かす同僚",
+    render: () => (
+      <Svg h={270} title="Claude Coworkの位置づけ図解">
+        <B x={100} y={25} w={400} h={60} label={"自律作業エンジン"} sub="ファイルを開き、手を動かし、納品まで" fill={YELLOW} />
+        <AV x={165} y1={90} y2={130} />
+        <AV x={435} y1={90} y2={130} />
+        <B x={40} y={135} w={250} h={85} label={"Claude Code"} sub="エンジニア向け・ターミナル" />
+        <B x={310} y={135} w={250} h={85} label={"Cowork"} sub="みんなの実作業・デスクトップ" fill={RED} color="#fff" />
+        <T x={300} y={252} text="同じ「働くAI」の能力を、コードを書かない人の仕事へ" size={13.5} />
+      </Svg>
+    ),
+  },
+  "pacing-the-frontier": {
+    caption: "できることから：1社の自主対応→業界の申し合わせ→国家間協調へ",
+    render: () => (
+      <Svg h={345} title="Pacing the Frontier（3段階のペース調整案）の図解">
+        <B x={100} y={20} w={400} h={75} label={"① 外部評価者に\n常時アクセス"} sub="バッジ・端末・社員なみの権限で検証" fill={YELLOW} />
+        <AV x={300} y1={95} y2={130} label="実現できたら次へ" />
+        <B x={100} y={135} w={400} h={75} label={"② 業界内の申し合わせ"} sub="民主主義国の主要AI企業で安全基準を共通化" />
+        <AV x={300} y1={210} y2={245} label="さらに広げて" />
+        <B x={100} y={250} w={400} h={75} label={"③ 政府間の協調"} sub="中国など体制の異なる国とも協議（実現は険しい）" dashed />
+        <T x={300} y={335} text="今すぐ動いているのは①だけ。②③は各社・各国の合意が前提" size={13} />
+      </Svg>
+    ),
+  },
+  "chatgpt-sketch": {
+    caption: "配置はスケッチ、雰囲気と質感は言葉——役割を分けて指定する",
+    render: () => (
+      <Svg h={290} title="ChatGPT Sketchのしくみの図解">
+        <B x={40} y={30} w={220} h={70} label={"手描きのラフ"} sub="＠Sketchで描く・構図の土台" fill={YELLOW} />
+        <T x={300} y={70} text="＋" size={22} color={INK} bold />
+        <B x={340} y={30} w={220} h={70} label={"テキスト指示"} sub="スタイル・素材・雰囲気" />
+        <AV x={300} y1={110} y2={150} label="組み合わせて生成" />
+        <B x={140} y={155} w={320} h={80} label={"清書された画像"} sub="構図は保ったまま仕上げ" fill={RED} color="#fff" />
+        <T x={300} y={270} text="言葉だけで配置を説明する手間を、絵で肩代わりする発想" size={13} />
+      </Svg>
+    ),
+  },
+  "open-weight": {
+    caption: "「オープン」と言っても、手に入る範囲は3段階ある",
+    render: () => (
+      <Svg h={310} title="クローズド・オープンウェイト・オープンソースの違いの図解">
+        <B x={180} y={18} w={132} h={72} label={"クローズド"} sub="API経由で使うだけ" />
+        <B x={318} y={18} w={132} h={72} label={"オープン\nウェイト"} sub="重みが手に入る" fill={YELLOW} />
+        <B x={456} y={18} w={132} h={72} label={"オープン\nソース"} sub="作り方まで分かる" />
+        <T x={172} y={124} text="自分の環境で動かす" size={13} anchor="end" color={INK} />
+        <T x={246} y={124} text="✕" size={19} color={MUTED} />
+        <T x={384} y={124} text="○" size={19} color={INK} />
+        <T x={522} y={124} text="○" size={19} color={INK} />
+        <T x={172} y={162} text="中身を調べる・追加学習" size={13} anchor="end" color={INK} />
+        <T x={246} y={162} text="✕" size={19} color={MUTED} />
+        <T x={384} y={162} text="○" size={19} color={INK} />
+        <T x={522} y={162} text="○" size={19} color={INK} />
+        <T x={172} y={200} text="学習データ・訓練コード" size={13} anchor="end" color={INK} />
+        <T x={246} y={200} text="✕" size={19} color={MUTED} />
+        <T x={384} y={200} text="✕" size={19} color={MUTED} />
+        <T x={522} y={200} text="○" size={19} color={INK} />
+        <T x={300} y={250} text="世に「オープンソースAI」と呼ばれるモデルの多くは、実はまん中" size={13.5} color={INK} />
+        <T x={300} y={278} text="重みが公開でも条件は公開元しだい。商用前にライセンスを読む" size={13} />
+      </Svg>
+    ),
+  },
+  "apple-intelligence": {
+    caption: "端末でできることは端末で。外に出るのは足りない分だけ",
+    render: () => (
+      <Svg h={300} title="Apple Intelligenceの処理の流れの図解">
+        <B x={15} y={105} w={120} h={75} label={"あなたの\n頼みごと"} />
+        <AH x1={140} x2={195} y={142} />
+        <B x={200} y={95} w={150} h={95} label={"端末の中で処理"} sub="多くはここで完結" fill={YELLOW} />
+        <AH x1={355} x2={440} y={142} label="重い処理だけ" />
+        <B x={445} y={95} w={140} h={95} label={"Apple専用の\nサーバー"} sub="暗号化して送る" />
+        <T x={300} y={232} text="個人データを扱う部分は、できる限り手元の端末で終わらせる設計" size={13.5} color={INK} />
+        <T x={300} y={262} text="Appleの説明では、サーバーに送った分も保存されないとされる" size={13} />
+      </Svg>
+    ),
+  },
+  "agentic-commerce": {
+    caption: "買い物客が「人」から「人に頼まれたAI」に変わる",
+    render: () => (
+      <Svg h={285} title="エージェンティックコマースの流れの図解">
+        <T x={313} y={74} text="これまで人がやっていた部分" size={13} />
+        <line x1={173} y1={84} x2={454} y2={84} stroke={MUTED} strokeWidth={2} strokeDasharray="6 4" />
+        <line x1={173} y1={84} x2={173} y2={94} stroke={MUTED} strokeWidth={2} />
+        <line x1={454} y1={84} x2={454} y2={94} stroke={MUTED} strokeWidth={2} />
+        <B x={10} y={100} w={118} h={80} label={"あなた"} sub="予算と条件を伝える" />
+        <AH x1={133} x2={168} y={140} />
+        <B x={173} y={100} w={118} h={80} label={"買うAI"} sub="探す・比べる" fill={YELLOW} />
+        <AH x1={296} x2={331} y={140} />
+        <B x={336} y={100} w={118} h={80} label={"店のサイト"} sub="売る側の受け口" />
+        <AH x1={459} x2={494} y={140} />
+        <B x={499} y={100} w={95} h={80} label={"決済"} sub="許可の証明" />
+        <T x={300} y={218} text="人が一つひとつ見なくても、AI同士のやり取りで買い物が進む" size={13.5} color={INK} />
+        <T x={300} y={248} text="売る側は「AIに正しく伝わるか」、買う側は「権限を絞れているか」" size={13} />
+      </Svg>
+    ),
+  },
+  jev: {
+    caption: "文章を書かせて読み取る回り道を、まるごと省く",
+    render: () => (
+      <Svg h={310} title="Jevと従来のLLMの違いの図解">
+        <T x={300} y={32} text="これまで：文章を書かせてから、判断を取り出す" size={13} />
+        <B x={15} y={45} w={110} h={60} label={"アプリの\n状態"} />
+        <AH x1={130} x2={165} y={75} />
+        <B x={170} y={45} w={105} h={60} label={"LLM"} />
+        <AH x1={280} x2={315} y={75} />
+        <B x={320} y={45} w={120} h={60} label={"文章を生成"} />
+        <AH x1={445} x2={480} y={75} />
+        <B x={485} y={45} w={105} h={60} label={"判断を\n取り出す"} />
+        <T x={300} y={152} text="Jev：判断そのものを返す" size={13} />
+        <B x={15} y={165} w={110} h={60} label={"アプリの\n状態"} />
+        <AH x1={130} x2={200} y={195} />
+        <B x={205} y={165} w={130} h={60} label={"Jev"} sub="文章を書かない" fill={YELLOW} />
+        <AH x1={340} x2={395} y={195} />
+        <B x={400} y={165} w={190} h={60} label={"判断＋確からしさ"} sub="型の決まった値" />
+        <T x={300} y={258} text="一語ずつ書かせる工程が無いぶん、速くて安い" size={13.5} color={INK} />
+        <T x={300} y={288} text="ただし「型から外れない」だけで、判断を間違えないわけではない" size={13} />
+      </Svg>
+    ),
+  },
+  googlebook: {
+    caption: "AIが「アプリの1つ」から「土台の側」へ移る",
+    render: () => (
+      <Svg h={265} title="これまでのPCとGooglebookの構造の違いの図解">
+        <T x={155} y={30} text="これまでのPC" size={14} color={INK} bold />
+        <T x={440} y={30} text="Googlebook" size={14} color={INK} bold />
+        <B x={30} y={45} w={78} h={50} label={"アプリ"} />
+        <B x={116} y={45} w={78} h={50} label={"アプリ"} />
+        <B x={202} y={45} w={78} h={50} label={"AIアプリ"} />
+        <B x={30} y={110} w={250} h={60} label={"OS"} sub="アプリを動かす土台" />
+        <B x={310} y={45} w={122} h={50} label={"アプリ"} />
+        <B x={442} y={45} w={128} h={50} label={"アプリ"} />
+        <B x={310} y={110} w={260} h={60} label={"AI（Gemini）"} sub="土台の側で画面を見ている" fill={YELLOW} />
+        <T x={300} y={205} text="呼び出して使うAIから、最初からそこにいるAIへ" size={13.5} color={INK} />
+        <T x={300} y={235} text="2026年9月時点では予約開始前。日本での提供時期と価格は未確定" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {

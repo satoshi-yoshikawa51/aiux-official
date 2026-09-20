@@ -56,8 +56,9 @@ export const RECORD_GROUPS: RecordGroup[] = [
     client: "株式会社ニジボックスの業務として",
     linkLabel: "動画を見る",
     urls: [
-      "https://www.youtube.com/watch?v=iCXRhKaAB6M",
-      "https://www.youtube.com/watch?v=c7ahkpVh2bU",
+      "https://www.youtube.com/watch?v=5Xz9OMSUXRw",
+      "https://www.youtube.com/watch?v=tzHltsmZH2s",
+      "https://www.youtube.com/watch?v=8fzACTQxme0",
     ],
   },
   {
@@ -68,6 +69,7 @@ export const RECORD_GROUPS: RecordGroup[] = [
     client: "株式会社ニジボックスの業務として",
     linkLabel: "アーカイブを見る",
     urls: [
+      "https://www.youtube.com/watch?v=mAuMdpBv9vA",
       "https://www.youtube.com/watch?v=g2kTo6uRlF0",
       "https://www.youtube.com/watch?v=yQPFYp9IOkk",
       "https://www.youtube.com/watch?v=qorckco4JFc",
@@ -85,6 +87,7 @@ export const RECORD_GROUPS: RecordGroup[] = [
     client: "株式会社ニジボックスの業務として",
     linkLabel: "記事を読む",
     urls: [
+      "https://blog.nijibox.jp/article/claude-cowork_claude-code_chat",
       "https://blog.nijibox.jp/article/ai_wireframe_2",
       "https://blog.nijibox.jp/article/ai-coding",
       "https://blog.nijibox.jp/article/ai-agents",
@@ -124,7 +127,7 @@ export const RECORD_GROUPS: RecordGroup[] = [
    いちばん見せたいものから手で決める。ここを書き換えれば順番が変わる。
    /record の中の順番（区分ごとに新しい順）には影響しない。 */
 export const TOP_RECORD_URLS = [
-  "https://www.youtube.com/watch?v=iCXRhKaAB6M", // 【Claude活用入門編】スキルを簡単につくって使いこなすコツ
+  "https://www.youtube.com/watch?v=tzHltsmZH2s", // 【Claude活用入門編】スキルを簡単につくって使いこなすコツ（URL変更後）
   "https://www.youtube.com/watch?v=g2kTo6uRlF0", // AI時代の業務改革最前線〜Claude Code・Claude Designで広がる可能性〜
   "https://blog.nijibox.jp/article/ui-ux-camp-2026", // UI UX Camp! 2026 〜いま、見つめなおすデザイン〜
 ];

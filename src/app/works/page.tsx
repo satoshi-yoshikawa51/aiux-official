@@ -8,7 +8,7 @@ import { Breadcrumb, SectionHead, ShareRow, WorkCard } from "./ui";
 export const metadata: Metadata = {
   title: "つくったもの一覧｜AIで作ったゲーム・アプリ｜COMIXAI",
   description:
-    "Claude Codeを遊びながら学べるRPG「Claude Code Quest」、手描きイラストから作った3Dゲーム、AIニュースリーダー「Prism」など、AIクリエイター吉川聡史がClaude・Claude Codeで作ったプロダクトを紹介。すべてブラウザですぐ試せます。",
+    "Claude Codeを遊びながら学べるRPG「Claude Code Quest」、GPT-6 Astra製の3Dアクション「CORE SHIFT」、AIニュースリーダー「Prism」など、AIクリエイター吉川聡史がClaudeやChatGPTで作ったプロダクトを紹介。すべてブラウザですぐ試せます。",
   keywords: [
     "Claude Code 作品",
     "AI ゲーム",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "COMIXAI",
     title: "つくったもの一覧｜AIで作ったゲーム・アプリ｜COMIXAI",
-    description: "Claude・Claude Codeで作ったゲームやアプリの一覧。すべてブラウザですぐ試せます。",
+    description: "ClaudeやChatGPTで作ったゲームやアプリの一覧。すべてブラウザですぐ試せます。",
     url: "/works",
     locale: "ja_JP",
     images: [{ url: "/ogp.png", width: 924, height: 540 }],
@@ -78,7 +78,7 @@ export default function WorksIndexPage() {
           AIでつくった、遊べるもの。
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 2, color: "var(--text-body)", margin: 0 }}>
-          「AIでこんなものが作れる」は、記事で読むより触ったほうが早い。Claude・Claude Codeで作ったゲームやアプリを、制作の裏側といっしょに紹介します。すべてブラウザですぐ試せて、作り方はnoteで公開中。気になったものから、どうぞ。
+          「AIでこんなものが作れる」は、記事で読むより触ったほうが早い。ClaudeやChatGPTで作ったゲームやアプリを、制作の裏側といっしょに紹介します。すべてブラウザですぐ試せて、作り方はnoteで公開中。気になったものから、どうぞ。
         </p>
       </section>
 

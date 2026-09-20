@@ -278,7 +278,7 @@ export default function CalendarPage() {
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <a href="/glossary" style={{ textDecoration: "none" }}>
             <Button variant="primary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
-              AI用語集（全150語）
+              AI用語集（全155語）
             </Button>
           </a>
           <a href="/history" style={{ textDecoration: "none" }}>

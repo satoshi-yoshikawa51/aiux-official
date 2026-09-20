@@ -1,118 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-08-25T21:56:27.804Z",
+  "updatedAt": "2026-09-19T23:28:52.913Z",
   "items": [
     {
-      "title": "アップル、M6／M5 Pro搭載の新「Mac mini」発表--AI性能4倍 14万9800円〜で9月22日発売",
-      "url": "https://japan.cnet.com/article/35251907/",
-      "source": "CNET Japan",
+      "title": "AI導入でつまずく中小企業、「何を・誰が・どう変えるか」を丸ごと支援",
+      "url": "https://kn.itmedia.co.jp/kn/article/2609/20/2000001627/",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-08-25T19:42:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/08/26/7ee1206a8a82d2943d15ec2510ad14f5/Apple-Mac-mini-hero-260825_big.jpg.large.jpeg"
+      "date": "2026-09-19T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/20/2000001627/10007004/2048"
     },
     {
-      "title": "Claude Cowork finally remembers what you told the app in chat",
-      "url": "https://techcrunch.com/2026/08/25/claude-cowork-finally-remembers-what-you-told-the-app-in-chat/",
+      "title": "Google’s Gemini is the latest AI model to hack other companies",
+      "url": "https://techcrunch.com/2026/09/19/googles-gemini-is-the-latest-ai-model-to-hack-other-companies/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-25T17:50:33.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/Claude-AI-app.jpg?resize=1200,842"
+      "date": "2026-09-19T17:30:00.000Z",
+      "titleJa": "GoogleのGeminiは他社をハッキングする最新のAIモデル",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
     },
     {
-      "title": "突然登場のM6搭載の「Mac mini」、AI性能は最大4倍アップ＆2.5GbEを標準サポート",
-      "url": "https://ascii.jp/elem/000/004/429/4429335/?rss",
+      "title": "Ryzen AI 5 340搭載で24万円台！ 23.8型ディスプレーの一体型デスクトップPCがFMV直販「目玉品」で登場！",
+      "url": "https://ascii.jp/elem/000/004/435/4435939/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-08-25T14:30:00.000Z",
-      "image": "https://ascii.jp/img/2026/08/25/4517236/xl/015be4fe1a33cd4f.jpg?20200122"
+      "date": "2026-09-19T11:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
     },
     {
-      "title": "OpenAI says its Jalapeño chip can power faster AI responses than the competition",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/984290/openai-jalapeno-ai-chip-benchmarks",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-25T14:00:00.000Z",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Jalapeno-chip-final.jpeg?quality=90&strip=all&crop=0%2C15.095986038394%2C100%2C69.808027923211&w=1200"
-    },
-    {
-      "title": "政府、AI事業者向け「知財保護ルール」策定 対象範囲・運用方針は？",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/25/2000000767/",
-      "source": "ITmedia AI＋",
+      "title": "文字起こし字幕編集ソフト「Zimaku」を公開。話者ごとの自動分離とAIチャット修正で、文字起こしから字幕修正を簡単に。ローカルでの文字起こしは無料。",
+      "url": "https://ascii.jp/elem/000/004/436/4436505/?rss",
+      "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-08-25T10:28:22.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/25/2000000767/10003713/2048"
+      "date": "2026-09-19T05:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "OpenAI subpoenaed by Alabama AG over Hugging Face hack",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-08-25T09:15:03.000Z",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK155_OPEN_AI_CVirginia_C-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "シャープ、対話型AIロボ「ポケとも」に新モデル あえて“全肯定しないキャラ”に 「暇だなー」と話しかけると……",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2608/25/2000000747/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-25T06:56:11.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2608/25/2000000747/10003637/2048"
-    },
-    {
-      "title": "エージェント型AIの導入拡大に必要なのは、業務プロセスと人材の再構築",
-      "url": "https://japan.zdnet.com/article/35251877/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-25T00:14:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/25/233c4e8d74a83faf13ee77b97afb6141/gettyimages-2288335595_1280.jpg"
-    },
-    {
-      "title": "Valor, Point72 back General Intuition at $6B valuation as AI startup pushes into robotics",
-      "url": "https://techcrunch.com/2026/08/24/valor-point72-back-general-intuition-at-6b-valuation-as-ai-startup-pushes-into-robotics/",
+      "title": "Manus seeks $4B valuation in new $500M fundraise as it resumes independent ops",
+      "url": "https://techcrunch.com/2026/09/18/manus-seeks-4b-valuation-in-new-500m-fundraise-as-it-resumes-independent-ops/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-24T15:24:18.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2019/03/robocash.jpg?resize=1200,849"
+      "date": "2026-09-18T16:35:49.000Z",
+      "titleJa": "マナスは独立した事業を再開するため、新たな5億ドルの資金調達で40億ドルの評価額を求める",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2278374931.jpg?w=1024"
     },
     {
-      "title": "Hugging Face reportedly in talks to be acquired for $13B",
-      "url": "https://techcrunch.com/2026/08/24/hugging-face-reportedly-in-talks-to-be-acquired-for-13b/",
+      "title": "A startup that builds other startups raised $100M and is all-in on physical AI",
+      "url": "https://techcrunch.com/2026/09/18/a-startup-that-builds-other-startups-raised-100m-and-is-all-in-on-physical-ai/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-08-24T13:47:26.000Z",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/hugging-face-logo-smartphone.jpg?resize=1200,800"
+      "date": "2026-09-18T23:25:01.000Z",
+      "titleJa": "他のスタートアップを構築するスタートアップが 1 億ドルを調達し、物理 AI に全力を注ぐ",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/Vantora_UpLabs_e18c36.jpg?resize=1200,781"
     },
     {
-      "title": "ランボルギーニのSDV開発やAI設計改善も、PTCが“アジア初”デモ機公開",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2608/25/news043.html",
+      "title": "AI導入は6割、でも8割超が「チャット止まり」 業務自動化まで進まない原因は？",
+      "url": "https://kn.itmedia.co.jp/kn/article/2609/19/2000001624/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-08-24T23:15:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2608/25/cover_news043.jpg"
+      "date": "2026-09-18T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/19/2000001624/10006994/2048"
     },
     {
-      "title": "建築業でも「Claudeの有料導入」が急増 AI導入レベルが上がった企業を悩ます「新たな壁」とは",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2608/25/news041.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-08-24T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2608/25/cover_news041.jpg"
+      "title": "OpenAI and Microsoft knew they were starting a ‘doom loop’ for the web",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/997633/openai-microsoft-chatgpt-ai-new-york-times-doom-loop-theft-google-zero",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-18T21:07:24.000Z",
+      "titleJa": "OpenAI と Microsoft は、ウェブの「破滅ループ」が始まっていることを認識していました",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS534_AI_DOOMSDAY2_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
-      "title": "クラウデラの首脳が語るソブリンAIとオンプレミス推論--「Anywhere Cloud」を発表",
-      "url": "https://japan.zdnet.com/article/35251817/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-08-24T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/08/21/a2b67e2366b89fa9eb9edde2ed8619e8/cloudera-charles_abbasc1.jpg"
-    },
-    {
-      "title": "Nvidia senior manager tied to ex-Supermicro staff's AI smuggling scheme",
-      "url": "https://arstechnica.com/tech-policy/2026/08/nvidia-senior-manager-linked-to-supermicro-scheme-smuggling-ai-servers-to-china/",
+      "title": "FAA tees up $875M AI tool to help manage air traffic congestion",
+      "url": "https://arstechnica.com/ai/2026/09/faa-tees-up-875m-ai-tool-to-help-manage-air-traffic-congestion/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-08-24T16:41:45.000Z",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/GettyImages-2285710586-1024x648.jpg"
+      "date": "2026-09-18T19:20:50.000Z",
+      "titleJa": "FAA、航空交通渋滞の管理に役立つ 8 億 7,500 万ドルの AI ツールを開発",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/DCA-airport-2560x1440.jpg"
+    },
+    {
+      "title": "NTTドコモビジネスら5社、「ワット・ビット連携」の実証開始-分散データセンター間でAI処理を最適化",
+      "url": "https://japan.zdnet.com/article/35252801/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-18T08:34:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/06/26/ccfb5157a7a8d18b93f691e55b344f78/250626_datacenter_as_1280_1464288338.jpg"
+    },
+    {
+      "title": "自然言語や画像から3D CADモデルを生成、資金調達で開発と海外展開を加速",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2609/18/news015.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-18T00:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2609/18/cover_news015.jpg"
+    },
+    {
+      "title": "Google announces new experimental \"CC\" AI agent for families",
+      "url": "https://arstechnica.com/google/2026/09/google-announces-new-experimental-cc-ai-agent-for-families/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-17T20:24:34.000Z",
+      "titleJa": "Google、家族向けの新しい実験的なAIエージェント「CC」を発表",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Google-CC-1152x648.png"
+    },
+    {
+      "title": "経営者は「AI導入」に夢中、現場は「IT環境」に疲弊 ITサポート軽視が招く時間・人件費ロスの実態",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/18/news036.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-17T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2609/18/cover_news036.jpg"
+    },
+    {
+      "title": "「AIで人類絶滅論」がOpenAIらの権力を強化 「規制される者が規制を作る」構図に",
+      "url": "https://japan.cnet.com/article/35252760/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-17T21:27:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/18/7e266a8f90fa1a8664255c673e195b4c/01.jpeg"
     }
   ]
 }

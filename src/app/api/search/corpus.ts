@@ -27,7 +27,7 @@ export interface SearchDoc {
 const PAGES: SearchDoc[] = [
   { id: "page:start", type: "ページ", title: "AIのはじめかた", url: "/start", text: "誰でも今日から始められる無料のAI学習コース。絵巻で歴史→マンガで全体像→用語→体験ゲーム→診断→実践の順に、全3章で構成した初心者向け学習ロードマップ。何から始めればいいかわからない人はここから。" },
   { id: "page:compare", type: "ページ", title: "ChatGPT・Claude・Gemini比較", url: "/compare", text: "3大AIの違いと用途別の使い分けを比較表で整理。どれを使えばいいか迷ったら。結論は1社に忠誠を誓わない使い分け。" },
-  { id: "page:glossary", type: "ページ", title: "AI用語集", url: "/glossary", text: "生成AI・LLM・RAG・AIエージェントなど、いまさら聞けないAI用語150語を図解つき・現場目線で解説する用語集。" },
+  { id: "page:glossary", type: "ページ", title: "AI用語集", url: "/glossary", text: "生成AI・LLM・RAG・AIエージェントなど、いまさら聞けないAI用語155語を図解つき・現場目線で解説する用語集。" },
   { id: "page:history", type: "ページ", title: "AI歴史絵巻", url: "/history", text: "1950年のチューリングテストから2026年のエージェント時代まで、AIの75年史をスクロールで読める年表絵巻。ブームと冬の時代の繰り返しがわかる。" },
   { id: "page:zukan", type: "ページ", title: "COMIXAI図鑑", url: "/zukan", text: "サイト内のゲームや診断で解放した項目が記録されるコレクション図鑑。全58項目。隠し部屋は全部で18ある。各ゲームの級・称号は最高位だけが図鑑に載る。" },
   { id: "page:uketsuke", type: "ページ", title: "COMIXAI AI受付", url: "/uketsuke", text: "AIが用件をヒアリングして、お問い合わせ内容を自動で要約して届けるチャット型の受付窓口。講演・寄稿・制作・取材の相談はここから。" },
