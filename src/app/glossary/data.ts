@@ -50,7 +50,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-09-20";
+export const GLOSSARY_UPDATED = "2026-09-21";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
