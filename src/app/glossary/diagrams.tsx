@@ -1432,6 +1432,24 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  googlebook: {
+    caption: "AIが「アプリの1つ」から「土台の側」へ移る",
+    render: () => (
+      <Svg h={265} title="これまでのPCとGooglebookの構造の違いの図解">
+        <T x={155} y={30} text="これまでのPC" size={14} color={INK} bold />
+        <T x={440} y={30} text="Googlebook" size={14} color={INK} bold />
+        <B x={30} y={45} w={78} h={50} label={"アプリ"} />
+        <B x={116} y={45} w={78} h={50} label={"アプリ"} />
+        <B x={202} y={45} w={78} h={50} label={"AIアプリ"} />
+        <B x={30} y={110} w={250} h={60} label={"OS"} sub="アプリを動かす土台" />
+        <B x={310} y={45} w={122} h={50} label={"アプリ"} />
+        <B x={442} y={45} w={128} h={50} label={"アプリ"} />
+        <B x={310} y={110} w={260} h={60} label={"AI（Gemini）"} sub="土台の側で画面を見ている" fill={YELLOW} />
+        <T x={300} y={205} text="呼び出して使うAIから、最初からそこにいるAIへ" size={13.5} color={INK} />
+        <T x={300} y={235} text="2026年9月時点では予約開始前。日本での提供時期と価格は未確定" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
