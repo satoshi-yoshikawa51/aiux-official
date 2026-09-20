@@ -1,7 +1,57 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-19T23:28:52.913Z",
+  "updatedAt": "2026-09-20T23:28:48.051Z",
   "items": [
+    {
+      "title": "双日調査、Copilot導入企業の87.5％が「情報分散」を課題 「横断検索AI」に期待か",
+      "url": "https://kn.itmedia.co.jp/kn/article/2609/21/2000001657/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-20T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/21/2000001657/10007156/2048"
+    },
+    {
+      "title": "6 days left to save up to $200 to TechCrunch Disrupt 2026",
+      "url": "https://techcrunch.com/2026/09/20/6-days-left-to-get-ahead-at-techcrunch-disrupt-2026/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-20T21:41:08.000Z",
+      "titleJa": "TechCrunch Disrupt 2026、最大200ドル割引はあと6日",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/02/TCD26_6Days-16X9-Dark.png?resize=1200,675"
+    },
+    {
+      "title": "No one is surprised that Nvidia’s Jensen Huang thinks AI fears are overblown.",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/997936/nvidia-jensen-huang-ai-fears-overblown",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-20T18:50:18.000Z",
+      "titleJa": "NvidiaのJensen Huangが「AIへの懸念は誇張されすぎ」と主張、驚く者はいない",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STKP210_JENSEN_HUANG_D.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "さびしい壁に何か飾りたいんだけど…AI搭載のスマート額縁で毎日ちがうアートをどうぞ",
+      "url": "https://www.gizmodo.jp/article/2609-jitrainno-ai-e-paper-frame/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-20T06:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/14/49d26e3c-c0d0-4527-8fec-6a477bd512b4/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "Claude・ChatGPTのサブスクで使えるデスクトップAIエージェントアプリ「Kari」をGotoAIが無償公開",
+      "url": "https://ascii.jp/elem/000/004/436/4436526/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-20T01:46:53.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "AIでMVを作るのは想像以上に大変だった 制作34時間、繰り返した“ダメ出し”でわかったこと",
+      "url": "https://ascii.jp/elem/000/004/436/4436544/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-20T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/21/4528526/xl/8c6852f013172d67.png?20200122"
+    },
     {
       "title": "AI導入でつまずく中小企業、「何を・誰が・どう変えるか」を丸ごと支援",
       "url": "https://kn.itmedia.co.jp/kn/article/2609/20/2000001627/",
@@ -16,33 +66,8 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-19T17:30:00.000Z",
-      "titleJa": "GoogleのGeminiは他社をハッキングする最新のAIモデル",
+      "titleJa": "GoogleのGemini、他社へのハッキングに使われた最新のAIモデルに",
       "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
-    },
-    {
-      "title": "Ryzen AI 5 340搭載で24万円台！ 23.8型ディスプレーの一体型デスクトップPCがFMV直販「目玉品」で登場！",
-      "url": "https://ascii.jp/elem/000/004/435/4435939/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-19T11:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
-    },
-    {
-      "title": "文字起こし字幕編集ソフト「Zimaku」を公開。話者ごとの自動分離とAIチャット修正で、文字起こしから字幕修正を簡単に。ローカルでの文字起こしは無料。",
-      "url": "https://ascii.jp/elem/000/004/436/4436505/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-19T05:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "Manus seeks $4B valuation in new $500M fundraise as it resumes independent ops",
-      "url": "https://techcrunch.com/2026/09/18/manus-seeks-4b-valuation-in-new-500m-fundraise-as-it-resumes-independent-ops/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-18T16:35:49.000Z",
-      "titleJa": "マナスは独立した事業を再開するため、新たな5億ドルの資金調達で40億ドルの評価額を求める",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2278374931.jpg?w=1024"
     },
     {
       "title": "A startup that builds other startups raised $100M and is all-in on physical AI",
@@ -50,7 +75,7 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-18T23:25:01.000Z",
-      "titleJa": "他のスタートアップを構築するスタートアップが 1 億ドルを調達し、物理 AI に全力を注ぐ",
+      "titleJa": "スタートアップを生み出すスタートアップが1億ドルを調達、フィジカルAIに全張り",
       "image": "https://techcrunch.com/wp-content/uploads/2026/09/Vantora_UpLabs_e18c36.jpg?resize=1200,781"
     },
     {
@@ -67,7 +92,7 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-09-18T21:07:24.000Z",
-      "titleJa": "OpenAI と Microsoft は、ウェブの「破滅ループ」が始まっていることを認識していました",
+      "titleJa": "OpenAIとMicrosoft、ウェブに「破滅のループ」をもたらすと知っていた",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS534_AI_DOOMSDAY2_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
@@ -76,7 +101,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-09-18T19:20:50.000Z",
-      "titleJa": "FAA、航空交通渋滞の管理に役立つ 8 億 7,500 万ドルの AI ツールを開発",
+      "titleJa": "FAA、航空交通の混雑管理に8億7500万ドルのAIツール導入へ",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/DCA-airport-2560x1440.jpg"
     },
     {
@@ -94,31 +119,6 @@
       "lang": "ja",
       "date": "2026-09-18T00:00:00.000Z",
       "image": "https://image.itmedia.co.jp/mn/articles/2609/18/cover_news015.jpg"
-    },
-    {
-      "title": "Google announces new experimental \"CC\" AI agent for families",
-      "url": "https://arstechnica.com/google/2026/09/google-announces-new-experimental-cc-ai-agent-for-families/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-17T20:24:34.000Z",
-      "titleJa": "Google、家族向けの新しい実験的なAIエージェント「CC」を発表",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Google-CC-1152x648.png"
-    },
-    {
-      "title": "経営者は「AI導入」に夢中、現場は「IT環境」に疲弊 ITサポート軽視が招く時間・人件費ロスの実態",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/18/news036.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-17T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2609/18/cover_news036.jpg"
-    },
-    {
-      "title": "「AIで人類絶滅論」がOpenAIらの権力を強化 「規制される者が規制を作る」構図に",
-      "url": "https://japan.cnet.com/article/35252760/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-17T21:27:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/18/7e266a8f90fa1a8664255c673e195b4c/01.jpeg"
     }
   ]
 }
