@@ -398,14 +398,18 @@ async function judgeAiNewsWithClaude(titles) {
         output_config: { effort: "low" },
         system:
           "あなたはAIニュース欄の編集者。見出しごとに「AI（人工知能）分野の動きのキャッチアップに役立つか」を判定する。" +
-          "採用（true）: 新モデル・新製品・新サービス・新企業の登場、発表・提携・買収・調達・規制・障害などの出来事、新しく話題になっているAIプロダクトや技術の解説。" +
-          "不採用（false）: AIと無関係の話題、特定の新しい動きに紐づかない一般的なハウツー・チュートリアル・個人の作業ログ・宣伝。",
+          "採用: 新モデル・新製品・新サービス・新企業の登場、発表・提携・買収・調達・規制・障害などの出来事、新しく話題になっているAIプロダクトや技術の解説。" +
+          "不採用: AIと無関係の話題、特定の新しい動きに紐づかない一般的なハウツー・チュートリアル・個人の作業ログ・宣伝。",
         messages: [
           {
             role: "user",
             content:
-              "次の見出しを判定し、JSON配列（trueまたはfalseのみ・同じ順・同じ本数）だけを返してください。\n" +
-              JSON.stringify(titles),
+              /* 採用する番号だけを返させる。真偽値を全件並べる形は1個ずれた
+                 だけで全件を捨てることになり、実際に58本が59個返って全滅した
+                 （2026-09-21のCIログ）。番号方式なら過不足があっても
+                 その番号を無視するだけで済み、出力も短い */
+              "次の見出しのうち、採用するものの番号だけをJSON配列（数値のみ）で返してください。該当なしなら [] を返してください。\n" +
+              titles.map((t, i) => `${i}: ${t}`).join("\n"),
           },
         ],
       }),
@@ -425,13 +429,19 @@ async function judgeAiNewsWithClaude(titles) {
       .join("");
     const m = text.match(/\[[\s\S]*\]/);
     const arr = JSON.parse(m ? m[0] : text);
-    if (!Array.isArray(arr) || arr.length !== titles.length) {
-      console.log(
-        `  AI判定: 応答の本数が不一致（${Array.isArray(arr) ? arr.length : "配列以外"} / ${titles.length}本）`
-      );
+    if (!Array.isArray(arr)) {
+      console.log("  AI判定: 応答がJSON配列ではなかった");
       return null;
     }
-    return arr.map(Boolean);
+    const picked = new Set();
+    let ignored = 0;
+    for (const n of arr) {
+      const i = Number(n);
+      if (Number.isInteger(i) && i >= 0 && i < titles.length) picked.add(i);
+      else ignored += 1;
+    }
+    if (ignored > 0) console.log(`  AI判定: 範囲外の番号を${ignored}件無視しました`);
+    return titles.map((_, i) => picked.has(i));
   } catch (e) {
     console.log(`  AI判定: 失敗（${e.message}）`);
     return null;
