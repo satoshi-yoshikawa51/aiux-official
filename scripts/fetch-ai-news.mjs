@@ -9,7 +9,10 @@
 
    方針:
    ・載せるのは見出し・出典名・リンクのみ（本文は転載しない）
-   ・総合系フィードはAI関連キーワードで絞り込む
+   ・総合系フィードはAI関連キーワードで絞り込む。ただしキーワードの
+     正規表現は新登場の固有名詞（新モデル名・新企業名）を知らないため、
+     不一致の見出しは即落とさず、ANTHROPIC_API_KEY があれば Claude の
+     判定で救済する（キー未設定・失敗時は従来どおり不採用）
    ・「話題」枠として、はてなブックマークIT人気エントリからAI関連を採用
      （リンク先は元記事。Xの代替となる「日本で話題」のシグナル）
    ・英語見出しは日本語へ自動翻訳（失敗時は原文のまま）
@@ -105,12 +108,18 @@ const NOISE =
 const HOWTO =
   /してみた|してみる|してもらった|作ってもらった|やってみ|作ってみ|試してみ|使ってみ|書いてみ|聞いてみ|入門|チュートリアル|ハンズオン|徹底解説|完全ガイド|する方法|の方法|作り方|使い方|手順|備忘録|◯選|[0-9０-９]+選|まとめ$|Tips|プラクティス|構築する|進め方|考え方|話$|件$/i;
 
-/* 海外枠：コラム・ポッドキャスト・レビュー・リスト記事を除外し、
-   「事実の動き」を伝える見出しだけ採用する（機械翻訳しても意味が通る） */
+/* 海外枠：コラム・ポッドキャスト・レビュー・リスト記事を除外する
+   （残るのは機械翻訳しても意味が通る「事実の動き」の見出し） */
 const EN_NOISE =
   /\?|podcast|vergecast|installer|newsletter|op-ed|opinion|review:|hands-?on|we tried|i tried|here['’]?s (how|what|why)|^how\b|how to|what to|the best|worth|explained|everything you need|recap|roundup|plot to|case study|customer story/i;
+/* 「事実の動き」を強く示す語。かつては海外枠の採用必須条件だったが、
+   launch系の動詞も大手の固有名詞も含まない大ニュースを落としてしまう
+   （例: 2026-09 TypeSafe AI「Jev」のTechCrunch記事 "A new kind of AI model
+   from a ChatGPT inventor is thrilling developers"）。海外フィードは全て
+   AI専門カテゴリで EN_NOISE の除外だけで足りるので、採用条件からは外し、
+   score() の加点にだけ使う */
 const EN_HARD =
-  /launch|unveil|release|announce|introduc|debut|roll(s|ed|ing)? out|raise|funding|valuation|acquir|acquisition|merger|partner|invest|ban|law|regulat|court|sue|lawsuit|settle|fine[ds]?|appoint|resign|layoff|cuts?|outage|leak|breach|record (profit|revenue|high)|billion|\$[0-9]|GPT-|Claude|Gemini|Llama|OpenAI|Anthropic|DeepMind|Nvidia|new model|update|expand|deal|report[s:]|study|pilot|test(s|ing) /i;
+  /launch|unveil|release|announce|introduc|debut|roll(s|ed|ing)? out|raise|funding|valuation|acquir|acquisition|merger|partner|invest|ban|law|regulat|court|sue|lawsuit|settle|fine[ds]?|appoint|resign|layoff|cuts?|outage|leak|breach|record (profit|revenue|high)|billion|\$[0-9]|GPT-|ChatGPT|Claude|Gemini|Llama|OpenAI|Anthropic|DeepMind|Nvidia|new (kind of )?(AI )?model|update|expand|deal|report[s:]|study|pilot|test(s|ing) /i;
 
 /* 「キャッチアップすべき動き」を示す語。並び順のスコアに使う */
 const IMPORTANT =
@@ -119,6 +128,8 @@ const IMPORTANT =
 const MAX_PER_FEED = 4;
 const MAX_BUZZ = 2;
 const MIN_BUZZ_COUNT = 30; /* この数未満のブックマークは「話題」と呼ばない */
+const BUZZ_RESCUE_COUNT = 300; /* この数以上の大バズは、ハウツー調でもClaude判定に回す */
+const MAX_AI_CHECK = 120; /* Claude判定に回す見出しの上限（1リクエスト） */
 const MAX_JA = 8;
 const MAX_EN = 6;
 const MAX_AGE_DAYS = 3;
@@ -165,18 +176,27 @@ function parseFeed(xml, feed) {
       stripHtml(pick(b, "updated"));
     const d = new Date(dateRaw);
     if (!title || !link || Number.isNaN(d.getTime())) continue;
-    if (feed.filter && !AI_KEYWORDS.test(title)) continue;
     if (NOISE.test(title)) continue;
-    /* 話題枠：ハウツー・個人ログを除外（ニュース欄に体験記は載せない） */
-    if (feed.kind === "buzz" && HOWTO.test(title)) continue;
-    /* 海外枠：コラム・レビュー系を除外し、事実ニュースだけ通す。
-       90字を超える見出しは長文コラムの可能性が高く、翻訳も崩れるので除外 */
-    if (feed.lang === "en" && (EN_NOISE.test(title) || !EN_HARD.test(title) || title.length > 90)) continue;
     /* はてブのブックマーク数（＝その日の話題度）。閾値未満は不採用。
        トップページの「今日イチの話題」の選定にも使う */
     const countRaw = pick(b, "hatena:bookmarkcount");
     const count = countRaw ? Number(stripHtml(countRaw)) : undefined;
     if (feed.kind === "buzz" && !(Number.isFinite(count) && count >= MIN_BUZZ_COUNT)) continue;
+    /* キーワード正規表現は新登場の固有名詞（新モデル名・新企業名）を知らない。
+       不一致でも即落とさず needsAiCheck を付けて後段のClaude判定に回す
+       （判定できないときはそこで落ちる＝従来と同じ挙動）。
+       話題枠のハウツー・個人ログ除外（ニュース欄に体験記は載せない）は維持しつつ、
+       大バズ（BUZZ_RESCUE_COUNT以上）だけは新プロダクト解説の可能性があるので
+       判定に回す */
+    let needsAiCheck = false;
+    if (feed.filter && !AI_KEYWORDS.test(title)) needsAiCheck = true;
+    if (feed.kind === "buzz" && HOWTO.test(title)) {
+      if ((count ?? 0) >= BUZZ_RESCUE_COUNT) needsAiCheck = true;
+      else continue;
+    }
+    /* 海外枠：コラム・レビュー系を除外する。
+       90字を超える見出しは長文コラムの可能性が高く、翻訳も崩れるので除外 */
+    if (feed.lang === "en" && (EN_NOISE.test(title) || title.length > 90)) continue;
     const url = link.split("?utm")[0];
     items.push({
       title,
@@ -186,6 +206,7 @@ function parseFeed(xml, feed) {
       lang: feed.lang,
       ...(feed.kind ? { kind: feed.kind } : {}),
       ...(Number.isFinite(count) ? { count } : {}),
+      ...(needsAiCheck ? { needsAiCheck: true } : {}),
       date: d.toISOString(),
     });
   }
@@ -351,6 +372,82 @@ async function translateAllWithClaude(titles) {
   }
 }
 
+/* AI関連キーワードに一致しなかった候補見出しを Claude に一括判定させる
+   （1リクエスト）。「Jev」のようにキーワードリストが知らない新固有名詞の
+   ニュース＝いちばんキャッチアップ価値が高い「新プレイヤーの登場」を、
+   正規表現の陳腐化で取り逃さないための救済。
+   キー未設定・失敗時は null を返し、呼び出し側で従来どおり不採用にする */
+async function judgeAiNewsWithClaude(titles) {
+  const key = process.env.ANTHROPIC_API_KEY;
+  if (!key || titles.length === 0) return null;
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": key,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "claude-opus-5",
+        /* Opus 5は思考（thinking）が既定でONで、思考分もmax_tokensを消費する。
+           1500では100本前後の判定の思考中に尽きて、配列を書く前に切れて全滅した
+           （2026-09-20のCIログで確認）。単純な判定なのでeffortを低くしつつ、
+           枠は思考込みで余裕を持たせる */
+        max_tokens: 8000,
+        output_config: { effort: "low" },
+        system:
+          "あなたはAIニュース欄の編集者。見出しごとに「AI（人工知能）分野の動きのキャッチアップに役立つか」を判定する。" +
+          "採用: 新モデル・新製品・新サービス・新企業の登場、発表・提携・買収・調達・規制・障害などの出来事、新しく話題になっているAIプロダクトや技術の解説。" +
+          "不採用: AIと無関係の話題、特定の新しい動きに紐づかない一般的なハウツー・チュートリアル・個人の作業ログ・宣伝。",
+        messages: [
+          {
+            role: "user",
+            content:
+              /* 採用する番号だけを返させる。真偽値を全件並べる形は1個ずれた
+                 だけで全件を捨てることになり、実際に58本が59個返って全滅した
+                 （2026-09-21のCIログ）。番号方式なら過不足があっても
+                 その番号を無視するだけで済み、出力も短い */
+              "次の見出しのうち、採用するものの番号だけをJSON配列（数値のみ）で返してください。該当なしなら [] を返してください。\n" +
+              titles.map((t, i) => `${i}: ${t}`).join("\n"),
+          },
+        ],
+      }),
+    });
+    /* 失敗の理由をログに残す（次に壊れたとき、CIログだけで切り分けられるように） */
+    if (!res.ok) {
+      console.log(`  AI判定: APIエラー HTTP ${res.status}`);
+      return null;
+    }
+    const data = await res.json();
+    if (data.stop_reason === "max_tokens") {
+      console.log("  AI判定: 応答がmax_tokensで途切れた（max_tokensを増やすこと）");
+    }
+    const text = (data.content || [])
+      .filter((b) => b.type === "text")
+      .map((b) => b.text)
+      .join("");
+    const m = text.match(/\[[\s\S]*\]/);
+    const arr = JSON.parse(m ? m[0] : text);
+    if (!Array.isArray(arr)) {
+      console.log("  AI判定: 応答がJSON配列ではなかった");
+      return null;
+    }
+    const picked = new Set();
+    let ignored = 0;
+    for (const n of arr) {
+      const i = Number(n);
+      if (Number.isInteger(i) && i >= 0 && i < titles.length) picked.add(i);
+      else ignored += 1;
+    }
+    if (ignored > 0) console.log(`  AI判定: 範囲外の番号を${ignored}件無視しました`);
+    return titles.map((_, i) => picked.has(i));
+  } catch (e) {
+    console.log(`  AI判定: 失敗（${e.message}）`);
+    return null;
+  }
+}
+
 console.log("AIニュースの見出しを取得します…");
 const all = (await Promise.all(FEEDS.map(fetchFeed))).flat();
 
@@ -364,11 +461,33 @@ const fresh = all
   .filter((a) => new Date(a.date).getTime() >= cutoff)
   .sort((x, y) => (x.date < y.date ? 1 : -1));
 
+/* キーワード不一致のまま残っている候補（needsAiCheck）をClaudeで一括判定。
+   話題度（ブックマーク数）が高い順に上限まで送り、trueだけ残す。
+   判定できないとき（キー未設定・失敗・上限超過）は従来どおり不採用 */
+const flagged = fresh
+  .filter((a) => a.needsAiCheck)
+  .sort((x, y) => (y.count ?? 0) - (x.count ?? 0))
+  .slice(0, MAX_AI_CHECK);
+const rescued = new Set();
+if (flagged.length > 0) {
+  const verdicts = await judgeAiNewsWithClaude(flagged.map((a) => a.title));
+  if (verdicts) {
+    flagged.forEach((a, i) => {
+      if (verdicts[i]) rescued.add(a);
+    });
+    console.log(`  AI判定: キーワード不一致${flagged.length}本中 ${rescued.size}本を救済（claude）`);
+  } else {
+    console.log(`  AI判定: 実行できず、キーワード不一致の${flagged.length}本は不採用（従来どおり）`);
+  }
+}
+const screened = fresh.filter((a) => !a.needsAiCheck || rescued.has(a));
+for (const a of screened) delete a.needsAiCheck;
+
 /* 同一URL・同一見出しの重複除去（はてブと元媒体の重複対策） */
 const seenUrl = new Set();
 const seenTitle = new Set();
 const deduped = [];
-for (const a of fresh) {
+for (const a of screened) {
   const t = a.title.toLowerCase();
   if (seenUrl.has(a.url) || seenTitle.has(t)) continue;
   seenUrl.add(a.url);
@@ -378,13 +497,13 @@ for (const a of fresh) {
 
 /* 「大きなニュース」の指標：巨額・主要プレイヤー・主要モデル・規制/IPO */
 const MEGA =
-  /billion|\$\d+(\.\d+)?\s?(B|bn|billion)|OpenAI|Anthropic|Google|DeepMind|Meta|Microsoft|Nvidia|Apple|Amazon|xAI|GPT-\d|Claude|Gemini|Llama|Grok|EU\b|antitrust|White House|IPO|frontier model/i;
+  /billion|\$\d+(\.\d+)?\s?(B|bn|billion)|OpenAI|Anthropic|Google|DeepMind|Meta|Microsoft|Nvidia|Apple|Amazon|xAI|GPT-\d|ChatGPT|Claude|Gemini|Llama|Grok|EU\b|antitrust|White House|IPO|frontier model|new kind of/i;
 
 /* 見出しの「キャッチアップ価値」スコア。採用順・表示順に使う */
 function score(a) {
   let s = a.kind === "buzz" ? 1 : 2; /* 報道媒体を話題枠より優先 */
   if (a.lang === "ja" && IMPORTANT.test(a.title)) s += 2;
-  if (a.lang === "en" && /launch|unveil|announce|release|acquir|raise|valuation|billion|\$[0-9]|ban|lawsuit|outage|breach/i.test(a.title)) s += 2;
+  if (a.lang === "en" && EN_HARD.test(a.title)) s += 2; /* 「事実の動き」を示す語で加点 */
   if (a.lang === "en" && MEGA.test(a.title)) s += 2; /* 海外は「大きさ」を最重視 */
   if (a.source.includes("公式")) s += 1; /* 一次情報（公式発表）を格上げ */
   if (a.kind === "buzz" && (a.count ?? 0) >= 100) s += 1; /* 大バズは格上げ */
