@@ -24,7 +24,7 @@ import {
 import { WORK_DETAILS } from "./works/data";
 import Splash from "./splash";
 import { WorkCard } from "./works/ui";
-import { FEATURED_TERMS } from "./glossary/data";
+import { FEATURED_TERMS, HOT_TERMS } from "./glossary/data";
 import { FEATURED_RECIPES } from "./prompts/data";
 import { GUIDES } from "./guide/data";
 import { RecordCard, RecordGrid, RECORD_TOTAL, TOP_RECORDS } from "./profile/record-ui";
@@ -641,6 +641,41 @@ function Glossary() {
               <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
             </a>
           ))}
+        </div>
+
+        {/* —— いま話題の用語（ニュース波の来ている語へ内部リンクを寄せる） —— */}
+        <div style={{ marginTop: 26, maxWidth: 880 }}>
+          <div style={{ fontFamily: "var(--font-hand)", fontSize: 15, color: "var(--text-muted)", marginBottom: 10 }}>
+            <i className="ph-bold ph-trend-up" style={{ color: "var(--red-500)", marginRight: 6 }} />
+            いま話題
+          </div>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            {HOT_TERMS.map((t) => (
+              <a
+                key={t.slug}
+                href={`/glossary/${t.slug}`}
+                data-ga="card_click"
+                data-ga-place="top-glossary-hot"
+                data-ga-path={`/glossary/${t.slug}`}
+                style={{
+                  textDecoration: "none",
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: "var(--ink-900)",
+                  background: "var(--yellow-400)",
+                  border: "var(--bw-line) solid var(--ink-900)",
+                  borderRadius: "var(--radius-full)",
+                  padding: "10px 18px",
+                  boxShadow: "var(--shadow-pop-sm)",
+                }}
+              >
+                {t.term}
+                <span style={{ color: "var(--ink-900)", fontWeight: 500, opacity: 0.66 }}>とは</span>
+                <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", marginLeft: 6 }} />
+              </a>
+            ))}
+          </div>
         </div>
         <div style={{ textAlign: "center", marginTop: 34 }}>
           <a href="/glossary" data-ga="cta_click" data-ga-place="glossary-more" style={{ textDecoration: "none" }}>

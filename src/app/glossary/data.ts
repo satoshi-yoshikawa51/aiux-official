@@ -43,6 +43,11 @@ export interface GlossaryTerm {
   links: TermLink[];
   relatedSlugs: string[];
   lastUpdated: string;
+  /** メタタイトルの先頭を上書きする（Search Consoleの実クエリに寄せたいときだけ）。
+      未設定なら「◯◯とは？意味をわかりやすく解説」の既定形。h1・本文には影響しない */
+  seoHead?: string;
+  /** metaのkeywordsに追加する語（検索クエリの表記ゆれ対策） */
+  extraKeywords?: string[];
   /** 手描きイラスト（設定するとSVG図解の代わりに表示される）。
       public/glossary/ に画像を置いて { src: "/glossary/rag.png", alt: "..." } を指定 */
   image?: { src: string; alt: string };
@@ -602,6 +607,7 @@ const TERMS_BATCH1: GlossaryTerm[] = [
     term: "AIワークフロー",
     yomi: "エーアイわーくふろー",
     en: "AI Workflow",
+    extraKeywords: ["AIワークフロー 作り方", "AIワークフロー 事例", "ai workflow とは"],
     category: "開発・活用",
     short:
       "複数の作業ステップにAIを組み込み、一連の業務の流れとして設計したもの。単発の「AIに聞く」から、仕事のプロセス全体をAIと分担する段階への進化。",
@@ -2514,6 +2520,15 @@ export const TERMS: GlossaryTerm[] = [
 ];
 
 export const FEATURED_TERMS = FEATURED_SLUGS.map((sl) => TERMS.find((t) => t.slug === sl)!).filter(Boolean);
+
+/* トップの「いま話題」チップ。ニュース波が来ている・来そうな用語へ内部リンクを
+   寄せて、10〜20位で止まっているページを押し上げる。Search Consoleの
+   表示回数を見て手で入れ替える（自動化しない：話題の鮮度は人間の判断） */
+export const HOT_SLUGS = [
+  "gpt-6", "claude-fable", "apple-intelligence",
+  "ai-glasses", "pacing-the-frontier", "ai-bubble",
+];
+export const HOT_TERMS = HOT_SLUGS.map((sl) => TERMS.find((t) => t.slug === sl)!).filter(Boolean);
 
 export const TERM_CATEGORIES: TermCategory[] = ["基礎知識", "しくみ・技術", "開発・活用"];
 
