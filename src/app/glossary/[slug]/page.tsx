@@ -90,13 +90,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
      ように長い語だと、決まり文句とサイト名を足したところで検索結果では
      切られてしまうので、短い言い回しから順に入るものを選ぶ。 */
   const head =
-    [title, `${t.term}とは？わかりやすく解説`, `${t.term}とは？意味を解説`].find(
+    t.seoHead ??
+    ([title, `${t.term}とは？わかりやすく解説`, `${t.term}とは？意味を解説`].find(
       (s) => titleWidth(s) <= 30,
-    ) ?? `${t.term}とは？`;
+    ) ?? `${t.term}とは？`);
   return {
     title: seoTitle(head, "AI用語集", "COMIXAI"),
     description: t.short,
-    keywords: [`${t.term}とは`, `${t.term} 意味`, `${t.term} わかりやすく`, "AI 用語集", "生成AI"],
+    keywords: [`${t.term}とは`, `${t.term} 意味`, `${t.term} わかりやすく`, "AI 用語集", "生成AI", ...(t.extraKeywords ?? [])],
     alternates: { canonical: `/glossary/${t.slug}` },
     openGraph: {
       type: "article",
@@ -192,6 +193,11 @@ export default async function GlossaryTermPage({ params }: Props) {
             <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
               <Badge tone="red">{t.category}</Badge>
               <span style={{ fontFamily: "var(--font-hand)", fontSize: 14, color: "var(--text-muted)" }}>{t.yomi}</span>
+              {/* 更新日を目に見える形で出す（構造化データのdateModifiedと対）。
+                  検索エンジン・AIクローラーに鮮度を伝えるAIO施策 */}
+              <span style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)" }}>
+                {t.lastUpdated.replace(/(\d+)-0?(\d+)-0?(\d+)/, "$1年$2月$3日")}更新
+              </span>
               {t.en && <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)" }}>{t.en}</span>}
             </div>
             <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "clamp(28px,4.4vw,44px)", lineHeight: 1.3, margin: "0 0 22px" }}>

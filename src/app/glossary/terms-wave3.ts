@@ -13,6 +13,10 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
     term: "GPT-6（GPT-6 Astra）",
     yomi: "じーぴーてぃーしっくす あすとら",
     en: "GPT-6 Astra",
+    /* Search Consoleで「chatgpt 6」系の表記ゆれ表示が多いため、
+       タイトルにChatGPTを含めた形に上書き（2026-09-21） */
+    seoHead: "GPT-6とは？ChatGPT最上位のAstra",
+    extraKeywords: ["ChatGPT 6", "ChatGPT6 とは", "GPT-6 Astra", "ChatGPT 最新モデル"],
     category: "開発・活用",
     short:
       "OpenAIが2026年9月に公開した最上位モデル。数学・科学系ベンチマークやPC自動操作で最高水準を記録した一方、チャットで使えるのは上位プラン中心で、サイバー関連の高度な依頼は安全方針により断る設計になっている。",
