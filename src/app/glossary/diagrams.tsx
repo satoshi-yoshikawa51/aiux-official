@@ -1450,6 +1450,23 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "doom-loop": {
+    caption: "汲み上げる側が、水源そのものを枯らしてしまう",
+    render: () => (
+      <Svg h={325} title="破滅ループ（AIとウェブの悪循環）の図解">
+        <B x={40} y={50} w={210} h={65} label={"AIが答えを出し切る"} fill={YELLOW} />
+        <AH x1={255} x2={345} y={82} />
+        <B x={350} y={50} w={210} h={65} label={"サイトに人が来ない"} />
+        <AV x={455} y1={120} y2={160} />
+        <B x={350} y={165} w={210} h={65} label={"書き手が減る"} />
+        <AH x1={345} x2={255} y={197} />
+        <B x={40} y={165} w={210} h={65} label={"AIの学ぶ材料が痩せる"} />
+        <AV x={145} y1={160} y2={120} />
+        <T x={300} y={270} text="輪がひと回りして、AI自身の足場にも返ってくる" size={13.5} color={INK} />
+        <T x={300} y={298} text="2026年9月、この言葉がMicrosoftの社内文書にあったと報じられた" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
