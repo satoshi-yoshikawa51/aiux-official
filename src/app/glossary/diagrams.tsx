@@ -1409,6 +1409,64 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  jev: {
+    caption: "文章を書かせて読み取る回り道を、まるごと省く",
+    render: () => (
+      <Svg h={310} title="Jevと従来のLLMの違いの図解">
+        <T x={300} y={32} text="これまで：文章を書かせてから、判断を取り出す" size={13} />
+        <B x={15} y={45} w={110} h={60} label={"アプリの\n状態"} />
+        <AH x1={130} x2={165} y={75} />
+        <B x={170} y={45} w={105} h={60} label={"LLM"} />
+        <AH x1={280} x2={315} y={75} />
+        <B x={320} y={45} w={120} h={60} label={"文章を生成"} />
+        <AH x1={445} x2={480} y={75} />
+        <B x={485} y={45} w={105} h={60} label={"判断を\n取り出す"} />
+        <T x={300} y={152} text="Jev：判断そのものを返す" size={13} />
+        <B x={15} y={165} w={110} h={60} label={"アプリの\n状態"} />
+        <AH x1={130} x2={200} y={195} />
+        <B x={205} y={165} w={130} h={60} label={"Jev"} sub="文章を書かない" fill={YELLOW} />
+        <AH x1={340} x2={395} y={195} />
+        <B x={400} y={165} w={190} h={60} label={"判断＋確からしさ"} sub="型の決まった値" />
+        <T x={300} y={258} text="一語ずつ書かせる工程が無いぶん、速くて安い" size={13.5} color={INK} />
+        <T x={300} y={288} text="ただし「型から外れない」だけで、判断を間違えないわけではない" size={13} />
+      </Svg>
+    ),
+  },
+  googlebook: {
+    caption: "AIが「アプリの1つ」から「土台の側」へ移る",
+    render: () => (
+      <Svg h={265} title="これまでのPCとGooglebookの構造の違いの図解">
+        <T x={155} y={30} text="これまでのPC" size={14} color={INK} bold />
+        <T x={440} y={30} text="Googlebook" size={14} color={INK} bold />
+        <B x={30} y={45} w={78} h={50} label={"アプリ"} />
+        <B x={116} y={45} w={78} h={50} label={"アプリ"} />
+        <B x={202} y={45} w={78} h={50} label={"AIアプリ"} />
+        <B x={30} y={110} w={250} h={60} label={"OS"} sub="アプリを動かす土台" />
+        <B x={310} y={45} w={122} h={50} label={"アプリ"} />
+        <B x={442} y={45} w={128} h={50} label={"アプリ"} />
+        <B x={310} y={110} w={260} h={60} label={"AI（Gemini）"} sub="土台の側で画面を見ている" fill={YELLOW} />
+        <T x={300} y={205} text="呼び出して使うAIから、最初からそこにいるAIへ" size={13.5} color={INK} />
+        <T x={300} y={235} text="2026年9月時点では予約開始前。日本での提供時期と価格は未確定" size={13} />
+      </Svg>
+    ),
+  },
+  "doom-loop": {
+    caption: "汲み上げる側が、水源そのものを枯らしてしまう",
+    render: () => (
+      <Svg h={325} title="破滅ループ（AIとウェブの悪循環）の図解">
+        <B x={40} y={50} w={210} h={65} label={"AIが答えを出し切る"} fill={YELLOW} />
+        <AH x1={255} x2={345} y={82} />
+        <B x={350} y={50} w={210} h={65} label={"サイトに人が来ない"} />
+        <AV x={455} y1={120} y2={160} />
+        <B x={350} y={165} w={210} h={65} label={"書き手が減る"} />
+        <AH x1={345} x2={255} y={197} />
+        <B x={40} y={165} w={210} h={65} label={"AIの学ぶ材料が痩せる"} />
+        <AV x={145} y1={160} y2={120} />
+        <T x={300} y={270} text="輪がひと回りして、AI自身の足場にも返ってくる" size={13.5} color={INK} />
+        <T x={300} y={298} text="2026年9月、この言葉がMicrosoftの社内文書にあったと報じられた" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {

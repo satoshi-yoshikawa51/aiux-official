@@ -1,6 +1,6 @@
 {
   "_comment": "外部記事・動画のOGP。scripts/fetch-link-cards.mjs がCIで自動生成する（手で編集しない）。取得元URLは src/app/profile/records.ts から拾う。",
-  "generatedAt": "2026-09-13",
+  "generatedAt": "2026-09-21",
   "cards": {
     "https://blog.nijibox.jp/article/ai-shift-claude": {
       "url": "https://blog.nijibox.jp/article/ai-shift-claude",
@@ -45,7 +45,7 @@
     "https://blog.nijibox.jp/article/nijiboxcollege-event": {
       "url": "https://blog.nijibox.jp/article/nijiboxcollege-event",
       "title": "AI時代を見据えたUX研修『NIJIBOX College』ニジボックスが考える、企業の生存戦略とは？ | 株式会社ニジボックス",
-      "description": "リクルートや大手企業の実績多数！ ニジボックスのUXデザインフローや案件事例をご紹介！ 無料で資料ダウンロード AIの進化により、プロダクト開発のスピードと生産性が向上する一方で、「何を、なぜ作るのか」という本質的な問いが重要視されています。 こうした背景のもと、ニジボックスが立ち上げたのがUX研修プログラム『NIJIBOX",
+      "description": "UI UXの実務での活用方法、 組織への浸透などにお悩みの方必見！ UI UX研修プログラムについてご紹介！ 無料で資料ダウンロード AIの進化により、プロダクト開発のスピードと生産性が向上する一方で、「何を、なぜ作るのか」という本質的な問いが重要視されています。",
       "image": "https://blog.nijibox.jp/wp-content/uploads/2026/05/mv_NIJIBOXCollege_eventreport-560x363.png",
       "siteName": "株式会社ニジボックス",
       "date": "2026-05-25"
