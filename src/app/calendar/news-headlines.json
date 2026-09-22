@@ -1,31 +1,100 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-21T01:57:44.396Z",
+  "updatedAt": "2026-09-22T00:15:57.230Z",
   "items": [
     {
-      "title": "トランプ大統領、「AI Force」創設を表明 「AI脅威論はでっちあげだ」",
-      "url": "https://www.itmedia.co.jp/news/article/2609/21/2000001666/",
+      "title": "Higgsfield AI ships new video features in a day with GPT-6 Astra",
+      "url": "https://openai.com/index/higgsfield-from-prompt-to-production-with-astra",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-21T12:00:00.000Z",
+      "titleJa": "Higgsfield AI、GPT-6 Astraで新動画機能をわずか1日で実装",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/4D04GB5N0oLOaA1hGfsiHK/9f8b975e33e375f56c536f2c915ed1c8/og.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Expanding OpenAI Academy with new learning paths",
+      "url": "https://openai.com/index/expanding-openai-academy-with-new-learning-paths",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-21T07:00:00.000Z",
+      "titleJa": "OpenAI Academyに新たな学習パスを追加し拡充",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/5SPnjyTz9kRLLejGLGKq3e/4d59d634845854176234cd0cdefcf3b4/expanding-openai-academy-with-new-learning-paths-seo.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "OpenAI forms math advisory group as its AI resolves more than 100 open problems",
+      "url": "https://techcrunch.com/2026/09/21/openai-forms-math-advisory-group-as-its-ai-resolves-more-than-100-open-problems/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-21T20:15:58.000Z",
+      "titleJa": "OpenAI、自社AIが100件超の未解決問題を解決 数学諮問グループを設置",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/51013975207_8dcac5cf72_k.jpg?resize=1200,900"
+    },
+    {
+      "title": "Meta’s Muse is outpacing ChatGPT’s early mobile launch",
+      "url": "https://techcrunch.com/2026/09/21/metas-muse-is-outpacing-chatgpts-early-mobile-launch/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-21T19:19:21.000Z",
+      "titleJa": "MetaのMuse、ChatGPT初期のモバイル展開を上回るペース",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/meta-muse-finger-on-app-GettyImages-2293791808.jpg?w=1024"
+    },
+    {
+      "title": "Google confirms Gemini models hacked three companies in May 2026",
+      "url": "https://arstechnica.com/google/2026/09/google-confirms-gemini-models-hacked-three-companies-in-may-2026/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-21T16:57:26.000Z",
+      "titleJa": "Google、Geminiモデルが2026年5月に3社をハッキングしたと認める",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/gemini-general-5-1152x648.jpg"
+    },
+    {
+      "title": "Google’s $899 Googlebook is a bet that you’ll buy a new laptop for Gemini",
+      "url": "https://techcrunch.com/2026/09/21/googles-899-googlebook-is-a-bet-that-youll-buy-a-new-laptop-for-gemini/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-21T14:39:22.000Z",
+      "titleJa": "Googleの899ドル「Googlebook」は、Geminiのために新しいノートPCを買うという賭け",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/intelligence_hero.width-2200.format-webp.webp?resize=1200,675"
+    },
+    {
+      "title": "SpaceXAI、「Grok 4.7」発表 コーディングと知識労働向けで同社最高性能、価格は据え置き",
+      "url": "https://www.itmedia.co.jp/news/article/2609/22/2000001668/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-09-21T00:45:19.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/21/2000001666/10007182/2048"
+      "date": "2026-09-21T23:46:47.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/22/2000001668/10007193/2048"
     },
     {
-      "title": "AIがマイクラのラスボスを8分43秒で討伐 「考えるAstra」と「即断するJev」の分業が面白い",
-      "url": "https://ascii.jp/elem/000/004/436/4436545/?rss",
+      "title": "Uravation、クラウドAIが使えない企業向け「ローカルLLM導入支援」サービスを提供開始",
+      "url": "https://ascii.jp/elem/000/004/436/4436581/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-09-21T00:15:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/21/4528543/xl/9f5d08c9e69f9cfc.png?20200122"
+      "date": "2026-09-21T04:07:08.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "No one is surprised that Nvidia’s Jensen Huang thinks AI fears are overblown.",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/997936/nvidia-jensen-huang-ai-fears-overblown",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-20T18:50:18.000Z",
-      "titleJa": "Nvidiaのジェンスン・フアンがAIへの懸念を「大げさ」と考えるのは、誰にとっても驚きではない",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STKP210_JENSEN_HUANG_D.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "title": "Uravation代表 佐藤傑、2024年からの公開登壇55回の実績一覧ページを公開。自社主催講座の受講後満足度96.2%などの数値、生成AI・Claude Codeの講演テーマ、登壇予定6件を掲載",
+      "url": "https://ascii.jp/elem/000/004/436/4436567/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-21T02:37:25.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "AIに最適な「Linux」ディストリビューション5選",
+      "url": "https://japan.zdnet.com/article/35252821/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-21T23:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/20/aa86a71fa992cad6b9024481d0e0a844/linuxaioshero_l.jpg"
+    },
+    {
+      "title": "キユーピー、AIで工場シミュレーションモデルの開発工数を8割削減 3つの壁をどう乗り越えた？",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/22/news009.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-21T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2609/22/cover_news009.jpg"
     },
     {
       "title": "双日調査、Copilot導入企業の87.5％が「情報分散」を課題 「横断検索AI」に期待か",
@@ -36,29 +105,14 @@
       "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/21/2000001657/10007156/2048"
     },
     {
-      "title": "さびしい壁に何か飾りたいんだけど…AI搭載のスマート額縁で毎日ちがうアートをどうぞ",
-      "url": "https://www.gizmodo.jp/article/2609-jitrainno-ai-e-paper-frame/",
-      "source": "GIZMODO JAPAN",
+      "title": "画像生成AI「Qwen-Image-2.1」公開、軽量7Bで透過画像の生成・編集に対応 〜ComfyUI用重みが最小約14GB",
+      "url": "https://pc.watch.impress.co.jp/docs/news/2142515.html",
+      "source": "PC Watch",
       "lang": "ja",
-      "date": "2026-09-20T06:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/14/49d26e3c-c0d0-4527-8fec-6a477bd512b4/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "Claude・ChatGPTのサブスクで使えるデスクトップAIエージェントアプリ「Kari」をGotoAIが無償公開",
-      "url": "https://ascii.jp/elem/000/004/436/4436526/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-20T01:46:53.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "Google’s Gemini is the latest AI model to hack other companies",
-      "url": "https://techcrunch.com/2026/09/19/googles-gemini-is-the-latest-ai-model-to-hack-other-companies/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-19T17:30:00.000Z",
-      "titleJa": "GoogleのGemini、他社をハッキングした最新のAIモデルに",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
+      "kind": "buzz",
+      "count": 44,
+      "date": "2026-09-20T16:29:22.000Z",
+      "image": "https://pc.watch.impress.co.jp/img/pcw/list/2142/515/01.png"
     },
     {
       "title": "AI導入でつまずく中小企業、「何を・誰が・どう変えるか」を丸ごと支援",
@@ -67,58 +121,6 @@
       "lang": "ja",
       "date": "2026-09-19T22:00:00.000Z",
       "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/20/2000001627/10007004/2048"
-    },
-    {
-      "title": "Anthropic is operating a lab that conducts biology experiments",
-      "url": "https://techcrunch.com/2026/09/18/anthropic-is-operating-a-lab-that-conducts-biology-experiments/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-18T23:13:31.000Z",
-      "titleJa": "Anthropic、生物学実験を行うラボを運営中",
-      "image": "https://techcrunch.com/wp-content/uploads/2021/08/DNA-—-Xero-2.jpg?resize=1200,750"
-    },
-    {
-      "title": "OpenAI and Microsoft knew they were starting a ‘doom loop’ for the web",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/997633/openai-microsoft-chatgpt-ai-new-york-times-doom-loop-theft-google-zero",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-18T21:07:24.000Z",
-      "titleJa": "OpenAIとMicrosoftは、ウェブに「破滅のループ」を生み出していると知っていた",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS534_AI_DOOMSDAY2_B.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
-    },
-    {
-      "title": "A new kind of AI model from a ChatGPT inventor is thrilling developers",
-      "url": "https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-18T18:49:30.000Z",
-      "titleJa": "ChatGPT開発者が手がける新種のAIモデルに開発者が熱狂",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/typesafe-ai.jpg?resize=1174,1200"
-    },
-    {
-      "title": "Researchers used Claude to hack OpenAI",
-      "url": "https://arstechnica.com/ai/2026/09/researchers-used-claude-to-hack-openai/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-18T13:30:12.000Z",
-      "titleJa": "研究者らがClaudeを使ってOpenAIをハッキング",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/ailogos-1152x648.jpg"
-    },
-    {
-      "title": "AI導入は6割、でも8割超が「チャット止まり」 業務自動化まで進まない原因は？",
-      "url": "https://kn.itmedia.co.jp/kn/article/2609/19/2000001624/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-18T22:00:00.000Z",
-      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/19/2000001624/10006994/2048"
-    },
-    {
-      "title": "NTTドコモビジネスら5社、「ワット・ビット連携」の実証開始-分散データセンター間でAI処理を最適化",
-      "url": "https://japan.zdnet.com/article/35252801/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-18T08:34:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/06/26/ccfb5157a7a8d18b93f691e55b344f78/250626_datacenter_as_1280_1464288338.jpg"
     }
   ]
 }
