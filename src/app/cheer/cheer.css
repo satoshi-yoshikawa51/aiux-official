@@ -150,12 +150,40 @@
   box-shadow: none;
 }
 
-/* ---------- result（全画面の犬動画＋名言オーバーレイ） ---------- */
+/* ---------- result（犬動画＋名言オーバーレイ） ---------- */
 .cheer-root .film {
   position: fixed;
   inset: 0;
   z-index: 10;
   background: var(--ch-bg);
+}
+/* 動画は縦の帯なので、横長の画面では左右が余る。
+   そこをあらかじめぼかした風景写真で埋める（実行時のblurはかけない） */
+.cheer-root .film-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("/cheer/bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.cheer-root .film-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(242, 236, 255, 0.34);
+}
+/* 動画のぶん（9:16）。縦は画面いっぱい、横は中央に寄せる。
+   スマホのように画面のほうが細いときは、これまでどおり全面になる */
+.cheer-root .film-stage {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, calc(100vh * 464 / 832));
+  width: min(100%, calc(100dvh * 464 / 832));
+  overflow: hidden;
+  box-shadow: 0 0 70px rgba(59, 51, 80, 0.22);
 }
 .cheer-root .film-video {
   position: absolute;

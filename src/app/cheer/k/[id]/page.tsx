@@ -59,7 +59,9 @@ export default async function KotobaPage({ params }: { params: Promise<{ id: str
   return (
     <div className="cheer-root">
       <main className="film">
-        <video
+        <div className="film-bg" />
+        <div className="film-stage">
+          <video
           className="film-video"
           src={dog.video}
           poster={dog.poster}
@@ -77,6 +79,7 @@ export default async function KotobaPage({ params }: { params: Promise<{ id: str
             じぶんも きいてもらう
           </Link>
           <p className="k-brand">きょうの きみに</p>
+          </div>
         </div>
       </main>
     </div>

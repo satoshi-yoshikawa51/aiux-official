@@ -570,6 +570,9 @@ export function CheerApp() {
 
       {screen === "result" && (
         <section className="film">
+          {/* 動画の左右に余るところは、ぼかした風景で埋める */}
+          <div className="film-bg" />
+          <div className="film-stage">
           {pet && (
             <video
               ref={videoRef}
@@ -647,6 +650,7 @@ export function CheerApp() {
             </button>
           )}
           <p className="film-msg">{msg}</p>
+          </div>
         </section>
       )}
     </div>
