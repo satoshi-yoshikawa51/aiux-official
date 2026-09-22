@@ -558,9 +558,15 @@ export function CheerApp() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="ask-logo" src="/cheer/logo.png" alt="いぬがたり — あなたの「想い」にこたえます" />
             <section>
-              <p className="q">いまの気持ちは？</p>
+              <p className="q">
+                <i className="ph-bold ph-paw-print" />
+                いまの気持ちは？
+              </p>
               <Chips items={FEELS} value={feel} onPick={setFeel} />
-              <p className="q">何があった？</p>
+              <p className="q">
+                <i className="ph-bold ph-paw-print" />
+                何があった？
+              </p>
               <Chips items={WHYS} value={why} onPick={setWhy} />
               <input
                 className="note"

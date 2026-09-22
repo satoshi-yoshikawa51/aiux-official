@@ -118,6 +118,12 @@
   font-weight: 700;
   font-size: 20px;
 }
+/* 見出しの肉球。色は本文から継承する */
+.cheer-root .q i {
+  margin-right: 8px;
+  font-size: 0.92em;
+  vertical-align: -0.04em;
+}
 .cheer-root .chips {
   display: flex;
   flex-wrap: wrap;
@@ -248,11 +254,14 @@
   overflow: hidden;
   box-shadow: 0 0 70px rgba(59, 51, 80, 0.22);
 }
-/* 横長の画面でだけ帯に絞る。dvhが使えない環境では上の100%のままで、
-   スマホと同じ全面表示になる（崩れない） */
-@supports (height: 100dvh) {
-  .cheer-root .film-stage {
-    width: min(100%, calc(100dvh * 464 / 832));
+/* 帯に絞るのはタブレット以上の広い画面だけ。スマホでは画面の高さが
+   ブラウザのバーで変わっても必ず全面になる（左右に隙間が出ない）。
+   dvhが使えない環境でも上の width:100% が残るので崩れない */
+@media (min-width: 768px) {
+  @supports (height: 100dvh) {
+    .cheer-root .film-stage {
+      width: min(100%, calc(100dvh * 464 / 832));
+    }
   }
 }
 .cheer-root .film-video {
