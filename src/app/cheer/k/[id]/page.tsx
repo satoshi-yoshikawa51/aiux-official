@@ -59,7 +59,7 @@ export default async function KotobaPage({ params }: { params: Promise<{ id: str
   return (
     <div className="cheer-root">
       <main className="film">
-        <div className="film-bg" />
+        <div className="film-bg" style={{ backgroundImage: `url(${dog.bg})` }} />
         <div className="film-stage">
           <video
           className="film-video"

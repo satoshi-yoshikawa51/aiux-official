@@ -217,15 +217,16 @@
 .cheer-root .film-bg {
   position: absolute;
   inset: 0;
-  background-image: url("/cheer/bg.jpg");
+  background-color: var(--ch-bg);
   background-size: cover;
   background-position: center;
 }
+/* 「もう一枚の写真」ではなく、ただの空気になるところまで薄める */
 .cheer-root .film-bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(242, 236, 255, 0.12);
+  background: rgba(250, 247, 255, 0.34);
 }
 /* 動画のぶん（9:16）。縦は画面いっぱい、横は中央に寄せる。
    スマホのように画面のほうが細いときは、これまでどおり全面になる */
