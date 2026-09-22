@@ -7,9 +7,9 @@ import "./cheer.css";
 import { CheerApp } from "./app";
 
 export const metadata: Metadata = {
-  title: "きょうの きみに",
+  title: "いぬがたり — あなたの「想い」にこたえます",
   description:
-    "いまの気持ちを選ぶと、ちいさなペットが偉人のことばをひらがなでそっと言い換えてくれる。",
+    "いまの気持ちを選ぶと、ちいさな犬が偉人のことばをひらがなでそっと届けてくれる。",
   /* プロトタイプなので検索には載せない（sitemapにも入れていない） */
   robots: { index: false },
 };

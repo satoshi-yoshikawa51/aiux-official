@@ -64,6 +64,40 @@
   text-align: center;
 }
 
+/* ---------- ask（ロゴ＋お手の写真） ---------- */
+.cheer-root .ask {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  padding: max(20px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+}
+/* 背景の写真。上に白のベールを重ねて、文字が読めるようにする */
+.cheer-root .ask-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: url("/cheer/ask-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.cheer-root .ask-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.62) 30%,
+    rgba(255, 255, 255, 0.78) 100%
+  );
+}
+.cheer-root .ask-logo {
+  display: block;
+  width: min(300px, 74%);
+  height: auto;
+  margin: 8px auto 24px;
+}
+
 /* ---------- ask ---------- */
 .cheer-root .q {
   margin: 0 0 10px;
@@ -76,11 +110,25 @@
   gap: 10px;
   margin-bottom: 26px;
 }
+.cheer-root .ask .q {
+  color: #3b3350;
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.95);
+}
+.cheer-root .ask .note {
+  color: #3b3350;
+}
+.cheer-root .ask .hint {
+  color: #6b6285;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.9);
+}
+.cheer-root .ask-logo {
+  filter: drop-shadow(0 2px 12px rgba(255, 255, 255, 0.85));
+}
 .cheer-root .chip {
   appearance: none;
   border: 0;
-  background: var(--ch-chip);
-  color: var(--ch-ink);
+  background: rgba(255, 255, 255, 0.88);
+  color: #3b3350;
   font: inherit;
   font-size: 17px;
   font-weight: 500;
@@ -93,8 +141,8 @@
   transform: scale(0.95);
 }
 .cheer-root .chip[aria-pressed="true"] {
-  background: var(--ch-chip-on);
-  color: var(--ch-chip-on-ink);
+  background: #5a2138;
+  color: #ffffff;
 }
 .cheer-root .chip:focus-visible,
 .cheer-root .go:focus-visible,
@@ -105,16 +153,16 @@
 .cheer-root .note {
   width: 100%;
   border: 0;
-  border-bottom: 2px solid var(--ch-line);
+  border-bottom: 2px solid rgba(90, 33, 56, 0.28);
   background: transparent;
-  color: var(--ch-ink);
+  color: #3b3350;
   font: inherit;
   font-size: 17px;
   padding: 8px 2px;
   margin-bottom: 6px;
 }
 .cheer-root .note::placeholder {
-  color: var(--ch-sub);
+  color: #8a80a6;
 }
 .cheer-root .note:focus {
   outline: 0;

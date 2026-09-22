@@ -9,17 +9,17 @@ export interface Choice {
 }
 
 export const FEELS: Choice[] = [
-  { id: "sad", label: "かなしい" },
-  { id: "tired", label: "つかれた" },
-  { id: "worry", label: "ふあん" },
+  { id: "sad", label: "悲しい" },
+  { id: "tired", label: "疲れた" },
+  { id: "worry", label: "不安" },
   { id: "angry", label: "イライラ" },
-  { id: "happy", label: "うれしい" },
+  { id: "happy", label: "嬉しい" },
 ];
 
 export const WHYS: Choice[] = [
-  { id: "people", label: "ひとづきあい" },
-  { id: "work", label: "しごと・がっこう" },
-  { id: "self", label: "じぶんのこと" },
-  { id: "body", label: "からだ・つかれ" },
+  { id: "people", label: "人づきあい" },
+  { id: "work", label: "仕事・学校" },
+  { id: "self", label: "自分のこと" },
+  { id: "body", label: "体・疲れ" },
   { id: "none", label: "なんとなく" },
 ];

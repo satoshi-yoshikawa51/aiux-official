@@ -544,28 +544,33 @@ export function CheerApp() {
   return (
     <div className="cheer-root">
       {screen === "ask" && (
-        <main className="cheer-main">
-          <h1>きょうの きみに</h1>
-          <section>
-            <p className="q">いまの きもち は？</p>
-            <Chips items={FEELS} value={feel} onPick={setFeel} />
-            <p className="q">なにが あった？</p>
-            <Chips items={WHYS} value={why} onPick={setWhy} />
-            <input
-              className="note"
-              type="text"
-              maxLength={60}
-              placeholder="ひとこと あれば（かかなくても だいじょうぶ）"
-              autoComplete="off"
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-            />
-            <p className="hint">かいたことは、この こだけが よみます</p>
-            <button className="go" type="button" disabled={!(feel && why)} onClick={start}>
-              きいてもらう
-            </button>
-          </section>
-        </main>
+        <div className="ask">
+          {/* 背景：白いポメラニアンのお手。文字が読めるよう上に白のベールを重ねる */}
+          <div className="ask-bg" />
+          <main className="cheer-main">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="ask-logo" src="/cheer/logo.png" alt="いぬがたり — あなたの「想い」にこたえます" />
+            <section>
+              <p className="q">いまの気持ちは？</p>
+              <Chips items={FEELS} value={feel} onPick={setFeel} />
+              <p className="q">何があった？</p>
+              <Chips items={WHYS} value={why} onPick={setWhy} />
+              <input
+                className="note"
+                type="text"
+                maxLength={60}
+                placeholder="ひとことあれば（書かなくても大丈夫）"
+                autoComplete="off"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+              <p className="hint">書いたことは、この子だけが読みます</p>
+              <button className="go" type="button" disabled={!(feel && why)} onClick={start}>
+                聞いてもらう
+              </button>
+            </section>
+          </main>
+        </div>
       )}
 
       {screen === "result" && (
