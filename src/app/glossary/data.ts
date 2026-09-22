@@ -55,7 +55,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-09-22";
+export const GLOSSARY_UPDATED = "2026-09-23";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
@@ -2389,15 +2389,26 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "最大の特徴はXとの融合です。投稿の解説や「この話題、今どうなってる？」といったリアルタイムの話題に強く、Xのアプリ内からそのまま呼び出せます。口調も他のAIよりくだけていて、ジョーク混じりの返答を返すキャラ設定も話題になりました。",
       "一方で、規制の緩さゆえの物議も多く、企業利用では慎重な評価が必要です。ChatGPT・Claude・Geminiの3強にxAIやDeepSeekが挑む群雄割拠が、いまのチャットAI市場。使い分けの考え方は3大AI比較のページでどうぞ。",
     ],
+    sections: [
+      {
+        heading: "運営会社がSpaceXAIになりました（追記）",
+        body: [
+          "上の本文では開発元を「xAI」と書いていますが、この名前は2026年に変わりました。SpaceXがxAIを買収し、7月にSpaceXAIへ改称しています。GrokもX（旧Twitter）も、SpaceXの傘下にまとめられた形です。古い記事ではxAI、新しい記事ではSpaceXAIと書かれるため、調べものをするときは両方の名前を頭に入れておくと混乱しません。",
+          "最新モデルとして、2026年9月21日に「Grok 4.7」が発表されました。同社はコーディングと知識労働の用途で自社最高性能だと説明しており、料金は入力100万トークンあたり2ドル・出力6ドルで据え置きと案内されています。長時間のコーディングを課す指標で前バージョンから伸びたこと、電気設計や法務の指標でも同社が並べた比較対象の中で最高値だったことが挙げられていますが、いずれも同社の発表による数値です。第三者の評価が出そろってから判断するのが安全な段階です。",
+        ],
+      },
+    ],
     links: [
       { label: "ChatGPT・Claude・Gemini比較", href: "/compare" },
     ],
-    relatedSlugs: ["chatgpt", "deepseek", "claude"],
+    relatedSlugs: ["chatgpt", "deepseek", "claude", "benchmark"],
     faq: [
       { q: "Grokは無料で使えますか？", a: "X（旧Twitter）上で制限付きの無料利用が可能で、本格利用はXの有料プランなどに紐づきます。" },
       { q: "Grokという名前の意味は？", a: "SF小説「異星の客」の造語grok（深く完全に理解する）が由来です。遠慮のない型破りな語り口がブランドになっています。" },
+      { q: "Grokを作っているのはどこの会社ですか？", a: "もとはイーロン・マスク氏が設立したxAIですが、2026年にSpaceXがxAIを買収し、7月にSpaceXAIへ社名が変わりました。GrokやXもSpaceXの傘下に入っています。" },
+      { q: "Grok 4.7では何が変わったのですか？", a: "2026年9月21日に発表されたモデルで、同社はコーディングと知識労働の用途で自社最高性能だとしています。料金は入力100万トークン2ドル・出力6ドルで据え置きと案内されました。性能の数値は同社の発表によるもので、第三者の検証はこれからの段階です。" },
     ],
-    lastUpdated: "2026-07-12",
+    lastUpdated: "2026-09-23",
   },
   {
     slug: "llama",
