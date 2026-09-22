@@ -68,14 +68,21 @@
 .cheer-root .ask {
   position: fixed;
   inset: 0;
+}
+/* 帯の幅は結果画面（.film-stage）と同じ。中身だけスクロールさせる */
+.cheer-root .ask-stage {
+  display: block;
+}
+.cheer-root .ask-scroll {
+  position: absolute;
+  inset: 0;
   overflow-y: auto;
   padding: max(20px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
 }
 /* 背景の写真。上に白のベールを重ねて、文字が読めるようにする */
 .cheer-root .ask-bg {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  z-index: -1;
   background-image: url("/cheer/ask-bg.jpg");
   background-size: cover;
   background-position: center;

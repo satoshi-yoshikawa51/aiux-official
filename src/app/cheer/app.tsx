@@ -53,7 +53,7 @@ function creditFor(who: string): string {
 
 /* /api/cheer に選書してもらう。返事が変なら null（→ローカル選書へ） */
 async function askServer(
-  payload: { feel: string; why: string; note: string; avoid: string },
+  payload: { feel: string; why: string; note: string; recent: string[] },
   signal: AbortSignal,
 ): Promise<Selected | null> {
   const res = await fetch("/api/cheer", {
@@ -208,7 +208,8 @@ export function CheerApp() {
 
   const ctlRef = useRef<AbortController | null>(null);
   const lastPetRef = useRef<Pet | null>(null);
-  const lastQuoteRef = useRef(""); // 直前に出した名言のid（連続で同じものを出さない）
+  /* 最近出した名言のid（新しい順）。同じ言葉が続かないよう候補から外す */
+  const recentRef = useRef<string[]>([]);
   const selRef = useRef<Selected | null>(null);
   const petRef = useRef<Pet | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -237,7 +238,7 @@ export function CheerApp() {
     let picked: Selected | null = null;
     try {
       picked = await askServer(
-        { feel, why, note: note.trim(), avoid: lastQuoteRef.current },
+        { feel, why, note: note.trim(), recent: recentRef.current },
         signal,
       );
     } catch {
@@ -246,13 +247,15 @@ export function CheerApp() {
     if (signal.aborted) return;
     if (!picked) {
       /* サーバーに届かなかったら、この場でランダム選書（ストックは手元にもある）。
-         直前と同じ犬が続かないよう、別の子の言葉を優先する */
-      const all = kotobaFor(feel, lastQuoteRef.current);
-      const other = all.filter((k) => dogFor(k.id).id !== lastPetRef.current?.id);
-      const k: Kotoba = pick(other.length ? other : all);
+         最近出した言葉と、直前と同じ犬は避ける */
+      const all = kotobaFor(feel);
+      const fresh = all.filter((k) => !recentRef.current.includes(k.id));
+      const pool = fresh.length >= 8 ? fresh : all;
+      const other = pool.filter((k) => dogFor(k.id).id !== lastPetRef.current?.id);
+      const k: Kotoba = pick(other.length ? other : pool);
       picked = { id: k.id, who: k.who, lines: k.lines, source: "local" };
     }
-    lastQuoteRef.current = picked.id;
+    recentRef.current = [picked.id, ...recentRef.current].slice(0, 12);
     selRef.current = picked;
     if (debug) setMsg(`でばっぐ：${picked.source}${picked.reason ? "/" + picked.reason : ""}`);
 
@@ -545,8 +548,12 @@ export function CheerApp() {
     <div className="cheer-root">
       {screen === "ask" && (
         <div className="ask">
-          {/* 背景：白いポメラニアンのお手。文字が読めるよう上に白のベールを重ねる */}
-          <div className="ask-bg" />
+          {/* 帯の外側は結果画面と同じ風景。帯の中はお手の写真 */}
+          <div className="film-bg" />
+          <div className="film-stage ask-stage">
+            {/* 背景：白いポメラニアンのお手。文字が読めるよう上に白のベールを重ねる */}
+            <div className="ask-bg" />
+            <div className="ask-scroll">
           <main className="cheer-main">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="ask-logo" src="/cheer/logo.png" alt="いぬがたり — あなたの「想い」にこたえます" />
@@ -570,6 +577,8 @@ export function CheerApp() {
               </button>
             </section>
           </main>
+            </div>
+          </div>
         </div>
       )}
 
