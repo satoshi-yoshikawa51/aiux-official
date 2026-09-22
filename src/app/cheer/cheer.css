@@ -69,6 +69,9 @@
 }
 
 /* ---------- ask（ロゴ＋お手の写真） ---------- */
+/* 縦にスクロールさせないため、文字・チップ・余白を画面の高さに
+   合わせて可変にする（clamp の最小値があるので潰れすぎない）。
+   それでも入りきらないときのために .ask-scroll は残してある */
 .cheer-root .ask {
   position: fixed;
   inset: 0;
@@ -83,7 +86,8 @@
   inset: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: max(20px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+  padding: max(clamp(8px, 1.9vh, 16px), env(safe-area-inset-top)) 18px
+    max(clamp(10px, 2.2vh, 20px), env(safe-area-inset-bottom));
 }
 /* 背景の写真。上に白のベールを重ねて、文字が読めるようにする */
 .cheer-root .ask-bg {
@@ -99,24 +103,24 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.42) 0%,
-    rgba(255, 255, 255, 0.62) 30%,
-    rgba(255, 255, 255, 0.78) 100%
+    rgba(255, 246, 236, 0.38) 0%,
+    rgba(255, 248, 240, 0.6) 30%,
+    rgba(255, 250, 243, 0.78) 100%
   );
 }
 .cheer-root .ask-logo {
   display: block;
-  width: 74%;
+  width: min(74%, 30vh);
   max-width: 300px;
   height: auto;
-  margin: 8px auto 24px;
+  margin: clamp(2px, 0.7vh, 6px) auto clamp(10px, 2.6vh, 22px);
 }
 
 /* ---------- ask ---------- */
 .cheer-root .q {
-  margin: 0 0 10px;
+  margin: 0 0 clamp(5px, 1.2vh, 10px);
   font-weight: 700;
-  font-size: 20px;
+  font-size: clamp(14px, 2.37vh, 20px);
 }
 /* 見出しの肉球。色は本文から継承する */
 .cheer-root .q i {
@@ -127,8 +131,8 @@
 .cheer-root .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 26px;
+  gap: clamp(5px, 1.07vh, 9px);
+  margin-bottom: clamp(12px, 2.84vh, 24px);
 }
 .cheer-root .ask .q {
   color: #3b3350;
@@ -147,12 +151,12 @@
 .cheer-root .chip {
   appearance: none;
   border: 0;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 252, 248, 0.9);
   color: #3b3350;
   font: inherit;
-  font-size: 17px;
+  font-size: clamp(13px, 2vh, 17px);
   font-weight: 500;
-  padding: 10px 18px;
+  padding: clamp(6px, 1.18vh, 10px) clamp(11px, 2vh, 17px);
   border-radius: 999px;
   cursor: pointer;
   transition: transform 0.12s, background 0.15s, color 0.15s;
@@ -177,9 +181,10 @@
   background: transparent;
   color: #3b3350;
   font: inherit;
-  font-size: 17px;
-  padding: 8px 2px;
-  margin-bottom: 6px;
+  /* 16px を下回るとiOSが入力時に勝手に拡大するので、ここだけ下限を置く */
+  font-size: clamp(16px, 2vh, 17px);
+  padding: clamp(5px, 0.95vh, 8px) 2px;
+  margin-bottom: clamp(3px, 0.7vh, 6px);
 }
 .cheer-root .note::placeholder {
   color: #8a80a6;
@@ -189,22 +194,22 @@
   border-bottom-color: var(--ch-peach);
 }
 .cheer-root .hint {
-  font-size: 13px;
+  font-size: clamp(11px, 1.54vh, 13px);
   color: var(--ch-sub);
-  margin: 0 0 28px;
+  margin: 0 0 clamp(12px, 2.6vh, 22px);
 }
 .cheer-root .go {
   display: block;
   width: 100%;
   appearance: none;
   border: 0;
-  border-radius: 22px;
+  border-radius: clamp(14px, 2.6vh, 22px);
   background: var(--ch-peach);
   color: var(--ch-peach-ink);
   font: inherit;
-  font-size: 19px;
+  font-size: clamp(15px, 2.25vh, 19px);
   font-weight: 700;
-  padding: 16px;
+  padding: clamp(10px, 1.78vh, 15px);
   cursor: pointer;
   box-shadow: var(--ch-shadow);
   transition: transform 0.12s, opacity 0.2s;
