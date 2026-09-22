@@ -1467,6 +1467,27 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "autonomous-cyberattack": {
+    caption: "手口が新しいのではなく、回る速さと回数が変わった",
+    render: () => (
+      <Svg h={310} title="従来の攻撃と自律型サイバー攻撃の違いの図解">
+        <T x={300} y={32} text="これまで：段階ごとに人の手と判断が要った" size={13} />
+        <B x={30} y={48} w={150} h={60} label={"入口を探す"} />
+        <AH x1={185} x2={225} y={78} />
+        <B x={230} y={48} w={150} h={60} label={"入り込む"} />
+        <AH x1={385} x2={425} y={78} />
+        <B x={430} y={48} w={150} h={60} label={"中を動いて\n持ち出す"} />
+        <T x={300} y={150} text="いま：AIが通しで回す。休まず、同時に何件も" size={13} />
+        <B x={30} y={166} w={150} h={60} label={"入口を探す"} fill={YELLOW} />
+        <AH x1={185} x2={225} y={196} />
+        <B x={230} y={166} w={150} h={60} label={"入り込む"} fill={YELLOW} />
+        <AH x1={385} x2={425} y={196} />
+        <B x={430} y={166} w={150} h={60} label={"中を動いて\n持ち出す"} fill={YELLOW} />
+        <T x={300} y={258} text="2026年9月に報じられた侵入口は、推測できる合言葉と置き忘れた鍵" size={13.5} color={INK} />
+        <T x={300} y={286} text="だから効くのは、多要素認証と「鍵を公開の場所に置かない」の徹底" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
