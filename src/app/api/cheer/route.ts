@@ -163,7 +163,7 @@ export async function GET(req: Request) {
   }
   const r = await selectQuote(apiKey, {
     feel: "sad",
-    why: "people",
+    why: "friend",
     note: "ともだちとけんかした",
     recent: [],
   });
