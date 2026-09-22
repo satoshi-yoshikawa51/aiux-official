@@ -457,7 +457,7 @@ export default function UketsukeChat() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={phase === "chat" ? "メッセージを入力…" : "上のカードから送信できます"}
+              placeholder={phase === "chat" ? "AIに話しかける…" : "上のカードから送信できます"}
               maxLength={800}
               disabled={phase !== "chat"}
               aria-label="メッセージ"
@@ -475,12 +475,16 @@ export default function UketsukeChat() {
                 opacity: phase === "chat" ? 1 : 0.55,
               }}
             />
-            <Button type="submit" variant="primary" size="md" disabled={phase !== "chat" || sending || !input.trim()} iconRight={<i className="ph-bold ph-paper-plane-tilt" />}>
-              送信
+            {/* ▍「送信」と書かない
+                紙飛行機＋送信だと、この時点で問い合わせが吉川に届くように
+                見えて押しにくい。実際に届くのは最後の確認カードの
+                「この内容で送信する」だけなので、ここは会話のボタンにする */}
+            <Button type="submit" variant="primary" size="md" disabled={phase !== "chat" || sending || !input.trim()} iconRight={<i className="ph-bold ph-chat-circle-dots" />}>
+              AIに話す
             </Button>
           </form>
           <p style={{ margin: "8px 2px 0", fontFamily: "var(--font-mono)", fontSize: 10.5, lineHeight: 1.7, color: "var(--text-muted)" }}>
-            AIによる一次受付です。お名前・連絡先は最後の確認画面で入力してください。
+            AIによる一次受付です。この会話はまだ送信されません——内容がまとまったら、最後の確認画面で見てから送れます。
             <a href="/#contact" style={{ color: "var(--red-600)" }}>通常フォーム</a>／
             <a href="/works/uketsuke" style={{ color: "var(--red-600)" }}>この作品について</a>
           </p>
