@@ -6,12 +6,14 @@
    名言は下側に1文字ずつゆっくり出し、出終わったら全文（小さめ）と
    シェア導線（サイト共通の ShareRow）に切り替わる。
    AI（/api/cheer）は名言を選ぶだけ。失敗したらこの場でランダム選書。
+   犬は名言ごとに決まる（dogFor）。シェアしたときのOGPカードと
+   同じ子が出るようにするため。
    ============================================================ */
 
 import { useEffect, useRef, useState } from "react";
 import { FEELS, WHYS, type Choice } from "./data";
 import { kotobaFor, type Kotoba } from "./quotes";
-import { PETS, type Pet } from "./pets";
+import { dogFor, type Pet } from "./pets";
 
 type Screen = "ask" | "result";
 type Phase = "thinking" | "play" | "after";
@@ -222,12 +224,11 @@ export function CheerApp() {
     ctlRef.current = ctl;
     const signal = ctl.signal;
 
-    const p = pick(PETS, lastPetRef.current);
-    lastPetRef.current = p;
-    petRef.current = p;
-
+    /* 犬は名言が決まってから（カードと同じ子にするため）。
+       それまでは背景色に「・・・」だけ出して待つ */
+    petRef.current = null;
     setScreen("result");
-    setPet(p);
+    setPet(null);
     setPhase("thinking");
     setSel(null);
     setMsg("");
@@ -244,18 +245,28 @@ export function CheerApp() {
     }
     if (signal.aborted) return;
     if (!picked) {
-      /* サーバーに届かなかったら、この場でランダム選書（ストックは手元にもある） */
-      const k: Kotoba = pick(kotobaFor(feel, lastQuoteRef.current));
+      /* サーバーに届かなかったら、この場でランダム選書（ストックは手元にもある）。
+         直前と同じ犬が続かないよう、別の子の言葉を優先する */
+      const all = kotobaFor(feel, lastQuoteRef.current);
+      const other = all.filter((k) => dogFor(k.id).id !== lastPetRef.current?.id);
+      const k: Kotoba = pick(other.length ? other : all);
       picked = { id: k.id, who: k.who, lines: k.lines, source: "local" };
     }
     lastQuoteRef.current = picked.id;
     selRef.current = picked;
     if (debug) setMsg(`でばっぐ：${picked.source}${picked.reason ? "/" + picked.reason : ""}`);
 
+    const p = dogFor(picked.id);
+    lastPetRef.current = p;
+    petRef.current = p;
+    setPet(p);
     setSel(picked);
 
-    /* シェア用動画を裏で先に録りはじめる（ボタンを押したら即渡せるように） */
+    /* シェア用動画を裏で先に録りはじめる（ボタンを押したら即渡せるように）。
+       <video> が生えるのを1フレーム待ってから */
     videoFileRef.current = null;
+    await sleep(60, signal);
+    if (signal.aborted) return;
     renderShareVideo(p, picked, signal).then((f) => {
       if (!signal.aborted) videoFileRef.current = f ?? "error";
     });
@@ -557,25 +568,27 @@ export function CheerApp() {
         </main>
       )}
 
-      {screen === "result" && pet && (
+      {screen === "result" && (
         <section className="film">
-          <video
-            ref={videoRef}
-            key={pet.id}
-            className="film-video"
-            src={pet.video}
-            poster={pet.poster}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          />
+          {pet && (
+            <video
+              ref={videoRef}
+              key={pet.id}
+              className="film-video"
+              src={pet.video}
+              poster={pet.poster}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+            />
+          )}
           <div className="film-scrim" />
 
           {/* 名言：顔より下に、いまの1行だけを1文字ずつ。前の行は消す */}
           {phase !== "after" && (
-            <div className="film-body">
+            <div className={`film-body${phase === "thinking" || !sel ? " waiting" : ""}`}>
               {phase === "thinking" || !sel ? (
                 <span className="dots">・・・</span>
               ) : (
