@@ -1,9 +1,9 @@
 import type { Pet } from "./types";
 
-/* チワワ — 毛布のおうち（素材が来たら /cheer/dogs/chihuahua.mp4 に差し替え） */
+/* チワワ — 夜の部屋と豆電球 */
 export const chihuahua: Pet = {
   id: "chihuahua",
   name: "チワワ",
-  video: "/cheer/dogs/poodle.mp4",
-  poster: "/cheer/dogs/poodle.jpg",
+  video: "/cheer/dogs/chihuahua.mp4",
+  poster: "/cheer/dogs/chihuahua.jpg",
 };

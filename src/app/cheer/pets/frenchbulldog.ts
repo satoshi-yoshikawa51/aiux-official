@@ -1,9 +1,9 @@
 import type { Pet } from "./types";
 
-/* フレンチブルドッグ — 雨の日の部屋（素材が来たら /cheer/dogs/frenchbulldog.mp4 に差し替え） */
+/* フレンチブルドッグ — 雨の日の部屋 */
 export const frenchbulldog: Pet = {
   id: "frenchbulldog",
   name: "フレンチブルドッグ",
-  video: "/cheer/dogs/poodle.mp4",
-  poster: "/cheer/dogs/poodle.jpg",
+  video: "/cheer/dogs/frenchbulldog.mp4",
+  poster: "/cheer/dogs/frenchbulldog.jpg",
 };

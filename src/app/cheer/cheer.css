@@ -39,8 +39,8 @@
   min-height: 100dvh;
   background: var(--ch-bg);
   color: var(--ch-ink);
-  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", "Yu Gothic",
-    sans-serif;
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Zen Kaku Gothic New",
+    "Rounded Mplus 1c", "Yu Gothic", sans-serif;
   font-size: 17px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;

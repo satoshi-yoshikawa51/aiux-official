@@ -24,11 +24,11 @@ const { KOTOBA } = await import(pathToFileURL(path.join(ROOT, "src/app/cheer/quo
    ids の並びと dogFor のロジックは src/app/cheer/pets/index.ts と揃えること */
 const DOG_POSTERS = {
   poodle: "/cheer/dogs/poodle.jpg",
-  chihuahua: "/cheer/dogs/poodle.jpg",
-  mameshiba: "/cheer/dogs/poodle.jpg",
-  pomeranian: "/cheer/dogs/poodle.jpg",
-  dachshund: "/cheer/dogs/poodle.jpg",
-  frenchbulldog: "/cheer/dogs/poodle.jpg",
+  chihuahua: "/cheer/dogs/chihuahua.jpg",
+  mameshiba: "/cheer/dogs/mameshiba.jpg",
+  pomeranian: "/cheer/dogs/pomeranian.jpg",
+  dachshund: "/cheer/dogs/dachshund.jpg",
+  frenchbulldog: "/cheer/dogs/frenchbulldog.jpg",
 };
 const DOG_IDS = Object.keys(DOG_POSTERS);
 function dogFor(id) {
@@ -47,7 +47,13 @@ async function fontCss(pkg, weights) {
   }
   return css;
 }
-const FONTS = await fontCss("zen-maru-gothic", [500, 700]);
+/* Zen Maru Gothic には「ゞ」など一部の字が入っていないので、
+   フォールバックを積む。最後の Noto Sans CJK JP はOSのフォント
+   （このスクリプトの実行には fonts-noto-cjk が必要）。
+   実機のブラウザではOSのフォントが肩代わりするため、画面側は問題ない */
+const FONTS =
+  (await fontCss("zen-maru-gothic", [500, 700])) +
+  (await fontCss("zen-kaku-gothic-new", [500, 700]));
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -70,7 +76,7 @@ async function cardHtml(k) {
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
 ${FONTS}
 *{margin:0;box-sizing:border-box}
-body{width:1200px;height:630px;font-family:"Zen Maru Gothic",sans-serif;color:#3B3350;background:#F2ECFF;display:flex}
+body{width:1200px;height:630px;font-family:"Zen Maru Gothic","Zen Kaku Gothic New","Noto Sans CJK JP",sans-serif;color:#3B3350;background:#F2ECFF;display:flex}
 .dog{width:460px;height:630px;flex:none;overflow:hidden}
 .dog img{width:100%;height:100%;object-fit:cover;object-position:center 25%}
 .right{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 56px;gap:22px}
