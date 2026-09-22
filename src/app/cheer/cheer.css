@@ -51,6 +51,10 @@
 .cheer-root *::after {
   box-sizing: border-box;
 }
+/* 画像が親をはみ出すと、ページ全体の幅が引きずられて崩れる。最後の砦 */
+.cheer-root img {
+  max-width: 100%;
+}
 .cheer-main {
   max-width: 440px;
   margin: 0 auto;
@@ -68,6 +72,7 @@
 .cheer-root .ask {
   position: fixed;
   inset: 0;
+  overflow: hidden;
 }
 /* 帯の幅は結果画面（.film-stage）と同じ。中身だけスクロールさせる */
 .cheer-root .ask-stage {
@@ -77,6 +82,7 @@
   position: absolute;
   inset: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: max(20px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
 }
 /* 背景の写真。上に白のベールを重ねて、文字が読めるようにする */
@@ -100,7 +106,8 @@
 }
 .cheer-root .ask-logo {
   display: block;
-  width: min(300px, 74%);
+  width: 74%;
+  max-width: 300px;
   height: auto;
   margin: 8px auto 24px;
 }
@@ -236,10 +243,17 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: min(100%, calc(100vh * 464 / 832));
-  width: min(100%, calc(100dvh * 464 / 832));
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
   box-shadow: 0 0 70px rgba(59, 51, 80, 0.22);
+}
+/* 横長の画面でだけ帯に絞る。dvhが使えない環境では上の100%のままで、
+   スマホと同じ全面表示になる（崩れない） */
+@supports (height: 100dvh) {
+  .cheer-root .film-stage {
+    width: min(100%, calc(100dvh * 464 / 832));
+  }
 }
 .cheer-root .film-video {
   position: absolute;
