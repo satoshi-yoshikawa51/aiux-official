@@ -548,8 +548,8 @@ export function CheerApp() {
     <div className="cheer-root">
       {screen === "ask" && (
         <div className="ask">
-          {/* 帯の外側は、帯の中の写真をぼかしたもの */}
-          <div className="film-bg" style={{ backgroundImage: "url(/cheer/ask-bg-blur.jpg)" }} />
+          {/* 帯の外側の空気。結果画面とまったく同じものを敷いている */}
+          <div className="film-bg" />
           <div className="film-stage ask-stage">
             {/* 背景：白いポメラニアンのお手。文字が読めるよう上に白のベールを重ねる */}
             <div className="ask-bg" />
@@ -590,11 +590,8 @@ export function CheerApp() {
 
       {screen === "result" && (
         <section className="film">
-          {/* 帯の左右は、その子の映像をぼかしたもので埋める（同じ空間の延長） */}
-          <div
-            className="film-bg"
-            style={pet ? { backgroundImage: `url(${pet.bg})` } : undefined}
-          />
+          {/* 帯の左右の空気。質問画面と同じなので、切り替わっても背景は変わらない */}
+          <div className="film-bg" />
           <div className="film-stage">
           {pet && (
             <video

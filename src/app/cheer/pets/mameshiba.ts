@@ -6,5 +6,4 @@ export const mameshiba: Pet = {
   name: "まめしば",
   video: "/cheer/dogs/mameshiba.mp4",
   poster: "/cheer/dogs/mameshiba.jpg",
-  bg: "/cheer/dogs/mameshiba-bg.jpg",
 };

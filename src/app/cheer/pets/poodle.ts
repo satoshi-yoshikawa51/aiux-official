@@ -6,5 +6,4 @@ export const poodle: Pet = {
   name: "トイプードル",
   video: "/cheer/dogs/poodle.mp4",
   poster: "/cheer/dogs/poodle.jpg",
-  bg: "/cheer/dogs/poodle-bg.jpg",
 };

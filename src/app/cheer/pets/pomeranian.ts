@@ -6,5 +6,4 @@ export const pomeranian: Pet = {
   name: "ポメラニアン",
   video: "/cheer/dogs/pomeranian.mp4",
   poster: "/cheer/dogs/pomeranian.jpg",
-  bg: "/cheer/dogs/pomeranian-bg.jpg",
 };

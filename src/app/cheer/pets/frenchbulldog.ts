@@ -6,5 +6,4 @@ export const frenchbulldog: Pet = {
   name: "フレンチブルドッグ",
   video: "/cheer/dogs/frenchbulldog.mp4",
   poster: "/cheer/dogs/frenchbulldog.jpg",
-  bg: "/cheer/dogs/frenchbulldog-bg.jpg",
 };

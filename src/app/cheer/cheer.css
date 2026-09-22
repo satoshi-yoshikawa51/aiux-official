@@ -2,11 +2,44 @@
    きょうの きみに — プロトタイプ専用の見た目。
    サイト本体のトークン（globals.css）とは別の世界観なので、
    .cheer-root にスコープした独自トークンで完結させる。
-   結果画面（.film）は動画の上に載せるため、テーマに依らず固定色。
+   背景はあたたかい光の色で固定なので、配色もライト固定にしている。
    ============================================================ */
 
 .cheer-root {
-  --ch-bg: #fbf1e5;
+  /* 画面をまたいで変わらない「あたたかい空気」。質問画面も結果画面も、
+     帯の外側はこれ1枚。画像ではなくCSSなので、読み込みを待つ一瞬に
+     冷たい下地が見えることがない */
+  --ch-air:
+    radial-gradient(circle 6vmin at 21% 13%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 11vmin at 7% 33%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 4vmin at 34% 25%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 14vmin at 47% 6%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 7.5vmin at 63% 19%, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 17vmin at 84% 10%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 5.5vmin at 93% 31%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 9vmin at 72% 41%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 4.5vmin at 55% 49%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 12vmin at 25% 57%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 6.5vmin at 11% 71%, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 15vmin at 43% 84%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 4vmin at 66% 67%, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 9.5vmin at 87% 63%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 7vmin at 77% 89%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 11vmin at 97% 84%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 8vmin at 15% 95%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 5vmin at 39% 68%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 3vmin at 59% 30%, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 3.4vmin at 29% 41%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%),
+    /* ふちがうっすら光る玉。少し混ぜると写真のぼけらしくなる */
+    radial-gradient(circle 8vmin at 37% 38%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.2) 76% 90%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle 11vmin at 89% 46%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.16) 78% 91%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle 6vmin at 57% 91%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.2) 76% 90%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle 9vmin at 18% 80%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.15) 78% 91%, rgba(255, 255, 255, 0) 100%),
+    /* 大きな光のにじみ。全体をふわっと持ち上げる */
+    radial-gradient(circle 46vmin at 70% 24%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 72%),
+    radial-gradient(circle 40vmin at 14% 62%, rgba(255, 243, 225, 0.22), rgba(255, 255, 255, 0) 72%),
+    /* 地の色：左下のピンクから右のたまご色へ */
+    linear-gradient(105deg, #ffc2c8 0%, #ffcdb3 40%, #ffd9a2 70%, #ffe2ad 100%);
   --ch-card: #ffffff;
   --ch-ink: #3b3350;
   --ch-sub: #8a80a6;
@@ -18,26 +51,12 @@
   --ch-chip-on-ink: #ffffff;
   --ch-shadow: 0 10px 30px rgba(59, 51, 80, 0.1);
 }
-@media (prefers-color-scheme: dark) {
-  .cheer-root {
-    --ch-bg: #2a2128;
-    --ch-card: #2a2440;
-    --ch-ink: #f1ecff;
-    --ch-sub: #a79fc2;
-    --ch-line: #3d3556;
-    --ch-peach: #ff9e80;
-    --ch-peach-ink: #2b1610;
-    --ch-chip: #332c4d;
-    --ch-chip-on: #f1ecff;
-    --ch-chip-on-ink: #2a2440;
-    --ch-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  }
-}
-
+/* サイト本体と同じくライト固定。背景があたたかい光の色なので、
+   OSがダークでも配色は変えない（文字だけ反転すると読めなくなる） */
 .cheer-root {
   box-sizing: border-box;
   min-height: 100dvh;
-  background: var(--ch-bg);
+  background: var(--ch-air);
   color: var(--ch-ink);
   font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Zen Kaku Gothic New",
     "Rounded Mplus 1c", "Yu Gothic", sans-serif;
@@ -76,6 +95,7 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
+  background: var(--ch-air);
 }
 /* 帯の幅は結果画面（.film-stage）と同じ。中身だけスクロールさせる */
 .cheer-root .ask-stage {
@@ -97,15 +117,25 @@
   background-size: cover;
   background-position: center;
 }
+/* 帯の中の写真にも、外と同じ空気の色をかぶせる。
+   ここだけ灰色の写真のままだと、帯の内と外で世界が割れて見える */
+.cheer-root .ask-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ch-air);
+  opacity: 0.7;
+}
+/* 文字を読むための白いベール（上は薄く、下ほど濃く） */
 .cheer-root .ask-bg::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(255, 246, 236, 0.38) 0%,
-    rgba(255, 248, 240, 0.6) 30%,
-    rgba(255, 250, 243, 0.78) 100%
+    rgba(255, 250, 243, 0.3) 0%,
+    rgba(255, 251, 245, 0.52) 30%,
+    rgba(255, 252, 247, 0.72) 100%
   );
 }
 .cheer-root .ask-logo {
@@ -228,24 +258,15 @@
   position: fixed;
   inset: 0;
   z-index: 10;
-  background: var(--ch-bg);
+  background: var(--ch-air);
 }
-/* 動画は縦の帯なので、横長の画面では左右が余る。
-   そこをあらかじめぼかした風景写真で埋める（実行時のblurはかけない） */
+/* 動画は縦の帯なので、横長の画面では左右が余る。そこを埋める「空気」。
+   質問画面とまったく同じものを敷くので、画面が切り替わっても
+   背景は一度も入れ替わらない（＝切り替わりの一瞬に別の色が出ない） */
 .cheer-root .film-bg {
   position: absolute;
   inset: 0;
-  background-color: var(--ch-bg);
-  background-size: cover;
-  background-position: center;
-}
-/* 「もう一枚の写真」ではなく、ただの空気になるところまで薄める。
-   かぶせる色は生成り。冷たい白だと写真の暖かさが飛んでしまう */
-.cheer-root .film-bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 245, 232, 0.26);
+  background: var(--ch-air);
 }
 /* 動画のぶん（9:16）。縦は画面いっぱい、横は中央に寄せる。
    スマホのように画面のほうが細いときは、これまでどおり全面になる */
