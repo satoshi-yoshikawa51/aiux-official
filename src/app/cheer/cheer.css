@@ -6,7 +6,7 @@
    ============================================================ */
 
 .cheer-root {
-  --ch-bg: #f2ecff;
+  --ch-bg: #fbf1e5;
   --ch-card: #ffffff;
   --ch-ink: #3b3350;
   --ch-sub: #8a80a6;
@@ -20,7 +20,7 @@
 }
 @media (prefers-color-scheme: dark) {
   .cheer-root {
-    --ch-bg: #1f1a30;
+    --ch-bg: #2a2128;
     --ch-card: #2a2440;
     --ch-ink: #f1ecff;
     --ch-sub: #a79fc2;
@@ -239,12 +239,13 @@
   background-size: cover;
   background-position: center;
 }
-/* 「もう一枚の写真」ではなく、ただの空気になるところまで薄める */
+/* 「もう一枚の写真」ではなく、ただの空気になるところまで薄める。
+   かぶせる色は生成り。冷たい白だと写真の暖かさが飛んでしまう */
 .cheer-root .film-bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(250, 247, 255, 0.34);
+  background: rgba(255, 245, 232, 0.26);
 }
 /* 動画のぶん（9:16）。縦は画面いっぱい、横は中央に寄せる。
    スマホのように画面のほうが細いときは、これまでどおり全面になる */
