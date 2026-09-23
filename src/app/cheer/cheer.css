@@ -124,7 +124,7 @@
   position: absolute;
   inset: 0;
   background: var(--ch-air);
-  opacity: 0.7;
+  opacity: 0.34;
 }
 /* 文字を読むための白いベール（上は薄く、下ほど濃く） */
 .cheer-root .ask-bg::after {
@@ -133,9 +133,9 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(255, 250, 243, 0.3) 0%,
-    rgba(255, 251, 245, 0.52) 30%,
-    rgba(255, 252, 247, 0.72) 100%
+    rgba(255, 250, 243, 0.1) 0%,
+    rgba(255, 251, 245, 0.2) 30%,
+    rgba(255, 252, 247, 0.38) 100%
   );
 }
 .cheer-root .ask-logo {
@@ -166,14 +166,24 @@
 }
 .cheer-root .ask .q {
   color: #3b3350;
-  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.95);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.95), 0 1px 14px rgba(255, 255, 255, 0.9);
 }
+/* 写真がうっすら透ける画面なので、入力欄だけは下地を敷いて読めるようにする
+   （チップと同じ生成りの白。下線は残して入力欄だとわかる形のまま） */
 .cheer-root .ask .note {
   color: #3b3350;
+  background: rgba(255, 252, 248, 0.78);
+  border-bottom-color: rgba(90, 33, 56, 0.22);
+  border-radius: 10px 10px 0 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.cheer-root .ask .note::placeholder {
+  color: #7b7291;
 }
 .cheer-root .ask .hint {
   color: #6b6285;
-  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.95), 0 1px 12px rgba(255, 255, 255, 0.85);
 }
 .cheer-root .ask-logo {
   filter: drop-shadow(0 2px 12px rgba(255, 255, 255, 0.85));
