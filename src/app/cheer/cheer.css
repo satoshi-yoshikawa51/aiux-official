@@ -1,0 +1,587 @@
+/* ============================================================
+   いぬがたり — プロトタイプ専用の見た目。
+   サイト本体のトークン（globals.css）とは別の世界観なので、
+   .cheer-root にスコープした独自トークンで完結させる。
+   背景はあたたかい光の色で固定なので、配色もライト固定にしている。
+   ============================================================ */
+
+.cheer-root {
+  /* 画面をまたいで変わらない「あたたかい空気」。質問画面も結果画面も、
+     帯の外側はこれ1枚。画像ではなくCSSなので、読み込みを待つ一瞬に
+     冷たい下地が見えることがない */
+  --ch-air:
+    radial-gradient(circle 6vmin at 21% 13%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 11vmin at 7% 33%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 4vmin at 34% 25%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 14vmin at 47% 6%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 7.5vmin at 63% 19%, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 17vmin at 84% 10%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 5.5vmin at 93% 31%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 9vmin at 72% 41%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 4.5vmin at 55% 49%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 12vmin at 25% 57%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 6.5vmin at 11% 71%, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 15vmin at 43% 84%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 4vmin at 66% 67%, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 9.5vmin at 87% 63%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 7vmin at 77% 89%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 11vmin at 97% 84%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 8vmin at 15% 95%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 5vmin at 39% 68%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 3vmin at 59% 30%, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(circle 3.4vmin at 29% 41%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%),
+    /* ふちがうっすら光る玉。少し混ぜると写真のぼけらしくなる */
+    radial-gradient(circle 8vmin at 37% 38%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.2) 76% 90%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle 11vmin at 89% 46%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.16) 78% 91%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle 6vmin at 57% 91%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.2) 76% 90%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle 9vmin at 18% 80%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.15) 78% 91%, rgba(255, 255, 255, 0) 100%),
+    /* 大きな光のにじみ。全体をふわっと持ち上げる */
+    radial-gradient(circle 46vmin at 70% 24%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 72%),
+    radial-gradient(circle 40vmin at 14% 62%, rgba(255, 243, 225, 0.22), rgba(255, 255, 255, 0) 72%),
+    /* 地の色：左下のピンクから右のたまご色へ */
+    linear-gradient(105deg, #ffc2c8 0%, #ffcdb3 40%, #ffd9a2 70%, #ffe2ad 100%);
+  --ch-card: #ffffff;
+  --ch-ink: #3b3350;
+  --ch-sub: #8a80a6;
+  --ch-line: #e4dcf6;
+  --ch-peach: #ffb199;
+  --ch-peach-ink: #7a3a26;
+  --ch-chip: #f8f5ff;
+  --ch-chip-on: #3b3350;
+  --ch-chip-on-ink: #ffffff;
+  --ch-shadow: 0 10px 30px rgba(59, 51, 80, 0.1);
+}
+/* サイト本体と同じくライト固定。背景があたたかい光の色なので、
+   OSがダークでも配色は変えない（文字だけ反転すると読めなくなる） */
+.cheer-root {
+  box-sizing: border-box;
+  min-height: 100dvh;
+  background: var(--ch-air);
+  color: var(--ch-ink);
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Zen Kaku Gothic New",
+    "Rounded Mplus 1c", "Yu Gothic", sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  padding: max(20px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+}
+.cheer-root *,
+.cheer-root *::before,
+.cheer-root *::after {
+  box-sizing: border-box;
+}
+/* 画像が親をはみ出すと、ページ全体の幅が引きずられて崩れる。最後の砦 */
+.cheer-root img {
+  max-width: 100%;
+}
+.cheer-main {
+  max-width: 440px;
+  margin: 0 auto;
+}
+.cheer-root h1 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ch-sub);
+  margin: 4px 0 18px;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+/* ---------- ask（ロゴ＋お手の写真） ---------- */
+/* 縦にスクロールさせないため、文字・チップ・余白を画面の高さに
+   合わせて可変にする（clamp の最小値があるので潰れすぎない）。
+   それでも入りきらないときのために .ask-scroll は残してある */
+.cheer-root .ask {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--ch-air);
+}
+/* 帯の幅は結果画面（.film-stage）と同じ。中身だけスクロールさせる */
+.cheer-root .ask-stage {
+  display: block;
+}
+.cheer-root .ask-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: max(clamp(8px, 1.9vh, 16px), env(safe-area-inset-top)) 18px
+    max(clamp(10px, 2.2vh, 20px), env(safe-area-inset-bottom));
+}
+/* 背景の写真。上に白のベールを重ねて、文字が読めるようにする */
+.cheer-root .ask-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("/cheer/ask-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+/* 帯の中の写真にも、外と同じ空気の色をかぶせる。
+   ここだけ灰色の写真のままだと、帯の内と外で世界が割れて見える */
+.cheer-root .ask-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ch-air);
+  opacity: 0.34;
+}
+/* 文字を読むための白いベール（上は薄く、下ほど濃く） */
+.cheer-root .ask-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 250, 243, 0.1) 0%,
+    rgba(255, 251, 245, 0.2) 30%,
+    rgba(255, 252, 247, 0.38) 100%
+  );
+}
+.cheer-root .ask-logo {
+  display: block;
+  width: min(74%, 30vh);
+  max-width: 300px;
+  height: auto;
+  margin: clamp(2px, 0.7vh, 6px) auto clamp(10px, 2.6vh, 22px);
+}
+
+/* ---------- ask ---------- */
+.cheer-root .q {
+  margin: 0 0 clamp(5px, 1.2vh, 10px);
+  font-weight: 700;
+  font-size: clamp(14px, 2.37vh, 20px);
+}
+/* 見出しの肉球。色は本文から継承する */
+.cheer-root .q i {
+  margin-right: 8px;
+  font-size: 0.92em;
+  vertical-align: -0.04em;
+}
+.cheer-root .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(5px, 1.07vh, 9px);
+  margin-bottom: clamp(12px, 2.84vh, 24px);
+}
+.cheer-root .ask .q {
+  color: #3b3350;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.95), 0 1px 14px rgba(255, 255, 255, 0.9);
+}
+/* 写真がうっすら透ける画面なので、入力欄だけは下地を敷いて読めるようにする
+   （チップと同じ生成りの白。下線は残して入力欄だとわかる形のまま） */
+.cheer-root .ask .note {
+  color: #3b3350;
+  background: rgba(255, 252, 248, 0.78);
+  border-bottom-color: rgba(90, 33, 56, 0.22);
+  border-radius: 10px 10px 0 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.cheer-root .ask .note::placeholder {
+  color: #7b7291;
+}
+.cheer-root .ask .hint {
+  color: #6b6285;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.95), 0 1px 12px rgba(255, 255, 255, 0.85);
+}
+.cheer-root .ask-logo {
+  filter: drop-shadow(0 2px 12px rgba(255, 255, 255, 0.85));
+}
+.cheer-root .chip {
+  appearance: none;
+  border: 0;
+  background: rgba(255, 252, 248, 0.9);
+  color: #3b3350;
+  font: inherit;
+  font-size: clamp(13px, 2vh, 17px);
+  font-weight: 500;
+  padding: clamp(6px, 1.18vh, 10px) clamp(11px, 2vh, 17px);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.12s, background 0.15s, color 0.15s;
+}
+.cheer-root .chip:active {
+  transform: scale(0.95);
+}
+.cheer-root .chip[aria-pressed="true"] {
+  background: #5a2138;
+  color: #ffffff;
+}
+.cheer-root .chip:focus-visible,
+.cheer-root .go:focus-visible,
+.cheer-root .film-top-btn:focus-visible {
+  outline: 3px solid var(--ch-peach);
+  outline-offset: 3px;
+}
+.cheer-root .note {
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid rgba(90, 33, 56, 0.28);
+  background: transparent;
+  color: #3b3350;
+  font: inherit;
+  /* 16px を下回るとiOSが入力時に勝手に拡大するので、ここだけ下限を置く */
+  font-size: clamp(16px, 2vh, 17px);
+  padding: clamp(5px, 0.95vh, 8px) 2px;
+  margin-bottom: clamp(3px, 0.7vh, 6px);
+}
+.cheer-root .note::placeholder {
+  color: #8a80a6;
+}
+.cheer-root .note:focus {
+  outline: 0;
+  border-bottom-color: var(--ch-peach);
+}
+.cheer-root .hint {
+  font-size: clamp(11px, 1.54vh, 13px);
+  color: var(--ch-sub);
+  margin: 0 0 clamp(12px, 2.6vh, 22px);
+}
+.cheer-root .go {
+  display: block;
+  width: 100%;
+  appearance: none;
+  border: 0;
+  border-radius: clamp(14px, 2.6vh, 22px);
+  background: var(--ch-peach);
+  color: var(--ch-peach-ink);
+  font: inherit;
+  font-size: clamp(15px, 2.25vh, 19px);
+  font-weight: 700;
+  padding: clamp(10px, 1.78vh, 15px);
+  cursor: pointer;
+  box-shadow: var(--ch-shadow);
+  transition: transform 0.12s, opacity 0.2s;
+}
+.cheer-root .go:active {
+  transform: scale(0.98);
+}
+.cheer-root .go:disabled {
+  opacity: 0.45;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* ---------- result（犬動画＋名言オーバーレイ） ---------- */
+.cheer-root .film {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--ch-air);
+}
+/* 動画は縦の帯なので、横長の画面では左右が余る。そこを埋める「空気」。
+   質問画面とまったく同じものを敷くので、画面が切り替わっても
+   背景は一度も入れ替わらない（＝切り替わりの一瞬に別の色が出ない） */
+.cheer-root .film-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--ch-air);
+}
+/* 動画のぶん（9:16）。縦は画面いっぱい、横は中央に寄せる。
+   スマホのように画面のほうが細いときは、これまでどおり全面になる */
+.cheer-root .film-stage {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-shadow: 0 0 70px rgba(59, 51, 80, 0.22);
+}
+/* 帯に絞るのはタブレット以上の広い画面だけ。スマホでは画面の高さが
+   ブラウザのバーで変わっても必ず全面になる（左右に隙間が出ない）。
+   dvhが使えない環境でも上の width:100% が残るので崩れない */
+@media (min-width: 768px) {
+  @supports (height: 100dvh) {
+    .cheer-root .film-stage {
+      width: min(100%, calc(100dvh * 464 / 832));
+    }
+  }
+}
+.cheer-root .film-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: cheer-video-in 0.7s ease both;
+}
+@keyframes cheer-video-in {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* 文字は下側に置くので、スクリムも下を厚めに。上はアイコンボタンぶんだけ薄く */
+.cheer-root .film-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0) 13%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.5) 78%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+}
+
+/* 左上：もどる ／ 右上：がぞうをほぞん */
+.cheer-root .film-top-btn {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 14px);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.72);
+  color: #3b3350;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform 0.12s, opacity 0.3s;
+}
+.cheer-root .film-top-btn:active {
+  transform: scale(0.92);
+}
+.cheer-root .film-top-btn.left {
+  left: 14px;
+}
+.cheer-root .film-top-btn.right {
+  right: 14px;
+}
+
+/* 保存完了などの小メッセージ（上部中央） */
+.cheer-root .film-msg {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 24px);
+  left: 70px;
+  right: 70px;
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: #6b6285;
+  min-height: 1.4em;
+}
+
+/* 名言（顔より下・1文字ずつ出る） */
+.cheer-root .film-body {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: calc(env(safe-area-inset-bottom) + 148px);
+  text-align: center;
+  color: #3b3350;
+}
+/* 犬が決まるまでの待ち（どの子が来るかは名言しだい） */
+.cheer-root .film-body.waiting {
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cheer-root .film-lines {
+  margin: 0;
+  font-size: clamp(21px, 5.6vw, 27px);
+  font-weight: 700;
+  line-height: 1.6;
+  text-shadow: 0 1px 14px rgba(255, 255, 255, 0.9);
+}
+.cheer-root .film-lines.out {
+  animation: cheer-line-out 0.35s ease forwards;
+}
+@keyframes cheer-line-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.3em);
+  }
+}
+.cheer-root .film-lines .ch {
+  display: inline-block;
+  opacity: 0;
+  animation: cheer-char-in 0.55s ease forwards;
+}
+@keyframes cheer-char-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cheer-root .dots {
+  color: #6b6285;
+  letter-spacing: 0.3em;
+  font-size: 24px;
+}
+
+/* 全部出たあと：全文（小さめ）＋シェア */
+.cheer-root .film-after {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: calc(env(safe-area-inset-bottom) + 18px);
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 20px;
+  padding: 12px 14px 10px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #3b3350;
+  animation: cheer-after-in 0.6s ease both;
+}
+@keyframes cheer-after-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cheer-root .after-lines {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+.cheer-root .after-credit {
+  margin: 4px 0 10px;
+  font-size: 12px;
+  color: #6b6285;
+}
+
+/* 丸アイコンのシェア列（サイトのフッターのトーン） */
+.cheer-root .share-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 14px;
+}
+.cheer-root .share-btn {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #3b3350;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+.cheer-root .share-btn:active {
+  transform: scale(0.92);
+}
+.cheer-root .share-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid #3b3350;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.6);
+}
+.cheer-root .line-word {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.cheer-root .share-label {
+  font-size: 10px;
+  color: #6b6285;
+}
+.cheer-root .video-share-btn {
+  appearance: none;
+  border: 0;
+  width: 100%;
+  margin-top: 12px;
+  padding: 11px;
+  border-radius: 16px;
+  background: #ffb199;
+  color: #7a3a26;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s, opacity 0.2s;
+}
+.cheer-root .video-share-btn:active {
+  transform: scale(0.97);
+}
+.cheer-root .video-share-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cheer-root .film-video {
+    animation: none;
+  }
+  .cheer-root .film-lines .ch {
+    animation: none;
+    opacity: 1;
+  }
+  .cheer-root .film-after {
+    animation: none;
+  }
+}
+
+/* ---------- 結果ページ（/cheer/k/[id]） ---------- */
+.cheer-root .k-card {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: calc(env(safe-area-inset-bottom) + 24px);
+  background: rgba(255, 255, 255, 0.78);
+  border-radius: 22px;
+  padding: 18px 18px 14px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #3b3350;
+}
+.cheer-root .k-card .after-lines {
+  font-size: 17px;
+}
+.cheer-root .k-cta {
+  display: block;
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 16px;
+  background: #ffb199;
+  color: #7a3a26;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.12s;
+}
+.cheer-root .k-cta:active {
+  transform: scale(0.97);
+}
+.cheer-root .k-brand {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #6b6285;
+}
