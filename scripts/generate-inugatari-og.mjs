@@ -1,16 +1,16 @@
 /* ============================================================
    「いぬがたり」名言ページのOGP画像（1200×630）を一括生成。
    左に犬（名言idから決まる子のポスター画像）、右に名言テキスト。
-   背景はアプリ本体と同じ「あたたかい空気」で、cheer.css の --ch-air を
+   背景はアプリ本体と同じ「あたたかい空気」で、inugatari.css の --ig-air を
    そのまま読んで使う（色を2か所で持たないため）。
    Playwright(Chromium)でスクリーンショットして
-   public/cheer/og/{id}.jpg に書き出す。
+   public/inugatari/og/{id}.jpg に書き出す。
 
    使い方:
-     node scripts/generate-cheer-og.mjs
-     （npm run og:cheer でも実行できる）
+     node scripts/generate-inugatari-og.mjs
+     （npm run og:inugatari でも実行できる）
 
-   サービストップのカード public/cheer/og-top.jpg は手描きのものが
+   サービストップのカード public/inugatari/og-top.jpg は手描きのものが
    入っている。ここでは無いときだけ仮のものを書き出すので、通常の実行で
    上書きされることはない（--top を付けたときだけ作り直す）。
 
@@ -23,23 +23,23 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const OUT_DIR = path.join(ROOT, "public/cheer/og");
+const OUT_DIR = path.join(ROOT, "public/inugatari/og");
 
-const { KOTOBA } = await import(pathToFileURL(path.join(ROOT, "src/app/cheer/quotes.ts")).href);
+const { KOTOBA } = await import(pathToFileURL(path.join(ROOT, "src/app/inugatari/quotes.ts")).href);
 
-/* アプリと同じ背景を使う。cheer.css の --ch-air をそのまま抜き出す */
-const cheerCss = await readFile(path.join(ROOT, "src/app/cheer/cheer.css"), "utf8");
-const AIR = cheerCss.match(/--ch-air:([\s\S]*?);\n/)[1].trim();
+/* アプリと同じ背景を使う。inugatari.css の --ig-air をそのまま抜き出す */
+const appCss = await readFile(path.join(ROOT, "src/app/inugatari/inugatari.css"), "utf8");
+const AIR = appCss.match(/--ig-air:([\s\S]*?);\n/)[1].trim();
 
 /* pets/ は拡張子なしimportを含みnodeから直接読めないため、ここに写しを持つ。
-   ids の並びと dogFor のロジックは src/app/cheer/pets/index.ts と揃えること */
+   ids の並びと dogFor のロジックは src/app/inugatari/pets/index.ts と揃えること */
 const DOG_POSTERS = {
-  poodle: "/cheer/dogs/poodle.jpg",
-  chihuahua: "/cheer/dogs/chihuahua.jpg",
-  mameshiba: "/cheer/dogs/mameshiba.jpg",
-  pomeranian: "/cheer/dogs/pomeranian.jpg",
-  dachshund: "/cheer/dogs/dachshund.jpg",
-  frenchbulldog: "/cheer/dogs/frenchbulldog.jpg",
+  poodle: "/inugatari/dogs/poodle.jpg",
+  chihuahua: "/inugatari/dogs/chihuahua.jpg",
+  mameshiba: "/inugatari/dogs/mameshiba.jpg",
+  pomeranian: "/inugatari/dogs/pomeranian.jpg",
+  dachshund: "/inugatari/dogs/dachshund.jpg",
+  frenchbulldog: "/inugatari/dogs/frenchbulldog.jpg",
 };
 const DOG_IDS = Object.keys(DOG_POSTERS);
 function dogFor(id) {
@@ -80,10 +80,10 @@ async function posterData(posterPath) {
 
 /* ロゴ（透過PNG）もdata URIで埋め込む */
 const LOGO = `data:image/png;base64,${(
-  await readFile(path.join(ROOT, "public/cheer/logo.png"))
+  await readFile(path.join(ROOT, "public/inugatari/logo.png"))
 ).toString("base64")}`;
 
-/* カードの共通部分。--ch-air をそのまま背景に敷く */
+/* カードの共通部分。--ig-air をそのまま背景に敷く */
 const BASE_CSS = `${FONTS}
 *{margin:0;box-sizing:border-box}
 body{width:1200px;height:630px;font-family:"Zen Maru Gothic","Zen Kaku Gothic New","Noto Sans CJK JP",sans-serif;color:#3B3350;background:${AIR};display:flex}`;
@@ -128,7 +128,7 @@ body{flex-direction:column;justify-content:center;align-items:center;gap:52px}
 </style></head><body>
 <img class="logo" src="${LOGO}">
 <div class="faces">${faces.map((f) => `<div><img src="${f}"></div>`).join("")}</div>
-<div class="url">comixai.dev/cheer</div>
+<div class="url">comixai.dev/inugatari</div>
 </body></html>`;
 }
 
@@ -151,7 +151,7 @@ await mkdir(OUT_DIR, { recursive: true });
 
 /* トップのカードは、無いとき（または --top 指定時）だけ書き出す。
    手描きに差し替えたものを上書きしてしまわないようにするため */
-const TOP_PATH = path.join(ROOT, "public/cheer/og-top.jpg");
+const TOP_PATH = path.join(ROOT, "public/inugatari/og-top.jpg");
 if (process.argv.includes("--top") || !existsSync(TOP_PATH)) {
   await page.setContent(await topCardHtml(), { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
@@ -166,4 +166,4 @@ for (const k of KOTOBA) {
   console.log(`  ✔ ${k.id}.jpg`);
 }
 await browser.close();
-console.log(`done: ${KOTOBA.length} cards -> public/cheer/og/`);
+console.log(`done: ${KOTOBA.length} cards -> public/inugatari/og/`);

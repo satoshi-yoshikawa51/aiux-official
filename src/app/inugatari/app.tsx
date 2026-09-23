@@ -5,7 +5,7 @@
    結果画面は「犬のループ動画を全画面＋名言をオーバーレイ」。
    名言は下側に1文字ずつゆっくり出し、出終わったら全文（小さめ）と
    シェア導線（サイト共通の ShareRow）に切り替わる。
-   AI（/api/cheer）は名言を選ぶだけ。失敗したらこの場でランダム選書。
+   AI（/api/inugatari）は名言を選ぶだけ。失敗したらこの場でランダム選書。
    犬は名言ごとに決まる（dogFor）。シェアしたときのOGPカードと
    同じ子が出るようにするため。
    ============================================================ */
@@ -51,12 +51,12 @@ function creditFor(who: string): string {
   return who === "ことわざ" ? "ことわざ" : `${who}のことば`;
 }
 
-/* /api/cheer に選書してもらう。返事が変なら null（→ローカル選書へ） */
+/* /api/inugatari に選書してもらう。返事が変なら null（→ローカル選書へ） */
 async function askServer(
   payload: { feel: string; why: string; note: string; recent: string[] },
   signal: AbortSignal,
 ): Promise<Selected | null> {
-  const res = await fetch("/api/cheer", {
+  const res = await fetch("/api/inugatari", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(payload),
@@ -86,9 +86,9 @@ async function askServer(
    はてブはやめて主要SNSに。PhosphorにLINEのロゴグリフが無いので
    （商標を描き直さない方針）、LINEだけ文字で出す。
    アイコンは各SNSの投稿画面へワンタップ直行（投稿には
-   /cheer/k/ のOGPカードが付く）。動画ファイルを載せたい人は
+   /inugatari/k/ のOGPカードが付く）。動画ファイルを載せたい人は
    「どうがで シェア」からシェアシートで */
-function CheerShare({
+function InugatariShare({
   text,
   url,
   onCopied,
@@ -136,7 +136,7 @@ function CheerShare({
           aria-label={`${it.label}でシェア`}
           data-ga="share_click"
           data-ga-network={it.id}
-          data-ga-path="/cheer"
+          data-ga-path="/inugatari"
         >
           <span className="share-circle">{it.icon}</span>
           <span className="share-label">{it.label}</span>
@@ -148,7 +148,7 @@ function CheerShare({
         aria-label="リンクをコピー"
         data-ga="share_click"
         data-ga-network="copy"
-        data-ga-path="/cheer"
+        data-ga-path="/inugatari"
         onClick={async () => {
           try {
             await navigator.clipboard.writeText(full);
@@ -193,7 +193,7 @@ function Chips({
   );
 }
 
-export function CheerApp() {
+export function InugatariApp() {
   const [screen, setScreen] = useState<Screen>("ask");
   const [feel, setFeel] = useState<string | null>(null);
   const [why, setWhy] = useState<string | null>(null);
@@ -524,7 +524,7 @@ export function CheerApp() {
       return;
     }
     setVideoBusy(true);
-    const shareText = `${s.lines.join(" ")}（${creditFor(s.who)}）| いぬがたり https://comixai.dev/cheer/k/${s.id}`;
+    const shareText = `${s.lines.join(" ")}（${creditFor(s.who)}）| いぬがたり https://comixai.dev/inugatari/k/${s.id}`;
     if (navigator.canShare && navigator.canShare({ files: [f] })) {
       try {
         await navigator.share({ files: [f], text: shareText });
@@ -545,7 +545,7 @@ export function CheerApp() {
   }
 
   return (
-    <div className="cheer-root">
+    <div className="inugatari-root">
       {screen === "ask" && (
         <div className="ask">
           {/* 帯の外側の空気。結果画面とまったく同じものを敷いている */}
@@ -554,9 +554,9 @@ export function CheerApp() {
             {/* 背景：白いポメラニアンのお手。文字が読めるよう上に白のベールを重ねる */}
             <div className="ask-bg" />
             <div className="ask-scroll">
-          <main className="cheer-main">
+          <main className="inugatari-main">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="ask-logo" src="/cheer/logo.png" alt="いぬがたり — あなたの「想い」にこたえます" />
+            <img className="ask-logo" src="/inugatari/logo.png" alt="いぬがたり — あなたの「想い」にこたえます" />
             <section>
               <p className="q">
                 <i className="ph-bold ph-paw-print" />
@@ -635,9 +635,9 @@ export function CheerApp() {
             <div className="film-after">
               <p className="after-lines">{sel.lines.join("\n")}</p>
               <p className="after-credit">{creditFor(sel.who)}</p>
-              <CheerShare
+              <InugatariShare
                 text={`${sel.lines.join(" ")}（${creditFor(sel.who)}）| いぬがたり`}
-                url={`https://comixai.dev/cheer/k/${sel.id}`}
+                url={`https://comixai.dev/inugatari/k/${sel.id}`}
                 onCopied={() => setMsg("りんくを こぴーしたよ")}
               />
               <button
@@ -647,7 +647,7 @@ export function CheerApp() {
                 onClick={shareVideo}
                 data-ga="share_click"
                 data-ga-network="video"
-                data-ga-path="/cheer"
+                data-ga-path="/inugatari"
               >
                 <i className="ph-bold ph-film-strip" style={{ marginRight: 6 }} />
                 どうがで シェア

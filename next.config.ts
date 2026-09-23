@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // 「いぬがたり」は /cheer で公開したあとに /inugatari へ移した。
+      // 旧URLで貼られたリンクが死なないよう恒久（308）で送る
+      { source: "/cheer", destination: "/inugatari", permanent: true },
+      { source: "/cheer/:path*", destination: "/inugatari/:path*", permanent: true },
       // 旧URL aiux-official.vercel.app へのアクセスを正規ドメイン
       // comixai.dev へ恒久（308）リダイレクトし、評価を集約する。
       // プレビューデプロイ(aiux-official-xxxx.vercel.app)は対象外。
