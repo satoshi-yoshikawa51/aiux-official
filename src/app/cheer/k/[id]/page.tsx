@@ -1,5 +1,5 @@
 /* ============================================================
-   きょうの きみに — 名言1つぶんの結果ページ（シェアの着地先）。
+   いぬがたり — 名言1つぶんの結果ページ（シェアの着地先）。
    SNSに貼られたとき、OGPで「犬＋名言」のカードが出るのが役目。
    ページ自体は静的生成で、犬の動画＋名言＋アプリへの導線だけ。
    ============================================================ */
@@ -17,6 +17,10 @@ export function generateStaticParams() {
   return KOTOBA.map((k) => ({ id: k.id }));
 }
 
+/* サービス名。OGPのタイトル・説明とページ下の署名で使い回す */
+const BRAND = "いぬがたり";
+const TAGLINE = "〜あなたの「想い」にこたえます〜";
+
 function creditFor(who: string): string {
   return who === "ことわざ" ? "ことわざ" : `${who}のことば`;
 }
@@ -32,13 +36,14 @@ export async function generateMetadata({
   const dog = dogFor(k.id);
   const text = k.lines.join(" ");
   return {
-    title: `「${k.lines[0]}」| きょうの きみに`,
-    description: `${text}（${creditFor(k.who)}）— ちいさな犬が、きょうのきみに ことばを届けます。`,
+    title: `「${k.lines[0]}」| ${BRAND}`,
+    description: `${text}（${creditFor(k.who)}）— ちいさな犬が、あなたの「想い」にこたえます。`,
     robots: { index: false }, // プロトタイプの間は検索に載せない
     alternates: { canonical: `/cheer/k/${k.id}` },
     openGraph: {
       title: text,
-      description: `${creditFor(k.who)} | きょうの きみに`,
+      description: `${creditFor(k.who)} | ${BRAND}${TAGLINE}`,
+      siteName: BRAND,
       type: "website",
       url: `/cheer/k/${k.id}`,
       images: [{ url: `/cheer/og/${k.id}.jpg`, width: 1200, height: 630 }],
@@ -78,7 +83,7 @@ export default async function KotobaPage({ params }: { params: Promise<{ id: str
           <Link href="/cheer" className="k-cta">
             じぶんも きいてもらう
           </Link>
-          <p className="k-brand">きょうの きみに</p>
+          <p className="k-brand">{BRAND}</p>
           </div>
         </div>
       </main>

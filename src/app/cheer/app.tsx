@@ -1,7 +1,7 @@
 "use client";
 
 /* ============================================================
-   きょうの きみに — 画面まるごとのクライアントコンポーネント。
+   いぬがたり — 画面まるごとのクライアントコンポーネント。
    結果画面は「犬のループ動画を全画面＋名言をオーバーレイ」。
    名言は下側に1文字ずつゆっくり出し、出終わったら全文（小さめ）と
    シェア導線（サイト共通の ShareRow）に切り替わる。
@@ -351,7 +351,7 @@ export function CheerApp() {
     g.font = "500 32px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
     g.fillStyle = "#6B6285";
     g.fillText(creditFor(s.who), W / 2, y + 8);
-    g.fillText("きょうの きみに", W / 2, H - 60);
+    g.fillText("いぬがたり", W / 2, H - 60);
     const blob = await new Promise<Blob | null>((r) => cv.toBlob(r, "image/png"));
     if (!blob) {
       setMsg("ほぞん できなかった");
@@ -360,7 +360,7 @@ export function CheerApp() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `kyou-no-kimini-${p.id}.png`;
+    a.download = `inugatari-${p.id}.png`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 10_000);
     setMsg("ほぞんしたよ");
@@ -421,7 +421,7 @@ export function CheerApp() {
 
     const drawFrame = (t: number) => {
       /* 背景：動画（読めない環境ではそのまま何も出ないがポスター色で埋める） */
-      g.fillStyle = "#F2ECFF";
+      g.fillStyle = "#FFD9BD";
       g.fillRect(0, 0, W, H);
       const vw = video.videoWidth || 0;
       const vh = video.videoHeight || 0;
@@ -475,7 +475,7 @@ export function CheerApp() {
       g.globalAlpha = 0.85;
       g.fillStyle = "#6B6285";
       g.font = "500 24px 'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif";
-      g.fillText("きょうの きみに", W / 2, H - 46);
+      g.fillText("いぬがたり", W / 2, H - 46);
       g.globalAlpha = 1;
     };
 
@@ -507,7 +507,7 @@ export function CheerApp() {
     const type = mime.startsWith("video/mp4") ? "video/mp4" : "video/webm";
     const ext = type === "video/mp4" ? "mp4" : "webm";
     const blob = new Blob(chunks, { type });
-    return new File([blob], `kyou-no-kimini-${p.id}.${ext}`, { type });
+    return new File([blob], `inugatari-${p.id}.${ext}`, { type });
   }
 
   /* シェアボタン：裏で録っておいた動画をその場でシェアシートに渡す */
@@ -524,7 +524,7 @@ export function CheerApp() {
       return;
     }
     setVideoBusy(true);
-    const shareText = `${s.lines.join(" ")}（${creditFor(s.who)}）| きょうの きみに https://comixai.dev/cheer/k/${s.id}`;
+    const shareText = `${s.lines.join(" ")}（${creditFor(s.who)}）| いぬがたり https://comixai.dev/cheer/k/${s.id}`;
     if (navigator.canShare && navigator.canShare({ files: [f] })) {
       try {
         await navigator.share({ files: [f], text: shareText });
@@ -636,7 +636,7 @@ export function CheerApp() {
               <p className="after-lines">{sel.lines.join("\n")}</p>
               <p className="after-credit">{creditFor(sel.who)}</p>
               <CheerShare
-                text={`${sel.lines.join(" ")}（${creditFor(sel.who)}）| きょうの きみに`}
+                text={`${sel.lines.join(" ")}（${creditFor(sel.who)}）| いぬがたり`}
                 url={`https://comixai.dev/cheer/k/${sel.id}`}
                 onCopied={() => setMsg("りんくを こぴーしたよ")}
               />
