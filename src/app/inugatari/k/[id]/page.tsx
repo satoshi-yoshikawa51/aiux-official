@@ -37,7 +37,7 @@ export async function generateMetadata({
   const text = k.lines.join(" ");
   return {
     title: `「${k.lines[0]}」| ${BRAND}`,
-    description: `${text}（${creditFor(k.who)}）— ちいさな犬が、あなたの「想い」にこたえます。`,
+    description: `${text}（${creditFor(k.who)}）— ワンちゃんたちが、あなたの「想い」にこたえます。`,
     robots: { index: false }, // プロトタイプの間は検索に載せない
     alternates: { canonical: `/inugatari/k/${k.id}` },
     openGraph: {
