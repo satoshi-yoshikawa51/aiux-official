@@ -1,60 +1,116 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-22T23:47:14.111Z",
+  "updatedAt": "2026-09-23T23:56:09.426Z",
   "items": [
     {
-      "title": "Better prompt caching for GPT-6",
-      "url": "https://openai.com/index/better-prompt-caching-for-gpt-6",
+      "title": "Google Beam expands with new regions, partners, and customers",
+      "url": "https://blog.google/innovation-and-ai/technology/research/google-beam-expansion/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-09-23T18:00:00.000Z",
+      "titleJa": "Google Beam が新たな地域、パートナー、顧客とともに拡大",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Google_Beam_hero.width-1300.png"
+    },
+    {
+      "title": "Two years of OpenAI Academy",
+      "url": "https://openai.com/index/two-years-of-openai-academy",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-09-22T21:00:00.000Z",
-      "titleJa": "GPT-6のプロンプトキャッシュを改善",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/1GCXJNDUwggbqNGnGCATR3/7d3f2fc8ca3457597bcefc7fe30f5a64/7kneoqlc2qh37z1utkmtfk-seo-v1.png?w=1600&h=900&fit=fill"
+      "date": "2026-09-23T16:00:00.000Z",
+      "titleJa": "2 年間の OpenAI アカデミー",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/6A4AcxrMdo5oOri7Wm8qNg/34228cf221e3af874539412f71b28a44/two-years-of-openai-academy-seo.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "Introducing GPT-6 Sol and Luna",
-      "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna",
+      "title": "OpenAI extends cyber access to Ukraine for civilian defense",
+      "url": "https://openai.com/index/openai-extends-cyber-access-to-ukraine-for-civilian-defense",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-09-22T18:00:00.000Z",
-      "titleJa": "GPT-6「Sol」「Luna」を発表",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/7fvmMcBIvMTXxVJh7NEMt1/48a75e624699bb1e218366c1d3522048/gpt-6-sol-luna-seo.png?w=1600&h=900&fit=fill"
+      "date": "2026-09-23T13:00:00.000Z",
+      "titleJa": "OpenAI、民間防衛のためにサイバーアクセスをウクライナに拡大",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/5TR3Q7ZcZJbqxGHYfksNSt/de1f57d45927c818631c58ffedb01346/openai-extends-cyber-access-to-ukraine-for-civilian-defense-seo.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "Snorkel AI triples valuation to $3.5B as demand for AI training data booms",
-      "url": "https://techcrunch.com/2026/09/22/snorkel-ai-triples-valuation-to-3-5b-as-demand-for-ai-training-data-booms/",
+      "title": "Meta introduces camera-free AI glasses",
+      "url": "https://techcrunch.com/2026/09/23/meta-introduces-camera-free-ai-glasses/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-22T21:56:43.000Z",
-      "titleJa": "AI学習データ需要が急拡大、Snorkel AIの評価額が3倍の35億ドルに",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/04/GettyImages-2259148891.jpg?resize=1200,686"
+      "date": "2026-09-23T23:39:44.000Z",
+      "titleJa": "Meta、カメラ不要の AI メガネを発表",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/ray-ban-audio.png?resize=1200,635"
     },
     {
-      "title": "New Anthropic, OpenAI models make same promise: A little more for a lot less money",
-      "url": "https://arstechnica.com/ai/2026/09/new-anthropic-openai-models-make-same-promise-a-little-more-for-a-lot-less-money/",
-      "source": "Ars Technica",
+      "title": "Meta Connect 2026: The biggest news and announcements",
+      "url": "https://www.theverge.com/tech/998480/meta-connect-2026-biggest-news-announcements",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-09-22T21:25:18.000Z",
-      "titleJa": "AnthropicとOpenAIの新モデル、共通の売り文句は「性能は少し上、価格は大幅減」",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/Claude-ChatGPT-1152x648-1790110487.jpg"
+      "date": "2026-09-23T22:45:00.000Z",
+      "titleJa": "Meta Connect 2026: 最大のニュースと発表",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/268639_Meta_Adventurer_glasses_AKrales_0241.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "Lawsuit demands OpenAI pay for new school after ChatGPT used in shooting",
-      "url": "https://arstechnica.com/tech-policy/2026/09/lawsuit-demands-openai-pay-for-new-school-after-chatgpt-used-in-shooting/",
-      "source": "Ars Technica",
+      "title": "Meta Connect 2026 live blog: On the ground at Mark Zuckerberg’s next big product launch",
+      "url": "https://www.theverge.com/tech/998457/meta-connect-2026-live-blog-mark-zuckerberg-keynote",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-09-22T19:28:23.000Z",
-      "titleJa": "銃撃事件でChatGPTを使用、訴訟がOpenAIに新校舎の費用負担を要求",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-2260756748-1024x648.jpg"
+      "date": "2026-09-23T22:30:00.000Z",
+      "titleJa": "Meta Connect 2026 ライブ ブログ: マーク ザッカーバーグの次の大型製品発表会の現場で",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/lcimg-0c8c71e4-02c2-4138-9524-cf0a79ed0b16.webp?quality=90&strip=all&crop=0%2C10.928342580292%2C100%2C78.143314839415&w=1200"
     },
     {
-      "title": "Meta admits Muse’s likeness to OpenClaw isn’t a coincidence",
-      "url": "https://techcrunch.com/2026/09/22/meta-admits-muses-likeness-to-openclaw-isnt-a-coincidence/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-22T19:09:11.000Z",
-      "titleJa": "Meta、Museが OpenClaw に似ているのは「偶然ではない」と認める",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/meta-muse-app-GettyImages-2293792137.jpg?w=1024"
+      "title": "AIを導入しても“組織的には使われない”のはなぜ？ 「個人利用」にとどまる理由と脱却策",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/24/news026.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-23T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2609/24/cover_news026.jpg"
+    },
+    {
+      "title": "日立「HMAX for Buildings」が描く次世代物流の未来--AIと業界知見で設備を「経営資産」へ進化",
+      "url": "https://japan.zdnet.com/article/35252752/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-23T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/17/b8344f33414be7004e5d8fdf17a4a49d/260917_hitachi_l.jpg"
+    },
+    {
+      "title": "「AIを売る」から「現場を買う」へ。スタートアップが現場に入ってAIネイティブな製造業モデル構築を開始",
+      "url": "https://ascii.jp/elem/000/004/435/4435537/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-23T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/16/4526634/xl/a738bfa24a8b2fb4.jpg"
+    },
+    {
+      "title": "クアルコム、データセンター向けAI技術をスマホ搭載へ 1日100万トークンの処理を想定",
+      "url": "https://japan.cnet.com/article/35252887/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-23T20:30:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/24/5e17b85393a026a40b136cede831dd97/0112.jpeg"
+    },
+    {
+      "title": "Metaの人気AIエージェント「Muse」にゼロデイ脆弱性 音声データやトークン流出の恐れ",
+      "url": "https://japan.cnet.com/article/35252881/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-23T19:50:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/24/903ccb6c7721a4c5769654c5b1701f4c/011.jpeg"
+    },
+    {
+      "title": "OpenAI、「GPT-6 Sol」と「GPT-6 Luna」公開 API料金は前世代の半額に",
+      "url": "https://www.itmedia.co.jp/news/article/2609/23/2000001674/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-23T00:12:02.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/23/2000001674/10007223/2048"
+    },
+    {
+      "title": "Anthropic、「Claude Opus 5.5」をリリース--「Fable 5.1」並みの性能を40％安く",
+      "url": "https://japan.zdnet.com/article/35252861/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-22T23:56:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/23/65f0e600992fc8187f11bef374617c0b/Opus-5.5_l.jpg"
     },
     {
       "title": "OpenAIが「GPT-6 Sol」など公開、精度2倍でコスト半減--発表の裏を読む",
@@ -63,62 +119,6 @@
       "lang": "ja",
       "date": "2026-09-22T23:31:00.000Z",
       "image": "https://japan.zdnet.com/storage/2026/09/23/9d93b1a953e1b0ba7b7578acb122d9f7/2_1c8ba8_l.jpg"
-    },
-    {
-      "title": "今押さえたい「半導体」の基礎知識 極小チップが“AI時代の戦略物資”になった、納得の理由",
-      "url": "https://www.itmedia.co.jp/business/articles/2609/23/news004.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-22T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2609/23/cover_news004.jpg"
-    },
-    {
-      "title": "AIを導入した企業ほど困る「データ基盤問題」 パーソルが3サービスで支援へ",
-      "url": "https://kn.itmedia.co.jp/kn/article/2609/23/2000001607/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-22T22:00:00.000Z",
-      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2609/23/2000001607/10006937/2048"
-    },
-    {
-      "title": "Anthropic、「Claude Opus 5.5」公開 Fable 5.1並みの性能で利用コスト4割減",
-      "url": "https://www.itmedia.co.jp/news/article/2609/23/2000001673/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-22T21:57:43.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/23/2000001673/10007217/2048"
-    },
-    {
-      "title": "Anthropic「Claude Opus 5.5」発表 40％低コストになり、OpenAI「GPT-6 Astra」を一部で上回る",
-      "url": "https://ascii.jp/elem/000/004/436/4436645/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-22T21:25:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/23/4529071/xl/b502f74bcc4287ed.png?20200122"
-    },
-    {
-      "title": "OpenAI「GPT-6 Sol/Luna」発表 料金半額、ただし普通のChatではまだ使えず",
-      "url": "https://ascii.jp/elem/000/004/436/4436644/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-22T21:10:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/23/4529070/xl/905c49e593486c27.png?20200122"
-    },
-    {
-      "title": "OpenAI、GPT-6の「Sol」と「Luna」公開 Astraの性能向上を低価格で",
-      "url": "https://japan.cnet.com/article/35252853/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-22T20:05:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/23/50b22f976f8bda48a15c4066b3a76665/092.jpeg"
-    },
-    {
-      "title": "AnthropicがClaude新モデル「Opus 5.5」発表 Fable 5.1並みの性能をOpus 5より4割安く",
-      "url": "https://japan.cnet.com/article/35252851/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-22T19:14:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/23/be3841204e42cef8b0753d16f649500c/09.jpeg"
     }
   ]
 }
