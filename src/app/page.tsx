@@ -562,11 +562,10 @@ function Magazines() {
 }
 
 /* ═══════════════ つくったもの（WORKS） ═══════════════ */
-const WORK_CATS: { key: "ゲーム" | "ニュース" | "ツール" | "ペット"; icon: string }[] = [
+const WORK_CATS: { key: "ゲーム" | "ツール" | "くらし"; icon: string }[] = [
   { key: "ゲーム", icon: "ph-game-controller" },
-  { key: "ニュース", icon: "ph-newspaper" },
   { key: "ツール", icon: "ph-wrench" },
-  { key: "ペット", icon: "ph-paw-print" },
+  { key: "くらし", icon: "ph-house" },
 ];
 
 function Works() {

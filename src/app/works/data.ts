@@ -14,7 +14,9 @@ export interface WorkFeature {
 
 export interface WorkDetail {
   slug: string;
-  category: "ゲーム" | "ニュース" | "ツール" | "ペット";
+  /* 「くらし」は毎日の情報や気持ちに寄り添うもの（Prism・いぬがたり）。
+     ゲームでもツールでもないものの置き場 */
+  category: "ゲーム" | "ツール" | "くらし";
   title: string;
   /** 一覧カードやヒーローで使う短いキャッチ */
   tagline: string;
@@ -238,7 +240,7 @@ export const WORK_DETAILS: WorkDetail[] = [
   },
   {
     slug: "prism",
-    category: "ニュース",
+    category: "くらし",
     title: "Prism",
     tagline: "AIニュースを、やさしく届けるニュースリーダー。",
     appUrl: "/news",
@@ -474,7 +476,7 @@ export const WORK_DETAILS: WorkDetail[] = [
   },
   {
     slug: "inugatari",
-    category: "ペット",
+    category: "くらし",
     title: "いぬがたり",
     tagline: "あなたの「想い」に、ちいさな犬がことばでこたえる。",
     appUrl: "/inugatari",
