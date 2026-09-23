@@ -7,7 +7,7 @@ import "./inugatari.css";
 import { InugatariApp } from "./app";
 
 const TITLE = "いぬがたり 〜あなたの「想い」にこたえます〜";
-const DESC = "いまの気持ちを選ぶと、ちいさな犬が偉人のことばをひらがなでそっと届けてくれる。";
+const DESC = "いまの気持ちを選ぶと、ワンちゃんたちが偉人のことばをひらがなでそっと届けてくれる。";
 
 export const metadata: Metadata = {
   title: TITLE,

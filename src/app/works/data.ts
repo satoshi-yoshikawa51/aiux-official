@@ -14,7 +14,9 @@ export interface WorkFeature {
 
 export interface WorkDetail {
   slug: string;
-  category: "ゲーム" | "ニュース" | "ツール";
+  /* 「くらし」は毎日の情報や気持ちに寄り添うもの（Prism・いぬがたり）。
+     ゲームでもツールでもないものの置き場 */
+  category: "ゲーム" | "ツール" | "くらし";
   title: string;
   /** 一覧カードやヒーローで使う短いキャッチ */
   tagline: string;
@@ -238,7 +240,7 @@ export const WORK_DETAILS: WorkDetail[] = [
   },
   {
     slug: "prism",
-    category: "ニュース",
+    category: "くらし",
     title: "Prism",
     tagline: "AIニュースを、やさしく届けるニュースリーダー。",
     appUrl: "/news",
@@ -470,6 +472,53 @@ export const WORK_DETAILS: WorkDetail[] = [
     tech: ["Claude API", "Claude Code", "Next.js", "Midjourney", "Vercel"],
     schemaType: "WebApplication",
     appCategory: "DesignApplication",
+    storyUrls: [],
+  },
+  {
+    slug: "inugatari",
+    category: "くらし",
+    title: "いぬがたり",
+    tagline: "あなたの「想い」に、ワンちゃんたちがことばでこたえる。",
+    appUrl: "/inugatari",
+    cta: "きいてもらう",
+    image: "/works/inugatari.jpg",
+    tone: "yellow",
+    badge: "ペット",
+    lastUpdated: "2026-09-23",
+    metaTitle: "いぬがたり｜AIが選んだ偉人のことばを、ワンちゃんたちが届けるWebアプリ",
+    metaDescription:
+      "いまの気持ちと出来事を選ぶと、ワンちゃんたちが偉人のことばをひらがなで届けてくれるWebアプリ。AIは文章を作らず、手書きの名言191本からあなたの状況に合うものを選ぶだけ。小型犬6犬種の実写動画つきで、ブラウザですぐ試せます。",
+    keywords: [
+      "AI 癒やし アプリ",
+      "名言 アプリ",
+      "Claude API 活用事例",
+      "AIに生成させない設計",
+      "犬 動画 アプリ",
+    ],
+    intro: [
+      "しんどいとき、「がんばれ」と言われても困ることがあります。そこで作ったのが、ワンちゃんたちがことばを届けてくれるアプリです。いまの気持ち（悲しい・疲れた・不安・イライラ・嬉しい）と、何があったか（家族・恋人・仕事……）を選んで、ひとこと書ければ書く。あとはワンちゃんが、偉人のことばをひらがなで一文字ずつ話してくれます。",
+      "つくるうえで決めたのは、AIに台詞を書かせないことでした。生成させると、それらしいけれど芯のない励ましになってしまう。だから名言は手書きで191本ストックして、AIの仕事は「この人のいまに、どれがいちばん寄り添うか」を選ぶことだけにしています。ワンちゃんたちはMidjourneyで作った小型犬6犬種の実写動画。どの子が出るかは名言ごとに決まっているので、シェアしたカードと画面の子が必ず一致します。",
+    ],
+    features: [
+      {
+        icon: "ph-paw-print",
+        title: "AIは書かない。選ぶだけ",
+        text: "手書きの名言191本から、Claude Haikuが状況に合う順に3つ選ぶ。生成しないので、的外れな励ましにならない。",
+      },
+      {
+        icon: "ph-textbox",
+        title: "ぜんぶ、ひらがな",
+        text: "犬のことばは漢字を使わない。読むのに力がいらないぶん、弱っているときでもすっと入ってくる。",
+      },
+      {
+        icon: "ph-share-network",
+        title: "そのまま動画でシェア",
+        text: "ことばが流れる縦型動画を裏で作っておくので、シェアボタンを押した時点でもう出来ている。画像保存もできる。",
+      },
+    ],
+    tech: ["Claude API", "Claude Code", "Midjourney", "Next.js", "Vercel"],
+    schemaType: "WebApplication",
+    appCategory: "LifestyleApplication",
     storyUrls: [],
   },
 ];
