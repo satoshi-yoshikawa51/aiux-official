@@ -4,6 +4,6 @@ import type { Pet } from "./types";
 export const mameshiba: Pet = {
   id: "mameshiba",
   name: "まめしば",
-  video: "/cheer/dogs/mameshiba.mp4",
-  poster: "/cheer/dogs/mameshiba.jpg",
+  video: "/inugatari/dogs/mameshiba.mp4",
+  poster: "/inugatari/dogs/mameshiba.jpg",
 };

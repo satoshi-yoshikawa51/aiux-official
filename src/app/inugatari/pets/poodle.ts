@@ -4,6 +4,6 @@ import type { Pet } from "./types";
 export const poodle: Pet = {
   id: "poodle",
   name: "トイプードル",
-  video: "/cheer/dogs/poodle.mp4",
-  poster: "/cheer/dogs/poodle.jpg",
+  video: "/inugatari/dogs/poodle.mp4",
+  poster: "/inugatari/dogs/poodle.jpg",
 };

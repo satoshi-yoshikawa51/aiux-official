@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "og:glossary": "node --experimental-strip-types scripts/generate-og-images.mjs",
-    "og:cheer": "node --experimental-strip-types scripts/generate-cheer-og.mjs",
+    "og:inugatari": "node --experimental-strip-types scripts/generate-inugatari-og.mjs",
     "banners:top": "node scripts/generate-top-banners.mjs",
     "og:academy": "node scripts/generate-academy-og.mjs",
     "academy:shots": "node scripts/academy-shots.mjs",

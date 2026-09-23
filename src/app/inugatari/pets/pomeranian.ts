@@ -4,6 +4,6 @@ import type { Pet } from "./types";
 export const pomeranian: Pet = {
   id: "pomeranian",
   name: "ポメラニアン",
-  video: "/cheer/dogs/pomeranian.mp4",
-  poster: "/cheer/dogs/pomeranian.jpg",
+  video: "/inugatari/dogs/pomeranian.mp4",
+  poster: "/inugatari/dogs/pomeranian.jpg",
 };

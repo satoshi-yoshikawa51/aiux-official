@@ -3,19 +3,42 @@
    台詞の生成はしない。quotes.ts の手書きストックから、
    Anthropic SDK (Claude Haiku) に「いちばん寄り添う1つ」を
    選ばせるだけ（source: "ai"）。
-   キー未設定・エラー時はランダム選書に降格する（source: "fallback"）。
+   キー未設定・エラー・レート超過のときはランダム選書に降格する
+   （source: "fallback"）。
    どちらでも返るのは同じ手書きの名言なので、質は落ちない。
    ============================================================ */
 export const runtime = "nodejs";
 
 import Anthropic from "@anthropic-ai/sdk";
-import { FEELS, WHYS } from "../../cheer/data";
-import { kotobaFor, type Kotoba } from "../../cheer/quotes";
+import { FEELS, WHYS } from "../../inugatari/data";
+import { kotobaFor, type Kotoba } from "../../inugatari/quotes";
 
 const MODEL = "claude-haiku-4-5";
 const MAX_CANDIDATES = 50;
 
-interface CheerRequest {
+/* —— 簡易レートリミット（インスタンス内メモリ・ベストエフォート） ——
+   1回の選書がAPI呼び出し1回。画面のアニメーションだけで10秒以上かかるので、
+   ふつうに使うぶんには1分5回に当たらない。
+   超えても429で返すだけで、画面側はローカル選書に降格して同じ名言を出す */
+const RATE_WINDOW_MS = 60 * 1000;
+const RATE_MAX = 5;
+const hits = new Map<string, { n: number; t: number }>();
+function rateLimited(ip: string): boolean {
+  const now = Date.now();
+  const h = hits.get(ip);
+  if (!h || now - h.t > RATE_WINDOW_MS) {
+    hits.set(ip, { n: 1, t: now });
+    return false;
+  }
+  h.n += 1;
+  if (hits.size > 5000) hits.clear(); // 念のためのメモリ保険
+  return h.n > RATE_MAX;
+}
+function clientIp(req: Request): string {
+  return (req.headers.get("x-forwarded-for") || "unknown").split(",")[0].trim();
+}
+
+interface InugatariRequest {
   feel: string;
   why: string;
   note: string;
@@ -23,7 +46,7 @@ interface CheerRequest {
   recent: string[];
 }
 
-function sanitize(raw: unknown): CheerRequest | null {
+function sanitize(raw: unknown): InugatariRequest | null {
   if (!raw || typeof raw !== "object") return null;
   const b = raw as Record<string, unknown>;
   const feel = typeof b.feel === "string" ? b.feel : "";
@@ -63,7 +86,7 @@ function weighted(list: Kotoba[]): Kotoba {
 /* 候補リストから Haiku に「合う順に3つ」選ばせ、その中から引く。
    1つだけ選ばせると同じ入力で毎回同じ言葉に寄ってしまうため、
    ふさわしさは AI に、最後のゆらぎはこちらで持たせる。 */
-async function selectQuote(apiKey: string | undefined, input: CheerRequest): Promise<Picked> {
+async function selectQuote(apiKey: string | undefined, input: InugatariRequest): Promise<Picked> {
   const all = kotobaFor(input.feel);
   /* 最近出したものは候補から外す（全部消えてしまうときは履歴を無視する） */
   const fresh = all.filter((k) => !input.recent.includes(k.id));
@@ -161,6 +184,9 @@ export async function GET(req: Request) {
   if (!new URL(req.url).searchParams.has("probe")) {
     return jsonUtf8({ ai });
   }
+  if (rateLimited(clientIp(req))) {
+    return jsonUtf8({ ai, source: "rate_limited" });
+  }
   const r = await selectQuote(apiKey, {
     feel: "sad",
     why: "friend",
@@ -177,6 +203,11 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  if (rateLimited(clientIp(req))) {
+    /* 画面側は !ok を見てローカル選書に降格する（体験は止めない） */
+    return Response.json({ error: "rate_limited" }, { status: 429 });
+  }
+
   let body: unknown;
   try {
     body = await req.json();

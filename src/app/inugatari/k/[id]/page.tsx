@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 import "@fontsource/zen-maru-gothic/400.css";
 import "@fontsource/zen-maru-gothic/500.css";
 import "@fontsource/zen-maru-gothic/700.css";
-import "../../cheer.css";
+import "../../inugatari.css";
 import { KOTOBA } from "../../quotes";
 import { dogFor } from "../../pets";
 
@@ -39,14 +39,14 @@ export async function generateMetadata({
     title: `「${k.lines[0]}」| ${BRAND}`,
     description: `${text}（${creditFor(k.who)}）— ちいさな犬が、あなたの「想い」にこたえます。`,
     robots: { index: false }, // プロトタイプの間は検索に載せない
-    alternates: { canonical: `/cheer/k/${k.id}` },
+    alternates: { canonical: `/inugatari/k/${k.id}` },
     openGraph: {
       title: text,
       description: `${creditFor(k.who)} | ${BRAND}${TAGLINE}`,
       siteName: BRAND,
       type: "website",
-      url: `/cheer/k/${k.id}`,
-      images: [{ url: `/cheer/og/${k.id}.jpg`, width: 1200, height: 630 }],
+      url: `/inugatari/k/${k.id}`,
+      images: [{ url: `/inugatari/og/${k.id}.jpg`, width: 1200, height: 630 }],
       /* 対応しているサービス（Discord等）では犬の動画がそのまま再生される */
       videos: [
         { url: `https://comixai.dev${dog.video}`, width: 464, height: 832, type: "video/mp4" },
@@ -62,7 +62,7 @@ export default async function KotobaPage({ params }: { params: Promise<{ id: str
   if (!k) notFound();
   const dog = dogFor(k.id);
   return (
-    <div className="cheer-root">
+    <div className="inugatari-root">
       <main className="film">
         <div className="film-bg" />
         <div className="film-stage">
@@ -80,7 +80,7 @@ export default async function KotobaPage({ params }: { params: Promise<{ id: str
         <div className="k-card">
           <p className="after-lines">{k.lines.join("\n")}</p>
           <p className="after-credit">{creditFor(k.who)}</p>
-          <Link href="/cheer" className="k-cta">
+          <Link href="/inugatari" className="k-cta">
             じぶんも きいてもらう
           </Link>
           <p className="k-brand">{BRAND}</p>

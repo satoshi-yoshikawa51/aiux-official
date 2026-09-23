@@ -4,6 +4,6 @@ import type { Pet } from "./types";
 export const frenchbulldog: Pet = {
   id: "frenchbulldog",
   name: "フレンチブルドッグ",
-  video: "/cheer/dogs/frenchbulldog.mp4",
-  poster: "/cheer/dogs/frenchbulldog.jpg",
+  video: "/inugatari/dogs/frenchbulldog.mp4",
+  poster: "/inugatari/dogs/frenchbulldog.jpg",
 };

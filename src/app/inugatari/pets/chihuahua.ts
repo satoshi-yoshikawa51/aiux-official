@@ -4,6 +4,6 @@ import type { Pet } from "./types";
 export const chihuahua: Pet = {
   id: "chihuahua",
   name: "チワワ",
-  video: "/cheer/dogs/chihuahua.mp4",
-  poster: "/cheer/dogs/chihuahua.jpg",
+  video: "/inugatari/dogs/chihuahua.mp4",
+  poster: "/inugatari/dogs/chihuahua.jpg",
 };
