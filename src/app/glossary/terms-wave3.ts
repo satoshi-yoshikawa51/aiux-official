@@ -46,12 +46,20 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
           "競合との関係では、エージェント型コーディングの独立系指標（Artificial AnalysisのCoding Agent Index）でClaude Fable 5.1に僅差で譲っており、全分野の王者ではありません。数学・科学・PC操作ならAstra、コーディングエージェントや日本語の長文ならClaude、と使い分けるのが2026年9月時点の賢い選択です。",
         ],
       },
+      {
+        heading: "GPT-6にSolとLunaが加わりました（追記）",
+        body: [
+          "上の本文は最上位のGPT-6 Astraを前提に書いていますが、2026年9月22日（日本時間では23日）にGPT-6ファミリーへ2つのモデルが追加されました。速さと費用効率を重視した「GPT-6 Sol」と、大量の処理に向く軽量モデル「GPT-6 Luna」です。API料金は入力100万トークンあたりSolが2ドル・出力10ドル、Lunaが入力0.10ドル・出力0.50ドル。いずれも前世代（GPT-5.6系）のおよそ半額で、OpenAIは値下げの理由をキャッシュと推論の効率改善によるものだと説明しています。同じ「GPT-6」でも、Astraの入力10ドル・出力50ドルとは5倍の価格差があるということです。",
+          "性能については、OpenAIの社内評価でSolは前世代のGPT-5.6 Solより事実の誤りが約半分に減り、より高価なAstraに近い信頼性に届いたとしています。同社の測定による数値なので、第三者の評価が出そろうまでは参考値として読むのが安全です。提供先は少しややこしく、2026年9月時点ではPlus・Pro・Business・Enterprise・EduのユーザーがChatGPT WorkとCodex、それにAPIから使えますが、普段の「Chat」の画面には出てきません。無料・GoのユーザーはデスクトップアプリでLunaに触れられます。Astraと同じく、まだチャットの主役として配られているわけではありません。",
+          "使い分けの目安は、最高精度が必要な難問はAstra、コーディングやエージェント作業の主力はSol、大量の分類・抽出はLuna。なお同じ9月22日にAnthropicもClaude Opus 5.5を発表しており、「同等の性能をより安く」が各社から同時に出た日になりました。最上位を全部に使い続けるより、仕事に合う階級を選ぶほうが安く済む——この順番で考えると、値下げ競争に振り回されずに済みます。",
+        ],
+      },
     ],
     links: [
       { label: "比較：ChatGPT・Claude・Gemini どれを使う？（2026年9月版）", href: "/compare" },
       { label: "用語：ベンチマーク（数字の読み方の注意も）", href: "/glossary/benchmark" },
     ],
-    relatedSlugs: ["chatgpt", "openai", "frontier-model", "trusted-access", "claude-fable"],
+    relatedSlugs: ["chatgpt", "openai", "frontier-model", "trusted-access", "claude-fable", "api"],
     faq: [
       {
         q: "GPT-6 AstraはChatGPT Plusで使えますか？",
@@ -65,8 +73,16 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
         q: "GPT-6のAPI料金はいくらですか？",
         a: "標準で入力100万トークンあたり10ドル・出力50ドルです。低遅延の高速モードは倍額（20ドル／100ドル）。Claude Fable 5.1の標準価格と同額で、フロンティア級の相場が揃った形です。",
       },
+      {
+        q: "GPT-6 SolとGPT-6 Astraはどちらを使えばいいですか？",
+        a: "最高精度が必要な数学・科学の難問や調査ならAstra、コーディングやエージェント作業を繰り返すならSolが目安です。API料金は入力100万トークンあたりAstraが10ドル、Solが2ドルと5倍の差があるので、まずSolで試して品質が足りないところだけAstraに上げる順番が経済的です（2026年9月時点）。",
+      },
+      {
+        q: "GPT-6 Solは普通のChatGPTの画面で使えますか？",
+        a: "2026年9月時点では使えません。SolとLunaはChatGPT WorkとCodex、それにAPIでの提供で、通常のChat画面のモデル一覧には出てきません（無料・GoのユーザーはデスクトップアプリでLunaに触れられます）。提供範囲は段階的に広がる可能性があるので、最新の状況は公式のヘルプで確認してください。",
+      },
     ],
-    lastUpdated: "2026-09-06",
+    lastUpdated: "2026-09-24",
   },
   {
     slug: "claude-fable",
@@ -102,13 +118,21 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
           "使い分けの感覚は、社内の仕事の9割はSonnetやOpusで速く安くこなし、設計判断や難しいデバッグ、長時間の自律作業だけFableに回す——という「エースの温存」型。APIでも同様で、全部をFableに投げると費用が数倍になります。まず下位モデルで試し、品質が足りないタスクだけ引き上げるのが定石です。",
         ],
       },
+      {
+        heading: "Opus 5.5が出て、使い分けが変わりました（追記）",
+        body: [
+          "上の「料金と使い方の現実」は、Fableのひとつ下がOpus 5だった時点の話です。2026年9月22日（日本時間23日）にAnthropicが「Claude Opus 5.5」を公開し、この前提が変わりました。API料金は入力100万トークンあたり4ドル・出力20ドル（Opus 5の5ドル・25ドルから20%の値下げ）、キャッシュ読み取りは0.20ドルへ60%の値下げ。同社は、多くのタスクでFable 5.1と同等の性能を保ちながら、典型的な作業ではOpus 5比でコストが約4割下がり、出力速度も30%以上速くなったとしています（いずれも同社の発表による数値です）。",
+          "読者にとって大きいのは、最上位を選ぶ理由が減った点です。Fable 5.1のAPI料金は入力10ドル・出力50ドルなので、Opus 5.5とは2.5倍の開きがあります。同等の性能だという主張が第三者の評価でも裏づけられれば、これまで「難所だけFableに回す」としていた仕事の多くはOpus 5.5で足りることになります。提供は発表と同時に始まっており、Proプラン以上とAPI、Amazon Bedrock・Google Cloud・Microsoft Foundry から使えます（開発者向けのモデル名は claude-opus-5-5）。今後数週間のうちにClaude Sonnet 5.5とClaude Haiku 5.5も投入される予定だと発表されています。",
+          "同じ9月22日にOpenAIもGPT-6 SolとLunaを前世代の半額で投入しており、「最上位より一段下を、安く強くする」動きが各社で重なった日でした。いま選び直すなら、まず一段下のモデルで試して足りないところだけ最上位に上げる——という順番が、以前より安全で安く済むようになっています。最上位の階級名を追いかけるより、自分の仕事に必要な水準を知るほうが効きます。",
+        ],
+      },
     ],
     links: [
       { label: "比較：ChatGPT・Claude・Gemini どれを使う？（2026年9月版）", href: "/compare" },
       { label: "用語：Claude（本体サービスの解説）", href: "/glossary/claude" },
       { label: "用語：Claude Code（Fableが首位を取った土俵）", href: "/glossary/claude-code" },
     ],
-    relatedSlugs: ["claude", "anthropic", "claude-code", "frontier-model", "trusted-access", "gpt-6"],
+    relatedSlugs: ["claude", "anthropic", "claude-code", "frontier-model", "trusted-access", "gpt-6", "api"],
     faq: [
       {
         q: "FableとOpusは何が違うのですか？",
@@ -122,8 +146,16 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
         q: "Fable 5.1はClaude Codeで使えますか？",
         a: "使えます。独立系指標で首位を取ったのもClaude Code上での測定です。ただし消費が大きいモデルなので、日常のタスクはSonnetやOpusで回し、難所だけFableに切り替える使い方が現実的です。",
       },
+      {
+        q: "Claude Opus 5.5とFable 5.1はどちらを使えばいいですか？",
+        a: "2026年9月時点では、まずOpus 5.5で試すのが無難です。Anthropicは多くのタスクでFable 5.1と同等の性能だとしており、API料金は入力100万トークンあたり4ドル・出力20ドルで、Fable 5.1の10ドル・50ドルより2.5倍安いためです。ただし同等という評価は同社の発表によるものなので、第三者の指標が出そろうのを待ってから本格的に切り替えるのが安全です。",
+      },
+      {
+        q: "Claude Opus 5.5の料金はいくらですか？",
+        a: "入力100万トークンあたり4ドル・出力20ドル、キャッシュ読み取りは0.20ドルです（2026年9月時点）。Opus 5の5ドル・25ドルから20%、キャッシュ読み取りは60%下がりました。同じ資料を何度も読み返すエージェント用途では、このキャッシュの値下げがとくに効きます。",
+      },
     ],
-    lastUpdated: "2026-09-06",
+    lastUpdated: "2026-09-24",
   },
   {
     slug: "gemini-omni",
