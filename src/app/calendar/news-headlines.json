@@ -1,14 +1,105 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-23T23:56:09.426Z",
+  "updatedAt": "2026-09-24T23:58:55.928Z",
   "items": [
+    {
+      "title": "Gemini 3.8 Live with Live Avatar gives Google’s AI a face",
+      "url": "https://www.theverge.com/tech/1000328/google-gemini-ai-live-avatar-face",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-24T19:59:26.000Z",
+      "titleJa": "「Gemini 3.8 Live」がLive Avatarに対応、GoogleのAIに“顔”",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gemini-live-avatar-animated.png?quality=90&strip=all&crop=0%2C10.856319364173%2C94.893468926603%2C78.287361271654&w=1200"
+    },
+    {
+      "title": "It’s sinister that Meta’s Muse AI mascot is so cute",
+      "url": "https://www.theverge.com/column/999999/optimizer-meta-muse-ai-cute",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-24T17:00:00.000Z",
+      "titleJa": "MetaのAIマスコット「Muse」がかわいすぎるのは不気味だ",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/jolly1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Google's first Suncatcher orbital data center test launches October 1",
+      "url": "https://arstechnica.com/google/2026/09/googles-first-suncatcher-orbital-data-center-test-launches-october-1/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-24T16:16:34.000Z",
+      "titleJa": "Google初の軌道上データセンター「Suncatcher」、10月1日に試験打ち上げ",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/suncatcher-1152x648.png"
+    },
+    {
+      "title": "OpenAIがGPT-6 SolとLunaを発表。｢ミニAstra｣をお手頃価格で",
+      "url": "https://www.gizmodo.jp/article/openai-releases-new-gpt-6-sol-and-luna-models-sells-them-as-mini-astras/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-24T23:30:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/24/d1e889d2-eef7-4920-8cc2-4d95fdf9fbc4/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "ソフトPLCがAIの「道具」に、簡単導入のPLCドラレコカメラも",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2609/25/news058.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-24T22:15:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2609/25/l_mn0925_ILC_001.jpg"
+    },
+    {
+      "title": "日本発スタートアップのエッジAIチップがNVIDIA超え、AI処理性能は3.36PFLOPS",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2609/25/news063.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-24T21:45:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2609/25/cover_news063.jpg"
+    },
+    {
+      "title": "イヤホンに「カメラ」、何に使う？ クアルコムが説明 AirPodsにも搭載のうわさ",
+      "url": "https://japan.cnet.com/article/35252934/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-24T19:50:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/25/2480e9684c10236d99570b3734a799b3/snapdragon.jpeg"
+    },
+    {
+      "title": "AMD、エージェント型AI時代における「EPYC」の優位性を解説したホワイトペーパーとブログ記事を公開",
+      "url": "https://ascii.jp/elem/000/004/437/4437070/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-24T11:40:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/24/4529789/xl/9d66a111a04fd1ba.png?20200122"
+    },
+    {
+      "title": "ゼロから声を作れる音声生成モデル「Gemini 3.8 Flash TTS」公開 「Gemini Notebook」でも利用可能に",
+      "url": "https://www.itmedia.co.jp/news/article/2609/24/2000001703/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-24T07:46:40.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/24/2000001703/10007334/2048"
+    },
+    {
+      "title": "「Gemini 4」は年末までに発表――開発責任者が言及か 「Googleは確かに最先端」と主張",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/24/2000001701/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-24T07:31:01.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/24/2000001701/10007327/2048"
+    },
+    {
+      "title": "首都高技術とシャープ、AIで道路損傷をリアルタイム検知する実証実験",
+      "url": "https://japan.zdnet.com/article/35252920/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-24T06:53:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/02/27/436c54eefb05b32ba54cddad78395a87/250207_truck_as_1280_245316302.jpg"
+    },
     {
       "title": "Google Beam expands with new regions, partners, and customers",
       "url": "https://blog.google/innovation-and-ai/technology/research/google-beam-expansion/",
       "source": "Google AI（公式）",
       "lang": "en",
       "date": "2026-09-23T18:00:00.000Z",
-      "titleJa": "Google Beam が新たな地域、パートナー、顧客とともに拡大",
+      "titleJa": "Google Beam、対応地域・パートナー・顧客を拡大",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Google_Beam_hero.width-1300.png"
     },
     {
@@ -17,7 +108,7 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-09-23T16:00:00.000Z",
-      "titleJa": "2 年間の OpenAI アカデミー",
+      "titleJa": "OpenAI Academyの2年間",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/6A4AcxrMdo5oOri7Wm8qNg/34228cf221e3af874539412f71b28a44/two-years-of-openai-academy-seo.png?w=1600&h=900&fit=fill"
     },
     {
@@ -26,99 +117,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-09-23T13:00:00.000Z",
-      "titleJa": "OpenAI、民間防衛のためにサイバーアクセスをウクライナに拡大",
+      "titleJa": "OpenAI、民生防衛のためウクライナにサイバー関連アクセスを拡大",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/5TR3Q7ZcZJbqxGHYfksNSt/de1f57d45927c818631c58ffedb01346/openai-extends-cyber-access-to-ukraine-for-civilian-defense-seo.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Meta introduces camera-free AI glasses",
-      "url": "https://techcrunch.com/2026/09/23/meta-introduces-camera-free-ai-glasses/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-23T23:39:44.000Z",
-      "titleJa": "Meta、カメラ不要の AI メガネを発表",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/ray-ban-audio.png?resize=1200,635"
-    },
-    {
-      "title": "Meta Connect 2026: The biggest news and announcements",
-      "url": "https://www.theverge.com/tech/998480/meta-connect-2026-biggest-news-announcements",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-23T22:45:00.000Z",
-      "titleJa": "Meta Connect 2026: 最大のニュースと発表",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/268639_Meta_Adventurer_glasses_AKrales_0241.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Meta Connect 2026 live blog: On the ground at Mark Zuckerberg’s next big product launch",
-      "url": "https://www.theverge.com/tech/998457/meta-connect-2026-live-blog-mark-zuckerberg-keynote",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-23T22:30:00.000Z",
-      "titleJa": "Meta Connect 2026 ライブ ブログ: マーク ザッカーバーグの次の大型製品発表会の現場で",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/lcimg-0c8c71e4-02c2-4138-9524-cf0a79ed0b16.webp?quality=90&strip=all&crop=0%2C10.928342580292%2C100%2C78.143314839415&w=1200"
-    },
-    {
-      "title": "AIを導入しても“組織的には使われない”のはなぜ？ 「個人利用」にとどまる理由と脱却策",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/24/news026.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-23T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2609/24/cover_news026.jpg"
-    },
-    {
-      "title": "日立「HMAX for Buildings」が描く次世代物流の未来--AIと業界知見で設備を「経営資産」へ進化",
-      "url": "https://japan.zdnet.com/article/35252752/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-23T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/17/b8344f33414be7004e5d8fdf17a4a49d/260917_hitachi_l.jpg"
-    },
-    {
-      "title": "「AIを売る」から「現場を買う」へ。スタートアップが現場に入ってAIネイティブな製造業モデル構築を開始",
-      "url": "https://ascii.jp/elem/000/004/435/4435537/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-23T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/16/4526634/xl/a738bfa24a8b2fb4.jpg"
-    },
-    {
-      "title": "クアルコム、データセンター向けAI技術をスマホ搭載へ 1日100万トークンの処理を想定",
-      "url": "https://japan.cnet.com/article/35252887/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-23T20:30:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/24/5e17b85393a026a40b136cede831dd97/0112.jpeg"
-    },
-    {
-      "title": "Metaの人気AIエージェント「Muse」にゼロデイ脆弱性 音声データやトークン流出の恐れ",
-      "url": "https://japan.cnet.com/article/35252881/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-23T19:50:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/24/903ccb6c7721a4c5769654c5b1701f4c/011.jpeg"
-    },
-    {
-      "title": "OpenAI、「GPT-6 Sol」と「GPT-6 Luna」公開 API料金は前世代の半額に",
-      "url": "https://www.itmedia.co.jp/news/article/2609/23/2000001674/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-23T00:12:02.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/23/2000001674/10007223/2048"
-    },
-    {
-      "title": "Anthropic、「Claude Opus 5.5」をリリース--「Fable 5.1」並みの性能を40％安く",
-      "url": "https://japan.zdnet.com/article/35252861/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-22T23:56:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/23/65f0e600992fc8187f11bef374617c0b/Opus-5.5_l.jpg"
-    },
-    {
-      "title": "OpenAIが「GPT-6 Sol」など公開、精度2倍でコスト半減--発表の裏を読む",
-      "url": "https://japan.zdnet.com/article/35252857/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-22T23:31:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/23/9d93b1a953e1b0ba7b7578acb122d9f7/2_1c8ba8_l.jpg"
     }
   ]
 }
