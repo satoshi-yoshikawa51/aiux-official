@@ -1488,6 +1488,28 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "meta-muse": {
+    caption: "やってもらえる分だけ、鍵を預けている",
+    render: () => (
+      <Svg h={348} title="チャットAIとMuse（エージェント）の違いの図解">
+        <T x={300} y={30} text="これまでのチャットAI：教えてくれるが、やるのは自分" size={13} />
+        <B x={30} y={46} w={140} h={58} label={"「予約したい」"} />
+        <AH x1={175} x2={215} y={75} />
+        <B x={220} y={46} w={140} h={58} label={"チャットAI"} />
+        <AH x1={365} x2={405} y={75} />
+        <B x={410} y={46} w={160} h={58} label={"手順を教える"} sub="操作するのは自分" />
+        <T x={300} y={140} text="Muse：アカウントにつながって、代わりに進める" size={13} />
+        <B x={30} y={156} w={140} h={58} label={"「予約して」"} fill={YELLOW} />
+        <AH x1={175} x2={215} y={185} />
+        <B x={220} y={156} w={140} h={58} label={"Muse"} sub="Muse Spark" fill={YELLOW} />
+        <AH x1={365} x2={405} y={185} />
+        <B x={410} y={156} w={160} h={58} label={"予約まで完了"} fill={YELLOW} />
+        <AV x={290} y1={216} y2={244} />
+        <B x={170} y={246} w={260} h={48} label={"メール・カレンダー・支払い"} sub="つながっている先" dashed />
+        <T x={300} y={322} text="便利さの正体は、アカウントの鍵を預けていること" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
