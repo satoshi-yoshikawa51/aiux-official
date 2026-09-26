@@ -1568,6 +1568,27 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "speaker-diarization": {
+    caption: "文字にするのと、誰の声か分けるのは、別の仕事",
+    render: () => (
+      <Svg h={300} title="文字起こしだけの場合と、話者分離を足した場合の図解">
+        <T x={300} y={30} text="文字起こしだけだと" size={13} />
+        <B x={40} y={46} w={130} h={58} label={"録音"} />
+        <AH x1={175} x2={215} y={75} />
+        <B x={220} y={46} w={160} h={58} label={"文字起こし"} />
+        <AH x1={385} x2={425} y={75} />
+        <B x={430} y={46} w={150} h={58} label={"ぜんぶ\n一本の文章"} />
+        <T x={300} y={138} text="話者分離を足すと" size={13} />
+        <B x={40} y={154} w={130} h={58} label={"録音"} fill={YELLOW} />
+        <AH x1={175} x2={215} y={183} />
+        <B x={220} y={154} w={160} h={58} label={"＋話者分離"} sub="誰がいつ話したか" fill={YELLOW} />
+        <AH x1={385} x2={425} y={183} />
+        <B x={430} y={154} w={150} h={58} label={"話者1：〜\n話者2：〜"} fill={YELLOW} />
+        <T x={300} y={248} text="「誰が」はAIが分ける。「それが誰か」は人が当てる" size={13.5} color={INK} />
+        <T x={300} y={276} text="精度が落ちるのは、声が重なるとき・人数が多いとき・マイクが遠いとき" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
