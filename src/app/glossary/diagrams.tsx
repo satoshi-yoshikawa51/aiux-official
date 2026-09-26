@@ -1553,6 +1553,21 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "super-intelligence": {
+    caption: "変わったのは名前で、できることではない",
+    render: () => (
+      <Svg h={300} title="AIの呼称変更（SI）と、先にあった超知能の図解">
+        <T x={300} y={28} text="米政府が決めたのは「呼び名」" size={13} />
+        <B x={40} y={46} w={200} h={62} label={"AI"} sub="Artificial Intelligence" />
+        <AH x1={245} x2={345} y={77} label="言い換え" />
+        <B x={350} y={46} w={210} h={62} label={"SI"} sub="Super Intelligence" fill={YELLOW} />
+        <T x={300} y={144} text="ところが、AIの世界には同じ言葉が先にあった" size={13} />
+        <B x={40} y={162} w={520} h={64} label={"超知能（Superintelligence）"} sub="あらゆる分野で人間を超えたAI。まだ存在しない" dashed />
+        <T x={300} y={256} text="「SIが実現した」が、ほとんど正反対の二つに読めてしまう" size={13.5} color={INK} />
+        <T x={300} y={282} text="見かけたら、出どころでどちらの意味かを確かめる" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
