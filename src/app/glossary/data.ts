@@ -55,7 +55,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-09-26";
+export const GLOSSARY_UPDATED = "2026-09-27";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
@@ -1354,15 +1354,33 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       "「Copilot（副操縦士）」の名のとおり、資料の下書き、メールの要約、会議の議事録、Excelの数式づくりなど、日常業務の隣に座って手伝ってくれるのが特徴です。使い慣れたOfficeアプリの中にAIが出てくるので、新しいツールを覚える負担が小さいのが強み。",
       "ややこしいのが名前で、開発者向けの「GitHub Copilot」とは別物です（親会社は同じマイクロソフト）。会社で「Copilot導入するぞ」と言われたら、どちらの話なのかをまず確認しましょう。ここを混同すると、情シスと現場の会話がすれ違います。",
     ],
+    sections: [
+      {
+        heading: "Copilotが作り直されました（追記）",
+        body: [
+          "上の本文では、Copilotを「いつものOfficeアプリの中に出てくるAI」として説明しています。2026年9月25日、マイクロソフトがCopilotを大幅に刷新し、この関係が逆になりました。新しいCopilotは「Home」「Code」「Autopilot」の3本柱で、HomeではWord・Excel・PowerPointがCopilotの中に組み込まれます。つまり「Officeの中のAI」から「AIの中のOffice」へ——入口が入れ替わった形です。Homeには、チャット型のChatと、複雑な作業を任せるCoworkが1画面にまとまり、メール・カレンダー・Teamsの情報を集めて「いま優先すべきこと」を提案する「Today」も加わります。",
+          "残る2つは、できることの幅を広げる方向です。「Code」は、プログラミングの知識がない人でも、自然言語で指示するだけで業務用のダッシュボードや自動化ツールを作れる機能。GitHub Copilotと同じ基盤技術を使い、作ったものはサンドボックス（隔離された安全な場所）で動かします。「Autopilot」は、名前と役割と目標を与えて常時働かせる自律エージェントで、こちらが画面を見ていない間も作業を進めます。提供は段階的で、2026年9月時点ではHomeとCodeが数週間のうちにFrontierプログラムで、Autopilotは9月末からプライベートプレビューで始まる予定です。",
+          "押さえておきたいのは、「Copilotを導入する」という言葉の意味が変わったことです。これまでは「Officeに機能が足される」話でしたが、これからは「AIを仕事の入口にする」話になります。職場でこの言葉が出たら、どの部分（Home／Code／Autopilot）のことなのかを確かめると話がかみ合います。とくにAutopilotは人が見ていない間も動く前提なので、任せる権限の範囲と、結果をどう確認するかを決めてから配るのが安全です。",
+        ],
+      },
+    ],
     links: [
       { label: "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）", href: "https://note.com/aiux_unite/n/n24dc19c0ff2d" },
     ],
-    relatedSlugs: ["github-copilot", "chatgpt", "shadow-ai"],
+    relatedSlugs: ["github-copilot", "chatgpt", "shadow-ai", "ai-agent", "vibe-coding"],
     faq: [
       { q: "Microsoft CopilotとChatGPTの関係は？", a: "CopilotはOpenAIのモデルなどを核にマイクロソフトが提供するアシスタント群です。頭脳は近縁で、WordやExcelなど仕事道具に組み込まれている点が違います。" },
       { q: "無料で使えますか？", a: "Web版・Windows版は無料で使えます。WordやExcelの中で使うCopilotは、別途有料ライセンスが必要です。" },
+      {
+        q: "新しいCopilotの「Home」「Code」「Autopilot」は何が違いますか？",
+        a: "Homeは入口で、チャットと作業の依頼、それにWord・Excel・PowerPointがひとつの画面にまとまります。Codeは、プログラミングの知識がなくても自然言語で業務用のアプリや自動化を作れる機能です。Autopilotは、名前と役割と目標を与えて常時働かせる自律エージェントで、こちらが見ていない間も作業を続けます（2026年9月時点）。",
+      },
+      {
+        q: "新しいCopilotはいつから使えますか？",
+        a: "2026年9月25日の発表時点では段階提供です。HomeとCodeは数週間のうちにFrontierプログラムを通じて、Autopilotは9月末からプライベートプレビューとして始まる予定とされています。自分の組織でいつ使えるようになるかは、契約とライセンスによって変わります。",
+      },
     ],
-    lastUpdated: "2026-07-12",
+    lastUpdated: "2026-09-27",
   },
   {
     slug: "genspark",
