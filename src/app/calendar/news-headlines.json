@@ -1,97 +1,99 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-24T23:58:55.928Z",
+  "updatedAt": "2026-09-26T00:08:12.303Z",
   "items": [
     {
-      "title": "Gemini 3.8 Live with Live Avatar gives Google’s AI a face",
-      "url": "https://www.theverge.com/tech/1000328/google-gemini-ai-live-avatar-face",
-      "source": "The Verge",
+      "title": "Crusoe abandons $1.25B plan to use Boom turbines at AI data centers",
+      "url": "https://techcrunch.com/2026/09/25/crusoe-abandons-1-25b-plan-to-use-boom-turbines-at-ai-data-centers/",
+      "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-24T19:59:26.000Z",
-      "titleJa": "「Gemini 3.8 Live」がLive Avatarに対応、GoogleのAIに“顔”",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gemini-live-avatar-animated.png?quality=90&strip=all&crop=0%2C10.856319364173%2C94.893468926603%2C78.287361271654&w=1200"
+      "date": "2026-09-25T23:11:10.000Z",
+      "titleJa": "Crusoe、AIデータセンターでBoomのタービンを使う12.5億ドル計画を断念",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/12/Boom_Superpower_Hero_Dec2025.jpg?resize=1200,675"
     },
     {
-      "title": "It’s sinister that Meta’s Muse AI mascot is so cute",
-      "url": "https://www.theverge.com/column/999999/optimizer-meta-muse-ai-cute",
-      "source": "The Verge",
+      "title": "Unsecured OpenAI agents posted 53 user images on the internet without the lab’s knowledge",
+      "url": "https://techcrunch.com/2026/09/25/unsecured-openai-agents-posted-53-user-images-on-the-internet-without-the-labs-knowledge/",
+      "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-24T17:00:00.000Z",
-      "titleJa": "MetaのAIマスコット「Muse」がかわいすぎるのは不気味だ",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/jolly1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "date": "2026-09-25T22:20:47.000Z",
+      "titleJa": "セキュリティ不備のOpenAIエージェント、同社も知らぬ間にユーザー画像53枚をネット上に公開",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
     },
     {
-      "title": "Google's first Suncatcher orbital data center test launches October 1",
-      "url": "https://arstechnica.com/google/2026/09/googles-first-suncatcher-orbital-data-center-test-launches-october-1/",
+      "title": "Court rules Trump can blacklist Anthropic for refusing to enable Claude features",
+      "url": "https://arstechnica.com/tech-policy/2026/09/court-rules-trump-can-blacklist-anthropic-for-refusing-to-enable-claude-features/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-09-24T16:16:34.000Z",
-      "titleJa": "Google初の軌道上データセンター「Suncatcher」、10月1日に試験打ち上げ",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/suncatcher-1152x648.png"
+      "date": "2026-09-25T21:36:20.000Z",
+      "titleJa": "裁判所、Claudeの機能提供拒否を理由にトランプ氏がAnthropicを排除できると判断",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/03/claude-app-1152x648.jpg"
     },
     {
-      "title": "OpenAIがGPT-6 SolとLunaを発表。｢ミニAstra｣をお手頃価格で",
-      "url": "https://www.gizmodo.jp/article/openai-releases-new-gpt-6-sol-and-luna-models-sells-them-as-mini-astras/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-09-24T23:30:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/24/d1e889d2-eef7-4920-8cc2-4d95fdf9fbc4/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "ソフトPLCがAIの「道具」に、簡単導入のPLCドラレコカメラも",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2609/25/news058.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-24T22:15:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2609/25/l_mn0925_ILC_001.jpg"
-    },
-    {
-      "title": "日本発スタートアップのエッジAIチップがNVIDIA超え、AI処理性能は3.36PFLOPS",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2609/25/news063.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-24T21:45:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2609/25/cover_news063.jpg"
-    },
-    {
-      "title": "イヤホンに「カメラ」、何に使う？ クアルコムが説明 AirPodsにも搭載のうわさ",
-      "url": "https://japan.cnet.com/article/35252934/",
+      "title": "Googleが「宇宙データセンター」実験へ AIチップ搭載衛星を打ち上げ",
+      "url": "https://japan.cnet.com/article/35252992/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-09-24T19:50:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/25/2480e9684c10236d99570b3734a799b3/snapdragon.jpeg"
+      "date": "2026-09-25T23:15:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/26/e993aac7403e48fbaed29f5743269be6/Google-Suncatcher-satellitejpg__1_.jpeg"
     },
     {
-      "title": "AMD、エージェント型AI時代における「EPYC」の優位性を解説したホワイトペーパーとブログ記事を公開",
-      "url": "https://ascii.jp/elem/000/004/437/4437070/?rss",
+      "title": "NVIDIA搭載、AIつよつよSurfaceというロマンの塊が、10月に登場する？",
+      "url": "https://www.gizmodo.jp/article/2609-surface-laptop-minos-rtx-spark/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-25T12:30:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/25/9699adb7-9066-4ad2-bf99-dfabb6d8f07f/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "Microsoftが次世代「Copilot」を発表=「Home」「Code」「Autopilot」でAI時代の働き方を再定義",
+      "url": "https://ascii.jp/elem/000/004/437/4437076/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-09-24T11:40:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/24/4529789/xl/9d66a111a04fd1ba.png?20200122"
+      "date": "2026-09-25T12:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/25/4529895/xl/6a0f7112e263c0af.png?20200122"
     },
     {
-      "title": "ゼロから声を作れる音声生成モデル「Gemini 3.8 Flash TTS」公開 「Gemini Notebook」でも利用可能に",
-      "url": "https://www.itmedia.co.jp/news/article/2609/24/2000001703/",
-      "source": "ITmedia AI＋",
+      "title": "ロジクールG「YETI 2」発表 AIノイズ低減＆音声自動調整のUSBマイク",
+      "url": "https://ascii.jp/elem/000/004/437/4437310/?rss",
+      "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-09-24T07:46:40.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/24/2000001703/10007334/2048"
+      "date": "2026-09-25T10:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/25/4530148/xl/a02f48729e973dad.png?20200122"
     },
     {
-      "title": "「Gemini 4」は年末までに発表――開発責任者が言及か 「Googleは確かに最先端」と主張",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/24/2000001701/",
-      "source": "ITmedia AI＋",
+      "title": "アップルのSiri AI搭載スマートディスプレイ、10月にも登場か",
+      "url": "https://japan.cnet.com/article/35252981/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-09-24T07:31:01.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/24/2000001701/10007327/2048"
+      "date": "2026-09-25T09:10:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/25/ba4eff83775cd465b652ed529bca82fd/d6d84de4-8e3e-4014-93c7-a305e2894e2c_1280x960.jpg"
     },
     {
-      "title": "首都高技術とシャープ、AIで道路損傷をリアルタイム検知する実証実験",
-      "url": "https://japan.zdnet.com/article/35252920/",
-      "source": "ZDNET Japan",
+      "title": "眼鏡市場が本気を出してきた。スマートグラス「Linse」ついにAI搭載",
+      "url": "https://www.gizmodo.jp/article/2609-meganeichiba-linse-display-ai-smart-glasses/",
+      "source": "GIZMODO JAPAN",
       "lang": "ja",
-      "date": "2026-09-24T06:53:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/02/27/436c54eefb05b32ba54cddad78395a87/250207_truck_as_1280_245316302.jpg"
+      "date": "2026-09-25T09:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/24/a34ed1c6-82fc-42d3-87fc-7273ea0d24e2/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "Metaのたまごっち？ AIキーホルダー「Muse Charm」がひっそり発表",
+      "url": "https://www.gizmodo.jp/article/2609-meta-muse-charm-release/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-25T06:45:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/25/5414fb68-b48f-451a-8d69-72d8b495bf09/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "AI議事録の「誰の発言か分からん」を解決。0.1B「Nemotron 3 Diarization」無償公開",
+      "url": "https://pc.watch.impress.co.jp/docs/news/2143200.html",
+      "source": "PC Watch",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 136,
+      "date": "2026-09-25T06:25:43.000Z",
+      "image": "https://pc.watch.impress.co.jp/img/pcw/list/2143/200/01.png"
     },
     {
       "title": "Google Beam expands with new regions, partners, and customers",
@@ -99,7 +101,7 @@
       "source": "Google AI（公式）",
       "lang": "en",
       "date": "2026-09-23T18:00:00.000Z",
-      "titleJa": "Google Beam、対応地域・パートナー・顧客を拡大",
+      "titleJa": "Google Beam、新たな地域・パートナー・顧客を加えて拡大",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Google_Beam_hero.width-1300.png"
     },
     {
@@ -117,7 +119,7 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-09-23T13:00:00.000Z",
-      "titleJa": "OpenAI、民生防衛のためウクライナにサイバー関連アクセスを拡大",
+      "titleJa": "OpenAI、民間防衛向けにウクライナへのサイバーアクセスを拡大",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/5TR3Q7ZcZJbqxGHYfksNSt/de1f57d45927c818631c58ffedb01346/openai-extends-cyber-access-to-ukraine-for-civilian-defense-seo.png?w=1600&h=900&fit=fill"
     }
   ]
