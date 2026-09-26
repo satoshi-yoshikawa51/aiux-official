@@ -1,14 +1,55 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-26T00:08:12.303Z",
+  "updatedAt": "2026-09-26T23:50:51.821Z",
   "items": [
+    {
+      "title": "OpenAI pauses training of its ‘most capable models’",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1001049/openai-training-pause",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-26T16:34:59.000Z",
+      "titleJa": "OpenAI、「最も有能なモデル」のトレーニングを一時停止",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK155_OPEN_AI_2025_CVirgiia_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Uravation、AI検索対策（AIEO）の実装代行を提供開始。5つのAI検索での引用率を実測し、受け皿ページの原稿・構造化・配信・週次計測まで引き受けて、回答に引用される状態をつくる",
+      "url": "https://ascii.jp/elem/000/004/437/4437471/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-26T07:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "OrcaRouter、全リクエストログに耐量子暗号を追加料金なしで標準搭載",
+      "url": "https://ascii.jp/elem/000/004/437/4437465/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-26T05:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "「1週間の開発タスク」でAIの限界を検証 Googleが「Android Bench 2.0」公開",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/26/news013.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-26T04:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2609/26/cover_news013.jpg"
+    },
+    {
+      "title": "「Codex」で1時間にわたる障害→使用量リセットへ",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/26/2000001774/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-26T01:27:56.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/26/2000001774/10007603/2048"
+    },
     {
       "title": "Crusoe abandons $1.25B plan to use Boom turbines at AI data centers",
       "url": "https://techcrunch.com/2026/09/25/crusoe-abandons-1-25b-plan-to-use-boom-turbines-at-ai-data-centers/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-25T23:11:10.000Z",
-      "titleJa": "Crusoe、AIデータセンターでBoomのタービンを使う12.5億ドル計画を断念",
+      "titleJa": "クルーソー、AIデータセンターでブームタービンを使用する12億5000万ドルの計画を放棄",
       "image": "https://techcrunch.com/wp-content/uploads/2025/12/Boom_Superpower_Hero_Dec2025.jpg?resize=1200,675"
     },
     {
@@ -17,17 +58,35 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-09-25T22:20:47.000Z",
-      "titleJa": "セキュリティ不備のOpenAIエージェント、同社も知らぬ間にユーザー画像53枚をネット上に公開",
+      "titleJa": "安全でない OpenAI エージェントがラボの知らないうちに 53 枚のユーザー画像をインターネット上に投稿",
       "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
     },
     {
-      "title": "Court rules Trump can blacklist Anthropic for refusing to enable Claude features",
+      "title": "Court rules Pentagon can blacklist Anthropic for refusing to enable Claude features",
       "url": "https://arstechnica.com/tech-policy/2026/09/court-rules-trump-can-blacklist-anthropic-for-refusing-to-enable-claude-features/",
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-09-25T21:36:20.000Z",
-      "titleJa": "裁判所、Claudeの機能提供拒否を理由にトランプ氏がAnthropicを排除できると判断",
+      "titleJa": "裁判所は、国防総省がクロード機能の有効化を拒否したアンソロピックをブラックリストに登録できるとの判決を下した",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/03/claude-app-1152x648.jpg"
+    },
+    {
+      "title": "Anthropic to pay Akamai $11.6 billion over seven years in cloud deal",
+      "url": "https://techcrunch.com/2026/09/25/anthropic-to-pay-akamai-11-6-billion-over-seven-years-in-cloud-deal/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-25T19:13:38.000Z",
+      "titleJa": "Anthropic、クラウド契約でアカマイに7年間で116億ドルを支払う",
+      "image": "https://techcrunch.com/wp-content/uploads/2022/11/GettyImages-1333934328.jpg?resize=1200,703"
+    },
+    {
+      "title": "Microsoft stops insisting you need a \"Copilot+ PC\"",
+      "url": "https://arstechnica.com/gadgets/2026/09/microsoft-stops-insisting-you-need-a-copilot-pc/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-25T17:57:37.000Z",
+      "titleJa": "Microsoft、「Copilot+ PC」が必要であると主張するのをやめる",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/11/microsoft-copilot-windows-1024x648.jpg"
     },
     {
       "title": "Googleが「宇宙データセンター」実験へ AIチップ搭載衛星を打ち上げ",
@@ -38,30 +97,6 @@
       "image": "https://japan.cnet.com/storage/2026/09/26/e993aac7403e48fbaed29f5743269be6/Google-Suncatcher-satellitejpg__1_.jpeg"
     },
     {
-      "title": "NVIDIA搭載、AIつよつよSurfaceというロマンの塊が、10月に登場する？",
-      "url": "https://www.gizmodo.jp/article/2609-surface-laptop-minos-rtx-spark/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-09-25T12:30:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/25/9699adb7-9066-4ad2-bf99-dfabb6d8f07f/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "Microsoftが次世代「Copilot」を発表=「Home」「Code」「Autopilot」でAI時代の働き方を再定義",
-      "url": "https://ascii.jp/elem/000/004/437/4437076/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-25T12:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/25/4529895/xl/6a0f7112e263c0af.png?20200122"
-    },
-    {
-      "title": "ロジクールG「YETI 2」発表 AIノイズ低減＆音声自動調整のUSBマイク",
-      "url": "https://ascii.jp/elem/000/004/437/4437310/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-25T10:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/25/4530148/xl/a02f48729e973dad.png?20200122"
-    },
-    {
       "title": "アップルのSiri AI搭載スマートディスプレイ、10月にも登場か",
       "url": "https://japan.cnet.com/article/35252981/",
       "source": "CNET Japan",
@@ -70,57 +105,20 @@
       "image": "https://japan.cnet.com/storage/2026/09/25/ba4eff83775cd465b652ed529bca82fd/d6d84de4-8e3e-4014-93c7-a305e2894e2c_1280x960.jpg"
     },
     {
-      "title": "眼鏡市場が本気を出してきた。スマートグラス「Linse」ついにAI搭載",
-      "url": "https://www.gizmodo.jp/article/2609-meganeichiba-linse-display-ai-smart-glasses/",
-      "source": "GIZMODO JAPAN",
+      "title": "富士通とKELA、能動的サイバー防御支援サービスを開始",
+      "url": "https://japan.zdnet.com/article/35252964/",
+      "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-09-25T09:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/24/a34ed1c6-82fc-42d3-87fc-7273ea0d24e2/original.jpg?w=1200&h=630"
+      "date": "2026-09-25T03:39:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/02/08/8e943c8524b1e3ce2d69cdfda3117f76/zd-as_688265813.jpg"
     },
     {
-      "title": "Metaのたまごっち？ AIキーホルダー「Muse Charm」がひっそり発表",
-      "url": "https://www.gizmodo.jp/article/2609-meta-muse-charm-release/",
-      "source": "GIZMODO JAPAN",
+      "title": "グーグル「Gemini」に電話代行の新機能 レストラン予約もお任せ",
+      "url": "https://japan.cnet.com/article/35252958/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-09-25T06:45:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/25/5414fb68-b48f-451a-8d69-72d8b495bf09/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "AI議事録の「誰の発言か分からん」を解決。0.1B「Nemotron 3 Diarization」無償公開",
-      "url": "https://pc.watch.impress.co.jp/docs/news/2143200.html",
-      "source": "PC Watch",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 136,
-      "date": "2026-09-25T06:25:43.000Z",
-      "image": "https://pc.watch.impress.co.jp/img/pcw/list/2143/200/01.png"
-    },
-    {
-      "title": "Google Beam expands with new regions, partners, and customers",
-      "url": "https://blog.google/innovation-and-ai/technology/research/google-beam-expansion/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-09-23T18:00:00.000Z",
-      "titleJa": "Google Beam、新たな地域・パートナー・顧客を加えて拡大",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Google_Beam_hero.width-1300.png"
-    },
-    {
-      "title": "Two years of OpenAI Academy",
-      "url": "https://openai.com/index/two-years-of-openai-academy",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-23T16:00:00.000Z",
-      "titleJa": "OpenAI Academyの2年間",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/6A4AcxrMdo5oOri7Wm8qNg/34228cf221e3af874539412f71b28a44/two-years-of-openai-academy-seo.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "OpenAI extends cyber access to Ukraine for civilian defense",
-      "url": "https://openai.com/index/openai-extends-cyber-access-to-ukraine-for-civilian-defense",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-23T13:00:00.000Z",
-      "titleJa": "OpenAI、民間防衛向けにウクライナへのサイバーアクセスを拡大",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5TR3Q7ZcZJbqxGHYfksNSt/de1f57d45927c818631c58ffedb01346/openai-extends-cyber-access-to-ukraine-for-civilian-defense-seo.png?w=1600&h=900&fit=fill"
+      "date": "2026-09-25T02:15:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/25/cbf48c1752bebfa02429e44d5076a5f8/GettyImages-2295205813_1280x960.jpg"
     }
   ]
 }
