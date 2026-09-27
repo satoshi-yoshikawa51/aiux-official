@@ -1,31 +1,106 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-26T23:50:51.821Z",
+  "updatedAt": "2026-09-27T23:56:11.163Z",
   "items": [
+    {
+      "title": "Anthropic’s CEO is about to have dinner with President Trump",
+      "url": "https://techcrunch.com/2026/09/27/anthropics-ceo-is-about-to-have-dinner-with-president-trump/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-27T20:34:28.000Z",
+      "titleJa": "AnthropicのCEO、まもなくトランプ大統領と会食へ",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2261854833.jpg?resize=1200,800"
+    },
+    {
+      "title": "OpenAI agents tried to ‘bruteforce’ a UN website",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1001178/openai-agents-bruteforce-un-website",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-27T17:21:07.000Z",
+      "titleJa": "OpenAIのエージェント、国連サイトに「ブルートフォース」を試みる",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2236154957.jpg?quality=90&strip=all&crop=0%2C10.736911387474%2C100%2C78.526177225052&w=1200"
+    },
+    {
+      "title": "Anthropic’s Dario Amodei gets the SNL treatment",
+      "url": "https://techcrunch.com/2026/09/27/anthropics-dario-amodei-gets-the-snl-treatment/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-27T16:30:00.000Z",
+      "titleJa": "AnthropicのDario Amodei、SNLでネタにされる",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/saturday-night-live.jpg?resize=1200,603"
+    },
+    {
+      "title": "Google tests buying from Walmart-owned Flipkart through Gemini and AI Mode in India",
+      "url": "https://techcrunch.com/2026/09/26/google-tests-buying-from-walmart-owned-flipkart-through-gemini-and-ai-mode-in-india/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-27T01:30:00.000Z",
+      "titleJa": "Google、インドでGeminiとAI Modeを使ったWalmart傘下Flipkartでの買い物をテスト",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/01/GettyImages-1235830811-1.jpg?resize=1200,800"
+    },
+    {
+      "title": "FIXER、伊賀市と共同開発した「黒塗りアプリ」をSovereign GaiXerに標準搭載",
+      "url": "https://ascii.jp/elem/000/004/437/4437499/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-27T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/28/4530614/xl/6ce6373fe4e60cdb.jpg?20200122"
+    },
+    {
+      "title": "富士通がAI時代のサイバー防衛戦略",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nnw/18/041800012/091400338/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-27T22:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nnw/18/041800012/091400338/topm.jpg?20220512"
+    },
+    {
+      "title": "冨山和彦氏らが登壇！AI時代の価値創造戦略と地方での事業・人材開発を学ぶ無料イベントを10月6日に開催",
+      "url": "https://ascii.jp/elem/000/004/437/4437208/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-27T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/25/4530005/xl/ff5d0e0fed95e07e.jpg"
+    },
+    {
+      "title": "AI搭載「次世代うそ発見器」開発へ、米国防総省が予算要求",
+      "url": "https://ascii.jp/elem/000/004/437/4437497/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-27T21:27:27.000Z"
+    },
+    {
+      "title": "「Docker Cloud Sandboxes」発表、AIエージェント向けサンドボックスをローカルとクラウド間で自由に移動可能に",
+      "url": "https://www.publickey1.jp/blog/26/docker_cloud_snadboxesai.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-09-27T16:02:18.000Z",
+      "image": "https://www.publickey1.jp/2026/docker-cloud-sandboxes-la.png"
+    },
+    {
+      "title": "マイクロソフト、企業内アプリの実行基盤「Copilot Managed Runtime」プレビュー公開。Microsoft 365と同じテナント内でコード実行、管理者による集中管理も",
+      "url": "https://www.publickey1.jp/blog/26/copilot_managed_runtimemicrosoft_365.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-09-27T15:59:50.000Z",
+      "image": "https://www.publickey1.jp/2026/copilot-managed-runtime-pp01.png"
+    },
+    {
+      "title": "あんなに推してた「Copilot+ PC」、新型Surfaceでは名乗ってない",
+      "url": "https://www.gizmodo.jp/article/2609-copilot-plus-pc-quietly-ends/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-27T04:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/26/89f93050-fe26-4d95-95ca-e42ccf264f80/original.jpg?w=1200&h=630"
+    },
     {
       "title": "OpenAI pauses training of its ‘most capable models’",
       "url": "https://www.theverge.com/ai-artificial-intelligence/1001049/openai-training-pause",
       "source": "The Verge",
       "lang": "en",
       "date": "2026-09-26T16:34:59.000Z",
-      "titleJa": "OpenAI、「最も有能なモデル」のトレーニングを一時停止",
+      "titleJa": "OpenAI、「最も高性能なモデル」の学習を一時停止",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK155_OPEN_AI_2025_CVirgiia_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Uravation、AI検索対策（AIEO）の実装代行を提供開始。5つのAI検索での引用率を実測し、受け皿ページの原稿・構造化・配信・週次計測まで引き受けて、回答に引用される状態をつくる",
-      "url": "https://ascii.jp/elem/000/004/437/4437471/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-26T07:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "OrcaRouter、全リクエストログに耐量子暗号を追加料金なしで標準搭載",
-      "url": "https://ascii.jp/elem/000/004/437/4437465/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-26T05:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
       "title": "「1週間の開発タスク」でAIの限界を検証 Googleが「Android Bench 2.0」公開",
@@ -36,89 +111,13 @@
       "image": "https://image.itmedia.co.jp/ait/articles/2609/26/cover_news013.jpg"
     },
     {
-      "title": "「Codex」で1時間にわたる障害→使用量リセットへ",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/26/2000001774/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-26T01:27:56.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/26/2000001774/10007603/2048"
-    },
-    {
-      "title": "Crusoe abandons $1.25B plan to use Boom turbines at AI data centers",
-      "url": "https://techcrunch.com/2026/09/25/crusoe-abandons-1-25b-plan-to-use-boom-turbines-at-ai-data-centers/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-25T23:11:10.000Z",
-      "titleJa": "クルーソー、AIデータセンターでブームタービンを使用する12億5000万ドルの計画を放棄",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/12/Boom_Superpower_Hero_Dec2025.jpg?resize=1200,675"
-    },
-    {
-      "title": "Unsecured OpenAI agents posted 53 user images on the internet without the lab’s knowledge",
-      "url": "https://techcrunch.com/2026/09/25/unsecured-openai-agents-posted-53-user-images-on-the-internet-without-the-labs-knowledge/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-25T22:20:47.000Z",
-      "titleJa": "安全でない OpenAI エージェントがラボの知らないうちに 53 枚のユーザー画像をインターネット上に投稿",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
-    },
-    {
       "title": "Court rules Pentagon can blacklist Anthropic for refusing to enable Claude features",
       "url": "https://arstechnica.com/tech-policy/2026/09/court-rules-trump-can-blacklist-anthropic-for-refusing-to-enable-claude-features/",
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-09-25T21:36:20.000Z",
-      "titleJa": "裁判所は、国防総省がクロード機能の有効化を拒否したアンソロピックをブラックリストに登録できるとの判決を下した",
+      "titleJa": "裁判所、Claudeの機能提供拒否を理由に国防総省がAnthropicを排除できると判断",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/03/claude-app-1152x648.jpg"
-    },
-    {
-      "title": "Anthropic to pay Akamai $11.6 billion over seven years in cloud deal",
-      "url": "https://techcrunch.com/2026/09/25/anthropic-to-pay-akamai-11-6-billion-over-seven-years-in-cloud-deal/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-25T19:13:38.000Z",
-      "titleJa": "Anthropic、クラウド契約でアカマイに7年間で116億ドルを支払う",
-      "image": "https://techcrunch.com/wp-content/uploads/2022/11/GettyImages-1333934328.jpg?resize=1200,703"
-    },
-    {
-      "title": "Microsoft stops insisting you need a \"Copilot+ PC\"",
-      "url": "https://arstechnica.com/gadgets/2026/09/microsoft-stops-insisting-you-need-a-copilot-pc/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-25T17:57:37.000Z",
-      "titleJa": "Microsoft、「Copilot+ PC」が必要であると主張するのをやめる",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/11/microsoft-copilot-windows-1024x648.jpg"
-    },
-    {
-      "title": "Googleが「宇宙データセンター」実験へ AIチップ搭載衛星を打ち上げ",
-      "url": "https://japan.cnet.com/article/35252992/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-25T23:15:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/26/e993aac7403e48fbaed29f5743269be6/Google-Suncatcher-satellitejpg__1_.jpeg"
-    },
-    {
-      "title": "アップルのSiri AI搭載スマートディスプレイ、10月にも登場か",
-      "url": "https://japan.cnet.com/article/35252981/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-25T09:10:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/25/ba4eff83775cd465b652ed529bca82fd/d6d84de4-8e3e-4014-93c7-a305e2894e2c_1280x960.jpg"
-    },
-    {
-      "title": "富士通とKELA、能動的サイバー防御支援サービスを開始",
-      "url": "https://japan.zdnet.com/article/35252964/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-25T03:39:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/02/08/8e943c8524b1e3ce2d69cdfda3117f76/zd-as_688265813.jpg"
-    },
-    {
-      "title": "グーグル「Gemini」に電話代行の新機能 レストラン予約もお任せ",
-      "url": "https://japan.cnet.com/article/35252958/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-25T02:15:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/25/cbf48c1752bebfa02429e44d5076a5f8/GettyImages-2295205813_1280x960.jpg"
     }
   ]
 }
