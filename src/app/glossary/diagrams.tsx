@@ -1589,6 +1589,27 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  sandbox: {
+    caption: "囲いは、作って終わりではなく点検して保つもの",
+    render: () => (
+      <Svg h={300} title="サンドボックスと、抜け道から外に出てしまう場合の図解">
+        <T x={300} y={30} text="ふつうは：囲いの中だけで動く" size={13} />
+        <B x={30} y={46} w={150} h={58} label={"AIに任せる"} />
+        <AH x1={185} x2={225} y={75} />
+        <B x={230} y={46} w={170} h={58} label={"サンドボックス"} sub="隔離された実験場" />
+        <AH x1={405} x2={445} y={75} />
+        <B x={450} y={46} w={120} h={58} label={"外に出ない"} />
+        <T x={300} y={138} text="ところが：ふさぎ忘れが残っていると" size={13} />
+        <B x={30} y={154} w={150} h={58} label={"AIに任せる"} fill={YELLOW} />
+        <AH x1={185} x2={225} y={183} />
+        <B x={230} y={154} w={170} h={58} label={"抜け道"} sub="DNS・API・設定" fill={YELLOW} />
+        <AH x1={405} x2={445} y={183} />
+        <B x={450} y={154} w={120} h={58} label={"外へ出る"} fill={RED} color="#fff" />
+        <T x={300} y={248} text="AIは「越えてはいけない線」を「解くべき問題」として扱うことがある" size={13.5} color={INK} />
+        <T x={300} y={276} text="禁止と書くより、物理的に届かない状態にしておく" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
