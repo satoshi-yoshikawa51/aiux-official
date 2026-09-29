@@ -1,123 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-27T23:56:11.163Z",
+  "updatedAt": "2026-09-29T01:13:40.288Z",
   "items": [
     {
-      "title": "Anthropic’s CEO is about to have dinner with President Trump",
-      "url": "https://techcrunch.com/2026/09/27/anthropics-ceo-is-about-to-have-dinner-with-president-trump/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-27T20:34:28.000Z",
-      "titleJa": "AnthropicのCEO、まもなくトランプ大統領と会食へ",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2261854833.jpg?resize=1200,800"
-    },
-    {
-      "title": "OpenAI agents tried to ‘bruteforce’ a UN website",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1001178/openai-agents-bruteforce-un-website",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-27T17:21:07.000Z",
-      "titleJa": "OpenAIのエージェント、国連サイトに「ブルートフォース」を試みる",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2236154957.jpg?quality=90&strip=all&crop=0%2C10.736911387474%2C100%2C78.526177225052&w=1200"
-    },
-    {
-      "title": "Anthropic’s Dario Amodei gets the SNL treatment",
-      "url": "https://techcrunch.com/2026/09/27/anthropics-dario-amodei-gets-the-snl-treatment/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-27T16:30:00.000Z",
-      "titleJa": "AnthropicのDario Amodei、SNLでネタにされる",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/saturday-night-live.jpg?resize=1200,603"
-    },
-    {
-      "title": "Google tests buying from Walmart-owned Flipkart through Gemini and AI Mode in India",
-      "url": "https://techcrunch.com/2026/09/26/google-tests-buying-from-walmart-owned-flipkart-through-gemini-and-ai-mode-in-india/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-27T01:30:00.000Z",
-      "titleJa": "Google、インドでGeminiとAI Modeを使ったWalmart傘下Flipkartでの買い物をテスト",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/01/GettyImages-1235830811-1.jpg?resize=1200,800"
-    },
-    {
-      "title": "FIXER、伊賀市と共同開発した「黒塗りアプリ」をSovereign GaiXerに標準搭載",
-      "url": "https://ascii.jp/elem/000/004/437/4437499/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-27T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/28/4530614/xl/6ce6373fe4e60cdb.jpg?20200122"
-    },
-    {
-      "title": "富士通がAI時代のサイバー防衛戦略",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nnw/18/041800012/091400338/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-27T22:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nnw/18/041800012/091400338/topm.jpg?20220512"
-    },
-    {
-      "title": "冨山和彦氏らが登壇！AI時代の価値創造戦略と地方での事業・人材開発を学ぶ無料イベントを10月6日に開催",
-      "url": "https://ascii.jp/elem/000/004/437/4437208/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-27T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/25/4530005/xl/ff5d0e0fed95e07e.jpg"
-    },
-    {
-      "title": "AI搭載「次世代うそ発見器」開発へ、米国防総省が予算要求",
-      "url": "https://ascii.jp/elem/000/004/437/4437497/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-27T21:27:27.000Z"
-    },
-    {
-      "title": "「Docker Cloud Sandboxes」発表、AIエージェント向けサンドボックスをローカルとクラウド間で自由に移動可能に",
-      "url": "https://www.publickey1.jp/blog/26/docker_cloud_snadboxesai.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-09-27T16:02:18.000Z",
-      "image": "https://www.publickey1.jp/2026/docker-cloud-sandboxes-la.png"
-    },
-    {
-      "title": "マイクロソフト、企業内アプリの実行基盤「Copilot Managed Runtime」プレビュー公開。Microsoft 365と同じテナント内でコード実行、管理者による集中管理も",
-      "url": "https://www.publickey1.jp/blog/26/copilot_managed_runtimemicrosoft_365.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-09-27T15:59:50.000Z",
-      "image": "https://www.publickey1.jp/2026/copilot-managed-runtime-pp01.png"
-    },
-    {
-      "title": "あんなに推してた「Copilot+ PC」、新型Surfaceでは名乗ってない",
-      "url": "https://www.gizmodo.jp/article/2609-copilot-plus-pc-quietly-ends/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-09-27T04:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/26/89f93050-fe26-4d95-95ca-e42ccf264f80/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "OpenAI pauses training of its ‘most capable models’",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1001049/openai-training-pause",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-26T16:34:59.000Z",
-      "titleJa": "OpenAI、「最も高性能なモデル」の学習を一時停止",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK155_OPEN_AI_2025_CVirgiia_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "「1週間の開発タスク」でAIの限界を検証 Googleが「Android Bench 2.0」公開",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/26/news013.html",
+      "title": "AMD、フェイフェイ・リー博士のWorld Labsを約82億ドルで買収へ ハードとモデルを一体化したオープンAIエコシステム加速へ",
+      "url": "https://www.itmedia.co.jp/news/article/2609/29/2000001826/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-09-26T04:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2609/26/cover_news013.jpg"
+      "date": "2026-09-29T00:38:11.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/29/2000001826/10007796/2048"
     },
     {
-      "title": "Court rules Pentagon can blacklist Anthropic for refusing to enable Claude features",
-      "url": "https://arstechnica.com/tech-policy/2026/09/court-rules-trump-can-blacklist-anthropic-for-refusing-to-enable-claude-features/",
+      "title": "The Lenfest Institute grows landmark program with expanded OpenAI support",
+      "url": "https://openai.com/index/lenfest-ai-collaborative-expansion",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-28T07:00:00.000Z",
+      "titleJa": "Lenfest Institute、OpenAIの支援拡大で画期的プログラムを拡充",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/6txA4ODTKx7m0Lm7PZhV2j/f0f1322b05b78fb0b33d5dae4920aa00/lenfest-september-seo-white.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Basis completes a tax workbook 2x faster with GPT-6 Astra",
+      "url": "https://openai.com/index/basis-tax-workbook-with-astra",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-28T00:00:00.000Z",
+      "titleJa": "Basis、GPT-6 Astraで税務ワークブックを2倍の速さで完成",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/7hNx4cjhiG3ifg8H6lgtL3/fee5716218aaad57f74c8581480bef9d/og.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "OpenAI reportedly ditches model over safety concerns",
+      "url": "https://techcrunch.com/2026/09/28/openai-reportedly-ditches-model-over-safety-concerns/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-28T23:39:20.000Z",
+      "titleJa": "OpenAI、安全性への懸念からモデルを破棄か",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
+    },
+    {
+      "title": "Source: Inference provider Modal Labs closing in on $750M round at $15.75B valuation",
+      "url": "https://techcrunch.com/2026/09/28/source-inference-provider-modal-labs-closing-in-on-750m-round-at-15-75b-valuation/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-28T21:29:18.000Z",
+      "titleJa": "関係者：推論基盤のModal Labs、評価額157.5億ドルで7.5億ドル調達が大詰め",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/11/GettyImages-1411834236.jpg?resize=1200,831"
+    },
+    {
+      "title": "Florida invokes extinction fears in legal bid to halt OpenAI development",
+      "url": "https://arstechnica.com/ai/2026/09/florida-asks-court-to-put-the-brakes-on-openais-frontier-ai-development/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-09-25T21:36:20.000Z",
-      "titleJa": "裁判所、Claudeの機能提供拒否を理由に国防総省がAnthropicを排除できると判断",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/03/claude-app-1152x648.jpg"
+      "date": "2026-09-28T20:49:39.000Z",
+      "titleJa": "フロリダ州、人類滅亡の懸念を根拠にOpenAIの開発停止を求め提訴",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-2213954141-1152x648.jpg"
+    },
+    {
+      "title": "AMD will acquire Fei-Fei Li’s World Labs for $8.2 billion",
+      "url": "https://techcrunch.com/2026/09/28/amd-will-acquire-fei-fei-lis-world-labs-for-8-2-billion/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-28T20:39:33.000Z",
+      "titleJa": "AMD、Fei-Fei Li氏のWorld Labsを82億ドルで買収へ",
+      "image": "https://techcrunch.com/wp-content/uploads/2024/10/GettyImages-1833911955.jpg?resize=1200,800"
+    },
+    {
+      "title": "NVIDIA、AIエージェントをハードウェアでも監視する「Open Agent Safety Platform」発表 Anthropicなど100以上の組織が参加",
+      "url": "https://www.itmedia.co.jp/news/article/2609/29/2000001824/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-28T23:59:11.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/29/2000001824/10007787/2048"
+    },
+    {
+      "title": "「デジタルの言葉が聞こえない」と言われた電源開発が、DX開始4年でフィジカルAIに挑むまで",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2609/25/news014.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-28T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/enterprise/articles/2609/25/cover_news014.jpg"
+    },
+    {
+      "title": "「10年ぶり刷新」 Android向けサードパーティーストアアプリ「F-Droid 2.0」公開",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/29/news053.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-28T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2609/29/l_ait_260929_f-droid2_1.jpg"
+    },
+    {
+      "title": "日立が目指すAIエージェントを駆使する次世代SIへの変革",
+      "url": "https://japan.zdnet.com/article/35252912/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-28T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/24/132f70427f900d0d67b279ec2a00df30/20260923_okame_1280x960.jpg"
+    },
+    {
+      "title": "数カ月で消えるAI予算とシャドーAIの脅威--Datadog CPOに聞く「AI本格運用」を支えるIT戦略",
+      "url": "https://japan.zdnet.com/article/35252559/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-28T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/12/f67a8f2bcca72132c09fb971abd5dbf7/260901_datadog_l.jpg"
+    },
+    {
+      "title": "AWS、AIエージェントを自作できるツール「Strandsハーネス」をオープンソースで公開。特定のLLMに依存せず入れ替え可能、任意のコンテナ環境にデプロイ",
+      "url": "https://www.publickey1.jp/blog/26/awsaistrandsllm.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-09-28T15:01:25.000Z",
+      "image": "https://www.publickey1.jp/2026/F420bYCD.jpg"
+    },
+    {
+      "title": "AIが赤ちゃん人形をナイフで刺す？ ロボットに汎用LLMを搭載する危険性",
+      "url": "https://japan.cnet.com/article/35253035/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-28T08:55:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/28/d5fc6b3d2c62142dba7b6760f0dea047/baby-doll-GettyImages-1500300492_1280x960.jpg"
     }
   ]
 }
