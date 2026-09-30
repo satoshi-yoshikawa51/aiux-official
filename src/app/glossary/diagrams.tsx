@@ -1610,6 +1610,27 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  dots: {
+    caption: "速さより、止め方を先に決める道具",
+    render: () => (
+      <Svg h={300} title="頼まれたときだけ動くAIと、置いておくと動き続けるAIの違いの図解">
+        <T x={300} y={30} text="これまで：頼んだときだけ動く" size={13} />
+        <B x={30} y={46} w={150} h={58} label={"頼む"} />
+        <AH x1={185} x2={225} y={75} />
+        <B x={230} y={46} w={160} h={58} label={"動く"} />
+        <AH x1={395} x2={435} y={75} />
+        <B x={440} y={46} w={140} h={58} label={"終わる"} />
+        <T x={300} y={138} text="dots：置いておくと動き続ける" size={13} />
+        <B x={30} y={154} w={150} h={58} label={"目的と境界を\n決める"} fill={YELLOW} />
+        <AH x1={185} x2={225} y={183} />
+        <B x={230} y={154} w={160} h={58} label={"クラウドで\n動き続ける"} fill={YELLOW} />
+        <AH x1={395} x2={435} y={183} />
+        <B x={440} y={154} w={140} h={58} label={"承認が要る\nものだけ聞く"} fill={YELLOW} />
+        <T x={300} y={248} text="任せる前に「戻せるか」で線を引くのが要になる" size={13.5} color={INK} />
+        <T x={300} y={276} text="2026年9月時点の対象はPro・Business Premium・Enterprise" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
