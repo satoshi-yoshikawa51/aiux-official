@@ -1,14 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-29T01:13:40.288Z",
+  "updatedAt": "2026-09-30T00:44:47.589Z",
   "items": [
     {
-      "title": "AMD、フェイフェイ・リー博士のWorld Labsを約82億ドルで買収へ ハードとモデルを一体化したオープンAIエコシステム加速へ",
-      "url": "https://www.itmedia.co.jp/news/article/2609/29/2000001826/",
+      "title": "Sam Altman says OpenAI won’t go public until its models are safe",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1002505/sam-altman-openai-ipo-devday-ai-safety",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-09-30T00:19:13.000Z",
+      "titleJa": "Sam Altman氏、「モデルが安全になるまでOpenAIは上場しない」",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/04/STK201_SAM_ALTMAN_CVIRGINIA2D_717b98.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "OpenAI、常時稼働型エージェント「Dots」を発表--慎重にすべき理由",
+      "url": "https://japan.zdnet.com/article/35253086/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-30T00:30:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/30/fc4bd993549b1d93e0b71564c90fbf48/Dotss_l.jpg"
+    },
+    {
+      "title": "Introducing GPT-6.1 Sol",
+      "url": "https://openai.com/index/introducing-gpt-6-1-sol",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-09-29T10:00:00.000Z",
+      "titleJa": "GPT-6.1 Solを発表",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/1Xa7inzcCfsGE5aV3QqeN3/4f3689ae92e04b18569f9eaf919e7174/GPT-6-1-Sol_16x9.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "The internet is convinced Elon Musk’s xAI trolled OpenAI’s ‘Dots’ launch",
+      "url": "https://techcrunch.com/2026/09/29/the-internet-is-convinced-elon-musks-xai-trolled-openais-dots-launch/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-29T22:20:59.000Z",
+      "titleJa": "Elon Musk氏のxAI、OpenAIの「Dots」発表を煽ったとネットで話題に",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/02/elon-musk-election-afd-purple.jpg?resize=1200,826"
+    },
+    {
+      "title": "Protests against OpenAI get increasingly creative",
+      "url": "https://arstechnica.com/ai/2026/09/what-iceberg-bay-area-artists-target-openai-with-titanic-themed-protest-art/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-29T21:52:58.000Z",
+      "titleJa": "OpenAIへの抗議活動、ますますクリエイティブに",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/IMG_0886-1152x648.jpg"
+    },
+    {
+      "title": "AMD acquires World Labs AI startup, upping the ante against Nvidia",
+      "url": "https://arstechnica.com/ai/2026/09/amd-acquires-world-labs-ai-pioneer-fei-fei-lis-world-models-startup/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-29T21:14:49.000Z",
+      "titleJa": "AMD、AIスタートアップWorld Labsを買収 Nvidiaへの対抗を強化",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/AMD-World-Labs-1152x648-1790711860.jpg"
+    },
+    {
+      "title": "OpenAI、「GPT-6.1 Sol」発表 Astraに迫る性能を5分の1の料金で",
+      "url": "https://japan.cnet.com/article/35253082/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-29T22:52:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/30/19d9017427253ae8554b805578354922/033.jpeg"
+    },
+    {
+      "title": "OpenAI、豪政府サイトへの不正アクセスで謝罪 最先端AI学習の安全指針も公開",
+      "url": "https://www.itmedia.co.jp/news/article/2609/30/2000001869/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-09-29T00:38:11.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/29/2000001826/10007796/2048"
+      "date": "2026-09-29T22:41:40.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/30/2000001869/10007947/2048"
+    },
+    {
+      "title": "OpenAIの「DevDay 2026」で発表された主なことまとめ",
+      "url": "https://www.itmedia.co.jp/news/article/2609/30/2000001868/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-29T21:36:34.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/30/2000001868/10007943/2048"
+    },
+    {
+      "title": "ChatGPTがユーザーに電話をかけてくる。次世代型AIエージェント機能「Dots」",
+      "url": "https://www.gizmodo.jp/article/2609-chatgpt-dots-ai-agent-phone-call/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-09-29T21:30:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/09/29/b9350fa6-c07b-4b56-82a9-4dd79ec06fa8/original.png?w=1200&h=630"
+    },
+    {
+      "title": "AIが発見した脆弱性は約3万件、修正済みはわずか421件 人手の対応限界に",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00676/091700234/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-29T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00676/091700234/topm.jpg?20220512"
+    },
+    {
+      "title": "「GPT-6.1 Sol」登場 「一部Astra並み」性能をコスト5分の1で提供 先代モデルからわずか1週間で公開",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2609/30/2000001867/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-29T19:08:07.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/30/2000001867/10007938/2048"
+    },
+    {
+      "title": "OpenAI、24時間働くAIエージェント「dots」発表 ただしプロ向け、月額500ドルの新プランも",
+      "url": "https://ascii.jp/elem/000/004/438/4438355/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-09-29T18:25:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/30/4531812/xl/853b61b737a6b9b5.jpg?20200122"
     },
     {
       "title": "The Lenfest Institute grows landmark program with expanded OpenAI support",
@@ -16,109 +117,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-09-28T07:00:00.000Z",
-      "titleJa": "Lenfest Institute、OpenAIの支援拡大で画期的プログラムを拡充",
+      "titleJa": "The Lenfest Institute、OpenAIの支援拡大で画期的プログラムを拡充",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/6txA4ODTKx7m0Lm7PZhV2j/f0f1322b05b78fb0b33d5dae4920aa00/lenfest-september-seo-white.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Basis completes a tax workbook 2x faster with GPT-6 Astra",
-      "url": "https://openai.com/index/basis-tax-workbook-with-astra",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-28T00:00:00.000Z",
-      "titleJa": "Basis、GPT-6 Astraで税務ワークブックを2倍の速さで完成",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/7hNx4cjhiG3ifg8H6lgtL3/fee5716218aaad57f74c8581480bef9d/og.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "OpenAI reportedly ditches model over safety concerns",
-      "url": "https://techcrunch.com/2026/09/28/openai-reportedly-ditches-model-over-safety-concerns/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-28T23:39:20.000Z",
-      "titleJa": "OpenAI、安全性への懸念からモデルを破棄か",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
-    },
-    {
-      "title": "Source: Inference provider Modal Labs closing in on $750M round at $15.75B valuation",
-      "url": "https://techcrunch.com/2026/09/28/source-inference-provider-modal-labs-closing-in-on-750m-round-at-15-75b-valuation/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-28T21:29:18.000Z",
-      "titleJa": "関係者：推論基盤のModal Labs、評価額157.5億ドルで7.5億ドル調達が大詰め",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/11/GettyImages-1411834236.jpg?resize=1200,831"
-    },
-    {
-      "title": "Florida invokes extinction fears in legal bid to halt OpenAI development",
-      "url": "https://arstechnica.com/ai/2026/09/florida-asks-court-to-put-the-brakes-on-openais-frontier-ai-development/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-28T20:49:39.000Z",
-      "titleJa": "フロリダ州、人類滅亡の懸念を根拠にOpenAIの開発停止を求め提訴",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/GettyImages-2213954141-1152x648.jpg"
-    },
-    {
-      "title": "AMD will acquire Fei-Fei Li’s World Labs for $8.2 billion",
-      "url": "https://techcrunch.com/2026/09/28/amd-will-acquire-fei-fei-lis-world-labs-for-8-2-billion/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-28T20:39:33.000Z",
-      "titleJa": "AMD、Fei-Fei Li氏のWorld Labsを82億ドルで買収へ",
-      "image": "https://techcrunch.com/wp-content/uploads/2024/10/GettyImages-1833911955.jpg?resize=1200,800"
-    },
-    {
-      "title": "NVIDIA、AIエージェントをハードウェアでも監視する「Open Agent Safety Platform」発表 Anthropicなど100以上の組織が参加",
-      "url": "https://www.itmedia.co.jp/news/article/2609/29/2000001824/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-28T23:59:11.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/29/2000001824/10007787/2048"
-    },
-    {
-      "title": "「デジタルの言葉が聞こえない」と言われた電源開発が、DX開始4年でフィジカルAIに挑むまで",
-      "url": "https://www.itmedia.co.jp/enterprise/articles/2609/25/news014.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-28T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/enterprise/articles/2609/25/cover_news014.jpg"
-    },
-    {
-      "title": "「10年ぶり刷新」 Android向けサードパーティーストアアプリ「F-Droid 2.0」公開",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2609/29/news053.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-28T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2609/29/l_ait_260929_f-droid2_1.jpg"
-    },
-    {
-      "title": "日立が目指すAIエージェントを駆使する次世代SIへの変革",
-      "url": "https://japan.zdnet.com/article/35252912/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-28T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/24/132f70427f900d0d67b279ec2a00df30/20260923_okame_1280x960.jpg"
-    },
-    {
-      "title": "数カ月で消えるAI予算とシャドーAIの脅威--Datadog CPOに聞く「AI本格運用」を支えるIT戦略",
-      "url": "https://japan.zdnet.com/article/35252559/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-28T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/12/f67a8f2bcca72132c09fb971abd5dbf7/260901_datadog_l.jpg"
-    },
-    {
-      "title": "AWS、AIエージェントを自作できるツール「Strandsハーネス」をオープンソースで公開。特定のLLMに依存せず入れ替え可能、任意のコンテナ環境にデプロイ",
-      "url": "https://www.publickey1.jp/blog/26/awsaistrandsllm.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-09-28T15:01:25.000Z",
-      "image": "https://www.publickey1.jp/2026/F420bYCD.jpg"
-    },
-    {
-      "title": "AIが赤ちゃん人形をナイフで刺す？ ロボットに汎用LLMを搭載する危険性",
-      "url": "https://japan.cnet.com/article/35253035/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-28T08:55:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/28/d5fc6b3d2c62142dba7b6760f0dea047/baby-doll-GettyImages-1500300492_1280x960.jpg"
     }
   ]
 }
