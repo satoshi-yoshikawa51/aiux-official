@@ -1,23 +1,106 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-09-30T00:44:47.589Z",
+  "updatedAt": "2026-10-01T00:48:29.709Z",
   "items": [
     {
-      "title": "Sam Altman says OpenAI won’t go public until its models are safe",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1002505/sam-altman-openai-ipo-devday-ai-safety",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-09-30T00:19:13.000Z",
-      "titleJa": "Sam Altman氏、「モデルが安全になるまでOpenAIは上場しない」",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/04/STK201_SAM_ALTMAN_CVIRGINIA2D_717b98.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "title": "Autodesk、FusionなどのAI機能を発表 設計作業の自動化や設計資産の再利用を支援",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/01/news015.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-01T00:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2610/01/cover_news015.jpg"
     },
     {
-      "title": "OpenAI、常時稼働型エージェント「Dots」を発表--慎重にすべき理由",
-      "url": "https://japan.zdnet.com/article/35253086/",
+      "title": "Google releases Gemini 4 Argon, called its most powerful model yet",
+      "url": "https://techcrunch.com/2026/09/30/google-releases-gemini-4-argon-called-its-most-powerful-model-yet/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-30T23:43:07.000Z",
+      "titleJa": "Google、「過去最強」とうたうGemini 4 Argonをリリース",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
+    },
+    {
+      "title": "OpenAI’s Jev clone could help the frontier lab stop its swarming agents",
+      "url": "https://techcrunch.com/2026/09/30/openais-jev-clone-could-help-the-frontier-lab-stop-its-swarming-agents/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-30T19:00:57.000Z",
+      "titleJa": "OpenAIの「Jevクローン」、増殖するエージェントの抑止に役立つか",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2297228249.jpg?resize=1200,800"
+    },
+    {
+      "title": "\"An AI did it\" is no defense, says nonprofit suing OpenAI over Hugging Face hack",
+      "url": "https://arstechnica.com/tech-policy/2026/09/lawsuit-demands-openai-halt-unsafe-development-that-caused-hugging-face-hack/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-09-30T18:25:04.000Z",
+      "titleJa": "「AIがやった」は弁解にならず──Hugging Face侵害でOpenAIを提訴した非営利団体",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/openai-logo-1152x648-1784833184.jpg"
+    },
+    {
+      "title": "AI voice startup ElevenLabs doubles valuation to $22B",
+      "url": "https://techcrunch.com/2026/09/30/ai-voice-startup-elevenlabs-doubles-valuation-to-22b/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-09-30T18:23:57.000Z",
+      "titleJa": "AI音声スタートアップElevenLabs、評価額が倍の220億ドルに",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/01/ElevenLabs-feat.jpg?resize=1200,669"
+    },
+    {
+      "title": "Google、「Gemini 4 Pro」ではなく「Gemini 4 Agron」発表 まずはサイバー防御組織に限定提供、出力上限は100万トークンに",
+      "url": "https://www.itmedia.co.jp/news/article/2610/01/2000001912/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-09-30T22:16:25.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/01/2000001912/10008093/2048"
+    },
+    {
+      "title": "シャープがAIサーバーの受注を開始 2030年度に売上高2500億円目指す",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/092401500/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-30T22:06:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/092401500/topm.jpg?20220512"
+    },
+    {
+      "title": "AI出力文に「電子透かし」 EU規制受けアンソロピックが導入",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/092401505/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-09-30T22:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/092401505/topm.jpg?20220512"
+    },
+    {
+      "title": "OpenAIが「ChatGPT Space」を発表--「Google Workspace」の代替ツールか",
+      "url": "https://japan.zdnet.com/article/35253115/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-09-30T00:30:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/30/fc4bd993549b1d93e0b71564c90fbf48/Dotss_l.jpg"
+      "date": "2026-09-30T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/30/a7a9f60b5409284d482fdc8b8c70c031/large-ChatGPT-space-2.jpg"
+    },
+    {
+      "title": "家事を30分で覚える人型ロボット「Flourish 1」、約56万円で予約開始",
+      "url": "https://japan.cnet.com/article/35253112/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-09-30T06:50:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/09/30/dc30de6b67b77ab886b8ea6ef131eeec/Flourish-1-cleaning_1280x960.jpg"
+    },
+    {
+      "title": "日立とファナック、フィジカルAIの事業化で戦略的提携",
+      "url": "https://japan.zdnet.com/article/35253110/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-30T05:09:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/30/3b05f3fc4a741c2089cc9078ef27d27f/hitachi-funac_l.jpg"
+    },
+    {
+      "title": "マネーフォワード、「Notion」と「Notion AI」を導入--AIネイティブな組織体制の構築と働き⽅を推進",
+      "url": "https://japan.zdnet.com/article/35253101/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-09-30T03:50:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/04/03/117154cf3a46205c6cce365dad88afb3/250403_data_as_1280_261206839.jpg"
     },
     {
       "title": "Introducing GPT-6.1 Sol",
@@ -27,89 +110,6 @@
       "date": "2026-09-29T10:00:00.000Z",
       "titleJa": "GPT-6.1 Solを発表",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/1Xa7inzcCfsGE5aV3QqeN3/4f3689ae92e04b18569f9eaf919e7174/GPT-6-1-Sol_16x9.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "The internet is convinced Elon Musk’s xAI trolled OpenAI’s ‘Dots’ launch",
-      "url": "https://techcrunch.com/2026/09/29/the-internet-is-convinced-elon-musks-xai-trolled-openais-dots-launch/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-29T22:20:59.000Z",
-      "titleJa": "Elon Musk氏のxAI、OpenAIの「Dots」発表を煽ったとネットで話題に",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/02/elon-musk-election-afd-purple.jpg?resize=1200,826"
-    },
-    {
-      "title": "Protests against OpenAI get increasingly creative",
-      "url": "https://arstechnica.com/ai/2026/09/what-iceberg-bay-area-artists-target-openai-with-titanic-themed-protest-art/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-29T21:52:58.000Z",
-      "titleJa": "OpenAIへの抗議活動、ますますクリエイティブに",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/IMG_0886-1152x648.jpg"
-    },
-    {
-      "title": "AMD acquires World Labs AI startup, upping the ante against Nvidia",
-      "url": "https://arstechnica.com/ai/2026/09/amd-acquires-world-labs-ai-pioneer-fei-fei-lis-world-models-startup/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-09-29T21:14:49.000Z",
-      "titleJa": "AMD、AIスタートアップWorld Labsを買収 Nvidiaへの対抗を強化",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/AMD-World-Labs-1152x648-1790711860.jpg"
-    },
-    {
-      "title": "OpenAI、「GPT-6.1 Sol」発表 Astraに迫る性能を5分の1の料金で",
-      "url": "https://japan.cnet.com/article/35253082/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-09-29T22:52:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/30/19d9017427253ae8554b805578354922/033.jpeg"
-    },
-    {
-      "title": "OpenAI、豪政府サイトへの不正アクセスで謝罪 最先端AI学習の安全指針も公開",
-      "url": "https://www.itmedia.co.jp/news/article/2609/30/2000001869/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-29T22:41:40.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/30/2000001869/10007947/2048"
-    },
-    {
-      "title": "OpenAIの「DevDay 2026」で発表された主なことまとめ",
-      "url": "https://www.itmedia.co.jp/news/article/2609/30/2000001868/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-29T21:36:34.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2609/30/2000001868/10007943/2048"
-    },
-    {
-      "title": "ChatGPTがユーザーに電話をかけてくる。次世代型AIエージェント機能「Dots」",
-      "url": "https://www.gizmodo.jp/article/2609-chatgpt-dots-ai-agent-phone-call/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-09-29T21:30:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/09/29/b9350fa6-c07b-4b56-82a9-4dd79ec06fa8/original.png?w=1200&h=630"
-    },
-    {
-      "title": "AIが発見した脆弱性は約3万件、修正済みはわずか421件 人手の対応限界に",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00676/091700234/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-29T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00676/091700234/topm.jpg?20220512"
-    },
-    {
-      "title": "「GPT-6.1 Sol」登場 「一部Astra並み」性能をコスト5分の1で提供 先代モデルからわずか1週間で公開",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2609/30/2000001867/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-09-29T19:08:07.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2609/30/2000001867/10007938/2048"
-    },
-    {
-      "title": "OpenAI、24時間働くAIエージェント「dots」発表 ただしプロ向け、月額500ドルの新プランも",
-      "url": "https://ascii.jp/elem/000/004/438/4438355/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-09-29T18:25:00.000Z",
-      "image": "https://ascii.jp/img/2026/09/30/4531812/xl/853b61b737a6b9b5.jpg?20200122"
     },
     {
       "title": "The Lenfest Institute grows landmark program with expanded OpenAI support",
