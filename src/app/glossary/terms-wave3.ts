@@ -184,12 +184,20 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
           "注意したいのは、Omniは「動画の専門家」であって、Geminiの全部ではないこと。文章や調べものは通常のGemini（無料でも触れる3.8 Flash系など）が担当し、GmailやスプレッドシートとのWorkspace連携も別の強みとして健在です。逆に言うと、テキストの最高峰対決（GPT-6 Astra vs Claude Fable 5.1）にGoogleは同時期の看板を出しておらず、「動画と連携で勝負」という布陣がはっきりしています。",
         ],
       },
+      {
+        heading: "Googleが看板モデル「Gemini 4 Argon」を出しました（追記）",
+        body: [
+          "上で「テキストの推論力ではフロンティア級の看板モデルを同時期に出していない」と書きましたが、この前提は変わりました。2026年9月30日（米国時間）、Googleが次世代モデル「Gemini 4 Argon」を発表しています。長時間かかる複雑な仕事——実環境のソフトウェア開発、法務や金融の調査、サイバーセキュリティ防御——を想定したモデルで、出力できるトークンの上限が従来の6万4000から100万へ一気に広がりました。長い成果物を一度に出し切れる、という方向の進化です。",
+          "特徴的なのは出し方です。まずGoogleの「Fairwind Program」を通じて、信頼されたサイバー防御の担い手だけに限定提供されています。開発者や企業、一般利用者への展開はこのあとで、有料API顧客とGoogle AI Ultra加入者から広げる方針とされています。ソフトウェアの脆弱性を自分で見つけて検証し、修正する能力を高めたと説明されており、攻撃にも転用できる力であるぶん、配り方を慎重にした格好です。料金は導入期間が100万トークンあたり入力2ドル・出力10ドル、期間終了後は入力4ドル・出力20ドルとされています。",
+          "この項の見立てとしては、「Googleは動画と連携で勝負」という整理に、テキストの看板モデルが加わった、と更新しておくのが正確です。ただし2026年10月時点では一般の利用者が触れるものではありません。動画のOmniと役割が違うのは変わらないので、「動画はOmni、長い調査や開発はArgon、日常はFlash系」と3つに分けて覚えると混乱しません。",
+        ],
+      },
     ],
     links: [
       { label: "比較：ChatGPT・Claude・Gemini どれを使う？（2026年9月版）", href: "/compare" },
       { label: "用語：動画生成AI（分野全体の解説）", href: "/glossary/video-generation-ai" },
     ],
-    relatedSlugs: ["gemini", "video-generation-ai", "multimodal-ai", "frontier-model"],
+    relatedSlugs: ["gemini", "video-generation-ai", "multimodal-ai", "frontier-model", "autonomous-cyberattack"],
     faq: [
       {
         q: "Gemini Omniは無料で使えますか？",
@@ -203,8 +211,12 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
         q: "文章の相談もOmniにするのですか？",
         a: "いいえ。Omniは動画生成・編集の担当で、文章・要約・調べものは通常のGemini（3.8 Flash系など）が担当します。同じGeminiブランドの中の役割分担と考えてください。",
       },
+      {
+        q: "Gemini 4 Argonは使えますか？",
+        a: "2026年10月時点では一般には提供されていません。まずGoogleの「Fairwind Program」を通じて、信頼されたサイバー防御の担い手に限定して提供されています。開発者や企業への展開はこのあとで、有料API顧客とGoogle AI Ultra加入者から広げる方針とされています。",
+      },
     ],
-    lastUpdated: "2026-09-06",
+    lastUpdated: "2026-10-02",
   },
   {
     slug: "frontier-model",
