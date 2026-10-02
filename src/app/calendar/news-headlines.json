@@ -1,106 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-01T00:48:29.709Z",
+  "updatedAt": "2026-10-02T01:04:01.894Z",
   "items": [
     {
-      "title": "Autodesk、FusionなどのAI機能を発表 設計作業の自動化や設計資産の再利用を支援",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/01/news015.html",
-      "source": "ITmedia AI＋",
+      "title": "GoogleがフロンティアAI「Gemini 4 Argon」を発表。Gemini派のみんな、お待たせ",
+      "url": "https://www.gizmodo.jp/article/2610-google-gemini-4-argon-release/",
+      "source": "GIZMODO JAPAN",
       "lang": "ja",
+      "date": "2026-10-02T01:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/10/01/09f02e18-4243-44cf-93d0-5dc652bfa5fe/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "三重大学病院、AI基幹システム「Apollo AI」を導入--医療DXプロジェクトを推進",
+      "url": "https://japan.zdnet.com/article/35253177/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-02T00:31:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/02/b86724883be38edb35680cb705932109/261002_mie_l.jpg"
+    },
+    {
+      "title": "ルネサス、半導体工場に点検ロボット「ugo mini」導入--日常点検を省力化",
+      "url": "https://japan.zdnet.com/article/35253175/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-02T00:21:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/09/30/100481a704c30f47461e120eae928ac3/250930_manufacturing_as_1280_1536416865.jpg"
+    },
+    {
+      "title": "The Den frees up 10-15 hours a week to grow with ChatGPT Work",
+      "url": "https://openai.com/index/the-den-family-social",
+      "source": "OpenAI（公式）",
+      "lang": "en",
       "date": "2026-10-01T00:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2610/01/cover_news015.jpg"
+      "titleJa": "The Den、ChatGPT Workで週10〜15時間を創出し事業成長へ",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/2LBeQvZxob9E44kvUBuP4u/bf9887c20e840ecd0362d8e93e98c31d/og.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "Google releases Gemini 4 Argon, called its most powerful model yet",
-      "url": "https://techcrunch.com/2026/09/30/google-releases-gemini-4-argon-called-its-most-powerful-model-yet/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-30T23:43:07.000Z",
-      "titleJa": "Google、「過去最強」とうたうGemini 4 Argonをリリース",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/gemini-app-GettyImages-2276204472-1.jpg?w=1024"
-    },
-    {
-      "title": "OpenAI’s Jev clone could help the frontier lab stop its swarming agents",
-      "url": "https://techcrunch.com/2026/09/30/openais-jev-clone-could-help-the-frontier-lab-stop-its-swarming-agents/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-09-30T19:00:57.000Z",
-      "titleJa": "OpenAIの「Jevクローン」、増殖するエージェントの抑止に役立つか",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2297228249.jpg?resize=1200,800"
-    },
-    {
-      "title": "\"An AI did it\" is no defense, says nonprofit suing OpenAI over Hugging Face hack",
-      "url": "https://arstechnica.com/tech-policy/2026/09/lawsuit-demands-openai-halt-unsafe-development-that-caused-hugging-face-hack/",
+      "title": "Judge dismisses Chegg and Penske antitrust lawsuits targeting Google AI search",
+      "url": "https://arstechnica.com/google/2026/10/antitrust-lawsuits-targeting-google-ai-search-dismissed-by-federal-judge/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-09-30T18:25:04.000Z",
-      "titleJa": "「AIがやった」は弁解にならず──Hugging Face侵害でOpenAIを提訴した非営利団体",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/openai-logo-1152x648-1784833184.jpg"
+      "date": "2026-10-01T20:11:55.000Z",
+      "titleJa": "Google AI検索を標的としたCheggとPenskeの独禁法訴訟、裁判所が棄却",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/05/Google-sign-IO-1152x648.jpg"
     },
     {
-      "title": "AI voice startup ElevenLabs doubles valuation to $22B",
-      "url": "https://techcrunch.com/2026/09/30/ai-voice-startup-elevenlabs-doubles-valuation-to-22b/",
+      "title": "Google’s new Guided Vision feature can help you read the fine print",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1003756/google-gemini-live-guided-vision",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-01T19:47:51.000Z",
+      "titleJa": "Googleの新機能「Guided Vision」、細かい文字の読み取りを支援",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK255_Google_Gemini_B_474198.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "ChatGPT can now virtually try on clothes for you",
+      "url": "https://techcrunch.com/2026/10/01/chatgpt-can-now-virtually-try-on-clothes-for-you/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-09-30T18:23:57.000Z",
-      "titleJa": "AI音声スタートアップElevenLabs、評価額が倍の220億ドルに",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/01/ElevenLabs-feat.jpg?resize=1200,669"
+      "date": "2026-10-01T19:21:53.000Z",
+      "titleJa": "ChatGPT、バーチャル試着が可能に",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Virtual-Try-On.jpg?resize=1200,675"
     },
     {
-      "title": "Google、「Gemini 4 Pro」ではなく「Gemini 4 Agron」発表 まずはサイバー防御組織に限定提供、出力上限は100万トークンに",
-      "url": "https://www.itmedia.co.jp/news/article/2610/01/2000001912/",
+      "title": "OpenAI cuts ties with 3 safety researchers, WSJ reports",
+      "url": "https://techcrunch.com/2026/10/01/openai-cuts-ties-with-three-safety-researchers-wsj-reports/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-01T18:14:42.000Z",
+      "titleJa": "OpenAI、安全性研究者3人と関係解消 WSJ報道",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
+    },
+    {
+      "title": "SIE、PS5向けAI採用画質向上技術「QSSR」発表 AMDと共同開発、「Marvel&apos;s Wolverine」と「Ghost of Yōtei」が初対応",
+      "url": "https://www.itmedia.co.jp/news/article/2610/02/2000001946/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-09-30T22:16:25.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/01/2000001912/10008093/2048"
+      "date": "2026-10-01T23:45:52.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/02/2000001946/10008211/2048"
     },
     {
-      "title": "シャープがAIサーバーの受注を開始 2030年度に売上高2500億円目指す",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/092401500/",
-      "source": "日経クロステック",
+      "title": "契約書をアップロード、AIが請求情報を自動登録。税理士報酬の決済プラットフォーム「ForoPay」、10月1日提供開始",
+      "url": "https://ascii.jp/elem/000/004/439/4439446/?rss",
+      "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-09-30T22:06:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/092401500/topm.jpg?20220512"
+      "date": "2026-10-01T10:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "AI出力文に「電子透かし」 EU規制受けアンソロピックが導入",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/092401505/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-09-30T22:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/092401505/topm.jpg?20220512"
-    },
-    {
-      "title": "OpenAIが「ChatGPT Space」を発表--「Google Workspace」の代替ツールか",
-      "url": "https://japan.zdnet.com/article/35253115/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-09-30T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/30/a7a9f60b5409284d482fdc8b8c70c031/large-ChatGPT-space-2.jpg"
-    },
-    {
-      "title": "家事を30分で覚える人型ロボット「Flourish 1」、約56万円で予約開始",
-      "url": "https://japan.cnet.com/article/35253112/",
+      "title": "Google、GPT-6 Astra対抗の「Gemini 4 Argon」発表",
+      "url": "https://japan.cnet.com/article/35253162/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-09-30T06:50:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/09/30/dc30de6b67b77ab886b8ea6ef131eeec/Flourish-1-cleaning_1280x960.jpg"
+      "date": "2026-10-01T08:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/01/8537c62c76a367b1eb39b823a686badc/g4_30-09-26_key-art_blog.width-1200.format-webp__1_.jpeg"
     },
     {
-      "title": "日立とファナック、フィジカルAIの事業化で戦略的提携",
-      "url": "https://japan.zdnet.com/article/35253110/",
+      "title": "JERA、デルおよびRHAELMと日本最大のAIインフラ開発に向け提携",
+      "url": "https://japan.zdnet.com/article/35253153/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-09-30T05:09:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/30/3b05f3fc4a741c2089cc9078ef27d27f/hitachi-funac_l.jpg"
+      "date": "2026-10-01T06:46:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/01/566a220439409c936749f80096dfa055/jera_l.jpg"
     },
     {
-      "title": "マネーフォワード、「Notion」と「Notion AI」を導入--AIネイティブな組織体制の構築と働き⽅を推進",
-      "url": "https://japan.zdnet.com/article/35253101/",
+      "title": "リコー、Difyアプリを企業間で共有する「RICOH AI App Mall」を提供開始",
+      "url": "https://japan.zdnet.com/article/35253152/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-09-30T03:50:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/04/03/117154cf3a46205c6cce365dad88afb3/250403_data_as_1280_261206839.jpg"
+      "date": "2026-10-01T05:28:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/02/20/3f1df6775d071eff66d8be55587b07f1/250220_enterprise_as_1280_721823729.jpeg"
     },
     {
       "title": "Introducing GPT-6.1 Sol",
@@ -108,17 +117,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-09-29T10:00:00.000Z",
-      "titleJa": "GPT-6.1 Solを発表",
+      "titleJa": "「GPT-6.1 Sol」を発表",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/1Xa7inzcCfsGE5aV3QqeN3/4f3689ae92e04b18569f9eaf919e7174/GPT-6-1-Sol_16x9.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "The Lenfest Institute grows landmark program with expanded OpenAI support",
-      "url": "https://openai.com/index/lenfest-ai-collaborative-expansion",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-28T07:00:00.000Z",
-      "titleJa": "The Lenfest Institute、OpenAIの支援拡大で画期的プログラムを拡充",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/6txA4ODTKx7m0Lm7PZhV2j/f0f1322b05b78fb0b33d5dae4920aa00/lenfest-september-seo-white.png?w=1600&h=900&fit=fill"
     }
   ]
 }
