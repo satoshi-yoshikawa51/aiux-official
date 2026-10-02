@@ -1649,6 +1649,24 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "super-resolution": {
+    caption: "くっきりしたのは、情報が増えたからではない",
+    render: () => (
+      <Svg h={300} title="AI超解像のしくみと限界の図解">
+        <T x={300} y={28} text="軽く描いて、AIで引き伸ばす" size={13} />
+        <B x={30} y={46} w={160} h={58} label={"低い解像度で\n描く"} sub="処理が軽い" />
+        <AH x1={195} x2={235} y={75} />
+        <B x={240} y={46} w={180} h={58} label={"AIが細部を\n描き足す"} fill={YELLOW} />
+        <AH x1={425} x2={465} y={75} />
+        <B x={470} y={46} w={110} h={58} label={"4Kで\n表示"} />
+        <T x={300} y={138} text="同じ超解像でも、手がかりの量が違う" size={13} />
+        <B x={40} y={156} w={240} h={58} label={"動いている映像"} sub="前のコマと動きが使える" />
+        <B x={320} y={156} w={240} h={58} label={"写真1枚の拡大"} sub="当て推量が増える" fill={RED} color="#fff" />
+        <T x={300} y={250} text="元に無い細部は、AIが「ありそうな形」を作っている" size={13.5} color={INK} />
+        <T x={300} y={278} text="2026年10月、通常のPS5にもQSSRとして載りはじめた" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
