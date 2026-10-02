@@ -1631,6 +1631,24 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  watermark: {
+    caption: "「AIが作った」は示せても、「正しい」は示せない",
+    render: () => (
+      <Svg h={302} title="AIコンテンツの電子透かしのしくみと限界の図解">
+        <T x={300} y={28} text="書くときに、見えない印を混ぜておく" size={13} />
+        <B x={30} y={46} w={160} h={58} label={"AIが文章を作る"} />
+        <AH x1={195} x2={235} y={75} />
+        <B x={240} y={46} w={180} h={58} label={"単語の選び方に\n信号を混ぜる"} fill={YELLOW} />
+        <AH x1={425} x2={465} y={75} />
+        <B x={470} y={46} w={110} h={58} label={"見た目は\n同じ"} />
+        <T x={300} y={138} text="あとから機械で判定できる。ただし" size={13} />
+        <B x={40} y={156} w={240} h={58} label={"コピー・軽い編集"} sub="残りやすい" />
+        <B x={320} y={156} w={240} h={58} label={"全部書き直す"} sub="消える" fill={RED} color="#fff" />
+        <T x={300} y={250} text="短い文章では、判定そのものが当てにならない" size={13.5} color={INK} />
+        <T x={300} y={278} text="2026年8月、EUの規則が「印をつけること」を求めはじめた" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
