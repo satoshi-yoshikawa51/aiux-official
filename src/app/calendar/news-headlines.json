@@ -1,14 +1,100 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-02T01:04:01.894Z",
+  "updatedAt": "2026-10-03T00:42:43.877Z",
   "items": [
     {
-      "title": "GoogleがフロンティアAI「Gemini 4 Argon」を発表。Gemini派のみんな、お待たせ",
-      "url": "https://www.gizmodo.jp/article/2610-google-gemini-4-argon-release/",
+      "title": "A model guide for the GPT-6 family",
+      "url": "https://openai.com/index/practical-guide-building-gpt-6",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-02T16:15:00.000Z",
+      "titleJa": "GPT-6ファミリーのモデル選択ガイド",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/30yfQUtDoZo9YOON0QB57H/7c53ac242cc32ab9a9dc05930bdc2034/6tbusrroo8ljxic8ceybig-seo.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Chatham scales its capital markets expertise with OpenAI",
+      "url": "https://openai.com/index/chatham-financial",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-02T00:00:00.000Z",
+      "titleJa": "Chatham、OpenAIで資本市場の専門知識をスケール",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/5YyV7pXaAJJDcGDHvPniAF/4f73936c51d46e5bf8941e13f06987b2/chatham-financial-social-getty-texture.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Amazon’s $1B plan to combat data center backlash draws more backlash",
+      "url": "https://arstechnica.com/tech-policy/2026/10/amazons-1b-plan-to-combat-data-center-backlash-draws-more-backlash/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-02T20:30:27.000Z",
+      "titleJa": "データセンター反発対策にAmazonが10億ドル、かえって反発を招く",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-2292181016.jpg"
+    },
+    {
+      "title": "US arrests tech CEO accused of smuggling $300M in Nvidia chips into China",
+      "url": "https://arstechnica.com/tech-policy/2026/10/us-arrests-tech-ceo-accused-of-smuggling-300m-in-nvidia-chips-into-china/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-02T18:39:36.000Z",
+      "titleJa": "Nvidiaチップ3億ドル相当を中国に密輸した疑い、米国がテック企業CEOを逮捕",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-1258977050-2-1024x648.jpg"
+    },
+    {
+      "title": "OpenAI’s Dot agent is enterprise software that can also order your dinner",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-02T18:00:00.000Z",
+      "titleJa": "OpenAIの「Dot」エージェントは、夕食の注文もできるエンタープライズソフト",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/DSC04281_processed.jpg?quality=90&strip=all&crop=0%2C10.723165084465%2C100%2C78.55366983107&w=1200"
+    },
+    {
+      "title": "The 7-year-old Nvidia Shield TV is now $100 more expensive due to AI",
+      "url": "https://arstechnica.com/gadgets/2026/10/the-7-year-old-nvidia-shield-tv-is-now-100-more-expensive-thanks-to-ai/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-02T14:52:16.000Z",
+      "titleJa": "発売7年のNvidia Shield TV、AIの影響で100ドル値上げ",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/01/Shield-10-yrs-1-1152x648.jpg"
+    },
+    {
+      "title": "国産AI「LLM-jp-4」ベースのAIモデル、KDDI傘下のELYZAが無料公開",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2610/02/2000001965/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-02T11:04:32.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/02/2000001965/10008269/2048"
+    },
+    {
+      "title": "サイリーグHDら、AIでサイバー攻撃時の初動対応を支援する新サービスを発表",
+      "url": "https://japan.zdnet.com/article/35253195/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-02T08:15:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/02/c178cda9afc75d5834b1bedc779bcc12/t/1280/960/d/261002_cy_001.jpg"
+    },
+    {
+      "title": "AI活用を邪魔する「国の規制」ありませんか？ --政府が意見募集へ 専用フォーム開設",
+      "url": "https://japan.cnet.com/article/35253198/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-02T08:10:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/02/993e063976fc2227aaa1b20b54a10cbb/IMG_4004.jpeg"
+    },
+    {
+      "title": "修理しやすいは正義！ Fairphoneがイヤホン新モデルをチラ見せ",
+      "url": "https://www.gizmodo.jp/article/2610-fairphone-fairbuds-2-leak/",
       "source": "GIZMODO JAPAN",
       "lang": "ja",
-      "date": "2026-10-02T01:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/10/01/09f02e18-4243-44cf-93d0-5dc652bfa5fe/original.jpg?w=1200&h=630"
+      "date": "2026-10-02T05:15:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/10/01/9f5b2360-a940-4765-ad6d-c74d70530a57/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "Microsoft、初のストリーミング文字起こしモデル「MAI-Transcribe-2-Streaming」公開 音声合成「MAI-Voice-2.1」と高速版も",
+      "url": "https://www.itmedia.co.jp/news/article/2610/02/2000001950/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-02T01:47:09.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/02/2000001950/10008228/2048"
     },
     {
       "title": "三重大学病院、AI基幹システム「Apollo AI」を導入--医療DXプロジェクトを推進",
@@ -27,98 +113,12 @@
       "image": "https://japan.zdnet.com/storage/2025/09/30/100481a704c30f47461e120eae928ac3/250930_manufacturing_as_1280_1536416865.jpg"
     },
     {
-      "title": "The Den frees up 10-15 hours a week to grow with ChatGPT Work",
-      "url": "https://openai.com/index/the-den-family-social",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-01T00:00:00.000Z",
-      "titleJa": "The Den、ChatGPT Workで週10〜15時間を創出し事業成長へ",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/2LBeQvZxob9E44kvUBuP4u/bf9887c20e840ecd0362d8e93e98c31d/og.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Judge dismisses Chegg and Penske antitrust lawsuits targeting Google AI search",
-      "url": "https://arstechnica.com/google/2026/10/antitrust-lawsuits-targeting-google-ai-search-dismissed-by-federal-judge/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-01T20:11:55.000Z",
-      "titleJa": "Google AI検索を標的としたCheggとPenskeの独禁法訴訟、裁判所が棄却",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/05/Google-sign-IO-1152x648.jpg"
-    },
-    {
-      "title": "Google’s new Guided Vision feature can help you read the fine print",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1003756/google-gemini-live-guided-vision",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-01T19:47:51.000Z",
-      "titleJa": "Googleの新機能「Guided Vision」、細かい文字の読み取りを支援",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK255_Google_Gemini_B_474198.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "ChatGPT can now virtually try on clothes for you",
-      "url": "https://techcrunch.com/2026/10/01/chatgpt-can-now-virtually-try-on-clothes-for-you/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-01T19:21:53.000Z",
-      "titleJa": "ChatGPT、バーチャル試着が可能に",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Virtual-Try-On.jpg?resize=1200,675"
-    },
-    {
-      "title": "OpenAI cuts ties with 3 safety researchers, WSJ reports",
-      "url": "https://techcrunch.com/2026/10/01/openai-cuts-ties-with-three-safety-researchers-wsj-reports/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-01T18:14:42.000Z",
-      "titleJa": "OpenAI、安全性研究者3人と関係解消 WSJ報道",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
-    },
-    {
       "title": "SIE、PS5向けAI採用画質向上技術「QSSR」発表 AMDと共同開発、「Marvel&apos;s Wolverine」と「Ghost of Yōtei」が初対応",
       "url": "https://www.itmedia.co.jp/news/article/2610/02/2000001946/",
       "source": "ITmedia AI＋",
       "lang": "ja",
       "date": "2026-10-01T23:45:52.000Z",
       "image": "https://www.itmedia.co.jp/news/article/ogp/2610/02/2000001946/10008211/2048"
-    },
-    {
-      "title": "契約書をアップロード、AIが請求情報を自動登録。税理士報酬の決済プラットフォーム「ForoPay」、10月1日提供開始",
-      "url": "https://ascii.jp/elem/000/004/439/4439446/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-01T10:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "Google、GPT-6 Astra対抗の「Gemini 4 Argon」発表",
-      "url": "https://japan.cnet.com/article/35253162/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-01T08:45:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/01/8537c62c76a367b1eb39b823a686badc/g4_30-09-26_key-art_blog.width-1200.format-webp__1_.jpeg"
-    },
-    {
-      "title": "JERA、デルおよびRHAELMと日本最大のAIインフラ開発に向け提携",
-      "url": "https://japan.zdnet.com/article/35253153/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-01T06:46:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/01/566a220439409c936749f80096dfa055/jera_l.jpg"
-    },
-    {
-      "title": "リコー、Difyアプリを企業間で共有する「RICOH AI App Mall」を提供開始",
-      "url": "https://japan.zdnet.com/article/35253152/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-01T05:28:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/02/20/3f1df6775d071eff66d8be55587b07f1/250220_enterprise_as_1280_721823729.jpeg"
-    },
-    {
-      "title": "Introducing GPT-6.1 Sol",
-      "url": "https://openai.com/index/introducing-gpt-6-1-sol",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-09-29T10:00:00.000Z",
-      "titleJa": "「GPT-6.1 Sol」を発表",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/1Xa7inzcCfsGE5aV3QqeN3/4f3689ae92e04b18569f9eaf919e7174/GPT-6-1-Sol_16x9.png?w=1600&h=900&fit=fill"
     }
   ]
 }
