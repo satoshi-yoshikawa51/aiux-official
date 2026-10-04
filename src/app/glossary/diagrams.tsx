@@ -1667,6 +1667,24 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "export-control": {
+    caption: "規制は、物が動く道より一歩遅れて追いかける",
+    render: () => (
+      <Svg h={302} title="AI半導体の輸出規制のしくみと抜け道の図解">
+        <T x={300} y={28} text="性能で線を引き、超えるものは許可制にする" size={13} />
+        <B x={40} y={46} w={240} h={58} label={"しきい値より上"} sub="輸出に許可が要る" fill={YELLOW} />
+        <B x={320} y={46} w={240} h={58} label={"しきい値より下"} sub="そのまま出せる" />
+        <T x={300} y={138} text="よく使われる抜け道" size={13} />
+        <B x={30} y={156} w={160} h={58} label={"第三国へ\n正規に売る"} />
+        <AH x1={195} x2={235} y={185} />
+        <B x={240} y={156} w={180} h={58} label={"そこから\n送り直す"} fill={RED} color="#fff" />
+        <AH x1={425} x2={465} y={185} />
+        <B x={470} y={156} w={110} h={58} label={"規制国へ\n到着"} />
+        <T x={300} y={250} text="米国製の品は、どの国の会社が扱っても米国の規則がついて回る" size={13} color={INK} />
+        <T x={300} y={278} text="2026年10月、3億ドル超を送ったとして米国で起訴" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
