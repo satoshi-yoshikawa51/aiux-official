@@ -1,14 +1,70 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-04T00:00:48.785Z",
+  "updatedAt": "2026-10-05T00:08:40.643Z",
   "items": [
+    {
+      "title": "ITフリーランスの9割「AI時代への対策を実践」／内部不正が上場企業の約4割で発生／“静かな退職”に2つの類型を発見、ほか",
+      "url": "https://ascii.jp/elem/000/004/439/4439840/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-04T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/04/4533968/xl/523608da21230127.jpg?20200122"
+    },
+    {
+      "title": "米当局、航空管制にAI導入 その中身とは",
+      "url": "https://japan.cnet.com/article/35253220/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-04T22:56:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/05/b3d7543a4925a2ee9bba8a9f3f0215a2/GettyImages-501847088__1_.jpeg"
+    },
+    {
+      "title": "トランプ大統領、「Super Intelligence Force」創設を発表 国家情報長官やFTC委員長らが主導",
+      "url": "https://www.itmedia.co.jp/news/article/2610/05/2000001990/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-04T22:12:10.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/05/2000001990/10008370/2048"
+    },
+    {
+      "title": "国産AI開発「ラストチャンス」の局面へ ノエトラが「44社が出資・国が最大1兆円支援」の追い風を背に向かう先",
+      "url": "https://www.itmedia.co.jp/business/articles/2610/05/news037.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-04T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2610/05/cover_news037.jpg"
+    },
+    {
+      "title": "みずほ、AIエージェント「Cowork」3万人に導入へ 非定型タスクも自律処理",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12072/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-04T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12072/topm.jpg?20220512"
+    },
+    {
+      "title": "世界中のソフトウェア開発者の実態を調べた「State of Devs 2026」公開。何歳？ 年収は？ モニタは何枚？ AIにどのくらいコードを書かせている？ 趣味は？ など集計結果",
+      "url": "https://www.publickey1.jp/blog/26/state_of_devs_2026_ai.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-10-04T15:59:31.000Z",
+      "image": "https://www.publickey1.jp/2026/stateofdevops2026-01.png"
+    },
+    {
+      "title": "Supabase、1サーバあたり数百万ものSQLiteをホストする「Turso」買収を発表。AIエージェントで加速するDB需要に対応",
+      "url": "https://www.publickey1.jp/blog/26/supabase1sqlitetursoaidb.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-10-04T15:56:27.000Z",
+      "image": "https://www.publickey1.jp/2026/HTo1Om6aAAAYQKJ.jpg"
+    },
     {
       "title": "OpenAI safety employee resigns, claiming the company’s ‘culture is broken’",
       "url": "https://techcrunch.com/2026/10/03/openai-safety-employee-resigns-claiming-the-companys-culture-is-broken/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-10-03T16:30:01.000Z",
-      "titleJa": "OpenAIの安全担当従業員が辞任、「企業文化は壊れている」と主張",
+      "titleJa": "OpenAIの安全担当社員が辞任、「社内文化は壊れている」と主張",
       "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
     },
     {
@@ -20,56 +76,13 @@
       "image": "https://www.itmedia.co.jp/news/article/ogp/2610/03/2000001985/10008350/2048"
     },
     {
-      "title": "韓国6行に「AIハッキング」、4行で個人情報流出",
-      "url": "https://www.chosunonline.com/site/data/html_dir/2026/10/03/2026100380012.html",
-      "source": "chosunonline.com",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 179,
-      "date": "2026-10-03T03:45:48.000Z",
-      "image": "https://www.chosunonline.com/site/data/img_dir/2026/10/03/2026100380012_0.jpg"
-    },
-    {
-      "title": "AIで運用コストほぼ0円を実現？！なポイ活サービスリリース！既に約2000人が登録の理由",
-      "url": "https://ascii.jp/elem/000/004/439/4439792/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-03T03:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "Meta、AIエージェント「Muse」とつながる自作ガジェット向けSDKをオープンソースで公開 「Raspberry Pi」などに対応",
-      "url": "https://www.itmedia.co.jp/news/article/2610/03/2000001984/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-03T01:41:21.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/03/2000001984/10008346/2048"
-    },
-    {
-      "title": "Apple、macOSの「フルディスクアクセス」に追加の制御を導入へ 「AIエージェントの進化でリスクが大幅に増大」",
-      "url": "https://www.itmedia.co.jp/news/article/2610/03/2000001983/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-03T00:38:06.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/03/2000001983/10008341/2048"
-    },
-    {
       "title": "A model guide for the GPT-6 family",
       "url": "https://openai.com/index/practical-guide-building-gpt-6",
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-02T16:15:00.000Z",
-      "titleJa": "GPT-6ファミリーのモデル選択ガイド",
+      "titleJa": "GPT-6ファミリーのモデルガイド",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/30yfQUtDoZo9YOON0QB57H/7c53ac242cc32ab9a9dc05930bdc2034/6tbusrroo8ljxic8ceybig-seo.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Chatham scales its capital markets expertise with OpenAI",
-      "url": "https://openai.com/index/chatham-financial",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-02T00:00:00.000Z",
-      "titleJa": "Chatham、OpenAIで資本市場の専門性をスケールさせる",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5YyV7pXaAJJDcGDHvPniAF/4f73936c51d46e5bf8941e13f06987b2/chatham-financial-social-getty-texture.png?w=1600&h=900&fit=fill"
     },
     {
       "title": "Amazon’s $1B plan to combat data center backlash draws more backlash",
@@ -77,7 +90,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-10-02T20:30:27.000Z",
-      "titleJa": "Amazon、データセンター反発対策の10億ドル計画にさらなる反発",
+      "titleJa": "Amazon、データセンター反発対策の10億ドル計画がさらなる反発を招く",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-2292181016.jpg"
     },
     {
@@ -86,7 +99,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-10-02T18:39:36.000Z",
-      "titleJa": "米当局、3億ドル相当のNvidiaチップを中国へ密輸した疑いでテック企業CEOを逮捕",
+      "titleJa": "米当局、3億ドル相当のNvidiaチップを中国に密輸した疑いでテック企業CEOを逮捕",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-1258977050-2-1024x648.jpg"
     },
     {
@@ -95,32 +108,17 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-10-02T18:00:00.000Z",
-      "titleJa": "OpenAIのエージェント「Dot」、ディナーの注文もできる企業向けソフトウェア",
+      "titleJa": "OpenAIのエージェント「Dot」、夕食の注文もできる企業向けソフトウェア",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/DSC04281_processed.jpg?quality=90&strip=all&crop=0%2C10.723165084465%2C100%2C78.55366983107&w=1200"
     },
     {
-      "title": "国産AI「LLM-jp-4」ベースのAIモデル、KDDI傘下のELYZAが無料公開",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/02/2000001965/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-02T11:04:32.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/02/2000001965/10008269/2048"
-    },
-    {
-      "title": "サイリーグHDら、AIでサイバー攻撃時の初動対応を支援する新サービスを発表",
-      "url": "https://japan.zdnet.com/article/35253195/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-02T08:15:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/02/c178cda9afc75d5834b1bedc779bcc12/t/1280/960/d/261002_cy_001.jpg"
-    },
-    {
-      "title": "AI活用を邪魔する「国の規制」ありませんか？ --政府が意見募集へ 専用フォーム開設",
-      "url": "https://japan.cnet.com/article/35253198/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-02T08:10:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/02/993e063976fc2227aaa1b20b54a10cbb/IMG_4004.jpeg"
+      "title": "The 7-year-old Nvidia Shield TV is now $100 more expensive due to AI",
+      "url": "https://arstechnica.com/gadgets/2026/10/the-7-year-old-nvidia-shield-tv-is-now-100-more-expensive-thanks-to-ai/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-02T14:52:16.000Z",
+      "titleJa": "発売7年のNvidia Shield TV、AIの影響で100ドル値上げ",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/01/Shield-10-yrs-1-1152x648.jpg"
     }
   ]
 }
