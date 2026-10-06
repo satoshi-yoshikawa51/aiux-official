@@ -1,62 +1,119 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-05T00:08:40.643Z",
+  "updatedAt": "2026-10-06T01:52:30.201Z",
   "items": [
     {
-      "title": "ITフリーランスの9割「AI時代への対策を実践」／内部不正が上場企業の約4割で発生／“静かな退職”に2つの類型を発見、ほか",
-      "url": "https://ascii.jp/elem/000/004/439/4439840/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-04T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/04/4533968/xl/523608da21230127.jpg?20200122"
-    },
-    {
-      "title": "米当局、航空管制にAI導入 その中身とは",
-      "url": "https://japan.cnet.com/article/35253220/",
+      "title": "OpenAI、「ChatGPT」の文章に電子透かし EUで数週間以内に導入",
+      "url": "https://japan.cnet.com/article/35253258/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-04T22:56:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/05/b3d7543a4925a2ee9bba8a9f3f0215a2/GettyImages-501847088__1_.jpeg"
+      "date": "2026-10-06T00:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/06/19/2f69c7e1c9e263f278871bf1f2fe1bbb/chatgpt-openai-logo-gettyimages-2208674774_1280x960.jpg"
     },
     {
-      "title": "トランプ大統領、「Super Intelligence Force」創設を発表 国家情報長官やFTC委員長らが主導",
-      "url": "https://www.itmedia.co.jp/news/article/2610/05/2000001990/",
+      "title": "OpenAIがテキスト透かし技術「textGrain」を発表。なぜか“検出されにくくなる条件”も明かす",
+      "url": "https://www.gizmodo.jp/article/2610-openai-textgrain-watermark/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-10-06T00:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/10/05/2299e93b-d7b8-48df-9731-96caed0d986a/original.png?w=1200&h=630"
+    },
+    {
+      "title": "Google Cloudとの統合を進めてAIのセキュリティを拡張",
+      "url": "https://ascii.jp/elem/000/004/439/4439851/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-06T00:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/05/4534044/xl/b4d7eb318f51743d.jpg"
+    },
+    {
+      "title": "Gemini Call for Me might tell your mom you’re running late",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1005177/google-gemini-call-for-me-expansion-rumors",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-05T23:09:55.000Z",
+      "titleJa": "Gemini「Call for Me」、お母さんに遅刻を伝えてくれるかも",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Google-Pixel-11-Pro-Photos-of-Phone-7.jpg?quality=90&strip=all&crop=0%2C10.731298651824%2C100%2C78.537402696352&w=1200"
+    },
+    {
+      "title": "OpenAI will start watermarking ChatGPT’s text in the EU",
+      "url": "https://techcrunch.com/2026/10/05/openai-will-start-watermarking-chatgpts-text-in-the-eu/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-05T20:36:48.000Z",
+      "titleJa": "OpenAI、EUでChatGPTの生成テキストに電子透かしを導入へ",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
+    },
+    {
+      "title": "Wikipedia operator says OpenAI’s ‘rogue’ bots may be linked to a May outage",
+      "url": "https://www.theverge.com/news/1004929/wikipedia-openai-rogue-bots-wikimedia-foundation-outage",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-05T19:05:19.000Z",
+      "titleJa": "Wikipedia運営団体、OpenAIの「暴走」ボットが5月の障害に関係した可能性を指摘",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS533_AI_AGENTS_HACKING_D.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
+    },
+    {
+      "title": "OpenAI launches visual ads that appear alongside image generation results",
+      "url": "https://techcrunch.com/2026/10/05/openai-launches-visual-ads-that-appear-alongside-image-generation-results/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-05T15:14:24.000Z",
+      "titleJa": "OpenAI、画像生成の結果と並べて表示するビジュアル広告を開始",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/new-chatgpt-ads-format-and-measurement-inline-01.webp?w=1200"
+    },
+    {
+      "title": "Our approach to EU text provenance rules",
+      "url": "https://openai.com/index/eu-text-provenance",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-05T15:00:00.000Z",
+      "titleJa": "EUのテキスト来歴規則に対する当社の取り組み",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/7u8k3vMOefnc2eIwqAZlCJ/5e39aad76e07dc260070eae95d545d6f/ChatGPT_Image_5_Oct_2026__18_22_35.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "“ツダケンAI裁判”の論点 「声優そっくりAI音声は合法」……にはならない？ 弁護士が解説",
+      "url": "https://www.itmedia.co.jp/news/article/2610/06/2000002010/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-04T22:12:10.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/05/2000001990/10008370/2048"
+      "date": "2026-10-05T23:30:00.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/06/2000002010/10008434/2048"
     },
     {
-      "title": "国産AI開発「ラストチャンス」の局面へ ノエトラが「44社が出資・国が最大1兆円支援」の追い風を背に向かう先",
-      "url": "https://www.itmedia.co.jp/business/articles/2610/05/news037.html",
+      "title": "【フォーム入力不要】AI時代のBtoB Go-to-Market実践ガイド「Revenue Velocity Playbook」を無料公開",
+      "url": "https://ascii.jp/elem/000/004/440/4440160/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-05T21:30:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "韓国の銀行6行にサイバー攻撃 計2万5000人超の個人情報流出──AIエージェントを使った可能性も 現地報道",
+      "url": "https://www.itmedia.co.jp/news/article/2610/05/2000002009/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-04T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2610/05/cover_news037.jpg"
+      "date": "2026-10-05T09:21:19.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/05/2000002009/10008428/2048"
     },
     {
-      "title": "みずほ、AIエージェント「Cowork」3万人に導入へ 非定型タスクも自律処理",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12072/",
-      "source": "日経クロステック",
+      "title": "AIでサイバー攻撃のコスト激減 数行の指示だけで27社に侵入、カード情報60万件超が流出 - 週刊アスキー",
+      "url": "https://weekly.ascii.jp/elem/000/004/439/4439882/",
+      "source": "weekly.ascii.jp",
       "lang": "ja",
-      "date": "2026-10-04T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12072/topm.jpg?20220512"
+      "kind": "buzz",
+      "count": 145,
+      "date": "2026-10-05T08:05:24.000Z",
+      "image": "https://ascii.jp/img/2026/10/05/4534129/l/86f89d76cd582831.jpg"
     },
     {
-      "title": "世界中のソフトウェア開発者の実態を調べた「State of Devs 2026」公開。何歳？ 年収は？ モニタは何枚？ AIにどのくらいコードを書かせている？ 趣味は？ など集計結果",
-      "url": "https://www.publickey1.jp/blog/26/state_of_devs_2026_ai.html",
-      "source": "Publickey",
+      "title": "アマゾン「Audible」、本の登場人物と会話できる新機能を提供へ",
+      "url": "https://japan.cnet.com/article/35253230/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-04T15:59:31.000Z",
-      "image": "https://www.publickey1.jp/2026/stateofdevops2026-01.png"
-    },
-    {
-      "title": "Supabase、1サーバあたり数百万ものSQLiteをホストする「Turso」買収を発表。AIエージェントで加速するDB需要に対応",
-      "url": "https://www.publickey1.jp/blog/26/supabase1sqlitetursoaidb.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-10-04T15:56:27.000Z",
-      "image": "https://www.publickey1.jp/2026/HTo1Om6aAAAYQKJ.jpg"
+      "kind": "buzz",
+      "count": 263,
+      "date": "2026-10-05T06:43:08.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/05/dc6bb413066ae1e097cd687c296d9cf6/Audible-logo-on-a-green-background_1280x960.jpg"
     },
     {
       "title": "OpenAI safety employee resigns, claiming the company’s ‘culture is broken’",
@@ -64,61 +121,8 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-10-03T16:30:01.000Z",
-      "titleJa": "OpenAIの安全担当社員が辞任、「社内文化は壊れている」と主張",
+      "titleJa": "OpenAIの安全担当社員が辞職、「社内文化は壊れている」と批判",
       "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
-    },
-    {
-      "title": "Amazon、データセンター批判に反論 10億ドル超の地域支援策も発表",
-      "url": "https://www.itmedia.co.jp/news/article/2610/03/2000001985/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-03T08:52:00.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/03/2000001985/10008350/2048"
-    },
-    {
-      "title": "A model guide for the GPT-6 family",
-      "url": "https://openai.com/index/practical-guide-building-gpt-6",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-02T16:15:00.000Z",
-      "titleJa": "GPT-6ファミリーのモデルガイド",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/30yfQUtDoZo9YOON0QB57H/7c53ac242cc32ab9a9dc05930bdc2034/6tbusrroo8ljxic8ceybig-seo.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Amazon’s $1B plan to combat data center backlash draws more backlash",
-      "url": "https://arstechnica.com/tech-policy/2026/10/amazons-1b-plan-to-combat-data-center-backlash-draws-more-backlash/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-02T20:30:27.000Z",
-      "titleJa": "Amazon、データセンター反発対策の10億ドル計画がさらなる反発を招く",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-2292181016.jpg"
-    },
-    {
-      "title": "US arrests tech CEO accused of smuggling $300M in Nvidia chips into China",
-      "url": "https://arstechnica.com/tech-policy/2026/10/us-arrests-tech-ceo-accused-of-smuggling-300m-in-nvidia-chips-into-china/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-02T18:39:36.000Z",
-      "titleJa": "米当局、3億ドル相当のNvidiaチップを中国に密輸した疑いでテック企業CEOを逮捕",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-1258977050-2-1024x648.jpg"
-    },
-    {
-      "title": "OpenAI’s Dot agent is enterprise software that can also order your dinner",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-02T18:00:00.000Z",
-      "titleJa": "OpenAIのエージェント「Dot」、夕食の注文もできる企業向けソフトウェア",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/DSC04281_processed.jpg?quality=90&strip=all&crop=0%2C10.723165084465%2C100%2C78.55366983107&w=1200"
-    },
-    {
-      "title": "The 7-year-old Nvidia Shield TV is now $100 more expensive due to AI",
-      "url": "https://arstechnica.com/gadgets/2026/10/the-7-year-old-nvidia-shield-tv-is-now-100-more-expensive-thanks-to-ai/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-02T14:52:16.000Z",
-      "titleJa": "発売7年のNvidia Shield TV、AIの影響で100ドル値上げ",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/01/Shield-10-yrs-1-1152x648.jpg"
     }
   ]
 }
