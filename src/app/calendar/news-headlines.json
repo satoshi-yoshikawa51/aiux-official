@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-05T00:08:40.643Z",
+  "updatedAt": "2026-10-07T01:00:03.061Z",
   "items": [
     {
-      "title": "ITフリーランスの9割「AI時代への対策を実践」／内部不正が上場企業の約4割で発生／“静かな退職”に2つの類型を発見、ほか",
-      "url": "https://ascii.jp/elem/000/004/439/4439840/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-04T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/04/4533968/xl/523608da21230127.jpg?20200122"
-    },
-    {
-      "title": "米当局、航空管制にAI導入 その中身とは",
-      "url": "https://japan.cnet.com/article/35253220/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-04T22:56:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/05/b3d7543a4925a2ee9bba8a9f3f0215a2/GettyImages-501847088__1_.jpeg"
-    },
-    {
-      "title": "トランプ大統領、「Super Intelligence Force」創設を発表 国家情報長官やFTC委員長らが主導",
-      "url": "https://www.itmedia.co.jp/news/article/2610/05/2000001990/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-04T22:12:10.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/05/2000001990/10008370/2048"
-    },
-    {
-      "title": "国産AI開発「ラストチャンス」の局面へ ノエトラが「44社が出資・国が最大1兆円支援」の追い風を背に向かう先",
-      "url": "https://www.itmedia.co.jp/business/articles/2610/05/news037.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-04T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2610/05/cover_news037.jpg"
-    },
-    {
-      "title": "みずほ、AIエージェント「Cowork」3万人に導入へ 非定型タスクも自律処理",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12072/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-04T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12072/topm.jpg?20220512"
-    },
-    {
-      "title": "世界中のソフトウェア開発者の実態を調べた「State of Devs 2026」公開。何歳？ 年収は？ モニタは何枚？ AIにどのくらいコードを書かせている？ 趣味は？ など集計結果",
-      "url": "https://www.publickey1.jp/blog/26/state_of_devs_2026_ai.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-10-04T15:59:31.000Z",
-      "image": "https://www.publickey1.jp/2026/stateofdevops2026-01.png"
-    },
-    {
-      "title": "Supabase、1サーバあたり数百万ものSQLiteをホストする「Turso」買収を発表。AIエージェントで加速するDB需要に対応",
-      "url": "https://www.publickey1.jp/blog/26/supabase1sqlitetursoaidb.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-10-04T15:56:27.000Z",
-      "image": "https://www.publickey1.jp/2026/HTo1Om6aAAAYQKJ.jpg"
-    },
-    {
-      "title": "OpenAI safety employee resigns, claiming the company’s ‘culture is broken’",
-      "url": "https://techcrunch.com/2026/10/03/openai-safety-employee-resigns-claiming-the-companys-culture-is-broken/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-03T16:30:01.000Z",
-      "titleJa": "OpenAIの安全担当社員が辞任、「社内文化は壊れている」と主張",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
-    },
-    {
-      "title": "Amazon、データセンター批判に反論 10億ドル超の地域支援策も発表",
-      "url": "https://www.itmedia.co.jp/news/article/2610/03/2000001985/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-03T08:52:00.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/03/2000001985/10008350/2048"
-    },
-    {
-      "title": "A model guide for the GPT-6 family",
-      "url": "https://openai.com/index/practical-guide-building-gpt-6",
+      "title": "Atlassian and OpenAI expand partnership to turn enterprise knowledge into action",
+      "url": "https://openai.com/index/atlassian-partnership",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-10-02T16:15:00.000Z",
-      "titleJa": "GPT-6ファミリーのモデルガイド",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/30yfQUtDoZo9YOON0QB57H/7c53ac242cc32ab9a9dc05930bdc2034/6tbusrroo8ljxic8ceybig-seo.png?w=1600&h=900&fit=fill"
+      "date": "2026-10-06T16:00:00.000Z",
+      "titleJa": "Atlassianとが提携拡大、企業内ナレッジを「実行」に変えるOpenAIと",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/6QbNTCFAGpVGjDLSMfKf9M/e571659e9694e08b73f5e73a01a0682c/atlassian-social-official.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "Amazon’s $1B plan to combat data center backlash draws more backlash",
-      "url": "https://arstechnica.com/tech-policy/2026/10/amazons-1b-plan-to-combat-data-center-backlash-draws-more-backlash/",
+      "title": "OpenAI will watermark ChatGPT outputs by default—but only in the EU",
+      "url": "https://arstechnica.com/ai/2026/10/openai-will-watermark-chatgpt-outputs-by-default-but-only-in-the-eu/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-10-02T20:30:27.000Z",
-      "titleJa": "Amazon、データセンター反発対策の10億ドル計画がさらなる反発を招く",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-2292181016.jpg"
+      "date": "2026-10-06T20:50:32.000Z",
+      "titleJa": "OpenAI、ChatGPTの出力に標準でウォーターマークを付与へ——ただしEU限定",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/chatgpt-icon-1152x648-1789154124.jpg"
     },
     {
-      "title": "US arrests tech CEO accused of smuggling $300M in Nvidia chips into China",
-      "url": "https://arstechnica.com/tech-policy/2026/10/us-arrests-tech-ceo-accused-of-smuggling-300m-in-nvidia-chips-into-china/",
-      "source": "Ars Technica",
+      "title": "AI computing startup Lambda to raise $4B ahead of planned IPO",
+      "url": "https://techcrunch.com/2026/10/06/ai-computing-startup-lambda-to-raise-4b-ahead-of-planned-ipo/",
+      "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-10-02T18:39:36.000Z",
-      "titleJa": "米当局、3億ドル相当のNvidiaチップを中国に密輸した疑いでテック企業CEOを逮捕",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-1258977050-2-1024x648.jpg"
+      "date": "2026-10-06T20:00:30.000Z",
+      "titleJa": "AI計算基盤のLambda、IPOを前に40億ドル調達へ",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/02/GettyImages-1148109686.jpg?resize=1200,687"
     },
     {
-      "title": "OpenAI’s Dot agent is enterprise software that can also order your dinner",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent",
+      "title": "Anthropic is giving startups a free year of Claude Team and $1,000 in credits",
+      "url": "https://techcrunch.com/2026/10/06/anthropic-gives-startups-a-free-year-of-enterprise-service-and-1000-in-token-credits/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-06T16:00:00.000Z",
+      "titleJa": "Anthropic、スタートアップにClaude Teamを1年間無料提供＋1,000ドル分のクレジット",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/Claude-photo.jpg?w=1024"
+    },
+    {
+      "title": "Google is about to remove free access to Gemini Flash and Pro",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1005451/google-gemini-free-flash-lite-only",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-10-02T18:00:00.000Z",
-      "titleJa": "OpenAIのエージェント「Dot」、夕食の注文もできる企業向けソフトウェア",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/DSC04281_processed.jpg?quality=90&strip=all&crop=0%2C10.723165084465%2C100%2C78.55366983107&w=1200"
+      "date": "2026-10-06T13:19:01.000Z",
+      "titleJa": "Google、Gemini FlashとProの無料提供を終了へ",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25290329/STK255_Google_Gemini_A.jpg?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     },
     {
-      "title": "The 7-year-old Nvidia Shield TV is now $100 more expensive due to AI",
-      "url": "https://arstechnica.com/gadgets/2026/10/the-7-year-old-nvidia-shield-tv-is-now-100-more-expensive-thanks-to-ai/",
+      "title": "OpenAI agents tried to hack Wikipedia tools and flooded it with traffic",
+      "url": "https://arstechnica.com/security/2026/10/openai-agents-tried-to-hack-wikipedia-tools-and-flooded-it-with-traffic/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-10-02T14:52:16.000Z",
-      "titleJa": "発売7年のNvidia Shield TV、AIの影響で100ドル値上げ",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/01/Shield-10-yrs-1-1152x648.jpg"
+      "date": "2026-10-06T12:21:53.000Z",
+      "titleJa": "OpenAIのエージェントがWikipediaのツールにハッキングを試み、大量のトラフィックを発生させる",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/ai-agentic-hacking-1152x648.jpg"
+    },
+    {
+      "title": "仏ミストラル、新モデル「Le Chonk」を公開--AI活用のサイバー防御向け",
+      "url": "https://japan.zdnet.com/article/35253297/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-06T23:37:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/07/483561f9610bd1e37a465790029c2d65/GettyImages-2293676053_f66563_l.jpg"
+    },
+    {
+      "title": "【Snowflakeユーザー必見】AIが賢くなるほど、問われるのは“データの整い方”。実践的アーキテクチャを紐解く『Snowflakeユーザーのデータマネジメント白書 2026』を無料公開",
+      "url": "https://ascii.jp/elem/000/004/440/4440568/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-06T23:30:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "ディコーディングエックスの対話型音声AI「DEN.Ai」、NECネクサソリューションズの新サービスに採用",
+      "url": "https://ascii.jp/elem/000/004/440/4440569/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-06T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "コンタクトセンター・CX業務を担うAIエージェント「Flyle（フライル）」、10月12日（月）よりWEB CM配信開始",
+      "url": "https://ascii.jp/elem/000/004/440/4440570/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-06T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "弥生会計の摘要の上限は製品で30文字・半角64文字分・256文字と異なる 税理士事務所・記帳代行向け「顧問先の記帳をAIに任せる前に確かめる8つのこと」第2版を無料公開",
+      "url": "https://ascii.jp/elem/000/004/440/4440576/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-06T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "CEOの74％が「最高AI責任者」のような役割に--加速するAIエージェント導入",
+      "url": "https://japan.zdnet.com/article/35253209/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-06T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/03/a712d49a0904590de305d8a241ceec16/GettyImages-2227030139_l.jpg"
+    },
+    {
+      "title": "材料・部品メーカーに攻め筋を提案、フィジカルAI分野への参入機会",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03747/100500003/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-06T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03747/100500003/topm.jpg?20220512"
+    },
+    {
+      "title": "京都銀が粉飾見抜くAI内製、10年分・200件の決算書から 不正取引検知も",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12036/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-06T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12036/topm.jpg?20220512"
     }
   ]
 }
