@@ -1,128 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-06T01:52:30.201Z",
+  "updatedAt": "2026-10-07T01:00:03.061Z",
   "items": [
     {
-      "title": "OpenAI、「ChatGPT」の文章に電子透かし EUで数週間以内に導入",
-      "url": "https://japan.cnet.com/article/35253258/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-06T00:45:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/06/19/2f69c7e1c9e263f278871bf1f2fe1bbb/chatgpt-openai-logo-gettyimages-2208674774_1280x960.jpg"
-    },
-    {
-      "title": "OpenAIがテキスト透かし技術「textGrain」を発表。なぜか“検出されにくくなる条件”も明かす",
-      "url": "https://www.gizmodo.jp/article/2610-openai-textgrain-watermark/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-10-06T00:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/10/05/2299e93b-d7b8-48df-9731-96caed0d986a/original.png?w=1200&h=630"
-    },
-    {
-      "title": "Google Cloudとの統合を進めてAIのセキュリティを拡張",
-      "url": "https://ascii.jp/elem/000/004/439/4439851/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-06T00:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/05/4534044/xl/b4d7eb318f51743d.jpg"
-    },
-    {
-      "title": "Gemini Call for Me might tell your mom you’re running late",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1005177/google-gemini-call-for-me-expansion-rumors",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-05T23:09:55.000Z",
-      "titleJa": "Gemini「Call for Me」、お母さんに遅刻を伝えてくれるかも",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Google-Pixel-11-Pro-Photos-of-Phone-7.jpg?quality=90&strip=all&crop=0%2C10.731298651824%2C100%2C78.537402696352&w=1200"
-    },
-    {
-      "title": "OpenAI will start watermarking ChatGPT’s text in the EU",
-      "url": "https://techcrunch.com/2026/10/05/openai-will-start-watermarking-chatgpts-text-in-the-eu/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-05T20:36:48.000Z",
-      "titleJa": "OpenAI、EUでChatGPTの生成テキストに電子透かしを導入へ",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
-    },
-    {
-      "title": "Wikipedia operator says OpenAI’s ‘rogue’ bots may be linked to a May outage",
-      "url": "https://www.theverge.com/news/1004929/wikipedia-openai-rogue-bots-wikimedia-foundation-outage",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-05T19:05:19.000Z",
-      "titleJa": "Wikipedia運営団体、OpenAIの「暴走」ボットが5月の障害に関係した可能性を指摘",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKS533_AI_AGENTS_HACKING_D.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
-    },
-    {
-      "title": "OpenAI launches visual ads that appear alongside image generation results",
-      "url": "https://techcrunch.com/2026/10/05/openai-launches-visual-ads-that-appear-alongside-image-generation-results/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-05T15:14:24.000Z",
-      "titleJa": "OpenAI、画像生成の結果と並べて表示するビジュアル広告を開始",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/new-chatgpt-ads-format-and-measurement-inline-01.webp?w=1200"
-    },
-    {
-      "title": "Our approach to EU text provenance rules",
-      "url": "https://openai.com/index/eu-text-provenance",
+      "title": "Atlassian and OpenAI expand partnership to turn enterprise knowledge into action",
+      "url": "https://openai.com/index/atlassian-partnership",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-10-05T15:00:00.000Z",
-      "titleJa": "EUのテキスト来歴規則に対する当社の取り組み",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/7u8k3vMOefnc2eIwqAZlCJ/5e39aad76e07dc260070eae95d545d6f/ChatGPT_Image_5_Oct_2026__18_22_35.png?w=1600&h=900&fit=fill"
+      "date": "2026-10-06T16:00:00.000Z",
+      "titleJa": "Atlassianとが提携拡大、企業内ナレッジを「実行」に変えるOpenAIと",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/6QbNTCFAGpVGjDLSMfKf9M/e571659e9694e08b73f5e73a01a0682c/atlassian-social-official.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "“ツダケンAI裁判”の論点 「声優そっくりAI音声は合法」……にはならない？ 弁護士が解説",
-      "url": "https://www.itmedia.co.jp/news/article/2610/06/2000002010/",
-      "source": "ITmedia AI＋",
+      "title": "OpenAI will watermark ChatGPT outputs by default—but only in the EU",
+      "url": "https://arstechnica.com/ai/2026/10/openai-will-watermark-chatgpt-outputs-by-default-but-only-in-the-eu/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-06T20:50:32.000Z",
+      "titleJa": "OpenAI、ChatGPTの出力に標準でウォーターマークを付与へ——ただしEU限定",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/chatgpt-icon-1152x648-1789154124.jpg"
+    },
+    {
+      "title": "AI computing startup Lambda to raise $4B ahead of planned IPO",
+      "url": "https://techcrunch.com/2026/10/06/ai-computing-startup-lambda-to-raise-4b-ahead-of-planned-ipo/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-06T20:00:30.000Z",
+      "titleJa": "AI計算基盤のLambda、IPOを前に40億ドル調達へ",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/02/GettyImages-1148109686.jpg?resize=1200,687"
+    },
+    {
+      "title": "Anthropic is giving startups a free year of Claude Team and $1,000 in credits",
+      "url": "https://techcrunch.com/2026/10/06/anthropic-gives-startups-a-free-year-of-enterprise-service-and-1000-in-token-credits/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-06T16:00:00.000Z",
+      "titleJa": "Anthropic、スタートアップにClaude Teamを1年間無料提供＋1,000ドル分のクレジット",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/Claude-photo.jpg?w=1024"
+    },
+    {
+      "title": "Google is about to remove free access to Gemini Flash and Pro",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1005451/google-gemini-free-flash-lite-only",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-06T13:19:01.000Z",
+      "titleJa": "Google、Gemini FlashとProの無料提供を終了へ",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25290329/STK255_Google_Gemini_A.jpg?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
+    },
+    {
+      "title": "OpenAI agents tried to hack Wikipedia tools and flooded it with traffic",
+      "url": "https://arstechnica.com/security/2026/10/openai-agents-tried-to-hack-wikipedia-tools-and-flooded-it-with-traffic/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-06T12:21:53.000Z",
+      "titleJa": "OpenAIのエージェントがWikipediaのツールにハッキングを試み、大量のトラフィックを発生させる",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/ai-agentic-hacking-1152x648.jpg"
+    },
+    {
+      "title": "仏ミストラル、新モデル「Le Chonk」を公開--AI活用のサイバー防御向け",
+      "url": "https://japan.zdnet.com/article/35253297/",
+      "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-10-05T23:30:00.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/06/2000002010/10008434/2048"
+      "date": "2026-10-06T23:37:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/07/483561f9610bd1e37a465790029c2d65/GettyImages-2293676053_f66563_l.jpg"
     },
     {
-      "title": "【フォーム入力不要】AI時代のBtoB Go-to-Market実践ガイド「Revenue Velocity Playbook」を無料公開",
-      "url": "https://ascii.jp/elem/000/004/440/4440160/?rss",
+      "title": "【Snowflakeユーザー必見】AIが賢くなるほど、問われるのは“データの整い方”。実践的アーキテクチャを紐解く『Snowflakeユーザーのデータマネジメント白書 2026』を無料公開",
+      "url": "https://ascii.jp/elem/000/004/440/4440568/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-10-05T21:30:00.000Z",
+      "date": "2026-10-06T23:30:00.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "韓国の銀行6行にサイバー攻撃 計2万5000人超の個人情報流出──AIエージェントを使った可能性も 現地報道",
-      "url": "https://www.itmedia.co.jp/news/article/2610/05/2000002009/",
-      "source": "ITmedia AI＋",
+      "title": "ディコーディングエックスの対話型音声AI「DEN.Ai」、NECネクサソリューションズの新サービスに採用",
+      "url": "https://ascii.jp/elem/000/004/440/4440569/?rss",
+      "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-10-05T09:21:19.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/05/2000002009/10008428/2048"
+      "date": "2026-10-06T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "AIでサイバー攻撃のコスト激減 数行の指示だけで27社に侵入、カード情報60万件超が流出 - 週刊アスキー",
-      "url": "https://weekly.ascii.jp/elem/000/004/439/4439882/",
-      "source": "weekly.ascii.jp",
+      "title": "コンタクトセンター・CX業務を担うAIエージェント「Flyle（フライル）」、10月12日（月）よりWEB CM配信開始",
+      "url": "https://ascii.jp/elem/000/004/440/4440570/?rss",
+      "source": "ASCII.jp",
       "lang": "ja",
-      "kind": "buzz",
-      "count": 145,
-      "date": "2026-10-05T08:05:24.000Z",
-      "image": "https://ascii.jp/img/2026/10/05/4534129/l/86f89d76cd582831.jpg"
+      "date": "2026-10-06T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "アマゾン「Audible」、本の登場人物と会話できる新機能を提供へ",
-      "url": "https://japan.cnet.com/article/35253230/",
-      "source": "CNET Japan",
+      "title": "弥生会計の摘要の上限は製品で30文字・半角64文字分・256文字と異なる 税理士事務所・記帳代行向け「顧問先の記帳をAIに任せる前に確かめる8つのこと」第2版を無料公開",
+      "url": "https://ascii.jp/elem/000/004/440/4440576/?rss",
+      "source": "ASCII.jp",
       "lang": "ja",
-      "kind": "buzz",
-      "count": 263,
-      "date": "2026-10-05T06:43:08.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/05/dc6bb413066ae1e097cd687c296d9cf6/Audible-logo-on-a-green-background_1280x960.jpg"
+      "date": "2026-10-06T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "OpenAI safety employee resigns, claiming the company’s ‘culture is broken’",
-      "url": "https://techcrunch.com/2026/10/03/openai-safety-employee-resigns-claiming-the-companys-culture-is-broken/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-03T16:30:01.000Z",
-      "titleJa": "OpenAIの安全担当社員が辞職、「社内文化は壊れている」と批判",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/05/openai-logo-code-background.jpg?resize=1200,798"
+      "title": "CEOの74％が「最高AI責任者」のような役割に--加速するAIエージェント導入",
+      "url": "https://japan.zdnet.com/article/35253209/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-06T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/03/a712d49a0904590de305d8a241ceec16/GettyImages-2227030139_l.jpg"
+    },
+    {
+      "title": "材料・部品メーカーに攻め筋を提案、フィジカルAI分野への参入機会",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03747/100500003/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-06T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03747/100500003/topm.jpg?20220512"
+    },
+    {
+      "title": "京都銀が粉飾見抜くAI内製、10年分・200件の決算書から 不正取引検知も",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12036/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-06T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12036/topm.jpg?20220512"
     }
   ]
 }
