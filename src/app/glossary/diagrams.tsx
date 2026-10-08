@@ -1685,6 +1685,25 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  caio: {
+    caption: "肩書きより、止められる権限があるか",
+    render: () => (
+      <Svg h={300} title="最高AI責任者がいる場合といない場合の違いの図解">
+        <T x={300} y={28} text="決める人がいないと、現場はこうなる" size={13} />
+        <B x={30} y={46} w={160} h={58} label={"部署ごとに\n別々に導入"} />
+        <AH x1={195} x2={235} y={75} />
+        <B x={240} y={46} w={180} h={58} label={"データの線引きが\nバラバラ"} />
+        <AH x1={425} x2={465} y={75} />
+        <B x={470} y={46} w={110} h={58} label={"シャドー\nAI"} fill={RED} color="#fff" />
+        <T x={300} y={138} text="決める人がいると、やることは3つで足りる" size={13} />
+        <B x={30} y={156} w={165} h={58} label={"使う道具を\n決める"} fill={YELLOW} />
+        <B x={215} y={156} w={170} h={58} label={"渡せる情報を\n決める"} fill={YELLOW} />
+        <B x={405} y={156} w={165} h={58} label={"相談先を\n決める"} fill={YELLOW} />
+        <T x={300} y={250} text="効くのは予算と人事、そして「やめる」と言える権限" size={13.5} color={INK} />
+        <T x={300} y={278} text="2026年、CAIOを置く組織は76%（IBMのCEO調査）" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {

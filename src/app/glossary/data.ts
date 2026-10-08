@@ -55,7 +55,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-10-07";
+export const GLOSSARY_UPDATED = "2026-10-08";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
@@ -1217,16 +1217,27 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       "Googleアカウントがあればすぐ使える身近さと、Googleドキュメント・スプレッドシート・Gmailとの連携が魅力のAIです。仕事のデータがGoogleワークスペースに集まっている職場なら、最有力の選択肢になります。",
       "NotebookLMと組み合わせた業務フロー改善（DX）は、実際に現場で効果があった鉄板の組み合わせ。企画の承認フローを通すためのAI活用術など、実践例を下の記事で公開しています。",
     ],
+    sections: [
+      {
+        heading: "無料で使えるモデルが絞られました（追記）",
+        body: [
+          "上の本文で「Googleアカウントがあればすぐ使える身近さ」と書いた点に、2026年10月9日から条件が付きます。無料アカウントで選べるモデルが、いちばん軽い「Flash-Lite」だけになるためです。それまで使えていたFlashとProは、無料では選べなくなります。中位の有料プラン（AI Plus）も影響を受け、Flashは残りますがProが外れます。上位のAI ProとAI Ultraは変更なしと案内されています。",
+          "対象を取り違えないよう、2点だけ補足します。ひとつは、これが個人向けのGeminiアプリの話だということ。開発者が使うAPIと、職場で配られる法人向けのアカウントは、この変更の対象外です。もうひとつは、使えなくなるわけではないこと。Flash-Liteは軽くて速いモデルなので、下書きや要約、短い調べものなら実用になります。長い資料をまとめて読ませる、込み入った手順を考えさせる——こうした重い用途で差が出ます。",
+          "読み替えとしては、「無料でどこまでできるか」が各社とも絞られてきている流れの一例です。無料で試して合うかどうかを確かめ、効く用途が見つかったらその分だけ払う——この順番は変わりません。ただし無料枠の中身は変わるものだという前提で、特定のモデルに手順を固めすぎないほうが安全です。",
+        ],
+      },
+    ],
     links: [
       { label: "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）", href: "https://note.com/aiux_unite/n/n24dc19c0ff2d" },
       { label: "企画(施策)の「承認フロー」を通すAI活用術", href: "https://note.com/aiux_unite/n/ndae7f58601fc" },
     ],
-    relatedSlugs: ["notebooklm", "chatgpt", "ai-workflow"],
+    relatedSlugs: ["notebooklm", "chatgpt", "ai-workflow", "gemini-omni", "slm"],
     faq: [
       { q: "Geminiは無料で使えますか？", a: "無料で使えます。上位モデルや大容量の機能を使うには有料プランが必要です。" },
       { q: "Googleサービスとどう連携できますか？", a: "GmailやドキュメントなどWorkspaceに組み込まれており、メールの下書きや資料の要約をアプリ内で頼めます。検索との連動も強みです。" },
+      { q: "2026年10月9日から無料で使えるモデルはどれですか？", a: "無料アカウントは「Flash-Lite」だけになります。それまで選べたFlashとProは対象外です。中位の有料プラン（AI Plus）はFlashが残り、Proが外れます。上位のAI Pro・AI Ultraは変更なしと案内されています。開発者向けのAPIと、職場で使う法人向けアカウントはこの変更の対象外です。" },
     ],
-    lastUpdated: "2026-07-12",
+    lastUpdated: "2026-10-08",
   },
   {
     slug: "notebooklm",
