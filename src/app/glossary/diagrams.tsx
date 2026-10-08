@@ -1704,6 +1704,27 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "generative-ui": {
+    caption: "きれいな画面と、正しい中身は別の話",
+    render: () => (
+      <Svg h={300} title="生成UIでAIの答えが操作できる画面になる流れの図解">
+        <T x={300} y={28} text="これまで：答えは文章。操作は自分で" size={13} />
+        <B x={30} y={46} w={160} h={58} label={"質問する"} />
+        <AH x1={195} x2={235} y={75} />
+        <B x={240} y={46} w={170} h={58} label={"文章で返る"} />
+        <AH x1={415} x2={455} y={75} />
+        <B x={460} y={46} w={120} h={58} label={"自分で\n操作しに行く"} />
+        <T x={300} y={138} text="生成UI：答えが、そのまま使える画面になる" size={13} />
+        <B x={30} y={156} w={160} h={58} label={"質問する"} />
+        <AH x1={195} x2={235} y={185} />
+        <B x={240} y={156} w={170} h={58} label={"AIが部品を\n選んで組む"} fill={YELLOW} />
+        <AH x1={415} x2={455} y={185} />
+        <B x={460} y={156} w={120} h={58} label={"その場で\n操作できる"} fill={YELLOW} />
+        <T x={300} y={250} text="毎回ちがう画面は、覚えられないし確かめにくい" size={13.5} color={INK} />
+        <T x={300} y={278} text="2026年10月、ChatGPTが「Intelligent UI」として導入を開始" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
