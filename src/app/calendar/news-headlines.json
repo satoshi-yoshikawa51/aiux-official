@@ -1,31 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-08T01:16:29.780Z",
+  "updatedAt": "2026-10-09T01:23:34.500Z",
   "items": [
     {
-      "title": "Microsoft event debuts new AI-friendly hardware and Windows changes",
-      "url": "https://arstechnica.com/gadgets/2026/10/microsoft-event-debuts-new-ai-friendly-hardware-and-windows-changes/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-08T00:00:24.000Z",
-      "titleJa": "Microsoftイベント、AI対応の新ハードウェアとWindowsの変更点を披露",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/Surface-Laptop-Ultra-Opened-1152x648.png"
-    },
-    {
-      "title": "OpenAI、EUでAI生成文書を見破る電子透かし導入を開始",
-      "url": "https://www.gizmodo.jp/article/openai-is-adding-text-watermarks-in-the-eu-because-regulation-works/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-10-08T01:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/10/08/ddb4e96d-fe91-43ad-961e-b2d941915b40/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "日本HP、軽量AI PC 2機種を発表 法人向けEliteBookと個人向けOmniBook X Aero 14",
-      "url": "https://ascii.jp/elem/000/004/440/4440939/?rss",
+      "title": "トークン利用はAIへの投資戦略。OpenAIのFDEが語る、何を生み出すかが大事なトークンマネジメント",
+      "url": "https://ascii.jp/elem/000/004/438/4438870/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-10-08T01:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/08/4535866/xl/ad016c39ba81f4fb.jpg"
+      "date": "2026-10-09T01:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/01/4532446/xl/9967a4d9ce73ee7b.jpg?20200122"
+    },
+    {
+      "title": "Google「Gemini」新サービスで「Claude」利用可能に 他モデルも今後追加予定",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2610/09/2000002152/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-09T00:40:57.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/09/2000002152/10008907/2048"
+    },
+    {
+      "title": "Pollo AI turns creative ideas into campaigns with OpenAI",
+      "url": "https://openai.com/index/pollo-ai",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-08T12:00:00.000Z",
+      "titleJa": "Pollo AI、OpenAIでクリエイティブのアイデアをキャンペーンに",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/6xbSXB2KZiXOp5KaOSOHGp/b064de95ee020e5a151d567f73d5e6ff/pollo-ai-customer-story-seo-image-cinema-velvet-1920x1080.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Anthropic launches free AI security scans for open-source projects",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1008521/anthropic-open-source-oss-scanner",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-08T21:53:51.000Z",
+      "titleJa": "Anthropic、オープンソースプロジェクト向け無料AIセキュリティスキャンを開始",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/05/STKB364_CLAUDE_2_C_96d15c.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Fired OpenAI safety researchers dispute misconduct claims, warn of chilling effect",
+      "url": "https://techcrunch.com/2026/10/08/fired-openai-safety-researchers-dispute-misconduct-claims-warn-of-chilling-effect/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-08T20:04:26.000Z",
+      "titleJa": "解雇されたOpenAIの安全性研究者ら、不正行為の主張に反論 「萎縮効果」を警告",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
+    },
+    {
+      "title": "Popular AI leaderboard Arena nearly doubles valuation to $3.1B valuation in 10 months",
+      "url": "https://techcrunch.com/2026/10/08/popular-ai-leaderboard-arena-nearly-doubles-valuation-to-3-1b-valuation-in-10-months/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-08T18:19:45.000Z",
+      "titleJa": "人気AIリーダーボードArena、10カ月で評価額ほぼ倍増の31億ドルに",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/ARENA_3Founders.jpg?resize=1200,801"
+    },
+    {
+      "title": "OpenAI’s revenue is reportedly $20 billion less than previously projected",
+      "url": "https://techcrunch.com/2026/10/08/openais-revenue-is-reportedly-20-billion-less-than-previously-projected/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-08T18:19:42.000Z",
+      "titleJa": "OpenAIの売上高、従来予測より200億ドル少ないと報道",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
+    },
+    {
+      "title": "モーニングスター、独立したインサイトを基盤とするエージェント型 AI プラットフォーム 「Direct AI」 を発表",
+      "url": "https://ascii.jp/elem/000/004/441/4441359/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-08T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "AIが発見した脆弱性は2.6万件 修正済みはわずか421件",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/052100113/093000196/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-08T22:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/052100113/093000196/topm.jpg?20220512"
+    },
+    {
+      "title": "第2回 AIを導入するな、「経営判断」をAI化せよ--生成AIブームの次に来る「経営判断変革」",
+      "url": "https://japan.zdnet.com/article/35253344/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-08T21:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/09/02/aa2ecb59c13b652ca577d65951237a41/prfes_ericks_messgae-ai-era01_l.jpg"
+    },
+    {
+      "title": "企業向けルーター／UTMの導入ランキングを公開、生成AI利用も大幅増へ",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03785/100500003/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-08T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03785/100500003/topm.jpg?20220512"
+    },
+    {
+      "title": "さくらインターネット、GPU専有によりトークン消費量を気にせず定額で利用できる「さくらのAI Engineプライベートエディション」提供開始を発表",
+      "url": "https://www.publickey1.jp/blog/26/gpuai_engine.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-10-08T15:49:01.000Z",
+      "image": "https://www.publickey1.jp/2026/sakura-aiengine-private-la.png"
+    },
+    {
+      "title": "相次ぐ情報漏えい、攻撃側のAI活用「間違いない」 防御側はどう使うか 傾向と対策を大手ベンダー各社に聞く",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2610/08/2000002136/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-08T12:19:08.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/08/2000002136/10008874/2048"
     },
     {
       "title": "Radisson Hotel Group brings hotel discovery into ChatGPT",
@@ -33,92 +117,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-07T07:00:00.000Z",
-      "titleJa": "Radisson Hotel Group、ChatGPTでホテル検索を可能に",
+      "titleJa": "Radisson Hotel Group、ホテル検索をChatGPTに導入",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/S03ANzISEjbT6o0qTIHnI/0c08686f8dea9b2e19edc946c3e703ee/radisson-hotel-group-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "GPT-6 and Intelligent UI for everyone",
-      "url": "https://openai.com/index/gpt-6-for-everyone",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-07T00:00:00.000Z",
-      "titleJa": "GPT-6と「Intelligent UI」を全ユーザーに",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5frqtUAWccstAbVrCFraH6/5ae9b6bfbc3f3dff8001ed249812f97d/Intelligent-UI_Art-Card_16x9.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Nous Research confirms it hit $1.5B valuation, launches AI agents for business users",
-      "url": "https://techcrunch.com/2026/10/07/nous-research-confirms-it-hit-1-5b-valuation-launches-ai-agents-for-business-users/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-07T20:48:45.000Z",
-      "titleJa": "Nous Research、評価額15億ドルを認める 法人向けAIエージェントを投入",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/02/GjsjauvbsAAgUtD.jpeg?w=900"
-    },
-    {
-      "title": "Microsoft releases new Nvidia-chip AI PCs with revamped Windows 11",
-      "url": "https://techcrunch.com/2026/10/07/microsoft-releases-new-nvidia-chip-ai-pcs-with-revamped-windows-11/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-07T20:22:37.000Z",
-      "titleJa": "Microsoft、Nvidiaチップ搭載の新AI PCを刷新版Windows 11とともに発表",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Microsoft-Surface-Laptop-Ultra.png?resize=1200,677"
-    },
-    {
-      "title": "ChatGPT’s ‘Intelligent UI’ update fills its responses with pictures, charts, and buttons",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1007276/openai-chatgpt-intelligent-ui-gpt-6",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-07T19:10:42.000Z",
-      "titleJa": "ChatGPTの「Intelligent UI」更新、回答に画像・グラフ・ボタンが登場",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/Intelligent-UI.png?quality=90&strip=all&crop=0%2C3.4613147178592%2C100%2C93.077370564282&w=1200"
-    },
-    {
-      "title": "Anthropic、「Claude Haiku 5.5」公開 「Haiku 4.5」から大幅性能向上で利用コスト約75％減",
-      "url": "https://www.itmedia.co.jp/news/article/2610/08/2000002112/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-07T22:25:53.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/08/2000002112/10008784/2048"
-    },
-    {
-      "title": "Google、AI生成コンテンツの「透かし」検出ツールを一般公開 SynthIDが対象",
-      "url": "https://japan.cnet.com/article/35253339/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-07T22:10:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/08/075f8a5aefb1171fb4d1345a374442fb/091.jpeg"
-    },
-    {
-      "title": "「Siri AI」非対応の「iPhone」でも利用できる「iOS 27」のクールな新機能7選",
-      "url": "https://japan.zdnet.com/article/35253311/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-07T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/07/559c1ce5cff2433344f30e820e9ffedb/large-Figure-Top-No-Apple-Intelligence-no-problem-7-iOS-27-features-worth-the-upgrade.jpg"
-    },
-    {
-      "title": "AI“狂騒の半年”を振り返る Mythos公開、Fable停止、GPT-6登場――翻弄されない“堅実なAI導入”の鍵は",
-      "url": "https://www.itmedia.co.jp/business/articles/2610/08/news016.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-07T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2610/08/cover_news016.jpg"
-    },
-    {
-      "title": "NVIDIA「RTX Spark」搭載「Surface Laptop Ultra」10月16日発売 51万円から",
-      "url": "https://japan.cnet.com/article/35253337/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-07T21:50:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/08/691e24db33a3bcd61bc271ac1c26b037/image-1-5.jpeg"
-    },
-    {
-      "title": "約1.9kgで3000億パラメーターのLLMをローカル実行、日本HPの最新モバイルWS",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/08/news024.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-07T21:30:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2610/08/cover_news024.jpg"
     }
   ]
 }
