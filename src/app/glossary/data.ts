@@ -2628,9 +2628,12 @@ export const TERMS: GlossaryTerm[] = [
 
 export const FEATURED_TERMS = FEATURED_SLUGS.map((sl) => TERMS.find((t) => t.slug === sl)!).filter(Boolean);
 
-/* トップの「いま話題」チップ。ニュース波が来ている・来そうな用語へ内部リンクを
-   寄せて、10〜20位で止まっているページを押し上げる。Search Consoleの
-   表示回数を見て手で入れ替える（自動化しない：話題の鮮度は人間の判断） */
+/* トップの「いま話題」チップの“予備リスト”。ニュース波が来ている・来そうな
+   用語へ内部リンクを寄せて、10〜20位で止まっているページを押し上げる。
+   2026年10月に手編集からビルド時の自動選出へ切り替えた（→ hot.ts）。
+   用語の追加ペースに手運用が追いつかず、波の来ている語が載らない状態が
+   続いたため。ここは自動選出が6語に満たなかったときの穴埋めとして残す。
+   出す語を固定・除外したいときは hot.ts の HOT_PINNED / HOT_EXCLUDED を使う */
 export const HOT_SLUGS = [
   "gpt-6", "claude-fable", "apple-intelligence",
   "ai-glasses", "pacing-the-frontier", "ai-bubble",
