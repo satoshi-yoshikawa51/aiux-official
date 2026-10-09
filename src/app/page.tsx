@@ -24,7 +24,8 @@ import {
 import { WORK_DETAILS } from "./works/data";
 import Splash from "./splash";
 import { WorkCard } from "./works/ui";
-import { FEATURED_TERMS, HOT_TERMS } from "./glossary/data";
+import { FEATURED_TERMS } from "./glossary/data";
+import { HOT_TERMS_AUTO as HOT_TERMS } from "./glossary/hot";
 import { FEATURED_RECIPES } from "./prompts/data";
 import { GUIDES } from "./guide/data";
 import { RecordCard, RecordGrid, RECORD_TOTAL, TOP_RECORDS } from "./profile/record-ui";
