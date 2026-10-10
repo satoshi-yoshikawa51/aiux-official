@@ -1725,6 +1725,27 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "bug-bounty": {
+    caption: "見つける側だけが自動化された",
+    render: () => (
+      <Svg h={302} title="バグバウンティがAIの報告で詰まるしくみの図解">
+        <T x={300} y={28} text="本来の流れ" size={13} />
+        <B x={30} y={46} w={160} h={58} label={"外部が\n見つける"} />
+        <AH x1={195} x2={235} y={75} />
+        <B x={240} y={46} w={170} h={58} label={"企業が\n確かめる"} />
+        <AH x1={415} x2={455} y={75} />
+        <B x={460} y={46} w={120} h={58} label={"直して\n報奨金"} />
+        <T x={300} y={138} text="いま起きていること" size={13} />
+        <B x={30} y={156} w={160} h={58} label={"AIが大量に\n報告する"} fill={YELLOW} />
+        <AH x1={195} x2={235} y={185} />
+        <B x={240} y={156} w={170} h={58} label={"確かめる人手が\n足りない"} fill={RED} color="#fff" />
+        <AH x1={415} x2={455} y={185} />
+        <B x={460} y={156} w={120} h={58} label={"受付を\nやめる"} />
+        <T x={300} y={250} text="詰まっているのは「発見」ではなく「検証」のほう" size={13.5} color={INK} />
+        <T x={300} y={278} text="2026年1月、curlが報奨金の受付を終了。Googleも一部を停止" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
