@@ -558,5 +558,42 @@ await shoot(
   PROMPTS_OUT_DIR
 );
 
+/* —— 用語の比較（/vs）用 —— */
+const { VS_PAIRS } = await import(pathToFileURL(path.join(ROOT, "src/app/vs/data.ts")).href);
+const VS_OUT_DIR = path.join(ROOT, "public/og/vs");
+await mkdir(VS_OUT_DIR, { recursive: true });
+
+for (const p of VS_PAIRS) {
+  /* ペア名が長い組があるので、合計文字数でサイズを落とす */
+  const pairLen = [...p.aName].length + [...p.bName].length;
+  const vsTitleSize = pairLen <= 12 ? 84 : pairLen <= 20 ? 66 : 52;
+  await shoot(
+    pageHtml({
+      kicker: "VS — 用語の比較",
+      badge: "違いが3分でわかる",
+      title: `${esc(p.aName)}<br>vs ${esc(p.bName)}`,
+      titleSize: vsTitleSize,
+      sub: "比較表・使い分けの指針つき",
+      short: p.short,
+      site: `comixai.dev/vs/${p.slug}`,
+    }),
+    `${p.slug}.png`,
+    VS_OUT_DIR
+  );
+}
+await shoot(
+  pageHtml({
+    kicker: "VS — 用語の比較",
+    badge: `全${VS_PAIRS.length}組`,
+    title: "「違い」がわかると、<br>迷わない。",
+    titleSize: 80,
+    sub: "RAG vs ファインチューニング / 生成AI vs エージェント…",
+    short: "混同されやすいAI用語を1ページ1組で比較。結論の先出し・比較表・どっちを使うかの指針つき。",
+    site: "comixai.dev/vs",
+  }),
+  "index.png",
+  VS_OUT_DIR
+);
+
 await browser.close();
-console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 + ラボ1枚 + プロンプト集${RECIPES.length + 1}枚 を生成しました`);
+console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 + ラボ1枚 + プロンプト集${RECIPES.length + 1}枚 + 比較${VS_PAIRS.length + 1}枚 を生成しました`);

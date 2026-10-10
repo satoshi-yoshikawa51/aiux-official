@@ -1,6 +1,7 @@
 import { MANGA_SERIES } from "../manga/data";
 import { WORK_DETAILS } from "../works/data";
 import { TERMS } from "../glossary/data";
+import { VS_PAIRS } from "../vs/data";
 import { RECIPES } from "../prompts/data";
 import { FAQ_TOTAL } from "../faq/data";
 
@@ -67,6 +68,13 @@ export function GET() {
     "- [AI司書に聞く](https://comixai.dev/search): サイト内の用語・FAQ・マンガ・ゲームからAIが答えを探して案内するサイト内検索",
     ...TERMS.map(
       (t) => `- [${t.term}とは](https://comixai.dev/glossary/${t.slug}): ${t.short}`
+    ),
+    "",
+    "## AI用語の比較（「違い」シリーズ）",
+    "",
+    "- [AI用語の比較トップ](https://comixai.dev/vs): 混同されやすいAI用語を1ページ1組で比較。結論の先出し・比較表・使い分けの指針つき",
+    ...VS_PAIRS.map(
+      (p) => `- [${p.title}](https://comixai.dev/vs/${p.slug}): ${p.verdict}`
     ),
     "",
     "## 仕事で使えるAIプロンプト集",

@@ -7,6 +7,7 @@ import { ARTICLES, ARTICLES_POPULAR, type Tone } from "../../data";
 import { MANGA_SERIES } from "../../manga/data";
 import { WORK_DETAILS } from "../../works/data";
 import { TERMS, getTerm, type TermLink } from "../data";
+import { listVsForTerm } from "../../vs/data";
 import { seoTitle, titleWidth } from "../../seo";
 import { GAMES } from "../../games";
 import { RECIPES } from "../../prompts/data";
@@ -359,6 +360,24 @@ export default async function GlossaryTermPage({ params }: Props) {
 
               {/* アプリ（→ site-ui.tsx の覚え書き） */}
               <AcademyCard place="glossary-side" />
+
+              {/* くらべて理解する（/vs の比較ページへ） */}
+              {listVsForTerm(t.slug).length > 0 && (
+                <Card variant="flat" padding={18}>
+                  <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14, marginBottom: 12 }}>
+                    <i className="ph-bold ph-scales" style={{ color: "var(--red-500)", marginRight: 7 }} />
+                    くらべて理解する
+                  </div>
+                  <div style={{ display: "grid", gap: 8 }}>
+                    {listVsForTerm(t.slug).map((p) => (
+                      <a key={p.slug} href={`/vs/${p.slug}`} data-ga="card_click" data-ga-place="glossary-vs" data-ga-path={`/vs/${p.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--ink-900)", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "9px 14px", boxShadow: "var(--shadow-pop-sm)" }}>
+                        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.aName}と{p.bName}の違い</span>
+                        <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", flex: "none" }} />
+                      </a>
+                    ))}
+                  </div>
+                </Card>
+              )}
 
               {/* 関連用語 */}
               {related.length > 0 && (
