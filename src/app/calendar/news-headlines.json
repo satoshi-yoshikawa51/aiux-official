@@ -1,14 +1,116 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-09T01:23:34.500Z",
+  "updatedAt": "2026-10-10T01:12:40.077Z",
   "items": [
     {
-      "title": "トークン利用はAIへの投資戦略。OpenAIのFDEが語る、何を生み出すかが大事なトークンマネジメント",
-      "url": "https://ascii.jp/elem/000/004/438/4438870/?rss",
+      "title": "Asana cuts model costs 76x in browser tests with GPT-6.1 Sol",
+      "url": "https://openai.com/index/asana-browser-agent",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-09T07:00:00.000Z",
+      "titleJa": "Asana、GPT-6.1 Solでブラウザテストのモデルコストを76分の1に",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/4bNHf0rdpv55WFke9YADV7/306540f0701aa79ce7cc9057f616c577/asana-blue-layered-paper-social-seo-1920x1080.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Sophos cuts threat investigation time by 96% with OpenAI Daybreak",
+      "url": "https://openai.com/index/sophos",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-09T07:00:00.000Z",
+      "titleJa": "Sophos、OpenAI Daybreakで脅威調査の所要時間を96%短縮",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/4pg31JOD6Z3cO31LCR6GYq/8c1cedfd2e85c6dd80d2ea8c5ea0c9a1/sophos-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "The maker of non-text AI model Jev valued at $7.5B just weeks after launch",
+      "url": "https://techcrunch.com/2026/10/09/the-maker-of-non-text-ai-model-jev-valued-at-7-5b-just-weeks-after-launch/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-09T21:41:29.000Z",
+      "titleJa": "非テキストAIモデル「Jev」の開発元、公開から数週間で評価額75億ドルに",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/typesafe-ai.jpg?resize=1174,1200"
+    },
+    {
+      "title": "Anthropic’s AI gave Philadelphia police a fake tip about an unsolved homicide",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1009090/anthropic-fake-homicide-information-philadelphia-pd-tip",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-09T21:15:38.000Z",
+      "titleJa": "AnthropicのAI、未解決殺人事件をめぐりフィラデルフィア警察に偽の情報提供",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/01/STK269_ANTHROPIC_2_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "‘Pure insanity’: Mathematicians will need years to make sense of OpenAI’s latest drop",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1008726/openai-mathematics-solutions-chaos",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-09T19:09:44.000Z",
+      "titleJa": "「まさに狂気」、数学者がOpenAIの最新リリースを理解するには数年かかる",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/STKS537_AI_MATH_5.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "OpenAI doubles down on decision to fire three AI safety researchers",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1008604/openai-defends-decision-fire-safety-researchers",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-09T09:48:26.000Z",
+      "titleJa": "OpenAI、AI安全性研究者3人の解雇判断をあらためて正当化",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK155_OPEN_AI_CVirginia_C-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "国内最大級フォロワーAIアニメ『深夜のドカ食い天使ちゃん』オフィシャルファンクラブを開設！オリジナルフォトも発売決定！",
+      "url": "https://ascii.jp/elem/000/004/441/4441679/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-10-09T01:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/01/4532446/xl/9967a4d9ce73ee7b.jpg?20200122"
+      "date": "2026-10-09T09:30:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "AIエージェントの「暴走」をどう防ぐ？ マイクロソフトがアクセスを制限する「MXC」を提供開始",
+      "url": "https://japan.cnet.com/article/35253423/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-09T07:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/09/f7696961a5be496cf9f8c98b9cc91340/AdobeStock_2198594757_1280x960.jpeg"
+    },
+    {
+      "title": "グーグル、会話をクラウドに送らないAIメモアプリ「AI Edge Foresight」公開 Mac向け",
+      "url": "https://japan.cnet.com/article/35253417/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-09T06:15:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/01/26/d1e55d4bf57c9b2ad7e0f2a9e463220f/ai-cnet-3_1280x960.jpg"
+    },
+    {
+      "title": "Anthropic、サイバー防御の新たな取り組み「Cyber Mission」 OSS向け無料脆弱性スキャンや重要インフラ防御プログラムも",
+      "url": "https://www.itmedia.co.jp/news/article/2610/09/2000002164/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-09T04:20:56.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/09/2000002164/10008953/2048"
+    },
+    {
+      "title": "AVEVA、産業用AIビジョンと成長戦略を発表--データ基盤「CONNECT」で実現すること",
+      "url": "https://japan.zdnet.com/article/35253383/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-09T04:05:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/08/8166b71f79a08fd0637d9766e3c766aa/261008_aveva_l.jpg"
+    },
+    {
+      "title": "セガ、「ペルソナ５: The Phantom X」にデータ活用基盤「Agentic Engine」導入",
+      "url": "https://japan.zdnet.com/article/35253401/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-09T01:29:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/04/17/b764822ee253b2a83221729f1b4b6f77/260417_engineer_as_1280_273110835.jpg"
+    },
+    {
+      "title": "Amazon、「Fire」に代わる新タブレット「Amazon Alexa Tablet」発表 「Amazonキッズタブレット」は日本でも発売へ",
+      "url": "https://www.itmedia.co.jp/news/article/2610/09/2000002155/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-09T01:20:36.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/09/2000002155/10008922/2048"
     },
     {
       "title": "Google「Gemini」新サービスで「Claude」利用可能に 他モデルも今後追加予定",
@@ -17,108 +119,6 @@
       "lang": "ja",
       "date": "2026-10-09T00:40:57.000Z",
       "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/09/2000002152/10008907/2048"
-    },
-    {
-      "title": "Pollo AI turns creative ideas into campaigns with OpenAI",
-      "url": "https://openai.com/index/pollo-ai",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-08T12:00:00.000Z",
-      "titleJa": "Pollo AI、OpenAIでクリエイティブのアイデアをキャンペーンに",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/6xbSXB2KZiXOp5KaOSOHGp/b064de95ee020e5a151d567f73d5e6ff/pollo-ai-customer-story-seo-image-cinema-velvet-1920x1080.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Anthropic launches free AI security scans for open-source projects",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1008521/anthropic-open-source-oss-scanner",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-08T21:53:51.000Z",
-      "titleJa": "Anthropic、オープンソースプロジェクト向け無料AIセキュリティスキャンを開始",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/05/STKB364_CLAUDE_2_C_96d15c.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Fired OpenAI safety researchers dispute misconduct claims, warn of chilling effect",
-      "url": "https://techcrunch.com/2026/10/08/fired-openai-safety-researchers-dispute-misconduct-claims-warn-of-chilling-effect/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-08T20:04:26.000Z",
-      "titleJa": "解雇されたOpenAIの安全性研究者ら、不正行為の主張に反論 「萎縮効果」を警告",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
-    },
-    {
-      "title": "Popular AI leaderboard Arena nearly doubles valuation to $3.1B valuation in 10 months",
-      "url": "https://techcrunch.com/2026/10/08/popular-ai-leaderboard-arena-nearly-doubles-valuation-to-3-1b-valuation-in-10-months/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-08T18:19:45.000Z",
-      "titleJa": "人気AIリーダーボードArena、10カ月で評価額ほぼ倍増の31億ドルに",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/ARENA_3Founders.jpg?resize=1200,801"
-    },
-    {
-      "title": "OpenAI’s revenue is reportedly $20 billion less than previously projected",
-      "url": "https://techcrunch.com/2026/10/08/openais-revenue-is-reportedly-20-billion-less-than-previously-projected/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-08T18:19:42.000Z",
-      "titleJa": "OpenAIの売上高、従来予測より200億ドル少ないと報道",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/openai-getty.jpg?resize=1200,800"
-    },
-    {
-      "title": "モーニングスター、独立したインサイトを基盤とするエージェント型 AI プラットフォーム 「Direct AI」 を発表",
-      "url": "https://ascii.jp/elem/000/004/441/4441359/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-08T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "AIが発見した脆弱性は2.6万件 修正済みはわずか421件",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/052100113/093000196/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-08T22:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/052100113/093000196/topm.jpg?20220512"
-    },
-    {
-      "title": "第2回 AIを導入するな、「経営判断」をAI化せよ--生成AIブームの次に来る「経営判断変革」",
-      "url": "https://japan.zdnet.com/article/35253344/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-08T21:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/09/02/aa2ecb59c13b652ca577d65951237a41/prfes_ericks_messgae-ai-era01_l.jpg"
-    },
-    {
-      "title": "企業向けルーター／UTMの導入ランキングを公開、生成AI利用も大幅増へ",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03785/100500003/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-08T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03785/100500003/topm.jpg?20220512"
-    },
-    {
-      "title": "さくらインターネット、GPU専有によりトークン消費量を気にせず定額で利用できる「さくらのAI Engineプライベートエディション」提供開始を発表",
-      "url": "https://www.publickey1.jp/blog/26/gpuai_engine.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-10-08T15:49:01.000Z",
-      "image": "https://www.publickey1.jp/2026/sakura-aiengine-private-la.png"
-    },
-    {
-      "title": "相次ぐ情報漏えい、攻撃側のAI活用「間違いない」 防御側はどう使うか 傾向と対策を大手ベンダー各社に聞く",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/08/2000002136/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-08T12:19:08.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/08/2000002136/10008874/2048"
-    },
-    {
-      "title": "Radisson Hotel Group brings hotel discovery into ChatGPT",
-      "url": "https://openai.com/index/radisson",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-07T07:00:00.000Z",
-      "titleJa": "Radisson Hotel Group、ホテル検索をChatGPTに導入",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/S03ANzISEjbT6o0qTIHnI/0c08686f8dea9b2e19edc946c3e703ee/radisson-hotel-group-social.png?w=1600&h=900&fit=fill"
     }
   ]
 }
