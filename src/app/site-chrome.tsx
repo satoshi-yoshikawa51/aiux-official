@@ -242,6 +242,9 @@ export function Footer() {
             <a href="/history" data-ga="nav_click" data-ga-place="footer" data-ga-path="/history" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               <i className="ph-bold ph-scroll" style={{ marginRight: 5 }} />AI歴史絵巻
             </a>
+            <a href="/vs" data-ga="nav_click" data-ga-place="footer" data-ga-path="/vs" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
+              <i className="ph-bold ph-scales" style={{ marginRight: 5 }} />用語の比較
+            </a>
             <a href="/faq" data-ga="nav_click" data-ga-place="footer" data-ga-path="/faq" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-300)", textDecoration: "none" }} className="nav-link">
               <i className="ph-bold ph-chat-circle-dots" style={{ marginRight: 5 }} />よくある質問
             </a>

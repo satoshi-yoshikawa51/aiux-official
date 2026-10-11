@@ -69,10 +69,12 @@ export default function VsIndexPage() {
             {VS_PAIRS.map((p) => (
               <a key={p.slug} href={`/vs/${p.slug}`} data-ga="card_click" data-ga-place="vs-index" data-ga-path={`/vs/${p.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
                 <Card variant="pop" padding={20}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16, lineHeight: 1.5, marginBottom: 8 }}>
-                    <span>{p.aName}</span>
-                    <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color: "var(--red-600)", flex: "none" }}>VS</span>
-                    <span>{p.bName}</span>
+                  {/* 長いペア名（プロンプトエンジニアリング等）でも自然に折り返せるよう、
+                      flexではなくインラインの文章として流す */}
+                  <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16, lineHeight: 1.6, marginBottom: 8 }}>
+                    {p.aName}
+                    <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color: "var(--red-600)", margin: "0 8px" }}>VS</span>
+                    {p.bName}
                   </div>
                   <p style={{ margin: 0, fontSize: 12.5, lineHeight: 1.8, color: "var(--text-muted)", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                     {p.verdict}
@@ -85,8 +87,8 @@ export default function VsIndexPage() {
             ))}
           </div>
 
-          <SectionHead kicker="GLOSSARY — さらに" title="1語ずつ深く知るなら" hand={`全${TERMS.length}語・図解つき`} />
-          <div>
+          <div style={{ marginTop: 48 }}>
+            <SectionHead kicker="GLOSSARY — さらに" title="1語ずつ深く知るなら" hand={`全${TERMS.length}語・図解つき`} />
             <a href="/glossary" data-ga="cta_click" data-ga-place="vs-to-glossary" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14, color: "var(--red-600)" }}>
               AI用語集を見る <i className="ph-bold ph-arrow-right" />
             </a>
