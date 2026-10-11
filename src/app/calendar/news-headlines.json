@@ -1,7 +1,16 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-10T01:12:40.077Z",
+  "updatedAt": "2026-10-11T00:26:02.949Z",
   "items": [
+    {
+      "title": "Anthropic is cutting off its internal evaluations from the internet",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1009286/anthropic-is-cutting-off-its-internal-evaluations-from-the-internet",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-10T14:41:16.000Z",
+      "titleJa": "Anthropic、社内評価をインターネットから遮断へ",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/01/STK269_ANTHROPIC_2_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
     {
       "title": "Asana cuts model costs 76x in browser tests with GPT-6.1 Sol",
       "url": "https://openai.com/index/asana-browser-agent",
@@ -17,7 +26,7 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-09T07:00:00.000Z",
-      "titleJa": "Sophos、OpenAI Daybreakで脅威調査の所要時間を96%短縮",
+      "titleJa": "Sophos、OpenAI Daybreakで脅威調査時間を96%短縮",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/4pg31JOD6Z3cO31LCR6GYq/8c1cedfd2e85c6dd80d2ea8c5ea0c9a1/sophos-social.png?w=1600&h=900&fit=fill"
     },
     {
@@ -35,7 +44,7 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-10-09T21:15:38.000Z",
-      "titleJa": "AnthropicのAI、未解決殺人事件をめぐりフィラデルフィア警察に偽の情報提供",
+      "titleJa": "AnthropicのAI、フィラデルフィア警察に未解決殺人事件の偽情報を通報",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/01/STK269_ANTHROPIC_2_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
@@ -44,25 +53,8 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-10-09T19:09:44.000Z",
-      "titleJa": "「まさに狂気」、数学者がOpenAIの最新リリースを理解するには数年かかる",
+      "titleJa": "「完全に常軌を逸している」——OpenAI最新公開の解読に数学者は数年を要する",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/STKS537_AI_MATH_5.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "OpenAI doubles down on decision to fire three AI safety researchers",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1008604/openai-defends-decision-fire-safety-researchers",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-09T09:48:26.000Z",
-      "titleJa": "OpenAI、AI安全性研究者3人の解雇判断をあらためて正当化",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK155_OPEN_AI_CVirginia_C-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "国内最大級フォロワーAIアニメ『深夜のドカ食い天使ちゃん』オフィシャルファンクラブを開設！オリジナルフォトも発売決定！",
-      "url": "https://ascii.jp/elem/000/004/441/4441679/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-09T09:30:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
       "title": "AIエージェントの「暴走」をどう防ぐ？ マイクロソフトがアクセスを制限する「MXC」を提供開始",
@@ -119,6 +111,14 @@
       "lang": "ja",
       "date": "2026-10-09T00:40:57.000Z",
       "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/09/2000002152/10008907/2048"
+    },
+    {
+      "title": "AIが発見した脆弱性は2.6万件 修正済みはわずか421件",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/052100113/093000196/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-08T22:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/052100113/093000196/topm.jpg?20220512"
     }
   ]
 }
