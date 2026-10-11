@@ -402,6 +402,9 @@ export function TokenizerLab() {
       </div>
       <p style={{ margin: "10px 0 0", fontSize: 11.5, color: "var(--text-muted)" }}>
         ※2026年7月時点の入力単価の参考値（1ドル155円換算）。実際の料金は各社の最新の料金表をご確認ください。
+        月額でいくらになるかは
+        <a href="/cost" style={{ color: "var(--red-600)", fontWeight: 700 }}>AI API料金計算機</a>
+        で、モデルを並べて比較できます。
       </p>
 
       {/* ═══ 作業机ゲージ ═══ */}

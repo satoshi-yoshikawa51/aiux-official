@@ -595,5 +595,20 @@ await shoot(
   VS_OUT_DIR
 );
 
+/* —— AI API料金計算機（/cost）用 —— */
+await shoot(
+  pageHtml({
+    kicker: "CALC — AI API料金計算機",
+    badge: "無料・登録不要",
+    title: "AI APIの料金、<br>月いくら？",
+    titleSize: 88,
+    sub: "GPT-6 / Claude / Gemini をまとめて比較",
+    short: "トークン数と回数を入れるだけで、主要モデルの月額コストを並べて比較。コストを下げる定石つき。",
+    site: "comixai.dev/cost",
+  }),
+  "cost.png",
+  path.join(ROOT, "public/og")
+);
+
 await browser.close();
 console.log(`完了: 用語集${TERMS.length + 1}枚 + クイズ${GRADES.length + 1}枚 + ラボ1枚 + プロンプト集${RECIPES.length + 1}枚 + 比較${VS_PAIRS.length + 1}枚 を生成しました`);

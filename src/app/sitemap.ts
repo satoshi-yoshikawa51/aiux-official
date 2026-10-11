@@ -7,6 +7,7 @@ import { FAQ_UPDATED } from "./faq/data";
 import { EVENTS_UPDATED } from "./calendar/events";
 import { GUIDES, GUIDES_UPDATED } from "./guide/data";
 import { VS_PAIRS, VS_UPDATED } from "./vs/data";
+import { COST_UPDATED } from "./cost/data";
 import { listYonkoma } from "./yonkoma/registry";
 
 /**
@@ -126,6 +127,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${base}/tokenizer`,
       lastModified: new Date(GLOSSARY_UPDATED),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    /* AI API料金計算機。価格データ更新日をlastModifiedにする */
+    {
+      url: `${base}/cost`,
+      lastModified: new Date(COST_UPDATED),
       changeFrequency: "monthly",
       priority: 0.7,
     },
