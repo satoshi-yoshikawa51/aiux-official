@@ -3,6 +3,7 @@ import { Nav, Footer, PAGE } from "../site-chrome";
 import { Badge, Button, Card } from "../ds";
 import { Breadcrumb, SectionHead } from "../site-ui";
 import { RECIPES, RECIPE_CATEGORIES, recipesByCategory } from "./data";
+import { PromptSearch } from "./search";
 
 export const metadata: Metadata = {
   title: `仕事で使えるAIプロンプト集｜コピペOKの例文${RECIPES.length}本｜COMIXAI`,
@@ -72,7 +73,19 @@ export default function PromptsIndexPage() {
         </div>
       </section>
 
-      {/* ═══ カテゴリごとのレシピ一覧 ═══ */}
+      {/* ═══ 検索（入力中だけ結果表示に切り替わる）＋カテゴリごとのレシピ一覧 ═══ */}
+      <PromptSearch
+        recipes={RECIPES.map((r) => ({
+          slug: r.slug,
+          title: r.title,
+          catch: r.catch,
+          category: r.category,
+          icon: r.icon,
+          short: r.short,
+          keywords: r.keywords,
+        }))}
+      >
+      <>
       {RECIPE_CATEGORIES.map((cat, i) => {
         const list = recipesByCategory(cat.category);
         if (list.length === 0) return null;
@@ -113,6 +126,8 @@ export default function PromptsIndexPage() {
           <section key={cat.category}>{inner}</section>
         );
       })}
+      </>
+      </PromptSearch>
 
       {/* ═══ 練習ゲームへの導線 ═══ */}
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "48px 0 20px" }}>
