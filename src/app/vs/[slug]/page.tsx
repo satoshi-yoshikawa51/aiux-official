@@ -229,7 +229,7 @@ export default async function VsPage({ params }: Props) {
           {/* 他の比較へ */}
           <div style={{ textAlign: "center", marginTop: 40 }}>
             <a href="/vs" style={{ textDecoration: "none" }}>
-              <Button variant="secondary" size="md" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              <Button variant="secondary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
                 ほかの「違い」も見る
               </Button>
             </a>

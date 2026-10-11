@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Breadcrumb, SectionHead } from "../site-ui";
-import { Badge, Card } from "../ds";
+import { Badge, Button, Card } from "../ds";
 import { VS_PAIRS } from "./data";
 import { TERMS } from "../glossary/data";
 
@@ -89,9 +89,14 @@ export default function VsIndexPage() {
 
           <div style={{ marginTop: 48 }}>
             <SectionHead kicker="GLOSSARY — さらに" title="1語ずつ深く知るなら" hand={`全${TERMS.length}語・図解つき`} />
-            <a href="/glossary" data-ga="cta_click" data-ga-place="vs-to-glossary" style={{ textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14, color: "var(--red-600)" }}>
-              AI用語集を見る <i className="ph-bold ph-arrow-right" />
-            </a>
+            {/* セクション末尾CTAのルール：中央寄せ・lg。添付レビューに合わせてsecondaryのblock型 */}
+            <div style={{ maxWidth: 480, margin: "0 auto" }}>
+              <a href="/glossary" data-ga="cta_click" data-ga-place="vs-to-glossary" style={{ textDecoration: "none" }}>
+                <Button variant="secondary" size="lg" block iconRight={<i className="ph-bold ph-arrow-right" />}>
+                  AI用語集を見る
+                </Button>
+              </a>
+            </div>
           </div>
         </section>
       </main>
