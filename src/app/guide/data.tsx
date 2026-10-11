@@ -190,6 +190,7 @@ export const GUIDES: Guide[] = [
         prompts: [
           { slug: "sns-post", label: "SNS投稿文" },
           { slug: "blog-article", label: "ブログ記事の構成・執筆" },
+          { slug: "brainstorm", label: "ネタ出し・ブレスト" },
         ],
       },
       {
@@ -291,6 +292,8 @@ export const GUIDES: Guide[] = [
         prompts: [
           { slug: "apology-email", label: "お詫びメール" },
           { slug: "english-email", label: "英文メール" },
+          { slug: "proofread", label: "文章の校正・推敲" },
+          { slug: "translation", label: "自然な翻訳" },
         ],
       },
       {
@@ -364,6 +367,7 @@ export const GUIDES: Guide[] = [
         task: "アイデア出し・設定の壁打ち",
         how: "「案を出させる」より「自分の案に突っ込ませる」のがおすすめ。矛盾探し、別視点の提示、タイトル案の大量出しなど、発想の準備運動に使えます。",
         prompts: [
+          { slug: "brainstorm", label: "アイデア出し・ブレスト" },
           { slug: "plan-draft", label: "企画の骨子づくり" },
           { slug: "task-breakdown", label: "制作工程の分解" },
         ],
@@ -384,6 +388,7 @@ export const GUIDES: Guide[] = [
         prompts: [
           { slug: "study", label: "学習の相棒" },
           { slug: "summary", label: "資料の要約" },
+          { slug: "translation", label: "海外資料の翻訳" },
         ],
       },
       {
@@ -652,6 +657,7 @@ export const GUIDES: Guide[] = [
         task: "企画書・提案書のたたき台を作る",
         how: "課題・狙い・やらないことを箇条書きで渡して、構成から作らせる。「構成→各章→推敲」と3回に分けて頼むと、一発で出させるより質が大きく上がります。",
         prompts: [
+          { slug: "brainstorm", label: "施策のアイデア出し" },
           { slug: "plan-draft", label: "企画書のたたき台" },
           { slug: "proposal", label: "提案書" },
         ],
@@ -889,8 +895,14 @@ export const GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES_UPDATED = "2026-08-01";
+export const GUIDES_UPDATED = "2026-10-11";
 
 export function getGuide(slug: string): Guide | undefined {
   return GUIDES.find((g) => g.slug === slug);
+}
+
+/** プロンプトページから職種ガイドへ逆リンクするための検索。
+    useCasesにそのレシピslugを載せているガイドを返す（データ駆動＝手入れ不要） */
+export function guidesForRecipe(recipeSlug: string): Guide[] {
+  return GUIDES.filter((g) => g.useCases.some((u) => u.prompts.some((p) => p.slug === recipeSlug)));
 }

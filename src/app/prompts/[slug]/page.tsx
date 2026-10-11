@@ -6,6 +6,7 @@ import { Badge, Button, Card } from "../../ds";
 import { AcademyCard, Breadcrumb, SectionHead, ShareRow } from "../../site-ui";
 import { TERMS } from "../../glossary/data";
 import { RECIPES, getRecipe } from "../data";
+import { guidesForRecipe } from "../../guide/data";
 import { CopyPromptButton } from "../copy-button";
 import { yonkomaSrc, yonkomaOg } from "../../yonkoma/registry";
 import { YonkomaStrip } from "../../yonkoma/strip";
@@ -323,6 +324,27 @@ export default async function PromptRecipePage({ params }: Props) {
                   プロフィールを見る <i className="ph-bold ph-arrow-right" />
                 </a>
               </Card>
+
+              {/* 職種別ガイドへの逆リンク（このレシピを載せているガイド） */}
+              {guidesForRecipe(r.slug).length > 0 && (
+                <Card variant="flat" padding={18}>
+                  <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 14, marginBottom: 12 }}>
+                    <i className="ph-bold ph-briefcase" style={{ color: "var(--red-500)", marginRight: 7 }} />
+                    このレシピが活きる職種
+                  </div>
+                  <div style={{ display: "grid", gap: 8 }}>
+                    {guidesForRecipe(r.slug).map((g) => (
+                      <a key={g.slug} href={`/guide/${g.slug}`} data-ga="card_click" data-ga-place="prompts-guide" data-ga-path={`/guide/${g.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13.5, color: "var(--ink-900)", background: "var(--paper-0)", border: "var(--bw-line) solid var(--ink-900)", borderRadius: "var(--radius-full)", padding: "9px 14px", boxShadow: "var(--shadow-pop-sm)" }}>
+                        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          <i className={"ph-bold " + g.icon} style={{ marginRight: 6, color: "var(--red-600)" }} />
+                          {g.role}のAI活用ガイド
+                        </span>
+                        <i className="ph-bold ph-arrow-right" style={{ color: "var(--red-600)", flex: "none" }} />
+                      </a>
+                    ))}
+                  </div>
+                </Card>
+              )}
 
               {/* 関連レシピ */}
               {related.length > 0 && (
