@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Badge, Button, Card } from "../ds";
 import { Breadcrumb, SectionHead } from "../site-ui";
-import { RECIPES, RECIPE_CATEGORIES, recipesByCategory } from "./data";
-import { PromptSearch } from "./search";
+import { RECIPES } from "./data";
+import { PromptBrowser } from "./search";
 
 export const metadata: Metadata = {
   title: `仕事で使えるAIプロンプト集｜コピペOKの例文${RECIPES.length}本｜COMIXAI`,
@@ -73,61 +73,21 @@ export default function PromptsIndexPage() {
         </div>
       </section>
 
-      {/* ═══ 検索（入力中だけ結果表示に切り替わる）＋カテゴリごとのレシピ一覧 ═══ */}
-      <PromptSearch
-        recipes={RECIPES.map((r) => ({
-          slug: r.slug,
-          title: r.title,
-          catch: r.catch,
-          category: r.category,
-          icon: r.icon,
-          short: r.short,
-          keywords: r.keywords,
-        }))}
-      >
-      <>
-      {RECIPE_CATEGORIES.map((cat, i) => {
-        const list = recipesByCategory(cat.category);
-        if (list.length === 0) return null;
-        const shaded = i % 2 === 0;
-        const inner = (
-          <div style={{ maxWidth: PAGE, margin: "0 auto", padding: shaded ? "50px 0 54px" : "44px 0 48px" }}>
-            <SectionHead kicker={<><i className={"ph-bold " + cat.icon} style={{ marginRight: 6 }} />{cat.category}</>} title={cat.desc} hand={`${list.length}レシピ`} />
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 }} className="articles-grid">
-              {list.map((r) => (
-                <a key={r.slug} href={`/prompts/${r.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
-                  <Card variant="pop" hover padding={18} style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-                    <i className={"ph-bold " + r.icon} style={{ fontSize: 30, lineHeight: 1, marginBottom: 10, display: "block", color: "var(--red-500)" }} />
-                    <h2 style={{ margin: "0 0 6px", fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 17, lineHeight: 1.45 }}>{r.title}</h2>
-                    <p style={{ margin: "0 0 14px", fontFamily: "var(--font-hand)", fontSize: 13.5, lineHeight: 1.7, color: "var(--text-muted)" }}>{r.catch}</p>
-                    <span style={{ marginTop: "auto", alignSelf: "flex-end", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 13, color: "var(--red-600)" }}>
-                      レシピを見る <i className="ph-bold ph-arrow-right" />
-                    </span>
-                  </Card>
-                </a>
-              ))}
-            </div>
-          </div>
-        );
-        return shaded ? (
-          <section
-            key={cat.category}
-            style={{
-              background: "var(--paper-100)",
-              borderTop: "var(--bw-line) solid var(--ink-900)",
-              borderBottom: "var(--bw-line) solid var(--ink-900)",
-              backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)",
-              backgroundSize: "11px 11px",
-            }}
-          >
-            {inner}
-          </section>
-        ) : (
-          <section key={cat.category}>{inner}</section>
-        );
-      })}
-      </>
-      </PromptSearch>
+      {/* ═══ 検索＋カテゴリタブ＋全レシピ（用語集と同じブラウザUI） ═══ */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "8px 0 56px" }}>
+        <SectionHead kicker="SEARCH — レシピをさがす" title={`全${RECIPES.length}レシピから、さがす。`} hand="やりたいこと・カテゴリで絞り込みOK" />
+        <PromptBrowser
+          recipes={RECIPES.map((r) => ({
+            slug: r.slug,
+            title: r.title,
+            catch: r.catch,
+            category: r.category,
+            icon: r.icon,
+            short: r.short,
+            keywords: r.keywords,
+          }))}
+        />
+      </section>
 
       {/* ═══ 練習ゲームへの導線 ═══ */}
       <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "48px 0 20px" }}>
