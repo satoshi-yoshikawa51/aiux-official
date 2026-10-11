@@ -678,10 +678,15 @@ function Glossary() {
             ))}
           </div>
         </div>
-        <div style={{ textAlign: "center", marginTop: 34 }}>
+        <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginTop: 34 }}>
           <a href="/glossary" data-ga="cta_click" data-ga-place="glossary-more" style={{ textDecoration: "none" }}>
             <Button variant="ink" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
               AI用語集を見る
+            </Button>
+          </a>
+          <a href="/vs" data-ga="cta_click" data-ga-place="glossary-vs-more" style={{ textDecoration: "none" }}>
+            <Button variant="secondary" size="lg" iconRight={<i className="ph-bold ph-arrow-right" />}>
+              「違い」でくらべる
             </Button>
           </a>
         </div>

@@ -6,6 +6,7 @@ import { RECIPES, PROMPTS_UPDATED } from "./prompts/data";
 import { FAQ_UPDATED } from "./faq/data";
 import { EVENTS_UPDATED } from "./calendar/events";
 import { GUIDES, GUIDES_UPDATED } from "./guide/data";
+import { VS_PAIRS, VS_UPDATED } from "./vs/data";
 import { listYonkoma } from "./yonkoma/registry";
 
 /**
@@ -88,6 +89,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...TERMS.map((t) => ({
       url: `${base}/glossary/${t.slug}`,
       lastModified: new Date(t.lastUpdated),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    /* 用語の比較（/vs）。「A B 違い」検索向けの比較ページ群 */
+    {
+      url: `${base}/vs`,
+      lastModified: new Date(VS_UPDATED),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    ...VS_PAIRS.map((p) => ({
+      url: `${base}/vs/${p.slug}`,
+      lastModified: new Date(p.lastUpdated),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
