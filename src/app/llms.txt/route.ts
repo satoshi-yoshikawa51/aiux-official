@@ -41,7 +41,6 @@ export function GET() {
     "- [AI用語集トップ](https://comixai.dev/glossary): 生成AIの頻出用語を現場目線でわかりやすく解説",
     "- [AI用語力診断](https://comixai.dev/quiz): AI用語の理解度を12問・3分で5段階判定するクイズ（解説つき）",
     "- [トークナイザー体験](https://comixai.dev/tokenizer): 文章がAIのトークンに刻まれる様子をその場で体験できるラボ",
-    "- [AI API料金計算機](https://comixai.dev/cost): GPT-6・Claude・GeminiのAPI料金を、トークン数と回数から月額で比較できる計算機",
     "- [AIのウソを見抜け](https://comixai.dev/uso): AIの回答に混ざったハルシネーションを見抜く体験ゲーム（全8問・解説つき）",
     "- [3分バイブコーディング](https://comixai.dev/vibe): 雑な一言でミニアプリが変形していくバイブコーディング体験",
     "- [AIエージェントに任せてみた](https://comixai.dev/agent): 任せ方で結末が分岐するエージェント見守りシミュレーション",
