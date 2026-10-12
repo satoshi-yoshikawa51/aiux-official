@@ -2680,8 +2680,8 @@ export const FEATURED_TERMS = FEATURED_SLUGS.map((sl) => TERMS.find((t) => t.slu
    続いたため。ここは自動選出が6語に満たなかったときの穴埋めとして残す。
    出す語を固定・除外したいときは hot.ts の HOT_PINNED / HOT_EXCLUDED を使う */
 export const HOT_SLUGS = [
-  "gpt-6", "claude-fable", "apple-intelligence",
-  "ai-glasses", "pacing-the-frontier", "ai-bubble",
+  "export-control", "claude-fable", "apple-intelligence",
+  "caio", "pacing-the-frontier", "ai-bubble",
 ];
 export const HOT_TERMS = HOT_SLUGS.map((sl) => TERMS.find((t) => t.slug === sl)!).filter(Boolean);
 
