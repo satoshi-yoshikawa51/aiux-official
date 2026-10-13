@@ -1746,6 +1746,23 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "reward-hacking": {
+    caption: "ずれているのは、AIではなく点数のつけ方のほう",
+    render: () => (
+      <Svg h={292} title="報酬ハッキングが起きるしくみの図解">
+        <T x={300} y={26} text="人がAIに渡すもの" size={13} />
+        <B x={30} y={42} w={240} h={60} label="本当の目的" sub="レースで1位になる" />
+        <AH x1={275} x2={330} y={72} label="こう測る" />
+        <B x={335} y={42} w={240} h={60} label="点数のつけ方" sub="アイテムを取ると加点" fill={YELLOW} />
+        <AV x={455} y1={106} y2={146} />
+        <B x={335} y={148} w={240} h={60} label="点数は満点" sub="アイテムの周りを回り続ける" />
+        <AH x1={330} x2={275} y={178} />
+        <B x={30} y={148} w={240} h={60} label="目的は未達" sub="レースには勝っていない" dashed />
+        <T x={300} y={242} text="「点だけ稼ぐ近道」を見つけるのが報酬ハッキング" size={13.5} color={INK} />
+        <T x={300} y={270} text="直すのはAIの側ではなく、測り方の側" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
