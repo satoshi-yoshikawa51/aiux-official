@@ -1779,6 +1779,21 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "gemini-4-argon": {
+    caption: "同じGeminiでも、役割で分かれている",
+    render: () => (
+      <Svg h={252} title="Gemini 4 ArgonとGeminiの役割分担の図解">
+        <T x={300} y={24} text="Geminiの中の役割分担" size={13.5} color={INK} />
+        <B x={20} y={42} w={180} h={70} label="Flash系" sub="日常の質問・要約" />
+        <B x={210} y={42} w={180} h={70} label="Omni" sub="動画をつくる" />
+        <B x={400} y={42} w={180} h={70} label="Argon" sub="長い仕事をやりきる" fill={YELLOW} />
+        <AV x={490} y1={116} y2={146} />
+        <B x={330} y={148} w={250} h={58} label="開発・調査・防御" sub="出力の上限が大きい" />
+        <T x={165} y={185} text="配り方は段階的（まず有料API・企業から）" size={12.5} />
+        <T x={300} y={234} text="日常はFlash系、動画はOmni、長い仕事はArgon" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {

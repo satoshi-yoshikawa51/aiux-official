@@ -204,12 +204,20 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
           "この項の見立てとしては、「Googleは動画と連携で勝負」という整理に、テキストの看板モデルが加わった、と更新しておくのが正確です。ただし2026年10月時点では一般の利用者が触れるものではありません。動画のOmniと役割が違うのは変わらないので、「動画はOmni、長い調査や開発はArgon、日常はFlash系」と3つに分けて覚えると混乱しません。",
         ],
       },
+      {
+        heading: "Argonの提供が広がりました（追記）",
+        body: [
+          "上の節で「2026年10月時点では一般の利用者が触れるものではありません」と書きましたが、ここは動きました。2026年10月13日、GoogleはGemini 4 Argonを広く提供しはじめています。使えるのは有料のGemini API、Google AI Studio、開発環境のAntigravity、対象のGemini Enterpriseで、限定提供だった段階は終わりました。料金は導入価格として100万トークンあたり入力2ドル・出力10ドル、2026年12月1日からは入力4ドル・出力20ドルになると説明されています。",
+          "ただし、Geminiアプリや検索のAIモードといった個人向けの入り口で、どの有料プランから使えるかは2026年10月時点で報道が割れています。確実なのは無料では使えないところまでです。Argon自体の中身と料金は専用の用語ページにまとめたので、詳しくはそちらをご覧ください。役割分担そのもの（動画はOmni、長い調査や開発はArgon、日常はFlash系）は変わりません。",
+        ],
+      },
     ],
     links: [
       { label: "比較：ChatGPT・Claude・Gemini どれを使う？（2026年9月版）", href: "/compare" },
       { label: "用語：動画生成AI（分野全体の解説）", href: "/glossary/video-generation-ai" },
+      { label: "用語：Gemini 4 Argon（長い仕事を想定した看板モデル）", href: "/glossary/gemini-4-argon" },
     ],
-    relatedSlugs: ["gemini", "video-generation-ai", "multimodal-ai", "frontier-model", "autonomous-cyberattack"],
+    relatedSlugs: ["gemini", "video-generation-ai", "multimodal-ai", "frontier-model", "autonomous-cyberattack", "gemini-4-argon"],
     faq: [
       {
         q: "Gemini Omniは無料で使えますか？",
@@ -227,8 +235,12 @@ export const TERMS_WAVE3: GlossaryTerm[] = [
         q: "Gemini 4 Argonは使えますか？",
         a: "2026年10月時点では一般には提供されていません。まずGoogleの「Fairwind Program」を通じて、信頼されたサイバー防御の担い手に限定して提供されています。開発者や企業への展開はこのあとで、有料API顧客とGoogle AI Ultra加入者から広げる方針とされています。",
       },
+      {
+        q: "Gemini 4 Argonはもう広く使えるのですか？（2026年10月13日更新）",
+        a: "限定提供は終わりました。2026年10月13日から、有料のGemini API、Google AI Studio、開発環境のAntigravity、対象のGemini Enterpriseで使えます。無料では使えず、Geminiアプリ側でどの有料プランから使えるかは2026年10月時点で報道が割れています。くわしくは用語ページ「Gemini 4 Argon」にまとめています。",
+      },
     ],
-    lastUpdated: "2026-10-02",
+    lastUpdated: "2026-10-14",
   },
   {
     slug: "frontier-model",
