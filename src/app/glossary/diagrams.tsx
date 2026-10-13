@@ -1763,6 +1763,22 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "ai-chip": {
+    caption: "同じ仕事でも、どのチップで動かすかで費用と電力が変わる",
+    render: () => (
+      <Svg h={272} title="AI半導体の種類と自社設計チップの図解">
+        <T x={300} y={24} text="AI半導体＝AIの計算を担うチップの総称" size={13.5} color={INK} />
+        <B x={30} y={40} w={250} h={58} label="汎用のGPU" sub="NVIDIAなど・買って使える" />
+        <B x={320} y={40} w={250} h={58} label="自社設計のチップ" sub="Google TPU・Microsoft Maia" fill={YELLOW} />
+        <AV x={155} y1={102} y2={132} />
+        <AV x={445} y1={102} y2={132} />
+        <B x={30} y={134} w={250} h={58} label="何にでも使える" sub="学習にも推論にも" />
+        <B x={320} y={134} w={250} h={58} label="用途を絞って効率を上げる" sub="多くは外販されない" />
+        <T x={300} y={224} text="電力あたりどれだけ処理できたか、が新しい物差し" size={13.5} color={INK} />
+        <T x={300} y={252} text="2026年10月、Microsoftが第3世代の自社チップ「Maia 300」を発表" size={13} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
