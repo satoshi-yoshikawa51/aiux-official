@@ -1794,6 +1794,20 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "domestic-llm": {
+    caption: "「国産だから安心」ではなく、どの条件で使えるかで選ぶ",
+    render: () => (
+      <Svg h={256} title="国産LLMが日本で作られる理由の図解">
+        <T x={300} y={24} text="なぜ日本でLLMを作るのか" size={13.5} color={INK} />
+        <B x={20} y={42} w={175} h={66} label="データの置き場所" sub="国外に出しにくい仕事がある" />
+        <B x={212} y={42} w={175} h={66} label="日本語の細かさ" sub="敬語・表記ゆれ・省略" />
+        <B x={404} y={42} w={175} h={66} label="供給の安定" sub="他国の条件に左右されない" />
+        <AV x={300} y1={112} y2={142} />
+        <B x={150} y={144} w={300} h={62} label="小さく・公開して・手元で動かす" fill={YELLOW} sub="重みごと配られるモデルが多い" />
+        <T x={300} y={238} text="競うのは大きさではなく、置き場所を選べること" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
