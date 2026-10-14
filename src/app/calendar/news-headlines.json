@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-13T02:42:16.251Z",
+  "updatedAt": "2026-10-14T00:34:57.741Z",
   "items": [
     {
-      "title": "Microsoft、新型AIチップ「Maia 300」 処理能力は最大7倍、2027年展開へ",
-      "url": "https://ascii.jp/elem/000/004/441/4441933/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-13T02:30:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/13/4537924/xl/1fcb104d9dad2ba6.png?20200122"
+      "title": "Gemini 4 Argon: Built to solve your hardest problems",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-10-13T16:00:00.000Z",
+      "titleJa": "Gemini 4 Argon：最難関の課題を解くために作られたモデル",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-4-argon__blog-header__2784x1566.width-1300.png"
     },
     {
-      "title": "CORSAIR「iCUE LINK TITAN II RX」水冷CPUクーラー発表 5インチLCD搭載モデルと静音ファン登場",
-      "url": "https://ascii.jp/elem/000/004/441/4441873/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-13T02:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/13/4537786/xl/658d3be7140fb4b7.jpg?20200122"
+      "title": "OpenAI employee arrested for allegedly planting a bug in a conference room",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1010642/openai-employee-arrested-recording-device",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-13T20:45:25.000Z",
+      "titleJa": "OpenAI従業員、会議室に盗聴器を仕掛けた疑いで逮捕",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/03/STK155_OPEN_AI_CVirginia__C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "Meta、いきなりフロンティアAIモデル競争へ Opus 5.5やAstraを上回るベンチマークも",
-      "url": "https://ascii.jp/elem/000/004/441/4441895/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-13T02:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/13/4537903/xl/71f37ba04eb8b1fc.png?20200122"
+      "title": "Judge orders OpenAI to turn over hiring records in Apple trade secrets case",
+      "url": "https://techcrunch.com/2026/10/13/judge-orders-openai-to-turn-over-hiring-records-in-apple-trade-secrets-case/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-13T20:36:44.000Z",
+      "titleJa": "裁判所、Appleの営業秘密訴訟でOpenAIに採用記録の提出を命令",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-in-Seoul.jpg?w=1024"
     },
     {
-      "title": "国際協力銀行、VARIETASの「AI面接官」を導入",
-      "url": "https://ascii.jp/elem/000/004/441/4441918/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-13T00:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "title": "I don’t miss the camera on the Ray-Ban Meta Audio glasses",
+      "url": "https://www.theverge.com/tech/1009128/ray-ban-meta-audio-glasses-review-smart-glasses-headphones-wearables",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-13T18:00:00.000Z",
+      "titleJa": "Ray-Ban Meta Audioグラス、カメラがなくても困らなかった",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/rayban_meta_audio_12.jpg?quality=90&strip=all&crop=0%2C9.756192857701%2C100%2C80.487614284598&w=1200"
     },
     {
-      "title": "Anthropic's Claude AI submitted false murder tip to Philadelphia police",
-      "url": "https://arstechnica.com/tech-policy/2026/10/anthropics-claude-ai-submitted-false-murder-tip-to-philadelphia-police/",
+      "title": "Google makes it easier to launch your vibe-coded apps",
+      "url": "https://www.theverge.com/tech/1009066/google-play-vibe-coded-android-apps-launch",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-13T17:00:00.000Z",
+      "titleJa": "Google、vibe codingで作ったアプリを簡単に公開できるように",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/24007893/acastro_STK112_android_02.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Gemini 4 Argon begins rolling out in Gemini app and Antigravity, but only if you pay",
+      "url": "https://arstechnica.com/ai/2026/10/gemini-4-argon-begins-rolling-out-in-gemini-app-and-antigravity-but-only-if-you-pay/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-10-12T18:21:36.000Z",
-      "titleJa": "AnthropicのClaude、フィラデルフィア警察に虚偽の殺人情報を通報",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/03/claude-app-1152x648.jpg"
+      "date": "2026-10-13T16:00:02.000Z",
+      "titleJa": "Gemini 4 Argon、GeminiアプリとAntigravityで提供開始――ただし有料ユーザーのみ",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/Gemini-4-Argon-1152x648.jpg"
     },
     {
-      "title": "Meta has some Wonder Full new AI models",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1009479/meta-muse-wonder-full-ai-model",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-12T17:00:00.000Z",
-      "titleJa": "Meta、“Wonder”な新AIモデル群を披露",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/STKB394_MUSE_AI_CVIRGINIA_D.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
-    },
-    {
-      "title": "Microsoft president says UK is best placed to drive AI regulation",
-      "url": "https://techcrunch.com/2026/10/12/microsoft-president-says-uk-is-best-placed-to-drive-ai-regulation/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-12T15:31:19.000Z",
-      "titleJa": "Microsoft社長、「AI規制を主導するのは英国が最適」",
-      "image": "https://techcrunch.com/wp-content/uploads/2018/10/GettyImages-1039496404.jpg?w=1024"
-    },
-    {
-      "title": "Microsoft’s new AI chip makes it less reliant on Nvidia’s GPUs",
-      "url": "https://www.theverge.com/news/1009465/microsoft-maia-300-chip-improvements-rollout",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-12T13:00:00.000Z",
-      "titleJa": "Microsoftの新AIチップ、NvidiaのGPUへの依存度を低減",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/Maia-300-prototype-chip-03.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "新サービス「Gemini Agent」は企業向け、「Gemini Enterprise」加入者は追加料金なし 日本提供時期は未定",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/13/2000002199/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-12T23:51:44.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/13/2000002199/10009114/2048"
-    },
-    {
-      "title": "Meta、ChatGPTやClaudeに対抗する最先端AI「Muse Wonder」発表",
-      "url": "https://japan.cnet.com/article/35253478/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-12T23:42:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/13/ef513f5d748fe3bf822bbe6c4bd66a0f/Meta-Muse-AI.jpeg"
-    },
-    {
-      "title": "Meta、同社最大のAIモデル「Muse Wonder」発表 記憶力と粘り強さを強化、AIエージェント「Muse」にも搭載へ",
-      "url": "https://www.itmedia.co.jp/news/article/2610/13/2000002197/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-12T22:06:29.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/13/2000002197/10009111/2048"
-    },
-    {
-      "title": "値上げに見積もり有効期間の短縮、AIの大波に揺れるハード市場",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00848/00198/",
+      "title": "AI訓練の新興が11億ドル調達",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/040900481/100500039/",
       "source": "日経クロステック",
       "lang": "ja",
-      "date": "2026-10-12T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00848/00198/topm.jpg?20220512"
+      "date": "2026-10-13T22:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/040900481/100500039/topm.jpg?20220512"
     },
     {
-      "title": "These execs think voice AI hasn’t reached its ChatGPT moment yet",
-      "url": "https://techcrunch.com/2026/10/11/these-execs-think-voice-ai-hasnt-reached-its-chatgpt-moment-yet/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-11T14:00:00.000Z",
-      "titleJa": "「音声AIはまだ“ChatGPTの瞬間”を迎えていない」と経営幹部ら",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Screenshot-2026-10-10-at-2.42.28-PM.jpg?resize=1200,624"
+      "title": "値上げや見積もり有効期間の短縮 AIの大波でハード市場が大混乱",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600008/100600230/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-13T22:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600008/100600230/topm.jpg?20220512"
     },
     {
-      "title": "Anthropic is cutting off its internal evaluations from the internet",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1009286/anthropic-is-cutting-off-its-internal-evaluations-from-the-internet",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-10T14:41:16.000Z",
-      "titleJa": "Anthropic、社内評価環境をインターネットから遮断へ",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/01/STK269_ANTHROPIC_2_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "title": "AIはレガシーシステムの問題を解決できるのか？ 「経済的に成り立たない」と元IBM戦略担当者",
+      "url": "https://japan.zdnet.com/article/35253404/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-13T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/09/3232b30d8fdefcd7d9947d96e2747d68/GettyImages-2258315764_l.jpg"
+    },
+    {
+      "title": "開始0.5秒での自動停止を目指す、製造現場の事故を防ぐAI制御システム",
+      "url": "https://ascii.jp/elem/000/004/442/4442216/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-13T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/13/4538136/xl/445ebd4eb2b4b15f.png"
+    },
+    {
+      "title": "オムロンはAIを現場の価値に変える 米IPC企業買収で「設備最適化」へ拡張",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/14/news032.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-13T21:30:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2610/14/l_mn1014_omron_001.jpg"
+    },
+    {
+      "title": "Arm、AIエージェントとフィジカルAIを強化 4つの新発表",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12053/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-13T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12053/1-m.jpg?20220512"
+    },
+    {
+      "title": "鳥にナメられ続けた人類、AI搭載レーザー砲台を生み出す",
+      "url": "https://www.gizmodo.jp/article/2610-ai-laser-bird-repeller/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-10-13T14:30:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/10/13/9c519fbd-8791-45f5-98cf-c56e0942fb15/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "国産AI「Sarashina」が無料で試せるWebサイト、ソフトバンク子会社が公開 6つのAIモデルが呼び出せるAPIも",
+      "url": "https://www.itmedia.co.jp/news/article/2610/13/2000002224/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-13T09:24:12.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/13/2000002224/10009202/2048"
     }
   ]
 }
