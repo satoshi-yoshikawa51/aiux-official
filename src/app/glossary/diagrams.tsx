@@ -1763,6 +1763,37 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "ai-chip": {
+    caption: "同じ仕事でも、どのチップで動かすかで費用と電力が変わる",
+    render: () => (
+      <Svg h={272} title="AI半導体の種類と自社設計チップの図解">
+        <T x={300} y={24} text="AI半導体＝AIの計算を担うチップの総称" size={13.5} color={INK} />
+        <B x={30} y={40} w={250} h={58} label="汎用のGPU" sub="NVIDIAなど・買って使える" />
+        <B x={320} y={40} w={250} h={58} label="自社設計のチップ" sub="Google TPU・Microsoft Maia" fill={YELLOW} />
+        <AV x={155} y1={102} y2={132} />
+        <AV x={445} y1={102} y2={132} />
+        <B x={30} y={134} w={250} h={58} label="何にでも使える" sub="学習にも推論にも" />
+        <B x={320} y={134} w={250} h={58} label="用途を絞って効率を上げる" sub="多くは外販されない" />
+        <T x={300} y={224} text="電力あたりどれだけ処理できたか、が新しい物差し" size={13.5} color={INK} />
+        <T x={300} y={252} text="2026年10月、Microsoftが第3世代の自社チップ「Maia 300」を発表" size={13} />
+      </Svg>
+    ),
+  },
+  "gemini-4-argon": {
+    caption: "同じGeminiでも、役割で分かれている",
+    render: () => (
+      <Svg h={252} title="Gemini 4 ArgonとGeminiの役割分担の図解">
+        <T x={300} y={24} text="Geminiの中の役割分担" size={13.5} color={INK} />
+        <B x={20} y={42} w={180} h={70} label="Flash系" sub="日常の質問・要約" />
+        <B x={210} y={42} w={180} h={70} label="Omni" sub="動画をつくる" />
+        <B x={400} y={42} w={180} h={70} label="Argon" sub="長い仕事をやりきる" fill={YELLOW} />
+        <AV x={490} y1={116} y2={146} />
+        <B x={330} y={148} w={250} h={58} label="開発・調査・防御" sub="出力の上限が大きい" />
+        <T x={165} y={185} text="配り方は段階的（まず有料API・企業から）" size={12.5} />
+        <T x={300} y={234} text="日常はFlash系、動画はOmni、長い仕事はArgon" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
