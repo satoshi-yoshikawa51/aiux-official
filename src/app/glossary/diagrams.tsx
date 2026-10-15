@@ -1808,6 +1808,22 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "self-replicating-ai": {
+    caption: "止めにくいが、速くもない——両面で見ておく",
+    render: () => (
+      <Svg h={258} title="自己複製AIが止めにくいとされる理由の図解">
+        <T x={300} y={24} text="「元を止める」が効かなくなる" size={13.5} color={INK} />
+        <B x={20} y={42} w={150} h={58} label="小さなモデル" sub="安い機器でも動く" />
+        <AH x1={175} x2={215} y={71} label="コピー" />
+        <B x={220} y={42} w={150} h={58} label="家の機器" sub="更新が止まった端末" />
+        <AH x1={375} x2={415} y={71} label="コピー" />
+        <B x={420} y={42} w={160} h={58} label="別の機器へ" fill={YELLOW} />
+        <T x={300} y={128} text="配布元が無いので、止める中心が存在しない" size={13} />
+        <B x={120} y={146} w={360} h={58} label="いまは「予測」の段階" sub="実機での自己複製は実演されていない" dashed />
+        <T x={300} y={238} text="効くのは昔からの基本——更新と初期パスワードの変更" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
