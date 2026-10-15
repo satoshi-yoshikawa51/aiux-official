@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-14T00:34:57.741Z",
+  "updatedAt": "2026-10-15T00:03:37.922Z",
   "items": [
+    {
+      "title": "Amp puts AI agents to work beyond code with OpenAI models",
+      "url": "https://openai.com/index/amp-beyond-coding",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-14T12:00:00.000Z",
+      "titleJa": "Amp、OpenAIモデルでAIエージェントをコード以外の業務にも活用",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/4cxTIUhXa03TEYCnkIcMCu/29e6065058ed969022021186f994dad6/amp-beyond-coding-coiled-connection-seo-open-graph-1920x1080.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Eight states sue OpenAI, saying ChatGPT isn’t safe for kids",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1011500/openai-state-lawsuits-chatgpt-safety",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-14T21:11:28.000Z",
+      "titleJa": "8州がOpenAIを提訴、「ChatGPTは子どもに安全でない」と主張",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25462005/STK155_OPEN_AI_CVirginia_B.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "OpenAI claims an ex-employee took its product plans and presented them to Apple",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1011276/openai-employee-unreleased-product-plans",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-14T16:43:24.000Z",
+      "titleJa": "OpenAI、元従業員が製品計画を持ち出しAppleに提示したと主張",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK155_OPEN_AI_2025_CVirgiia_B.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Recording device hidden in toilet paper found in top-secret OpenAI meeting room",
+      "url": "https://arstechnica.com/tech-policy/2026/10/fbi-arrests-openai-engineer-suspected-of-planting-bug-in-conference-room/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-14T16:41:49.000Z",
+      "titleJa": "極秘のOpenAI会議室でトイレットペーパーに隠された録音装置が見つかる",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/open-ai-bugged-1152x648.jpg"
+    },
+    {
+      "title": "Anthropic warns small AI models could self-replicate through IoT devices",
+      "url": "https://arstechnica.com/security/2026/10/anthropic-warns-small-ai-models-could-self-replicate-through-iot-devices/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-14T12:55:06.000Z",
+      "titleJa": "Anthropic、小型AIモデルがIoT機器を通じて自己複製する恐れを警告",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/ai-caution-threat-1152x648.jpg"
+    },
+    {
+      "title": "「手作業での脆弱性管理はやがて破綻する」 日本IBMが示すフロンティアAI時代の自律型セキュリティ",
+      "url": "https://ascii.jp/elem/000/004/442/4442272/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-14T23:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/14/4538286/xl/d5f6900385b75fbe.jpg?20200122"
+    },
+    {
+      "title": "ソフトバンクグループ×OpenAIが挑む「エンタープライズAGI」--SB OAI Japanの次世代戦略",
+      "url": "https://japan.zdnet.com/article/35253224/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-14T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/07/42ff80dcf9649719fdeb2b164bbb6c49/260916_sboai_l_02.jpg"
+    },
+    {
+      "title": "IFS最大イベントで新産業用AI発表 対話と自律実行で「眠る40％」を解き放つ",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/15/news017.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-14T21:30:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2610/15/cover_news017.jpg"
+    },
+    {
+      "title": "Windows上でAIエージェントの実行を安全に隔離する「Microsoft Execution Containers」（MXC）正式リリース。ファイルやネットワークなどの境界を柔軟にカスタマイズ",
+      "url": "https://www.publickey1.jp/blog/26/windowsaimicrosoft_execution_containersmxc.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-10-14T15:57:19.000Z",
+      "image": "https://www.publickey1.jp/2026/mxc-ga01.png"
+    },
+    {
+      "title": "デジハリ大、「Claude」を全学導入へ──国内初、“回数気にせず”使い放題に",
+      "url": "https://www.itmedia.co.jp/news/article/2610/14/2000002278/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-14T10:43:31.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/14/2000002278/10009373/2048"
+    },
+    {
+      "title": "ソフトバンク子会社、国産LLM「Sarashina」無償ベータ版を提供--APIでシステムに実装",
+      "url": "https://japan.zdnet.com/article/35253545/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-14T08:45:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/14/ca32bd4cc367ebf4cb6a38036870a562/20261014_adobestock_343403402_1280x960.jpg"
+    },
+    {
+      "title": "デンマークの880万人分流出、原因はパスワード「123456」 ハッカー「侵入は難しくなかった」 現地報道",
+      "url": "https://www.itmedia.co.jp/news/article/2610/14/2000002257/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-14T05:58:28.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/14/2000002257/10009315/2048"
+    },
+    {
+      "title": "Googleの新モデル「Gemini 4 Argon」一般提供開始 使えるプラン、価格",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2610/14/2000002241/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-14T05:06:36.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/14/2000002241/10008245/2048"
+    },
     {
       "title": "Gemini 4 Argon: Built to solve your hardest problems",
       "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
       "source": "Google AI（公式）",
       "lang": "en",
       "date": "2026-10-13T16:00:00.000Z",
-      "titleJa": "Gemini 4 Argon：最難関の課題を解くために作られたモデル",
+      "titleJa": "Gemini 4 Argon登場、最難関の課題を解くために設計",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-4-argon__blog-header__2784x1566.width-1300.png"
-    },
-    {
-      "title": "OpenAI employee arrested for allegedly planting a bug in a conference room",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1010642/openai-employee-arrested-recording-device",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-13T20:45:25.000Z",
-      "titleJa": "OpenAI従業員、会議室に盗聴器を仕掛けた疑いで逮捕",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/03/STK155_OPEN_AI_CVirginia__C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Judge orders OpenAI to turn over hiring records in Apple trade secrets case",
-      "url": "https://techcrunch.com/2026/10/13/judge-orders-openai-to-turn-over-hiring-records-in-apple-trade-secrets-case/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-13T20:36:44.000Z",
-      "titleJa": "裁判所、Appleの営業秘密訴訟でOpenAIに採用記録の提出を命令",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-in-Seoul.jpg?w=1024"
-    },
-    {
-      "title": "I don’t miss the camera on the Ray-Ban Meta Audio glasses",
-      "url": "https://www.theverge.com/tech/1009128/ray-ban-meta-audio-glasses-review-smart-glasses-headphones-wearables",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-13T18:00:00.000Z",
-      "titleJa": "Ray-Ban Meta Audioグラス、カメラがなくても困らなかった",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/rayban_meta_audio_12.jpg?quality=90&strip=all&crop=0%2C9.756192857701%2C100%2C80.487614284598&w=1200"
-    },
-    {
-      "title": "Google makes it easier to launch your vibe-coded apps",
-      "url": "https://www.theverge.com/tech/1009066/google-play-vibe-coded-android-apps-launch",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-13T17:00:00.000Z",
-      "titleJa": "Google、vibe codingで作ったアプリを簡単に公開できるように",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/24007893/acastro_STK112_android_02.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Gemini 4 Argon begins rolling out in Gemini app and Antigravity, but only if you pay",
-      "url": "https://arstechnica.com/ai/2026/10/gemini-4-argon-begins-rolling-out-in-gemini-app-and-antigravity-but-only-if-you-pay/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-13T16:00:02.000Z",
-      "titleJa": "Gemini 4 Argon、GeminiアプリとAntigravityで提供開始――ただし有料ユーザーのみ",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/Gemini-4-Argon-1152x648.jpg"
-    },
-    {
-      "title": "AI訓練の新興が11億ドル調達",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/040900481/100500039/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-13T22:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/040900481/100500039/topm.jpg?20220512"
-    },
-    {
-      "title": "値上げや見積もり有効期間の短縮 AIの大波でハード市場が大混乱",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600008/100600230/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-13T22:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600008/100600230/topm.jpg?20220512"
-    },
-    {
-      "title": "AIはレガシーシステムの問題を解決できるのか？ 「経済的に成り立たない」と元IBM戦略担当者",
-      "url": "https://japan.zdnet.com/article/35253404/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-13T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/09/3232b30d8fdefcd7d9947d96e2747d68/GettyImages-2258315764_l.jpg"
-    },
-    {
-      "title": "開始0.5秒での自動停止を目指す、製造現場の事故を防ぐAI制御システム",
-      "url": "https://ascii.jp/elem/000/004/442/4442216/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-13T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/13/4538136/xl/445ebd4eb2b4b15f.png"
-    },
-    {
-      "title": "オムロンはAIを現場の価値に変える 米IPC企業買収で「設備最適化」へ拡張",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/14/news032.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-13T21:30:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2610/14/l_mn1014_omron_001.jpg"
-    },
-    {
-      "title": "Arm、AIエージェントとフィジカルAIを強化 4つの新発表",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12053/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-13T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12053/1-m.jpg?20220512"
-    },
-    {
-      "title": "鳥にナメられ続けた人類、AI搭載レーザー砲台を生み出す",
-      "url": "https://www.gizmodo.jp/article/2610-ai-laser-bird-repeller/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-10-13T14:30:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/10/13/9c519fbd-8791-45f5-98cf-c56e0942fb15/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "国産AI「Sarashina」が無料で試せるWebサイト、ソフトバンク子会社が公開 6つのAIモデルが呼び出せるAPIも",
-      "url": "https://www.itmedia.co.jp/news/article/2610/13/2000002224/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-13T09:24:12.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/13/2000002224/10009202/2048"
     }
   ]
 }
