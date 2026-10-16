@@ -1824,6 +1824,23 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "deep-review": {
+    caption: "見つけるのは自動、直すかどうかは人の判断",
+    render: () => (
+      <Svg h={238} title="Deep Reviewが原稿を分けて同時に調べるしくみの図解">
+        <T x={300} y={22} text="原稿を章ごとに分けて、同時に調べる" size={13.5} color={INK} />
+        <B x={20} y={42} w={140} h={58} label="原稿" sub="PDF・テキスト" />
+        <AH x1={165} x2={205} y={71} />
+        <B x={210} y={30} w={170} h={40} label="論理の検証" />
+        <B x={210} y={76} w={170} h={40} label="数式の検証" fill={YELLOW} />
+        <B x={210} y={122} w={170} h={40} label="根拠の検証" />
+        <AH x1={385} x2={425} y={96} />
+        <B x={430} y={66} w={150} h={58} label="指摘を返す" sub="矛盾・誤り・不足" />
+        <T x={300} y={190} text="手強い章には、計算資源を厚く割り当てる" size={13} />
+        <T x={300} y={218} text="拾えるのは「中での食い違い」。新しさや意義は見ない" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
