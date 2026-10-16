@@ -1,106 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-15T23:48:53.351Z",
+  "updatedAt": "2026-10-16T23:50:37.792Z",
   "items": [
     {
-      "title": "ChatGPT can peek at your Chrome tabs now",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1012510/openai-chatgpt-google-chrome-tabs",
-      "source": "The Verge",
+      "title": "Stack Overflow for Agents triples signups with ChatGPT plugin",
+      "url": "https://openai.com/index/stack-overflow-chatgpt-plugin",
+      "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-10-15T22:43:23.000Z",
-      "titleJa": "ChatGPT、Chromeのタブを覗けるように",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/Screenshot-2026-10-15-at-6.35.44-PM.png?quality=90&strip=all&crop=0%2C0%2C100%2C93.077370564282&w=1200"
+      "date": "2026-10-16T00:00:00.000Z",
+      "titleJa": "Stack Overflow for Agents、ChatGPTプラグインで登録数が3倍に",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/4HTc2pk7XGFhzDU8RX0Ivg/ff2b922fa1914350c9d800da622ebe04/stack-overflow-social.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "Meta launches an open-weight AI model that runs on Macs",
-      "url": "https://techcrunch.com/2026/10/15/meta-launches-an-open-weight-model-that-runs-on-macs/",
+      "title": "Replit is no longer working with Anthropic, CEO says",
+      "url": "https://techcrunch.com/2026/10/16/replit-is-no-longer-working-with-anthropic-ceo-says/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-10-15T20:04:53.000Z",
-      "titleJa": "Meta、Macで動作するオープンウェイトAIモデルを公開",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2296215726.jpg?resize=1200,799"
+      "date": "2026-10-16T21:22:28.000Z",
+      "titleJa": "Replit、Anthropicとの協業を終了とCEOが明言",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/replit-ceo-masad.jpg?resize=1200,800"
     },
     {
-      "title": "Anthropic is letting METR researchers look under the hood with employee-level access",
-      "url": "https://techcrunch.com/2026/10/15/anthropic-is-letting-metr-researchers-look-under-the-hood-with-employee-level-access/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-15T19:14:26.000Z",
-      "titleJa": "Anthropic、METRの研究者に従業員並みのアクセス権を与え内部を開示",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/GettyImages-2278736523.jpeg?resize=1200,798"
-    },
-    {
-      "title": "Report: FTC probes Anthropic, OpenAI after Trump dismissed AI fears as “hoax”",
-      "url": "https://arstechnica.com/tech-policy/2026/10/ftc-probes-if-openai-anthropic-security-incidents-harmed-americans-report-says/",
+      "title": "OpenAI models hacked a crypto wallet and breached more websites",
+      "url": "https://arstechnica.com/security/2026/10/openai-models-hacked-a-crypto-wallet-and-breached-more-websites/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-10-15T15:43:24.000Z",
-      "titleJa": "報道：トランプ氏がAI懸念を「でっち上げ」と一蹴した後、FTCがAnthropicとOpenAIを調査",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-2277824748-1024x648.jpg"
+      "date": "2026-10-16T20:59:01.000Z",
+      "titleJa": "OpenAIのモデルが暗号資産ウォレットをハッキング、複数のWebサイトにも侵入",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/ai-agents-1152x648.jpg"
     },
     {
-      "title": "アマゾン、会話を記憶するAI端末「Bee」2機種を発表 手首やスマホに装着",
-      "url": "https://japan.cnet.com/article/35253611/",
-      "source": "CNET Japan",
+      "title": "Physical AI is more than robots, says the Nvidia veteran now investing in it",
+      "url": "https://techcrunch.com/podcast/physical-ai-is-more-than-robots-says-the-nvidia-veteran-now-investing-in-it/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-16T16:30:00.000Z",
+      "titleJa": "フィジカルAIはロボットだけではない──投資家に転じたNvidiaのベテランが語る",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Amulya-Vishwanath-Techable-VC.jpg?resize=960,1200"
+    },
+    {
+      "title": "An Nvidia insider-turned-VC on why robotics hasn’t hit its ChatGPT moment, yet",
+      "url": "https://techcrunch.com/video/a-nvidia-insider-turned-vc-on-why-robotics-hasnt-hit-its-chatgpt-moment-yet/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-16T16:30:00.000Z",
+      "titleJa": "元NvidiaのVCが語る、ロボティクスに「ChatGPTの瞬間」がまだ訪れない理由",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/unitree-robots.jpg?resize=1200,800"
+    },
+    {
+      "title": "AIエージェントの導入半年で明確なビジネス成果--キズキレンタルに聞く勘所",
+      "url": "https://japan.zdnet.com/article/35253643/",
+      "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-10-15T23:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/16/44dbc6adf88a4887006da019a81af841/Bee-Eclipse-phone-16x9-1_1280x960.jpg"
+      "date": "2026-10-16T06:14:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/16/9a0b04f815d557e34ad1e6b96741ceef/aiagentusecase_l.JPG"
     },
     {
-      "title": "FRONTIER、『AION2』推奨PCを発売 Core Ultra 7 270K Plus／Ryzen 7 9800X3D搭載の2モデル",
-      "url": "https://ascii.jp/elem/000/004/443/4443116/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-15T23:30:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/16/4539323/xl/6ca830629510c3e5.jpg?20200122"
-    },
-    {
-      "title": "「年4200時間の入力」「経験と勘」からの脱却 旧マルハニチロは「販売計画」をどう自動化した？",
-      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2610/16/news033.html",
+      "title": "Meta、「米国製で最高性能」のオープンモデル「Muse Spark Open」発表 Apple Siliconに最適化、Mac Studio×2でローカル動作",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2610/16/2000002328/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-15T23:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/ait/articles/2610/16/cover_news033.jpg"
+      "date": "2026-10-16T05:14:11.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/16/2000002328/10009582/2048"
     },
     {
-      "title": "論文の矛盾を見つけるAI「Deep Review」、Googleが公開 週2回まで無料",
-      "url": "https://japan.cnet.com/article/35253606/",
+      "title": "NinjaOne、IT運用支援AIとエージェント統制基盤を発表--インシデント対応を迅速化",
+      "url": "https://japan.zdnet.com/article/35253629/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-16T03:30:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/16/e73f6fe95f2445235b2fb8c3501684c5/20261016_adobestock_242229794_electronics_1280x960.jpg"
+    },
+    {
+      "title": "Microsoft、社内エンジニア数万人を対象に「Claude Code」「Copilot CLI」導入の影響を分析 生産性どう変わる",
+      "url": "https://www.itmedia.co.jp/news/article/2610/16/2000002277/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-16T03:00:00.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/16/2000002277/10009372/2048"
+    },
+    {
+      "title": "NVIDIAの新モデル「Nemotron 3.5」、オープンウェイトAIの新たな一歩",
+      "url": "https://japan.zdnet.com/article/35253617/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-16T01:29:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/16/4ac10ef50ef053098d2e811ad49c3678/Nemotron-3.5-Super-VL-image_1280.jpg"
+    },
+    {
+      "title": "Amazon、Beeの新AIデバイス2機種発表 リストバンド型とスマホ装着型、会話を要約し「Alexa+」と連携",
+      "url": "https://www.itmedia.co.jp/news/article/2610/16/2000002316/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-16T01:27:57.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/16/2000002316/10009529/2048"
+    },
+    {
+      "title": "グーグル、AI買い物支援「ユニバーサル カート」を提供開始 検索とGeminiで",
+      "url": "https://japan.cnet.com/article/35253615/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-15T22:30:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/16/1cf27845ecca3c79bde98f4a0ddd63d5/02_deepreview_large.jpg"
+      "date": "2026-10-16T00:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/16/4de04e9651214dbc1597304bf1339c07/Google-Universal-Cart_1280x960.jpg"
     },
     {
-      "title": "AIで自作したアプリ、開発者登録なしでGoogle Playで利用可能に--家族へシェアも可能",
-      "url": "https://japan.cnet.com/article/35253604/",
+      "title": "Meta、クラウド不要の大規模AI発表 「Mac Studio」2台で動作 Appleと異例の協力",
+      "url": "https://japan.cnet.com/article/35253607/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-15T22:25:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/16/365cff34e92381f7c91f0ee4b0f24d6b/01_googleplay_large.jpg"
-    },
-    {
-      "title": "判断特化AI「Jev」に新モデル。画像認識に対応＆新処理タイプ「Box」が追加。公式ベンチマークも公開に",
-      "url": "https://www.gizmodo.jp/article/2610-jev-1-14-release/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-10-15T22:15:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/10/15/1963a1e8-6cc9-4b3b-8e51-b4587ea407f2/original.png?w=1200&h=630"
-    },
-    {
-      "title": "揺れるAnthropic、玉虫色のAI自主規制 裁判資料が示すアモデイCEOの葛藤",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03757/100900005/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-15T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03757/100900005/topm.jpg?20220512"
-    },
-    {
-      "title": "AnthropicのBun、TypeScript 7よりも3倍以上高速なTypeScript型チェッカーを搭載。Bunの新バージョン1.4.3で",
-      "url": "https://www.publickey1.jp/blog/26/anthropicbuntypescript_73typescriptbun143.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-10-15T15:21:12.000Z",
-      "image": "https://www.publickey1.jp/2026/bun143-01.png"
+      "date": "2026-10-16T00:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/16/f401b51e44d5cb92646056e129b4f661/0911.jpg"
     },
     {
       "title": "Amp puts AI agents to work beyond code with OpenAI models",
@@ -108,17 +117,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-14T12:00:00.000Z",
-      "titleJa": "Amp、OpenAIのモデルでAIエージェントをコード以外の業務へ",
+      "titleJa": "Amp、OpenAIモデルでAIエージェントをコード以外の業務にも投入",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/4cxTIUhXa03TEYCnkIcMCu/29e6065058ed969022021186f994dad6/amp-beyond-coding-coiled-connection-seo-open-graph-1920x1080.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Gemini 4 Argon: Built to solve your hardest problems",
-      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-10-13T16:00:00.000Z",
-      "titleJa": "Gemini 4 Argon：最難関の課題を解くために作られた",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-4-argon__blog-header__2784x1566.width-1300.png"
     }
   ]
 }
