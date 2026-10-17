@@ -524,21 +524,6 @@ await shoot(
   path.join(ROOT, "public/og")
 );
 
-/* —— 白紙の対策書（/taisaku）用 —— */
-await shoot(
-  pageHtml({
-    kicker: "TAISAKU — あなた専用のセキュリティ手順書",
-    badge: "5問・端末別",
-    title: "不安なだけで、<br>終わらせない。",
-    titleSize: 88,
-    sub: "今日の15分 → 今週中に → もしもの時に",
-    short: "状況・端末・使っているサービスを5問選ぶと、設定画面の階層まで書いた手順書ができる。回答はどこにも送りません。",
-    site: "comixai.dev/taisaku",
-  }),
-  "taisaku.png",
-  path.join(ROOT, "public/og")
-);
-
 /* —— 仕事で使えるAIプロンプト集（/prompts）用 —— */
 const PROMPTS_OUT_DIR = path.join(ROOT, "public/og/prompts");
 await mkdir(PROMPTS_OUT_DIR, { recursive: true });
