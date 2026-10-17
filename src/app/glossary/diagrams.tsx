@@ -1841,6 +1841,24 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "always-listening-ai": {
+    caption: "録音されるのは自分だけではない",
+    render: () => (
+      <Svg h={240} title="常時録音AIとスマートスピーカーの違いの図解">
+        <T x={300} y={22} text="いつから記録が始まるかが違う" size={13.5} color={INK} />
+        <T x={20} y={66} text="スマートスピーカー" size={13} anchor="start" />
+        <B x={200} y={38} w={170} h={48} label="呼びかけ語を待つ" />
+        <AH x1={375} x2={410} y={62} />
+        <B x={415} y={38} w={165} h={48} label="そこから記録" />
+        <T x={20} y={138} text="常時録音AI" size={13} anchor="start" />
+        <B x={200} y={110} w={170} h={48} label="ずっと聞いている" fill={YELLOW} />
+        <AH x1={375} x2={410} y={134} />
+        <B x={415} y={110} w={165} h={48} label="あとで要約" />
+        <T x={300} y={192} text="止まるのは「呼ばない」ときではなく「切った」とき" size={13} />
+        <T x={300} y={220} text="拾うのは、目の前にいる人の声でもある" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
