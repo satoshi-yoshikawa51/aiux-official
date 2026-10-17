@@ -33,6 +33,12 @@ export type Service =
   | "game"
   | "cloud"
   | "slack"
+  | "nocode"
+  | "crm"
+  | "dev"
+  | "website"
+  | "byod"
+  | "subs"
   | "carrier"
   | "mynaportal"
   | "ai";
@@ -183,6 +189,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
       { v: "yahoo", l: "Yahoo! JAPAN", h: "Yahoo!ショッピング・Yahoo!メール" },
       { v: "mercari", l: "メルカリ" },
       { v: "game", l: "ゲーム（Nintendo・PlayStation・Steam）" },
+      { v: "subs", l: "そのほかのサブスク・会員サイト", h: "動画・音楽・レシピ・家計簿など。個別の手順はなく、共通の対策で守る" },
     ],
   },
   {
@@ -191,8 +198,13 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     icon: "ph-briefcase",
     onlyWork: true,
     services: [
-      { v: "cloud", l: "会社のクラウド（Google Drive、Teams など）" },
-      { v: "slack", l: "Slack・Zoom" },
+      { v: "cloud", l: "会社のクラウド・ドキュメント", h: "Google Drive、OneDrive、Dropbox、Notion、Backlog など" },
+      { v: "slack", l: "Slack・Zoom・Teams" },
+      { v: "crm", l: "顧客・売上の管理画面", h: "Salesforce、HubSpot、kintone、freee、Stripe、Shopify など" },
+      { v: "dev", l: "開発・クラウド", h: "GitHub、AWS、Google Cloud、Vercel、レンタルサーバー、ドメイン" },
+      { v: "website", l: "自社サイト・公式SNSの運用", h: "WordPress、広告アカウント、企業アカウント" },
+      { v: "nocode", l: "自動化・ノーコード", h: "Zapier、Make、GAS、Airtable など" },
+      { v: "byod", l: "会社のPC・スマホ、個人スマホでの業務" },
     ],
   },
   {
@@ -790,7 +802,7 @@ export const CARDS: Record<string, Card> = {
   },
   work_share: {
     id: "work_share",
-    t: "「リンクを知っている全員」の共有をなくす",
+    t: "「リンクを知っている全員」「Webに公開」の共有をなくす",
     svc: "cloud",
     time: "10分",
     lv: "ふつう",
@@ -800,8 +812,9 @@ export const CARDS: Record<string, Card> = {
         P("Google Driveアプリ → ファイルの「⋮」 → アクセスを管理 → 「一般的なアクセス」の「変更」"),
         P("「リンクを知っている全員」になっていたら「制限付き」へ", "必要な人だけを個別に追加"),
         P("自分が作ったファイルで、社外に送ったものから順に見直す"),
+        P("Notion：ページの「共有」→「Webで公開」をオフ。Dropbox・Backlog：共有リンクとゲストを見直す"),
       ],
-      android: [P("Google Driveアプリ → 「⋮」 → アクセスを管理 → 「一般的なアクセス」の「変更」"), P("「リンクを知っている全員」 → 「制限付き」へ")],
+      android: [P("Google Driveアプリ → 「⋮」 → アクセスを管理 → 「一般的なアクセス」の「変更」"), P("「リンクを知っている全員」 → 「制限付き」へ"), P("Notion：ページの「共有」→「Webで公開」をオフ。Dropbox・Backlog：共有リンクとゲストを見直す")],
       windows: [
         P("Google Drive：ファイルを右クリック → 共有 → 一般的なアクセス を「制限付き」に"),
         P("OneDrive／SharePoint：ファイルを右クリック → 共有 → リンクの設定 を「特定のユーザー」に"),
@@ -810,6 +823,7 @@ export const CARDS: Record<string, Card> = {
       mac: [
         P("Google Drive：ファイルを右クリック → 共有 → 一般的なアクセス を「制限付き」に"),
         P("OneDrive：共有 → リンクの設定 を「特定のユーザー」に"),
+        P("Notion：ページ右上「共有」→「Webで公開」がオンのページを探してオフに。Backlog・Dropbox：ゲストと共有リンクの一覧から、取引が終わった相手を外す", "顧客名の入ったページを公開したまま、が典型の事故"),
       ],
     },
     verified: null,
@@ -1087,14 +1101,14 @@ export const CARDS: Record<string, Card> = {
   /* --- 仕事（追加） --- */
   slack_check: {
     id: "slack_check",
-    t: "Slack・Zoomの「偽の招待」と連携アプリを点検する",
+    t: "Slack・Zoom・Teamsの「偽の招待」と連携アプリを点検する",
     svc: "slack",
     time: "5分",
     lv: "かんたん",
     why: "「新しいワークスペースに招待されました」「会議が始まります」の偽メールが、仕事用パスワードの入口になります。",
     steps: {
       any: [
-        P("招待・会議のメールは、メール内のボタンではなく Slack / Zoom のアプリを開いて確認する"),
+        P("招待・会議のメールは、メール内のボタンではなく Slack / Zoom / Teams のアプリを開いて確認する", "Teamsは会社のMicrosoftアカウント側の2段階認証がそのまま効く"),
         P("Slack：ブラウザで my.slack.com/account/settings（アカウント設定）→ 「2要素認証」を展開して設定", "会社がSSOなら不要。情報システム担当に確認"),
         P("Zoom：zoom.us にサインイン → プロフィール → 「サインイン」欄の 2段階認証 をオン", "Pro以上のプランで、メール＋パスワードでサインインしている人だけ。Google/SSOサインインは対象外"),
         P("Slack：ワークスペース名 → ツールと設定 → アプリを管理 → インストール済みアプリ で、使っていない連携アプリを削除", "チャットを読む権限を持ったまま放置されがち。削除できなければワークスペースのオーナーへ"),
@@ -1176,6 +1190,133 @@ export const CARDS: Record<string, Card> = {
     },
     verified: null,
   },
+
+  /* --- 仕事（追加） --- */
+  crm_2fa: {
+    id: "crm_2fa",
+    t: "顧客・売上の管理画面を、2段階認証と最小の権限に",
+    svc: "crm",
+    time: "10分",
+    lv: "ふつう",
+    why: "ここが抜かれると、流出するのは自分の情報ではなく「お客様全員」の情報です。Salesforce・Stripeなど主要サービスは2段階認証を必須にしています。",
+    steps: {
+      any: [
+        P("自分のアカウントの2段階認証がオンか確認する", "Salesforce：設定 → 高度なユーザの詳細／HubSpot：設定 → セキュリティ／freee：アカウント設定 → 2段階認証／Shopify：設定 → ユーザーと権限／Stripe：プロフィール → セキュリティ"),
+        P("自分の権限が「必要な分だけ」か見る。全件エクスポートや削除の権限が要らないなら、管理者に外してもらう", "権限が広いほど、乗っ取られた時の被害が大きい"),
+        P("ログイン通知・不審なログインの通知をオンにする"),
+        P("顧客データをCSVで落として、自分のPCやスマホに置いたままにしない", "作業が終わったら消す。メールやチャットにも貼らない"),
+      ],
+    },
+    verified: null,
+  },
+  dev_2fa: {
+    id: "dev_2fa",
+    t: "GitHub・AWS・Vercelなど開発アカウントに2段階認証をかける",
+    svc: "dev",
+    time: "10分",
+    lv: "ふつう",
+    why: "開発アカウントが取られると、コードの改ざんや、クラウドの乗っ取りで高額の請求につながります。",
+    steps: {
+      any: [
+        P("GitHub：Settings → Password and authentication → Two-factor authentication", "認証アプリかパスキー。コードを書く人は必須になっています"),
+        P("AWS：ルートユーザーにMFAをかけ、日常の作業はルートを使わない", "IAM → セキュリティ認証情報 → MFAデバイスの割り当て。普段はIAM Identity Center／IAMユーザーで"),
+        P("Vercel・Google Cloud・レンタルサーバー・ドメイン管理：アカウント設定の「2段階認証」「2要素認証」をオン", "ドメインを取られるとサイトごと乗っ取られる。お名前.com・ムームーなども忘れずに"),
+        P("SSH鍵にパスフレーズを付け、使っていない鍵と「Deploy key」を消す"),
+      ],
+    },
+    verified: null,
+  },
+  dev_keys: {
+    id: "dev_keys",
+    t: "APIキーをコードに書かない。課金アラートを置く",
+    svc: "dev",
+    time: "15分",
+    lv: "ふつう",
+    why: "GitHubに上がったキーは数分で拾われます。AWSのキー漏洩で数十万〜数百万円の請求、が実際に起きています。",
+    steps: {
+      any: [
+        P("キー・パスワードは .env や「環境変数」に置き、.gitignore に入れる", "AIにコードを書かせる時も、キーを貼らない"),
+        P("GitHub：Settings → Code security → Secret scanning（Push protection）をオン", "キーをpushしようとすると止めてくれる"),
+        P("AWS：Billing → Budgets で月額の予算アラートを作る。Google Cloud・Vercelも「予算」「Spend Management」で上限を", "乗っ取られた時に、請求額で気づける"),
+        P("使っていないAPIキー・アクセスキーを消し、残すものは発行日を見て古ければ作り直す", "OpenAI・Anthropic・Stripeのキーも同じ"),
+        P("キーをpushしてしまったら、消すのではなく「無効化して作り直す」", "履歴に残るので、消しても拾われます"),
+      ],
+    },
+    verified: null,
+  },
+  site_ops: {
+    id: "site_ops",
+    t: "WordPress・広告・公式SNSの管理画面を固める",
+    svc: "website",
+    time: "10分",
+    lv: "ふつう",
+    why: "自社サイトの改ざんは、訪問者に偽サイトや不正な広告を配ることになります。共有パスワードで回している管理画面が一番弱い。",
+    steps: {
+      any: [
+        P("WordPress：管理者のユーザー名を「admin」から変え、2段階認証のプラグインを入れる", "Wordfence、Two-Factor など。ログインURLの変更も効く"),
+        P("WordPress：本体・テーマ・プラグインの自動更新をオンにし、使っていないプラグインは削除", "古いプラグインの穴から入られるのが定番"),
+        P("Google広告・Meta広告：管理画面の「アクセス権」で、辞めた人・終わった代理店を外す", "広告費を勝手に使われる被害は、ここの放置から"),
+        P("公式X・Instagramの共有パスワードをやめ、「委任」「アカウントセンターの権限」で人ごとに付与する", "どうしても共有するなら、パスワード管理アプリの共有機能で"),
+        P("Google Analytics・Search Console のユーザー一覧も、年に1回は棚卸し"),
+      ],
+    },
+    verified: null,
+  },
+  nocode_check: {
+    id: "nocode_check",
+    t: "自動化・ノーコードの「連携」と「キー」を棚卸しする",
+    svc: "nocode",
+    time: "10分",
+    lv: "ふつう",
+    why: "Zapier・Make・GASは、あなたの代わりにメールやスプレッドシートを読み書きする権限を持っています。辞めた人が作った自動化が動き続けている、が典型。",
+    steps: {
+      any: [
+        P("Zapier：Apps（接続済みアプリ）／Make：Connections で、使っていない接続を切る", "接続先が個人のGoogleアカウントになっていないかも見る"),
+        P("Google：myaccount.google.com → セキュリティとログイン → 「サードパーティ製のアプリとサービス」で、GASやZapierに与えた権限を見直す"),
+        P("自動化の中にAPIキーやパスワードを直書きしていないか確認し、サービスの「接続」機能やシークレットの設定に移す"),
+        P("kintone・Airtable：アプリごとのアクセス権と「外部公開」のフォーム・ビューを確認", "公開フォームの回答に個人情報が溜まりやすい"),
+        P("自動化の持ち主を個人ではなくチームのアカウントにして、退職しても止まらない・残らないようにする"),
+      ],
+    },
+    verified: null,
+  },
+  byod_rules: {
+    id: "byod_rules",
+    t: "会社のPC・スマホと、個人スマホでの業務の線を引く",
+    svc: "byod",
+    time: "5分",
+    lv: "かんたん",
+    why: "漏れる場所は「会社のシステム」より「個人スマホの写真とLINE」のことが多い。",
+    steps: {
+      any: [
+        P("会社支給の端末は、会社の管理（MDM）とアップデートの指示に従う。止めない・外さない"),
+        P("個人スマホで業務をするなら、顧客情報のスクリーンショットと写真を撮らない・残さない", "撮ったら用が済み次第消す。クラウド写真に自動で上がります"),
+        P("顧客の名前・連絡先を、個人のLINE・メールで送らない。会社のツールを通す"),
+        P("端末をなくしたら、探すより先に会社へ連絡", "遠隔で消せるのは会社側。iPhoneを探す／Find Hub は自分でオンに"),
+        P("退職・異動のときは、個人端末から業務データとアカウントを消す"),
+      ],
+    },
+    verified: null,
+  },
+
+  /* --- くらしの長い尻尾 --- */
+  subs_check: {
+    id: "subs_check",
+    t: "サブスク・会員サイトは「使い回さない・カードを残さない・やめる」",
+    svc: "subs",
+    time: "10分",
+    lv: "かんたん",
+    why: "動画・音楽・レシピなどは、乗っ取られてもそれ自体の被害は小さい。怖いのは、そこで使い回したパスワードが大事なサービスに流用されること。",
+    steps: {
+      any: [
+        P("大事なサービス（メール・ID・お金）と同じパスワードを使っていたら、サブスク側を変える", "大事な側を変えるのではなく、小さい側を変える"),
+        P("使っていないものは退会し、退会できないものはカード情報と住所を削除する"),
+        P("家族と共有しているアカウントは、パスワードを変えたら全員に伝える", "自分だけ変えても、古いパスワードが家族のスマホに残る"),
+        P("「お支払いに失敗しました」のメールは、メールのリンクからではなくアプリを開いて確認", "サブスクの名前をかたる偽メールの定番"),
+      ],
+    },
+    verified: null,
+  },
 };
 
 export const CARD_LIST: Card[] = Object.values(CARDS);
@@ -1228,8 +1369,14 @@ export const SERVICE_ORDER: Service[] = [
   "game",
   "carrier",
   "mynaportal",
+  "subs",
   "cloud",
   "slack",
+  "crm",
+  "dev",
+  "website",
+  "nocode",
+  "byod",
   "ai",
 ];
 
@@ -1249,8 +1396,14 @@ const SERVICE_RULES: Record<Service, ServiceRule> = {
   game: { twofa: "game_2fa" },
   carrier: { twofa: "carrier_2fa" },
   mynaportal: { week: ["myna_check"] },
+  subs: { week: ["subs_check"] },
   cloud: { week: ["work_share", "work_2fa"] },
   slack: { week: ["slack_check"] },
+  crm: { twofa: "crm_2fa" },
+  dev: { twofa: "dev_2fa", week: ["dev_keys"] },
+  website: { twofa: "site_ops" },
+  nocode: { week: ["nocode_check"] },
+  byod: { week: ["byod_rules"] },
   ai: { twofa: "ai_2fa", week: ["ai_history"] },
 };
 

@@ -1,7 +1,7 @@
 # サイバー攻撃防災手帳（/bousai）の手順カード
 
 手順カードは `src/app/bousai/data.ts` の `CARDS` に固定で持つ。AIには書かせない。
-2026年10月17日に、各サービスの公式ヘルプ（Web検索で取得できた範囲）と全42枚を突き合わせ、
+2026年10月17日に、各サービスの公式ヘルプ（Web検索で取得できた範囲）と当時の42枚を突き合わせ、
 項目名・階層・事実関係を修正した。**実機では未検証**なので、確かめたカードから
 `verified: "YYYY-MM-DD"` を入れること（画面の表記が「実機確認：…」に変わる）。
 
@@ -28,6 +28,17 @@
 - Slack：連携アプリは ワークスペース名 → ツールと設定 → アプリを管理。Zoomの2段階認証はPro以上かつメール＋パスワードのサインインのみ
 - Claude：個人アカウントに2要素認証の設定は無い（Googleログイン／メールリンク）
 - 事例：「顧客リストをChatGPTに貼った」の実例は確認できず、サムスン電子（2023年）の例に差し替え
+
+## 照合していないカード（2026年10月17日の照合後に追加）
+
+仕事の分類を7つに広げたときに足した7枚は、公式ヘルプとの照合をまだしていない。
+一般的な設定場所を書いているが、サービス名を挙げている箇所は項目名の確認が要る。
+
+- crm_2fa（Salesforce・HubSpot・freee・Shopify・Stripe の2段階認証の場所）
+- dev_2fa / dev_keys（GitHub の Two-factor authentication と Secret scanning、AWS の MFA と Budgets、Vercel の Spend Management）
+- site_ops（WordPress の2段階認証プラグイン、Google広告・Meta広告のアクセス権、X の委任）
+- nocode_check（Zapier の Apps、Make の Connections、Google の「サードパーティ製のアプリとサービス」）
+- byod_rules、subs_check（一般論のみ）
 
 ## 実機で確かめたいもの（検索では確定できなかった）
 
