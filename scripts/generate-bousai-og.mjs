@@ -1,12 +1,12 @@
 /* ============================================================
-   「白紙の対策書」（/taisaku）のOGP画像（1200×630）を生成する。
+   「サイバー攻撃防災手帳」（/bousai）のOGP画像（1200×630）を生成する。
    ページ本体と同じサイバー調（黒地に緑のコードの雨）で、
-   色は taisaku.css の --tk-* をそのまま読んで使う（2か所で持たない）。
-   Playwright(Chromium)でスクリーンショットして public/og/taisaku.png に書き出す。
+   色は bousai.css の --tk-* をそのまま読んで使う（2か所で持たない）。
+   Playwright(Chromium)でスクリーンショットして public/og/bousai.png に書き出す。
 
    使い方:
-     node scripts/generate-taisaku-og.mjs
-     （npm run og:taisaku でも実行できる）
+     node scripts/generate-bousai-og.mjs
+     （npm run og:bousai でも実行できる）
    ============================================================ */
 import { mkdir, readFile } from "node:fs/promises";
 import { execSync } from "node:child_process";
@@ -14,9 +14,9 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = path.join(ROOT, "public/og/taisaku.png");
+const OUT = path.join(ROOT, "public/og/bousai.png");
 
-const css = await readFile(path.join(ROOT, "src/app/taisaku/taisaku.css"), "utf8");
+const css = await readFile(path.join(ROOT, "src/app/bousai/bousai.css"), "utf8");
 const tok = (name) => css.match(new RegExp(`--${name}:\\s*([^;]+);`))[1].trim();
 const BG = tok("tk-bg");
 const GREEN = tok("tk-green");
@@ -85,11 +85,11 @@ body{width:1200px;height:630px;background:${BG};color:${TEXT};font-family:"Zen K
 <div class="shade"></div><div class="scan"></div>
 <div class="frame"><i></i><i></i><i></i><i></i></div>
 <div class="body">
-  <div class="kicker">TAISAKU — PERSONAL SECURITY PLAYBOOK</div>
-  <div class="title">5問で、<br>あなたの対策書。</div>
-  <div class="sub">今日の15分 <b>→</b> 今週中に <b>→</b> もしもの時に ｜ iPhone / Android / Windows / Mac</div>
+  <div class="kicker">CYBER ATTACK — DISASTER KIT</div>
+  <div class="title">サイバー攻撃<br>防災手帳</div>
+  <div class="sub">5問で、あなた専用のセキュリティ手順書 ｜ iPhone / Android / Windows / Mac</div>
   <div class="tags"><span class="tag red">LOCAL ONLY</span><span class="tag">回答はどこにも送らない</span></div>
-  <div class="brand">comixai.dev/taisaku ・ <b>COMIXAI</b></div>
+  <div class="brand">comixai.dev/bousai ・ <b>COMIXAI</b></div>
 </div>
 </body></html>`;
 
@@ -103,4 +103,4 @@ await page.evaluate(() => document.fonts.ready);
 await mkdir(path.dirname(OUT), { recursive: true });
 await page.screenshot({ path: OUT, type: "png" });
 await browser.close();
-console.log("✔ public/og/taisaku.png");
+console.log("✔ public/og/bousai.png");

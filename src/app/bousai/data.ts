@@ -1,5 +1,5 @@
 /* ============================================================
-   対策書（/taisaku）のデータ。
+   サイバー攻撃防災手帳（/bousai）のデータ。
    質問 → 手順カードの並び替え（buildPlan）→ 前書き（preface）まで、
    AIを使わずにここで決める。
 
@@ -12,7 +12,7 @@
    確かめたら日付を入れる（画面には「手順カード更新：YYYY年M月」で出る）。
    ============================================================ */
 
-export const TAISAKU_UPDATED = "2026-10-17";
+export const BOUSAI_UPDATED = "2026-10-17";
 
 export type Situation = "anx" | "phish" | "breach" | "hijack";
 export type Device = "iphone" | "android" | "windows" | "mac";
@@ -888,9 +888,9 @@ export function minutes(ids: string[]): number {
 /* ---------------- 前書き ---------------- */
 
 export const SIT_TITLE: Record<Situation, string> = {
-  anx: "安心のための対策書",
-  phish: "不審メールへの対策書",
-  breach: "流出通知への対策書",
+  anx: "安心のための防災手帳",
+  phish: "不審メールへの防災手帳",
+  breach: "流出通知への防災手帳",
   hijack: "乗っ取りからの復旧書",
 };
 

@@ -1,7 +1,7 @@
 "use client";
 
 /* ============================================================
-   対策書（/taisaku）の本体。質問 → 生成演出 → 手順書まで、
+   サイバー攻撃防災手帳（/bousai）の本体。質問 → 生成演出 → 手順書まで、
    全部ブラウザ内で完結する。
 
    ・回答も進捗もサーバーに送らない。localStorage だけ
@@ -9,8 +9,8 @@
    ・手順カードの本文は data.ts に固定で持つ。AIは関与しない
    ・共有は回答をURLハッシュに埋め込む（#s=..&d=..&r=..&v=..&p=..）。
      開いた側は質問なしで手順書が出て、チェックは開いた端末に保存される
-   ・印刷は window.print()。印刷時は白地・黒字に戻す（taisaku.css）
-   見た目のクラスは taisaku.css。色は --tk-* に集めてある。
+   ・印刷は window.print()。印刷時は白地・黒字に戻す（bousai.css）
+   見た目のクラスは bousai.css。色は --tk-* に集めてある。
    ============================================================ */
 
 import React from "react";
@@ -54,7 +54,7 @@ function complete(d: Draft): Answers | null {
 /* —— 進捗（やった✓）の保存。キーは回答のエンコード文字列なので、
       同じ回答なら進捗を引き継ぐ —— */
 type Done = Record<string, true>;
-const storageKey = (a: Answers) => "taisaku:" + encodeAnswers(a);
+const storageKey = (a: Answers) => "bousai:" + encodeAnswers(a);
 function loadDone(a: Answers): Done {
   try {
     return JSON.parse(localStorage.getItem(storageKey(a)) || "{}") as Done;
@@ -153,14 +153,14 @@ export function TaisakuApp() {
       setAnswers(a);
       setShared(true);
       setScreen("result");
-      track("taisaku_open_shared", { sit: a.sit });
+      track("bousai_open_shared", { sit: a.sit });
     }
   }, []);
 
   const finish = (a: Answers) => {
     setAnswers(a);
     setShared(false);
-    track("taisaku_result", { sit: a.sit, role: a.role, devices: a.dev.length, services: a.svc.length });
+    track("bousai_result", { sit: a.sit, role: a.role, devices: a.dev.length, services: a.svc.length });
     window.scrollTo({ top: 0, behavior: "smooth" });
     setScreen(prefersReducedMotion() ? "result" : "build");
   };
@@ -239,7 +239,7 @@ function Ask({
     }
     /* 個人に戻したら、仕事限定の選択肢（会社のクラウド）は外す */
     if (q.id === "role" && v === "personal") d.svc = d.svc.filter((s) => s !== "cloud");
-    if (qi === 0 && !draft.sit) track("taisaku_start");
+    if (qi === 0 && !draft.sit) track("bousai_start");
     onChange(d, q.id);
   };
 
@@ -323,7 +323,7 @@ function Ask({
                 if (a) onFinish(a);
               }}
             >
-              {last ? "対策書を生成" : "次へ"}
+              {last ? "防災手帳を生成" : "次へ"}
               <i className={"ph-bold " + (last ? "ph-lightning" : "ph-arrow-right")} />
             </button>
           </div>
@@ -416,10 +416,10 @@ function Result({ answers, shared, onRestart, say }: { answers: Answers; shared:
   const share = async () => {
     const url = location.origin + location.pathname + "#" + encodeAnswers(answers);
     const text = "あなた用のセキュリティ手順書を作りました。開いて、上から順にやってみて。";
-    track("taisaku_share");
+    track("bousai_share");
     try {
       if (navigator.share) {
-        await navigator.share({ title: "白紙の対策書｜COMIXAI", text, url });
+        await navigator.share({ title: "サイバー攻撃防災手帳｜COMIXAI", text, url });
         return;
       }
     } catch {
@@ -434,7 +434,7 @@ function Result({ answers, shared, onRestart, say }: { answers: Answers; shared:
   };
 
   const print = () => {
-    track("taisaku_print");
+    track("bousai_print");
     /* 印刷時は全カード展開（CSS側でも display:block にしているが、aria状態も揃える） */
     setOpen(Object.fromEntries(all.map((id) => [id, true])));
     setTimeout(() => window.print(), 50);
@@ -445,7 +445,7 @@ function Result({ answers, shared, onRestart, say }: { answers: Answers; shared:
       {shared && (
         <div className="tk-banner tk-noprint">
           <i className="ph-bold ph-envelope-open" style={{ fontSize: 18, marginTop: 2, flex: "none" }} />
-          <span>共有された対策書です。チェックはこの端末に保存されます。自分の状況で作り直すなら、下の「答え直す」から。</span>
+          <span>共有された防災手帳です。チェックはこの端末に保存されます。自分の状況で作り直すなら、下の「答え直す」から。</span>
         </div>
       )}
 
@@ -534,7 +534,7 @@ function Result({ answers, shared, onRestart, say }: { answers: Answers; shared:
       <div className="tk-actions tk-noprint">
         <button type="button" className="tk-btn" onClick={share}>
           <i className="ph-bold ph-paper-plane-tilt" />
-          この対策書を送る（家族・親へ）
+          この手帳を送る（家族・親へ）
         </button>
         <button type="button" className="tk-btn ghost" onClick={print}>
           <i className="ph-bold ph-printer" />

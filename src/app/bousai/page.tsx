@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import { TaisakuApp } from "./app";
 import { CyberRain } from "./rain";
-import "./taisaku.css";
+import "./bousai.css";
 
 /* ============================================================
-   白紙の対策書 — 体験そのもののページ。
-   説明ページは /works/hakushi-taisakusho（works/data.ts）にあり、
+   サイバー攻撃防災手帳 — 体験そのもののページ。
+   説明ページは /works/cyber-bousai（works/data.ts）にあり、
    そこから「つくってもらう」でここに来る。白紙のLP（/lp）と同じ
    二段構えなので、ここにはサイトのナビやパンくずを置かず、
    見た目もサイト本体から切り離してサイバー調にしている。
    ============================================================ */
 
-const TITLE = "白紙の対策書｜5問で、あなた専用のセキュリティ手順書";
+const TITLE = "サイバー攻撃防災手帳｜5問で、あなた専用のセキュリティ手順書";
 const DESC =
   "サイバー攻撃や個人情報流出が不安な人へ。いまの状況・端末・使っているサービスを5問選ぶだけで、iPhone / Android / Windows / Mac 別に、設定画面の階層まで書いた手順書ができます。「今日の15分」「今週中に」「もしもの時に」の3段階、やった順にチェック。回答はサーバーに送りません。";
 
@@ -26,15 +26,15 @@ export const metadata: Metadata = {
     "アカウント 乗っ取り 対処",
     "パスワード 使い回し 対策",
   ],
-  alternates: { canonical: "/taisaku" },
+  alternates: { canonical: "/bousai" },
   openGraph: {
     type: "website",
     siteName: "COMIXAI",
     title: TITLE,
     description: "5問選ぶと、端末別の手順が並んだ自分専用のセキュリティ手順書ができる。入力はこの端末の中だけ。",
-    url: "/taisaku",
+    url: "/bousai",
     locale: "ja_JP",
-    images: [{ url: "/og/taisaku.png", width: 1200, height: 630, alt: "白紙の対策書" }],
+    images: [{ url: "/og/bousai.png", width: 1200, height: 630, alt: "サイバー攻撃防災手帳" }],
   },
   twitter: { card: "summary_large_image" },
 };
@@ -46,13 +46,13 @@ const JSON_LD = {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "ホーム", item: "https://comixai.dev/" },
-        { "@type": "ListItem", position: 2, name: "白紙の対策書", item: "https://comixai.dev/taisaku" },
+        { "@type": "ListItem", position: 2, name: "サイバー攻撃防災手帳", item: "https://comixai.dev/bousai" },
       ],
     },
     {
       "@type": "WebApplication",
-      name: "白紙の対策書",
-      url: "https://comixai.dev/taisaku",
+      name: "サイバー攻撃防災手帳",
+      url: "https://comixai.dev/bousai",
       applicationCategory: "SecurityApplication",
       operatingSystem: "Web",
       description: "5つの質問から、端末別の手順を並べた自分専用のセキュリティ手順書を組み立てるWebアプリ。回答はブラウザ内だけで処理する。",
@@ -63,8 +63,8 @@ const JSON_LD = {
   ],
 };
 
-const SHARE_TEXT = "白紙の対策書｜5問で、あなた専用のセキュリティ手順書 | COMIXAI";
-const X_HREF = `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent("https://comixai.dev/taisaku")}`;
+const SHARE_TEXT = "サイバー攻撃防災手帳｜5問で、あなた専用のセキュリティ手順書 | COMIXAI";
+const X_HREF = `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent("https://comixai.dev/bousai")}`;
 
 export default function TaisakuPage() {
   return (
@@ -72,18 +72,18 @@ export default function TaisakuPage() {
       <CyberRain />
       <main className="tk-main">
         <div className="tk-topbar">
-          <a href="/" className="tk-brand" data-ga="cta_click" data-ga-place="taisaku-top" data-ga-path="/">
+          <a href="/" className="tk-brand" data-ga="cta_click" data-ga-place="bousai-top" data-ga-path="/">
             COMIX<b>AI</b>
           </a>
-          <span>/ 白紙の対策書</span>
+          <span>/ サイバー攻撃防災手帳</span>
           <span className="tk-spacer" />
           <span className="tk-status">LOCAL ONLY</span>
         </div>
 
         <header className="tk-hero">
-          <div className="tk-kicker">TAISAKU — PERSONAL SECURITY PLAYBOOK</div>
-          <h1 className="tk-title" data-text="5問で、あなたの対策書。">
-            5問で、あなたの対策書。
+          <div className="tk-kicker">CYBER ATTACK — DISASTER KIT</div>
+          <h1 className="tk-title" data-text="5問で、あなたの防災手帳。">
+            5問で、あなたの防災手帳。
           </h1>
           <p className="tk-lead">
             いまの状況と端末、使っているサービスを選ぶだけ。設定画面の階層まで書いた手順が、「今日の15分」「今週中に」「もしもの時に」の3段階に並びます。
@@ -93,15 +93,15 @@ export default function TaisakuPage() {
         <TaisakuApp />
 
         <div className="tk-bottombar tk-noprint">
-          <a href="/works/hakushi-taisakusho" data-ga="cta_click" data-ga-place="taisaku-bottom" data-ga-path="/works/hakushi-taisakusho">
+          <a href="/works/cyber-bousai" data-ga="cta_click" data-ga-place="bousai-bottom" data-ga-path="/works/cyber-bousai">
             <i className="ph-bold ph-info" />
             このコンテンツについて
           </a>
-          <a href={X_HREF} target="_blank" rel="noopener noreferrer" data-ga="share_click" data-ga-network="x" data-ga-path="/taisaku">
+          <a href={X_HREF} target="_blank" rel="noopener noreferrer" data-ga="share_click" data-ga-network="x" data-ga-path="/bousai">
             <i className="ph-bold ph-x-logo" />
             ポスト
           </a>
-          <a href="/" data-ga="cta_click" data-ga-place="taisaku-bottom" data-ga-path="/">
+          <a href="/" data-ga="cta_click" data-ga-place="bousai-bottom" data-ga-path="/">
             <i className="ph-bold ph-house" />
             COMIXAI トップへ
           </a>
