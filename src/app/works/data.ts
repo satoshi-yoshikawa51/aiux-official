@@ -521,6 +521,54 @@ export const WORK_DETAILS: WorkDetail[] = [
     appCategory: "LifestyleApplication",
     storyUrls: [],
   },
+  {
+    slug: "hakushi-taisakusho",
+    category: "くらし",
+    title: "白紙の対策書",
+    tagline: "5問答えると、端末別の手順が並んだ、あなた専用のセキュリティ手順書ができる。",
+    appUrl: "/taisaku",
+    cta: "つくってもらう",
+    image: "/og/taisaku.png",
+    tone: "red",
+    badge: "手順書",
+    lastUpdated: "2026-10-17",
+    metaTitle: "白紙の対策書｜5問で、あなた専用のセキュリティ手順書ができる",
+    metaDescription:
+      "サイバー攻撃・個人情報流出が不安な人向け。いまの状況・端末・立場・使っているサービス・パスワード管理の5問を選ぶと、iPhone / Android / Windows / Mac 別に設定画面の階層まで書いた手順書が組み上がります。「今日の15分」「今週中に」「もしもの時に」の3段階でチェックしながら進める。回答はサーバーに送らず、ブラウザ内だけで処理します。",
+    keywords: [
+      "セキュリティ対策 個人",
+      "個人情報 流出 対処法",
+      "2段階認証 設定",
+      "フィッシング 見分け方",
+      "アカウント 乗っ取り 復旧",
+      "パスワード 管理 方法",
+    ],
+    intro: [
+      "「情報が流出しました」のニュースを見て不安になる。でも何をすればいいか分からず、翌日には忘れている——そんな人のために作った、自分専用のセキュリティ手順書です。いまの状況・使っている端末・立場・サービス・パスワードの管理方法を5問選ぶと、「今日の15分」「今週中に」「もしもの時に」の3段階に手順カードが並びます。端末タブで iPhone / Android / Windows / Mac を切り替えられ、手順は「設定 → 自分の名前 → サインインとセキュリティ」のように画面の階層まで書いてあります。やった順にチェックを入れて、家族や親にはURLひとつで送れます。",
+      "決めたことは2つ。ひとつは、手順をAIに書かせないこと。OSのメニュー名を生成させると誤りが致命的になるので、手順カードは人が確認して固定し、回答から組み立てるのは「どのカードをどの順で出すか」と前書きだけにしています。もうひとつは、回答も進捗もサーバーに送らないこと。セキュリティの不安を扱うページが、不安の源になってはいけない。すべてブラウザの中だけで完結します。",
+    ],
+    features: [
+      {
+        icon: "ph-devices",
+        title: "端末別に、画面の階層まで",
+        text: "iPhone / Android / Windows / Mac で手順を切り替え。「どこを押すか」で迷わない深さで書いてある。",
+      },
+      {
+        icon: "ph-lock-key",
+        title: "回答はどこにも送らない",
+        text: "回答もチェックもブラウザの中だけ。共有は回答をURLに埋め込むので、開いた側も質問なしで手順書が出る。",
+      },
+      {
+        icon: "ph-list-checks",
+        title: "3段階で、チェックして進める",
+        text: "今日の15分・今週中に・もしもの時に。やった順に✓が入り、印刷すればそのまま紙の手順書になる。",
+      },
+    ],
+    tech: ["Claude Code", "Next.js", "Vercel"],
+    schemaType: "WebApplication",
+    appCategory: "SecurityApplication",
+    storyUrls: [],
+  },
 ];
 
 export function getWork(slug: string): WorkDetail | undefined {

@@ -8,6 +8,7 @@ import { EVENTS_UPDATED } from "./calendar/events";
 import { GUIDES, GUIDES_UPDATED } from "./guide/data";
 import { VS_PAIRS, VS_UPDATED } from "./vs/data";
 import { listYonkoma } from "./yonkoma/registry";
+import { TAISAKU_UPDATED } from "./taisaku/data";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -48,6 +49,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${base}/lp`,
       lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    /* 対策書（/taisaku）。works の一覧には載るが app/ 直下のページなので別途 */
+    {
+      url: `${base}/taisaku`,
+      lastModified: new Date(TAISAKU_UPDATED),
       changeFrequency: "monthly",
       priority: 0.8,
     },
