@@ -17,6 +17,8 @@ import React from "react";
 import { track } from "../ga";
 import {
   QUESTIONS,
+  SERVICE_CATEGORIES,
+  SERVICE_ORDER,
   CARDS,
   CARDS_REVISED,
   DEVICE_NAME,
@@ -282,6 +284,9 @@ function Ask({
             {shown}
             {typing && <span className="tk-caret" aria-hidden="true" />}
           </h2>
+          {q.id === "svc" ? (
+            <ServicePicker selected={draft.svc} work={draft.role === "work"} onPick={pick} />
+          ) : (
           <div className="tk-opts" role={q.type === "single" ? "radiogroup" : "group"}>
             {opts.map((o) => {
               const on = q.type === "single" ? sel === o.v : (sel as string[]).includes(o.v);
@@ -305,6 +310,7 @@ function Ask({
               );
             })}
           </div>
+          )}
           <div className="tk-nav">
             <button type="button" className="tk-btn quiet sm" onClick={() => onNav(qi - 1)} style={{ visibility: qi === 0 ? "hidden" : "visible" }}>
               <i className="ph-bold ph-arrow-left" />
@@ -339,6 +345,51 @@ function Ask({
 }
 
 /* ============================================================
+   使うもの：カテゴリのチップを開くと、その中のサービスを選べる。
+   選んだ数をチップに出すので、閉じても選んだことが分かる
+   ============================================================ */
+function ServicePicker({ selected, work, onPick }: { selected: string[]; work: boolean; onPick: (v: string) => void }) {
+  const cats = SERVICE_CATEGORIES.filter((c) => !c.onlyWork || work);
+  const [open, setOpen] = React.useState<string>(cats[0].id);
+  const cur = cats.find((c) => c.id === open) ?? cats[0];
+  return (
+    <div>
+      <div className="tk-cats" role="tablist" aria-label="分類">
+        {cats.map((c) => {
+          const n = c.services.filter((o) => selected.includes(o.v)).length;
+          return (
+            <button key={c.id} type="button" role="tab" className="tk-cat" aria-selected={c.id === cur.id} onClick={() => setOpen(c.id)}>
+              <i className={"ph-bold " + c.icon} />
+              {c.label}
+              {n > 0 && <span className="tk-cat-n">{n}</span>}
+            </button>
+          );
+        })}
+      </div>
+      <div className="tk-opts tk-cat-body" role="group" aria-label={cur.label} key={cur.id}>
+        {cur.services.map((o) => {
+          const on = selected.includes(o.v);
+          return (
+            <button key={o.v} type="button" className="tk-opt" role="checkbox" aria-checked={on} onClick={() => onPick(o.v)}>
+              <span className="tk-box" aria-hidden="true">
+                {on && <i className="ph-bold ph-check" />}
+              </span>
+              <span style={{ flex: 1 }}>
+                <span className="tk-l">{o.l}</span>
+                {o.h && <span className="tk-h">{o.h}</span>}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <div className="tk-cat-note">
+        {selected.length ? `${selected.length}個 選択中` : "使っているものにチェック。使っていない分類は飛ばしてOK"}
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
    生成演出（ターミナル風に1行ずつ）。中身は buildPlan の結果そのもの
    ============================================================ */
 function Build({ answers, onDone }: { answers: Answers; onDone: () => void }) {
@@ -346,7 +397,7 @@ function Build({ answers, onDone }: { answers: Answers; onDone: () => void }) {
     const plan = buildPlan(answers);
     return [
       { t: `> 端末: ${answers.dev.map((d) => DEVICE_NAME[d]).join(", ")}`, c: "dim" },
-      { t: `> 対象: ${answers.svc.map((s) => LABEL[s]).join(", ") || "共通のみ"}`, c: "dim" },
+      { t: `> 対象: ${answers.svc.length > 4 ? answers.svc.slice(0, 4).map((s) => LABEL[s]).join(", ") + ` ほか${answers.svc.length - 4}` : answers.svc.map((s) => LABEL[s]).join(", ") || "共通のみ"}`, c: "dim" },
       { t: `手順カード ${Object.keys(CARDS).length} 枚を照合`, c: "ok" },
       { t: `今日の15分: ${plan.today.length} 枚（約${minutes(plan.today)}分）`, c: "ok" },
       { t: `今週中に: ${plan.week.length} 枚`, c: "ok" },
@@ -401,6 +452,20 @@ function Result({ answers, shared, onRestart, say }: { answers: Answers; shared:
 
   const nDone = all.filter((id) => done[id]).length;
   const pct = all.length ? Math.round((nDone / all.length) * 100) : 0;
+
+  /* 選んだサービスごとに、手帳の中で最初に出るカード */
+  const svcIndex = React.useMemo(
+    () =>
+      SERVICE_ORDER.filter((s) => answers.svc.includes(s))
+        .map((s) => ({ s, id: all.find((id) => CARDS[id].svc === s) }))
+        .filter((x): x is { s: (typeof SERVICE_ORDER)[number]; id: string } => !!x.id),
+    [answers.svc, all],
+  );
+  const jump = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    setOpen((o) => ({ ...o, [id]: true }));
+    document.getElementById(`card-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const toggleDone = (id: string) => {
     const d: Done = { ...done };
@@ -483,6 +548,17 @@ function Result({ answers, shared, onRestart, say }: { answers: Answers; shared:
             <i style={{ width: `${pct}%` }} />
           </div>
         </div>
+
+        {/* サービス別の目次：そのサービスの最初のカードへ飛ぶ */}
+        {svcIndex.length > 1 && (
+          <nav className="tk-noprint tk-svcidx" aria-label="サービス別の目次">
+            {svcIndex.map(({ s, id }) => (
+              <a key={s} href={`#card-${id}`} onClick={(e) => jump(e, id)}>
+                {LABEL[s]}
+              </a>
+            ))}
+          </nav>
+        )}
 
         {answers.dev.length > 1 && (
           <div className="tk-noprint">
@@ -581,7 +657,7 @@ function StepCard({
     : `手順カード更新：${CARDS_REVISED}`;
 
   return (
-    <article className={"tk-card" + (done ? " done" : "") + (open ? " open" : "")}>
+    <article id={`card-${card.id}`} className={"tk-card" + (done ? " done" : "") + (open ? " open" : "")} style={{ scrollMarginTop: 16 }}>
       {/* 頭：閉じていれば開く、開いていれば✓の切り替え */}
       <button type="button" className="tk-card-head" aria-expanded={open} aria-pressed={done} onClick={() => (open ? onToggleDone() : onOpen())}>
         <span className="tk-chk" aria-hidden="true">

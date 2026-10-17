@@ -17,7 +17,25 @@ export const BOUSAI_UPDATED = "2026-10-17";
 export type Situation = "anx" | "phish" | "breach" | "hijack";
 export type Device = "iphone" | "android" | "windows" | "mac";
 export type Role = "personal" | "work";
-export type Service = "google" | "apple" | "line" | "shop" | "pay" | "cloud";
+export type Service =
+  | "google"
+  | "apple"
+  | "ms"
+  | "pay"
+  | "sec"
+  | "card"
+  | "line"
+  | "sns"
+  | "discord"
+  | "shop"
+  | "yahoo"
+  | "mercari"
+  | "game"
+  | "cloud"
+  | "slack"
+  | "carrier"
+  | "mynaportal"
+  | "ai";
 export type PwStyle = "reuse" | "memo" | "app" | "unknown";
 
 export interface Answers {
@@ -92,16 +110,10 @@ export const QUESTIONS: Question[] = [
     type: "multi",
     key: "使うもの",
     title: "使っているものは？",
-    hint: "複数OK",
+    hint: "複数OK。分類を開いて選ぶ",
     icon: "ph-squares-four",
-    opts: [
-      { v: "google", l: "Google / Gmail" },
-      { v: "apple", l: "Apple ID（iCloud）" },
-      { v: "line", l: "LINE" },
-      { v: "shop", l: "Amazon・楽天などの通販" },
-      { v: "pay", l: "銀行アプリ・PayPay" },
-      { v: "cloud", l: "会社のクラウド（Google Drive、Teams など）", onlyWork: true },
-    ],
+    /* 選択肢は下の SERVICE_CATEGORIES から組み立てる（この後で代入） */
+    opts: [],
   },
   {
     id: "pw",
@@ -117,6 +129,93 @@ export const QUESTIONS: Question[] = [
     ],
   },
 ];
+
+/* ---------------- 使うもの（カテゴリ → サービス） ----------------
+   不安に応えるには「自分が使っているもの」を見つけられることが先なので、
+   一覧ではなく分類から選ばせる。答えはサービスIDの平らな配列のままで、
+   カテゴリは探すための分類に過ぎない（共有URLにも入らない）。 */
+export interface ServiceCategory {
+  id: string;
+  label: string;
+  icon: string;
+  /** 立場=仕事のときだけ出す */
+  onlyWork?: boolean;
+  services: Option[];
+}
+
+export const SERVICE_CATEGORIES: ServiceCategory[] = [
+  {
+    id: "id",
+    label: "メール・ID",
+    icon: "ph-identification-card",
+    services: [
+      { v: "google", l: "Google / Gmail", h: "Android・YouTube・Googleフォトもここ" },
+      { v: "apple", l: "Apple ID（iCloud）" },
+      { v: "ms", l: "Microsoft（Outlook・OneDrive）", h: "Windowsのログインに使うID" },
+    ],
+  },
+  {
+    id: "money",
+    label: "お金",
+    icon: "ph-bank",
+    services: [
+      { v: "pay", l: "銀行アプリ・PayPay" },
+      { v: "sec", l: "証券口座（SBI・楽天証券など）", h: "勝手に売買される被害が増えています" },
+      { v: "card", l: "クレジットカードのアプリ" },
+    ],
+  },
+  {
+    id: "social",
+    label: "つながり",
+    icon: "ph-chats-circle",
+    services: [
+      { v: "line", l: "LINE" },
+      { v: "sns", l: "X・Instagram・Facebook" },
+      { v: "discord", l: "Discord" },
+    ],
+  },
+  {
+    id: "shop",
+    label: "買い物・遊び",
+    icon: "ph-shopping-cart",
+    services: [
+      { v: "shop", l: "Amazon・楽天" },
+      { v: "yahoo", l: "Yahoo! JAPAN", h: "Yahoo!ショッピング・Yahoo!メール" },
+      { v: "mercari", l: "メルカリ" },
+      { v: "game", l: "ゲーム（Nintendo・PlayStation・Steam）" },
+    ],
+  },
+  {
+    id: "work",
+    label: "仕事",
+    icon: "ph-briefcase",
+    onlyWork: true,
+    services: [
+      { v: "cloud", l: "会社のクラウド（Google Drive、Teams など）" },
+      { v: "slack", l: "Slack・Zoom" },
+    ],
+  },
+  {
+    id: "public",
+    label: "通信・行政",
+    icon: "ph-buildings",
+    services: [
+      { v: "carrier", l: "携帯キャリアのID（dアカウント・au ID・My SoftBank）" },
+      { v: "mynaportal", l: "マイナポータル" },
+    ],
+  },
+  {
+    id: "ai",
+    label: "AI",
+    icon: "ph-robot",
+    services: [{ v: "ai", l: "ChatGPT・Claude・Gemini", h: "会話の履歴に個人情報が溜まる" }],
+  },
+];
+
+/* 質問4の選択肢はカテゴリを平らにしたもの（控えの表示・共有URLの検証に使う） */
+QUESTIONS.find((q) => q.id === "svc")!.opts = SERVICE_CATEGORIES.flatMap((c) =>
+  c.services.map((o) => (c.onlyWork ? { ...o, onlyWork: true } : o)),
+);
 
 /** 選択肢の値 → 短い表示名（括弧書きを落としたもの） */
 export const LABEL: Record<string, string> = {};
@@ -779,6 +878,319 @@ export const CARDS: Record<string, Card> = {
     },
     verified: null,
   },
+
+  /* --- Microsoft --- */
+  ms_2fa: {
+    id: "ms_2fa",
+    t: "Microsoftアカウントに2段階認証をかける",
+    svc: "ms",
+    time: "5分",
+    lv: "かんたん",
+    why: "Outlookのメール、OneDriveの写真、Windowsのログインがこの1つのID。Gmailと同じ「入口」です。",
+    steps: {
+      windows: [
+        P("設定 → アカウント → ユーザーの情報 → 「アカウントの管理」でブラウザが開く", "account.microsoft.com"),
+        P("セキュリティ → 高度なセキュリティオプション → 「2段階認証」をオン", "「Microsoft Authenticator」アプリで承認する方式が楽です"),
+        P("同じ画面の「サインインアクティビティ」で、知らない場所からのサインインがないか見る"),
+      ],
+      iphone: [
+        P("ブラウザで account.microsoft.com にサインイン"),
+        P("セキュリティ → 高度なセキュリティオプション → 「2段階認証」をオン", "Authenticator アプリを入れて承認する方式に"),
+        P("「サインインアクティビティ」で知らない場所がないか確認"),
+      ],
+      android: [
+        P("ブラウザで account.microsoft.com にサインイン"),
+        P("セキュリティ → 高度なセキュリティオプション → 「2段階認証」をオン"),
+        P("「サインインアクティビティ」で知らない場所がないか確認"),
+      ],
+      mac: [
+        P("ブラウザで account.microsoft.com にサインイン"),
+        P("セキュリティ → 高度なセキュリティオプション → 「2段階認証」をオン"),
+        P("「サインインアクティビティ」で知らない場所がないか確認"),
+      ],
+    },
+    src: "https://account.microsoft.com/security",
+    srcn: "Microsoft アカウント",
+    verified: null,
+  },
+  ms_devices: {
+    id: "ms_devices",
+    t: "Microsoftにログイン中の端末と、メールの転送設定を点検する",
+    svc: "ms",
+    time: "3分",
+    lv: "かんたん",
+    why: "乗っ取りは、メールをこっそり別の宛先に転送する設定を残して居座ります。",
+    steps: {
+      any: [
+        P("account.microsoft.com → デバイス で、手放したPCは「削除」"),
+        P("セキュリティ → サインインアクティビティ で、知らない場所からのサインインがあれば「自分ではありません」を押す"),
+        P("Outlook → 設定 → メール → 転送 と ルール に、知らない転送先・ルールが無いか確認", "あれば削除してパスワード変更"),
+      ],
+    },
+    verified: null,
+  },
+
+  /* --- 証券・カード --- */
+  sec_2fa: {
+    id: "sec_2fa",
+    t: "証券口座に、ログインと取引の追加認証をかける",
+    svc: "sec",
+    time: "5分",
+    lv: "かんたん",
+    why: "2025年、乗っ取った口座で勝手に株を売買される被害が相次ぎました。ログインだけでなく「取引」と「出金」にも認証を。",
+    steps: {
+      any: [
+        P("証券会社のアプリ or サイト → 設定（マイページ）→ セキュリティ設定", "SBI証券・楽天証券・マネックス証券とも、この階層にあります"),
+        P("「デバイス認証」「2段階認証（ワンタイムパスワード）」を有効にする", "許可した端末以外からはログインできなくなります"),
+        P("「ログイン通知」「取引通知」のメールをオンにする"),
+        P("出金先の銀行口座が自分のものか確認し、変更時にも認証がかかるようにする", "出金先の書き換えが、乗っ取りの最終目的です"),
+      ],
+    },
+    srcn: "各証券会社のセキュリティ設定ページ",
+    verified: null,
+  },
+  sec_check: {
+    id: "sec_check",
+    t: "証券口座の取引履歴と出金先を見る",
+    svc: "sec",
+    time: "3分",
+    lv: "かんたん",
+    why: "",
+    steps: {
+      any: [
+        P("取引履歴を直近30日分見て、知らない売買がないか", "身に覚えのない小型株の買いは乗っ取りの典型です"),
+        P("出金先口座・登録メール・電話番号が書き換えられていないか確認"),
+        P("知らない取引があれば、すぐ証券会社のサポートへ電話し、ログインと取引のパスワードを両方変える"),
+      ],
+    },
+    verified: null,
+  },
+  card_notify: {
+    id: "card_notify",
+    t: "クレジットカードの「利用通知」をオンにする",
+    svc: "card",
+    time: "3分",
+    lv: "かんたん",
+    why: "数百円のテスト決済で、カードが生きているか試されます。使った瞬間に通知が来れば、その場で止められます。",
+    steps: {
+      iphone: [
+        P("カード会社のアプリを入れてログイン", "三井住友カード・楽天カード・JCB・イオンカードなど、ほぼ全社にアプリがあります"),
+        P("アプリ → 設定（通知設定）→ 「利用通知」「ご利用速報」をオン"),
+        P("iPhoneの設定 → 通知 → カード会社のアプリ の通知を許可"),
+        P("明細はアプリで週に1回のぞく", "紙の明細を待たない"),
+      ],
+      android: [
+        P("カード会社のアプリを入れてログイン"),
+        P("アプリ → 設定（通知設定）→ 「利用通知」「ご利用速報」をオン"),
+        P("Androidの設定 → 通知 → カード会社のアプリ を許可"),
+        P("明細はアプリで週に1回のぞく"),
+      ],
+      windows: [P("カード会社の会員サイトにログイン → 通知設定 → 「利用通知メール」をオン", "通知はスマホアプリの方が早いので、できればアプリを")],
+      mac: [P("カード会社の会員サイトにログイン → 通知設定 → 「利用通知メール」をオン", "通知はスマホアプリの方が早いので、できればアプリを")],
+    },
+    verified: null,
+  },
+
+  /* --- SNS --- */
+  sns_2fa: {
+    id: "sns_2fa",
+    t: "X・Instagram・Facebookに2段階認証をかける",
+    svc: "sns",
+    time: "10分",
+    lv: "かんたん",
+    why: "乗っ取られると、あなたの名前で友人に詐欺のDMが送られます。3つとも設定場所は「設定 → セキュリティ」です。",
+    steps: {
+      any: [
+        P("X：設定とプライバシー → セキュリティとアカウントアクセス → セキュリティ → 2要素認証", "「認証アプリ」が確実。SMS認証は有料プラン限定の時期があります"),
+        P("Instagram：設定 → アカウントセンター → パスワードとセキュリティ → 二段階認証", "認証アプリがおすすめ"),
+        P("Facebook：Instagramと同じ「アカウントセンター」から設定できます", "2つは同じ場所で管理されています"),
+        P("使っていないSNSは、2段階認証ではなく退会する", "放置アカウントが一番乗っ取られます"),
+      ],
+    },
+    srcn: "各SNSのヘルプセンター",
+    verified: null,
+  },
+  sns_devices: {
+    id: "sns_devices",
+    t: "SNSにログイン中の端末と、連携アプリを点検する",
+    svc: "sns",
+    time: "5分",
+    lv: "かんたん",
+    why: "",
+    steps: {
+      any: [
+        P("X：設定 → セキュリティとアカウントアクセス → アプリとセッション → セッション", "知らない端末は「ログアウト」"),
+        P("X：同じ画面の「連携しているアプリ」で、使っていないアプリのアクセスを取り消す", "占い・診断アプリが勝手に投稿する原因はこれ"),
+        P("Instagram / Facebook：アカウントセンター → パスワードとセキュリティ → ログインの場所", "知らない場所は「ログアウト」"),
+        P("登録メールアドレス・電話番号が書き換えられていないか確認"),
+      ],
+    },
+    verified: null,
+  },
+  discord_2fa: {
+    id: "discord_2fa",
+    t: "Discordに2段階認証をかけ、知らない人のDMを断つ",
+    svc: "discord",
+    time: "5分",
+    lv: "かんたん",
+    why: "「無料でNitroあげる」のリンクがお決まりの入口。取られると、サーバーの仲間にも広がります。",
+    steps: {
+      any: [
+        P("ユーザー設定（歯車）→ マイアカウント → 二要素認証を有効化", "認証アプリで。バックアップコードは保存しておく"),
+        P("ユーザー設定 → プライバシー・安全 → 「サーバーメンバーからのダイレクトメッセージ」をオフ", "知らない人からのDMが来なくなります"),
+        P("ユーザー設定 → デバイス で、知らない端末をログアウト"),
+        P("「Nitro無料」「ギフト」のリンクは踏まない", "本物のドメインは discord.com だけ"),
+      ],
+    },
+    verified: null,
+  },
+
+  /* --- 買い物・遊び --- */
+  yahoo_2fa: {
+    id: "yahoo_2fa",
+    t: "Yahoo! JAPAN IDにSMS認証とログイン通知をかける",
+    svc: "yahoo",
+    time: "5分",
+    lv: "かんたん",
+    why: "Yahoo!メール・PayPay・ショッピングのカードが、ひとつのIDにつながっています。",
+    steps: {
+      any: [
+        P("Yahoo! JAPAN にログイン → 登録情報 → セキュリティ", "ブラウザなら account.edit.yahoo.co.jp"),
+        P("「SMS認証（ワンタイムパスワード）」か「認証アプリ」をオン", "パスワードを使わない「パスワードレス」の案内に従ってもよい"),
+        P("「ログイン通知」をオンにし、「ログイン履歴」に知らない場所がないか見る"),
+        P("「シークレットID」を設定して、メールアドレスと違うIDでログインする", "メールアドレスが漏れてもログインIDは知られない"),
+      ],
+    },
+    srcn: "Yahoo! JAPAN ヘルプ",
+    verified: null,
+  },
+  mercari_2fa: {
+    id: "mercari_2fa",
+    t: "メルカリに2段階認証をかけ、売上金を守る",
+    svc: "mercari",
+    time: "5分",
+    lv: "かんたん",
+    why: "売上金とカード、本人確認書類の画像が入っています。",
+    steps: {
+      any: [
+        P("マイページ → 設定 → アカウント → 「ログインセキュリティ」（2段階認証）をオン", "電話番号のSMSで確認"),
+        P("マイページ → 個人情報設定 で、メール・電話番号が自分のものか確認"),
+        P("売上金・ポイント・メルペイ残高の通知をオンにして、動きがあれば分かるように"),
+        P("身に覚えのない出品・購入があれば、お問い合わせ → 「アカウントの乗っ取り」から連絡"),
+      ],
+    },
+    verified: null,
+  },
+  game_2fa: {
+    id: "game_2fa",
+    t: "Nintendo・PlayStation・Steamに2段階認証をかける",
+    svc: "game",
+    time: "10分",
+    lv: "かんたん",
+    why: "乗っ取られると、登録したカードで課金されます。子どもの端末ほど狙われます。",
+    steps: {
+      any: [
+        P("Nintendo：accounts.nintendo.com → ログイン → セキュリティ → 2段階認証を設定", "認証アプリ。子どものアカウントは保護者のアカウント側で"),
+        P("PlayStation：設定 → ユーザーとアカウント → アカウント → セキュリティ → 2段階認証", "PS5・PS4どちらも同じ"),
+        P("Steam：スマホの Steam アプリで Steam Guard をオン", "アプリで承認する方式。トレード詐欺の防御にもなります"),
+        P("使っていないゲーム機のアカウントに、カードを登録したままにしない"),
+      ],
+    },
+    verified: null,
+  },
+
+  /* --- 仕事（追加） --- */
+  slack_check: {
+    id: "slack_check",
+    t: "Slack・Zoomの「偽の招待」と連携アプリを点検する",
+    svc: "slack",
+    time: "5分",
+    lv: "かんたん",
+    why: "「新しいワークスペースに招待されました」「会議が始まります」の偽メールが、仕事用パスワードの入口になります。",
+    steps: {
+      any: [
+        P("招待・会議のメールは、メール内のボタンではなく Slack / Zoom のアプリを開いて確認する"),
+        P("Slack：自分のアイコン → プロフィール → その他 → アカウント設定 → 2要素認証をオン", "会社がSSOなら不要。情報システム担当に確認"),
+        P("Zoom：zoom.us にサインイン → プロフィール → 2要素認証をオン"),
+        P("Slack：設定と管理 → アプリを管理 で、使っていない連携アプリを削除", "チャットを読む権限を持ったまま放置されがち"),
+      ],
+    },
+    verified: null,
+  },
+
+  /* --- 通信・行政 --- */
+  carrier_2fa: {
+    id: "carrier_2fa",
+    t: "携帯キャリアのID（dアカウント・au ID・My SoftBank）を守る",
+    svc: "carrier",
+    time: "5分",
+    lv: "かんたん",
+    why: "キャリア決済で勝手に買い物をされる被害の入口。「料金未納」「本人確認」のSMSは、まず偽物です。",
+    steps: {
+      any: [
+        P("dアカウント：設定 → セキュリティ → 「2段階認証」を強にし、ログイン通知をオン"),
+        P("au ID：My au アプリ → 設定 → セキュリティ → 「2段階認証」をオン"),
+        P("My SoftBank：セキュリティ設定 → ログイン通知・2段階認証をオン"),
+        P("キャリア決済の上限額を下げる。使わないなら「利用停止」に", "各キャリアの「決済サービス設定」から"),
+        P("キャリアを名乗るSMSのリンクは踏まず、公式アプリを開いて確認"),
+      ],
+    },
+    verified: null,
+  },
+  myna_check: {
+    id: "myna_check",
+    t: "マイナポータルと、行政のなりすましに備える",
+    svc: "mynaportal",
+    time: "5分",
+    lv: "かんたん",
+    why: "「給付金」「還付金」「マイナポイント」を名乗るメールは、ほぼ偽物です。本物は、メールの中のリンクから手続きさせません。",
+    steps: {
+      any: [
+        P("行政からのメール・SMSのリンクは開かず、マイナポータルのアプリかブックマークから自分で開く", "本物の案内は、アプリの「お知らせ」にも出ます"),
+        P("マイナポータル アプリ → ログイン履歴 で、知らないログインがないか確認"),
+        P("カードの暗証番号（4桁）が誕生日などなら、市区町村の窓口かコンビニで変更"),
+        P("カードをなくしたら マイナンバー総合フリーダイヤル 0120-95-0178 へ連絡して一時停止", "24時間受付"),
+      ],
+    },
+    srcn: "マイナポータル",
+    verified: null,
+  },
+
+  /* --- AI --- */
+  ai_2fa: {
+    id: "ai_2fa",
+    t: "ChatGPT・Claude・Geminiのアカウントに2段階認証をかける",
+    svc: "ai",
+    time: "5分",
+    lv: "かんたん",
+    why: "会話の履歴に、あなたの悩み・仕事・家族のことが溜まっています。乗っ取られると全部読まれます。",
+    steps: {
+      any: [
+        P("ChatGPT：設定 → セキュリティ → 多要素認証をオン", "認証アプリで"),
+        P("Claude：設定 → アカウント（セキュリティ）→ 2要素認証をオン"),
+        P("Gemini：Googleアカウントの2段階認証がそのまま効く", "Googleのカードで設定済みなら、ここは完了"),
+        P("各サービスの「ログイン中のデバイス（セッション）」で、知らない端末をログアウト"),
+      ],
+    },
+    verified: null,
+  },
+  ai_history: {
+    id: "ai_history",
+    t: "AIに話した個人情報を、履歴から整理する",
+    svc: "ai",
+    time: "10分",
+    lv: "ふつう",
+    why: "",
+    steps: {
+      any: [
+        P("設定 → データコントロール で「モデルの改善に使う」設定を確認し、嫌ならオフ", "名前は違っても、各サービスに同じ項目があります"),
+        P("履歴の中で、人の名前・住所・会社の機密を貼った会話を削除"),
+        P("個人情報を含む相談は、一時チャット（履歴に残らないモード）を使う"),
+        P("「共有したリンク」の一覧を見て、公開したままの会話が無いか確認"),
+      ],
+    },
+    verified: null,
+  },
 };
 
 export const CARD_LIST: Card[] = Object.values(CARDS);
@@ -802,69 +1214,108 @@ export const PHASES: Record<PhaseKey, { t: string; lead: string; icon: string }>
   inc: { t: "もしもの時に", lead: "今は読まなくていい。何か起きたら、ここを開く。", icon: "ph-first-aid-kit" },
 };
 
+/* ---------------- サービスごとの規則 ----------------
+   サービスを増やすときは、この表に1行足すだけで並び替えに乗る。
+   twofa=入口を閉める / devices=ログイン中の端末や履歴の点検 /
+   pw=パスワード変更 / notify=使ったら通知 / week=落ち着いてからやる分 */
+interface ServiceRule {
+  twofa?: string;
+  devices?: string;
+  pw?: string;
+  notify?: string;
+  week?: string[];
+}
+
+/** 危険度の順。今日に入りきらないときは、後ろから今週へ回す */
+export const SERVICE_ORDER: Service[] = [
+  "google",
+  "apple",
+  "ms",
+  "pay",
+  "sec",
+  "card",
+  "line",
+  "sns",
+  "discord",
+  "shop",
+  "yahoo",
+  "mercari",
+  "game",
+  "carrier",
+  "mynaportal",
+  "cloud",
+  "slack",
+  "ai",
+];
+
+const SERVICE_RULES: Record<Service, ServiceRule> = {
+  google: { twofa: "google_2fa", devices: "google_devices", pw: "google_pw", week: ["google_checkup"] },
+  apple: { twofa: "apple_2fa", devices: "apple_devices", pw: "apple_pw" },
+  ms: { twofa: "ms_2fa", devices: "ms_devices" },
+  pay: { notify: "pay_notify", devices: "pay_check" },
+  sec: { twofa: "sec_2fa", devices: "sec_check" },
+  card: { notify: "card_notify" },
+  line: { twofa: "line_login", devices: "line_login", pw: "line_pw" },
+  sns: { twofa: "sns_2fa", devices: "sns_devices" },
+  discord: { twofa: "discord_2fa" },
+  shop: { twofa: "shop_2fa", devices: "shop_orders" },
+  yahoo: { twofa: "yahoo_2fa" },
+  mercari: { twofa: "mercari_2fa" },
+  game: { twofa: "game_2fa" },
+  carrier: { twofa: "carrier_2fa" },
+  mynaportal: { week: ["myna_check"] },
+  cloud: { week: ["work_share", "work_2fa"] },
+  slack: { week: ["slack_check"] },
+  ai: { twofa: "ai_2fa", week: ["ai_history"] },
+};
+
+/** 「今日の15分」に置く上限。溢れた分は今週の先頭へ */
+const TODAY_MAX = 7;
+
 /** 回答 → 3段階のカードID配列。同じカードが複数段に入ったら今日を優先して1枚にする */
 export function buildPlan(a: Answers): Plan {
-  const today: string[] = [];
-  const week: string[] = [];
-  const inc: string[] = [];
+  const sel = SERVICE_ORDER.filter((s) => a.svc.includes(s));
   const has = (s: Service) => a.svc.includes(s);
+  const pick = (k: "twofa" | "devices" | "pw" | "notify", only?: Service[]) =>
+    sel.filter((s) => !only || only.includes(s)).map((s) => SERVICE_RULES[s][k]).filter((x): x is string => !!x);
 
-  const twofa = () => {
-    if (has("apple")) today.push("apple_2fa");
-    if (has("google")) today.push("google_2fa");
-    if (has("line")) today.push("line_login");
-    if (has("shop")) today.push("shop_2fa");
-  };
-  const devicesCheck = () => {
-    if (has("google")) today.push("google_devices");
-    if (has("apple")) today.push("apple_devices");
-    if (has("line")) today.push("line_login");
-    if (has("shop")) today.push("shop_orders");
-    if (has("pay")) today.push("pay_check");
-  };
-  const pwChange = () => {
-    if (has("google")) today.push("google_pw");
-    if (has("apple")) today.push("apple_pw");
-    if (has("line")) today.push("line_pw");
-  };
-
+  /* 今日：先頭は状況ごとの緊急カード（上限に数えない）。その後ろにサービス別 */
+  const must: string[] = [];
+  let today: string[] = [];
   if (a.sit === "phish") {
-    today.push("phish_triage", "phish_entered");
-    twofa();
+    must.push("phish_triage", "phish_entered");
+    if (has("mynaportal")) must.push("myna_check");
+    if (has("slack")) must.push("slack_check");
+    today = pick("twofa");
   } else if (a.sit === "breach") {
-    today.push("breach_triage");
-    if (a.pw === "reuse" || a.pw === "unknown") today.push("pw_reuse");
-    twofa();
-    if (has("pay")) today.push("pay_check");
+    must.push("breach_triage");
+    if (a.pw === "reuse" || a.pw === "unknown") must.push("pw_reuse");
+    today = [...pick("twofa"), ...pick("devices", ["pay", "sec"])];
   } else if (a.sit === "hijack") {
-    today.push("hijack_general");
-    pwChange();
-    devicesCheck();
-    twofa();
+    must.push("hijack_general");
+    today = [...pick("pw"), ...pick("devices"), ...pick("twofa")];
   } else {
-    twofa();
-    if (a.pw === "reuse") today.push("pw_reuse");
-    if (a.pw === "unknown") today.push("pw_check");
-    if (has("pay")) today.push("pay_notify");
+    today = pick("twofa");
+    if (a.pw === "reuse") must.push("pw_reuse");
+    if (a.pw === "unknown") must.push("pw_check");
+    today.push(...pick("notify"));
   }
-  if (a.role === "work") today.push("work_ai");
+  if (a.role === "work") must.push("work_ai");
 
-  /* 今週中に */
-  if (has("google")) week.push("google_checkup");
-  if (a.sit !== "hijack") {
-    if (has("google")) week.push("google_devices");
-    if (has("apple")) week.push("apple_devices");
-  }
-  if (has("pay") && a.sit !== "anx") week.push("pay_notify");
+  /* 今週：今日から溢れた分 → 点検 → 通知 → サービス固有 → パスワード → 棚卸し → 仕事 */
+  const overflow = today.slice(TODAY_MAX);
+  today = [...must, ...today.slice(0, TODAY_MAX)];
+  const week: string[] = [...overflow];
+  if (a.sit !== "hijack") week.push(...pick("devices"));
+  if (a.sit !== "anx") week.push(...pick("notify"));
+  for (const s of sel) week.push(...(SERVICE_RULES[s].week ?? []));
   if (a.pw === "memo" || a.pw === "reuse" || a.pw === "unknown") week.push("pw_manager");
   if (a.pw === "app") week.push("pw_check");
   week.push("account_inventory");
-  if (a.role === "work") {
-    if (has("cloud")) week.push("work_share", "work_2fa");
-    week.push("work_lock");
-  }
+  if (a.role === "work") week.push("work_lock");
 
   /* もしもの時に（今日に入らなかった緊急系） */
+  const inc: string[] = [];
   if (a.sit !== "phish") inc.push("phish_triage", "phish_entered");
   if (a.sit !== "breach") inc.push("breach_triage");
   if (a.sit !== "hijack") inc.push("hijack_general");
@@ -897,7 +1348,8 @@ export const SIT_TITLE: Record<Situation, string> = {
 /** 回答 → 前書きの段落。状況×パスワード管理の組み合わせからテンプレートで作る（AI不使用） */
 export function preface(a: Answers, plan: Plan): string[] {
   const dev = a.dev.map((d) => DEVICE_NAME[d]).join("と");
-  const svcs = a.svc.filter((s) => s !== "cloud").map((s) => LABEL[s]).join("、");
+  const names = SERVICE_ORDER.filter((s) => a.svc.includes(s) && s !== "cloud").map((s) => LABEL[s]);
+  const svcs = names.length > 4 ? names.slice(0, 4).join("、") + "など" : names.join("、");
   const first: Record<Situation, string> = {
     anx: "今のあなたに事故は起きていません。だから今日やるのは「鍵をかける」作業だけ。",
     phish: "今いちばん大事なのは、そのメールに「触らないこと」。まず本物か偽物かを確かめる手順から。",

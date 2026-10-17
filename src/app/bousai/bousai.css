@@ -34,6 +34,12 @@
   font-family: var(--tk-sans);
   overflow-x: clip;
 }
+/* このページだけ html/body の背景も黒にする。スクロールの端で
+   サイト本体の紙色がのぞかないように（iOSの引っ張り時など） */
+html:has(.tk-root),
+body:has(.tk-root) {
+  background: #040806;
+}
 .tk-root ::selection {
   background: var(--tk-green);
   color: var(--tk-bg);
@@ -475,6 +481,87 @@
   outline: 2px solid var(--tk-green);
   outline-offset: 2px;
 }
+/* 使うもの：カテゴリのチップ */
+.tk-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.tk-cat {
+  position: relative;
+  font: inherit;
+  font-family: var(--tk-mono);
+  font-weight: 700;
+  font-size: 12.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--tk-muted);
+  border: 1px solid var(--tk-line);
+  padding: 8px 12px;
+  cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.tk-cat:hover {
+  color: var(--tk-green);
+  border-color: var(--tk-green);
+}
+.tk-cat[aria-selected="true"] {
+  background: var(--tk-green);
+  color: var(--tk-bg);
+  border-color: var(--tk-green);
+  box-shadow: var(--tk-glow);
+}
+.tk-cat-n {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-full);
+  background: var(--tk-text);
+  color: var(--tk-bg);
+  font-size: 11px;
+  display: grid;
+  place-items: center;
+}
+.tk-cat[aria-selected="true"] .tk-cat-n {
+  background: var(--tk-bg);
+  color: var(--tk-green);
+}
+.tk-cat-body {
+  animation: tk-type-in 0.25s var(--ease-out);
+}
+.tk-cat-note {
+  margin-top: 10px;
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  color: var(--tk-muted);
+}
+
+/* 手帳：サービス別の目次 */
+.tk-svcidx {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-family: var(--tk-mono);
+  font-size: 12px;
+}
+.tk-svcidx a {
+  color: var(--tk-muted);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--tk-line);
+}
+.tk-svcidx a::before {
+  content: "# ";
+  color: var(--tk-green);
+}
+.tk-svcidx a:hover {
+  color: var(--tk-green);
+}
+
 .tk-nav {
   display: flex;
   justify-content: space-between;
@@ -1119,6 +1206,7 @@
   .tk-caret,
   .tk-enter,
   .tk-term div,
+  .tk-cat-body,
   .tk-line .tk-v.fresh {
     animation: none !important;
   }
