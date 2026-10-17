@@ -133,12 +133,23 @@
   color: var(--tk-green);
   text-shadow: var(--tk-glow);
 }
+/* ロゴは本体サイトと同じ書体・太さ・字間。「MIX」の差し色だけ赤ではなく緑 */
 .tk-topbar .tk-brand {
-  font-weight: 700;
-  color: var(--tk-green);
+  display: inline; /* .tk-topbar a の flex gap で CO/MIX/AI が離れないように */
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--tk-text);
 }
 .tk-topbar .tk-brand b {
+  color: var(--tk-green);
+  text-shadow: var(--tk-glow);
+}
+.tk-topbar .tk-brand:hover {
   color: var(--tk-text);
+  text-shadow: none;
 }
 .tk-topbar .tk-spacer {
   flex: 1;

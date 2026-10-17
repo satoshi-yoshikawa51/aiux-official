@@ -72,8 +72,9 @@ export default function TaisakuPage() {
       <CyberRain />
       <main className="tk-main">
         <div className="tk-topbar">
+          {/* ロゴは本体サイトのナビ（site-chrome.tsx）と同じ組み方。差し色だけ赤→緑 */}
           <a href="/" className="tk-brand" data-ga="cta_click" data-ga-place="bousai-top" data-ga-path="/">
-            COMIX<b>AI</b>
+            CO<b>MIX</b>AI
           </a>
           <span className="tk-spacer" />
           <span className="tk-status">LOCAL ONLY</span>
