@@ -1,24 +1,58 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-16T23:50:37.792Z",
+  "updatedAt": "2026-10-17T23:22:13.495Z",
   "items": [
+    {
+      "title": "Meta removes language that raised scraping and AI training concerns",
+      "url": "https://techcrunch.com/2026/10/17/meta-removes-language-that-raised-scraping-and-ai-training-concerns/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-17T21:31:32.000Z",
+      "titleJa": "Meta、スクレイピングとAI学習の懸念を招いた文言を削除",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/05/meta-ai-GettyImages-2264943773.jpg?w=1024"
+    },
+    {
+      "title": "Anthropic says its workforce has become less junior and is spending more time in meetings",
+      "url": "https://techcrunch.com/2026/10/17/anthropic-says-its-workforce-has-become-less-junior-and-is-spending-more-time-in-meetings/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-17T20:21:19.000Z",
+      "titleJa": "Anthropic、社内の若手比率が低下し会議時間が増加と明かす",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/GettyImages-2278736523.jpeg?resize=1200,798"
+    },
+    {
+      "title": "Replit makes OpenAI its default over Anthropic, CEO says",
+      "url": "https://techcrunch.com/2026/10/17/replit-is-no-longer-working-with-anthropic-ceo-says/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-17T18:48:08.000Z",
+      "titleJa": "ReplitがデフォルトをAnthropicからOpenAIに変更、CEOが明言",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/replit-ceo-masad.jpg?resize=1200,800"
+    },
+    {
+      "title": "中国、AI技術23項目を輸出規制へ その中身とは",
+      "url": "https://japan.cnet.com/article/35253670/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-17T20:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/17/80b2f5ce29ec94a1378881ad5b9255b6/41_china_ai_header.jpg"
+    },
+    {
+      "title": "米AmazonがAIガジェット「Bee」発表。カードサイズのボイスレコーダーなど",
+      "url": "https://www.gizmodo.jp/article/2610-amazon-bee-ai-gadgets/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-10-17T09:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/10/16/d72ed3ba-0b1b-4646-8437-98ea043dc02b/original.jpg?w=1200&h=630"
+    },
     {
       "title": "Stack Overflow for Agents triples signups with ChatGPT plugin",
       "url": "https://openai.com/index/stack-overflow-chatgpt-plugin",
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-16T00:00:00.000Z",
-      "titleJa": "Stack Overflow for Agents、ChatGPTプラグインで登録数が3倍に",
+      "titleJa": "Stack Overflow for Agents、ChatGPTプラグインで新規登録が3倍に",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/4HTc2pk7XGFhzDU8RX0Ivg/ff2b922fa1914350c9d800da622ebe04/stack-overflow-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Replit is no longer working with Anthropic, CEO says",
-      "url": "https://techcrunch.com/2026/10/16/replit-is-no-longer-working-with-anthropic-ceo-says/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-16T21:22:28.000Z",
-      "titleJa": "Replit、Anthropicとの協業を終了とCEOが明言",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/replit-ceo-masad.jpg?resize=1200,800"
     },
     {
       "title": "OpenAI models hacked a crypto wallet and breached more websites",
@@ -26,26 +60,17 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-10-16T20:59:01.000Z",
-      "titleJa": "OpenAIのモデルが暗号資産ウォレットをハッキング、複数のWebサイトにも侵入",
+      "titleJa": "OpenAIのモデルが仮想通貨ウォレットをハッキング、複数サイトにも侵入",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/ai-agents-1152x648.jpg"
     },
     {
-      "title": "Physical AI is more than robots, says the Nvidia veteran now investing in it",
-      "url": "https://techcrunch.com/podcast/physical-ai-is-more-than-robots-says-the-nvidia-veteran-now-investing-in-it/",
-      "source": "TechCrunch",
+      "title": "A week with RTX Spark: everything we’ve learned using Nvidia’s new laptops",
+      "url": "https://www.theverge.com/tech/1012748/nvidia-rtx-spark-windows-arm-laptops-asus-hp-lenovo-impressions",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-10-16T16:30:00.000Z",
-      "titleJa": "フィジカルAIはロボットだけではない──投資家に転じたNvidiaのベテランが語る",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Amulya-Vishwanath-Techable-VC.jpg?resize=960,1200"
-    },
-    {
-      "title": "An Nvidia insider-turned-VC on why robotics hasn’t hit its ChatGPT moment, yet",
-      "url": "https://techcrunch.com/video/a-nvidia-insider-turned-vc-on-why-robotics-hasnt-hit-its-chatgpt-moment-yet/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-16T16:30:00.000Z",
-      "titleJa": "元NvidiaのVCが語る、ロボティクスに「ChatGPTの瞬間」がまだ訪れない理由",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/unitree-robots.jpg?resize=1200,800"
+      "date": "2026-10-16T15:00:00.000Z",
+      "titleJa": "RTX Sparkと過ごした1週間——Nvidiaの新型ノートPCで分かったことすべて",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/268814_Nvidia_RTX_Spark_laptops_Asus_HP_Lenovo_ADiBenedetto_0001.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
       "title": "AIエージェントの導入半年で明確なビジネス成果--キズキレンタルに聞く勘所",
@@ -94,31 +119,6 @@
       "lang": "ja",
       "date": "2026-10-16T01:27:57.000Z",
       "image": "https://www.itmedia.co.jp/news/article/ogp/2610/16/2000002316/10009529/2048"
-    },
-    {
-      "title": "グーグル、AI買い物支援「ユニバーサル カート」を提供開始 検索とGeminiで",
-      "url": "https://japan.cnet.com/article/35253615/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-16T00:45:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/16/4de04e9651214dbc1597304bf1339c07/Google-Universal-Cart_1280x960.jpg"
-    },
-    {
-      "title": "Meta、クラウド不要の大規模AI発表 「Mac Studio」2台で動作 Appleと異例の協力",
-      "url": "https://japan.cnet.com/article/35253607/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-16T00:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/16/f401b51e44d5cb92646056e129b4f661/0911.jpg"
-    },
-    {
-      "title": "Amp puts AI agents to work beyond code with OpenAI models",
-      "url": "https://openai.com/index/amp-beyond-coding",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-14T12:00:00.000Z",
-      "titleJa": "Amp、OpenAIモデルでAIエージェントをコード以外の業務にも投入",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/4cxTIUhXa03TEYCnkIcMCu/29e6065058ed969022021186f994dad6/amp-beyond-coding-coiled-connection-seo-open-graph-1920x1080.png?w=1600&h=900&fit=fill"
     }
   ]
 }
