@@ -160,7 +160,17 @@
 
 /* 見出し（グリッチ） */
 .tk-hero {
+  position: relative;
   padding: 8px 2px 18px;
+}
+/* 見出しの裏だけ雨を沈めて読みやすくする */
+.tk-hero::before {
+  content: "";
+  position: absolute;
+  inset: -16px -24px -8px;
+  background: radial-gradient(ellipse 70% 80% at 40% 50%, rgba(4, 8, 6, 0.85), rgba(4, 8, 6, 0.5) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: -1;
 }
 .tk-kicker {
   font-family: var(--tk-mono);
@@ -203,7 +213,8 @@
   margin: 0;
   font-size: 14.5px;
   line-height: 1.9;
-  color: var(--tk-muted);
+  color: var(--tk-text);
+  text-shadow: 0 0 6px var(--tk-bg), 0 0 14px var(--tk-bg);
 }
 
 /* パネル（四隅にブラケット） */

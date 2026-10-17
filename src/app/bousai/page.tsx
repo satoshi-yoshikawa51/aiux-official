@@ -75,18 +75,19 @@ export default function TaisakuPage() {
           <a href="/" className="tk-brand" data-ga="cta_click" data-ga-place="bousai-top" data-ga-path="/">
             COMIX<b>AI</b>
           </a>
-          <span>/ サイバー攻撃防災手帳</span>
           <span className="tk-spacer" />
           <span className="tk-status">LOCAL ONLY</span>
         </div>
 
         <header className="tk-hero">
           <div className="tk-kicker">CYBER ATTACK — DISASTER KIT</div>
-          <h1 className="tk-title" data-text="5問で、あなたの防災手帳。">
-            5問で、あなたの防災手帳。
+          <h1 className="tk-title" data-text="サイバー攻撃防災手帳">
+            サイバー攻撃防災手帳
           </h1>
           <p className="tk-lead">
-            いまの状況と端末、使っているサービスを選ぶだけ。設定画面の階層まで書いた手順が、「今日の15分」「今週中に」「もしもの時に」の3段階に並びます。
+            サイバー攻撃や情報流出のニュースが毎日のように流れるいま、「自分は何をすればいいのか」という不安に。
+            5つの質問で、あなたの状況・端末・使っているサービスに合わせた防災策をご提案します。
+            手順は設定画面の階層まで書いてあり、「今日の15分」「今週中に」「もしもの時に」の3段階に並びます。
           </p>
         </header>
 
