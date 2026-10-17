@@ -1,0 +1,1282 @@
+/* ============================================================
+   サイバー攻撃防災手帳（/bousai）の見た目。
+   白紙のLPと同じく「体験そのもの」の独立ページなので、
+   サイト本体のトンマナからは意図的に外し、サイバー調に振っている。
+   色はこのファイル先頭の --tk-* に集め、下では直値を書かない。
+   印刷時だけ白地・黒字に戻す（最下部）。
+   ============================================================ */
+
+.tk-root {
+  --tk-bg: #040806;
+  --tk-bg-2: #0a140d;
+  --tk-panel: rgba(6, 16, 10, 0.86);
+  --tk-panel-2: rgba(10, 26, 16, 0.9);
+  --tk-green: #39ff8a;
+  --tk-green-2: #8dffbf;
+  --tk-green-dim: #1f9a55;
+  --tk-green-soft: rgba(57, 255, 138, 0.12);
+  --tk-line: rgba(57, 255, 138, 0.38);
+  --tk-line-strong: rgba(57, 255, 138, 0.8);
+  --tk-text: #d9ffe6;
+  --tk-muted: #7fb894;
+  --tk-dim: #3f6b4f;
+  --tk-red: #ff3b5c;
+  --tk-red-soft: rgba(255, 59, 92, 0.14);
+  --tk-amber: #ffd23f;
+  --tk-glow: 0 0 10px rgba(57, 255, 138, 0.45), 0 0 28px rgba(57, 255, 138, 0.18);
+  --tk-mono: var(--font-mono);
+  --tk-sans: var(--font-body);
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--tk-bg);
+  color: var(--tk-text);
+  font-family: var(--tk-sans);
+  overflow-x: clip;
+}
+/* このページだけ html/body の背景も黒にする。スクロールの端で
+   サイト本体の紙色がのぞかないように（iOSの引っ張り時など） */
+html:has(.tk-root),
+body:has(.tk-root) {
+  background: #040806;
+}
+.tk-root ::selection {
+  background: var(--tk-green);
+  color: var(--tk-bg);
+}
+.tk-root a {
+  color: var(--tk-green-2);
+}
+
+/* ============ コードの雨（廊下） ============ */
+.tk-rain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--tk-bg);
+}
+.tk-rain-stage {
+  position: absolute;
+  inset: 0;
+  perspective: 600px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+.tk-rain-corridor {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(-70vmax);
+}
+.tk-face {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160vmax;
+  height: 160vmax;
+  margin: -80vmax 0 0 -80vmax;
+}
+.tk-face-back {
+  transform: translateZ(-80vmax) scale(2.4);
+  opacity: 0.75;
+}
+.tk-face-floor {
+  transform: rotateX(90deg) translateZ(-44vh);
+}
+.tk-face-ceil {
+  transform: rotateX(-90deg) translateZ(-44vh);
+}
+.tk-face-left {
+  transform: rotateY(90deg) translateZ(-50vw);
+}
+.tk-face-right {
+  transform: rotateY(-90deg) translateZ(-50vw);
+}
+/* 中央を暗く落として、本文を読めるようにする */
+.tk-rain-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 48% 42% at 50% 50%, rgba(4, 8, 6, 0.7) 0%, rgba(4, 8, 6, 0.35) 60%, rgba(4, 8, 6, 0) 100%),
+    linear-gradient(to bottom, rgba(4, 8, 6, 0.45), transparent 18%, transparent 85%, rgba(4, 8, 6, 0.5));
+}
+.tk-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.18) 2px 3px);
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+/* ============ 骨組み ============ */
+.tk-main {
+  position: relative;
+  z-index: 1;
+  max-width: min(720px, 94vw);
+  margin: 0 auto;
+  padding: 18px 0 64px;
+}
+.tk-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 2px 14px;
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--tk-muted);
+}
+.tk-topbar a {
+  text-decoration: none;
+  color: var(--tk-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tk-topbar a:hover {
+  color: var(--tk-green);
+  text-shadow: var(--tk-glow);
+}
+/* ロゴは本体サイトと同じ書体・太さ・字間。「MIX」の差し色だけ赤ではなく緑 */
+.tk-topbar .tk-brand {
+  display: inline; /* .tk-topbar a の flex gap で CO/MIX/AI が離れないように */
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--tk-text);
+}
+.tk-topbar .tk-brand b {
+  color: var(--tk-green);
+  text-shadow: var(--tk-glow);
+}
+.tk-topbar .tk-brand:hover {
+  color: var(--tk-text);
+  text-shadow: none;
+}
+.tk-topbar .tk-spacer {
+  flex: 1;
+}
+.tk-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tk-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tk-green);
+  box-shadow: var(--tk-glow);
+  animation: tk-blink 1.6s steps(1) infinite;
+}
+
+/* 見出し（グリッチ） */
+.tk-hero {
+  position: relative;
+  padding: 8px 2px 18px;
+}
+/* 見出しの裏だけ雨を沈めて読みやすくする */
+.tk-hero::before {
+  content: "";
+  position: absolute;
+  inset: -16px -24px -8px;
+  background: radial-gradient(ellipse 70% 80% at 40% 50%, rgba(4, 8, 6, 0.85), rgba(4, 8, 6, 0.5) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+.tk-kicker {
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--tk-green);
+  margin-bottom: 8px;
+}
+.tk-kicker {
+  min-height: 1.6em;
+  white-space: pre-wrap;
+  opacity: var(--tk-pre, 1);
+}
+.tk-title {
+  position: relative;
+  font-family: var(--tk-sans);
+  font-weight: 900;
+  font-size: clamp(26px, 5vw, 40px);
+  line-height: 1.25;
+  margin: 0 0 10px;
+  color: var(--tk-text);
+  text-shadow: 0 0 18px rgba(57, 255, 138, 0.25);
+}
+.tk-title[data-text]::before,
+.tk-title[data-text]::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.tk-title[data-text]::before {
+  color: var(--tk-green);
+  animation: tk-glitch-a 4s steps(1) infinite;
+}
+.tk-title[data-text]::after {
+  color: var(--tk-red);
+  animation: tk-glitch-b 4s steps(1) infinite;
+}
+/* 見出しの1文字。登場時は JS が opacity / transform / className を動かす */
+.tk-ch {
+  display: inline-block;
+  opacity: var(--tk-pre, 1); /* ハイドレーション前の仮隠し（hero.tsx） */
+  will-change: transform, opacity;
+  transition: color var(--dur-fast), text-shadow var(--dur-base);
+}
+.tk-ch.scr {
+  color: var(--tk-green);
+  text-shadow: 0 0 10px rgba(57, 255, 138, 0.6);
+}
+.tk-ch.hit {
+  color: #fff;
+  text-shadow: 0 0 10px #fff, 0 0 28px var(--tk-green), 0 0 60px rgba(57, 255, 138, 0.8);
+  transition: none;
+}
+.tk-title.decoding::before,
+.tk-title.decoding::after {
+  display: none;
+}
+.tk-lead {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.9;
+  color: var(--tk-text);
+  text-shadow: 0 0 6px var(--tk-bg), 0 0 14px var(--tk-bg);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+.tk-lead.on {
+  opacity: var(--tk-pre, 1);
+  transform: none;
+}
+
+/* パネル（四隅にブラケット） */
+.tk-panel {
+  position: relative;
+  background: var(--tk-panel);
+  border: 1px solid var(--tk-line);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.6), 0 20px 60px -30px rgba(57, 255, 138, 0.35);
+  backdrop-filter: blur(4px);
+  padding: 18px 20px;
+}
+.tk-panel::before,
+.tk-panel::after,
+.tk-panel > .tk-corner::before,
+.tk-panel > .tk-corner::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--tk-green);
+  pointer-events: none;
+}
+.tk-panel::before {
+  left: -1px;
+  top: -1px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.tk-panel::after {
+  right: -1px;
+  top: -1px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.tk-panel > .tk-corner::before {
+  left: -1px;
+  bottom: -1px;
+  border-right: 0;
+  border-top: 0;
+}
+.tk-panel > .tk-corner::after {
+  right: -1px;
+  bottom: -1px;
+  border-left: 0;
+  border-top: 0;
+}
+.tk-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--tk-green);
+  margin-bottom: 12px;
+}
+.tk-panel-head .tk-spacer {
+  flex: 1;
+}
+.tk-panel-head .tk-count {
+  color: var(--tk-muted);
+}
+
+/* 回答の控え */
+.tk-lines {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 22px;
+}
+.tk-line {
+  display: grid;
+  grid-template-columns: 6em 1fr;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px dashed rgba(57, 255, 138, 0.22);
+  min-height: 42px;
+  align-items: start;
+  font-size: 13.5px;
+}
+.tk-line .tk-k {
+  color: var(--tk-muted);
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  padding-top: 2px;
+}
+.tk-line .tk-v {
+  color: var(--tk-dim);
+  line-height: 1.6;
+}
+.tk-line .tk-v.on {
+  color: var(--tk-text);
+  font-weight: 700;
+}
+.tk-line .tk-v.fresh {
+  color: var(--tk-green);
+  text-shadow: var(--tk-glow);
+  animation: tk-type-in 0.35s var(--ease-out);
+}
+
+/* 質問 */
+.tk-q {
+  margin-top: 16px;
+}
+.tk-q-num {
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--tk-green);
+}
+.tk-q-num .tk-hint {
+  margin-left: 10px;
+  letter-spacing: 0;
+  color: var(--tk-muted);
+}
+.tk-q-title {
+  font-family: var(--tk-sans);
+  font-weight: 900;
+  font-size: clamp(18px, 2.8vw, 22px);
+  line-height: 1.4;
+  margin: 4px 0 14px;
+  min-height: 1.4em;
+}
+.tk-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: var(--tk-green);
+  vertical-align: -0.15em;
+  margin-left: 2px;
+  animation: tk-blink 0.9s steps(1) infinite;
+}
+.tk-opts {
+  display: grid;
+  gap: 8px;
+}
+.tk-opt {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: rgba(4, 8, 6, 0.55);
+  border: 1px solid var(--tk-line);
+  padding: 12px 14px;
+  color: var(--tk-text);
+  font: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--dur-fast), background var(--dur-fast), box-shadow var(--dur-fast), transform var(--dur-fast);
+}
+.tk-opt::after {
+  /* ホバーで走る光の帯 */
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, rgba(57, 255, 138, 0.18), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s var(--ease-out);
+  pointer-events: none;
+}
+.tk-opt:hover {
+  border-color: var(--tk-line-strong);
+  background: var(--tk-green-soft);
+  box-shadow: var(--tk-glow);
+}
+.tk-opt:hover::after {
+  left: 120%;
+}
+.tk-opt:active {
+  transform: scale(0.99);
+}
+.tk-opt[aria-checked="true"] {
+  border-color: var(--tk-green);
+  background: var(--tk-green-soft);
+  box-shadow: inset 3px 0 0 var(--tk-green), var(--tk-glow);
+}
+.tk-opt .tk-box {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  margin-top: 2px;
+  border: 1px solid var(--tk-green);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  color: var(--tk-bg);
+  background: transparent;
+  transition: background var(--dur-fast);
+}
+.tk-opt.radio .tk-box {
+  border-radius: 50%;
+}
+.tk-opt[aria-checked="true"] .tk-box {
+  background: var(--tk-green);
+  box-shadow: var(--tk-glow);
+}
+.tk-opt .tk-l {
+  display: block;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.tk-opt .tk-h {
+  display: block;
+  color: var(--tk-muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+  margin-top: 2px;
+}
+.tk-opt:focus-visible,
+.tk-btn:focus-visible,
+.tk-card-head:focus-visible,
+.tk-devtab:focus-visible,
+.tk-card-toggle:focus-visible {
+  outline: 2px solid var(--tk-green);
+  outline-offset: 2px;
+}
+/* 使うもの：カテゴリのチップ */
+.tk-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.tk-cat {
+  position: relative;
+  font: inherit;
+  font-family: var(--tk-mono);
+  font-weight: 700;
+  font-size: 12.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--tk-muted);
+  border: 1px solid var(--tk-line);
+  padding: 8px 12px;
+  cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.tk-cat:hover {
+  color: var(--tk-green);
+  border-color: var(--tk-green);
+}
+.tk-cat[aria-selected="true"] {
+  background: var(--tk-green);
+  color: var(--tk-bg);
+  border-color: var(--tk-green);
+  box-shadow: var(--tk-glow);
+}
+.tk-cat-n {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-full);
+  background: var(--tk-text);
+  color: var(--tk-bg);
+  font-size: 11px;
+  display: grid;
+  place-items: center;
+}
+.tk-cat[aria-selected="true"] .tk-cat-n {
+  background: var(--tk-bg);
+  color: var(--tk-green);
+}
+.tk-cat-body {
+  animation: tk-type-in 0.25s var(--ease-out);
+}
+.tk-cat-note {
+  margin-top: 10px;
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  color: var(--tk-muted);
+}
+
+/* 手帳：サービス別の目次 */
+.tk-svcidx {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-family: var(--tk-mono);
+  font-size: 12px;
+}
+.tk-svcidx a {
+  color: var(--tk-muted);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--tk-line);
+}
+.tk-svcidx a::before {
+  content: "# ";
+  color: var(--tk-green);
+}
+.tk-svcidx a:hover {
+  color: var(--tk-green);
+}
+
+.tk-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* ボタン */
+.tk-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--tk-sans);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  padding: 13px 22px;
+  background: var(--tk-green);
+  color: var(--tk-bg);
+  border: 1px solid var(--tk-green);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  box-shadow: var(--tk-glow);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: transform var(--dur-fast), box-shadow var(--dur-fast), background var(--dur-fast), color var(--dur-fast);
+  overflow: hidden;
+}
+.tk-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+  transition: transform 0.55s var(--ease-out);
+  pointer-events: none;
+}
+.tk-btn:hover::after {
+  transform: translateX(120%) skewX(-20deg);
+}
+.tk-btn:hover {
+  background: var(--tk-green-2);
+  box-shadow: 0 0 14px rgba(57, 255, 138, 0.7), 0 0 40px rgba(57, 255, 138, 0.3);
+}
+.tk-btn:active {
+  transform: translateY(1px) scale(0.985);
+}
+.tk-btn[disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.tk-btn[disabled]::after {
+  display: none;
+}
+.tk-btn.ghost {
+  background: transparent;
+  color: var(--tk-green);
+  box-shadow: none;
+  border-color: var(--tk-line);
+}
+.tk-btn.ghost:hover {
+  background: var(--tk-green-soft);
+  border-color: var(--tk-green);
+  box-shadow: var(--tk-glow);
+}
+.tk-btn.quiet {
+  background: transparent;
+  color: var(--tk-muted);
+  border-color: transparent;
+  box-shadow: none;
+  clip-path: none;
+}
+.tk-btn.quiet:hover {
+  color: var(--tk-green);
+  box-shadow: none;
+}
+.tk-btn.quiet::after {
+  display: none;
+}
+.tk-btn.sm {
+  font-size: 13.5px;
+  padding: 9px 14px;
+}
+.tk-note {
+  margin: 14px 0 0;
+  font-family: var(--tk-mono);
+  font-size: 11.5px;
+  line-height: 1.8;
+  color: var(--tk-muted);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+/* 生成中（ターミナル） */
+.tk-term {
+  font-family: var(--tk-mono);
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: var(--tk-green);
+  min-height: 12em;
+}
+.tk-term div {
+  animation: tk-type-in 0.25s var(--ease-out);
+}
+.tk-term .ok {
+  color: var(--tk-text);
+}
+.tk-term .ok::before {
+  content: "[OK] ";
+  color: var(--tk-green);
+}
+.tk-term .dim {
+  color: var(--tk-muted);
+}
+
+/* ============ 手順書 ============ */
+.tk-banner {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: rgba(255, 210, 63, 0.1);
+  border: 1px solid var(--tk-amber);
+  color: var(--tk-amber);
+  padding: 10px 14px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.tk-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.tk-tag {
+  font-family: var(--tk-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border: 1px solid var(--tk-green);
+  color: var(--tk-green);
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+.tk-tag.red {
+  border-color: var(--tk-red);
+  color: var(--tk-red);
+}
+.tk-date {
+  margin-left: auto;
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  color: var(--tk-muted);
+}
+.tk-doc-title {
+  font-family: var(--tk-sans);
+  font-weight: 900;
+  font-size: clamp(24px, 3.6vw, 32px);
+  line-height: 1.3;
+  margin: 0 0 8px;
+  text-shadow: 0 0 18px rgba(57, 255, 138, 0.25);
+}
+.tk-doc-sub {
+  font-size: 13.5px;
+  color: var(--tk-muted);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.tk-doc-sub span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.tk-preface {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: rgba(4, 8, 6, 0.55);
+  border-left: 3px solid var(--tk-green);
+  font-size: 15px;
+  line-height: 1.9;
+}
+.tk-preface p {
+  margin: 0;
+}
+.tk-preface p + p {
+  margin-top: 6px;
+}
+.tk-progress {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--tk-mono);
+  font-size: 13px;
+}
+.tk-bar {
+  flex: 1;
+  height: 10px;
+  border: 1px solid var(--tk-line);
+  background: rgba(4, 8, 6, 0.6);
+  overflow: hidden;
+}
+.tk-bar i {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--tk-green) 0 6px, var(--tk-green-dim) 6px 8px);
+  box-shadow: var(--tk-glow);
+  transition: width var(--dur-slow) var(--ease-out);
+}
+.tk-devtabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.tk-devtab {
+  font: inherit;
+  font-family: var(--tk-mono);
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--tk-muted);
+  border: 1px solid var(--tk-line);
+  padding: 8px 14px;
+  cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.tk-devtab:hover {
+  color: var(--tk-green);
+  border-color: var(--tk-green);
+}
+.tk-devtab[aria-selected="true"] {
+  background: var(--tk-green);
+  color: var(--tk-bg);
+  border-color: var(--tk-green);
+  box-shadow: var(--tk-glow);
+}
+.tk-devnote {
+  font-size: 12.5px;
+  color: var(--tk-muted);
+  margin-top: 8px;
+}
+
+/* 段階 */
+.tk-phase {
+  margin-top: 26px;
+}
+.tk-phase-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.tk-phase-head h3 {
+  font-family: var(--tk-sans);
+  font-weight: 900;
+  font-size: clamp(19px, 2.8vw, 23px);
+  margin: 0;
+  line-height: 1.3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.tk-phase-head h3 i {
+  color: var(--tk-green);
+  text-shadow: var(--tk-glow);
+}
+.tk-phase-head h3 .tk-today {
+  background: linear-gradient(transparent 62%, rgba(57, 255, 138, 0.35) 62%);
+}
+.tk-phase-head .tk-meta {
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  color: var(--tk-muted);
+}
+.tk-phase-lead {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  color: var(--tk-muted);
+}
+.tk-cards {
+  display: grid;
+  gap: 10px;
+}
+
+/* カード */
+.tk-card {
+  position: relative;
+  background: var(--tk-panel-2);
+  border: 1px solid var(--tk-line);
+  transition: opacity var(--dur-base), border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.tk-card:hover {
+  border-color: var(--tk-line-strong);
+}
+.tk-card.open {
+  box-shadow: 0 0 0 1px rgba(57, 255, 138, 0.15), 0 0 24px -10px rgba(57, 255, 138, 0.5);
+}
+.tk-card.done {
+  opacity: 0.6;
+}
+.tk-card-head {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  gap: 12px;
+  align-items: start;
+  width: 100%;
+  padding: 14px 16px;
+  background: none;
+  border: 0;
+  color: var(--tk-text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+.tk-card-head:hover {
+  background: rgba(57, 255, 138, 0.05);
+}
+.tk-chk {
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  border: 1px solid var(--tk-green);
+  display: grid;
+  place-items: center;
+  color: var(--tk-bg);
+  font-size: 15px;
+  transition: background var(--dur-fast), box-shadow var(--dur-fast);
+}
+.tk-card.done .tk-chk {
+  background: var(--tk-green);
+  box-shadow: var(--tk-glow);
+}
+.tk-ttl {
+  display: block;
+  font-family: var(--tk-sans);
+  font-weight: 900;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+.tk-card.done .tk-ttl {
+  color: var(--tk-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--tk-green);
+}
+.tk-why {
+  display: block;
+  color: var(--tk-muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 3px;
+}
+.tk-card-meta {
+  font-family: var(--tk-mono);
+  font-size: 11.5px;
+  color: var(--tk-muted);
+  white-space: nowrap;
+  text-align: right;
+}
+.tk-card-meta b {
+  display: block;
+  color: var(--tk-green);
+  font-size: 13px;
+}
+.tk-card-toggle {
+  font: inherit;
+  font-family: var(--tk-mono);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--tk-green);
+  background: none;
+  border: 0;
+  padding: 0 16px 12px 54px;
+  cursor: pointer;
+  text-align: left;
+  letter-spacing: 0.04em;
+}
+.tk-card-toggle:hover {
+  text-shadow: var(--tk-glow);
+}
+.tk-body {
+  padding: 0 16px 14px;
+}
+.tk-danger {
+  background: var(--tk-red-soft);
+  border-left: 3px solid var(--tk-red);
+  color: #ffb3bf;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+.tk-nodev {
+  font-size: 13px;
+  color: var(--tk-muted);
+  padding: 8px 12px;
+  background: rgba(4, 8, 6, 0.5);
+  border: 1px dashed var(--tk-line);
+  margin-bottom: 10px;
+}
+.tk-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tk-steps li {
+  position: relative;
+  padding: 9px 0 9px 34px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  border-bottom: 1px dashed rgba(57, 255, 138, 0.18);
+}
+.tk-steps li:last-child {
+  border-bottom: 0;
+}
+.tk-steps .tk-n {
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--tk-green);
+  color: var(--tk-green);
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.tk-steps .tk-path {
+  display: block;
+  font-weight: 700;
+}
+.tk-steps .tk-ar {
+  color: var(--tk-green);
+  margin: 0 5px;
+  font-size: 12px;
+}
+.tk-steps .tk-tip {
+  display: block;
+  color: var(--tk-muted);
+  font-size: 13px;
+  line-height: 1.65;
+  margin-top: 2px;
+}
+.tk-cardfoot {
+  margin-top: 10px;
+  font-family: var(--tk-mono);
+  font-size: 11.5px;
+  color: var(--tk-muted);
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.tk-cardfoot a {
+  color: var(--tk-muted);
+  font-weight: 700;
+}
+.tk-cardfoot a:hover {
+  color: var(--tk-green);
+}
+.tk-donebtn {
+  margin-left: auto;
+  font: inherit;
+  font-family: var(--tk-mono);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--tk-green);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+.tk-donebtn:hover {
+  text-shadow: var(--tk-glow);
+}
+.tk-donebtn.undo {
+  color: var(--tk-muted);
+}
+
+.tk-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 26px;
+}
+.tk-foot {
+  margin: 18px 0 0;
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: var(--tk-muted);
+  border-top: 1px dashed var(--tk-line);
+  padding-top: 12px;
+}
+.tk-bottombar {
+  margin-top: 36px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-family: var(--tk-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.tk-bottombar a {
+  text-decoration: none;
+  color: var(--tk-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tk-bottombar a:hover {
+  color: var(--tk-green);
+  text-shadow: var(--tk-glow);
+}
+
+/* トースト */
+.tk-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  background: var(--tk-bg);
+  color: var(--tk-green);
+  border: 1px solid var(--tk-green);
+  box-shadow: var(--tk-glow);
+  padding: 10px 18px;
+  font-family: var(--tk-mono);
+  font-weight: 700;
+  font-size: 13.5px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base);
+  z-index: 20;
+  white-space: nowrap;
+  max-width: 92vw;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+.tk-toast.show {
+  opacity: 1;
+}
+
+/* ============ アニメーション ============ */
+@keyframes tk-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes tk-type-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tk-glitch-a {
+  0%, 92%, 100% {
+    opacity: 0;
+  }
+  93% {
+    opacity: 0.8;
+    clip-path: inset(10% 0 60% 0);
+    transform: translate(-3px, 0);
+  }
+  95% {
+    opacity: 0.8;
+    clip-path: inset(50% 0 20% 0);
+    transform: translate(3px, 0);
+  }
+  97% {
+    opacity: 0;
+  }
+}
+@keyframes tk-glitch-b {
+  0%, 93%, 100% {
+    opacity: 0;
+  }
+  94% {
+    opacity: 0.7;
+    clip-path: inset(30% 0 40% 0);
+    transform: translate(3px, 0);
+  }
+  96% {
+    opacity: 0.7;
+    clip-path: inset(70% 0 5% 0);
+    transform: translate(-3px, 0);
+  }
+  98% {
+    opacity: 0;
+  }
+}
+.tk-enter {
+  animation: tk-type-in 0.4s var(--ease-out);
+}
+
+@media (max-width: 560px) {
+  .tk-lines {
+    grid-template-columns: 1fr;
+  }
+  .tk-card-head {
+    grid-template-columns: 26px 1fr;
+  }
+  .tk-card-meta {
+    grid-column: 2;
+    text-align: left;
+    margin-top: 2px;
+  }
+  .tk-panel {
+    padding: 16px 14px;
+  }
+  .tk-body {
+    padding: 0 14px 14px;
+  }
+  .tk-card-toggle {
+    padding-left: 52px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tk-lead {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .tk-title::before,
+  .tk-title::after,
+  .tk-status::before,
+  .tk-caret,
+  .tk-enter,
+  .tk-term div,
+  .tk-cat-body,
+  .tk-line .tk-v.fresh {
+    animation: none !important;
+  }
+  .tk-opt::after,
+  .tk-btn::after {
+    display: none;
+  }
+}
+
+/* ============ 印刷：紙に出すときは白地・黒字に戻す ============ */
+@media print {
+  .tk-root {
+    --tk-bg: #fff;
+    --tk-panel: #fff;
+    --tk-panel-2: #fff;
+    --tk-green: #000;
+    --tk-green-2: #000;
+    --tk-green-dim: #555;
+    --tk-green-soft: #f2f2f2;
+    --tk-line: #999;
+    --tk-line-strong: #000;
+    --tk-text: #000;
+    --tk-muted: #444;
+    --tk-dim: #888;
+    --tk-red: #b00020;
+    --tk-red-soft: #fff0f2;
+    --tk-amber: #665200;
+    --tk-glow: none;
+    background: #fff;
+    color: #000;
+  }
+  .tk-rain,
+  .tk-noprint,
+  .tk-card-toggle,
+  .tk-topbar,
+  .tk-bottombar,
+  .tk-toast {
+    display: none !important;
+  }
+  .tk-body {
+    display: block !important;
+  }
+  .tk-card {
+    break-inside: avoid;
+    opacity: 1 !important;
+  }
+  .tk-card.done .tk-chk {
+    background: #000;
+  }
+  .tk-panel,
+  .tk-card {
+    box-shadow: none !important;
+    backdrop-filter: none;
+  }
+  .tk-title {
+    text-shadow: none;
+  }
+  .tk-title::before,
+  .tk-title::after {
+    display: none;
+  }
+  .tk-lead {
+    opacity: 1;
+    transform: none;
+  }
+  .tk-bar i {
+    background: #000;
+  }
+  .tk-main {
+    max-width: none;
+    padding: 0;
+  }
+}
