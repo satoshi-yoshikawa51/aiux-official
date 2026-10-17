@@ -190,9 +190,10 @@
   color: var(--tk-green);
   margin-bottom: 8px;
 }
-.tk-kicker::before {
-  content: "> ";
-  color: var(--tk-muted);
+.tk-kicker {
+  min-height: 1.6em;
+  white-space: pre-wrap;
+  opacity: var(--tk-pre, 1);
 }
 .tk-title {
   position: relative;
@@ -220,12 +221,39 @@
   color: var(--tk-red);
   animation: tk-glitch-b 4s steps(1) infinite;
 }
+/* 見出しの1文字。登場時は JS が opacity / transform / className を動かす */
+.tk-ch {
+  display: inline-block;
+  opacity: var(--tk-pre, 1); /* ハイドレーション前の仮隠し（hero.tsx） */
+  will-change: transform, opacity;
+  transition: color var(--dur-fast), text-shadow var(--dur-base);
+}
+.tk-ch.scr {
+  color: var(--tk-green);
+  text-shadow: 0 0 10px rgba(57, 255, 138, 0.6);
+}
+.tk-ch.hit {
+  color: #fff;
+  text-shadow: 0 0 10px #fff, 0 0 28px var(--tk-green), 0 0 60px rgba(57, 255, 138, 0.8);
+  transition: none;
+}
+.tk-title.decoding::before,
+.tk-title.decoding::after {
+  display: none;
+}
 .tk-lead {
   margin: 0;
   font-size: 14.5px;
   line-height: 1.9;
   color: var(--tk-text);
   text-shadow: 0 0 6px var(--tk-bg), 0 0 14px var(--tk-bg);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+.tk-lead.on {
+  opacity: var(--tk-pre, 1);
+  transform: none;
 }
 
 /* パネル（四隅にブラケット） */
@@ -1080,6 +1108,11 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .tk-lead {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
   .tk-title::before,
   .tk-title::after,
   .tk-status::before,
@@ -1146,6 +1179,10 @@
   .tk-title::before,
   .tk-title::after {
     display: none;
+  }
+  .tk-lead {
+    opacity: 1;
+    transform: none;
   }
   .tk-bar i {
     background: #000;
