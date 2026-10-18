@@ -1,14 +1,64 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-17T23:22:13.495Z",
+  "updatedAt": "2026-10-18T23:36:07.811Z",
   "items": [
+    {
+      "title": "Anthropic says it’s committing 5% of its shares to a ‘public benefit fund’",
+      "url": "https://techcrunch.com/2026/10/18/anthropic-says-its-committing-5-of-its-shares-to-a-public-benefit-fund/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-18T20:37:40.000Z",
+      "titleJa": "Anthropic、自社株の5％を「公益ファンド」に拠出すると表明",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2252871842.jpg?w=1024"
+    },
+    {
+      "title": "Anthropic gives outside AI watchdog “employee-like” access",
+      "url": "https://arstechnica.com/ai/2026/10/anthropic-gives-outside-ai-watchdog-employee-like-access/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-18T16:25:19.000Z",
+      "titleJa": "Anthropic、外部のAI監視団体に「従業員並み」のアクセスを付与",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/claudebyanthropic-1024x648.jpg"
+    },
+    {
+      "title": "日本企業の「AI業務実装の壁」を打ち破る ― RPAのパイオニアが「AI×RPA×人」の統合基盤を国内展開",
+      "url": "https://ascii.jp/elem/000/004/443/4443113/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-18T22:30:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/16/4539306/xl/cbdfa1bff3b69bde.jpg?20200122"
+    },
+    {
+      "title": "「Linux」で今後ローリングリリースが主流になるかもしれない--AIがもたらす変化とは",
+      "url": "https://japan.zdnet.com/article/35253626/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-18T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/16/3e531dfccb86defce18c3ef4adcdce24/large-aispeedhero.jpg"
+    },
+    {
+      "title": "OpenAI、AIの新たな「暴走」事例を公表 公開情報を調べるはずが内部システムに無断侵入",
+      "url": "https://japan.cnet.com/article/35253688/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-18T21:57:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/05/11/c91ead991a6990ceb56ffd75c531f482/openai-purple-logo_1280x960.jpg"
+    },
+    {
+      "title": "「業務の効率化」だけに矮小化したAI導入では効果得られず",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600001/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-18T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600001/topm.jpg?20220512"
+    },
     {
       "title": "Meta removes language that raised scraping and AI training concerns",
       "url": "https://techcrunch.com/2026/10/17/meta-removes-language-that-raised-scraping-and-ai-training-concerns/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-10-17T21:31:32.000Z",
-      "titleJa": "Meta、スクレイピングとAI学習の懸念を招いた文言を削除",
+      "titleJa": "Meta、スクレイピングとAI学習への懸念を招いた文言を削除",
       "image": "https://techcrunch.com/wp-content/uploads/2026/05/meta-ai-GettyImages-2264943773.jpg?w=1024"
     },
     {
@@ -17,17 +67,8 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-10-17T20:21:19.000Z",
-      "titleJa": "Anthropic、社内の若手比率が低下し会議時間が増加と明かす",
+      "titleJa": "Anthropic、社員のジュニア層が減少し会議に費やす時間が増加と明かす",
       "image": "https://techcrunch.com/wp-content/uploads/2026/06/GettyImages-2278736523.jpeg?resize=1200,798"
-    },
-    {
-      "title": "Replit makes OpenAI its default over Anthropic, CEO says",
-      "url": "https://techcrunch.com/2026/10/17/replit-is-no-longer-working-with-anthropic-ceo-says/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-17T18:48:08.000Z",
-      "titleJa": "ReplitがデフォルトをAnthropicからOpenAIに変更、CEOが明言",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/replit-ceo-masad.jpg?resize=1200,800"
     },
     {
       "title": "中国、AI技術23項目を輸出規制へ その中身とは",
@@ -38,20 +79,12 @@
       "image": "https://japan.cnet.com/storage/2026/10/17/80b2f5ce29ec94a1378881ad5b9255b6/41_china_ai_header.jpg"
     },
     {
-      "title": "米AmazonがAIガジェット「Bee」発表。カードサイズのボイスレコーダーなど",
-      "url": "https://www.gizmodo.jp/article/2610-amazon-bee-ai-gadgets/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-10-17T09:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/10/16/d72ed3ba-0b1b-4646-8437-98ea043dc02b/original.jpg?w=1200&h=630"
-    },
-    {
       "title": "Stack Overflow for Agents triples signups with ChatGPT plugin",
       "url": "https://openai.com/index/stack-overflow-chatgpt-plugin",
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-16T00:00:00.000Z",
-      "titleJa": "Stack Overflow for Agents、ChatGPTプラグインで新規登録が3倍に",
+      "titleJa": "Stack Overflow for Agents、ChatGPTプラグインで登録数が3倍に",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/4HTc2pk7XGFhzDU8RX0Ivg/ff2b922fa1914350c9d800da622ebe04/stack-overflow-social.png?w=1600&h=900&fit=fill"
     },
     {
@@ -60,17 +93,8 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-10-16T20:59:01.000Z",
-      "titleJa": "OpenAIのモデルが仮想通貨ウォレットをハッキング、複数サイトにも侵入",
+      "titleJa": "OpenAIのモデル、仮想通貨ウォレットをハッキングし複数サイトにも侵入",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/ai-agents-1152x648.jpg"
-    },
-    {
-      "title": "A week with RTX Spark: everything we’ve learned using Nvidia’s new laptops",
-      "url": "https://www.theverge.com/tech/1012748/nvidia-rtx-spark-windows-arm-laptops-asus-hp-lenovo-impressions",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-16T15:00:00.000Z",
-      "titleJa": "RTX Sparkと過ごした1週間——Nvidiaの新型ノートPCで分かったことすべて",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/268814_Nvidia_RTX_Spark_laptops_Asus_HP_Lenovo_ADiBenedetto_0001.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
       "title": "AIエージェントの導入半年で明確なビジネス成果--キズキレンタルに聞く勘所",
@@ -95,30 +119,6 @@
       "lang": "ja",
       "date": "2026-10-16T03:30:00.000Z",
       "image": "https://japan.zdnet.com/storage/2026/10/16/e73f6fe95f2445235b2fb8c3501684c5/20261016_adobestock_242229794_electronics_1280x960.jpg"
-    },
-    {
-      "title": "Microsoft、社内エンジニア数万人を対象に「Claude Code」「Copilot CLI」導入の影響を分析 生産性どう変わる",
-      "url": "https://www.itmedia.co.jp/news/article/2610/16/2000002277/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-16T03:00:00.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/16/2000002277/10009372/2048"
-    },
-    {
-      "title": "NVIDIAの新モデル「Nemotron 3.5」、オープンウェイトAIの新たな一歩",
-      "url": "https://japan.zdnet.com/article/35253617/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-16T01:29:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/16/4ac10ef50ef053098d2e811ad49c3678/Nemotron-3.5-Super-VL-image_1280.jpg"
-    },
-    {
-      "title": "Amazon、Beeの新AIデバイス2機種発表 リストバンド型とスマホ装着型、会話を要約し「Alexa+」と連携",
-      "url": "https://www.itmedia.co.jp/news/article/2610/16/2000002316/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-16T01:27:57.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/16/2000002316/10009529/2048"
     }
   ]
 }
