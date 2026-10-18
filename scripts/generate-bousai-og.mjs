@@ -1,7 +1,9 @@
 /* ============================================================
    「サイバー攻撃防災手帳」（/bousai）のOGP画像（1200×630）を生成する。
-   ページ本体と同じサイバー調（黒地に緑のコードの雨）で、
-   色は bousai.css の --tk-* をそのまま読んで使う（2か所で持たない）。
+   ページ本体と同じ「コードの雨の廊下」を背景にする。
+   廊下のCSSは bousai.css から、色は --tk-* から、そのまま抜き出して使う
+   （見た目を2か所で持たないため）。雨を描く処理は rain.tsx と同じ考え方で、
+   先に120フレーム回してから1枚撮る。
    Playwright(Chromium)でスクリーンショットして public/og/bousai.png に書き出す。
 
    使い方:
@@ -25,6 +27,9 @@ const TEXT = tok("tk-text");
 const MUTED = tok("tk-muted");
 const RED = tok("tk-red");
 
+/* 廊下のCSS（.tk-rain 〜 .tk-scanlines）をそのまま借りる */
+const rainCss = css.slice(css.indexOf("/* ============ コードの雨（廊下） ============ */"), css.indexOf("/* ============ 骨組み ============ */"));
+
 async function fontCss(pkg, weights) {
   let out = "";
   for (const w of weights) {
@@ -36,61 +41,87 @@ async function fontCss(pkg, weights) {
 }
 const FONTS = (await fontCss("zen-kaku-gothic-new", [500, 700, 900])) + (await fontCss("jetbrains-mono", [700]));
 
-/* コードの雨は決め打ちの乱数で描く（毎回同じ絵になるように） */
-let seed = 20261017;
-const rnd = () => ((seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296);
-const GLYPHS = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン0123456789ABCDEFGHJKLMNPQRSTUVWXYZ<>=/:;+*#$%&";
-const cols = [];
-for (let x = 0; x < 1200; x += 22) {
-  const len = 8 + Math.floor(rnd() * 22);
-  const top = -200 + rnd() * 700;
-  const chars = Array.from({ length: len }, () => GLYPHS[Math.floor(rnd() * GLYPHS.length)]).join("<br>");
-  const op = 0.25 + rnd() * 0.55;
-  cols.push(`<div class="col" style="left:${x}px;top:${top}px;opacity:${op}">${chars}</div>`);
-}
-
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 ${FONTS}
 *{margin:0;padding:0;box-sizing:border-box}
-body{width:1200px;height:630px;background:${BG};color:${TEXT};font-family:"Zen Kaku Gothic New",sans-serif;overflow:hidden;position:relative}
-.rain{position:absolute;inset:0;overflow:hidden}
-.col{position:absolute;font-family:"JetBrains Mono",monospace;font-size:17px;line-height:1.25;color:${GREEN};
-  text-shadow:0 0 8px rgba(57,255,138,.6);
-  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 30%,#000 85%,#fff)}
-.col::first-line{color:${GREEN2}}
-.shade{position:absolute;inset:0;background:
-  radial-gradient(ellipse 58% 70% at 42% 50%, rgba(4,8,6,.92) 0%, rgba(4,8,6,.6) 60%, rgba(4,8,6,0) 100%),
-  linear-gradient(to bottom, rgba(4,8,6,.5), transparent 25%, transparent 75%, rgba(4,8,6,.6))}
-.scan{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(0,0,0,.22) 3px 4px)}
-.frame{position:absolute;inset:36px;border:1px solid rgba(57,255,138,.45)}
-.frame i{position:absolute;width:22px;height:22px;border:3px solid ${GREEN}}
+html,body{width:1200px;height:630px;overflow:hidden;background:${BG}}
+body{color:${TEXT};font-family:"Zen Kaku Gothic New",sans-serif;position:relative}
+${rainCss}
+/* OGP用：見出しの裏だけ暗くし、ページ側のビネットは薄くして雨を見せる */
+.tk-rain-vignette{opacity:.45}
+.tk-scanlines{opacity:.35}
+.tk-face-floor{transform:rotateX(90deg) translateZ(-34vh)}
+.tk-face-ceil{transform:rotateX(-90deg) translateZ(-34vh)}
+.shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+  radial-gradient(ellipse 52% 70% at 34% 50%, rgba(4,8,6,.82) 0%, rgba(4,8,6,.5) 55%, rgba(4,8,6,0) 100%)}
+.frame{position:absolute;inset:34px;z-index:2;border:1px solid rgba(57,255,138,.45)}
+.frame i{position:absolute;width:24px;height:24px;border:3px solid ${GREEN}}
 .frame i:nth-child(1){left:-2px;top:-2px;border-right:0;border-bottom:0}
 .frame i:nth-child(2){right:-2px;top:-2px;border-left:0;border-bottom:0}
 .frame i:nth-child(3){left:-2px;bottom:-2px;border-right:0;border-top:0}
 .frame i:nth-child(4){right:-2px;bottom:-2px;border-left:0;border-top:0}
-.body{position:absolute;left:84px;top:84px;right:84px;bottom:76px}
-.kicker{font-family:"JetBrains Mono",monospace;font-size:21px;letter-spacing:.2em;color:${GREEN};margin-bottom:22px}
-.kicker::before{content:"> ";color:${MUTED}}
-.title{font-weight:900;font-size:92px;line-height:1.22;letter-spacing:.01em;text-shadow:0 0 30px rgba(57,255,138,.35)}
-.sub{margin-top:26px;font-family:"JetBrains Mono",monospace;font-size:24px;color:${MUTED};letter-spacing:.04em}
+.body{position:absolute;left:84px;top:78px;right:84px;bottom:70px;z-index:3}
+.top{display:flex;align-items:center;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:19px;letter-spacing:.14em;color:${MUTED}}
+.top .brand{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:26px;letter-spacing:.01em;color:${TEXT}}
+.top .brand b{color:${GREEN} !important;font-weight:900;text-shadow:0 0 12px rgba(57,255,138,.6)}
+.top .status{display:inline-flex;align-items:center;gap:8px;background:rgba(4,8,6,.75);padding:6px 12px;border:1px solid rgba(57,255,138,.35)}
+.top .status::before{content:"";width:9px;height:9px;border-radius:50%;background:${GREEN};box-shadow:0 0 10px ${GREEN}}
+.kicker{margin-top:44px;font-family:"JetBrains Mono",monospace;font-size:21px;letter-spacing:.2em;color:${GREEN}}
+.title{margin-top:10px;font-weight:900;font-size:96px;line-height:1.16;letter-spacing:.01em;color:#fff;
+  text-shadow:0 0 14px rgba(57,255,138,.35),0 0 44px rgba(57,255,138,.25)}
+.sub{margin-top:22px;font-size:26px;color:${TEXT};line-height:1.5;text-shadow:0 0 6px ${BG},0 0 12px ${BG},0 0 24px ${BG},0 0 36px ${BG}}
 .sub b{color:${GREEN};font-weight:700}
 .tags{position:absolute;left:0;bottom:0;display:flex;gap:12px}
-.tag{font-family:"JetBrains Mono",monospace;font-size:19px;letter-spacing:.1em;padding:9px 16px;border:2px solid ${GREEN};color:${GREEN};
+.tag{font-family:"JetBrains Mono",monospace;font-size:19px;letter-spacing:.1em;padding:9px 16px;border:2px solid ${GREEN};color:${GREEN};background:rgba(4,8,6,.6);
   clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
 .tag.red{border-color:${RED};color:${RED}}
-.brand{position:absolute;right:0;bottom:4px;font-family:"JetBrains Mono",monospace;font-size:22px;letter-spacing:.12em;color:${MUTED}}
-.brand b{color:${GREEN};font-weight:700}
+.url{position:absolute;right:0;bottom:0;font-family:"JetBrains Mono",monospace;font-size:22px;letter-spacing:.1em;color:${MUTED};background:rgba(4,8,6,.75);padding:9px 14px;border:1px solid rgba(57,255,138,.35)}
+.url b{color:${GREEN2};font-weight:700}
 </style></head><body>
-<div class="rain">${cols.join("")}</div>
-<div class="shade"></div><div class="scan"></div>
+<div class="tk-rain" id="rain">
+  <div class="tk-rain-stage"><div class="tk-rain-corridor">
+    <canvas class="tk-face tk-face-back"></canvas>
+    <canvas class="tk-face tk-face-floor"></canvas>
+    <canvas class="tk-face tk-face-ceil"></canvas>
+    <canvas class="tk-face tk-face-left"></canvas>
+    <canvas class="tk-face tk-face-right"></canvas>
+  </div></div>
+  <div class="tk-rain-vignette"></div>
+  <div class="tk-scanlines"></div>
+</div>
+<div class="shade"></div>
 <div class="frame"><i></i><i></i><i></i><i></i></div>
 <div class="body">
-  <div class="kicker">CYBER ATTACK — DISASTER KIT</div>
+  <div class="top"><span class="brand">CO<b>MIX</b>AI</span><span class="status">LOCAL ONLY</span></div>
+  <div class="kicker">&gt; CYBER ATTACK — DISASTER KIT</div>
   <div class="title">サイバー攻撃<br>防災手帳</div>
-  <div class="sub">5問で、あなた専用のセキュリティ手順書 ｜ iPhone / Android / Windows / Mac</div>
-  <div class="tags"><span class="tag red">LOCAL ONLY</span><span class="tag">回答はどこにも送らない</span></div>
-  <div class="brand">comixai.dev/bousai ・ <b>COMIXAI</b></div>
+  <div class="sub">5問で、あなた専用のセキュリティ手順書。<b>iPhone / Android / Windows / Mac</b> 別に、設定画面の階層まで。</div>
+  <div class="tags"><span class="tag red">回答はどこにも送らない</span><span class="tag">今日の15分 → 今週中に → もしもの時に</span></div>
+  <div class="url">comixai.dev/<b>bousai</b></div>
 </div>
+<script>
+/* rain.tsx と同じ描き方。乱数は固定して毎回同じ絵にする */
+(function(){
+  var seed=20261017;function rnd(){seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296}
+  var G="アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン0123456789ABCDEFGHJKLMNPQRSTUVWXYZ<>=/:;+*#$%&";
+  var W=1280,H=1800,F=14,C=Math.floor(W/F);
+  var faces=document.querySelectorAll("#rain canvas");faces.forEach(function(f){f.width=W;f.height=H});
+  var src=document.createElement("canvas");src.width=W;src.height=H;var ctx=src.getContext("2d");
+  var N=C*3,drops=[],speed=[];for(var i=0;i<N;i++){drops.push(rnd()*-H*1.5);speed.push(0.5+rnd()*1.2)}
+  ctx.fillStyle="${BG}";ctx.fillRect(0,0,W,H);
+  function step(){
+    ctx.fillStyle="rgba(4,8,6,0.045)";ctx.fillRect(0,0,W,H);
+    ctx.font=F+'px "JetBrains Mono", monospace';ctx.textBaseline="top";
+    for(var i=0;i<N;i++){var x=(i%C)*F,y=drops[i];
+      ctx.fillStyle="${GREEN}";ctx.fillText(G[(rnd()*G.length)|0],x,y-F);
+      ctx.fillStyle="${TEXT}";ctx.fillText(G[(rnd()*G.length)|0],x,y);
+      drops[i]=y>H+F*2?rnd()*-H*0.8:y+F*speed[i]}
+  }
+  for(var k=0;k<170;k++)step();
+  faces.forEach(function(f){f.getContext("2d").drawImage(src,0,0)});
+  window.__rainReady=true;
+})();
+</script>
 </body></html>`;
 
 const npmRoot = execSync("npm root -g").toString().trim();
@@ -100,6 +131,7 @@ const browser = await chromium.launch({ executablePath });
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
 await page.setContent(html, { waitUntil: "load" });
 await page.evaluate(() => document.fonts.ready);
+await page.waitForFunction(() => window.__rainReady === true);
 await mkdir(path.dirname(OUT), { recursive: true });
 await page.screenshot({ path: OUT, type: "png" });
 await browser.close();
