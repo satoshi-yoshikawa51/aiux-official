@@ -103,6 +103,11 @@ XやGitHubなどのロゴは**商標なので描き直さない**。Phosphorの 
 | `works/data.ts` `guide/data.tsx` `faq/data.ts` `manga/data.ts` `calendar/events.ts` | 各セクションのコンテンツ |
 | `public/yonkoma/` + `yonkoma/registry.ts` | 手描き4コマ。**データファイルなし**（置いた画像が正）。registryがfsを見て用語/レシピページとギャラリーに配る |
 
+**WORKS（つくったもの）の並び**は `works/data.ts` の `worksByCategory()` が `lastUpdated` から
+自動で決める。カテゴリの中は新しい順、カテゴリ同士も「いちばん新しい作品を持つ方」が上。
+トップと `/works` の両方がこれを使うので、配列の順番や呼び出し側で手で並べ替えない。
+新作・更新は `lastUpdated` を正しく入れれば勝手に上に来る。
+
 **コンテンツを追加したら**：該当 `data.ts` → `*_UPDATED` 定数 → `sitemap.ts`（新セクションの場合）→ OGP画像（`npm run og:glossary`）の順で更新する。
 
 **用語集に新しい用語を書くときは `docs/glossary-writing.md` を必ず読む。**
