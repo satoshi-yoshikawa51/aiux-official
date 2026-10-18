@@ -88,22 +88,22 @@ ${rainCss}
 .tk-face-floor{transform:rotateX(90deg) translateZ(-30vh)}
 .tk-face-ceil{transform:rotateX(-90deg) translateZ(-30vh)}
 .shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:
-  radial-gradient(ellipse 60% 90% at 36% 50%, rgba(4,8,6,.88) 0%, rgba(4,8,6,.55) 55%, rgba(4,8,6,0) 100%)}
+  radial-gradient(ellipse 62% 92% at 50% 50%, rgba(4,8,6,.9) 0%, rgba(4,8,6,.6) 55%, rgba(4,8,6,0) 100%)}
 .frame{position:absolute;inset:16px;z-index:2;border:1px solid rgba(57,255,138,.4);pointer-events:none}
 .frame i{position:absolute;width:18px;height:18px;border:3px solid ${tk("tk-green")}}
 .frame i:nth-child(1){left:-2px;top:-2px;border-right:0;border-bottom:0}
 .frame i:nth-child(2){right:-2px;top:-2px;border-left:0;border-bottom:0}
 .frame i:nth-child(3){left:-2px;bottom:-2px;border-right:0;border-top:0}
 .frame i:nth-child(4){right:-2px;bottom:-2px;border-left:0;border-top:0}
-/* 左は120px空ける：カルーセルの矢印（左端）が文字に被らないように */
-.body{position:absolute;left:120px;top:0;bottom:0;right:62px;z-index:3;display:flex;flex-direction:column;justify-content:center;gap:18px}
+/* 中央揃え。左右110pxはカルーセルの矢印が文字に被らないための余白 */
+.body{position:absolute;left:110px;right:110px;top:0;bottom:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
 .kicker{color:${tk("tk-green")};font-size:20px}
-.title{font-weight:900;font-size:62px;line-height:1.2;color:#fff;text-shadow:0 0 12px rgba(57,255,138,.35),0 0 36px rgba(57,255,138,.25)}
-.sub{font-size:23px;font-weight:700;color:${tk("tk-text")};text-shadow:0 0 6px ${tk("tk-bg")},0 0 14px ${tk("tk-bg")},0 0 28px ${tk("tk-bg")}}
+.title{font-weight:900;font-size:86px;line-height:1.15;letter-spacing:.01em;color:#fff;text-shadow:0 0 14px rgba(57,255,138,.4),0 0 44px rgba(57,255,138,.28)}
+.sub{font-size:24px;font-weight:700;color:${tk("tk-text")};text-shadow:0 0 6px ${tk("tk-bg")},0 0 14px ${tk("tk-bg")},0 0 28px ${tk("tk-bg")}}
 .sub b{color:${tk("tk-green")}}
-.cta{border-color:${tk("tk-green")};background:${tk("tk-green")};color:${tk("tk-bg")};box-shadow:0 0 14px rgba(57,255,138,.7),0 0 40px rgba(57,255,138,.3);border-radius:0;
+.cta{align-self:center;margin-top:6px;border-color:${tk("tk-green")};background:${tk("tk-green")};color:${tk("tk-bg")};box-shadow:0 0 14px rgba(57,255,138,.7),0 0 40px rgba(57,255,138,.3);border-radius:0;
   clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
-.tag{position:absolute;right:62px;top:40px;z-index:3;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:17px;letter-spacing:.12em;color:${tk("tk-red")};border:2px solid ${tk("tk-red")};padding:8px 14px;background:rgba(4,8,6,.75);
+.tag{position:absolute;right:110px;top:36px;z-index:3;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:17px;letter-spacing:.12em;color:${tk("tk-red")};border:2px solid ${tk("tk-red")};padding:8px 14px;background:rgba(4,8,6,.75);
   clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
 </style></head><body>
 <div class="tk-rain" id="rain">
@@ -118,7 +118,7 @@ ${rainCss}
 <div class="body">
   <div class="kicker">&gt; CYBER ATTACK — DISASTER KIT</div>
   <div class="title">サイバー攻撃防災手帳</div>
-  <div class="sub">5問で、<b>あなた専用</b>のセキュリティ手順書。iPhone / Android / Windows / Mac 別に。</div>
+  <div class="sub">5問で、<b>あなた専用</b>のセキュリティ手順書。</div>
   <div class="cta">防災手帳をつくる <span style="font-size: 30px;">→</span></div>
 </div>
 <script>
