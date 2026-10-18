@@ -68,76 +68,7 @@ body { width: 1200px; height: 480px; overflow: hidden; font-family: "Zen Kaku Go
 }
 `;
 
-/* ── バナー0：サイバー攻撃防災手帳（→ /bousai）
-   ページ本体と同じ「コードの雨の廊下」を背景にする。廊下のCSSと色は
-   src/app/bousai/bousai.css から読み、雨は rain.tsx と同じ描き方で先に回す
-   （generate-bousai-og.mjs と同じ作り） ── */
-const bousaiCss = await readFile(path.join(ROOT, "src/app/bousai/bousai.css"), "utf8");
-const tk = (name) => bousaiCss.match(new RegExp(`--${name}:\\s*([^;]+);`))[1].trim();
-const rainCss = bousaiCss.slice(
-  bousaiCss.indexOf("/* ============ コードの雨（廊下） ============ */"),
-  bousaiCss.indexOf("/* ============ 骨組み ============ */"),
-);
-const bousaiHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
-${BASE_CSS}
-html,body{background:${tk("tk-bg")}}
-body{color:${tk("tk-text")};position:relative}
-${rainCss}
-.tk-rain-vignette{opacity:.4}
-.tk-scanlines{opacity:.35}
-.tk-face-floor{transform:rotateX(90deg) translateZ(-30vh)}
-.tk-face-ceil{transform:rotateX(-90deg) translateZ(-30vh)}
-.shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:
-  radial-gradient(ellipse 62% 92% at 50% 50%, rgba(4,8,6,.9) 0%, rgba(4,8,6,.6) 55%, rgba(4,8,6,0) 100%)}
-.frame{position:absolute;inset:16px;z-index:2;border:1px solid rgba(57,255,138,.4);pointer-events:none}
-.frame i{position:absolute;width:18px;height:18px;border:3px solid ${tk("tk-green")}}
-.frame i:nth-child(1){left:-2px;top:-2px;border-right:0;border-bottom:0}
-.frame i:nth-child(2){right:-2px;top:-2px;border-left:0;border-bottom:0}
-.frame i:nth-child(3){left:-2px;bottom:-2px;border-right:0;border-top:0}
-.frame i:nth-child(4){right:-2px;bottom:-2px;border-left:0;border-top:0}
-/* 中央揃え。左右110pxはカルーセルの矢印が文字に被らないための余白 */
-.body{position:absolute;left:110px;right:110px;top:0;bottom:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
-.kicker{color:${tk("tk-green")};font-size:20px}
-.title{font-weight:900;font-size:86px;line-height:1.15;letter-spacing:.01em;color:#fff;text-shadow:0 0 14px rgba(57,255,138,.4),0 0 44px rgba(57,255,138,.28)}
-.sub{font-size:24px;font-weight:700;color:${tk("tk-text")};text-shadow:0 0 6px ${tk("tk-bg")},0 0 14px ${tk("tk-bg")},0 0 28px ${tk("tk-bg")}}
-.sub b{color:${tk("tk-green")}}
-.cta{align-self:center;margin-top:6px;border-color:${tk("tk-green")};background:${tk("tk-green")};color:${tk("tk-bg")};box-shadow:0 0 14px rgba(57,255,138,.7),0 0 40px rgba(57,255,138,.3);border-radius:0;
-  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
-.tag{position:absolute;right:110px;top:36px;z-index:3;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:17px;letter-spacing:.12em;color:${tk("tk-red")};border:2px solid ${tk("tk-red")};padding:8px 14px;background:rgba(4,8,6,.75);
-  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
-</style></head><body>
-<div class="tk-rain" id="rain">
-  <div class="tk-rain-stage"><div class="tk-rain-corridor">
-    <canvas class="tk-face tk-face-back"></canvas><canvas class="tk-face tk-face-floor"></canvas><canvas class="tk-face tk-face-ceil"></canvas><canvas class="tk-face tk-face-left"></canvas><canvas class="tk-face tk-face-right"></canvas>
-  </div></div>
-  <div class="tk-rain-vignette"></div><div class="tk-scanlines"></div>
-</div>
-<div class="shade"></div>
-<div class="frame"><i></i><i></i><i></i><i></i></div>
-<div class="tag">回答はどこにも送らない</div>
-<div class="body">
-  <div class="kicker">&gt; CYBER ATTACK — DISASTER KIT</div>
-  <div class="title">サイバー攻撃防災手帳</div>
-  <div class="sub">5問で、<b>あなた専用</b>のセキュリティ手順書。</div>
-  <div class="cta">防災手帳をつくる <span style="font-size: 30px;">→</span></div>
-</div>
-<script>
-(function(){
-  var seed=20261018;function rnd(){seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296}
-  var G="アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン0123456789ABCDEFGHJKLMNPQRSTUVWXYZ<>=/:;+*#$%&";
-  var W=1280,H=1800,F=14,C=Math.floor(W/F);
-  var faces=document.querySelectorAll("#rain canvas");faces.forEach(function(f){f.width=W;f.height=H});
-  var src=document.createElement("canvas");src.width=W;src.height=H;var ctx=src.getContext("2d");
-  var N=C*3,drops=[],speed=[];for(var i=0;i<N;i++){drops.push(rnd()*-H*1.5);speed.push(0.5+rnd()*1.2)}
-  ctx.fillStyle="${tk("tk-bg")}";ctx.fillRect(0,0,W,H);
-  function step(){ctx.fillStyle="rgba(4,8,6,0.045)";ctx.fillRect(0,0,W,H);ctx.font=F+'px "JetBrains Mono", monospace';ctx.textBaseline="top";
-    for(var i=0;i<N;i++){var x=(i%C)*F,y=drops[i];ctx.fillStyle="${tk("tk-green")}";ctx.fillText(G[(rnd()*G.length)|0],x,y-F);ctx.fillStyle="${tk("tk-text")}";ctx.fillText(G[(rnd()*G.length)|0],x,y);drops[i]=y>H+F*2?rnd()*-H*0.8:y+F*speed[i]}}
-  for(var k=0;k<170;k++)step();
-  faces.forEach(function(f){f.getContext("2d").drawImage(src,0,0)});
-  window.__rainReady=true;
-})();
-</script>
-</body></html>`;
+/* 防災手帳のバナーは画像ではなく「動くバナー」（src/app/bousai/banner.tsx）なので、ここでは作らない */
 
 /* ── バナー1：スマホアプリ（黒地・ドット模様、→ /academy） ── */
 const academyHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
@@ -202,13 +133,11 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 480 }, dev
 const sharp = (await import(pathToFileURL(path.join(ROOT, "node_modules/sharp/lib/index.js")).href)).default;
 
 for (const [name, html] of [
-  ["bousai", bousaiHtml],
   ["academy", academyHtml],
   ["kyoshujo", kyoshujoHtml],
 ]) {
   await page.setContent(html, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
-  if (name === "bousai") await page.waitForFunction(() => window.__rainReady === true);
   const png = await page.screenshot({ type: "png" });
   await sharp(png).webp({ quality: 88 }).toFile(path.join(OUT_DIR, `${name}.webp`));
   console.log(`  ✔ ${name}.webp`);

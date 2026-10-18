@@ -1,7 +1,7 @@
 /* ============================================================
    「サイバー攻撃防災手帳」（/bousai）のOGP画像（1200×630）を生成する。
    ページ本体と同じ「コードの雨の廊下」を背景にする。
-   廊下のCSSは bousai.css から、色は --tk-* から、そのまま抜き出して使う
+   廊下のCSSと色（--tk-*）は、ページとバナーが共有する cyber.css から抜き出して使う
    （見た目を2か所で持たないため）。雨を描く処理は rain.tsx と同じ考え方で、
    先に120フレーム回してから1枚撮る。
    Playwright(Chromium)でスクリーンショットして public/og/bousai.png に書き出す。
@@ -18,7 +18,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "public/og/bousai.png");
 
-const css = await readFile(path.join(ROOT, "src/app/bousai/bousai.css"), "utf8");
+const css = await readFile(path.join(ROOT, "src/app/bousai/cyber.css"), "utf8");
 const tok = (name) => css.match(new RegExp(`--${name}:\\s*([^;]+);`))[1].trim();
 const BG = tok("tk-bg");
 const GREEN = tok("tk-green");
@@ -27,8 +27,8 @@ const TEXT = tok("tk-text");
 const MUTED = tok("tk-muted");
 const RED = tok("tk-red");
 
-/* 廊下のCSS（.tk-rain 〜 .tk-scanlines）をそのまま借りる */
-const rainCss = css.slice(css.indexOf("/* ============ コードの雨（廊下） ============ */"), css.indexOf("/* ============ 骨組み ============ */"));
+/* 廊下のCSS（.tk-rain 〜 .tk-scanlines）をそのまま借りる。cq単位は .tk-rain（＝画面いっぱい）基準 */
+const rainCss = css.slice(css.indexOf("/* ============ コードの雨（廊下） ============ */"), css.indexOf("/* ============ 見出しのグリッチ・解読 ============ */"));
 
 async function fontCss(pkg, weights) {
   let out = "";
@@ -50,8 +50,8 @@ ${rainCss}
 /* OGP用：見出しの裏だけ暗くし、ページ側のビネットは薄くして雨を見せる */
 .tk-rain-vignette{opacity:.45}
 .tk-scanlines{opacity:.35}
-.tk-face-floor{transform:rotateX(90deg) translateZ(-34vh)}
-.tk-face-ceil{transform:rotateX(-90deg) translateZ(-34vh)}
+.tk-face-floor{transform:rotateX(90deg) translateZ(-34cqh)}
+.tk-face-ceil{transform:rotateX(-90deg) translateZ(-34cqh)}
 .shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:
   radial-gradient(ellipse 52% 70% at 34% 50%, rgba(4,8,6,.82) 0%, rgba(4,8,6,.5) 55%, rgba(4,8,6,0) 100%)}
 .frame{position:absolute;inset:34px;z-index:2;border:1px solid rgba(57,255,138,.45)}

@@ -6,6 +6,9 @@
      画像は scripts/generate-top-banners.mjs（npm run banners:top）で
      生成する。デザインツールで作った絵に差し替えるときは、
      public/top-banners/<name>.webp を置き換えるだけでよい。
+   ・防災手帳だけは画像ではなく「動くバナー」（bousai/banner.tsx）。
+     背景のコードの雨が流れ、タイトルは画面に入るたびに解読演出で出る。
+     画像と同じ 1200×480 の比率で、並びの中では他と同じ扱い。
    ・PC（>900px）：2枚が見える横スクロール。3枚目からは矢印か
      ドットで送る（3枚になったので、2枚並べから変えた）。
    ・スマホ（≤900px）：1枚ずつの横スワイプ。
@@ -27,6 +30,9 @@
    変えると過去のデータと繋がらなくなるので、ここは動かさない。
    ============================================================ */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { BOUSAI_BANNER, BousaiBannerBody } from "./bousai/banner";
+import "./bousai/cyber.css";
+import "./bousai/banner.css";
 
 /* site-chrome の PAGE と同じ値。クライアント側に Nav/Footer まで
    引き込まないよう、定数だけ書き写している */
@@ -35,14 +41,9 @@ const PAGE = "min(1080px, 92vw)";
 /* 自動送りの間隔。速い＝読み終わる前に切り替わる、遅い＝2枚目に気づかない */
 const AUTO_MS = 5000;
 
-const SLIDES: { key: string; href: string; img: string; alt: string; gaPlace: string }[] = [
-  {
-    key: "bousai",
-    href: "/bousai",
-    img: "/top-banners/bousai.webp",
-    alt: "サイバー攻撃防災手帳 — 5問で、あなた専用のセキュリティ手順書。回答はどこにも送らない",
-    gaPlace: "top-bousai-banner",
-  },
+/* img を持たないものは「動くバナー」（いまは防災手帳だけ） */
+const SLIDES: { key: string; href: string; img?: string; alt: string; gaPlace: string }[] = [
+  { key: "bousai", ...BOUSAI_BANNER },
   {
     key: "academy",
     href: "/academy",
@@ -69,17 +70,24 @@ const rawToReal = (raw: number) => raw % COUNT;
 
 function Slide({ s, clone }: { s: (typeof SLIDES)[number]; clone?: number }) {
   const isClone = clone !== undefined;
+  const live = !s.img;
+  const cls = ["top-banner-slide", isClone && `top-banner-clone top-banner-clone-${clone}`, live && "bb tk-theme"].filter(Boolean).join(" ");
   return (
     <a
-      className={isClone ? `top-banner-slide top-banner-clone top-banner-clone-${clone}` : "top-banner-slide"}
+      className={cls}
       href={s.href}
       data-ga="cta_click"
       data-ga-place={s.gaPlace}
+      aria-label={live && !isClone ? s.alt : undefined}
       aria-hidden={isClone || undefined}
       tabIndex={isClone ? -1 : undefined}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={s.img} alt={isClone ? "" : s.alt} width={1200} height={480} style={{ width: "100%", height: "auto", display: "block" }} />
+      {live ? (
+        <BousaiBannerBody clone={isClone} />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={s.img} alt={isClone ? "" : s.alt} width={1200} height={480} style={{ width: "100%", height: "auto", display: "block" }} />
+      )}
     </a>
   );
 }
