@@ -16,7 +16,10 @@
      いるように見せる定石。PCは2枚見えるのでクローンも2枚、スマホは
      1枚だけ出す（CSSで出し分け）。左矢印は前へ、1枚目では最後の
      バナーへ回り込む。
-   ・5秒ごとの自動送りつき（スマホのみ・常に右方向）。
+   ・5秒ごとの自動送りつき（スマホのみ・常に右方向）。数え始めるのは
+     バナーが画面に入ってから。ページ読み込み時から数えると、MVを
+     読んでいる間に進んでしまい、スクロールして来た人には1枚目が
+     一瞬で切り替わったように見える。
    ・バナーを増やすときは SLIDES に1件足すだけ。ドット・矢印・
      ループは枚数から自動で追従する。
 
@@ -84,7 +87,9 @@ function Slide({ s, clone }: { s: (typeof SLIDES)[number]; clone?: number }) {
 export function TopBanners() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0); // 本物の番号（0..COUNT-1）
+  const [inView, setInView] = useState(false); // バナーが画面に入っているか
   const pausedRef = useRef(false);
+  const sectionRef = useRef<HTMLElement>(null);
   const settleRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* いまどのchildに一番近いか。幅やgapを決め打ちすると
@@ -140,12 +145,23 @@ export function TopBanners() {
     scrollToRaw(raw === 0 ? COUNT - 1 : raw - 1);
   }, [nearestRaw, scrollToRaw]);
 
+  /* バナーが画面に入っているかを見る。6割以上見えたら「入った」。
+     入ったり出たりで inView が変わるたびに、下の自動送りが数え直す */
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.6 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   /* ── 自動送り ──
      AUTO_MS ごとに右へ。動くのはカルーセルになるスマホ幅（≤900px）だけ。
+     数えるのはバナーが画面に入っている間だけ（入った瞬間から5秒）。
      指で触っている間は止め、手で動かしたら（indexが変わるので）数え直し。
      タブが裏の間と、OSの「動きを減らす」設定では動かさない */
   useEffect(() => {
-    if (COUNT < 2) return;
+    if (COUNT < 2 || !inView) return;
     const iv = setInterval(() => {
       if (pausedRef.current || document.hidden) return;
       if (!window.matchMedia("(max-width: 900px)").matches) return;
@@ -153,7 +169,7 @@ export function TopBanners() {
       goNext();
     }, AUTO_MS);
     return () => clearInterval(iv);
-  }, [index, goNext]);
+  }, [index, inView, goNext]);
 
   const arrowStyle: React.CSSProperties = {
     position: "absolute", top: "50%", transform: "translateY(-50%)", zIndex: 3,
@@ -164,7 +180,7 @@ export function TopBanners() {
   };
 
   return (
-    <section aria-label="特設バナー" style={{ maxWidth: PAGE, margin: "0 auto", padding: "36px 0 40px" }}>
+    <section ref={sectionRef} aria-label="特設バナー" style={{ maxWidth: PAGE, margin: "0 auto", padding: "36px 0 40px" }}>
       <div
         style={{ position: "relative" }}
         onPointerDown={() => { pausedRef.current = true; }}
