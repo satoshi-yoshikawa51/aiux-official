@@ -69,7 +69,7 @@ const X_HREF = `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE
 
 export default function TaisakuPage() {
   return (
-    <div className="tk-root">
+    <div className="tk-root tk-theme">
       <CyberRain />
       <main className="tk-main">
         <div className="tk-topbar">

@@ -1,0 +1,154 @@
+/* ============================================================
+   トップの特設バナー「サイバー攻撃防災手帳」（bousai/banner.tsx）。
+   1200×480 で作った絵をそのまま縮めるため、寸法は cqw（バナー幅の%）。
+   1cqw = 12px（1200px基準）。小さい画面で読めなくならないよう、
+   文字には最小サイズを入れている。色は cyber.css の --tk-*。
+   ============================================================ */
+.bb {
+  position: relative;
+  aspect-ratio: 1200 / 480;
+  container-type: inline-size;
+  overflow: hidden;
+  background: var(--tk-bg);
+  color: var(--tk-text);
+  text-decoration: none;
+}
+.bb-body {
+  position: absolute;
+  inset: 0;
+}
+/* 雨はページでは画面固定だが、バナーの中では箱いっぱいに */
+.bb .tk-rain {
+  position: absolute;
+  z-index: 0;
+}
+/* 遠近感も箱の大きさ基準に（ページは画面1200px幅のとき600px相当） */
+.bb .tk-rain-stage {
+  perspective: 50cqmax;
+}
+/* 横長なので床と天井を近づける */
+.bb .tk-face-floor {
+  transform: rotateX(90deg) translateZ(-30cqh);
+}
+.bb .tk-face-ceil {
+  transform: rotateX(-90deg) translateZ(-30cqh);
+}
+.bb .tk-rain-vignette {
+  opacity: 0.4;
+}
+.bb .tk-scanlines {
+  opacity: 0.35;
+}
+/* 文字の裏を暗くして読めるようにする */
+.bb-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 62% 92% at 50% 50%, rgba(4, 8, 6, 0.9) 0%, rgba(4, 8, 6, 0.6) 55%, rgba(4, 8, 6, 0) 100%);
+}
+.bb-frame {
+  position: absolute;
+  inset: 1.333cqw;
+  z-index: 2;
+  border: 1px solid rgba(57, 255, 138, 0.4);
+  pointer-events: none;
+}
+.bb-frame i {
+  position: absolute;
+  width: 1.5cqw;
+  height: 1.5cqw;
+  border: max(2px, 0.25cqw) solid var(--tk-green);
+}
+.bb-frame i:nth-child(1) { left: -2px; top: -2px; border-right: 0; border-bottom: 0; }
+.bb-frame i:nth-child(2) { right: -2px; top: -2px; border-left: 0; border-bottom: 0; }
+.bb-frame i:nth-child(3) { left: -2px; bottom: -2px; border-right: 0; border-top: 0; }
+.bb-frame i:nth-child(4) { right: -2px; bottom: -2px; border-left: 0; border-top: 0; }
+.bb-tag {
+  position: absolute;
+  right: 9.167cqw;
+  top: 7.5cqw;
+  z-index: 3;
+  font-family: var(--tk-mono);
+  font-weight: 700;
+  font-size: max(8px, 1.417cqw);
+  letter-spacing: 0.12em;
+  color: var(--tk-red);
+  border: max(1px, 0.167cqw) solid var(--tk-red);
+  padding: 0.667cqw 1.167cqw;
+  background: rgba(4, 8, 6, 0.75);
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+/* 中央揃え。左右の余白はカルーセルの矢印が文字に被らないため */
+.bb-text {
+  position: absolute;
+  left: 9.167cqw;
+  right: 9.167cqw;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.167cqw;
+}
+.bb-kicker {
+  font-family: var(--tk-mono);
+  font-weight: 700;
+  font-size: max(9px, 1.667cqw);
+  letter-spacing: 0.14em;
+  color: var(--tk-green);
+  white-space: pre;
+  min-height: 1.4em;
+}
+.bb-title {
+  font-family: var(--tk-sans);
+  font-weight: 900;
+  font-size: 7.167cqw;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 0 14px rgba(57, 255, 138, 0.4), 0 0 44px rgba(57, 255, 138, 0.28);
+}
+.bb-sub {
+  font-size: max(11px, 2cqw);
+  font-weight: 700;
+  color: var(--tk-text);
+  text-shadow: 0 0 6px var(--tk-bg), 0 0 14px var(--tk-bg), 0 0 28px var(--tk-bg);
+}
+.bb-sub b {
+  color: var(--tk-green);
+}
+.bb-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-top: 0.5cqw;
+  font-weight: 900;
+  font-size: max(11px, 2.25cqw);
+  padding: 0.5em 1.3em;
+  background: var(--tk-green);
+  color: var(--tk-bg);
+  box-shadow: 0 0 14px rgba(57, 255, 138, 0.7), 0 0 40px rgba(57, 255, 138, 0.3);
+  clip-path: polygon(0.45em 0, 100% 0, 100% calc(100% - 0.45em), calc(100% - 0.45em) 100%, 0 100%, 0 0.45em);
+  transition: box-shadow var(--dur-base), transform var(--dur-base);
+}
+.bb-cta i {
+  font-size: 1.1em;
+}
+.bb:hover .bb-cta {
+  box-shadow: 0 0 20px rgba(57, 255, 138, 0.9), 0 0 60px rgba(57, 255, 138, 0.45);
+  transform: translateY(-1px);
+}
+.bb:focus-visible {
+  outline: 3px solid var(--tk-green);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bb-cta {
+    transition: none;
+  }
+}

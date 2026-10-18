@@ -2,31 +2,14 @@
    サイバー攻撃防災手帳（/bousai）の見た目。
    白紙のLPと同じく「体験そのもの」の独立ページなので、
    サイト本体のトンマナからは意図的に外し、サイバー調に振っている。
-   色はこのファイル先頭の --tk-* に集め、下では直値を書かない。
+   色は cyber.css の --tk-*（.tk-theme）に集め、ここでは直値を書かない。
    印刷時だけ白地・黒字に戻す（最下部）。
    ============================================================ */
 
-.tk-root {
-  --tk-bg: #040806;
-  --tk-bg-2: #0a140d;
-  --tk-panel: rgba(6, 16, 10, 0.86);
-  --tk-panel-2: rgba(10, 26, 16, 0.9);
-  --tk-green: #39ff8a;
-  --tk-green-2: #8dffbf;
-  --tk-green-dim: #1f9a55;
-  --tk-green-soft: rgba(57, 255, 138, 0.12);
-  --tk-line: rgba(57, 255, 138, 0.38);
-  --tk-line-strong: rgba(57, 255, 138, 0.8);
-  --tk-text: #d9ffe6;
-  --tk-muted: #7fb894;
-  --tk-dim: #3f6b4f;
-  --tk-red: #ff3b5c;
-  --tk-red-soft: rgba(255, 59, 92, 0.14);
-  --tk-amber: #ffd23f;
-  --tk-glow: 0 0 10px rgba(57, 255, 138, 0.45), 0 0 28px rgba(57, 255, 138, 0.18);
-  --tk-mono: var(--font-mono);
-  --tk-sans: var(--font-body);
+/* バナー（トップ）と共有する部品：色トークン・コードの雨・見出しのグリッチ */
+@import "./cyber.css";
 
+.tk-root {
   position: relative;
   min-height: 100vh;
   background: var(--tk-bg);
@@ -46,68 +29,6 @@ body:has(.tk-root) {
 }
 .tk-root a {
   color: var(--tk-green-2);
-}
-
-/* ============ コードの雨（廊下） ============ */
-.tk-rain {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-  background: var(--tk-bg);
-}
-.tk-rain-stage {
-  position: absolute;
-  inset: 0;
-  perspective: 600px;
-  perspective-origin: 50% 50%;
-  transform-style: preserve-3d;
-}
-.tk-rain-corridor {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-  transform: translateZ(-70vmax);
-}
-.tk-face {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 160vmax;
-  height: 160vmax;
-  margin: -80vmax 0 0 -80vmax;
-}
-.tk-face-back {
-  transform: translateZ(-80vmax) scale(2.4);
-  opacity: 0.75;
-}
-.tk-face-floor {
-  transform: rotateX(90deg) translateZ(-44vh);
-}
-.tk-face-ceil {
-  transform: rotateX(-90deg) translateZ(-44vh);
-}
-.tk-face-left {
-  transform: rotateY(90deg) translateZ(-50vw);
-}
-.tk-face-right {
-  transform: rotateY(-90deg) translateZ(-50vw);
-}
-/* 中央を暗く落として、本文を読めるようにする */
-.tk-rain-vignette {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 48% 42% at 50% 50%, rgba(4, 8, 6, 0.7) 0%, rgba(4, 8, 6, 0.35) 60%, rgba(4, 8, 6, 0) 100%),
-    linear-gradient(to bottom, rgba(4, 8, 6, 0.45), transparent 18%, transparent 85%, rgba(4, 8, 6, 0.5));
-}
-.tk-scanlines {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.18) 2px 3px);
-  mix-blend-mode: multiply;
-  opacity: 0.5;
 }
 
 /* ============ 骨組み ============ */
@@ -211,42 +132,7 @@ body:has(.tk-root) {
   color: var(--tk-text);
   text-shadow: 0 0 18px rgba(57, 255, 138, 0.25);
 }
-.tk-title[data-text]::before,
-.tk-title[data-text]::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-}
-.tk-title[data-text]::before {
-  color: var(--tk-green);
-  animation: tk-glitch-a 4s steps(1) infinite;
-}
-.tk-title[data-text]::after {
-  color: var(--tk-red);
-  animation: tk-glitch-b 4s steps(1) infinite;
-}
-/* 見出しの1文字。登場時は JS が opacity / transform / className を動かす */
-.tk-ch {
-  display: inline-block;
-  opacity: var(--tk-pre, 1); /* ハイドレーション前の仮隠し（hero.tsx） */
-  will-change: transform, opacity;
-  transition: color var(--dur-fast), text-shadow var(--dur-base);
-}
-.tk-ch.scr {
-  color: var(--tk-green);
-  text-shadow: 0 0 10px rgba(57, 255, 138, 0.6);
-}
-.tk-ch.hit {
-  color: #fff;
-  text-shadow: 0 0 10px #fff, 0 0 28px var(--tk-green), 0 0 60px rgba(57, 255, 138, 0.8);
-  transition: none;
-}
-.tk-title.decoding::before,
-.tk-title.decoding::after {
-  display: none;
-}
+/* グリッチ（::before/::after）と1文字（.tk-ch）の見た目は cyber.css の .tk-glitch / .tk-ch */
 .tk-lead {
   margin: 0;
   font-size: 14.5px;
@@ -1130,42 +1016,6 @@ body:has(.tk-root) {
   to {
     opacity: 1;
     transform: none;
-  }
-}
-@keyframes tk-glitch-a {
-  0%, 92%, 100% {
-    opacity: 0;
-  }
-  93% {
-    opacity: 0.8;
-    clip-path: inset(10% 0 60% 0);
-    transform: translate(-3px, 0);
-  }
-  95% {
-    opacity: 0.8;
-    clip-path: inset(50% 0 20% 0);
-    transform: translate(3px, 0);
-  }
-  97% {
-    opacity: 0;
-  }
-}
-@keyframes tk-glitch-b {
-  0%, 93%, 100% {
-    opacity: 0;
-  }
-  94% {
-    opacity: 0.7;
-    clip-path: inset(30% 0 40% 0);
-    transform: translate(3px, 0);
-  }
-  96% {
-    opacity: 0.7;
-    clip-path: inset(70% 0 5% 0);
-    transform: translate(-3px, 0);
-  }
-  98% {
-    opacity: 0;
   }
 }
 .tk-enter {

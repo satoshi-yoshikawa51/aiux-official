@@ -1,0 +1,181 @@
+/* ============================================================
+   サイバー調の共有部品。/bousai のページ本体（bousai.css が @import）と、
+   トップの特設バナー（bousai/banner.tsx）の両方で使う。
+   見た目を2か所で持たないために、ここに1つだけ置く：
+   ・色トークン（.tk-theme に付く。ページは .tk-root、バナーはスライドの <a>）
+   ・コードの雨の廊下（.tk-rain 〜 .tk-scanlines）
+   ・見出しのグリッチ（.tk-glitch）と、登場時の1文字（.tk-ch）
+   OGP・バナー画像の生成スクリプトもこのファイルから切り出して使う。
+   ============================================================ */
+
+.tk-theme {
+  --tk-bg: #040806;
+  --tk-bg-2: #0a140d;
+  --tk-panel: rgba(6, 16, 10, 0.86);
+  --tk-panel-2: rgba(10, 26, 16, 0.9);
+  --tk-green: #39ff8a;
+  --tk-green-2: #8dffbf;
+  --tk-green-dim: #1f9a55;
+  --tk-green-soft: rgba(57, 255, 138, 0.12);
+  --tk-line: rgba(57, 255, 138, 0.38);
+  --tk-line-strong: rgba(57, 255, 138, 0.8);
+  --tk-text: #d9ffe6;
+  --tk-muted: #7fb894;
+  --tk-dim: #3f6b4f;
+  --tk-red: #ff3b5c;
+  --tk-red-soft: rgba(255, 59, 92, 0.14);
+  --tk-amber: #ffd23f;
+  --tk-glow: 0 0 10px rgba(57, 255, 138, 0.45), 0 0 28px rgba(57, 255, 138, 0.18);
+  --tk-mono: var(--font-mono);
+  --tk-sans: var(--font-body);
+}
+
+/* ============ コードの雨（廊下） ============ */
+.tk-rain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--tk-bg);
+  /* 以下の cq 単位はこの箱の大きさ基準。ページでは画面いっぱい（＝vw/vh と同じ）、
+     バナーではバナーの大きさになる */
+  container-type: size;
+}
+.tk-rain-stage {
+  position: absolute;
+  inset: 0;
+  perspective: 600px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+.tk-rain-corridor {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(-70cqmax);
+}
+.tk-face {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160cqmax;
+  height: 160cqmax;
+  margin: -80cqmax 0 0 -80cqmax;
+}
+.tk-face-back {
+  transform: translateZ(-80cqmax) scale(2.4);
+  opacity: 0.75;
+}
+.tk-face-floor {
+  transform: rotateX(90deg) translateZ(-44cqh);
+}
+.tk-face-ceil {
+  transform: rotateX(-90deg) translateZ(-44cqh);
+}
+.tk-face-left {
+  transform: rotateY(90deg) translateZ(-50cqw);
+}
+.tk-face-right {
+  transform: rotateY(-90deg) translateZ(-50cqw);
+}
+/* 中央を暗く落として、本文を読めるようにする */
+.tk-rain-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 48% 42% at 50% 50%, rgba(4, 8, 6, 0.7) 0%, rgba(4, 8, 6, 0.35) 60%, rgba(4, 8, 6, 0) 100%),
+    linear-gradient(to bottom, rgba(4, 8, 6, 0.45), transparent 18%, transparent 85%, rgba(4, 8, 6, 0.5));
+}
+.tk-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.18) 2px 3px);
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+/* ============ 見出しのグリッチ・解読 ============ */
+/* 確定後の見出し。data-text に同じ文字を入れると、緑と赤のズレがときどき走る */
+.tk-glitch {
+  position: relative;
+}
+.tk-glitch[data-text]::before,
+.tk-glitch[data-text]::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.tk-glitch[data-text]::before {
+  color: var(--tk-green);
+  animation: tk-glitch-a 4s steps(1) infinite;
+}
+.tk-glitch[data-text]::after {
+  color: var(--tk-red);
+  animation: tk-glitch-b 4s steps(1) infinite;
+}
+/* 解読中はグリッチを出さない */
+.tk-glitch.decoding::before,
+.tk-glitch.decoding::after {
+  display: none;
+}
+/* 見出しの1文字。登場時は JS（decode.ts）が opacity / transform / className を動かす */
+.tk-ch {
+  display: inline-block;
+  opacity: var(--tk-pre, 1); /* ハイドレーション前の仮隠し（hero.tsx / banner.tsx） */
+  will-change: transform, opacity;
+  transition: color var(--dur-fast), text-shadow var(--dur-base);
+}
+.tk-ch.scr {
+  color: var(--tk-green);
+  text-shadow: 0 0 10px rgba(57, 255, 138, 0.6);
+}
+.tk-ch.hit {
+  color: #fff;
+  text-shadow: 0 0 10px #fff, 0 0 28px var(--tk-green), 0 0 60px rgba(57, 255, 138, 0.8);
+  transition: none;
+}
+@keyframes tk-glitch-a {
+  0%, 92%, 100% {
+    opacity: 0;
+  }
+  93% {
+    opacity: 0.8;
+    clip-path: inset(10% 0 60% 0);
+    transform: translate(-3px, 0);
+  }
+  95% {
+    opacity: 0.8;
+    clip-path: inset(50% 0 20% 0);
+    transform: translate(3px, 0);
+  }
+  97% {
+    opacity: 0;
+  }
+}
+@keyframes tk-glitch-b {
+  0%, 93%, 100% {
+    opacity: 0;
+  }
+  94% {
+    opacity: 0.7;
+    clip-path: inset(30% 0 40% 0);
+    transform: translate(3px, 0);
+  }
+  96% {
+    opacity: 0.7;
+    clip-path: inset(70% 0 5% 0);
+    transform: translate(-3px, 0);
+  }
+  98% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tk-glitch::before,
+  .tk-glitch::after {
+    display: none;
+  }
+}
