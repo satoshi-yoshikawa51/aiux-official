@@ -64,21 +64,6 @@
 .bb-frame i:nth-child(2) { right: -2px; top: -2px; border-left: 0; border-bottom: 0; }
 .bb-frame i:nth-child(3) { left: -2px; bottom: -2px; border-right: 0; border-top: 0; }
 .bb-frame i:nth-child(4) { right: -2px; bottom: -2px; border-left: 0; border-top: 0; }
-.bb-tag {
-  position: absolute;
-  right: 9.167cqw;
-  top: 7.5cqw;
-  z-index: 3;
-  font-family: var(--tk-mono);
-  font-weight: 700;
-  font-size: max(8px, 1.417cqw);
-  letter-spacing: 0.12em;
-  color: var(--tk-red);
-  border: max(1px, 0.167cqw) solid var(--tk-red);
-  padding: 0.667cqw 1.167cqw;
-  background: rgba(4, 8, 6, 0.75);
-  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-}
 /* 中央揃え。左右の余白はカルーセルの矢印が文字に被らないため */
 .bb-text {
   position: absolute;

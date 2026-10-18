@@ -19,14 +19,15 @@ import { GLYPHS, resetChars, startDecode, type DecodeTiming } from "./decode";
 
 export const BOUSAI_BANNER = {
   href: "/bousai",
-  alt: "サイバー攻撃防災手帳 — 5問で、あなた専用のセキュリティ手順書。回答はどこにも送らない",
+  alt: "サイバー攻撃防災手帳 — 5問で、あなた専用のセキュリティ手順書",
   gaPlace: "top-bousai-banner",
 };
 
 const KICKER = "> CYBER ATTACK — DISASTER KIT";
 const TITLE = "サイバー攻撃防災手帳";
-/* ページの見出しより少し速く（バナーは5秒で送られるので、その中で終える） */
-const TIMING: DecodeTiming = { titleStart: 250, charStagger: 90, fallMs: 240, scrambleMs: 420, flashMs: 200 };
+/* ページの見出しよりだいぶ速く（約1.1秒で全部そろう）。バナーは5秒で
+   送られるうえ、スクロール中に目に入るものなので、待たせない */
+const TIMING: DecodeTiming = { titleStart: 100, charStagger: 45, fallMs: 180, scrambleMs: 300, flashMs: 160 };
 
 /* ── 雨の描き手（1つだけ） ──
    rain.tsx と同じ描き方。バナーは小さいので元canvasも小さくして軽くする */
@@ -163,7 +164,7 @@ export function BousaiBannerBody({ clone }: { clone: boolean }) {
               chars,
               els: refs.current,
               timing: TIMING,
-              kicker: { el: kickerRef.current, text: KICKER, start: 0, speed: 22 },
+              kicker: { el: kickerRef.current, text: KICKER, start: 0, speed: 14 },
               onDone: () => setPhase("done"),
             });
           });
@@ -222,7 +223,6 @@ export function BousaiBannerBody({ clone }: { clone: boolean }) {
         <i />
         <i />
       </div>
-      <div className="bb-tag">回答はどこにも送らない</div>
       <div className="bb-text">
         <div className="bb-kicker" ref={kickerRef}>
           {KICKER}
