@@ -11,9 +11,10 @@
 import React from "react";
 import { DECODE_TIMING, startDecode } from "./decode";
 
-const KICKER_START = 150;
-const KICKER_SPEED = 26;
-const LEAD_DELAY = 700; /* 最後の文字が確定してからリード文が出るまで */
+/* バナー（banner.tsx）と同じスピード感。キッカーはタイトルと並走で打つ */
+const KICKER_START = 0;
+const KICKER_SPEED = 14;
+const LEAD_DELAY = 350; /* 最後の文字が確定してからリード文が出るまで */
 
 export function Hero({ kicker, title, lead }: { kicker: string; title: string; lead: string }) {
   const chars = React.useMemo(() => Array.from(title), [title]);

@@ -20,7 +20,8 @@ export type DecodeTiming = {
   scrambleMs: number; /* スクランブルしている時間 */
   flashMs: number; /* 確定時の光 */
 };
-export const DECODE_TIMING: DecodeTiming = { titleStart: 650, charStagger: 110, fallMs: 260, scrambleMs: 520, flashMs: 220 };
+/* 約1.1秒で全部そろう速さ（ページの見出しもバナーも同じ） */
+export const DECODE_TIMING: DecodeTiming = { titleStart: 100, charStagger: 45, fallMs: 180, scrambleMs: 300, flashMs: 160 };
 
 /* 全体の所要時間（最後の文字の光が消えるまで） */
 export function decodeTotal(n: number, t: DecodeTiming) {
