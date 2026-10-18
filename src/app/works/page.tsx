@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Nav, Footer, PAGE } from "../site-chrome";
 import { Button } from "../ds";
 import { NOTE } from "../data";
-import { WORK_DETAILS } from "./data";
+import { WORK_DETAILS, worksByCategory } from "./data";
 import { Breadcrumb, SectionHead, ShareRow, WorkCard } from "./ui";
 
 export const metadata: Metadata = {
@@ -58,12 +58,6 @@ const JSON_LD = {
   ],
 };
 
-const CATS: { key: "ゲーム" | "ツール" | "くらし"; icon: string }[] = [
-  { key: "ゲーム", icon: "ph-game-controller" },
-  { key: "ツール", icon: "ph-wrench" },
-  { key: "くらし", icon: "ph-house" },
-];
-
 export default function WorksIndexPage() {
   return (
     <div style={{ background: "var(--paper-50)", minHeight: "100vh" }}>
@@ -84,9 +78,9 @@ export default function WorksIndexPage() {
 
       <section style={{ background: "var(--paper-100)", borderTop: "var(--bw-line) solid var(--ink-900)", borderBottom: "var(--bw-line) solid var(--ink-900)", backgroundImage: "radial-gradient(var(--tone-dot) 1.3px, transparent 1.4px)", backgroundSize: "11px 11px" }}>
         <div style={{ maxWidth: PAGE, margin: "0 auto", padding: "54px 0 60px" }}>
-          {CATS.map((cat) => {
-            const items = WORK_DETAILS.filter((w) => w.category === cat.key);
-            if (!items.length) return null;
+          {/* 並びは worksByCategory() が更新日から自動で決める（data.ts） */}
+          {worksByCategory().map((cat) => {
+            const items = cat.items;
             return (
               <div key={cat.key} style={{ marginBottom: 34 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>

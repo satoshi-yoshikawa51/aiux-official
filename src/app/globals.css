@@ -1188,51 +1188,45 @@ html.splash-hold .hero-burst {
 }
 
 /* ═══ トップ特設バナーのカルーセル（top-banners.tsx） ═══
-   PC(>900px)は2枚並べ。矢印・ドットはスマホ(≤900px)だけ出す */
+   PC(>900px)は2枚が見える横スクロール、スマホ(≤900px)は1枚ずつ。
+   矢印・ドットはどちらでも出す */
 .top-banner-track {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   gap: 18px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.top-banner-track::-webkit-scrollbar {
+  display: none;
 }
 /* displayはインラインで書かずここで持つ。クローンの出し分け
    （下のdisplay:none）がインラインに負けてしまうため */
 .top-banner-slide {
   display: block;
+  flex: 0 0 calc(50% - 9px);
+  scroll-snap-align: start;
 }
 .top-banner-arrow {
-  display: none;
+  display: grid;
 }
 .top-banner-dots {
-  display: none;
+  display: flex;
 }
-/* 無限ループ用の「1枚目のクローン」。2枚並べのPCでは重複して
-   見えてしまうので、カルーセルになる幅でだけ出す */
+/* 無限ループ用の先頭バナーのクローン。PCは2枚見えるので2枚、
+   スマホは1枚だけ出す */
 .top-banner-clone {
-  display: none;
+  display: block;
 }
 @media (max-width: 900px) {
   .top-banner-track {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
     gap: 12px;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-  .top-banner-track::-webkit-scrollbar {
-    display: none;
   }
   .top-banner-slide {
     flex: 0 0 100%;
-    scroll-snap-align: start;
   }
-  .top-banner-clone {
-    display: block;
-  }
-  .top-banner-arrow {
-    display: grid;
-  }
-  .top-banner-dots {
-    display: flex;
+  .top-banner-clone-1 {
+    display: none;
   }
 }

@@ -21,7 +21,7 @@ import {
   type Article,
   type Tone,
 } from "./data";
-import { WORK_DETAILS } from "./works/data";
+import { worksByCategory } from "./works/data";
 import Splash from "./splash";
 import { WorkCard } from "./works/ui";
 import { FEATURED_TERMS } from "./glossary/data";
@@ -562,20 +562,15 @@ function Magazines() {
   );
 }
 
-/* ═══════════════ つくったもの（WORKS） ═══════════════ */
-const WORK_CATS: { key: "ゲーム" | "ツール" | "くらし"; icon: string }[] = [
-  { key: "ゲーム", icon: "ph-game-controller" },
-  { key: "ツール", icon: "ph-wrench" },
-  { key: "くらし", icon: "ph-house" },
-];
-
+/* ═══════════════ つくったもの（WORKS） ═══════════════
+   並びは worksByCategory() が更新日から自動で決める（works/data.ts）。
+   ここで手で並べ替えない */
 function Works() {
   return (
     <section id="works" style={{ maxWidth: PAGE, margin: "0 auto", padding: "62px 0 56px" }}>
       <SectionHead kicker="WORKS — つくったもの" title="つくったもの" hand="遊べる・読める、AIプロダクト集" />
-      {WORK_CATS.map((cat) => {
-        const items = WORK_DETAILS.filter((w) => w.category === cat.key);
-        if (!items.length) return null;
+      {worksByCategory().map((cat) => {
+        const items = cat.items;
         return (
           <div key={cat.key} style={{ marginBottom: 30 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>

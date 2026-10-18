@@ -571,6 +571,32 @@ export const WORK_DETAILS: WorkDetail[] = [
   },
 ];
 
+export type WorkCategory = WorkDetail["category"];
+
+export const WORK_CATEGORY_ICON: Record<WorkCategory, string> = {
+  ゲーム: "ph-game-controller",
+  ツール: "ph-wrench",
+  くらし: "ph-house",
+};
+
+/* ============================================================
+   ▍作品の並びは「更新日」で自動で決める（トップも /works も共通）
+
+   ・カテゴリの中は lastUpdated の新しい順
+   ・カテゴリ同士も、いちばん新しい作品を持つカテゴリが上
+   新作や更新で自動的に上に来るので、配列の順番や呼び出し側で手で
+   並べ替えない。足した作品の lastUpdated を正しく入れることが、
+   並びを正しくする唯一の作業。
+   ============================================================ */
+export function worksByCategory(): { key: WorkCategory; icon: string; items: WorkDetail[] }[] {
+  const byDate = (a: WorkDetail, b: WorkDetail) => (a.lastUpdated < b.lastUpdated ? 1 : a.lastUpdated > b.lastUpdated ? -1 : 0);
+  const keys = Object.keys(WORK_CATEGORY_ICON) as WorkCategory[];
+  return keys
+    .map((key) => ({ key, icon: WORK_CATEGORY_ICON[key], items: WORK_DETAILS.filter((w) => w.category === key).sort(byDate) }))
+    .filter((c) => c.items.length > 0)
+    .sort((a, b) => byDate(a.items[0], b.items[0]));
+}
+
 export function getWork(slug: string): WorkDetail | undefined {
   return WORK_DETAILS.find((w) => w.slug === slug);
 }
