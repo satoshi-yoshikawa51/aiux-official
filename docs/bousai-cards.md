@@ -29,18 +29,29 @@
 - Claude：個人アカウントに2要素認証の設定は無い（Googleログイン／メールリンク）
 - 事例：「顧客リストをChatGPTに貼った」の実例は確認できず、サムスン電子（2023年）の例に差し替え
 
-## 照合していないカード（2026年10月17日の照合後に追加）
+## 追加分の照合（2026年10月18日）
 
-仕事の分類を7つに広げたときに足した7枚は、公式ヘルプとの照合をまだしていない。
-一般的な設定場所を書いているが、サービス名を挙げている箇所は項目名の確認が要る。
+仕事の分類を7つに広げたときに足した7枚も、同じ方法で公式ヘルプと照合して直した。
 
-- crm_2fa（Salesforce・HubSpot・freee・Shopify・Stripe の2段階認証の場所）
-- dev_2fa / dev_keys（GitHub の Two-factor authentication と Secret scanning、AWS の MFA と Budgets、Vercel の Spend Management）
-- site_ops（WordPress の2段階認証プラグイン、Google広告・Meta広告のアクセス権、X の委任）
-- nocode_check（Zapier の Apps、Make の Connections、Google の「サードパーティ製のアプリとサービス」）
-- byod_rules、subs_check（一般論のみ）
+- GitHub：パスキーは最初の2FA手段にできない（認証アプリの後に追加）。個人設定に「Secret scanning」の項目は無く「Push protection for yourself」。個人の非公開リポジトリでは効かない
+- AWS：ルートのMFAは2025年から全アカウントで必須。入口は右上のアカウント名 → セキュリティ認証情報。Budgets は上限ではなく通知
+- Google Cloud の予算も通知のみ。上限で止められるのは Vercel（Pro）の Spend Management だけ
+- さくらインターネットの2要素認証は2025年12月から必須。お名前.com はメール・SMSのみ
+- 「主要サービスは2段階認証を必須」は言い過ぎ。必須は Salesforce（全ユーザー）と HubSpot（有料プラン）。Stripe・Shopify・freee は管理者が必須にできる
+- HubSpot は 設定 → 全般 → セキュリティー、freee は 個人設定 → セキュリティ → 認証アプリ、Shopify は本人のプロフィール → セキュリティ、Stripe は 個人情報 → 2段階認証
+- Wordfence の単体「Login Security」プラグインは2026年8月に廃止予定。本体の2FA機能か公式「Two-Factor」を案内
+- Google広告は 管理者 → アクセスとセキュリティ。Instagram の人ごとの権限は「共有アクセス」（アカウントセンターではない）
+- Google の連携アプリは セキュリティ → 「サードパーティとの接続」→「Google アカウントへのアクセス権」
+- kintone に「外部公開」という標準機能は無く、連携Webフォームの話。Airtable は「Share form」「Share and sync」
+- Backlog にログイン不要の外部共有リンクは確認できず、ゲストユーザーの見直しに寄せた
+- 個人スマホの遠隔消去は本人が「探す」「Find Hub」でできる（会社端末は会社側）
 
 ## 実機で確かめたいもの（検索では確定できなかった）
+
+- Notion：日本語UIの「公開」タブと「公開ページ」の表記
+- Vercel：2FA トグルの正確なラベル
+- Slack：日本語UIの「2要素認証」「展開」「ツールと設定」の表記
+- Stripe・Shopify：日本語UIの表記（英語版からの訳）
 
 - iPhone：「アカウントの復旧」の日本語の中間項目名、パスワード変更ボタンの表記（「パスワードの変更」か「パスワードを変更」か）、メールアプリでのリンク長押し
 - Mac：メールで差出人名にカーソルを乗せたときのアドレス表示
