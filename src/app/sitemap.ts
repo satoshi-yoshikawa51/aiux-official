@@ -8,6 +8,7 @@ import { EVENTS_UPDATED } from "./calendar/events";
 import { GUIDES, GUIDES_UPDATED } from "./guide/data";
 import { VS_PAIRS, VS_UPDATED } from "./vs/data";
 import { listYonkoma } from "./yonkoma/registry";
+import { BOUSAI_UPDATED } from "./bousai/data";
 
 /**
  * 検索エンジンにindexしてほしい良質なページだけを列挙する。
@@ -48,6 +49,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${base}/lp`,
       lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    /* サイバー攻撃防災手帳（/bousai）。works の一覧には載るが app/ 直下のページなので別途 */
+    {
+      url: `${base}/bousai`,
+      lastModified: new Date(BOUSAI_UPDATED),
       changeFrequency: "monthly",
       priority: 0.8,
     },

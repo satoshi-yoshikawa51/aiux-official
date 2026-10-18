@@ -163,7 +163,7 @@ export default async function WorkDetailPage({ params }: Props) {
 
       {/* ═══ 制作ストーリー ═══ */}
       {stories.length > 0 && (
-        <section id="story" style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 60px" }}>
+        <section id="story" style={{ maxWidth: PAGE, margin: "0 auto", padding: "56px 0 16px" }}>
           <SectionHead kicker="STORY — 制作ストーリー" title="どうやって作ったか" hand="一部始終をnoteで公開中" />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }} className="articles-grid">
             {stories.map((a) => (
@@ -173,8 +173,10 @@ export default async function WorkDetailPage({ params }: Props) {
         </section>
       )}
 
-      {/* ═══ シェア ═══ */}
-      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "0 0 52px" }}>
+      {/* ═══ シェア ═══
+          上の余白はこの節が持つ。制作ストーリーが無い作品では、この節が
+          「特徴」帯の罫線の直下に来るので、ここで空けないとくっついて見える */}
+      <section style={{ maxWidth: PAGE, margin: "0 auto", padding: "44px 0 52px" }}>
         <ShareRow path={`/works/${w.slug}`} text={`${w.title} — ${w.tagline}`} />
       </section>
 
