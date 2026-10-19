@@ -15,7 +15,7 @@
    ============================================================ */
 
 import { useEffect, useRef, useState } from "react";
-import { GLYPHS, resetChars, startDecode, type DecodeTiming } from "./decode";
+import { DECODE_TIMING, GLYPHS, resetChars, startDecode } from "./decode";
 
 export const BOUSAI_BANNER = {
   href: "/bousai",
@@ -25,9 +25,6 @@ export const BOUSAI_BANNER = {
 
 const KICKER = "> CYBER ATTACK — DISASTER KIT";
 const TITLE = "サイバー攻撃防災手帳";
-/* ページの見出しよりだいぶ速く（約1.1秒で全部そろう）。バナーは5秒で
-   送られるうえ、スクロール中に目に入るものなので、待たせない */
-const TIMING: DecodeTiming = { titleStart: 100, charStagger: 45, fallMs: 180, scrambleMs: 300, flashMs: 160 };
 
 /* ── 雨の描き手（1つだけ） ──
    rain.tsx と同じ描き方。バナーは小さいので元canvasも小さくして軽くする */
@@ -163,7 +160,7 @@ export function BousaiBannerBody({ clone }: { clone: boolean }) {
             stop = startDecode({
               chars,
               els: refs.current,
-              timing: TIMING,
+              timing: DECODE_TIMING,
               kicker: { el: kickerRef.current, text: KICKER, start: 0, speed: 14 },
               onDone: () => setPhase("done"),
             });

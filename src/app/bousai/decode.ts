@@ -20,7 +20,8 @@ export type DecodeTiming = {
   scrambleMs: number; /* スクランブルしている時間 */
   flashMs: number; /* 確定時の光 */
 };
-export const DECODE_TIMING: DecodeTiming = { titleStart: 650, charStagger: 110, fallMs: 260, scrambleMs: 520, flashMs: 220 };
+/* 約1.1秒で全部そろう速さ（ページの見出しもバナーも同じ） */
+export const DECODE_TIMING: DecodeTiming = { titleStart: 100, charStagger: 45, fallMs: 180, scrambleMs: 300, flashMs: 160 };
 
 /* 全体の所要時間（最後の文字の光が消えるまで） */
 export function decodeTotal(n: number, t: DecodeTiming) {
@@ -36,13 +37,20 @@ export function startDecode(opts: {
 }): () => void {
   const { chars, els, kicker } = opts;
   const T = opts.timing ?? DECODE_TIMING;
-  const t0 = performance.now();
   const total = decodeTotal(chars.length, T);
   let raf = 0;
   let lastScramble = 0;
+  /* 演出の時計は「描けたフレーム」で進め、1フレームで進む量に上限を置く。
+     経過時間だけで進めると、ページ読み込み直後の重い処理でフレームが飛んだ
+     瞬間に一気に最後まで行ってしまい、演出が見えない（/bousai で起きていた）。
+     上限は 60ms（約16fps相当）。それより遅い端末では演出がその分ゆっくりになる */
+  let t = 0;
+  let prev = -1;
+  const MAX_STEP = 60;
 
   const frame = (now: number) => {
-    const t = now - t0;
+    if (prev >= 0) t += Math.min(now - prev, MAX_STEP);
+    prev = now;
 
     /* キッカー: タイプ打ち */
     if (kicker?.el) {
