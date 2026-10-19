@@ -201,6 +201,7 @@ export const GUIDES: Guide[] = [
         prompts: [
           { slug: "plan-draft", label: "企画書の骨子" },
           { slug: "summary", label: "資料の要約" },
+          { slug: "survey", label: "アンケート設計" },
         ],
       },
       {
@@ -586,6 +587,7 @@ export const GUIDES: Guide[] = [
         prompts: [
           { slug: "data-cleanup", label: "名簿・データの整形" },
           { slug: "weekly-report", label: "週報・日報" },
+          { slug: "survey", label: "アンケート設計" },
         ],
       },
     ],
@@ -899,7 +901,7 @@ export const GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES_UPDATED = "2026-10-15";
+export const GUIDES_UPDATED = "2026-10-20";
 
 export function getGuide(slug: string): Guide | undefined {
   return GUIDES.find((g) => g.slug === slug);
