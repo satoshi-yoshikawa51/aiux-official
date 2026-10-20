@@ -1876,6 +1876,24 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "proof-of-human": {
+    caption: "確認を済ませた人にだけ付く仕組み",
+    render: () => (
+      <Svg h={238} title="ディープフェイク対策が「見破る」から「確かめる」へ移る図解">
+        <T x={300} y={22} text="手を打つタイミングが逆になった" size={13.5} color={INK} />
+        <T x={20} y={68} text="これまで" size={13} anchor="start" />
+        <B x={150} y={40} w={200} h={48} label="不自然さを探す" />
+        <AH x1={355} x2={390} y={64} />
+        <B x={395} y={40} w={185} h={48} label="見分けが難しい" />
+        <T x={20} y={140} text="これから" size={13} anchor="start" />
+        <B x={150} y={112} w={200} h={48} label="会う前に確かめる" fill={YELLOW} />
+        <AH x1={355} x2={390} y={136} />
+        <B x={395} y={112} w={185} h={48} label="バッジが出る" />
+        <T x={300} y={192} text="重い判断は、別の連絡手段での確認と組み合わせる" size={13} />
+        <T x={300} y={220} text="バッジが無い＝偽物、ではない" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
