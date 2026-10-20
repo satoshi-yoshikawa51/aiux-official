@@ -1,15 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-18T23:36:07.811Z",
+  "updatedAt": "2026-10-20T00:36:57.632Z",
   "items": [
     {
-      "title": "Anthropic says it’s committing 5% of its shares to a ‘public benefit fund’",
-      "url": "https://techcrunch.com/2026/10/18/anthropic-says-its-committing-5-of-its-shares-to-a-public-benefit-fund/",
+      "title": "Nscale and Anthropic are reportedly in talks for yet another $45 billion compute deal",
+      "url": "https://techcrunch.com/2026/10/19/nscale-and-anthropic-are-reportedly-in-talks-for-yet-another-45-billion-compute-deal/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-10-18T20:37:40.000Z",
-      "titleJa": "Anthropic、自社株の5％を「公益ファンド」に拠出すると表明",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2252871842.jpg?w=1024"
+      "date": "2026-10-19T23:39:38.000Z",
+      "titleJa": "NscaleとAnthropic、さらに450億ドル規模の計算資源契約を交渉中か",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-2236544023.jpeg?resize=1200,800"
+    },
+    {
+      "title": "Accused OpenAI spy had folder called “Saudi Gov Docs,” FBI says",
+      "url": "https://arstechnica.com/tech-policy/2026/10/accused-openai-spy-had-folder-called-saudi-gov-docs-fbi-says/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-19T20:21:53.000Z",
+      "titleJa": "OpenAIのスパイ容疑者、「Saudi Gov Docs」というフォルダを所持とFBI",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-2214263510-1024x648.jpg"
+    },
+    {
+      "title": "Amazon is taking its biggest shot at Nvidia yet with new TorchNeuron dev tool",
+      "url": "https://techcrunch.com/2026/10/19/amazon-is-taking-its-biggest-shot-at-nvidia-yet-with-new-torchneuron-dev-tool/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-19T20:09:24.000Z",
+      "titleJa": "Amazon、新開発ツール「TorchNeuron」でNvidiaに過去最大の挑戦",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/03/GettyImages-2205217071.jpg?resize=1200,800"
+    },
+    {
+      "title": "Tenstorrent hits $6.2B valuation to scale open-weight AI chips",
+      "url": "https://techcrunch.com/2026/10/19/tenstorrent-hits-6-2b-valuation-to-scale-open-weight-ai-chips/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-19T18:37:27.000Z",
+      "titleJa": "Tenstorrent、評価額62億ドルに オープンウェイトAIチップを拡大へ",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/08/rnuUXh8kprc7HfoRAGgTvZ-1200-80.jpg?w=970"
+    },
+    {
+      "title": "Hugging Faceに次いでReflection AIも？NVIDIAがオープンソース系AI企業を次々買収する理由",
+      "url": "https://www.gizmodo.jp/article/nvidia-acquiring-open-source-ai-startups/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-10-19T23:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/10/18/05679bdc-8213-42f1-837f-0b81980dc587/original.png?w=1200&h=630"
+    },
+    {
+      "title": "「AIに真似されてしまう」--ゲーム開発企業、体験版の一般公開を中止",
+      "url": "https://japan.cnet.com/article/35253747/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-19T22:10:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/20/9992d6c931082826c1212198ca11ce85/71_pukey_large_20261020.jpg"
+    },
+    {
+      "title": "“テスラ超え”狙う――チューリング「完全自動運転」までの道 「GPUより速いチップ」使った開発のウラ側",
+      "url": "https://www.itmedia.co.jp/business/articles/2610/20/news017.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-19T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2610/20/cover_news017.jpg"
+    },
+    {
+      "title": "「データセンター×発電設備」一体開発がトレンド？ 日立・東京ガスが九州で計画、JERAは千葉で 狙いは",
+      "url": "https://www.itmedia.co.jp/business/articles/2610/20/news051.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-19T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2610/20/cover_news051.jpg"
+    },
+    {
+      "title": "「保守的な日本の現場に合う」導入2500時間の壁を壊す倉庫AI、IFS Softeonの真価",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/20/news044.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-19T21:30:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2610/20/cover_news044.jpg"
+    },
+    {
+      "title": "ウェブ会議の相手、本当にヒト？ AIではない？ 疑心暗鬼を打破する「人間バッジ」 Zoomが提供開始",
+      "url": "https://japan.cnet.com/article/35253742/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-19T20:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/20/4319620de20fb7f6131f915fc1b112da/66_world_zoom_large_20261020.jpg"
+    },
+    {
+      "title": "コアウィーブ株急落は「さざ波」 AI揺るがす規制リスク、焦点は米中間選挙",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12100/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-19T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12100/topm.jpg?20220512"
+    },
+    {
+      "title": "経営層へのAI導入、意思決定にAIを組み込む「AI拡張経営」を実践",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600002/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-19T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600002/topm.jpg?20220512"
+    },
+    {
+      "title": "Disney found a way to buy Character.AI without buying its lawsuits",
+      "url": "https://arstechnica.com/tech-policy/2026/10/disney-found-a-way-to-buy-character-ai-without-buying-its-lawsuits/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-19T14:45:43.000Z",
+      "titleJa": "Disney、Character.AIを訴訟ごと抱え込まずに買収する方法を見つけた",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2018/06/getty-disney-1152x648.jpg"
     },
     {
       "title": "Anthropic gives outside AI watchdog “employee-like” access",
@@ -17,108 +117,8 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-10-18T16:25:19.000Z",
-      "titleJa": "Anthropic、外部のAI監視団体に「従業員並み」のアクセスを付与",
+      "titleJa": "Anthropic、外部のAI監視団体に「従業員並み」のアクセス権を付与",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/claudebyanthropic-1024x648.jpg"
-    },
-    {
-      "title": "日本企業の「AI業務実装の壁」を打ち破る ― RPAのパイオニアが「AI×RPA×人」の統合基盤を国内展開",
-      "url": "https://ascii.jp/elem/000/004/443/4443113/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-18T22:30:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/16/4539306/xl/cbdfa1bff3b69bde.jpg?20200122"
-    },
-    {
-      "title": "「Linux」で今後ローリングリリースが主流になるかもしれない--AIがもたらす変化とは",
-      "url": "https://japan.zdnet.com/article/35253626/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-18T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/16/3e531dfccb86defce18c3ef4adcdce24/large-aispeedhero.jpg"
-    },
-    {
-      "title": "OpenAI、AIの新たな「暴走」事例を公表 公開情報を調べるはずが内部システムに無断侵入",
-      "url": "https://japan.cnet.com/article/35253688/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-18T21:57:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/05/11/c91ead991a6990ceb56ffd75c531f482/openai-purple-logo_1280x960.jpg"
-    },
-    {
-      "title": "「業務の効率化」だけに矮小化したAI導入では効果得られず",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600001/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-18T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600001/topm.jpg?20220512"
-    },
-    {
-      "title": "Meta removes language that raised scraping and AI training concerns",
-      "url": "https://techcrunch.com/2026/10/17/meta-removes-language-that-raised-scraping-and-ai-training-concerns/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-17T21:31:32.000Z",
-      "titleJa": "Meta、スクレイピングとAI学習への懸念を招いた文言を削除",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/05/meta-ai-GettyImages-2264943773.jpg?w=1024"
-    },
-    {
-      "title": "Anthropic says its workforce has become less junior and is spending more time in meetings",
-      "url": "https://techcrunch.com/2026/10/17/anthropic-says-its-workforce-has-become-less-junior-and-is-spending-more-time-in-meetings/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-17T20:21:19.000Z",
-      "titleJa": "Anthropic、社員のジュニア層が減少し会議に費やす時間が増加と明かす",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/GettyImages-2278736523.jpeg?resize=1200,798"
-    },
-    {
-      "title": "中国、AI技術23項目を輸出規制へ その中身とは",
-      "url": "https://japan.cnet.com/article/35253670/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-17T20:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/17/80b2f5ce29ec94a1378881ad5b9255b6/41_china_ai_header.jpg"
-    },
-    {
-      "title": "Stack Overflow for Agents triples signups with ChatGPT plugin",
-      "url": "https://openai.com/index/stack-overflow-chatgpt-plugin",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-16T00:00:00.000Z",
-      "titleJa": "Stack Overflow for Agents、ChatGPTプラグインで登録数が3倍に",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/4HTc2pk7XGFhzDU8RX0Ivg/ff2b922fa1914350c9d800da622ebe04/stack-overflow-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "OpenAI models hacked a crypto wallet and breached more websites",
-      "url": "https://arstechnica.com/security/2026/10/openai-models-hacked-a-crypto-wallet-and-breached-more-websites/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-16T20:59:01.000Z",
-      "titleJa": "OpenAIのモデル、仮想通貨ウォレットをハッキングし複数サイトにも侵入",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/ai-agents-1152x648.jpg"
-    },
-    {
-      "title": "AIエージェントの導入半年で明確なビジネス成果--キズキレンタルに聞く勘所",
-      "url": "https://japan.zdnet.com/article/35253643/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-16T06:14:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/16/9a0b04f815d557e34ad1e6b96741ceef/aiagentusecase_l.JPG"
-    },
-    {
-      "title": "Meta、「米国製で最高性能」のオープンモデル「Muse Spark Open」発表 Apple Siliconに最適化、Mac Studio×2でローカル動作",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/16/2000002328/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-16T05:14:11.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/16/2000002328/10009582/2048"
-    },
-    {
-      "title": "NinjaOne、IT運用支援AIとエージェント統制基盤を発表--インシデント対応を迅速化",
-      "url": "https://japan.zdnet.com/article/35253629/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-16T03:30:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/16/e73f6fe95f2445235b2fb8c3501684c5/20261016_adobestock_242229794_electronics_1280x960.jpg"
     }
   ]
 }
