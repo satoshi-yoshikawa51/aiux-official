@@ -1859,6 +1859,23 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  scraping: {
+    caption: "技術的にできることと、していいことは別",
+    render: () => (
+      <Svg h={256} title="スクレイピングの流れと、止める2つの層の図解">
+        <T x={300} y={22} text="集める流れ" size={13.5} color={INK} />
+        <B x={30} y={40} w={150} h={56} label="巡回して集める" sub="クローリング" />
+        <AH x1={185} x2={220} y={68} />
+        <B x={225} y={40} w={150} h={56} label="必要な部分を抜く" sub="スクレイピング" fill={YELLOW} />
+        <AH x1={380} x2={415} y={68} />
+        <B x={420} y={40} w={160} h={56} label="使う" sub="学習・分析・転載" />
+        <T x={300} y={134} text="止める側には2つの層がある" size={13} />
+        <B x={80} y={150} w={200} h={56} label="robots.txt" sub="機械への意思表示" />
+        <B x={320} y={150} w={200} h={56} label="利用規約" sub="契約としての取り決め" />
+        <T x={300} y={236} text="片方だけを見ても、実際の扱いは決まらない" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
