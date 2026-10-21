@@ -1894,6 +1894,21 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  php2shell: {
+    caption: "塞ぐ場所はWordPressではなく、土台のPHP本体",
+    render: () => (
+      <Svg h={300} title="php2shell脆弱性のしくみ図解">
+        <B x={20} y={30} w={150} h={65} label={"攻撃者"} sub="外部から" />
+        <AH x1={175} x2={235} y={62} label="穴を突く" />
+        <B x={240} y={30} w={180} h={65} label={"php2shell"} sub="PHP本体の穴（RCE）" fill={RED} color="#fff" />
+        <AH x1={425} x2={485} y={62} />
+        <B x={490} y={30} w={95} h={65} label={"乗っ取り"} sub="改ざん等" dashed />
+        <B x={60} y={140} w={480} h={55} label={"WordPress・プラグインの更新では直らない"} sub="アプリ側ではなく土台の問題だから" />
+        <AV x={300} y1={200} y2={230} label="対策はひとつ" />
+        <B x={135} y={235} w={330} h={50} label={"サーバーのPHP本体を修正版に更新"} fill={YELLOW} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
