@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-20T00:36:57.632Z",
+  "updatedAt": "2026-10-21T00:06:12.092Z",
   "items": [
     {
-      "title": "Nscale and Anthropic are reportedly in talks for yet another $45 billion compute deal",
-      "url": "https://techcrunch.com/2026/10/19/nscale-and-anthropic-are-reportedly-in-talks-for-yet-another-45-billion-compute-deal/",
+      "title": "Franchisee reconciles cash in 94% less time with ChatGPT Work",
+      "url": "https://openai.com/index/ted-taylor-restaurant",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-20T10:00:00.000Z",
+      "titleJa": "フランチャイズ加盟店、ChatGPT Workで現金照合の時間を94%削減",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/6r0aKM9KAloDNT979EYd6j/958b4b872830668c232730e99caa3f9e/ted-taylor-restaurant-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "OpenAI acquires Orchestra Bio",
+      "url": "https://openai.com/index/openai-to-acquire-orchestra-bio",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-20T00:00:00.000Z",
+      "titleJa": "OpenAI、Orchestra Bioを買収",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/qoX4w89e0GxOOa2GsAdSm/b4a461997956908e9813e59044617416/openai-to-acquire-orchestra-bio-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Anthropic pitches AI safety bill that may block a model if 50+ people could be killed",
+      "url": "https://techcrunch.com/2026/10/20/anthropic-pitches-ai-safety-bill-that-may-block-a-model-if-50-people-could-be-killed/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-10-19T23:39:38.000Z",
-      "titleJa": "NscaleとAnthropic、さらに450億ドル規模の計算資源契約を交渉中か",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-2236544023.jpeg?resize=1200,800"
+      "date": "2026-10-20T23:01:23.000Z",
+      "titleJa": "Anthropic、50人以上の死者が出得るモデルを差し止め可能にするAI安全法案を提唱",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2282033342.jpg?w=1024"
     },
     {
-      "title": "Accused OpenAI spy had folder called “Saudi Gov Docs,” FBI says",
-      "url": "https://arstechnica.com/tech-policy/2026/10/accused-openai-spy-had-folder-called-saudi-gov-docs-fbi-says/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-19T20:21:53.000Z",
-      "titleJa": "OpenAIのスパイ容疑者、「Saudi Gov Docs」というフォルダを所持とFBI",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-2214263510-1024x648.jpg"
-    },
-    {
-      "title": "Amazon is taking its biggest shot at Nvidia yet with new TorchNeuron dev tool",
-      "url": "https://techcrunch.com/2026/10/19/amazon-is-taking-its-biggest-shot-at-nvidia-yet-with-new-torchneuron-dev-tool/",
+      "title": "Hugging Face CEO warns that Netflix’s OpenAI hack documentary isn’t accurate",
+      "url": "https://techcrunch.com/2026/10/20/hugging-face-ceo-warns-that-netflixs-openai-hack-documentary-isnt-accurate/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-10-19T20:09:24.000Z",
-      "titleJa": "Amazon、新開発ツール「TorchNeuron」でNvidiaに過去最大の挑戦",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/03/GettyImages-2205217071.jpg?resize=1200,800"
+      "date": "2026-10-20T22:24:02.000Z",
+      "titleJa": "Hugging FaceのCEO、NetflixのOpenAIハッキング・ドキュメンタリーは「不正確」と指摘",
+      "image": "https://techcrunch.com/wp-content/uploads/2025/11/clem-delangue.png?resize=1200,789"
     },
     {
-      "title": "Tenstorrent hits $6.2B valuation to scale open-weight AI chips",
-      "url": "https://techcrunch.com/2026/10/19/tenstorrent-hits-6-2b-valuation-to-scale-open-weight-ai-chips/",
+      "title": "Google’s more personalized Gemini AI is heading to your car",
+      "url": "https://www.theverge.com/tech/1014999/google-gemini-ai-cars-android-auto",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-20T22:11:34.000Z",
+      "titleJa": "Google、よりパーソナライズされたGemini AIをクルマにも展開へ",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/google-gemini-personal-intelligence.png?quality=90&strip=all&crop=1.0809792843691%2C0%2C97.838041431262%2C100&w=1200"
+    },
+    {
+      "title": "Anthropic’s cloud partnerships are getting messy",
+      "url": "https://techcrunch.com/2026/10/20/anthropics-cloud-partnerships-are-getting-messy/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-10-19T18:37:27.000Z",
-      "titleJa": "Tenstorrent、評価額62億ドルに オープンウェイトAIチップを拡大へ",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/08/rnuUXh8kprc7HfoRAGgTvZ-1200-80.jpg?w=970"
+      "date": "2026-10-20T21:25:22.000Z",
+      "titleJa": "Anthropicのクラウド提携、複雑化の様相",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/GettyImages-2295579000.jpg?resize=1200,800"
     },
     {
-      "title": "Hugging Faceに次いでReflection AIも？NVIDIAがオープンソース系AI企業を次々買収する理由",
-      "url": "https://www.gizmodo.jp/article/nvidia-acquiring-open-source-ai-startups/",
-      "source": "GIZMODO JAPAN",
+      "title": "工作機械の不具合対応を生成AIが支援、DMG森精機が新サービス",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/21/news034.html",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-19T23:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/10/18/05679bdc-8213-42f1-837f-0b81980dc587/original.png?w=1200&h=630"
+      "date": "2026-10-20T22:45:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2610/21/l_mn1021_dmgmori_001.jpg"
     },
     {
-      "title": "「AIに真似されてしまう」--ゲーム開発企業、体験版の一般公開を中止",
-      "url": "https://japan.cnet.com/article/35253747/",
+      "title": "MetaのAI「Muse」、限定共有の会話が第三者にも閲覧可能だったと発表",
+      "url": "https://japan.cnet.com/article/35253783/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-19T22:10:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/20/9992d6c931082826c1212198ca11ce85/71_pukey_large_20261020.jpg"
+      "date": "2026-10-20T22:20:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/21/d2c02d5e99094cdc28222473ec4812a4/83_header.jpg"
     },
     {
-      "title": "“テスラ超え”狙う――チューリング「完全自動運転」までの道 「GPUより速いチップ」使った開発のウラ側",
-      "url": "https://www.itmedia.co.jp/business/articles/2610/20/news017.html",
+      "title": "業務層へのAI導入、業務プロセスをAIエージェントに置き換える",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600003/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-20T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600003/topm.jpg?20220512"
+    },
+    {
+      "title": "AIコーディングのAPIキーが狙われている OpenCodeのキー流出とインフォスティーラー「Aoki」から学ぶ対策",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2610/21/news011.html",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-19T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2610/20/cover_news017.jpg"
+      "date": "2026-10-20T20:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2610/21/cover_news011.jpg"
     },
     {
-      "title": "「データセンター×発電設備」一体開発がトレンド？ 日立・東京ガスが九州で計画、JERAは千葉で 狙いは",
-      "url": "https://www.itmedia.co.jp/business/articles/2610/20/news051.html",
+      "title": "デジタル庁、政府職員18万人にAIエージェント環境を展開──「源内」で提供開始、独自の安全基準も",
+      "url": "https://www.itmedia.co.jp/news/article/2610/20/2000002428/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-19T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2610/20/cover_news051.jpg"
+      "date": "2026-10-20T08:14:44.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/20/2000002428/10009937/2048"
     },
     {
-      "title": "「保守的な日本の現場に合う」導入2500時間の壁を壊す倉庫AI、IFS Softeonの真価",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/20/news044.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-19T21:30:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2610/20/cover_news044.jpg"
-    },
-    {
-      "title": "ウェブ会議の相手、本当にヒト？ AIではない？ 疑心暗鬼を打破する「人間バッジ」 Zoomが提供開始",
-      "url": "https://japan.cnet.com/article/35253742/",
+      "title": "Instagramの反政権アカウント停止でMetaが謝罪、「Claude」の大量アクセスが原因",
+      "url": "https://japan.cnet.com/article/35253773/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-19T20:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/20/4319620de20fb7f6131f915fc1b112da/66_world_zoom_large_20261020.jpg"
+      "date": "2026-10-20T07:02:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/20/8e31a49d3b14c63c6817d8e77aac875c/No-Kings-oct-2026-getty_1280x960.jpg"
     },
     {
-      "title": "コアウィーブ株急落は「さざ波」 AI揺るがす規制リスク、焦点は米中間選挙",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12100/",
-      "source": "日経クロステック",
+      "title": "政府、AIエージェント導入 職員18万人の業務に活用--古川デジタル大臣",
+      "url": "https://japan.cnet.com/article/35253770/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-19T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12100/topm.jpg?20220512"
+      "date": "2026-10-20T06:33:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/20/30a151747a302bb31c3ef1aa025f3dec/012.jpeg"
     },
     {
-      "title": "経営層へのAI導入、意思決定にAIを組み込む「AI拡張経営」を実践",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600002/",
-      "source": "日経クロステック",
+      "title": "原作者公認、マンガをAIで二次創作OK LINEマンガが新機能",
+      "url": "https://japan.cnet.com/article/35253760/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-19T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100600002/topm.jpg?20220512"
-    },
-    {
-      "title": "Disney found a way to buy Character.AI without buying its lawsuits",
-      "url": "https://arstechnica.com/tech-policy/2026/10/disney-found-a-way-to-buy-character-ai-without-buying-its-lawsuits/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-19T14:45:43.000Z",
-      "titleJa": "Disney、Character.AIを訴訟ごと抱え込まずに買収する方法を見つけた",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2018/06/getty-disney-1152x648.jpg"
-    },
-    {
-      "title": "Anthropic gives outside AI watchdog “employee-like” access",
-      "url": "https://arstechnica.com/ai/2026/10/anthropic-gives-outside-ai-watchdog-employee-like-access/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-18T16:25:19.000Z",
-      "titleJa": "Anthropic、外部のAI監視団体に「従業員並み」のアクセス権を付与",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/09/claudebyanthropic-1024x648.jpg"
+      "date": "2026-10-20T05:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/20/cdb2d96b19f75b34cb871b5db1aaff34/01112.jpeg"
     }
   ]
 }
