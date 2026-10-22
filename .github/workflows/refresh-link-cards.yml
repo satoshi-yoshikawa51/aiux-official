@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Fetch OGP for external articles
         run: node scripts/fetch-link-cards.mjs
       - name: Commit & push if changed
