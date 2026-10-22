@@ -1909,6 +1909,42 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  gennai: {
+    caption: "任せる範囲と、守るルールの組み立て",
+    render: () => (
+      <Svg h={262} title="ガバメントAI源内のAIエージェント環境と源内基準の図解">
+        <T x={300} y={22} text="チャットで聞く段階から、任せる段階へ" size={13.5} color={INK} />
+        <B x={20} y={44} w={132} h={58} label="政府職員" sub="約18万人" />
+        <AH x1={157} x2={190} y={73} />
+        <B x={195} y={38} w={200} h={32} label="エージェントチャット" />
+        <B x={195} y={76} w={200} h={32} label="源内工房" fill={YELLOW} />
+        <AH x1={400} x2={433} y={73} />
+        <B x={438} y={44} w={142} h={58} label="一連の作業を" sub="まとめて任せる" />
+        <T x={300} y={128} text="2026年10月から順次。源内工房は12月ごろまでに" size={12.5} />
+        <B x={20} y={144} w={560} h={58} label="源内基準" sub="利用者・管理者・開発者、それぞれの責務を先に決めた" fill={YELLOW} />
+        <T x={300} y={224} text="うのみにせず人が監督する、が前提" size={13} />
+        <T x={300} y={250} text="2027年2月ごろ、自治体や民間向けにOSSで公開予定" size={13} color={INK} />
+      </Svg>
+    ),
+  },
+  "claude-duet": {
+    caption: "任せる線は「やり直しがきくか」で引く",
+    render: () => (
+      <Svg h={240} title="常駐型エージェントが自分で進める作業と、止まって確認する作業の図解">
+        <T x={300} y={22} text="置いておくと進む。ただし戻せない手前で止まる" size={13.5} color={INK} />
+        <T x={20} y={70} text="進める" size={13} anchor="start" />
+        <B x={96} y={46} w={232} h={46} label="調べる・下書き・整理" />
+        <AH x1={333} x2={366} y={69} />
+        <B x={371} y={46} w={209} h={46} label="そのまま続ける" />
+        <T x={20} y={140} text="止まる" size={13} anchor="start" />
+        <B x={96} y={116} w={232} h={46} label="送る・払う・署名・消す" fill={YELLOW} />
+        <AH x1={333} x2={366} y={139} />
+        <B x={371} y={116} w={209} h={46} label="予定を見せて待つ" fill={YELLOW} />
+        <T x={300} y={196} text="動く場所はクラウド。端末を切っていても続く" size={13} />
+        <T x={300} y={224} text="米国のPro・Max向けの研究プレビュー（2026年10月時点）" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
