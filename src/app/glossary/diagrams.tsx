@@ -1927,6 +1927,24 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "claude-duet": {
+    caption: "任せる線は「やり直しがきくか」で引く",
+    render: () => (
+      <Svg h={240} title="常駐型エージェントが自分で進める作業と、止まって確認する作業の図解">
+        <T x={300} y={22} text="置いておくと進む。ただし戻せない手前で止まる" size={13.5} color={INK} />
+        <T x={20} y={70} text="進める" size={13} anchor="start" />
+        <B x={96} y={46} w={232} h={46} label="調べる・下書き・整理" />
+        <AH x1={333} x2={366} y={69} />
+        <B x={371} y={46} w={209} h={46} label="そのまま続ける" />
+        <T x={20} y={140} text="止まる" size={13} anchor="start" />
+        <B x={96} y={116} w={232} h={46} label="送る・払う・署名・消す" fill={YELLOW} />
+        <AH x1={333} x2={366} y={139} />
+        <B x={371} y={116} w={209} h={46} label="予定を見せて待つ" fill={YELLOW} />
+        <T x={300} y={196} text="動く場所はクラウド。端末を切っていても続く" size={13} />
+        <T x={300} y={224} text="米国のPro・Max向けの研究プレビュー（2026年10月時点）" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
