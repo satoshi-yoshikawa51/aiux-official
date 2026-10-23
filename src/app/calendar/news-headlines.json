@@ -1,116 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-23T00:08:24.745Z",
+  "updatedAt": "2026-10-23T23:58:23.564Z",
   "items": [
     {
-      "title": "Uber brings ChatGPT Work to all employees with OpenAI",
-      "url": "https://openai.com/index/uber-chatgpt-work-rollout",
+      "title": "Rapidly scaling online storage to serve over 1 billion ChatGPT users (Part II)",
+      "url": "https://openai.com/index/scaling-storage-one-billion-users-part-two",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-10-22T00:00:00.000Z",
-      "titleJa": "Uber、OpenAIと提携し全従業員にChatGPT Workを導入",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5Ggg0KhDALourCX7MklMBY/c7f06d5982895ca0867ed21a0b95d422/uber-brings-chatgpt-work-to-all-employees-seo.png?w=1600&h=900&fit=fill"
+      "date": "2026-10-23T17:00:00.000Z",
+      "titleJa": "10億人超のChatGPTユーザーを支えるオンラインストレージの高速スケーリング（後編）",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/1p8WL4wct7MU8nnw6609WL/6ae794fe4cc93d37cc095d4d45730669/scaling-storage-one-billion-users-part-two-social.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "OpenAI working on new $30B raise at $1.25T valuation ahead of IPO",
-      "url": "https://techcrunch.com/2026/10/22/openai-working-on-new-30b-raise-at-1-25t-valuation-ahead-of-ipo/",
-      "source": "TechCrunch",
+      "title": "OpenAI and Poland’s NASK partner to advance AI safety and security",
+      "url": "https://openai.com/index/openai-nask-ai-safety-security-partnership",
+      "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-10-22T22:08:24.000Z",
-      "titleJa": "OpenAI、IPO前に評価額1.25兆ドルで300億ドルの新規調達を協議",
-      "image": "https://techcrunch.com/wp-content/uploads/2023/11/Sam-Altman-OpenAI.jpg?resize=1200,680"
+      "date": "2026-10-23T00:00:00.000Z",
+      "titleJa": "OpenAIとポーランドのNASK、AIの安全性とセキュリティ強化で提携",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/2QFh7GNhKrntGGGPok2slW/0a4c69fe28104fc2102821d451277b06/openai-and-poland-s-nask-announce-partnership-seo.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "OpenAI makes its Jev competitor widely available as decision model competition heats up",
-      "url": "https://techcrunch.com/2026/10/22/openai-makes-its-jev-competitor-widely-available-as-decision-model-competition-heats-up/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-22T19:00:00.000Z",
-      "titleJa": "OpenAI、Jev対抗モデルを広く提供開始 意思決定モデル競争が激化",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Screenshot-2026-10-22-at-12.17.11-PM-1.png?resize=1200,988"
-    },
-    {
-      "title": "OpenAI, Anthropic, and Nvidia had record lobbying quarters",
-      "url": "https://www.theverge.com/policy/1016585/openai-anthropic-nvidia-lobbying-records",
+      "title": "OpenAI now trains its frontier AI models with no internet access",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1018021/openai-training-top-ai-models-no-internet",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-10-22T15:50:30.000Z",
-      "titleJa": "OpenAI・Anthropic・Nvidia、ロビー活動費が四半期で過去最高に",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/09/STK481_STK432_CONGRESS_GOVERNMENT_CIVRGINIA_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "date": "2026-10-23T21:11:07.000Z",
+      "titleJa": "OpenAI、フロンティアAIモデルの学習をインターネット非接続環境で実施",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK155_OPEN_AI_2025_CVirgiia_B_d6ffc8.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "現場・開発向けエージェントで業務スピードを「5～10倍」に ― Snowflakeの統合基盤で変革する日本企業の挑戦",
-      "url": "https://ascii.jp/elem/000/004/444/4444366/?rss",
-      "source": "ASCII.jp",
+      "title": "Updated Google privacy policy says your Gmail might be used for advertising",
+      "url": "https://arstechnica.com/gadgets/2026/10/updated-google-privacy-policy-says-your-gmail-might-be-used-for-advertising/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-23T20:19:55.000Z",
+      "titleJa": "Googleがプライバシーポリシーを更新、Gmailが広告に利用される可能性",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/05/google-logo-big-g-grooves-1152x648.jpg"
+    },
+    {
+      "title": "Uber rival inDrive eyes 2027 robotaxi tests in Central Asia with Pony AI and Nvidia",
+      "url": "https://techcrunch.com/2026/10/22/uber-rival-indrive-eyes-2027-robotaxi-tests-in-central-asia-with-pony-ai-and-nvidia/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-23T04:00:00.000Z",
+      "titleJa": "Uberのライバルin⁠Drive、Pony AI・Nvidiaと組み中央アジアで2027年にロボタクシー試験へ",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/indrive-pony-ai-kazakhstan.jpg?resize=1200,800"
+    },
+    {
+      "title": "DNAと「会話」するAI、Hugging Faceが発表 遺伝情報の解析を加速",
+      "url": "https://japan.cnet.com/article/35253907/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-22T23:30:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/21/4541282/xl/9970c92850741aba.jpg?20200122"
+      "date": "2026-10-23T22:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/24/10aef1b39772fc428693152ca57b8713/dna-large.jpg"
     },
     {
-      "title": "大田区、年1000時間の問い合わせを「AI電話」で削減できるか？ 実証実験で見えた課題",
-      "url": "https://kn.itmedia.co.jp/kn/article/2610/23/2000002529/",
+      "title": "「Claude Mythos 5」、危害の兆候を顧みず実在の開発者を標的に──AnthropicとAISIが分析結果を公開",
+      "url": "https://www.itmedia.co.jp/news/article/2610/24/2000002564/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-22T22:00:00.000Z",
-      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2610/23/2000002529/10010230/2048"
+      "date": "2026-10-23T22:28:08.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/24/2000002564/10010373/2048"
     },
     {
-      "title": "ローカルLLMに最適な専用機を検討、候補はMac miniとAMD搭載Windows機",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00682/102100219/",
-      "source": "日経クロステック",
+      "title": "パナソニック、従業員が利用禁止の生成AIに個人情報をアップロードと発表 従業員ら約33万人分",
+      "url": "https://japan.cnet.com/article/35253904/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-22T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00682/102100219/topm.jpg?20220512"
+      "date": "2026-10-23T13:05:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/23/12778764b175e1039235698fd2e810d3/panasonic_20261023.jpg"
     },
     {
-      "title": "顧客層へのAI導入、事業特性に応じAIで価値を増幅させる判断が必須",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100700005/",
-      "source": "日経クロステック",
+      "title": "AIにパスワードを教えずログイン可能に--1Passwordが新機能、ChatGPTにも対応へ",
+      "url": "https://japan.cnet.com/article/35253892/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-22T20:00:00.000Z"
+      "date": "2026-10-23T10:15:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/23/81ce916d2363248be8eac704a0d3cdd7/00333.jpeg"
     },
     {
-      "title": "【速報】中国政府系がAIで攻撃、MSが発表",
-      "url": "https://www.47news.jp/15123221.html",
-      "source": "47news.jp",
+      "title": "Query MCP サーバー提供開始、上り/下り通信量の監視ルール、他 ほぼ週刊ソラコム 09/26-10/16",
+      "url": "https://ascii.jp/elem/000/004/445/4445430/?rss",
+      "source": "ASCII.jp",
       "lang": "ja",
-      "kind": "buzz",
-      "count": 189,
-      "date": "2026-10-22T15:13:42.000Z",
-      "image": "https://img.cf.47news.jp/static/renewal/common/img/thumb_large.png"
+      "date": "2026-10-23T10:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/23/4542740/xl/5a790c085c03da0d.png"
+    },
+    {
+      "title": "「エージェント向け1Password」発表 AIにパスワード渡さずアクセス権限付与可能に",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2610/23/2000002545/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-23T06:24:45.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/23/2000002545/10010275/2048"
+    },
+    {
+      "title": "花王、法人向け生成AI「ChatSense」を導入--研究所や商品カテゴリー越え知見を横展開",
+      "url": "https://japan.zdnet.com/article/35253886/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-23T05:45:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/03/17/05d4257d2a795da2665b7b6e977934d2/250317_worker_as_1280_8707039.jpeg"
     },
     {
       "title": "チームみらい安野氏「電力、水道、医療などの停止を伴う被害を想定すべき」 デジ庁に緊急提言へ、AI悪用のサイバー攻撃受け",
       "url": "https://www.itmedia.co.jp/aiplus/article/2610/22/2000002518/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-22T07:20:52.000Z",
+      "date": "2026-10-23T05:05:53.000Z",
       "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/22/2000002518/10010194/2048"
-    },
-    {
-      "title": "“緊急メンテの夜”までの一部始終は？ 8月にAIで「PHPの重大な脆弱性」発見→OpenAIが即応チームを招集",
-      "url": "https://www.itmedia.co.jp/business/articles/2610/22/news053.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-22T04:30:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2610/22/cover_news053.jpg"
-    },
-    {
-      "title": "東京進出も決まっているWaymoのロボタクシー。台数をグローバルで5倍の2万台にすると発表",
-      "url": "https://www.gizmodo.jp/article/waymo-reportedly-plans-to-put-20000-robotaxis-on-the-road-by-the-end-of-2027/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-10-22T03:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/10/21/72fbb8bf-5509-418d-bc8f-ca515ed2162a/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "ChatGPT Ads expands to 26 new countries as over 100,000 advertisers have used the platform",
-      "url": "https://openai.com/index/chatgpt-ads-expands-26-new-countries",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-21T13:00:00.000Z",
-      "titleJa": "ChatGPT Ads、新たに26カ国へ拡大 広告主は10万社超に",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/6Fq2uj7xCpKHENjyeojn9c/d3771e7cecdfb77c28c7560de9413de1/chatgpt-ads-expands-26-new-countries-social.png?w=1600&h=900&fit=fill"
     },
     {
       "title": "Southeast Asia’s digital economy to hit $368 billion",
@@ -118,7 +117,7 @@
       "source": "Google AI（公式）",
       "lang": "en",
       "date": "2026-10-21T04:00:00.000Z",
-      "titleJa": "東南アジアのデジタル経済、3680億ドル規模へ",
+      "titleJa": "東南アジアのデジタル経済、3680億ドル規模に",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Hero_Image_e-Conomy_SEA_2026.width-1300.png"
     }
   ]
