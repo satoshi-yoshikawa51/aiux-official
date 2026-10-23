@@ -1,24 +1,116 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-22T00:09:44.477Z",
+  "updatedAt": "2026-10-23T00:08:24.745Z",
   "items": [
+    {
+      "title": "Uber brings ChatGPT Work to all employees with OpenAI",
+      "url": "https://openai.com/index/uber-chatgpt-work-rollout",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-22T00:00:00.000Z",
+      "titleJa": "Uber、OpenAIと提携し全従業員にChatGPT Workを導入",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/5Ggg0KhDALourCX7MklMBY/c7f06d5982895ca0867ed21a0b95d422/uber-brings-chatgpt-work-to-all-employees-seo.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "OpenAI working on new $30B raise at $1.25T valuation ahead of IPO",
+      "url": "https://techcrunch.com/2026/10/22/openai-working-on-new-30b-raise-at-1-25t-valuation-ahead-of-ipo/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-22T22:08:24.000Z",
+      "titleJa": "OpenAI、IPO前に評価額1.25兆ドルで300億ドルの新規調達を協議",
+      "image": "https://techcrunch.com/wp-content/uploads/2023/11/Sam-Altman-OpenAI.jpg?resize=1200,680"
+    },
+    {
+      "title": "OpenAI makes its Jev competitor widely available as decision model competition heats up",
+      "url": "https://techcrunch.com/2026/10/22/openai-makes-its-jev-competitor-widely-available-as-decision-model-competition-heats-up/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-22T19:00:00.000Z",
+      "titleJa": "OpenAI、Jev対抗モデルを広く提供開始 意思決定モデル競争が激化",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Screenshot-2026-10-22-at-12.17.11-PM-1.png?resize=1200,988"
+    },
+    {
+      "title": "OpenAI, Anthropic, and Nvidia had record lobbying quarters",
+      "url": "https://www.theverge.com/policy/1016585/openai-anthropic-nvidia-lobbying-records",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-22T15:50:30.000Z",
+      "titleJa": "OpenAI・Anthropic・Nvidia、ロビー活動費が四半期で過去最高に",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/09/STK481_STK432_CONGRESS_GOVERNMENT_CIVRGINIA_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "現場・開発向けエージェントで業務スピードを「5～10倍」に ― Snowflakeの統合基盤で変革する日本企業の挑戦",
+      "url": "https://ascii.jp/elem/000/004/444/4444366/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-22T23:30:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/21/4541282/xl/9970c92850741aba.jpg?20200122"
+    },
+    {
+      "title": "大田区、年1000時間の問い合わせを「AI電話」で削減できるか？ 実証実験で見えた課題",
+      "url": "https://kn.itmedia.co.jp/kn/article/2610/23/2000002529/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-22T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2610/23/2000002529/10010230/2048"
+    },
+    {
+      "title": "ローカルLLMに最適な専用機を検討、候補はMac miniとAMD搭載Windows機",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00682/102100219/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-22T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00682/102100219/topm.jpg?20220512"
+    },
+    {
+      "title": "顧客層へのAI導入、事業特性に応じAIで価値を増幅させる判断が必須",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100700005/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-22T20:00:00.000Z"
+    },
+    {
+      "title": "【速報】中国政府系がAIで攻撃、MSが発表",
+      "url": "https://www.47news.jp/15123221.html",
+      "source": "47news.jp",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 189,
+      "date": "2026-10-22T15:13:42.000Z",
+      "image": "https://img.cf.47news.jp/static/renewal/common/img/thumb_large.png"
+    },
+    {
+      "title": "チームみらい安野氏「電力、水道、医療などの停止を伴う被害を想定すべき」 デジ庁に緊急提言へ、AI悪用のサイバー攻撃受け",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2610/22/2000002518/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-22T07:20:52.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/22/2000002518/10010194/2048"
+    },
+    {
+      "title": "“緊急メンテの夜”までの一部始終は？ 8月にAIで「PHPの重大な脆弱性」発見→OpenAIが即応チームを招集",
+      "url": "https://www.itmedia.co.jp/business/articles/2610/22/news053.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-22T04:30:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2610/22/cover_news053.jpg"
+    },
+    {
+      "title": "東京進出も決まっているWaymoのロボタクシー。台数をグローバルで5倍の2万台にすると発表",
+      "url": "https://www.gizmodo.jp/article/waymo-reportedly-plans-to-put-20000-robotaxis-on-the-road-by-the-end-of-2027/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-10-22T03:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/10/21/72fbb8bf-5509-418d-bc8f-ca515ed2162a/original.jpg?w=1200&h=630"
+    },
     {
       "title": "ChatGPT Ads expands to 26 new countries as over 100,000 advertisers have used the platform",
       "url": "https://openai.com/index/chatgpt-ads-expands-26-new-countries",
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-21T13:00:00.000Z",
-      "titleJa": "ChatGPT Ads、新たに26カ国へ拡大 広告主10万社超が利用",
+      "titleJa": "ChatGPT Ads、新たに26カ国へ拡大 広告主は10万社超に",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/6Fq2uj7xCpKHENjyeojn9c/d3771e7cecdfb77c28c7560de9413de1/chatgpt-ads-expands-26-new-countries-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "OpenAI models are coming to Google Cloud",
-      "url": "https://openai.com/index/openai-models-google-cloud",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-21T12:00:00.000Z",
-      "titleJa": "OpenAIのモデルがGoogle Cloudに登場へ",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/659u0DsrtDQd9LxI8L4J9M/0b95908d6a9ed46ffe20b23d081574b4/openai-models-coming-to-google-cloud-social.png?w=1600&h=900&fit=fill"
     },
     {
       "title": "Southeast Asia’s digital economy to hit $368 billion",
@@ -28,99 +120,6 @@
       "date": "2026-10-21T04:00:00.000Z",
       "titleJa": "東南アジアのデジタル経済、3680億ドル規模へ",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Hero_Image_e-Conomy_SEA_2026.width-1300.png"
-    },
-    {
-      "title": "While Amazon blocks AI agents, Walmart rolls out the welcome mat",
-      "url": "https://techcrunch.com/2026/10/21/while-amazon-blocks-ai-agents-walmart-rolls-out-the-welcome-mat/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-21T19:30:00.000Z",
-      "titleJa": "AIエージェントを締め出すAmazon、歓迎するWalmart",
-      "image": "https://techcrunch.com/wp-content/uploads/2018/01/gettyimages-903923942.jpeg?resize=1200,800"
-    },
-    {
-      "title": "PHP Armageddon: OpenAI, Google’s Wiz find ancient holes, panicking the internet",
-      "url": "https://techcrunch.com/2026/10/21/php-armageddon-openai-googles-wiz-find-ancient-holes-panicking-the-internet/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-21T17:59:12.000Z",
-      "titleJa": "PHP終末論：OpenAIとGoogleのWizが積年の脆弱性を発見、ネットに激震",
-      "image": "https://techcrunch.com/wp-content/uploads/2021/12/GettyImages-460689215.jpg?resize=1200,801"
-    },
-    {
-      "title": "The $15 billion ad-powered AI startup your doctor may already be using",
-      "url": "https://arstechnica.com/ai/2026/10/the-15-billion-ad-powered-ai-startup-your-doctor-may-already-be-using/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-10-21T15:14:07.000Z",
-      "titleJa": "評価額150億ドル、広告で稼ぐAIスタートアップ あなたの主治医もすでに使用中かも",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/openevidencelist-1152x648.jpg"
-    },
-    {
-      "title": "強化学習に独自手法を導入 高い推論能力を実現",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/063000557/101600005/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-21T22:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/063000557/101600005/topm.jpg?20220512"
-    },
-    {
-      "title": "なぜ上場を捨ててまでAIに賭けたのか？ カオナビが非公開化して進める「脱・勘と経験の人事」",
-      "url": "https://www.itmedia.co.jp/business/articles/2610/22/news032.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-21T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2610/22/cover_news032.jpg"
-    },
-    {
-      "title": "SynopsysとAnsysの技術統合が切り開く、AI時代の新たな設計／解析プロセス",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/22/news029.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-21T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2610/22/cover_news029.jpg"
-    },
-    {
-      "title": "人が命じてAIが操作、新型SaaSは見た目も中身も使い勝手も一新",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03802/101900002/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-21T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03802/101900002/topm.jpg?20220512"
-    },
-    {
-      "title": "「経営」と「業務」が連動しないAI導入における3つの失敗パターン",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100700004/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-21T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03786/100700004/topm.jpg?20220512"
-    },
-    {
-      "title": "PHPの脆弱性、OpenAIのAIで発見 「同様の発見、今後数カ月で急増」",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/22/2000002482/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-21T16:12:28.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/22/2000002482/10010092/2048"
-    },
-    {
-      "title": "デジタル庁、「神Excel」対策ツールを公開 AIと組み合わせたデータ整備方法も紹介",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/21/2000002475/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-21T09:42:13.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/21/2000002475/10010068/2048"
-    },
-    {
-      "title": "PHPの重大脆弱性「PHP2Shell」はセキュリティ企業のCalifとWizがAIを用いて発見しOpenAIの枠組みを使って対策したことが判明",
-      "url": "https://gigazine.net/news/20261022-php2shell-wiz-openai-calif/",
-      "source": "GIGAZINE",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 90,
-      "date": "2026-10-21T15:19:11.000Z",
-      "image": "https://i.gzn.jp/img/2026/10/22/php2shell-wiz-openai-calif/00.png"
     }
   ]
 }
