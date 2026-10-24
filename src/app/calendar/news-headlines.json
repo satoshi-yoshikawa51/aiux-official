@@ -1,14 +1,47 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-23T23:58:23.564Z",
+  "updatedAt": "2026-10-24T23:39:49.817Z",
   "items": [
+    {
+      "title": "Forced to pick, Grok’s AI model chooses Republicans. OpenAI’s picks Democrats.",
+      "url": "https://techcrunch.com/2026/10/24/forced-to-pick-groks-ai-model-chooses-republicans-openais-picks-democrats/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-24T15:00:00.000Z",
+      "titleJa": "選択を迫るとGrokのAIモデルは共和党を選び、OpenAIのモデルは民主党を選ぶ",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/GettyImages-1777713346.jpg?resize=1200,900"
+    },
+    {
+      "title": "iPadの誘惑から抜け出す。紙の書き心地×AI搭載の「AINOTE 2」が私のジャーナリングを変えた",
+      "url": "https://www.gizmodo.jp/article/2610-iflytek-ainote2-journaling/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-10-24T05:35:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/10/23/39ff5cc7-96df-4060-80fe-4d59be6b8dd1/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "ゴムマリの専門業務AI-BPO、『マスタ移行 for SAP S/4HANA(R)』を提供開始",
+      "url": "https://ascii.jp/elem/000/004/445/4445469/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-24T01:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "「録る」だけで終わらない。ポケットAIレコーダー「RoroLee」、Makuakeで先行販売を開始",
+      "url": "https://ascii.jp/elem/000/004/445/4445474/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-10-24T01:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg?20200122"
+    },
     {
       "title": "Rapidly scaling online storage to serve over 1 billion ChatGPT users (Part II)",
       "url": "https://openai.com/index/scaling-storage-one-billion-users-part-two",
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-23T17:00:00.000Z",
-      "titleJa": "10億人超のChatGPTユーザーを支えるオンラインストレージの高速スケーリング（後編）",
+      "titleJa": "10億人超のChatGPTユーザーを支えるオンラインストレージの急速なスケーリング（パート2）",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/1p8WL4wct7MU8nnw6609WL/6ae794fe4cc93d37cc095d4d45730669/scaling-storage-one-billion-users-part-two-social.png?w=1600&h=900&fit=fill"
     },
     {
@@ -26,7 +59,7 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-10-23T21:11:07.000Z",
-      "titleJa": "OpenAI、フロンティアAIモデルの学習をインターネット非接続環境で実施",
+      "titleJa": "OpenAI、フロンティアAIモデルをインターネット接続なしで学習へ",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK155_OPEN_AI_2025_CVirgiia_B_d6ffc8.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
@@ -35,7 +68,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-10-23T20:19:55.000Z",
-      "titleJa": "Googleがプライバシーポリシーを更新、Gmailが広告に利用される可能性",
+      "titleJa": "Googleのプライバシーポリシー更新、Gmailが広告に利用される可能性",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/05/google-logo-big-g-grooves-1152x648.jpg"
     },
     {
@@ -44,7 +77,7 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-10-23T04:00:00.000Z",
-      "titleJa": "Uberのライバルin⁠Drive、Pony AI・Nvidiaと組み中央アジアで2027年にロボタクシー試験へ",
+      "titleJa": "Uber対抗のinDrive、Pony AI・Nvidiaと組み2027年に中央アジアでロボタクシー試験へ",
       "image": "https://techcrunch.com/wp-content/uploads/2026/10/indrive-pony-ai-kazakhstan.jpg?resize=1200,800"
     },
     {
@@ -80,45 +113,12 @@
       "image": "https://japan.cnet.com/storage/2026/10/23/81ce916d2363248be8eac704a0d3cdd7/00333.jpeg"
     },
     {
-      "title": "Query MCP サーバー提供開始、上り/下り通信量の監視ルール、他 ほぼ週刊ソラコム 09/26-10/16",
-      "url": "https://ascii.jp/elem/000/004/445/4445430/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-23T10:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/23/4542740/xl/5a790c085c03da0d.png"
-    },
-    {
       "title": "「エージェント向け1Password」発表 AIにパスワード渡さずアクセス権限付与可能に",
       "url": "https://www.itmedia.co.jp/aiplus/article/2610/23/2000002545/",
       "source": "ITmedia AI＋",
       "lang": "ja",
       "date": "2026-10-23T06:24:45.000Z",
       "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/23/2000002545/10010275/2048"
-    },
-    {
-      "title": "花王、法人向け生成AI「ChatSense」を導入--研究所や商品カテゴリー越え知見を横展開",
-      "url": "https://japan.zdnet.com/article/35253886/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-23T05:45:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/03/17/05d4257d2a795da2665b7b6e977934d2/250317_worker_as_1280_8707039.jpeg"
-    },
-    {
-      "title": "チームみらい安野氏「電力、水道、医療などの停止を伴う被害を想定すべき」 デジ庁に緊急提言へ、AI悪用のサイバー攻撃受け",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/22/2000002518/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-23T05:05:53.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/22/2000002518/10010194/2048"
-    },
-    {
-      "title": "Southeast Asia’s digital economy to hit $368 billion",
-      "url": "https://blog.google/company-news/inside-google/around-the-globe/google-asia/e-conomy-sea-report-2026/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-10-21T04:00:00.000Z",
-      "titleJa": "東南アジアのデジタル経済、3680億ドル規模に",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Hero_Image_e-Conomy_SEA_2026.width-1300.png"
     }
   ]
 }
