@@ -1945,6 +1945,24 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "supply-chain-attack": {
+    caption: "守りの位置と、実際に通られる道",
+    render: () => (
+      <Svg h={244} title="正面の守りと、信頼している経路から入られる道筋の図解">
+        <T x={300} y={22} text="狙われるのは、あなたが信頼しているもの" size={13.5} color={INK} />
+        <T x={20} y={76} text="正面から" size={13} anchor="start" />
+        <B x={118} y={48} w={210} h={48} label="ログインを破る" />
+        <AH x1={333} x2={366} y={72} />
+        <B x={371} y={48} w={209} h={48} label="多要素認証で止まる" />
+        <T x={20} y={150} text="信頼の側から" size={13} anchor="start" />
+        <B x={118} y={122} w={210} h={48} label="取引先・部品・更新" fill={YELLOW} />
+        <AH x1={333} x2={366} y={146} />
+        <B x={371} y={122} w={209} h={48} label="許可済みとして通る" fill={YELLOW} />
+        <T x={300} y={200} text="AIが足したのは、広げる速さと、部品の汚し方" size={13} />
+        <T x={300} y={228} text="確かめる先が「自分」から「つながり先」へ" size={13.5} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
