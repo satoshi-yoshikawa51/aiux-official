@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-25T23:30:34.135Z",
+  "updatedAt": "2026-10-27T00:45:55.684Z",
   "items": [
     {
-      "title": "Grok releases the first seven minutes of its AI-generated ‘Odyssey’",
-      "url": "https://techcrunch.com/2026/10/25/grok-releases-the-first-seven-minutes-of-its-ai-generated-odyssey/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-25T21:31:16.000Z",
-      "titleJa": "Grok、AI生成作品『Odyssey』の冒頭7分を公開",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/03/grok-getty.jpg?resize=1200,800"
-    },
-    {
-      "title": "AI関連プロジェクトの紹介を原則禁止--Reddit「r/opensource」の方針に賛否",
-      "url": "https://japan.cnet.com/article/35253950/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-25T22:55:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/26/6e91c5f2091e0c187ff788ce8a92d0c4/%E8%A6%8B%E5%87%BA%E3%81%97%E7%94%BB%E5%83%8F.jpg"
-    },
-    {
-      "title": "「AIリスキリング」とは何か、「仕事の再設計」が最初のゴールに",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03798/101900001/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-25T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03798/101900001/topm.jpg?20220512"
-    },
-    {
-      "title": "AIエージェント導入へ、「ワークフロー」と「エージェント」の違いを理解",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03762/091500001/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-25T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03762/091500001/topm.jpg?20220512"
-    },
-    {
-      "title": "ゴムマリの専門業務AI-BPO、『苦情・VoC・クレームのデータベース化』を提供開始",
-      "url": "https://ascii.jp/elem/000/004/445/4445515/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-25T01:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "Forced to pick, Grok’s AI model chooses Republicans. OpenAI’s picks Democrats.",
-      "url": "https://techcrunch.com/2026/10/24/forced-to-pick-groks-ai-model-chooses-republicans-openais-picks-democrats/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-24T15:00:00.000Z",
-      "titleJa": "二者択一を迫られたGrokのAIモデルは共和党を選択、OpenAIは民主党",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/GettyImages-1777713346.jpg?resize=1200,900"
-    },
-    {
-      "title": "テスラ、人型ロボ「Optimus」生産開始 一方で純利益は43％減 その要因とは",
-      "url": "https://japan.cnet.com/article/35253911/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-24T07:30:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/24/3ec95c4395d674991cb3e56b8dea1ac7/03_header.jpg"
-    },
-    {
-      "title": "Rapidly scaling online storage to serve over 1 billion ChatGPT users (Part II)",
-      "url": "https://openai.com/index/scaling-storage-one-billion-users-part-two",
+      "title": "Greptile takes bug detection beyond code review with GPT-6 Astra",
+      "url": "https://openai.com/index/greptile-code-review-codex-astra",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-10-23T17:00:00.000Z",
-      "titleJa": "10億人超のChatGPTユーザーを支えるオンラインストレージの急速なスケーリング（後編）",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/1p8WL4wct7MU8nnw6609WL/6ae794fe4cc93d37cc095d4d45730669/scaling-storage-one-billion-users-part-two-social.png?w=1600&h=900&fit=fill"
+      "date": "2026-10-26T22:00:00.000Z",
+      "titleJa": "Greptile、GPT-6 Astraでバグ検出をコードレビューの先へ",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/41HmEnWTxiRSX2JLf1g8IJ/86b6e146a0620d83db05f4010e6b058e/greptile-connections-social.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "OpenAI and Poland’s NASK partner to advance AI safety and security",
-      "url": "https://openai.com/index/openai-nask-ai-safety-security-partnership",
+      "title": "GPT-6.1 Sol helps CodeRabbit strengthen security across complex codebases",
+      "url": "https://openai.com/index/gpt-6-1-sol-coderabbit-code-security",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-10-23T00:00:00.000Z",
-      "titleJa": "OpenAIとポーランドのNASK、AIの安全性とセキュリティ強化で提携",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/2QFh7GNhKrntGGGPok2slW/0a4c69fe28104fc2102821d451277b06/openai-and-poland-s-nask-announce-partnership-seo.png?w=1600&h=900&fit=fill"
+      "date": "2026-10-26T13:45:00.000Z",
+      "titleJa": "GPT-6.1 Sol、CodeRabbitの複雑なコードベース全体のセキュリティ強化を支援",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/1ksgDNZQ7aw2uHUY6xbaVm/0ffd141428e2cea70f4dcbf67ccd6245/gpt-6-1-sol-helps-coderabbit-strengthen-security-across-complex-codebases-social.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "OpenAI now trains its frontier AI models with no internet access",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1018021/openai-training-top-ai-models-no-internet",
+      "title": "OpenAI announces three big science discoveries and a new way to work with academics",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1019143/openai-eth-kaseya-science-math-physics",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-10-23T21:11:07.000Z",
-      "titleJa": "OpenAI、フロンティアAIモデルの学習をインターネット接続なしで実施",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK155_OPEN_AI_2025_CVirgiia_B_d6ffc8.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "date": "2026-10-26T23:34:58.000Z",
+      "titleJa": "OpenAI、3つの大きな科学的発見と研究者との新たな協業方法を発表",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/STKS537_AI_MATH_2.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "Updated Google privacy policy says your Gmail might be used for advertising",
-      "url": "https://arstechnica.com/gadgets/2026/10/updated-google-privacy-policy-says-your-gmail-might-be-used-for-advertising/",
+      "title": "Anthropic is burning gas to feed the AI boom",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1018994/anthropic-ipo-ai-data-center-energy-climate-risk",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-26T21:45:31.000Z",
+      "titleJa": "Anthropic、AIブームを支えるためにガスを燃やす",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/01/STK269_ANTHROPIC_2_B.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Apple releases iOS and macOS 27.2 with new Siri AI features, new Music logo",
+      "url": "https://arstechnica.com/apple/2026/10/apple-releases-ios-and-macos-27-2-with-new-siri-ai-features-new-music-logo/",
       "source": "Ars Technica",
       "lang": "en",
-      "date": "2026-10-23T20:19:55.000Z",
-      "titleJa": "Googleがプライバシーポリシー更新、Gmailが広告に利用される可能性",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/05/google-logo-big-g-grooves-1152x648.jpg"
+      "date": "2026-10-26T20:04:16.000Z",
+      "titleJa": "Apple、新しいSiriのAI機能とMusicの新ロゴを備えたiOS／macOS 27.2をリリース",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/Siri-AI-1152x648.png"
     },
     {
-      "title": "DNAと「会話」するAI、Hugging Faceが発表 遺伝情報の解析を加速",
-      "url": "https://japan.cnet.com/article/35253907/",
+      "title": "Five weird details from Anthropic’s IPO filing",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1018738/anthropic-ipo-s1-filing-weird-details",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-26T17:10:23.000Z",
+      "titleJa": "AnthropicのIPO申請書から見えた奇妙な5つの事実",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/STK202_DARIO_AMODEI_CVIRGINIA_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "「Claude」のAnthropicが上場申請 売上好調で営業損失縮小 ティッカー「ANT」に",
+      "url": "https://japan.cnet.com/article/35253994/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-23T22:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/24/10aef1b39772fc428693152ca57b8713/dna-large.jpg"
+      "date": "2026-10-26T21:58:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/27/412aa378480705784901e03a1b6c2cd4/GettyImages-2294579660-1.jpeg"
     },
     {
-      "title": "「Claude Mythos 5」、危害の兆候を顧みず実在の開発者を標的に──AnthropicとAISIが分析結果を公開",
-      "url": "https://www.itmedia.co.jp/news/article/2610/24/2000002564/",
+      "title": "AI活用とESGを実現するデータ戦略--「データニュートリション」とは",
+      "url": "https://japan.zdnet.com/article/35253430/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-26T21:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/04/23/27bbac9b83c7ded844ea39e720c2d340/thumb_sp_22carbon-neutral_1280.jpg"
+    },
+    {
+      "title": "AIエージェントを業務に導入、「自律度」を高めれば「ブレーキ」が必要に",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03762/091500002/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-26T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03762/091500002/topm.jpg?20220512"
+    },
+    {
+      "title": "AIエージェントが量子研究の優れた助手に、米OpenAIが発表",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03098/092900088/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-26T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03098/092900088/topm.jpg?20220512"
+    },
+    {
+      "title": "AWSとGoogle Cloudが「PyTorch」のAWS Trainium、Google Cloud TPU対応版をオープンソースで公開。NVIDIAからの移行に挑む",
+      "url": "https://www.publickey1.jp/blog/26/awsgoogle_cloudpytorchaws_trainiumgoogle_cloud_tpunvidia.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-10-26T15:59:52.000Z",
+      "image": "https://www.publickey1.jp/2026/yycsrzk6.jpg"
+    },
+    {
+      "title": "マネーフォワードME、MetaのAI「Muse」と連携 サブスク見直しや貯蓄計画を相談",
+      "url": "https://japan.cnet.com/article/35253976/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-26T07:50:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/26/bdd279ae8d7358854a1347428c7d663c/IMG_8642_2__1_-1.jpg"
+    },
+    {
+      "title": "AIガバナンス一元化の「理想と限界」とは？ 米Dataikuの新サービスから考察",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2610/26/news060.html",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-23T22:28:08.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/24/2000002564/10010373/2048"
+      "date": "2026-10-26T06:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/enterprise/articles/2610/26/cover_news060.jpg"
     },
     {
-      "title": "パナソニック、従業員が利用禁止の生成AIに個人情報をアップロードと発表 従業員ら約33万人分",
-      "url": "https://japan.cnet.com/article/35253904/",
-      "source": "CNET Japan",
+      "title": "AI活用で処遇改善、週休3日を導入 建設会社社長から介護事業を“起業”した経営者の「実行力」",
+      "url": "https://www.itmedia.co.jp/business/articles/2610/26/news054.html",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-23T13:05:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/23/12778764b175e1039235698fd2e810d3/panasonic_20261023.jpg"
+      "date": "2026-10-26T04:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2610/26/cover_news054.jpg"
     }
   ]
 }
