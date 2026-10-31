@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-29T01:11:49.736Z",
+  "updatedAt": "2026-10-31T01:00:16.697Z",
   "items": [
+    {
+      "title": "AIの「費用対効果が分からない」問題、解決へ？ Claude Enterprise搭載の「3つの新機能」",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2610/31/news009.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-31T00:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/enterprise/articles/2610/31/cover_news009.jpg"
+    },
+    {
+      "title": "Intel’s stock crashes, knocking $12B from government’s stake",
+      "url": "https://techcrunch.com/2026/10/30/intels-stock-crashes-knocking-12b-from-governments-stake/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-30T21:54:34.000Z",
+      "titleJa": "Intel株が急落、政府保有分の価値が120億ドル目減り",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Intel-Lip-Bu-Tan-1.jpg?resize=1200,800"
+    },
+    {
+      "title": "Anthropic VS code extension on Cursor backdoored for nearly 12 hours",
+      "url": "https://arstechnica.com/security/2026/10/anthropic-vs-code-extension-on-cursor-backdoored-for-nearly-12-hours/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-30T21:09:54.000Z",
+      "titleJa": "Cursor上のAnthropic製VS Code拡張機能、約12時間にわたりバックドア混入",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2022/05/caution-tape-1000x648.jpeg"
+    },
+    {
+      "title": "Sam Altman sympathizes with mathematicians, but says OpenAI’s math onslaught won’t stop",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1023054/altman-cheeky-pint-ai-math-interview",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-30T13:01:14.000Z",
+      "titleJa": "Sam Altman、数学者に同情しつつも「OpenAIの数学攻勢は止まらない」",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/Vrg_illo_Sam_Altman_stock_trial.jpg?quality=90&strip=all&crop=0%2C12.339110464558%2C100%2C75.321779070884&w=1200"
+    },
+    {
+      "title": "グーグルのAI半導体、宇宙での動作を確認 「俳句」を生成したと発表",
+      "url": "https://japan.cnet.com/article/35254241/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-30T22:30:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/31/e94c6a13e80a008a0850e1d18d4ef841/suncatcher_20261031_large.jpg"
+    },
+    {
+      "title": "キオクシア中間決算「過去最高」連呼 純利益2.2兆円、初の配当実施 AI需要で「成長さらに加速」",
+      "url": "https://www.itmedia.co.jp/business/articles/2610/30/news090.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-30T12:45:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2610/30/cover_news090.jpg"
+    },
+    {
+      "title": "“でぶねこ”の重み公開 1兆パラメータのAIモデル「Mistral Large 4」（Le Chonk）がダウンロード可能に",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2610/30/2000002762/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-30T08:46:58.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/30/2000002762/10011028/2048"
+    },
+    {
+      "title": "アクセンチュアがOpenAIのセキュリティー基盤導入を支援、中堅企業も照準",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12135/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-30T08:20:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12135/topm.jpg?20220512"
+    },
+    {
+      "title": "「ChatGPTが服薬中止をアドバイス」--亡くなった女性の両親がOpenAIを提訴",
+      "url": "https://japan.cnet.com/article/35254217/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-30T07:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/30/876194a65abbf428528eef1dc3bd86eb/wan-large.jpg"
+    },
+    {
+      "title": "パナソニック インダストリー、AI関連事業に約920億円投資--次世代半導体材料開発を強化",
+      "url": "https://japan.zdnet.com/article/35254227/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-30T07:12:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/06/6be9e30a77cf77b628ceeceab06bcc83/261006_circuit_as_1280_634315457.jpg"
+    },
+    {
+      "title": "ClouderaとEpicAI、AIの業務実装を加速する戦略的協業を発表",
+      "url": "https://japan.zdnet.com/article/35254223/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-30T06:44:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/30/3314809ebabfb808407de5d6baed256f/261029_cldr_001.JPG"
+    },
+    {
+      "title": "Credit Saison achieves 954% ROI in a ChatGPT Enterprise pilot",
+      "url": "https://openai.com/index/credit-saison",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-29T00:00:00.000Z",
+      "titleJa": "Credit Saison、ChatGPT Enterpriseの試験導入でROI 954%を達成",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/34e23f2L963CB20dvVX3gz/c3f268bf07335f43f4a63e78535105ec/credit-saison-stacked-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "OpenAI-backed Thrive Holdings acquires ADT",
+      "url": "https://techcrunch.com/2026/10/29/openai-backed-thrive-holdings-acquires-adt/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-29T19:56:19.000Z",
+      "titleJa": "OpenAIが出資するThrive Holdings、ADTを買収",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/ADT-logo.jpg?resize=1200,800"
+    },
     {
       "title": "OpenAI and ServiceNow expand partnership across enterprise workflows",
       "url": "https://openai.com/index/openai-servicenow-partnership-expansion",
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-28T13:15:00.000Z",
-      "titleJa": "OpenAIとServiceNow、エンタープライズ向けワークフロー全般で提携を拡大",
+      "titleJa": "OpenAIとServiceNow、エンタープライズ向けワークフローで提携を拡大",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/Gp8jNpLlW9YG0p7vG3UfM/c73fa4b5caa4ad978b022dc0123b801b/openai-servicenow-partnership-expansion-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Microsoft just shared Azure’s actual revenue in dollars: $33.2 billion",
-      "url": "https://techcrunch.com/2026/10/28/microsoft-just-shared-azures-actual-revenue-in-dollars-33-2-billion/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-28T21:58:32.000Z",
-      "titleJa": "Microsoft、Azureの売上高をついに金額で公表――332億ドル",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/04/dollar-signs-data-center.png?w=1024"
-    },
-    {
-      "title": "Google expands AI Search ads globally as core ad growth slows",
-      "url": "https://techcrunch.com/2026/10/28/google-expands-ai-search-ads-globally-as-core-ad-growth-slows/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-28T21:48:37.000Z",
-      "titleJa": "Google、主力広告の成長鈍化を受けAI検索広告をグローバル展開",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/google-logo.jpg?resize=1200,800"
-    },
-    {
-      "title": "Microsoft is ending Copilot support on smart TVs",
-      "url": "https://www.theverge.com/tech/1021143/microsoft-lg-samsung-copilot-ai-assistant-smart-tvs-ending",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-28T18:36:26.000Z",
-      "titleJa": "Microsoft、スマートTVでのCopilotサポートを終了へ",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/copilot.jpg?quality=90&strip=all&crop=0%2C10.841832569581%2C100%2C78.316334860837&w=1200"
-    },
-    {
-      "title": "xAI is buying out homeowners who promise not to sue over data center noise",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1020596/xai-mississippi-neighborhood-data-center-lawsuit",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-28T14:44:00.000Z",
-      "titleJa": "xAI、データセンターの騒音で訴訟しないと約束した住民から住宅を買い取り",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/gettyimages-2289399619.jpg?quality=90&strip=all&crop=0%2C10.738447150137%2C100%2C78.523105699726&w=1200"
-    },
-    {
-      "title": "Chrome、Gmailの情報を自動入力開始 「メールを探してコピペ」不要に 今後フォトにも対応",
-      "url": "https://japan.cnet.com/article/35254123/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-28T23:25:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/29/15a941952da9bb8ae743c31005b66ab8/02_Chrome%E8%87%AA%E5%8B%95%E5%85%A5%E5%8A%9B_20261029_large.jpg"
-    },
-    {
-      "title": "KDDI傘下、社内のAI活用事例113件を無料公開 「Gemini Notebook」で稟議データのチェック支援も",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/29/2000002685/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-28T23:00:00.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/29/2000002685/10010758/2048"
-    },
-    {
-      "title": "Googleら、Android XR搭載スマートグラス「XREAL AURA」発表 日本で11月2日注文開始",
-      "url": "https://japan.cnet.com/article/35254124/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-28T22:15:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/29/53718b5407581a3a10c85fb7749ce7b5/05_XREALAURA_20261029_large.jpg"
-    },
-    {
-      "title": "Google、「Gemini 4 Carbon」発表 「Argon」公開から2週間、サイバー防御能力などを強化",
-      "url": "https://www.itmedia.co.jp/news/article/2610/29/2000002690/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-28T22:13:47.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2610/29/2000002690/10010791/2048"
-    },
-    {
-      "title": "京都銀行、粉飾見抜くAIを内製 10年分の決算書や行員の知見基に",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/102201518/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-28T22:02:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/102201518/topm.jpg?20220512"
-    },
-    {
-      "title": "AI導入から成果創出へ デル・テクノロジーズ新社長が示す日本市場の事業戦略",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/29/news032.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-28T21:30:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2610/29/cover_news032.jpg"
-    },
-    {
-      "title": "Google、十字キーで歩き回れる「仮想世界」を音や会話付きで生成する「Genie 4」公開",
-      "url": "https://japan.cnet.com/article/35254115/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-28T21:05:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/29/6af2b090c0dd6cf393523269c70d2e2d/1.jpeg"
-    },
-    {
-      "title": "AIエージェント導入のカギを握る「プレーヤー」、誰に何を任せるか",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03762/091500004/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-28T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03762/091500004/topm.jpg?20220512"
-    },
-    {
-      "title": "Retell uses OpenAI models to help power 100M monthly calls",
-      "url": "https://openai.com/index/retell-ai",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-27T15:00:00.000Z",
-      "titleJa": "Retell、OpenAIのモデルを活用し月1億件の通話を支える",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5uWhs4tBhdZ4XPHsi9IaMG/06f4b61c4303de24a65075b3eaf500b2/retell-ai-customer-story-open-graph-acoustic-fabric.png?w=1600&h=900&fit=fill"
     }
   ]
 }
