@@ -1,22 +1,106 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-10-30T01:19:28.824Z",
+  "updatedAt": "2026-10-31T01:00:16.697Z",
   "items": [
     {
-      "title": "映画監督も絶賛する作業効率。MSI、クリエイター向け最新AIステーション＆34インチQD-OLEDモニターを発表",
-      "url": "https://ascii.jp/elem/000/004/447/4447029/?rss",
-      "source": "ASCII.jp",
+      "title": "AIの「費用対効果が分からない」問題、解決へ？ Claude Enterprise搭載の「3つの新機能」",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2610/31/news009.html",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-10-30T01:15:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/29/4545836/xl/fe76f18914d2d9b1.png"
+      "date": "2026-10-31T00:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/enterprise/articles/2610/31/cover_news009.jpg"
     },
     {
-      "title": "Linuxに深刻度9.8の脆弱性、認証なしでroot権限奪取 AnthropicのAIが攻撃を実証",
-      "url": "https://ascii.jp/elem/000/004/447/4447103/?rss",
-      "source": "ASCII.jp",
+      "title": "Intel’s stock crashes, knocking $12B from government’s stake",
+      "url": "https://techcrunch.com/2026/10/30/intels-stock-crashes-knocking-12b-from-governments-stake/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-10-30T21:54:34.000Z",
+      "titleJa": "Intel株が急落、政府保有分の価値が120億ドル目減り",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Intel-Lip-Bu-Tan-1.jpg?resize=1200,800"
+    },
+    {
+      "title": "Anthropic VS code extension on Cursor backdoored for nearly 12 hours",
+      "url": "https://arstechnica.com/security/2026/10/anthropic-vs-code-extension-on-cursor-backdoored-for-nearly-12-hours/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-10-30T21:09:54.000Z",
+      "titleJa": "Cursor上のAnthropic製VS Code拡張機能、約12時間にわたりバックドア混入",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2022/05/caution-tape-1000x648.jpeg"
+    },
+    {
+      "title": "Sam Altman sympathizes with mathematicians, but says OpenAI’s math onslaught won’t stop",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1023054/altman-cheeky-pint-ai-math-interview",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-10-30T13:01:14.000Z",
+      "titleJa": "Sam Altman、数学者に同情しつつも「OpenAIの数学攻勢は止まらない」",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/Vrg_illo_Sam_Altman_stock_trial.jpg?quality=90&strip=all&crop=0%2C12.339110464558%2C100%2C75.321779070884&w=1200"
+    },
+    {
+      "title": "グーグルのAI半導体、宇宙での動作を確認 「俳句」を生成したと発表",
+      "url": "https://japan.cnet.com/article/35254241/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-10-30T01:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/10/30/4546021/xl/9ed2e843c6a56a5a.png?20200122"
+      "date": "2026-10-30T22:30:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/31/e94c6a13e80a008a0850e1d18d4ef841/suncatcher_20261031_large.jpg"
+    },
+    {
+      "title": "キオクシア中間決算「過去最高」連呼 純利益2.2兆円、初の配当実施 AI需要で「成長さらに加速」",
+      "url": "https://www.itmedia.co.jp/business/articles/2610/30/news090.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-30T12:45:00.000Z",
+      "image": "https://image.itmedia.co.jp/business/articles/2610/30/cover_news090.jpg"
+    },
+    {
+      "title": "“でぶねこ”の重み公開 1兆パラメータのAIモデル「Mistral Large 4」（Le Chonk）がダウンロード可能に",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2610/30/2000002762/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-10-30T08:46:58.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/30/2000002762/10011028/2048"
+    },
+    {
+      "title": "アクセンチュアがOpenAIのセキュリティー基盤導入を支援、中堅企業も照準",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12135/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-10-30T08:20:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12135/topm.jpg?20220512"
+    },
+    {
+      "title": "「ChatGPTが服薬中止をアドバイス」--亡くなった女性の両親がOpenAIを提訴",
+      "url": "https://japan.cnet.com/article/35254217/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-10-30T07:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/10/30/876194a65abbf428528eef1dc3bd86eb/wan-large.jpg"
+    },
+    {
+      "title": "パナソニック インダストリー、AI関連事業に約920億円投資--次世代半導体材料開発を強化",
+      "url": "https://japan.zdnet.com/article/35254227/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-30T07:12:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/06/6be9e30a77cf77b628ceeceab06bcc83/261006_circuit_as_1280_634315457.jpg"
+    },
+    {
+      "title": "ClouderaとEpicAI、AIの業務実装を加速する戦略的協業を発表",
+      "url": "https://japan.zdnet.com/article/35254223/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-10-30T06:44:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/30/3314809ebabfb808407de5d6baed256f/261029_cldr_001.JPG"
+    },
+    {
+      "title": "Credit Saison achieves 954% ROI in a ChatGPT Enterprise pilot",
+      "url": "https://openai.com/index/credit-saison",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-10-29T00:00:00.000Z",
+      "titleJa": "Credit Saison、ChatGPT Enterpriseの試験導入でROI 954%を達成",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/34e23f2L963CB20dvVX3gz/c3f268bf07335f43f4a63e78535105ec/credit-saison-stacked-social.png?w=1600&h=900&fit=fill"
     },
     {
       "title": "OpenAI-backed Thrive Holdings acquires ADT",
@@ -24,83 +108,8 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-10-29T19:56:19.000Z",
-      "titleJa": "OpenAI出資のThrive Holdings、ADTを買収",
+      "titleJa": "OpenAIが出資するThrive Holdings、ADTを買収",
       "image": "https://techcrunch.com/wp-content/uploads/2026/10/ADT-logo.jpg?resize=1200,800"
-    },
-    {
-      "title": "Meta quietly launches an AI fashion app called Style Sketch",
-      "url": "https://techcrunch.com/2026/10/29/meta-quietly-launches-an-ai-fashion-app-called-style-sketch/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-29T19:14:36.000Z",
-      "titleJa": "Meta、AIファッションアプリ「Style Sketch」をひっそり公開",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/meta-style-sketch.png?resize=1200,625"
-    },
-    {
-      "title": "You can generate and edit Google Docs files directly in Gemini chats now",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1022519/google-gemini-file-editing-documents-pdfs",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-10-29T18:45:31.000Z",
-      "titleJa": "Geminiのチャット内でGoogleドキュメントを直接作成・編集可能に",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/04/STK255_Google_Gemini_B_474198.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "US investigated Chinese spy plot aimed at Nvidia CEO",
-      "url": "https://techcrunch.com/2026/10/29/u-s-investigated-chinese-spy-plot-aimed-at-nvidia-ceo/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-10-29T16:42:32.000Z",
-      "titleJa": "米当局、NvidiaのCEOを狙った中国のスパイ工作を捜査",
-      "image": "https://techcrunch.com/wp-content/uploads/2022/09/nvidia-ceo-jensen-huang-with-geforce-rtx-4090.jpg?resize=1200,800"
-    },
-    {
-      "title": "オラクル、「ChatGPT」で受注や在庫、財務管理を横断できる新サービス AIの業務浸透が加速",
-      "url": "https://japan.cnet.com/article/35254118/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-29T22:05:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/29/d600242d84b3a1dc5a9b34d2fff5314f/oracleworkspace_header_20261029.jpg"
-    },
-    {
-      "title": "物理ソルバーからMODSIM、AIへ SIMULIAが描く次世代の設計／シミュレーション",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2610/30/news004.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-29T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2610/30/cover_news004.jpg"
-    },
-    {
-      "title": "音声アシとAIも搭載。距離や角度を自動調整するロボ・モニターアーム",
-      "url": "https://www.gizmodo.jp/article/cybopal-one-robot-monitor-arm/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-10-29T13:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/10/19/885f5409-4cc2-4ded-b640-4eebd1a187ed/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "NVIDIA、文字起こしAIを公開 日本語など40言語、話者の区別や翻訳も",
-      "url": "https://japan.cnet.com/article/35254167/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-29T09:15:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/29/f0e8756f531c8d3df5b20f4212898134/nvidia-large.jpg"
-    },
-    {
-      "title": "今、最も使われているプログラミング言語は？ AIコーディングでPython超えて急成長",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/29/2000002719/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-29T07:16:51.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/29/2000002719/10010896/2048"
-    },
-    {
-      "title": "クラスメソッド、AWSと5年間の戦略的協業契約を締結--クライアントゼロでAI本番活用を一貫支援",
-      "url": "https://japan.zdnet.com/article/35254144/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-10-29T04:11:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/01/27/879a24eb68e6541c77d199155c96fcf0/250127_handshake_as_1280_1012836319.jpeg"
     },
     {
       "title": "OpenAI and ServiceNow expand partnership across enterprise workflows",
@@ -108,17 +117,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-10-28T13:15:00.000Z",
-      "titleJa": "OpenAIとServiceNow、エンタープライズ向けワークフローでパートナーシップを拡大",
+      "titleJa": "OpenAIとServiceNow、エンタープライズ向けワークフローで提携を拡大",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/Gp8jNpLlW9YG0p7vG3UfM/c73fa4b5caa4ad978b022dc0123b801b/openai-servicenow-partnership-expansion-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Retell uses OpenAI models to help power 100M monthly calls",
-      "url": "https://openai.com/index/retell-ai",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-27T15:00:00.000Z",
-      "titleJa": "Retell、OpenAIのモデルを活用し月間1億件の通話を支える",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5uWhs4tBhdZ4XPHsi9IaMG/06f4b61c4303de24a65075b3eaf500b2/retell-ai-customer-story-open-graph-acoustic-fabric.png?w=1600&h=900&fit=fill"
     }
   ]
 }
