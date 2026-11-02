@@ -52,7 +52,7 @@
     "title": "【AIで作る】動くストーリーボード",
     "excerpt": "AIを使って“動く”ストーリーボードを作る方法を解説。",
     "thumb": "https://assets.st-note.com/production/uploads/images/129770368/rectangle_large_type_2_e4804db5a363bd8b9fb57de196bdee68.png?fit=bounds&quality=85&width=1280",
-    "likes": 211,
+    "likes": 210,
     "badge": "動画生成",
     "tone": "yellow"
   },
@@ -76,7 +76,7 @@
     "title": "企画(施策)の「承認フロー」を通すAI活用術｜Gemini × NotebookLM",
     "excerpt": "企画・施策の承認フローをスムーズに通すためのAI活用術を、Gemini × NotebookLMの組み合わせで。",
     "thumb": "https://assets.st-note.com/production/uploads/images/243019553/rectangle_large_type_2_0bea8a3fa731421fb2a817982eb7e19f.png?fit=bounds&quality=85&width=1280",
-    "likes": 136,
+    "likes": 135,
     "badge": "業務DX",
     "tone": "red"
   },
@@ -87,6 +87,13 @@
     "likes": 105,
     "badge": "Midjourney",
     "tone": "yellow"
+  },
+  "https://note.com/aiux_unite/n/n2744fb1ebdfa": {
+    "title": "「絵心ゼロでもOK！」手描きイラストから3DモデルをAIで自動生成してみた（ChatGPT×Tripo AI）",
+    "thumb": "https://assets.st-note.com/production/uploads/images/187630665/rectangle_large_type_2_454c8d283a0110454a566932c6c35d04.png?fit=bounds&quality=85&width=1280",
+    "likes": 197,
+    "badge": "note記事",
+    "tone": "paper"
   },
   "https://note.com/aiux_unite/n/nbc43941cd8e6": {
     "title": "Azure OpenAI Service「On your data」で実現するセキュリティを担保した社内DX",
