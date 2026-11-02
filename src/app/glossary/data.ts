@@ -55,7 +55,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-11-02";
+export const GLOSSARY_UPDATED = "2026-11-03";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
@@ -1363,15 +1363,27 @@ const TERMS_BATCH3: GlossaryTerm[] = [
       "コードを書き始めると続きを予測して提案してくれる「補完」から始まり、いまはチャットでの質問、バグ修正、エージェントに丸ごとタスクを任せる機能まで広がっています。VS Codeなどのエディタに入れて使うのが基本形です。",
       "「AIがコードを書く時代」の入り口になったツールで、ここからCursorやClaude Codeなど、より自律的に働くAIコーディングツールの競争が始まりました。プログラミング学習中の人には「答えを写す機械」ではなく「隣で手本を見せてくれる先輩」として使うのがおすすめです。",
     ],
+    sections: [
+      {
+        heading: "モデルを選ばない、という選択肢（追記）",
+        body: [
+          "2026年10月28日、GitHubが「Copilot Fusion」を正式提供に切り替えました。これはモデルではなく、モデルの選び方のほうです。使う側はどのモデルを使うかを指定せず、力の入れ具合を示す3段階（Standard・High・Max）だけを選びます。あとは依頼の内容と、そのときのモデルの稼働状況を見て、裏側が行き先を決める形です。仕事の内容が必要とするときだけモデルの呼び出しを増やす作りだと説明されています。",
+          "料金は、Fusion自体には追加料金がなく、使われた各モデルの標準の単価で課金されます。有料プランでは期間限定でモデル費用が30%割引になり、GitHubの発表は「期間限定」とだけ書いていますが、ドキュメント側では2026年11月30日までとされています。対応しているのはVS Code・GitHub Copilotアプリ・Copilot CLI・JetBrains系のIDEで、展開は順次。管理者は、使ってよいモデルの範囲とFusionを既定にするかどうかを決められます。どのプランでどの段階まで使えるかは資料によって説明が食い違っているので、業務で使う前にGitHubの案内で確認してください。",
+          "読み方としては、「どのAIを使うか」を選ぶ時代から、「どれくらい力を入れるか」を選ぶ時代への移行です。便利な一方で、同じ質問でもタイミングによって別のモデルに回ることがあり、どれが答えたのかは見えにくくなります。結果を記録に残したい作業や、同じ手順を繰り返したい作業では、モデルを自分で固定したほうが扱いやすい——この使い分けは、当サイトの「モデルルーティング」の項にまとめてあります。",
+        ],
+      },
+    ],
     links: [
       { label: "スマホのClaude Codeだけでニュースアプリを作った記録", href: "https://note.com/aiux_unite/n/n750de90c0668" },
+      { label: "体験ゲーム：AIの脳みそ、仕分けます（反射AIと熟考AIの使い分け）", href: "/nou" },
+      { label: "用語：モデルルーティング（Fusionが何をしているか）", href: "/glossary/model-routing" },
     ],
-    relatedSlugs: ["claude-code", "vibe-coding", "microsoft-copilot"],
+    relatedSlugs: ["claude-code", "vibe-coding", "microsoft-copilot", "model-routing"],
     faq: [
       { q: "GitHub Copilotは無料ですか？", a: "個人向けに無料枠があり、本格利用は有料プランです。学生や活発なOSSメンテナーには無料提供があります。" },
       { q: "Claude Codeとの違いは？", a: "Copilotはエディタ内でコードの続きを提案する補完型が出発点、Claude Codeは実装からテストまで自走するエージェント型です。最近はCopilotもエージェント機能を広げており、境界は近づいています。" },
     ],
-    lastUpdated: "2026-07-12",
+    lastUpdated: "2026-11-03",
   },
   {
     slug: "microsoft-copilot",
