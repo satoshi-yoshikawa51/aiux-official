@@ -1,14 +1,79 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-01T00:24:03.480Z",
+  "updatedAt": "2026-11-02T00:59:59.183Z",
   "items": [
+    {
+      "title": "GitHub、「Copilot Fusion」正式リリース。タスクに応じて最適なAIモデル選択で高性能かつ低コストに。GitHub Universe 2026",
+      "url": "https://www.publickey1.jp/blog/26/githubcopilot_fusionaigithub_universe_2026.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-11-02T14:36:38.000Z",
+      "image": "https://www.publickey1.jp/2026/copilot-fusion-githubuniverse2601.png"
+    },
+    {
+      "title": "約960gで14型有機EL搭載！「Acer Swift Air 14」軽量AIノートPC全4機種",
+      "url": "https://ascii.jp/elem/000/004/447/4447613/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-02T00:30:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/02/4546689/xl/0d5c1188018468b6.jpg?20200122"
+    },
+    {
+      "title": "OpenAI might rebrand its data centers as ‘AI compute campuses’",
+      "url": "https://techcrunch.com/2026/11/01/openai-might-rebrand-its-data-centers-as-ai-compute-campuses/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-01T21:55:23.000Z",
+      "titleJa": "OpenAI、データセンターを「AIコンピュートキャンパス」に改称か",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2283113936-maller.jpg?w=1024"
+    },
+    {
+      "title": "ガートナー、2027年のテクノロジートレンドを発表--AIだけにとどまらない",
+      "url": "https://japan.zdnet.com/article/35253894/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-01T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/23/93184e24063a290c8fc778d5a4f0fe21/facing-portalGettyImages-2292677200_l.jpg"
+    },
+    {
+      "title": "法人カード向けAI連携サーバーのβ版が提供開始、チャット操作で明細集計や証憑紐付けを完結",
+      "url": "https://ascii.jp/elem/000/004/447/4447413/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-01T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/30/4546287/xl/1347d5c1457a9c4e.jpg"
+    },
+    {
+      "title": "住宅購入AIフレームワークをGitHubで無料公開。850人の不動産エージェント知見をオープンソース化",
+      "url": "https://ascii.jp/elem/000/004/447/4447415/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-01T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/10/30/4546293/xl/a84cb861a4db005a.jpg"
+    },
+    {
+      "title": "スターバックスが学んだ「AI導入後」の教訓、米企業もROI創出に苦戦",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03807/102700001/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-11-01T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03807/102700001/topm.jpg?20220512"
+    },
+    {
+      "title": "日本のAIクリエイターと世界のAI企業をつなぐ。海外AIの日本展開を支援するM2IEが、AIコミュニティ「AI Play（エーアイプレイ）」を公開し、日本のAI産業を盛り上げる",
+      "url": "https://ascii.jp/elem/000/004/447/4447620/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-01T20:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
     {
       "title": "Judge allows NAACP lawsuit over xAI data center pollution to move forward",
       "url": "https://techcrunch.com/2026/10/31/judge-allows-naacp-lawsuit-over-xai-data-center-pollution-to-move-forward/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-10-31T21:17:03.000Z",
-      "titleJa": "xAIデータセンターの汚染めぐるNAACPの訴訟、裁判官が審理継続を認める",
+      "titleJa": "xAIデータセンターの汚染巡るNAACP訴訟、裁判官が続行を認める",
       "image": "https://techcrunch.com/wp-content/uploads/2025/06/GettyImages-2217198328.jpeg?resize=1200,800"
     },
     {
@@ -17,43 +82,17 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-10-31T16:12:55.000Z",
-      "titleJa": "OpenAI、新ラウンドの調達目標を引き下げか",
+      "titleJa": "OpenAI、新ラウンドの資金調達目標を引き下げと報道",
       "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-green.jpg?w=1024"
     },
     {
-      "title": "Nvidia weighs playing the cosigner for Nscale’s AI data center in West Virginia",
-      "url": "https://techcrunch.com/2026/10/30/nvidia-weighs-playing-the-cosigner-for-nscales-ai-data-center-in-west-virginia/",
-      "source": "TechCrunch",
+      "title": "I built an AI Tamagotchi before Meta could",
+      "url": "https://www.theverge.com/gadgets/1013375/muse-charm-gadgets-preview-waveshare-esp32-claude-vibe-code",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-10-31T01:20:05.000Z",
-      "titleJa": "Nvidia、Nscaleのウェストバージニア州AIデータセンターで連帯保証人役を検討",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/03/GettyImages-2235971874.jpg?resize=1200,800"
-    },
-    {
-      "title": "OpenAI アルトマンCEO「PCに大量のRAMを搭載するのは問題」と発言。ローカルAIより「クラウドで24時間活用すべき」との考え語る | テクノエッジ TechnoEdge",
-      "url": "https://www.techno-edge.net/article/2026/10/31/5657.html",
-      "source": "テクノエッジ",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 218,
-      "date": "2026-10-31T07:41:11.000Z",
-      "image": "https://www.techno-edge.net/imgs/ogp_f/35250.jpg"
-    },
-    {
-      "title": "【AOSU】AIが「監視」から「行動理解」へ。 固定カメラと追尾カメラを1台に搭載した2in1ソーラー防犯カメラ「AOSU C9P21」を発売",
-      "url": "https://ascii.jp/elem/000/004/447/4447544/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-31T07:34:01.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "Uravation、「部門別 ChatGPT 業務プロンプト集 50」を無料公開。10部門の50本を「役割・材料・形式・制約・確かめ方」の5つの型でそろえ、絞り込めるExcelを同梱しました",
-      "url": "https://ascii.jp/elem/000/004/447/4447541/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-10-31T07:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "date": "2026-10-31T16:05:00.000Z",
+      "titleJa": "Metaより先に、AI版Tamagotchiを作ってみた",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/verge-sean-hollister-muse-gadget-331A2564-01-3.jpg?quality=90&strip=all&crop=4%2C9.7534360513847%2C96%2C75.393048208485&w=1200"
     },
     {
       "title": "AIの「費用対効果が分からない」問題、解決へ？ Claude Enterprise搭載の「3つの新機能」",
@@ -69,7 +108,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-10-30T21:09:54.000Z",
-      "titleJa": "Cursor上のAnthropic製VS Code拡張機能、約12時間にわたりバックドアが仕込まれる",
+      "titleJa": "Cursor上のAnthropic製VS Code拡張機能、約12時間にわたりバックドア仕込まれる",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2022/05/caution-tape-1000x648.jpeg"
     },
     {
@@ -78,49 +117,8 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-10-30T13:01:14.000Z",
-      "titleJa": "Sam Altman、数学者に同情も「OpenAIの数学攻勢は止まらない」",
+      "titleJa": "Sam Altman、数学者に同情しつつも「OpenAIの数学攻勢は止まらない」",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/10/Vrg_illo_Sam_Altman_stock_trial.jpg?quality=90&strip=all&crop=0%2C12.339110464558%2C100%2C75.321779070884&w=1200"
-    },
-    {
-      "title": "グーグルのAI半導体、宇宙での動作を確認 「俳句」を生成したと発表",
-      "url": "https://japan.cnet.com/article/35254241/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-10-30T22:30:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/10/31/e94c6a13e80a008a0850e1d18d4ef841/suncatcher_20261031_large.jpg"
-    },
-    {
-      "title": "キオクシア中間決算「過去最高」連呼 純利益2.2兆円、初の配当実施 AI需要で「成長さらに加速」",
-      "url": "https://www.itmedia.co.jp/business/articles/2610/30/news090.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-30T12:45:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2610/30/cover_news090.jpg"
-    },
-    {
-      "title": "“でぶねこ”の重み公開 1兆パラメータのAIモデル「Mistral Large 4」（Le Chonk）がダウンロード可能に",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2610/30/2000002762/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-10-30T08:46:58.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2610/30/2000002762/10011028/2048"
-    },
-    {
-      "title": "アクセンチュアがOpenAIのセキュリティー基盤導入を支援、中堅企業も照準",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12135/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-10-30T08:20:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12135/topm.jpg?20220512"
-    },
-    {
-      "title": "An updated Model Spec for more capable and beneficial AI",
-      "url": "https://openai.com/index/updated-model-spec",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-10-29T17:00:00.000Z",
-      "titleJa": "より有能で有益なAIに向けてModel Specを更新",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/75veJvi069XNefheZKrGT3/524e301a9565289e83b5a666d47b3da5/model-spec-update-more-capable-beneficial-ai-seo.png?w=1600&h=900&fit=fill"
     }
   ]
 }
