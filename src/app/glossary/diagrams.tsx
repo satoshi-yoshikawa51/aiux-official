@@ -1963,6 +1963,21 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "recursive-self-improvement": {
+    caption: "RSIかどうかは、速さの物差しで決まる",
+    render: () => (
+      <Svg h={290} title="再帰的自己改善（RSI）の線引きの図解">
+        <T x={300} y={22} text="Anthropicが自分で引いている線" size={13.5} color={INK} />
+        <B x={30} y={44} w={245} h={56} label="ふつうの進歩" sub="改善の速さは、それまでどおり" />
+        <AH x1={280} x2={330} y={72} label="2倍" />
+        <B x={338} y={44} w={232} h={56} label="劇的に加速した進歩" sub="しかもAIのおかげと言える" fill={YELLOW} />
+        <AV x={454} y1={104} y2={134} />
+        <B x={120} y={138} w={450} h={52} label="RSPの基準に当てはまる" sub="人が主導権を保つ仕組みを見直す段階" />
+        <B x={30} y={204} w={540} h={52} label="2026年11月時点、超えたモデルはない" sub="「近いかもしれない」と届出書に書かれた段階" dashed={true} />
+        <T x={300} y={278} text="物差しを持っているのは、走っている当人です" size={13} color={INK} />
+      </Svg>
+    ),
+  },
   "model-routing": {
     caption: "選ぶのはモデルではなく、任せ方",
     render: () => (
