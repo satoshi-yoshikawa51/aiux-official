@@ -1963,6 +1963,38 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "model-routing": {
+    caption: "選ぶのはモデルではなく、任せ方",
+    render: () => (
+      <Svg h={304} title="モデルルーティングの仕組みの図解">
+        <T x={300} y={22} text="受付で用件を聞いて、行き先を決める" size={13.5} color={INK} />
+        <B x={175} y={40} w={250} h={50} label="ひとつの依頼" sub="短い質問も、長い作業も" />
+        <AV x={300} y1={94} y2={124} />
+        <B x={120} y={128} w={360} h={52} label="振り分け役（ルーター）" sub="内容の重さと、モデルの混み具合を見る" fill={YELLOW} />
+        <AV x={110} y1={184} y2={210} />
+        <AV x={300} y1={184} y2={210} />
+        <AV x={490} y1={184} y2={210} />
+        <B x={20} y={214} w={180} h={58} label="小さいモデル" sub="簡単な用。速くて安い" />
+        <B x={210} y={214} w={180} h={58} label="大きいモデル" sub="難しい用。遅くて高い" />
+        <B x={400} y={214} w={180} h={58} label="順に上へ渡す" sub="足りなければ上位へ" />
+        <T x={300} y={294} text="便利さと引き換えに、どれが答えたのかは見えにくくなる" size={13} color={INK} />
+      </Svg>
+    ),
+  },
+  mistral: {
+    caption: "落とせる範囲と、契約が要る範囲",
+    render: () => (
+      <Svg h={306} title="Mistral Large 4の重み公開とライセンスの範囲の図解">
+        <T x={300} y={22} text="重みは誰でも落とせる。その先に線が2本ある" size={13.5} color={INK} />
+        <B x={30} y={44} w={540} h={52} label="重みをダウンロードする" sub="Hugging Faceから、申請も承認もなし" fill={YELLOW} />
+        <AV x={300} y1={100} y2={130} />
+        <B x={30} y={134} w={540} h={52} label="動かす" sub="データセンター級のGPUが必要。手元のパソコンでは動かない" />
+        <AV x={300} y1={190} y2={220} />
+        <B x={30} y={224} w={540} h={52} label="第三者にサービスとして提供する" sub="Mistralとの別の商用契約が必要" dashed={true} />
+        <T x={300} y={298} text="落とせることと、何をしてもいいことは別" size={13} color={INK} />
+      </Svg>
+    ),
+  },
   "gemini-4-carbon": {
     caption: "強い機能ほど、配る順番が変わる",
     render: () => (
