@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-03T03:02:11.350Z",
+  "updatedAt": "2026-11-04T01:37:44.662Z",
   "items": [
+    {
+      "title": "バイナンス1兆円流出、侵入のきっかけは「偽の採用面接」 AIツールも悪用",
+      "url": "https://ascii.jp/elem/000/004/448/4448067/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-04T01:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/04/4547370/xl/35cfc9c32cd4bb37.png?20200122"
+    },
+    {
+      "title": "OpenAI appoints Jill Hazelbaker as Chief Corporate Affairs Officer",
+      "url": "https://openai.com/index/jill-hazelbaker-chief-corporate-affairs-officer",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-03T00:00:00.000Z",
+      "titleJa": "OpenAI、Jill Hazelbaker氏を最高コーポレートアフェアーズ責任者に任命",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/12cWiOrhEJBVjJpSKoRNzC/62cac2e1b99cd5ba56661755d6945157/jill-hazelbaker-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Anthropic is working on a system to prove AI models’ identity",
+      "url": "https://techcrunch.com/2026/11/03/anthropic-is-working-on-a-system-to-prove-ai-models-identity/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-03T22:41:03.000Z",
+      "titleJa": "Anthropic、AIモデルの身元を証明するシステムを開発中",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2294192768.jpg?resize=1200,798"
+    },
+    {
+      "title": "AI inference startup Fal doubles its valuation to $16B as demand surges",
+      "url": "https://techcrunch.com/2026/11/03/ai-inference-startup-fal-doubles-its-valuation-to-16b-as-demand-surges/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-03T19:34:43.000Z",
+      "titleJa": "AI推論スタートアップFal、需要急増で企業価値が倍増し160億ドルに",
+      "image": "https://techcrunch.com/wp-content/uploads/2022/12/GettyImages-1268605503.jpg?resize=1200,420"
+    },
+    {
+      "title": "OpenAI says ChatGPT is catching up to Google in search",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1025482/openai-says-chatgpt-is-catching-up-to-google-in-search",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-03T18:30:42.000Z",
+      "titleJa": "OpenAI、ChatGPTは検索でGoogleに追いつきつつあると主張",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK155_OPEN_AI_CVirginia_C-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Anthropic is still grappling with the economics of compute",
+      "url": "https://techcrunch.com/2026/11/03/anthropic-is-still-grappling-with-the-economics-of-compute/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-03T17:07:01.000Z",
+      "titleJa": "Anthropic、いまだ計算資源の採算性に苦戦",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2294935494.jpg?resize=1200,800"
+    },
+    {
+      "title": "Netflix、気分で作品を探す「AI Discover」を米で試験導入 テレビ向け",
+      "url": "https://japan.cnet.com/article/35254327/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-03T22:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/04/ec9c89aaff2e11f2623bd5a39372afb7/011.jpeg"
+    },
+    {
+      "title": "AI時代の新入社員育成とは？「ゆるい職場」で広がる成長不安を解消する「キャリア自律型」研修設計を解説＜動画公開＞",
+      "url": "https://ascii.jp/elem/000/004/448/4448058/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-03T22:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "資料作成の「手直し地獄」がちょっと楽になる、Gemini新機能発表まとめ",
+      "url": "https://kn.itmedia.co.jp/kn/article/2611/04/2000002816/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-03T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2611/04/2000002816/10011179/2048"
+    },
+    {
+      "title": "東北大とアイシンがSTT-MRAM搭載AIチップを開発、16nmプロセスでは世界初",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2611/04/news046.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-03T21:45:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2611/04/cover_news046.jpg"
+    },
+    {
+      "title": "全社員を「AIマスター化」した広告代理店の“研修じゃない”人材戦略",
+      "url": "https://kn.itmedia.co.jp/kn/article/2611/04/2000002712/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-03T21:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2611/04/2000002712/10010860/2048"
+    },
+    {
+      "title": "JPモルガンやロッキードにみるAI導入「4原則」、日本企業への示唆",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03807/102700002/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-11-03T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03807/102700002/topm.jpg?20220512"
+    },
+    {
+      "title": "GitHub、より高度なコードレビューを行う「Copilot Code Review Max」発表。GitHub Universe 2026",
+      "url": "https://www.publickey1.jp/blog/26/githubcopilot_code_review_maxgithub_universe_2026.html",
+      "source": "Publickey",
+      "lang": "ja",
+      "date": "2026-11-03T15:14:57.000Z",
+      "image": "https://www.publickey1.jp/2026/copilot-codereviewmax-githubuniverse2603.png"
+    },
     {
       "title": "Preparing our next security sprint to harden OpenAI",
       "url": "https://openai.com/index/preparing-our-next-security-sprint-to-harden-openai",
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-11-02T18:00:00.000Z",
-      "titleJa": "OpenAIを強化する次のセキュリティスプリントに向けて",
+      "titleJa": "OpenAIの防御を固める次のセキュリティスプリントを準備",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/3I6XNOAyDMl6T0tummrXmo/b10602bfeb5ca42409706b86011ceacb/preparing-our-next-security-sprint-to-harden-openai-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Scaling Git at OpenAI",
-      "url": "https://openai.com/index/scaling-git-at-openai",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-02T15:30:00.000Z",
-      "titleJa": "OpenAIにおけるGitのスケーリング",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/CMZECnCACxZO52Dqy7SnB/d7451310a4c165a396517dc7387b9b71/scaling-git-at-openai-seo-card.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Anthropic warns that it’s very close to RSI capability, aka self-building AI",
-      "url": "https://techcrunch.com/2026/11/02/anthropic-warns-that-its-very-close-to-rsi-capability-aka-self-building-ai/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-02T22:14:50.000Z",
-      "titleJa": "Anthropic、自己構築AI「RSI」能力の実現が目前と警告",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/11/Recursive-Neural-Spiral-in-Circuitry.png?resize=1200,600"
-    },
-    {
-      "title": "Anthropic clamps down on Claude’s AI video game clones",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1024632/anthropic-claude-ai-video-game-clones",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-11-02T18:56:02.000Z",
-      "titleJa": "Anthropic、ClaudeによるAIゲームのクローン生成を取り締まり",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/01/STK269_ANTHROPIC_2_B.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "Coming in 2027: Apple’s $1,000 home robot for FaceTime and switching on lights",
-      "url": "https://arstechnica.com/apple/2026/11/apples-roaming-home-robot-may-do-facetime-switch-lights-on-and-yell-at-your-cat/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-02T18:32:21.000Z",
-      "titleJa": "2027年登場か：FaceTimeや照明操作に対応するApple の1000ドル家庭用ロボット",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Apple-CEO-John-Ternus-1152x648.jpg"
-    },
-    {
-      "title": "Claude’s new rules against game cloning won’t stop the AI copying boom",
-      "url": "https://arstechnica.com/ai/2026/11/claudes-new-rules-against-game-cloning-wont-stop-the-ai-copying-boom/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-02T18:05:31.000Z",
-      "titleJa": "Claudeのゲームクローン禁止の新ルールでも、AIによる模倣ブームは止まらない",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/GettyImages-1180626096-1152x648.jpg"
-    },
-    {
-      "title": "Marvell、光通信技術のLumentumを約18兆円で買収 AIデータセンターの高速化に対応",
-      "url": "https://www.itmedia.co.jp/news/article/2611/03/2000002830/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-02T22:07:56.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/03/2000002830/10011205/2048"
-    },
-    {
-      "title": "NVIDIAが次世代CPU「RTX Spark」搭載製品の発売開始で技術説明会を開催",
-      "url": "https://ascii.jp/elem/000/004/447/4447997/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-02T17:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/03/4547242/xl/e77f38063f069c9b.jpg?20200122"
-    },
-    {
-      "title": "GMO、2年前の脆弱性指摘後も再診断せず 自社AI診断のグループ適用は事件後",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12148/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-11-02T14:50:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12148/topm.jpg?20220512"
-    },
-    {
-      "title": "GitHub、「Copilot Fusion」正式リリース。タスクに応じて最適なAIモデル選択で高性能かつ低コストに。GitHub Universe 2026",
-      "url": "https://www.publickey1.jp/blog/26/githubcopilot_fusionaigithub_universe_2026.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-11-02T14:36:38.000Z",
-      "image": "https://www.publickey1.jp/2026/copilot-fusion-githubuniverse2601.png"
-    },
-    {
-      "title": "【イベントレポート】マイキー佐野、さくらインベスト主催の投資セミナーに登壇。AIバブルの行方と米中対立を踏まえた投資戦略を解説",
-      "url": "https://ascii.jp/elem/000/004/448/4448000/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-02T10:30:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "ChatGPTやClaudeなど、いつものAIに「作って」と頼むだけで3D動画が完成。月額契約不要・カード不要で始められる「JANCTION Render」、商用展開を開始",
-      "url": "https://ascii.jp/elem/000/004/448/4448001/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-02T10:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "キオクシア、2桁成長に“急ブレーキ”？ Q3「売上収益1％増」、決算説明会で幹部らが語ったこと",
-      "url": "https://www.itmedia.co.jp/business/articles/2611/02/news048.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-02T03:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2611/02/cover_news048.jpg"
-    },
-    {
-      "title": "パナソニックHD、AI需要で過去最高益へ--目標2年前倒し達成も「改革はまだ3合目」",
-      "url": "https://japan.zdnet.com/article/35254230/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-11-02T02:33:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/31/5ec4c267024b073a5eb5226eab2caa46/261030_panasonic_l.jpg"
     }
   ]
 }
