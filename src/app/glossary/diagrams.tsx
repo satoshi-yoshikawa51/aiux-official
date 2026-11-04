@@ -1963,6 +1963,24 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "provable-inference": {
+    caption: "答えだけでは、どのモデルが出したか分からない",
+    render: () => (
+      <Svg h={302} title="証明可能な推論のしくみの図解">
+        <T x={300} y={22} text="いまの仕組み" size={13.5} color={INK} bold={true} />
+        <B x={30} y={40} w={250} h={52} label="提供元のサーバー" sub="中で動いたモデルは見えない" />
+        <AH x1={285} x2={330} y={66} />
+        <B x={338} y={40} w={232} h={52} label="答えだけが返る" sub="名前を信じるしかない" />
+        <T x={300} y={118} text="証明可能な推論を足すと" size={13.5} color={INK} bold={true} />
+        <B x={30} y={136} w={250} h={52} label="モデルの指紋を公開" sub="重みそのものは明かさない" fill={YELLOW} />
+        <AH x1={285} x2={330} y={162} />
+        <B x={338} y={136} w={232} h={52} label="答え＋証明が返る" sub="応答ごとに作られる" />
+        <AV x={454} y1={192} y2={218} />
+        <B x={120} y={222} w={450} h={50} label="手元で照合できる" sub="このモデルが出した、と確かめられる" />
+        <T x={300} y={294} text="分かるのは「誰が答えたか」。答えの正しさは別の話" size={13} color={INK} />
+      </Svg>
+    ),
+  },
   "recursive-self-improvement": {
     caption: "RSIかどうかは、速さの物差しで決まる",
     render: () => (
