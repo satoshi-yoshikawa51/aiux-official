@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-04T01:37:44.662Z",
+  "updatedAt": "2026-11-05T01:45:41.983Z",
   "items": [
     {
-      "title": "バイナンス1兆円流出、侵入のきっかけは「偽の採用面接」 AIツールも悪用",
-      "url": "https://ascii.jp/elem/000/004/448/4448067/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-04T01:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/04/4547370/xl/35cfc9c32cd4bb37.png?20200122"
+      "title": "Apple is reportedly cutting budgets for its internal AI usage",
+      "url": "https://techcrunch.com/2026/11/04/apple-is-reportedly-cutting-budgets-for-its-internal-ai-usage/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-05T01:26:22.000Z",
+      "titleJa": "Apple、社内のAI利用予算を削減か",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/06/iphone-usb-cable.jpg?resize=1200,800"
     },
     {
-      "title": "OpenAI appoints Jill Hazelbaker as Chief Corporate Affairs Officer",
-      "url": "https://openai.com/index/jill-hazelbaker-chief-corporate-affairs-officer",
+      "title": "OpenAI to acquire Pierre Computer Company, Inc.",
+      "url": "https://openai.com/index/openai-to-acquire-pierre",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-11-03T00:00:00.000Z",
-      "titleJa": "OpenAI、Jill Hazelbaker氏を最高コーポレートアフェアーズ責任者に任命",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/12cWiOrhEJBVjJpSKoRNzC/62cac2e1b99cd5ba56661755d6945157/jill-hazelbaker-social.png?w=1600&h=900&fit=fill"
+      "date": "2026-11-04T14:30:00.000Z",
+      "titleJa": "OpenAI、Pierre Computer Company, Inc.を買収へ",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/5lDkYRSw86lFyHulgkyVVr/5b20bd6b90c3d87c33b780884b48123a/openai-to-acquire-pierre-computer-company-inc-social.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "Anthropic is working on a system to prove AI models’ identity",
-      "url": "https://techcrunch.com/2026/11/03/anthropic-is-working-on-a-system-to-prove-ai-models-identity/",
+      "title": "DevRev delivers autonomous self-service with GPT-6.1 Sol",
+      "url": "https://openai.com/index/devrev-enterprise-self-service",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-04T00:00:00.000Z",
+      "titleJa": "DevRev、GPT-6.1 Solで自律型セルフサービスを実現",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/wbLuf3JmoXr8PLJs6ENpY/a84a25ea67b1c35ae01cfad0ee60e1c7/og.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "OpenAI is already trying to shape the 2028 election",
+      "url": "https://techcrunch.com/2026/11/04/openai-is-already-trying-to-shape-the-2028-election/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-11-03T22:41:03.000Z",
-      "titleJa": "Anthropic、AIモデルの身元を証明するシステムを開発中",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2294192768.jpg?resize=1200,798"
+      "date": "2026-11-04T21:25:44.000Z",
+      "titleJa": "OpenAI、早くも2028年の選挙に影響力を及ぼそうと動く",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2263890424.jpg?w=1024"
     },
     {
-      "title": "AI inference startup Fal doubles its valuation to $16B as demand surges",
-      "url": "https://techcrunch.com/2026/11/03/ai-inference-startup-fal-doubles-its-valuation-to-16b-as-demand-surges/",
+      "title": "Meta acquires AI coding startup Conductor",
+      "url": "https://techcrunch.com/2026/11/04/meta-acquires-ai-coding-startup-conductor/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-11-03T19:34:43.000Z",
-      "titleJa": "AI推論スタートアップFal、需要急増で企業価値が倍増し160億ドルに",
-      "image": "https://techcrunch.com/wp-content/uploads/2022/12/GettyImages-1268605503.jpg?resize=1200,420"
+      "date": "2026-11-04T21:10:56.000Z",
+      "titleJa": "Meta、AIコーディングのスタートアップConductorを買収",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/mark-zuckerberg-ray-bans.png?resize=1200,653"
     },
     {
-      "title": "OpenAI says ChatGPT is catching up to Google in search",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1025482/openai-says-chatgpt-is-catching-up-to-google-in-search",
+      "title": "Gemini for Home now plugs into AT&T’s smart security system",
+      "url": "https://www.theverge.com/tech/1026787/att-gemini-for-home-connected-life-security-system",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-11-03T18:30:42.000Z",
-      "titleJa": "OpenAI、ChatGPTは検索でGoogleに追いつきつつあると主張",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK155_OPEN_AI_CVirginia_C-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "date": "2026-11-04T20:23:24.000Z",
+      "titleJa": "Gemini for Home、AT&Tのスマートセキュリティシステムに対応",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/att-connected-life.webp?quality=90&strip=all&crop=0,12.378907107251,100,75.242185785497"
     },
     {
-      "title": "Anthropic is still grappling with the economics of compute",
-      "url": "https://techcrunch.com/2026/11/03/anthropic-is-still-grappling-with-the-economics-of-compute/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-03T17:07:01.000Z",
-      "titleJa": "Anthropic、いまだ計算資源の採算性に苦戦",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2294935494.jpg?resize=1200,800"
-    },
-    {
-      "title": "Netflix、気分で作品を探す「AI Discover」を米で試験導入 テレビ向け",
-      "url": "https://japan.cnet.com/article/35254327/",
+      "title": "Nothing、初のAI専用端末を12月出荷へ 「スマホアプリでは実現できない」機能搭載",
+      "url": "https://japan.cnet.com/article/35254399/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-03T22:45:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/04/ec9c89aaff2e11f2623bd5a39372afb7/011.jpeg"
+      "date": "2026-11-04T22:57:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/05/d8989812411457ae7fc3080e8517e8f2/nothing-ai-large.jpg"
     },
     {
-      "title": "AI時代の新入社員育成とは？「ゆるい職場」で広がる成長不安を解消する「キャリア自律型」研修設計を解説＜動画公開＞",
-      "url": "https://ascii.jp/elem/000/004/448/4448058/?rss",
-      "source": "ASCII.jp",
+      "title": "「Muse」を使っていなくてもAIエージェントが非公開のメッセージにアクセスできる仕組みとは",
+      "url": "https://japan.zdnet.com/article/35254098/",
+      "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-11-03T22:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "date": "2026-11-04T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/10/28/a1181def4adbe61ea7a60648b808062a/large-GettyImages-2293791808.jpg"
     },
     {
-      "title": "資料作成の「手直し地獄」がちょっと楽になる、Gemini新機能発表まとめ",
-      "url": "https://kn.itmedia.co.jp/kn/article/2611/04/2000002816/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-03T22:00:00.000Z",
-      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2611/04/2000002816/10011179/2048"
-    },
-    {
-      "title": "東北大とアイシンがSTT-MRAM搭載AIチップを開発、16nmプロセスでは世界初",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2611/04/news046.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-03T21:45:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2611/04/cover_news046.jpg"
-    },
-    {
-      "title": "全社員を「AIマスター化」した広告代理店の“研修じゃない”人材戦略",
-      "url": "https://kn.itmedia.co.jp/kn/article/2611/04/2000002712/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-03T21:00:00.000Z",
-      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2611/04/2000002712/10010860/2048"
-    },
-    {
-      "title": "JPモルガンやロッキードにみるAI導入「4原則」、日本企業への示唆",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03807/102700002/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-11-03T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03807/102700002/topm.jpg?20220512"
-    },
-    {
-      "title": "GitHub、より高度なコードレビューを行う「Copilot Code Review Max」発表。GitHub Universe 2026",
-      "url": "https://www.publickey1.jp/blog/26/githubcopilot_code_review_maxgithub_universe_2026.html",
+      "title": "「GitHub Copilot Dreaming」発表。作業を振り返ってパーソナルメモリやガイダンスをバックグラウンドで整理、アップデート。GitHub Universe 2026",
+      "url": "https://www.publickey1.jp/blog/26/github_copilot_dreaminggithub_universe_2026.html",
       "source": "Publickey",
       "lang": "ja",
-      "date": "2026-11-03T15:14:57.000Z",
-      "image": "https://www.publickey1.jp/2026/copilot-codereviewmax-githubuniverse2603.png"
+      "date": "2026-11-04T15:15:49.000Z",
+      "image": "https://www.publickey1.jp/2026/copilot-fusion-githubuniverse2602.png"
     },
     {
-      "title": "Preparing our next security sprint to harden OpenAI",
-      "url": "https://openai.com/index/preparing-our-next-security-sprint-to-harden-openai",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-02T18:00:00.000Z",
-      "titleJa": "OpenAIの防御を固める次のセキュリティスプリントを準備",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/3I6XNOAyDMl6T0tummrXmo/b10602bfeb5ca42409706b86011ceacb/preparing-our-next-security-sprint-to-harden-openai-social.png?w=1600&h=900&fit=fill"
+      "title": "19万円台で買える最新CPU搭載＝14型960gの軽量AIノート PC「Acer Swift Air 14」発表!!",
+      "url": "https://ascii.jp/elem/000/004/448/4448552/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-04T15:01:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/04/4547847/xl/b29d8efea0aa6916.png?20200122"
+    },
+    {
+      "title": "国産AI開発のNoetra、テックブログ開設 「開発現場での試行錯誤や工夫」も発信",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/04/2000002886/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-04T09:45:50.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/04/2000002886/10011327/2048"
+    },
+    {
+      "title": "米中間選挙で民主圧勝、「青い波」がAIブームに冷や水か 規制強化の公算",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12155/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-11-04T09:25:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12155/topm.jpg?20220512"
+    },
+    {
+      "title": "1Finity、AIとモバイル通信を統合「AI-Native vRAN」構想を展開--中核ソフトウェアを12月提供開始",
+      "url": "https://japan.zdnet.com/article/35254368/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-04T06:23:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/02/20/3f1df6775d071eff66d8be55587b07f1/250220_enterprise_as_1280_721823729.jpeg"
+    },
+    {
+      "title": "ワークデイ、開発者向けプログラムを開始--エージェント前提のエコシステム拡大へ",
+      "url": "https://japan.zdnet.com/article/35254362/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-04T06:01:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/04/ae465bdf94c486684155d67d792499be/workday_l.jpg"
     }
   ]
 }
