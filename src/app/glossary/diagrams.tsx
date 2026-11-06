@@ -1963,6 +1963,54 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "gpt-6-cyber": {
+    caption: "強い能力ほど、配る相手を先に絞る",
+    render: () => (
+      <Svg h={288} title="GPT-6 Cyberの提供範囲の図解">
+        <T x={300} y={22} text="機能を絞るのではなく、モデルごと審査の向こう側へ" size={13.5} color={INK} />
+        <B x={30} y={44} w={240} h={54} label="GPT-6 Astra" sub="汎用のフロンティアモデル" />
+        <AH x1={275} x2={322} y={71} />
+        <B x={330} y={44} w={240} h={54} label="GPT-6 Cyber" sub="2026年11月5日発表" fill={YELLOW} />
+        <AV x={450} y1={102} y2={130} />
+        <B x={30} y={134} w={540} h={56} label="Daybreak Redの承認済み顧客だけ" sub="身元確認・多要素認証・呼び出せるネットワークの制限" />
+        <B x={30} y={202} w={540} h={46} label="一般への提供時期は示されていない" dashed={true} />
+        <T x={300} y={274} text="危険度はOpenAI自身の基準で最上位に分類されている" size={13} color={INK} />
+      </Svg>
+    ),
+  },
+  "provable-inference": {
+    caption: "答えだけでは、どのモデルが出したか分からない",
+    render: () => (
+      <Svg h={302} title="証明可能な推論のしくみの図解">
+        <T x={300} y={22} text="いまの仕組み" size={13.5} color={INK} bold={true} />
+        <B x={30} y={40} w={250} h={52} label="提供元のサーバー" sub="中で動いたモデルは見えない" />
+        <AH x1={285} x2={330} y={66} />
+        <B x={338} y={40} w={232} h={52} label="答えだけが返る" sub="名前を信じるしかない" />
+        <T x={300} y={118} text="証明可能な推論を足すと" size={13.5} color={INK} bold={true} />
+        <B x={30} y={136} w={250} h={52} label="モデルの指紋を公開" sub="重みそのものは明かさない" fill={YELLOW} />
+        <AH x1={285} x2={330} y={162} />
+        <B x={338} y={136} w={232} h={52} label="答え＋証明が返る" sub="応答ごとに作られる" />
+        <AV x={454} y1={192} y2={218} />
+        <B x={120} y={222} w={450} h={50} label="手元で照合できる" sub="このモデルが出した、と確かめられる" />
+        <T x={300} y={294} text="分かるのは「誰が答えたか」。答えの正しさは別の話" size={13} color={INK} />
+      </Svg>
+    ),
+  },
+  "recursive-self-improvement": {
+    caption: "RSIかどうかは、速さの物差しで決まる",
+    render: () => (
+      <Svg h={290} title="再帰的自己改善（RSI）の線引きの図解">
+        <T x={300} y={22} text="Anthropicが自分で引いている線" size={13.5} color={INK} />
+        <B x={30} y={44} w={245} h={56} label="ふつうの進歩" sub="改善の速さは、それまでどおり" />
+        <AH x1={280} x2={330} y={72} label="2倍" />
+        <B x={338} y={44} w={232} h={56} label="劇的に加速した進歩" sub="しかもAIのおかげと言える" fill={YELLOW} />
+        <AV x={454} y1={104} y2={134} />
+        <B x={120} y={138} w={450} h={52} label="RSPの基準に当てはまる" sub="人が主導権を保つ仕組みを見直す段階" />
+        <B x={30} y={204} w={540} h={52} label="2026年11月時点、超えたモデルはない" sub="「近いかもしれない」と届出書に書かれた段階" dashed={true} />
+        <T x={300} y={278} text="物差しを持っているのは、走っている当人です" size={13} color={INK} />
+      </Svg>
+    ),
+  },
   "model-routing": {
     caption: "選ぶのはモデルではなく、任せ方",
     render: () => (
