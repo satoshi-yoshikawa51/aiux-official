@@ -1,124 +1,123 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-05T01:45:41.983Z",
+  "updatedAt": "2026-11-06T01:46:15.757Z",
   "items": [
     {
-      "title": "Apple is reportedly cutting budgets for its internal AI usage",
-      "url": "https://techcrunch.com/2026/11/04/apple-is-reportedly-cutting-budgets-for-its-internal-ai-usage/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-05T01:26:22.000Z",
-      "titleJa": "Apple、社内のAI利用予算を削減か",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/06/iphone-usb-cable.jpg?resize=1200,800"
-    },
-    {
-      "title": "OpenAI to acquire Pierre Computer Company, Inc.",
-      "url": "https://openai.com/index/openai-to-acquire-pierre",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-04T14:30:00.000Z",
-      "titleJa": "OpenAI、Pierre Computer Company, Inc.を買収へ",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5lDkYRSw86lFyHulgkyVVr/5b20bd6b90c3d87c33b780884b48123a/openai-to-acquire-pierre-computer-company-inc-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "DevRev delivers autonomous self-service with GPT-6.1 Sol",
-      "url": "https://openai.com/index/devrev-enterprise-self-service",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-04T00:00:00.000Z",
-      "titleJa": "DevRev、GPT-6.1 Solで自律型セルフサービスを実現",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/wbLuf3JmoXr8PLJs6ENpY/a84a25ea67b1c35ae01cfad0ee60e1c7/og.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "OpenAI is already trying to shape the 2028 election",
-      "url": "https://techcrunch.com/2026/11/04/openai-is-already-trying-to-shape-the-2028-election/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-04T21:25:44.000Z",
-      "titleJa": "OpenAI、早くも2028年の選挙に影響力を及ぼそうと動く",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-2263890424.jpg?w=1024"
-    },
-    {
-      "title": "Meta acquires AI coding startup Conductor",
-      "url": "https://techcrunch.com/2026/11/04/meta-acquires-ai-coding-startup-conductor/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-04T21:10:56.000Z",
-      "titleJa": "Meta、AIコーディングのスタートアップConductorを買収",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/mark-zuckerberg-ray-bans.png?resize=1200,653"
-    },
-    {
-      "title": "Gemini for Home now plugs into AT&T’s smart security system",
-      "url": "https://www.theverge.com/tech/1026787/att-gemini-for-home-connected-life-security-system",
+      "title": "OpenAI is stepping back from NDAs for data center projects",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1028454/openai-data-center-nda",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-11-04T20:23:24.000Z",
-      "titleJa": "Gemini for Home、AT&Tのスマートセキュリティシステムに対応",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/att-connected-life.webp?quality=90&strip=all&crop=0,12.378907107251,100,75.242185785497"
+      "date": "2026-11-06T00:37:56.000Z",
+      "titleJa": "OpenAI、データセンター案件でのNDA締結から距離を置く",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/STKS528_DATA_CENTERS2_B.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "Nothing、初のAI専用端末を12月出荷へ 「スマホアプリでは実現できない」機能搭載",
-      "url": "https://japan.cnet.com/article/35254399/",
+      "title": "OpenAIのアルトマン氏、RAM発言を釈明 「PCに好きなだけ搭載してほしい」",
+      "url": "https://japan.cnet.com/article/35254471/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-04T22:57:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/05/d8989812411457ae7fc3080e8517e8f2/nothing-ai-large.jpg"
+      "date": "2026-11-06T01:10:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/06/f2aa7c70b2237a54c17f717089c84bae/GettyImages-1576762293_1280x960.jpg"
     },
     {
-      "title": "「Muse」を使っていなくてもAIエージェントが非公開のメッセージにアクセスできる仕組みとは",
-      "url": "https://japan.zdnet.com/article/35254098/",
-      "source": "ZDNET Japan",
+      "title": "AIを禁止したら、検索も使えない？ Googleの学校向け新方針にニューヨーク市長も反発",
+      "url": "https://www.gizmodo.jp/article/2611-google-school-ai-search-policy/",
+      "source": "GIZMODO JAPAN",
       "lang": "ja",
-      "date": "2026-11-04T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/10/28/a1181def4adbe61ea7a60648b808062a/large-GettyImages-2293791808.jpg"
+      "date": "2026-11-06T01:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/11/05/e369451d-4e7b-439e-ad42-9592667f579a/original.png?w=1200&h=630"
     },
     {
-      "title": "「GitHub Copilot Dreaming」発表。作業を振り返ってパーソナルメモリやガイダンスをバックグラウンドで整理、アップデート。GitHub Universe 2026",
-      "url": "https://www.publickey1.jp/blog/26/github_copilot_dreaminggithub_universe_2026.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-11-04T15:15:49.000Z",
-      "image": "https://www.publickey1.jp/2026/copilot-fusion-githubuniverse2602.png"
-    },
-    {
-      "title": "19万円台で買える最新CPU搭載＝14型960gの軽量AIノート PC「Acer Swift Air 14」発表!!",
-      "url": "https://ascii.jp/elem/000/004/448/4448552/?rss",
+      "title": "導入済み生成AIから建築の工程管理を直接操作、作業集計や日程変更に対応するMCPサーバー",
+      "url": "https://ascii.jp/elem/000/004/448/4448970/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-11-04T15:01:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/04/4547847/xl/b29d8efea0aa6916.png?20200122"
+      "date": "2026-11-06T01:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/05/4548226/xl/59e675a9fbfa3271.jpg"
     },
     {
-      "title": "国産AI開発のNoetra、テックブログ開設 「開発現場での試行錯誤や工夫」も発信",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/04/2000002886/",
+      "title": "18型4K＋・120Hzの大画面！ MSI「Raider A18 HX A9W」、RTX 5090／5080搭載",
+      "url": "https://ascii.jp/elem/000/004/449/4449072/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-06T01:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/06/4548488/xl/d936d132afe2e54b.png?20200122"
+    },
+    {
+      "title": "Gemini Omni 1.2 Flash: Fast and cost-effective with longer clips",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-11-05T17:00:00.000Z",
+      "titleJa": "Gemini Omni 1.2 Flash：高速・低コストで、より長いクリップに対応",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-omni-1.2_FZLql41.width-1300.png"
+    },
+    {
+      "title": "Merge builds product and business tools with OpenAI technology",
+      "url": "https://openai.com/index/merge-builds-with-openai",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-05T08:00:00.000Z",
+      "titleJa": "Merge、OpenAIの技術で製品・業務向けツールを構築",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/1ioOJt6IEab7sdVSiBFTET/fb2a79d20b4639407ca0b35af68a443c/og.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Franklin Templeton uses OpenAI to support investment research",
+      "url": "https://openai.com/index/franklin-templeton",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-05T00:00:00.000Z",
+      "titleJa": "Franklin Templeton、OpenAIを投資リサーチの支援に活用",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/74o0UUnMZMTeekQbCQPueA/470bb73b32ea24fa27a993e7111c15e5/franklin-templeton-seo.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Google: Schools can keep search while skipping Gemini, but AI search is non-negotiable",
+      "url": "https://arstechnica.com/ai/2026/11/google-schools-can-keep-search-while-skipping-gemini-but-ai-search-is-non-negotiable/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-11-05T21:40:36.000Z",
+      "titleJa": "Google：学校はGeminiを外しても検索は利用可能、ただしAI検索は拒否できず",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/05/Google-sign-IO-1152x648.jpg"
+    },
+    {
+      "title": "Lawsuit: Man introduced his wife to ChatGPT. She used it to plan his murder.",
+      "url": "https://arstechnica.com/tech-policy/2026/11/lawsuit-man-introduced-his-wife-to-chatgpt-she-used-it-to-plan-his-murder/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-11-05T21:39:40.000Z",
+      "titleJa": "訴訟：妻にChatGPTを教えた男性、妻はそれを使って夫の殺害を計画"
+    },
+    {
+      "title": "不正アクセス対策の切り札に？ OpenAIが「GPT-6 Cyber」発表 脆弱性の発見力が向上",
+      "url": "https://japan.cnet.com/article/35254465/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-05T23:10:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/06/9672b4600ebe6f6575e6a9b364973a9a/%E8%A6%8B%E5%87%BA%E3%81%97%E7%94%BB%E5%83%8F.jpg"
+    },
+    {
+      "title": "Claude、マネフォのような新機能--銀行口座やクレカと繋がり家計分析 米国でベータ提供開始",
+      "url": "https://japan.cnet.com/article/35254460/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-05T22:48:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/06/4ffac0922cd8db70e8dca8f03ac975eb/%E8%A6%8B%E5%87%BA%E3%81%97%E7%94%BB%E5%83%8F.jpg"
+    },
+    {
+      "title": "妻が「ChatGPT」を使って夫を毒殺しようとしたとして、夫がOpenAIを提訴",
+      "url": "https://japan.cnet.com/article/35254459/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-05T22:30:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/06/3deaeae171afa87668a495f845cbf3e9/large.jpg"
+    },
+    {
+      "title": "OpenAI、データセンター立地地域への約束と政策提言を発表 電力費の全額負担や公職者とのNDA不使用など",
+      "url": "https://www.itmedia.co.jp/news/article/2611/06/2000002928/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-04T09:45:50.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/04/2000002886/10011327/2048"
-    },
-    {
-      "title": "米中間選挙で民主圧勝、「青い波」がAIブームに冷や水か 規制強化の公算",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12155/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-11-04T09:25:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12155/topm.jpg?20220512"
-    },
-    {
-      "title": "1Finity、AIとモバイル通信を統合「AI-Native vRAN」構想を展開--中核ソフトウェアを12月提供開始",
-      "url": "https://japan.zdnet.com/article/35254368/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-11-04T06:23:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2025/02/20/3f1df6775d071eff66d8be55587b07f1/250220_enterprise_as_1280_721823729.jpeg"
-    },
-    {
-      "title": "ワークデイ、開発者向けプログラムを開始--エージェント前提のエコシステム拡大へ",
-      "url": "https://japan.zdnet.com/article/35254362/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-11-04T06:01:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/04/ae465bdf94c486684155d67d792499be/workday_l.jpg"
+      "date": "2026-11-05T22:03:55.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/06/2000002928/10011434/2048"
     }
   ]
 }
