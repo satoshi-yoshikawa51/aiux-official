@@ -1963,6 +1963,21 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "gpt-6-cyber": {
+    caption: "強い能力ほど、配る相手を先に絞る",
+    render: () => (
+      <Svg h={288} title="GPT-6 Cyberの提供範囲の図解">
+        <T x={300} y={22} text="機能を絞るのではなく、モデルごと審査の向こう側へ" size={13.5} color={INK} />
+        <B x={30} y={44} w={240} h={54} label="GPT-6 Astra" sub="汎用のフロンティアモデル" />
+        <AH x1={275} x2={322} y={71} />
+        <B x={330} y={44} w={240} h={54} label="GPT-6 Cyber" sub="2026年11月5日発表" fill={YELLOW} />
+        <AV x={450} y1={102} y2={130} />
+        <B x={30} y={134} w={540} h={56} label="Daybreak Redの承認済み顧客だけ" sub="身元確認・多要素認証・呼び出せるネットワークの制限" />
+        <B x={30} y={202} w={540} h={46} label="一般への提供時期は示されていない" dashed={true} />
+        <T x={300} y={274} text="危険度はOpenAI自身の基準で最上位に分類されている" size={13} color={INK} />
+      </Svg>
+    ),
+  },
   "provable-inference": {
     caption: "答えだけでは、どのモデルが出したか分からない",
     render: () => (
