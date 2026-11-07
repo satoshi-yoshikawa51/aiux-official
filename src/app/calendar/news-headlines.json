@@ -1,47 +1,104 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-06T01:46:15.757Z",
+  "updatedAt": "2026-11-07T01:09:34.489Z",
   "items": [
     {
-      "title": "OpenAI is stepping back from NDAs for data center projects",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1028454/openai-data-center-nda",
+      "title": "Google、脆弱性修正AI「CodeMender」を強化 Gemini 4 Argonなど複数AIモデルを使用",
+      "url": "https://japan.cnet.com/article/35254533/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-07T00:10:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/07/fd6b60ecccbff77047e7b46704a40a99/15_20261107_large.jpg"
+    },
+    {
+      "title": "Partnering with Hacktron to find vulnerabilities in OpenAI’s systems",
+      "url": "https://openai.com/index/partnering-with-hacktron",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-06T08:00:00.000Z",
+      "titleJa": "Hacktronと提携、OpenAIのシステムの脆弱性を発見へ",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/6567aD1rFerr0QBajJ0uig/50339d375097da8d96ce12e925130276/partnering-with-hacktron-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "OpenAI valued at $1.25 trillion, as rival Anthropic nears its IPO",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1029380/openai-1-25-trillion-investment-valuation",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-11-06T00:37:56.000Z",
-      "titleJa": "OpenAI、データセンター案件でのNDA締結から距離を置く",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/STKS528_DATA_CENTERS2_B.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+      "date": "2026-11-06T23:46:18.000Z",
+      "titleJa": "OpenAIの評価額1.25兆ドルに、競合AnthropicはIPO間近",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STK155_OPEN_AI_CVirginia_2_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "OpenAI reportedly raises an additional $11 billion at a $1.25 trillion valuation",
+      "url": "https://techcrunch.com/2026/11/06/openai-reportedly-raises-an-additional-11-billion-at-a-1-25-trillion-valuation/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-06T22:53:46.000Z",
+      "titleJa": "OpenAI、1.25兆ドルの評価額で110億ドルを追加調達と報道",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-green.jpg?w=1024"
+    },
+    {
+      "title": "Meta introduces Spaces, a new way to collaborate with your Muse agent",
+      "url": "https://techcrunch.com/2026/11/06/meta-introduces-spaces-a-new-way-to-collaborate-with-your-muse-agent/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-06T18:44:20.000Z",
+      "titleJa": "Meta、Museエージェントと協働する新機能「Spaces」を発表",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/muse-ai-meta.jpg?w=1200"
+    },
+    {
+      "title": "AI面接を導入したのに、応募者情報は手入力？ 採用現場の「二度手間」を解消へ",
+      "url": "https://kn.itmedia.co.jp/kn/article/2611/07/2000002951/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-06T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2611/07/2000002951/10011496/2048"
+    },
+    {
+      "title": "KDDI、newmoと資本業務提携--2028年に堺市で自動運転タクシー商用化へ",
+      "url": "https://japan.cnet.com/article/35254521/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-06T20:55:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/06/1010eace10bb1d941685b30a30c1ccdc/01.jpg"
+    },
+    {
+      "title": "OpenAIが新モデル「GPT-6 Cyber」発表 Firefoxの未知の脆弱性検知",
+      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03459/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-11-06T08:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03459/topm.jpg?20220512"
+    },
+    {
+      "title": "Google×サムスン初のスマートグラス、ついに今月予約スタート。年末発売へ",
+      "url": "https://www.gizmodo.jp/article/2611-google-samsung-smart-glasses-release/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-11-06T04:30:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/11/06/dce037be-2cea-474c-b02b-491eb4286898/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "国内GPUサーバでオープンモデルを利用可能に フィックスターズが新サービス まずは「DeepSeek-V4.1-Flash-1017」から",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/06/2000002955/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-06T04:21:45.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/06/2000002955/10011503/2048"
+    },
+    {
+      "title": "グライムス、生成AI映画「Gods Don’t Give Gifts」に出演 先行映像公開",
+      "url": "https://japan.cnet.com/article/35254487/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-06T03:40:00.000Z"
     },
     {
       "title": "OpenAIのアルトマン氏、RAM発言を釈明 「PCに好きなだけ搭載してほしい」",
       "url": "https://japan.cnet.com/article/35254471/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-06T01:10:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/06/f2aa7c70b2237a54c17f717089c84bae/GettyImages-1576762293_1280x960.jpg"
-    },
-    {
-      "title": "AIを禁止したら、検索も使えない？ Googleの学校向け新方針にニューヨーク市長も反発",
-      "url": "https://www.gizmodo.jp/article/2611-google-school-ai-search-policy/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-11-06T01:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/11/05/e369451d-4e7b-439e-ad42-9592667f579a/original.png?w=1200&h=630"
-    },
-    {
-      "title": "導入済み生成AIから建築の工程管理を直接操作、作業集計や日程変更に対応するMCPサーバー",
-      "url": "https://ascii.jp/elem/000/004/448/4448970/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-06T01:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/05/4548226/xl/59e675a9fbfa3271.jpg"
-    },
-    {
-      "title": "18型4K＋・120Hzの大画面！ MSI「Raider A18 HX A9W」、RTX 5090／5080搭載",
-      "url": "https://ascii.jp/elem/000/004/449/4449072/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-06T01:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/06/4548488/xl/d936d132afe2e54b.png?20200122"
+      "date": "2026-11-06T01:10:00.000Z"
     },
     {
       "title": "Gemini Omni 1.2 Flash: Fast and cost-effective with longer clips",
@@ -49,7 +106,7 @@
       "source": "Google AI（公式）",
       "lang": "en",
       "date": "2026-11-05T17:00:00.000Z",
-      "titleJa": "Gemini Omni 1.2 Flash：高速・低コストで、より長いクリップに対応",
+      "titleJa": "Gemini Omni 1.2 Flash：高速・低コストで長尺クリップに対応",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-omni-1.2_FZLql41.width-1300.png"
     },
     {
@@ -58,66 +115,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-11-05T08:00:00.000Z",
-      "titleJa": "Merge、OpenAIの技術で製品・業務向けツールを構築",
+      "titleJa": "Merge、OpenAIの技術で製品・ビジネス向けツールを構築",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/1ioOJt6IEab7sdVSiBFTET/fb2a79d20b4639407ca0b35af68a443c/og.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Franklin Templeton uses OpenAI to support investment research",
-      "url": "https://openai.com/index/franklin-templeton",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-05T00:00:00.000Z",
-      "titleJa": "Franklin Templeton、OpenAIを投資リサーチの支援に活用",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/74o0UUnMZMTeekQbCQPueA/470bb73b32ea24fa27a993e7111c15e5/franklin-templeton-seo.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Google: Schools can keep search while skipping Gemini, but AI search is non-negotiable",
-      "url": "https://arstechnica.com/ai/2026/11/google-schools-can-keep-search-while-skipping-gemini-but-ai-search-is-non-negotiable/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-05T21:40:36.000Z",
-      "titleJa": "Google：学校はGeminiを外しても検索は利用可能、ただしAI検索は拒否できず",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2025/05/Google-sign-IO-1152x648.jpg"
-    },
-    {
-      "title": "Lawsuit: Man introduced his wife to ChatGPT. She used it to plan his murder.",
-      "url": "https://arstechnica.com/tech-policy/2026/11/lawsuit-man-introduced-his-wife-to-chatgpt-she-used-it-to-plan-his-murder/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-05T21:39:40.000Z",
-      "titleJa": "訴訟：妻にChatGPTを教えた男性、妻はそれを使って夫の殺害を計画"
-    },
-    {
-      "title": "不正アクセス対策の切り札に？ OpenAIが「GPT-6 Cyber」発表 脆弱性の発見力が向上",
-      "url": "https://japan.cnet.com/article/35254465/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-05T23:10:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/06/9672b4600ebe6f6575e6a9b364973a9a/%E8%A6%8B%E5%87%BA%E3%81%97%E7%94%BB%E5%83%8F.jpg"
-    },
-    {
-      "title": "Claude、マネフォのような新機能--銀行口座やクレカと繋がり家計分析 米国でベータ提供開始",
-      "url": "https://japan.cnet.com/article/35254460/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-05T22:48:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/06/4ffac0922cd8db70e8dca8f03ac975eb/%E8%A6%8B%E5%87%BA%E3%81%97%E7%94%BB%E5%83%8F.jpg"
-    },
-    {
-      "title": "妻が「ChatGPT」を使って夫を毒殺しようとしたとして、夫がOpenAIを提訴",
-      "url": "https://japan.cnet.com/article/35254459/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-05T22:30:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/06/3deaeae171afa87668a495f845cbf3e9/large.jpg"
-    },
-    {
-      "title": "OpenAI、データセンター立地地域への約束と政策提言を発表 電力費の全額負担や公職者とのNDA不使用など",
-      "url": "https://www.itmedia.co.jp/news/article/2611/06/2000002928/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-05T22:03:55.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/06/2000002928/10011434/2048"
     }
   ]
 }
