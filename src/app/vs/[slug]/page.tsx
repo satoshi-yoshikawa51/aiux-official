@@ -19,9 +19,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const p = getVsPair(slug);
   if (!p) return {};
-  /* 検索クエリは「A B 違い」。titleは短い言い回しから順に試す */
+  /* 検索クエリは「A B 違い」。titleは短い言い回しから順に試す。
+     実際の検索の聞き方が機械生成と違うページは seoHead で個別に上書きする */
   const head =
-    [`${p.title}をわかりやすく解説`, `${p.title}とは？`, p.title].find((s) => titleWidth(s) <= 34) ?? p.title;
+    p.seoHead ??
+    ([`${p.title}をわかりやすく解説`, `${p.title}とは？`, p.title].find((s) => titleWidth(s) <= 34) ?? p.title);
   return {
     title: seoTitle(head, "COMIXAI"),
     description: p.short,
