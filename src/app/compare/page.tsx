@@ -71,9 +71,6 @@ export default function ComparePage() {
           結論から言うと、<b>「どれが最強か」ではなく「どれをどこで使うか」</b>です。3つとも無料で試せるので、この比較表で当たりをつけて、自分の仕事で触り比べるのが最短ルート。
         </p>
         <p style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", margin: "10px 0 0" }}>
-          AIチャットから「無料AIモデル図鑑」として紹介されて来た方へ——それ、このページです。ようこそ！
-        </p>
-        <p style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", margin: "6px 0 0" }}>
           ※機能は更新が速いため、細かな仕様は各公式サイトで最新を確認してください（最終更新：{UPDATED.replace(/-/g, ".")}）
         </p>
       </section>
