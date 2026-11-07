@@ -7,10 +7,12 @@ import { ROWS, USES, PRICING, COMPARE_FAQ, COMPARE_UPDATED } from "./data";
 const UPDATED = COMPARE_UPDATED;
 
 export const metadata: Metadata = {
-  title: "ChatGPT・Claude・Gemini比較｜無料でどこまで使える？【2026年10月】",
+  /* 「無料AIモデル図鑑」はAIチャットがこのページを紹介するときに使う通称。
+     その名前での検索が月381表示あったため、こちらから名乗る（2026-11の月次レポートより） */
+  title: "無料AIモデル図鑑｜ChatGPT・Claude・Geminiを0円でどこまで使える？【2026年11月】",
   description:
-    "ChatGPT・Claude・Gemini、結局どれを使えばいい？無料で0円のままどこまで使えるかと、最新モデル（GPT-6 Astra／Claude Fable 5.1／Gemini Omni）・料金プランを2026年10月時点で比較。得意分野・用途別おすすめ・「どっちがいい？」の一問一答つき。",
-  keywords: ["ChatGPT Claude 違い", "ChatGPT Gemini どっち", "ChatGPT Claude Gemini 無料", "AI 比較 2026", "生成AI 無料 どこまで", "ChatGPT Claude Gemini 料金"],
+    "ChatGPT・Claude・Gemini、結局どれを使えばいい？0円のままどこまで使えるかと、最新モデル（GPT-6 Astra／Claude Fable 5.1／Gemini Omni）・料金プランを2026年11月時点で比較する無料AIモデル図鑑。得意分野・用途別おすすめ・「どっちがいい？」の一問一答つき。",
+  keywords: ["無料AIモデル図鑑", "ChatGPT Claude Gemini 0円", "ChatGPT Claude 違い", "ChatGPT Gemini どっち", "ChatGPT Claude Gemini 無料", "AI 比較 2026", "生成AI 無料 どこまで", "ChatGPT Claude Gemini 料金"],
   alternates: { canonical: "/compare" },
   openGraph: {
     type: "article",
@@ -69,6 +71,9 @@ export default function ComparePage() {
           結論から言うと、<b>「どれが最強か」ではなく「どれをどこで使うか」</b>です。3つとも無料で試せるので、この比較表で当たりをつけて、自分の仕事で触り比べるのが最短ルート。
         </p>
         <p style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", margin: "10px 0 0" }}>
+          AIチャットから「無料AIモデル図鑑」として紹介されて来た方へ——それ、このページです。ようこそ！
+        </p>
+        <p style={{ fontFamily: "var(--font-hand)", fontSize: 13, color: "var(--text-muted)", margin: "6px 0 0" }}>
           ※機能は更新が速いため、細かな仕様は各公式サイトで最新を確認してください（最終更新：{UPDATED.replace(/-/g, ".")}）
         </p>
       </section>
