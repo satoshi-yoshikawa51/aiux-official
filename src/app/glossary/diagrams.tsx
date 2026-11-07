@@ -1963,6 +1963,22 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  codemender: {
+    caption: "見つけて終わり、ではない",
+    render: () => (
+      <Svg h={352} title="CodeMenderの流れの図解">
+        <T x={300} y={22} text="途中に「本当に危ないか試す」工程が入る" size={13.5} color={INK} />
+        <B x={30} y={38} w={540} h={46} label="脆弱性の候補を見つける" />
+        <AV x={300} y1={88} y2={110} />
+        <B x={30} y={114} w={540} h={50} label="実際に攻撃して確かめる" sub="顧客が管理する隔離環境の中で試す" fill={YELLOW} />
+        <AV x={300} y1={168} y2={190} />
+        <B x={30} y={194} w={540} h={50} label="修正をコードの差分で渡す" sub="別のモデルが審査役として点検する" />
+        <AV x={300} y1={248} y2={270} />
+        <B x={30} y={274} w={540} h={44} label="人が承認して初めて取り込まれる" dashed={true} />
+        <T x={300} y={340} text="自動化されたのは手前まで。最後の判断は人に残っている" size={13} color={INK} />
+      </Svg>
+    ),
+  },
   "gpt-6-cyber": {
     caption: "強い能力ほど、配る相手を先に絞る",
     render: () => (
