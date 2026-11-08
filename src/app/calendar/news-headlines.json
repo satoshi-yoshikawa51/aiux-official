@@ -1,7 +1,50 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-07T01:09:34.489Z",
+  "updatedAt": "2026-11-08T00:53:09.852Z",
   "items": [
+    {
+      "title": "Megaspeed exec was recruited to spy on Nvidia CEO, according to US intelligence memo",
+      "url": "https://techcrunch.com/2026/11/07/chinese-exec-was-recruited-to-spy-on-nvidia-ceo-according-to-us-intelligence-memo/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-07T21:17:08.000Z",
+      "titleJa": "Megaspeed幹部、Nvidia CEOのスパイに勧誘されていた 米情報機関のメモで判明",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2294936867.jpg?resize=1200,800"
+    },
+    {
+      "title": "The US let Nvidia sell chips to an empty office in China",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1029483/nvidia-ai-chips-china-blacklist-government",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-07T15:43:45.000Z",
+      "titleJa": "米政府、Nvidiaによる中国の“空のオフィス”へのチップ販売を容認",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/06/STK083_NVIDIA_2.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "Why a new report on Anthropic automating AI development is alarming researchers",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1029126/anthropic-metr-report-accelerating-ai-development",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-07T12:30:00.000Z",
+      "titleJa": "AnthropicのAI開発自動化に関する新報告、研究者が警戒する理由",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/gettyimages-2280291125.jpg?quality=90&strip=all&crop=0%2C10.752607989199%2C100%2C78.494784021602&w=1200"
+    },
+    {
+      "title": "Alpine LinuxとOpenSSH、最悪の脆弱性にパッチを適用",
+      "url": "https://japan.zdnet.com/article/35254546/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-07T23:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/07/52a015f934e7da79b062e6d088c13bc5/GettyImages-879472452_l.jpg"
+    },
+    {
+      "title": "AIが映像をつくれる時代だからこそ、主導権は自分に。ひとりでもAI映画をつくれるプラットフォーム「MaiStory」Ver 1.0リリース",
+      "url": "https://ascii.jp/elem/000/004/449/4449533/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-07T04:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
     {
       "title": "Google、脆弱性修正AI「CodeMender」を強化 Gemini 4 Argonなど複数AIモデルを使用",
       "url": "https://japan.cnet.com/article/35254533/",
@@ -18,33 +61,6 @@
       "date": "2026-11-06T08:00:00.000Z",
       "titleJa": "Hacktronと提携、OpenAIのシステムの脆弱性を発見へ",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/6567aD1rFerr0QBajJ0uig/50339d375097da8d96ce12e925130276/partnering-with-hacktron-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "OpenAI valued at $1.25 trillion, as rival Anthropic nears its IPO",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1029380/openai-1-25-trillion-investment-valuation",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-11-06T23:46:18.000Z",
-      "titleJa": "OpenAIの評価額1.25兆ドルに、競合AnthropicはIPO間近",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STK155_OPEN_AI_CVirginia_2_A.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "OpenAI reportedly raises an additional $11 billion at a $1.25 trillion valuation",
-      "url": "https://techcrunch.com/2026/11/06/openai-reportedly-raises-an-additional-11-billion-at-a-1-25-trillion-valuation/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-06T22:53:46.000Z",
-      "titleJa": "OpenAI、1.25兆ドルの評価額で110億ドルを追加調達と報道",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-green.jpg?w=1024"
-    },
-    {
-      "title": "Meta introduces Spaces, a new way to collaborate with your Muse agent",
-      "url": "https://techcrunch.com/2026/11/06/meta-introduces-spaces-a-new-way-to-collaborate-with-your-muse-agent/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-06T18:44:20.000Z",
-      "titleJa": "Meta、Museエージェントと協働する新機能「Spaces」を発表",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/muse-ai-meta.jpg?w=1200"
     },
     {
       "title": "AI面接を導入したのに、応募者情報は手入力？ 採用現場の「二度手間」を解消へ",
@@ -71,12 +87,11 @@
       "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03459/topm.jpg?20220512"
     },
     {
-      "title": "Google×サムスン初のスマートグラス、ついに今月予約スタート。年末発売へ",
-      "url": "https://www.gizmodo.jp/article/2611-google-samsung-smart-glasses-release/",
-      "source": "GIZMODO JAPAN",
+      "title": "XboxのPCアプリ、起動を最大60％高速化 テスト参加者に提供開始",
+      "url": "https://japan.cnet.com/article/35254494/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-06T04:30:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/11/06/dce037be-2cea-474c-b02b-491eb4286898/original.jpg?w=1200&h=630"
+      "date": "2026-11-06T07:20:00.000Z"
     },
     {
       "title": "国内GPUサーバでオープンモデルを利用可能に フィックスターズが新サービス まずは「DeepSeek-V4.1-Flash-1017」から",
@@ -85,20 +100,6 @@
       "lang": "ja",
       "date": "2026-11-06T04:21:45.000Z",
       "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/06/2000002955/10011503/2048"
-    },
-    {
-      "title": "グライムス、生成AI映画「Gods Don’t Give Gifts」に出演 先行映像公開",
-      "url": "https://japan.cnet.com/article/35254487/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-06T03:40:00.000Z"
-    },
-    {
-      "title": "OpenAIのアルトマン氏、RAM発言を釈明 「PCに好きなだけ搭載してほしい」",
-      "url": "https://japan.cnet.com/article/35254471/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-06T01:10:00.000Z"
     },
     {
       "title": "Gemini Omni 1.2 Flash: Fast and cost-effective with longer clips",
