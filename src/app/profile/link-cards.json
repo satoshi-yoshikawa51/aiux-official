@@ -1,11 +1,11 @@
 {
   "_comment": "外部記事・動画のOGP。scripts/fetch-link-cards.mjs がCIで自動生成する（手で編集しない）。取得元URLは src/app/profile/records.ts から拾う。",
-  "generatedAt": "2026-10-26",
+  "generatedAt": "2026-11-09",
   "cards": {
     "https://blog.nijibox.jp/article/ai-shift-claude": {
       "url": "https://blog.nijibox.jp/article/ai-shift-claude",
-      "title": "答えるAIから働くAIへ｜Claude活用で変わる業務改革 | 株式会社ニジボックス",
-      "description": "生成AIは「答えるAI」から作業を任せられる「働くAI」へ。ニジボックス主催イベントの講演とデモをもとに、『Claude』4機能の使い分け、上流設計からUI生成・実装までの変化、人の役割と組織導入の壁を解説します。",
+      "title": "「答えるAI」から「働くAI」へ｜Claude活用で変わるUI UX開発と業務改革 | 株式会社ニジボックス",
+      "description": "AI技術をビジネス成果へとつなげる方法に お悩みの方必見！ ニジボックスのAI関連支援をご紹介！ 無料で資料ダウンロード 生成AIは「答えるAI＝相談相手」から「働くAI＝もう一人の担当者（エージェント）」へ移行しつつあります。作業を任せられるほど、人は上流の論点設計と成果へのコミットに時間を使えるようになります。",
       "image": "https://blog.nijibox.jp/wp-content/uploads/2026/07/bizcr_YouTube_thumbnail_20260630-560x315.png",
       "siteName": "株式会社ニジボックス",
       "date": "2026-07-23"
@@ -204,7 +204,7 @@
     },
     "https://blog.nijibox.jp/article/claude-cowork_claude-code_chat": {
       "url": "https://blog.nijibox.jp/article/claude-cowork_claude-code_chat",
-      "title": "Claudeのチャット Cowork・Claude Code の違いを比較表で解説【動画あり】 | 株式会社ニジボックス",
+      "title": "Claudeのチャット・Cowork・Codeの違い｜どれを使うか迷ったら「どこまで任せるか」で選ぶ | 株式会社ニジボックス",
       "description": "昨今、機能追加が話題となっている生成AIツール『Claude』。本記事ではツールの使い方ではなく、ニジボックスのAXコンサルタントである吉川 聡史がどのように使っているかという「実践論」をお伝えします。",
       "image": "https://blog.nijibox.jp/wp-content/uploads/2026/08/MV_%E3%80%90%E5%8B%95%E7%94%BB%E3%81%82%E3%82%8A%E3%80%91Claude-Cowork_Claude-Code_Chat%E3%81%AE%E9%81%95%E3%81%84%E3%81%A8%E4%BD%BF%E3%81%84%E5%88%86%E3%81%91%E3%82%92%E8%A7%A3%E8%AA%AC_B%E6%A1%88-560x363.jpg",
       "siteName": "株式会社ニジボックス",
