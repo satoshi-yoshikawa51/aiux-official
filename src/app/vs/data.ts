@@ -29,6 +29,9 @@ export interface VsPair {
   bName: string;
   /** h1・タイトル用（「RAGとファインチューニングの違い」） */
   title: string;
+  /** metaタイトル個別上書き。Search Consoleで実際の検索の聞き方が
+      わかったページだけ設定する（通常は省略し自動生成に任せる） */
+  seoHead?: string;
   /** meta description（80〜120字） */
   short: string;
   /** ひとことで言うと（結論の先出し。1〜2文） */
@@ -464,6 +467,8 @@ export const VS_PAIRS: VsPair[] = [
     aName: "AI半導体",
     bName: "GPU",
     title: "AI半導体とGPUの違い",
+    /* 実際の検索は「半導体とaiの違い」の聞き方が多い（2026-11の月次レポートより） */
+    seoHead: "半導体とAIの関係は？AI半導体とGPUの違い",
     short:
       "AI半導体は「AIの計算を担うチップ全部」の総称で、GPUはその中のいまの主役。TPUやNPUなど「GPU以外のAI半導体」が増えたことで意味を持ち始めた、2つの言葉の関係を整理します。",
     verdict:

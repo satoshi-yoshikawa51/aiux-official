@@ -659,6 +659,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
     links: [
       { label: "マンガでわかる！AI活用 第1話：「生成AIとは？」", href: "https://note.com/aiux_unite/n/n39742e82cd30" },
       { label: "連載「マンガでわかる！AI活用」シリーズ紹介", href: "/manga/wakaru" },
+      { label: "比較：機械学習とディープラーニングの違い", href: "/vs/machine-learning-vs-deep-learning" },
     ],
     relatedSlugs: ["deep-learning", "neural-network", "generative-ai"],
     sections: [
@@ -704,6 +705,7 @@ const TERMS_BATCH2: GlossaryTerm[] = [
     ],
     links: [
       { label: "連載「マンガでわかる！AI活用」シリーズ紹介", href: "/manga/wakaru" },
+      { label: "比較：機械学習とディープラーニングの違い", href: "/vs/machine-learning-vs-deep-learning" },
     ],
     relatedSlugs: ["machine-learning", "neural-network", "transformer"],
     sections: [
@@ -966,6 +968,10 @@ const TERMS_BATCH2: GlossaryTerm[] = [
     term: "トークン",
     yomi: "とーくん",
     en: "Token",
+    /* 「トークンとは」で60位台に沈んでいたため、検索の聞き方に寄せた
+       タイトルとキーワードを明示（2026-11の月次レポートより） */
+    seoHead: "トークンとは？AIの料金を決める単位",
+    extraKeywords: ["トークン とは", "AI トークン 数え方", "トークン数 目安", "ChatGPT トークン"],
     category: "しくみ・技術",
     short:
       "AIが文章を処理するときの最小単位。単語より少し細かい「文字のかたまり」で、AIの料金や入力できる文章量はこのトークン数で数えられる。",
@@ -2806,8 +2812,10 @@ export const FEATURED_TERMS = FEATURED_SLUGS.map((sl) => TERMS.find((t) => t.slu
    続いたため。ここは自動選出が6語に満たなかったときの穴埋めとして残す。
    出す語を固定・除外したいときは hot.ts の HOT_PINNED / HOT_EXCLUDED を使う */
 export const HOT_SLUGS = [
-  "export-control", "claude-fable", "apple-intelligence",
-  "caio", "pacing-the-frontier", "ai-bubble",
+  /* hot.ts の自動選出が使えないときのフォールバック。
+     月次SEOレポートの実クリック実績で更新する（最終更新: 2026-11） */
+  "always-listening-ai", "claude-duet", "generative-ui",
+  "gpt-6", "apple-intelligence", "ai-bubble",
 ];
 export const HOT_TERMS = HOT_SLUGS.map((sl) => TERMS.find((t) => t.slug === sl)!).filter(Boolean);
 
