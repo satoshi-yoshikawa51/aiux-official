@@ -1,14 +1,81 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-08T00:53:09.852Z",
+  "updatedAt": "2026-11-09T01:11:16.886Z",
   "items": [
+    {
+      "title": "Here’s the full text of Jensen Huang’s memo to Nvidia",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1029595/full-text-jensen-huang-affair-memo-nvidia",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-08T22:54:50.000Z",
+      "titleJa": "Jensen HuangがNvidia社員に宛てたメモの全文",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2285784039.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "ローカルLLM利用のクリニックを受診してみた PCマニアの院長が自力で構築、その導入効果は？",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/09/2000002916/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-08T23:00:00.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/09/2000002916/10011414/2048"
+    },
+    {
+      "title": "情報漏えい続出でフィッシングに変化？ “その人専用詐欺メール”登場の懸念",
+      "url": "https://www.itmedia.co.jp/news/article/2611/09/2000002926/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-08T23:00:00.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/09/2000002926/10011427/2048"
+    },
+    {
+      "title": "調達と営業のAI変革 人の役割を再定義",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600014/110500238/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-11-08T22:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600014/110500238/topm.jpg?20220512"
+    },
+    {
+      "title": "Box、新検索エンジン「Box Context Retrieval」を発表--NVIDIAとの協業で企業AIを高度化",
+      "url": "https://japan.zdnet.com/article/35254505/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-08T21:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/06/01bcf7512c3d8caae98ae2d9db331a45/1105_Box_l.jpg"
+    },
+    {
+      "title": "オンデマンドバスに駅の見守り、大阪メトロのAI戦略 積極策の狙いを探る",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03520/110500026/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-11-08T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03520/110500026/topm.jpg?20220512"
+    },
+    {
+      "title": "Amazonが日本で「Alexa＋」の提供開始、AIエージェント競争に勝てるか",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00086/00426/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-11-08T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00086/00426/topm.jpg?20220512"
+    },
+    {
+      "title": "Claude Codeの「今後確認しない」が秘密情報をGitHubに漏らす — 1,122件の公開ファイルに1,379件の秘密情報 - Dev & Gadget Note",
+      "url": "https://dev.ponkotsu.dev/entry/claude-code-settings-local-secrets",
+      "source": "dev.ponkotsu.dev",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 105,
+      "date": "2026-11-08T10:31:52.000Z",
+      "image": "https://ogimage.blog.st-hatena.com/14729835035332795482/14729835035335532884/1794113828"
+    },
     {
       "title": "Megaspeed exec was recruited to spy on Nvidia CEO, according to US intelligence memo",
       "url": "https://techcrunch.com/2026/11/07/chinese-exec-was-recruited-to-spy-on-nvidia-ceo-according-to-us-intelligence-memo/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-11-07T21:17:08.000Z",
-      "titleJa": "Megaspeed幹部、Nvidia CEOのスパイに勧誘されていた 米情報機関のメモで判明",
+      "titleJa": "Megaspeed幹部、Nvidia CEOのスパイとして雇われていた——米情報機関のメモ",
       "image": "https://techcrunch.com/wp-content/uploads/2026/09/GettyImages-2294936867.jpg?resize=1200,800"
     },
     {
@@ -17,41 +84,18 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-11-07T15:43:45.000Z",
-      "titleJa": "米政府、Nvidiaによる中国の“空のオフィス”へのチップ販売を容認",
+      "titleJa": "米政府、Nvidiaによる中国の「空きオフィス」へのチップ販売を許可していた",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/06/STK083_NVIDIA_2.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
-      "title": "Why a new report on Anthropic automating AI development is alarming researchers",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1029126/anthropic-metr-report-accelerating-ai-development",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-11-07T12:30:00.000Z",
-      "titleJa": "AnthropicのAI開発自動化に関する新報告、研究者が警戒する理由",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/gettyimages-2280291125.jpg?quality=90&strip=all&crop=0%2C10.752607989199%2C100%2C78.494784021602&w=1200"
-    },
-    {
-      "title": "Alpine LinuxとOpenSSH、最悪の脆弱性にパッチを適用",
-      "url": "https://japan.zdnet.com/article/35254546/",
-      "source": "ZDNET Japan",
+      "title": "Meta、「Muse」で自分専用アプリを作れる新機能「スペース」",
+      "url": "https://www.watch.impress.co.jp/docs/news/2154571.html",
+      "source": "Impress Watch",
       "lang": "ja",
-      "date": "2026-11-07T23:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/07/52a015f934e7da79b062e6d088c13bc5/GettyImages-879472452_l.jpg"
-    },
-    {
-      "title": "AIが映像をつくれる時代だからこそ、主導権は自分に。ひとりでもAI映画をつくれるプラットフォーム「MaiStory」Ver 1.0リリース",
-      "url": "https://ascii.jp/elem/000/004/449/4449533/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-07T04:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "Google、脆弱性修正AI「CodeMender」を強化 Gemini 4 Argonなど複数AIモデルを使用",
-      "url": "https://japan.cnet.com/article/35254533/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-07T00:10:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/07/fd6b60ecccbff77047e7b46704a40a99/15_20261107_large.jpg"
+      "kind": "buzz",
+      "count": 125,
+      "date": "2026-11-07T09:39:54.000Z",
+      "image": "https://www.watch.impress.co.jp/img/ipw/list/2154/571/meta6.jpg"
     },
     {
       "title": "Partnering with Hacktron to find vulnerabilities in OpenAI’s systems",
@@ -59,65 +103,17 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-11-06T08:00:00.000Z",
-      "titleJa": "Hacktronと提携、OpenAIのシステムの脆弱性を発見へ",
+      "titleJa": "OpenAIのシステムの脆弱性発見でHacktronと提携",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/6567aD1rFerr0QBajJ0uig/50339d375097da8d96ce12e925130276/partnering-with-hacktron-social.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "AI面接を導入したのに、応募者情報は手入力？ 採用現場の「二度手間」を解消へ",
-      "url": "https://kn.itmedia.co.jp/kn/article/2611/07/2000002951/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-06T22:00:00.000Z",
-      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2611/07/2000002951/10011496/2048"
-    },
-    {
-      "title": "KDDI、newmoと資本業務提携--2028年に堺市で自動運転タクシー商用化へ",
-      "url": "https://japan.cnet.com/article/35254521/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-06T20:55:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/06/1010eace10bb1d941685b30a30c1ccdc/01.jpg"
-    },
-    {
-      "title": "OpenAIが新モデル「GPT-6 Cyber」発表 Firefoxの未知の脆弱性検知",
-      "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03459/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-11-06T08:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/news/24/03459/topm.jpg?20220512"
-    },
-    {
-      "title": "XboxのPCアプリ、起動を最大60％高速化 テスト参加者に提供開始",
-      "url": "https://japan.cnet.com/article/35254494/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-06T07:20:00.000Z"
-    },
-    {
-      "title": "国内GPUサーバでオープンモデルを利用可能に フィックスターズが新サービス まずは「DeepSeek-V4.1-Flash-1017」から",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/06/2000002955/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-06T04:21:45.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/06/2000002955/10011503/2048"
-    },
-    {
-      "title": "Gemini Omni 1.2 Flash: Fast and cost-effective with longer clips",
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/",
-      "source": "Google AI（公式）",
+      "title": "OpenAI reportedly raises an additional $11 billion at a $1.25 trillion valuation",
+      "url": "https://techcrunch.com/2026/11/06/openai-reportedly-raises-an-additional-11-billion-at-a-1-25-trillion-valuation/",
+      "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-11-05T17:00:00.000Z",
-      "titleJa": "Gemini Omni 1.2 Flash：高速・低コストで長尺クリップに対応",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-omni-1.2_FZLql41.width-1300.png"
-    },
-    {
-      "title": "Merge builds product and business tools with OpenAI technology",
-      "url": "https://openai.com/index/merge-builds-with-openai",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-05T08:00:00.000Z",
-      "titleJa": "Merge、OpenAIの技術で製品・ビジネス向けツールを構築",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/1ioOJt6IEab7sdVSiBFTET/fb2a79d20b4639407ca0b35af68a443c/og.png?w=1600&h=900&fit=fill"
+      "date": "2026-11-06T22:53:46.000Z",
+      "titleJa": "OpenAI、評価額1.25兆ドルで110億ドルを追加調達と報道",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-green.jpg?w=1024"
     }
   ]
 }
