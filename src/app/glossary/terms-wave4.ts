@@ -2597,6 +2597,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
       { label: "体験ゲーム：AI警備員（AIに仕込まれた隠れ指示を見抜く）", href: "/keibi" },
       { label: "用語：Gemini 4 Argon（同じ月に出た前の世代）", href: "/glossary/gemini-4-argon" },
+      { label: "比較：Gemini 4 CarbonとGPT-6 Cyberの違い", href: "/vs/gemini-4-carbon-vs-gpt-6-cyber" },
     ],
     relatedSlugs: ["gemini-4-argon", "gemini", "frontier-model", "trusted-access", "bug-bounty", "deep-review"],
     faq: [
@@ -2919,6 +2920,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "体験ゲーム：AI警備員（AIに仕込まれた隠れ指示を見抜く）", href: "/keibi" },
       { label: "用語：トラステッドアクセス（審査を通した相手にだけ配る方式）", href: "/glossary/trusted-access" },
       { label: "用語：Gemini 4 Carbon（同じ時期に出た、同じ配り方のモデル）", href: "/glossary/gemini-4-carbon" },
+      { label: "比較：Gemini 4 CarbonとGPT-6 Cyberの違い", href: "/vs/gemini-4-carbon-vs-gpt-6-cyber" },
     ],
     relatedSlugs: ["trusted-access", "gemini-4-carbon", "gpt-6", "bug-bounty", "deep-review", "autonomous-cyberattack", "supply-chain-attack", "benchmark"],
     faq: [
