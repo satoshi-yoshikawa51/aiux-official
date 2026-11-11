@@ -2062,14 +2062,14 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
   "gemini-4-carbon": {
     caption: "強い機能ほど、配る順番が変わる",
     render: () => (
-      <Svg h={266} title="Gemini 4 Carbonの提供範囲と評価条件の図解">
+      <Svg h={272} title="Gemini 4 Carbonの提供範囲と評価条件の図解">
         <T x={300} y={22} text="1か月足らずで2つ。どちらも守る側から配った" size={13.5} color={INK} />
         <B x={30} y={44} w={240} h={54} label="Gemini 4 Argon" sub="2026年9月30日発表" />
         <AH x1={275} x2={322} y={71} />
         <B x={330} y={44} w={240} h={54} label="Gemini 4 Carbon" sub="2026年10月28日" fill={YELLOW} />
         <B x={30} y={122} w={540} h={52} label="まずサイバー防御の担当者だけ" sub="Fairwindプログラム（審査制）" fill={YELLOW} />
-        <B x={30} y={186} w={540} h={46} label="開発者・企業・一般は時期未定" dashed={true} />
-        <T x={300} y={254} text="公表スコアは安全装置を外して測った、と明記されている" size={13} color={INK} />
+        <B x={30} y={186} w={540} h={52} label="2026年11月10日、一般提供へ" sub="Geminiアプリは最上位プラン限定" />
+        <T x={300} y={262} text="公表スコアは安全装置を外して測った、と明記されている" size={13} color={INK} />
       </Svg>
     ),
   },

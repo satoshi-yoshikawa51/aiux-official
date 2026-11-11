@@ -55,7 +55,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-11-11";
+export const GLOSSARY_UPDATED = "2026-11-12";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
@@ -1224,16 +1224,26 @@ const TERMS_BATCH2: GlossaryTerm[] = [
       "ChatGPTと並ぶ代表的なAIアシスタントで、特に日本語の文章の自然さ、長い資料の読み込み、コーディング支援の評価が高いモデルです。このサイトのコンテンツ制作や、掲載しているゲーム・アプリの開発でも、Claudeを中心に使っています。",
       "コーディングエージェント「Claude Code」、デザイン生成、エージェント機能など周辺ツールの進化も速く、「AIに作業を任せる」体験を先取りしたい人に向いています。まずは遊びながら体感できるClaude Code Questからどうぞ。",
     ],
+    sections: [
+      {
+        heading: "表計算とホワイトボードが付きました（追記）",
+        body: [
+          "2026年11月10日、AnthropicがClaudeに「Claude Sheets」と「Claude Whiteboards」を追加しました。Sheetsは表計算で、複数のタブ、数式、書式、ドロップダウンを作ったり直したりでき、どこを変えたかも示されます。Whiteboardsは共有のボードで、散らばった案をテーマごとにまとめたり、時間の流れや担当を並べて整理したりする用途です。どちらもベータの位置づけで、有料プランの利用者が対象。ウェブ・デスクトップ・スマートフォンで使えますが、展開は順次で、自分のアカウントに出てくるまで数日かかることがあるとされています。",
+          "期待しすぎないための注記もあります。Anthropic自身が、Sheetsの表計算の機能は今のところ簡単なものだと認めており、込み入った作業はxlsxやCSVに書き出して別のソフトで続ける前提です。扱えるセル数に上限があるという指摘も出ています。ふだんの表計算ソフトを置き換えるものというより、会話の中で作った表をそのまま触れるようにした、と捉えるのが実態に近いはずです。",
+          "あわせて、ビデオ通話に参加してメモを作る「Claude Meetings」も案内されました。こちらはTeamとEnterpriseのプラン向けで、提供開始の時期は公表されていません。チャットの答えがその場で流れていくのではなく、残って編集できる形に寄せていく——という方向は、ほかの各社とも重なる2026年の流れです。",
+        ],
+      },
+    ],
     links: [
       { label: "Claude Code とは（用語解説）", href: "/glossary/claude-code" },
       { label: "Claude Code Quest（遊びながら学べるRPG）", href: "/works/claude-code-quest" },
     ],
-    relatedSlugs: ["claude-code", "chatgpt", "llm"],
+    relatedSlugs: ["claude-code", "chatgpt", "llm", "claude-fable", "anthropic", "ai-agent"],
     faq: [
       { q: "Claudeは無料で使えますか？", a: "無料プランがあります。回数に制限はありますが、日常的な文章作成や相談なら無料でも十分試せます。" },
       { q: "ChatGPTとどちらがいいですか？", a: "一長一短です。長文読解・自然な日本語・コーディングでClaudeを推す声が多い一方、機能の幅はChatGPTが広い。当サイトの比較ページで用途別に整理しています。" },
     ],
-    lastUpdated: "2026-07-12",
+    lastUpdated: "2026-11-12",
   },
   {
     slug: "gemini",
