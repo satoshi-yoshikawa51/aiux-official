@@ -1,14 +1,104 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-11T01:27:48.118Z",
+  "updatedAt": "2026-11-12T02:29:15.923Z",
   "items": [
     {
-      "title": "ChatGPTでビジネスを展開できる新機能 自社サイトのクリック数集計、顧客へのAIチャット提供など 一部機能は米国から",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/11/2000003088/",
+      "title": "OpenAI、AI旅行サービス「Odessia」を買収",
+      "url": "https://japan.cnet.com/article/35254754/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-12T01:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2025/04/17/b79c44c79c169fc817b4d1c4d8e3afb8/chatgpt-openai-logo-gettyimages-2208674774_1280x960.jpg"
+    },
+    {
+      "title": "信州AI・IT活用相談室、長野県上伊那地域の4社で業務改善支援を開始",
+      "url": "https://ascii.jp/elem/000/004/450/4450817/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-12T01:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "楽天市場のイベント毎の深夜作業と戻し忘れを解消。「ECPRO BRAIN」が、サムネイルや商品名の変更を予約できる新機能「販促プラン」をリリース",
+      "url": "https://ascii.jp/elem/000/004/450/4450819/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-12T01:00:00.000Z"
+    },
+    {
+      "title": "Amazon、AWSのAPIを手元で再現する「AWS Emulator」を無償公開 コードはすべてAIエージェントが記述",
+      "url": "https://www.itmedia.co.jp/news/article/2611/12/2000003126/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-11T00:27:17.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/11/2000003088/10011815/2048"
+      "date": "2026-11-12T00:56:17.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/12/2000003126/10011943/2048"
+    },
+    {
+      "title": "【TechSuite株式会社】【業界特化調査 第38弾】AI検索パートナーズ、BtoB広告代理店選びのAI検索対策（LLMO/AIO/GEO/AEO）調査を実施｜首位でも登場率が18.1%の分散傾向",
+      "url": "https://ascii.jp/elem/000/004/450/4450830/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "title": "Gemini Decisions API: Fast, calibrated multimodal decisions",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-11-11T18:00:00.000Z",
+      "titleJa": "Gemini Decisions API：高速かつ精度を調整したマルチモーダル意思決定",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini__decisions__blog-header_2784x1566.width-1300.png"
+    },
+    {
+      "title": "ChatGPT Plus for veterans and servicemembers",
+      "url": "https://openai.com/index/chatgpt-plus-for-veterans",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-11T08:00:00.000Z",
+      "titleJa": "退役軍人・現役軍人にChatGPT Plusを提供",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/1xM6UVTcHLBSPyEgaezNtb/9e28e813c1d3f25564da209e17526702/chatgpt-plus-for-veterans-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Nvidia’s stock drops as board reportedly preps to oust CEO Jensen Huang",
+      "url": "https://techcrunch.com/2026/11/11/nvidias-stock-drops-as-board-reportedly-preps-to-oust-ceo-jensen-huang/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-11T23:28:45.000Z",
+      "titleJa": "Nvidia株が下落、取締役会がJensen Huang CEOの解任を準備との報道",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/09/Jensen-Huang.jpg?resize=1200,800"
+    },
+    {
+      "title": "Taiwan’s chipmaking giant TSMC to invest $1B in Anthropic, OpenAI",
+      "url": "https://arstechnica.com/ai/2026/11/taiwans-chipmaking-giant-tsmc-to-invest-1b-in-anthropic-openai/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-11-11T18:16:40.000Z",
+      "titleJa": "台湾の半導体大手TSMC、AnthropicとOpenAIに10億ドル出資へ",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/TSMC-Fab-18-1152x648.jpg"
+    },
+    {
+      "title": "Google、選択肢から答えを選ぶことに特化した「Gemini Decisions API」発表 回答を生成せず確率で返す",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/12/2000003123/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-11T22:03:58.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/12/2000003123/10011928/2048"
+    },
+    {
+      "title": "Claude Enterpriseがセキュリティと管理機能を強化 DLP・EDR連携など新機能の全容は",
+      "url": "https://kn.itmedia.co.jp/kn/article/2611/12/2000003082/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-11T22:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2611/12/2000003082/10011795/2048"
+    },
+    {
+      "title": "「非言語系AI」はLLMの弱点を補えるか？ Gartner「2027年の戦略的テクノロジのトップ・トレンド」",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2611/11/news089.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-11T22:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/enterprise/articles/2611/11/cover_news089.jpg"
     },
     {
       "title": "Gemini Intelligence: New features, on more devices",
@@ -16,17 +106,8 @@
       "source": "Google AI（公式）",
       "lang": "en",
       "date": "2026-11-10T19:00:00.000Z",
-      "titleJa": "Gemini Intelligence、新機能をより多くのデバイスへ",
+      "titleJa": "Gemini Intelligence：新機能をより多くのデバイスに",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_Intelligence_Signature27_Hero_2784x156.width-1300.jpg"
-    },
-    {
-      "title": "Google Cloud launches Gemini for healthcare.",
-      "url": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/gemini-for-healthcare/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-11-10T13:00:00.000Z",
-      "titleJa": "Google Cloud、ヘルスケア向けGeminiを提供開始",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/social_share_NWQpgus.max-1440x810.png"
     },
     {
       "title": "Introducing Businesses in ChatGPT",
@@ -34,91 +115,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-11-10T10:00:00.000Z",
-      "titleJa": "ChatGPTに「Businesses」登場",
+      "titleJa": "ChatGPTに「Businesses」を導入",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/7Eicp7g84HA3PCzyVJTfbT/d423890d5a1a863bf69a57bcbbbf6e99/business-agents-blog-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Ring cameras go mobile as Amazon debuts AI-powered security drone and robot",
-      "url": "https://arstechnica.com/ai/2026/11/ring-cameras-go-mobile-as-amazon-debuts-ai-powered-security-drone-and-robot/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-10T22:35:01.000Z",
-      "titleJa": "Amazon、AI搭載の警備ドローンとロボットを発表 Ringカメラが「動く」時代へ",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Ring-Drone-1152x648.jpeg"
-    },
-    {
-      "title": "Grok Build coding agent leaks oodles of confidential info, some belonging to SpaceXSI",
-      "url": "https://arstechnica.com/security/2026/11/grok-build-coding-agent-leaks-oodles-of-confidential-info-some-belonging-to-spacexsi/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-10T21:12:59.000Z",
-      "titleJa": "コーディングエージェント「Grok Build」が機密情報を大量流出、一部はSpaceXSIのものも",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/grok-plugin-marketplace-1152x648.webp"
-    },
-    {
-      "title": "人材紹介会社10社の比較に関するAI回答状況を調査｜32テーマ中13テーマで言及率首位が変化ー「急な欠員補充」でdoda97.9%、営業マネージャー後任採用ではJAC85.4%",
-      "url": "https://ascii.jp/elem/000/004/450/4450373/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-10T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "【新発売】Siri AI対応、ネット障害時も家電操作が可能！リンクジャパン、独自BTメッシュ技術搭載のスマートリモコン「リンクREMO」を発売",
-      "url": "https://ascii.jp/elem/000/004/450/4450386/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-10T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg?20200122"
-    },
-    {
-      "title": "Claude、まるでExcelな表計算機能「Sheets」公開 共同作業用の「Whiteboards」も",
-      "url": "https://japan.cnet.com/article/35254678/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-10T22:34:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/11/82a028fd0b7e9f3baf964e72b253e87a/HWx5V3aXcAAAa-u.jpeg"
-    },
-    {
-      "title": "Google、「Gemini 4 Carbon」提供開始--AstraやFable対抗の最上位AI",
-      "url": "https://japan.cnet.com/article/35254674/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-10T22:30:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/11/c556c9ba7ee99f907a2d1f9084fe36ca/%E8%A6%8B%E5%87%BA%E3%81%97%E7%94%BB%E5%83%8F.jpg"
-    },
-    {
-      "title": "ソフトバンクG、7～9月期は1.1兆円の最終赤字--米AIデータセンター向け発電設備の調達見直し響く",
-      "url": "https://japan.cnet.com/article/35254675/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-10T22:15:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/11/17ee07c1a75aa5282db310b9350db5d0/IMG_3935.jpeg"
-    },
-    {
-      "title": "Google、「Gemini 4 Carbon」一般提供開始 Geminiアプリでは最上位「AI Ultra」限定",
-      "url": "https://www.itmedia.co.jp/news/article/2611/11/2000003083/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-10T22:03:30.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/11/2000003083/10011800/2048"
-    },
-    {
-      "title": "通信大手3社こぞって「フィジカルAI」に参入、なぜ？ ロボットが動くともうかるワケ",
-      "url": "https://www.itmedia.co.jp/business/articles/2611/11/news038.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-10T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2611/11/cover_news038.jpg"
-    },
-    {
-      "title": "ChatGPT Enterprise now available in AWS Marketplace",
-      "url": "https://openai.com/index/chatgpt-enterprise-aws-marketplace",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-09T19:00:00.000Z",
-      "titleJa": "ChatGPT Enterprise、AWS Marketplaceで提供開始",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5DGBSgbf6fNNvNwn1uSuuS/b1cb4070d26ff221cd7f08bbc171b268/chatgpt-enterprise-now-available-in-aws-marketplace-social.png?w=1600&h=900&fit=fill"
     }
   ]
 }
