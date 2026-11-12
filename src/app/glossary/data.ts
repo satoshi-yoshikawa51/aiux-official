@@ -55,7 +55,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-11-12";
+export const GLOSSARY_UPDATED = "2026-11-13";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
@@ -2589,16 +2589,26 @@ const TERMS_BATCH4: GlossaryTerm[] = [
       "コード補完（提案するだけ）から一歩進んで、ファイル操作・コマンド実行・テスト・修正のループを自分で回すのがエージェントの条件です。人間の役割は「何を作るか決める」「途中の成果物を確認する」に変わり、ディレクター的な働き方になります。",
       "実際このサイト（comixai.dev）はClaude Codeにほぼ全部書かせて作られていて、人間（漫画家）は指示とレビューだけ。その体験を遊べる形にしたのがClaude Code Questです。「プログラミングを学ぶ」より先に「AIへの頼み方を学ぶ」時代が、もう来ています。",
     ],
+    sections: [
+      {
+        heading: "人のレビューなしで出荷されたものが出てきました（追記）",
+        body: [
+          "2026年11月11日（現地時間）、AWSが「AWS Emulator」を公開しました。クラウドに本物の資源を用意しなくても、手元のパソコンでAWSのAPIを再現してアプリの開発やテストができる道具です。AWSアカウントは不要で、エミュレータ自体は無償。実際にAWSへ配置したときだけ通常の料金がかかります。ソースはGitHubで、権利を手放す形のCC0ライセンスで公開されています。",
+          "注目されたのは中身ではなく作り方のほうでした。AWSは、このコードは自律的に動くAIエージェントが書いたもので、人間のエンジニアによる記述も、コードレビューも行っていないと説明しています。AWSのAPIの定義438件をもとに作られ、対応するサービス数は報道によって200以上から数百まで幅があります。実装の度合いはサービスや操作によって違う、とも案内されています。",
+          "読み方としては、「AIが書けるようになった」より「人がレビューしない選択をした会社が出てきた」のほうが新しい点です。当サイトの「CodeMender」の項で、見つける速度が上がると詰まる場所は確認して取り込む側に移ると書きましたが、その詰まりを「確認しない」で抜けた例になります。ただしこれは、間違っても手元のテスト環境が困るだけ、という性質の道具だからできた選択でもあります。自分の仕事に当てはめるときは、失敗したときに誰が困るのかを先に確かめてください。",
+        ],
+      },
+    ],
     links: [
       { label: "Claude Codeを遊びながら学べるRPG「Claude Code Quest」", href: "/works/claude-code-quest" },
       { label: "スマホのClaude Codeだけでニュースアプリを作った記録", href: "https://note.com/aiux_unite/n/n750de90c0668" },
     ],
-    relatedSlugs: ["claude-code", "ai-agent", "vibe-coding"],
+    relatedSlugs: ["claude-code", "ai-agent", "vibe-coding", "codemender", "deep-review", "github-copilot"],
     faq: [
       { q: "代表的なコーディングエージェントは？", a: "Claude Code、OpenAIのCodex、GitHub Copilotのエージェント機能などが代表格です。" },
       { q: "エンジニアは不要になりますか？", a: "実装の手作業は減りますが、要件を決め、出来を確かめ、責任を持つ人は不要になりません。「書く人」から「任せて確かめる人」への役割シフトが実態です。" },
     ],
-    lastUpdated: "2026-07-12",
+    lastUpdated: "2026-11-13",
     secret: {
       href: "/agent",
       title: "AIエージェントに、任せてみた。",
