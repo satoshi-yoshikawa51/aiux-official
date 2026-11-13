@@ -2073,6 +2073,21 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "gemini-4-hydrogen": {
+    caption: "上を伸ばす話と、下に広げる話",
+    render: () => (
+      <Svg h={330} title="Gemini 4 Hydrogenの位置づけと提供範囲の図解">
+        <T x={300} y={22} text="同じGemini 4の中で、向きが逆の2本が出た" size={13.5} color={INK} />
+        <B x={30} y={42} w={255} h={58} label="Argon／Carbon" sub="長い開発と防御。最上位プラン前提" />
+        <B x={315} y={42} w={255} h={58} label="Gemini 4 Hydrogen" sub="毎日の作業。速くて安い" fill={YELLOW} />
+        <AV x={442} y1={104} y2={132} />
+        <B x={30} y={136} w={540} h={56} label="無料の利用者にも回ってくる" sub="ただし自動選択（Auto）経由。名指しでは選べない" />
+        <AV x={300} y1={196} y2={224} />
+        <B x={30} y={228} w={540} h={52} label="組ませる使い方も示された" sub="計画はCarbon、編集とテストはHydrogen" dashed={true} />
+        <T x={300} y={306} text="便利になるぶん、どれが答えたのかは見えにくくなる" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {

@@ -55,7 +55,7 @@ export interface GlossaryTerm {
   secret?: { href: string; title: string; desc: string; cta?: string };
 }
 
-export const GLOSSARY_UPDATED = "2026-11-13";
+export const GLOSSARY_UPDATED = "2026-11-14";
 
 /* トップページのチップと一覧の「まずはこの12語」に出す代表用語 */
 export const FEATURED_SLUGS = [
@@ -1266,18 +1266,28 @@ const TERMS_BATCH2: GlossaryTerm[] = [
           "読み替えとしては、「無料でどこまでできるか」が各社とも絞られてきている流れの一例です。無料で試して合うかどうかを確かめ、効く用途が見つかったらその分だけ払う——この順番は変わりません。ただし無料枠の中身は変わるものだという前提で、特定のモデルに手順を固めすぎないほうが安全です。",
         ],
       },
+      {
+        heading: "無料でも新しいモデルが回ってくるようになりました（追記）",
+        body: [
+          "2026年11月12日（米国時間）、Googleが「Gemini 4 Hydrogen」を発表しました。上の節で「無料アカウントで選べるモデルはいちばん軽いFlash-Liteだけ」と書きましたが、この新しいモデルは無料の利用者にも届きます。ただし、選べるようになったわけではありません。モデル選択のメニューには出てこず、入力した内容に応じてGoogleが自動で割り当てる「Auto」を通して、適したと判断されたときに回ってくる形です。名指しで指定できるのは有料プランの側です。",
+          "ですので、上の節の「選べるモデルはFlash-Liteだけ」はいまも変わっていません。変わったのは、選べないまま速いモデルに当たることがある、という点です。軽い調べものをする分には黙って得をする話ですが、「毎回このモデルで動かす」という前提の手順は作れません。同じ質問でも、タイミングによって別のモデルに回ることがあるためです。自動の振り分けそのものは「モデルルーティング」の項に書きました。",
+          "Google検索のAIモードについては、すべての利用者が対象とされています。日本向けの個別の発表は2026年11月時点で見当たらないので、自分のアプリの表示で確かめるのが確実です。モデルの中身と料金は専用の用語ページにまとめたので、詳しくはそちらをご覧ください。",
+        ],
+      },
     ],
     links: [
       { label: "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）", href: "https://note.com/aiux_unite/n/n24dc19c0ff2d" },
       { label: "企画(施策)の「承認フロー」を通すAI活用術", href: "https://note.com/aiux_unite/n/ndae7f58601fc" },
+      { label: "用語：Gemini 4 Hydrogen（無料にも回ってくる新しいモデル）", href: "/glossary/gemini-4-hydrogen" },
     ],
-    relatedSlugs: ["notebooklm", "chatgpt", "ai-workflow", "gemini-omni", "slm"],
+    relatedSlugs: ["notebooklm", "chatgpt", "ai-workflow", "gemini-omni", "slm", "gemini-4-hydrogen", "model-routing"],
     faq: [
       { q: "Geminiは無料で使えますか？", a: "無料で使えます。上位モデルや大容量の機能を使うには有料プランが必要です。" },
       { q: "Googleサービスとどう連携できますか？", a: "GmailやドキュメントなどWorkspaceに組み込まれており、メールの下書きや資料の要約をアプリ内で頼めます。検索との連動も強みです。" },
       { q: "2026年10月9日から無料で使えるモデルはどれですか？", a: "無料アカウントは「Flash-Lite」だけになります。それまで選べたFlashとProは対象外です。中位の有料プラン（AI Plus）はFlashが残り、Proが外れます。上位のAI Pro・AI Ultraは変更なしと案内されています。開発者向けのAPIと、職場で使う法人向けアカウントはこの変更の対象外です。" },
+      { q: "無料でも「Gemini 4 Hydrogen」が使えると聞きました。", a: "Geminiアプリでは無料の利用者にも回ってきます。ただしモデル選択のメニューから名指しで選ぶことはできず、内容に応じてGoogleが自動で割り当てる「Auto」を通して当たる形です。選べるモデルがFlash-Liteだけという点は変わっていません。Google検索のAIモードはすべての利用者が対象とされています。" },
     ],
-    lastUpdated: "2026-10-08",
+    lastUpdated: "2026-11-14",
   },
   {
     slug: "notebooklm",
