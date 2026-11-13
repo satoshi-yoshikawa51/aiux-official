@@ -1,44 +1,97 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-12T02:29:15.923Z",
+  "updatedAt": "2026-11-13T02:05:42.923Z",
   "items": [
     {
-      "title": "OpenAI、AI旅行サービス「Odessia」を買収",
-      "url": "https://japan.cnet.com/article/35254754/",
-      "source": "CNET Japan",
+      "title": "「AI処理、データ非保持が守られず」――Notionが委託先の問題指摘、漏えいの恐れ巡り",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/13/2000003172/",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-12T01:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2025/04/17/b79c44c79c169fc817b4d1c4d8e3afb8/chatgpt-openai-logo-gettyimages-2208674774_1280x960.jpg"
+      "date": "2026-11-13T01:22:05.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/13/2000003172/10012075/2048"
     },
     {
-      "title": "信州AI・IT活用相談室、長野県上伊那地域の4社で業務改善支援を開始",
-      "url": "https://ascii.jp/elem/000/004/450/4450817/?rss",
+      "title": "M365障害、ChatGPT／Claudeのコネクタにも影響 「ほとんどのリクエストで動作しない」",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/13/2000003164/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-13T00:08:39.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/13/2000003164/10012056/2048"
+    },
+    {
+      "title": "株式会社Own B、AIで仕様書を数分で作成するアパレル製造プラットフォーム「Own B AI」を正式リリース",
+      "url": "https://ascii.jp/elem/000/004/451/4451211/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-11-12T01:00:00.000Z",
+      "date": "2026-11-13T00:00:00.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "楽天市場のイベント毎の深夜作業と戻し忘れを解消。「ECPRO BRAIN」が、サムネイルや商品名の変更を予約できる新機能「販促プラン」をリリース",
-      "url": "https://ascii.jp/elem/000/004/450/4450819/?rss",
+      "title": "エネルギー・ファースト NeoCloud の Bentaus 社、ドライブネッツの高性能 AI ファブリックと AMD GPU を導入 - AI トークン生成に要するエネルギーを 30% 削減",
+      "url": "https://ascii.jp/elem/000/004/451/4451213/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-11-12T01:00:00.000Z"
+      "date": "2026-11-13T00:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "Amazon、AWSのAPIを手元で再現する「AWS Emulator」を無償公開 コードはすべてAIエージェントが記述",
-      "url": "https://www.itmedia.co.jp/news/article/2611/12/2000003126/",
+      "title": "Google’s new Gemini model is better at understanding complicated questions",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1032505/google-search-ai-mode-gemini-4-hydrogen",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-12T21:55:32.000Z",
+      "titleJa": "Googleの新Geminiモデル、複雑な質問の理解力が向上",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25290329/STK255_Google_Gemini_A.jpg?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
+    },
+    {
+      "title": "Nebius tests the neocloud playbook with $40 billion in planned spending",
+      "url": "https://techcrunch.com/2026/11/12/nebius-tests-the-neocloud-playbook-with-40-billion-in-planned-spending/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-12T21:27:10.000Z",
+      "titleJa": "Nebius、400億ドルの投資計画で「ネオクラウド」戦略を試す",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/11/GettyImages-2300447831.jpg?w=1024"
+    },
+    {
+      "title": "Google faces calls for AI moratoriums in schools after Gemini pilot backlash",
+      "url": "https://arstechnica.com/tech-policy/2026/11/families-fight-to-keep-googles-disturbing-ai-off-school-issued-chromebooks/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-11-12T18:57:45.000Z",
+      "titleJa": "Gemini試験導入への反発で、Googleに学校でのAI一時停止を求める声",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Win-win-1152x648.jpeg"
+    },
+    {
+      "title": "Google、高速で低価格の「Gemini 4 Hydrogen」発表 無料ユーザーも利用可能",
+      "url": "https://www.itmedia.co.jp/news/article/2611/13/2000003162/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-12T00:56:17.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/12/2000003126/10011943/2048"
+      "date": "2026-11-12T23:04:46.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/13/2000003162/10012050/2048"
     },
     {
-      "title": "【TechSuite株式会社】【業界特化調査 第38弾】AI検索パートナーズ、BtoB広告代理店選びのAI検索対策（LLMO/AIO/GEO/AEO）調査を実施｜首位でも登場率が18.1%の分散傾向",
-      "url": "https://ascii.jp/elem/000/004/450/4450830/?rss",
-      "source": "ASCII.jp",
+      "title": "設計／製造から工場運用へ、オートデスクが描く工場全体の最適化戦略",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2611/13/news012.html",
+      "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-12T00:00:00.000Z"
+      "date": "2026-11-12T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2611/13/cover_news012.jpg"
+    },
+    {
+      "title": "中国、AIとの「親密さ」を規制へ--AIに相談する中国人の実態と不安",
+      "url": "https://japan.zdnet.com/article/35254663/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-12T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2024/12/06/e842a9b7cb4a959c364f8e7a66f8242f/241206_china_as_1280_1043161556.jpg"
+    },
+    {
+      "title": "マイクロソフトの「Outlook」で大規模障害--Microsoft 365、Copilotなどにも影響",
+      "url": "https://japan.cnet.com/article/35254809/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-12T21:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/13/c5a7ffacb8b2691bc1e4eb227601df80/outlook-large.jpg"
     },
     {
       "title": "Gemini Decisions API: Fast, calibrated multimodal decisions",
@@ -46,7 +99,7 @@
       "source": "Google AI（公式）",
       "lang": "en",
       "date": "2026-11-11T18:00:00.000Z",
-      "titleJa": "Gemini Decisions API：高速かつ精度を調整したマルチモーダル意思決定",
+      "titleJa": "Gemini Decisions API：高速かつキャリブレーション済みのマルチモーダル意思決定",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini__decisions__blog-header_2784x1566.width-1300.png"
     },
     {
@@ -57,57 +110,6 @@
       "date": "2026-11-11T08:00:00.000Z",
       "titleJa": "退役軍人・現役軍人にChatGPT Plusを提供",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/1xM6UVTcHLBSPyEgaezNtb/9e28e813c1d3f25564da209e17526702/chatgpt-plus-for-veterans-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Nvidia’s stock drops as board reportedly preps to oust CEO Jensen Huang",
-      "url": "https://techcrunch.com/2026/11/11/nvidias-stock-drops-as-board-reportedly-preps-to-oust-ceo-jensen-huang/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-11T23:28:45.000Z",
-      "titleJa": "Nvidia株が下落、取締役会がJensen Huang CEOの解任を準備との報道",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/09/Jensen-Huang.jpg?resize=1200,800"
-    },
-    {
-      "title": "Taiwan’s chipmaking giant TSMC to invest $1B in Anthropic, OpenAI",
-      "url": "https://arstechnica.com/ai/2026/11/taiwans-chipmaking-giant-tsmc-to-invest-1b-in-anthropic-openai/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-11T18:16:40.000Z",
-      "titleJa": "台湾の半導体大手TSMC、AnthropicとOpenAIに10億ドル出資へ",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/TSMC-Fab-18-1152x648.jpg"
-    },
-    {
-      "title": "Google、選択肢から答えを選ぶことに特化した「Gemini Decisions API」発表 回答を生成せず確率で返す",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/12/2000003123/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-11T22:03:58.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/12/2000003123/10011928/2048"
-    },
-    {
-      "title": "Claude Enterpriseがセキュリティと管理機能を強化 DLP・EDR連携など新機能の全容は",
-      "url": "https://kn.itmedia.co.jp/kn/article/2611/12/2000003082/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-11T22:00:00.000Z",
-      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2611/12/2000003082/10011795/2048"
-    },
-    {
-      "title": "「非言語系AI」はLLMの弱点を補えるか？ Gartner「2027年の戦略的テクノロジのトップ・トレンド」",
-      "url": "https://www.itmedia.co.jp/enterprise/articles/2611/11/news089.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-11T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/enterprise/articles/2611/11/cover_news089.jpg"
-    },
-    {
-      "title": "Gemini Intelligence: New features, on more devices",
-      "url": "https://blog.google/products-and-platforms/platforms/android/gemini-intelligence-november-features-devices/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-11-10T19:00:00.000Z",
-      "titleJa": "Gemini Intelligence：新機能をより多くのデバイスに",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_Intelligence_Signature27_Hero_2784x156.width-1300.jpg"
     },
     {
       "title": "Introducing Businesses in ChatGPT",
