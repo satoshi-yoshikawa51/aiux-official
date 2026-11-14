@@ -1,0 +1,1700 @@
+/* ============================================================
+   /kazue —「号外!! 新選組カズエ RE:BOOT」ティザー専用のスタイル。
+
+   ・白黒のマンガ原稿が主役。色は --ink-900 / --paper-0 の2色だけで組み、
+     赤（--red-500）は「斬る」瞬間の一太刀にだけ使う。
+   ・動きは3系統ある：
+       ①時間で進むもの  … 幕開け・ロゴの着地・紙吹雪（@keyframes）
+       ②スクロールに連動 … teaser.tsx が各ブロックに --p（0→1）を入れる
+       ③視界に入ったら   … teaser.tsx が .is-in を付ける
+   ・隠す系の初期状態はすべて .kz-js（JSが動いた印）の下に書く。
+     JSが無効でも原稿は全部読める。
+   ・<section> は使わない。globals.css が section 全体に付けている
+     出現アニメーションと二重になるため。
+   ============================================================ */
+
+.kz-root {
+  --k: var(--ink-900);
+  --w: var(--paper-0);
+  --p: 0;
+  --mx: 0;
+  --my: 0;
+  background: var(--w);
+  color: var(--k);
+  overflow-x: clip;
+  font-family: var(--font-display);
+}
+.kz-root img {
+  max-width: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ───────── 常駐するUI（進捗バーとホームへの戻り） ───────── */
+.kz-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 4px;
+  z-index: 60;
+  background: var(--w);
+  mix-blend-mode: difference;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--kz-total, 0));
+  pointer-events: none;
+}
+.kz-home {
+  position: fixed;
+  top: 16px;
+  left: 18px;
+  z-index: 60;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--w);
+  mix-blend-mode: difference;
+  text-decoration: none;
+  padding: 8px 4px;
+}
+.kz-home:hover {
+  text-decoration: underline;
+}
+
+/* ───────── 幕開け ───────── */
+.kz-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--k);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.kz-curtain span {
+  font-weight: 900;
+  font-size: clamp(64px, 18vw, 220px);
+  letter-spacing: 0.04em;
+  color: var(--w);
+  font-style: italic;
+}
+
+/* ───────── ヒーロー ───────── */
+.kz-hero {
+  position: relative;
+  height: 230vh;
+  background: var(--k);
+}
+.kz-hero-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--k);
+}
+.kz-bg-wrap {
+  position: absolute;
+  inset: -7%;
+  /* スクロールでは拡大しない。カメラが下へ降りるように、絵を上へ送る */
+  transform: translate3d(calc(var(--mx) * -14px), calc(var(--my) * -10px - var(--p) * 5.5%), 0);
+  will-change: transform;
+}
+.kz-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% calc(10% + var(--p) * 62%);
+}
+.kz-cast-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: -15vh;
+  height: min(118vh, 210vw);
+  height: min(118svh, 210vw);
+  aspect-ratio: 1219 / 1744;
+  transform-origin: 50% 38%;
+  transform: translate3d(calc(-50% + var(--mx) * 18px), calc(var(--my) * 10px + var(--p) * 6%), 0)
+    scale(calc(1 + var(--p) * 0.9));
+  will-change: transform;
+  /* 原稿のコマ枠で切れている左右の端を、霞ませて消す */
+  -webkit-mask-image: linear-gradient(to right, transparent 2%, #000 16%, #000 84%, transparent 98%);
+  mask-image: linear-gradient(to right, transparent 2%, #000 16%, #000 84%, transparent 98%);
+}
+.kz-cast {
+  width: 100%;
+  height: 100%;
+}
+.kz-ash {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+/* 周辺を落として視線を中央へ。網点も薄く乗せる */
+.kz-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 42%, transparent 38%, color-mix(in srgb, var(--k) 78%, transparent) 100%),
+    linear-gradient(to top, color-mix(in srgb, var(--k) 82%, transparent) 0%, transparent 34%);
+}
+.kz-hero-black {
+  position: absolute;
+  inset: 0;
+  background: var(--k);
+  pointer-events: none;
+  opacity: clamp(0, calc((var(--p) - 0.55) / 0.4), 1);
+}
+.kz-flash {
+  position: absolute;
+  inset: 0;
+  background: var(--w);
+  opacity: 0;
+  pointer-events: none;
+}
+.kz-hero-copy {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(52px, 8vh, 90px);
+  width: min(560px, 84vw, 46vh);
+  text-align: center;
+  transform: translate3d(calc(-50% + var(--mx) * 26px), calc(var(--my) * 14px - var(--p) * 60vh), 0);
+  opacity: clamp(0, calc(1 - var(--p) * 3.2), 1);
+  will-change: transform, opacity;
+}
+.kz-hero-copy h1 {
+  margin: 0;
+}
+.kz-logo {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 24px color-mix(in srgb, var(--k) 55%, transparent));
+}
+.kz-kicker {
+  display: inline-block;
+  position: absolute;
+  left: -4%;
+  top: -18px;
+  z-index: 1;
+  margin: 0;
+  padding: 5px 16px 6px;
+  background: var(--w);
+  color: var(--k);
+  border: var(--bw-bold) solid var(--k);
+  font-weight: 900;
+  font-size: clamp(14px, 2vw, 18px);
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  transform: rotate(-8deg);
+}
+.kz-soon {
+  margin: 14px 0 0;
+  color: var(--w);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(11px, 1.5vw, 14px);
+  letter-spacing: 0.34em;
+  text-shadow: 0 2px 10px var(--k);
+}
+.kz-soon b {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(20px, 3.4vw, 30px);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+/* 左右の縦書き（広い画面だけ） */
+.kz-side {
+  position: absolute;
+  top: 50%;
+  writing-mode: vertical-rl;
+  color: var(--w);
+  font-weight: 900;
+  line-height: 1.15;
+  white-space: nowrap;
+  text-shadow: 0 4px 22px var(--k);
+  opacity: clamp(0, calc(1 - var(--p) * 3.2), 1);
+  pointer-events: none;
+  display: none;
+}
+.kz-side-r {
+  right: clamp(28px, 6vw, 110px);
+  /* 10文字を縦に並べるので、高さ基準でも上限を掛ける（低い窓で上が切れないように） */
+  font-size: clamp(22px, min(4.4vw, 6vh), 68px);
+  letter-spacing: 0.12em;
+  transform: translate3d(calc(var(--mx) * 30px), calc(-50% + var(--my) * 16px), 0);
+}
+.kz-side-l {
+  left: clamp(28px, 6vw, 110px);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.5em;
+  transform: translate3d(calc(var(--mx) * 30px), -50%, 0) rotate(180deg);
+}
+@media (min-width: 1000px) {
+  .kz-side {
+    display: block;
+  }
+}
+.kz-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  color: var(--w);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  opacity: clamp(0, calc(1 - var(--p) * 8), 1);
+}
+.kz-cue::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 26px;
+  margin: 6px auto 0;
+  background: var(--w);
+  transform-origin: 50% 0;
+}
+
+/* ───────── 号外の帯 ───────── */
+.kz-band {
+  position: relative;
+  z-index: 2;
+  background: var(--k);
+  padding: 0 0 34px;
+  overflow: hidden;
+}
+.kz-band-row {
+  display: flex;
+  width: max-content;
+  background: var(--w);
+  color: var(--k);
+  border-block: var(--bw-heavy) solid var(--k);
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(22px, 4vw, 44px);
+  line-height: 1;
+  padding: 12px 0 14px;
+  white-space: nowrap;
+  transform: rotate(-1.6deg) translateX(-2%);
+}
+.kz-band-row + .kz-band-row {
+  background: var(--k);
+  color: var(--w);
+  border-color: var(--w);
+  margin-top: -6px;
+  transform: rotate(1.2deg) translateX(-2%);
+}
+.kz-band-row > span {
+  display: flex;
+  gap: 0.9em;
+  padding-right: 0.9em;
+}
+.kz-band-row em {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.5em;
+  align-self: center;
+  letter-spacing: 0.2em;
+}
+
+/* ───────── 共通：ブロックと見出し ───────── */
+.kz-sec {
+  position: relative;
+  padding: clamp(80px, 12vw, 150px) 0;
+}
+.kz-inner {
+  width: min(1080px, 92vw);
+  margin: 0 auto;
+}
+.kz-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 clamp(28px, 5vw, 56px);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+}
+.kz-label::before {
+  content: "";
+  width: 56px;
+  height: var(--bw-heavy);
+  background: currentColor;
+}
+.kz-big {
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(30px, 6.4vw, 84px);
+  line-height: 1.28;
+  letter-spacing: 0.02em;
+}
+.kz-big .kz-ch {
+  display: inline-block;
+}
+.kz-nowrap {
+  display: inline-block;
+}
+.kz-panel {
+  margin: 0;
+  position: relative;
+}
+.kz-panel img {
+  width: 100%;
+  height: auto;
+}
+
+/* ───────── プロローグ（つまらん） ───────── */
+.kz-prologue {
+  background: var(--w);
+}
+/* 原稿と同じく、コマは縦に積む（横に並べない） */
+.kz-pro-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(14px, 2.4vw, 26px);
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+.kz-pro-grid .kz-big {
+  padding: clamp(34px, 7vw, 84px) 0;
+  font-size: clamp(27px, 6.6vw, 62px);
+}
+
+/* ───────── ゾクッ ───────── */
+.kz-zoku {
+  background: var(--k);
+  color: var(--w);
+  overflow: hidden;
+}
+.kz-zoku-grid {
+  display: grid;
+  gap: clamp(14px, 2.4vw, 26px);
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 860px) {
+  .kz-zoku-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
+}
+.kz-sfx {
+  margin: 0;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(72px, 11vw, 150px);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: var(--w);
+  text-shadow:
+    0.06em 0.05em 0 var(--k),
+    0.09em 0.08em 0 var(--w),
+    0.15em 0.13em 0 var(--k),
+    0.18em 0.16em 0 color-mix(in srgb, var(--w) 45%, transparent);
+  white-space: nowrap;
+}
+.kz-zoku-note {
+  margin: clamp(18px, 3vw, 30px) 0 0;
+  font-weight: 700;
+  font-size: clamp(15px, 2vw, 20px);
+  letter-spacing: 0.3em;
+}
+
+/* ───────── カズエ登場（一太刀で幕が割れる） ───────── */
+.kz-kazue {
+  position: relative;
+  height: 330vh;
+  background: var(--k);
+}
+.kz-kazue-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--w);
+  --cut: clamp(0, calc((var(--p) - 0.15) / 0.07), 1);
+  --open: clamp(0, calc((var(--p) - 0.22) / 0.3), 1);
+  --name: clamp(0, calc((var(--p) - 0.56) / 0.2), 1);
+}
+/* 集中線。中心は人物の顔あたり */
+.kz-lines {
+  position: absolute;
+  inset: -40%;
+  background: repeating-conic-gradient(from 0deg at 50% 46%, var(--k) 0deg 0.5deg, transparent 0.5deg 3.1deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 46%, transparent 0 24%, #000 60%);
+  mask-image: radial-gradient(circle at 50% 46%, transparent 0 24%, #000 60%);
+  opacity: 0.55;
+}
+.kz-kazue-fig {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 0;
+  width: min(94vw, calc(88vh * 1186 / 1258));
+  width: min(94vw, calc(88svh * 1186 / 1258));
+  transform: translate3d(calc(-50% + var(--mx) * -10px), calc(-50% + var(--my) * -8px), 0)
+    scale(calc(1.32 - var(--open) * 0.32));
+  box-shadow: 0 0 0 var(--bw-heavy) var(--k), 14px 14px 0 0 var(--k);
+  background: var(--w);
+}
+.kz-kazue-fig img {
+  width: 100%;
+  height: auto;
+}
+.kz-name {
+  position: absolute;
+  right: clamp(10px, 5vw, 90px);
+  top: 50%;
+  writing-mode: vertical-rl;
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(60px, 13vw, 190px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--w);
+  -webkit-text-stroke: 3px var(--k);
+  paint-order: stroke fill;
+  text-shadow: 7px 7px 0 var(--k);
+  opacity: var(--name);
+  transform: translate3d(0, calc(-50% + (1 - var(--name)) * 26vh), 0);
+}
+.kz-name small {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.4em;
+  color: var(--k);
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  background: var(--w);
+  padding: 6px 3px;
+}
+@media (max-width: 859px) {
+  .kz-name {
+    top: auto;
+    bottom: 5vh;
+    right: 4vw;
+    transform: translate3d(0, calc((1 - var(--name)) * 20vh), 0);
+  }
+}
+/* 幕（JSが動いているときだけ閉じておく） */
+.kz-cover {
+  position: absolute;
+  inset: -2px;
+  background: var(--k);
+  display: none;
+  will-change: transform;
+}
+.kz-cover-a {
+  clip-path: polygon(0 0, calc(100% + 3px) 0, 0 calc(100% + 3px));
+  transform: translate3d(calc(var(--open) * -72%), calc(var(--open) * -72%), 0);
+}
+.kz-cover-b {
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  transform: translate3d(calc(var(--open) * 72%), calc(var(--open) * 72%), 0);
+}
+/* 対角線に沿って中心で回し、中の線だけを右上から伸ばす */
+.kz-slash {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240vmax;
+  height: 6px;
+  margin: -3px 0 0 -120vmax;
+  --ang: -32deg;
+  transform: rotate(var(--ang));
+  opacity: calc(1 - var(--open) * 1.6);
+  display: none;
+}
+.kz-slash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--red-500);
+  box-shadow: 0 0 26px 4px var(--red-500);
+  transform: scaleX(var(--c, var(--cut)));
+  transform-origin: 100% 50%;
+}
+/* 本命（対角線）の前に、二太刀の牽制が入る */
+.kz-slash-1 {
+  --ang: 21deg;
+  --c: clamp(0, calc((var(--p) - 0.04) / 0.06), 1);
+  top: 34%;
+  height: 3px;
+}
+.kz-slash-2 {
+  --ang: -64deg;
+  --c: clamp(0, calc((var(--p) - 0.09) / 0.06), 1);
+  left: 62%;
+  height: 3px;
+}
+.kz-slash-1::before,
+.kz-slash-2::before {
+  background: var(--w);
+  box-shadow: 0 0 18px 2px var(--w);
+}
+.kz-slash-2::before {
+  transform-origin: 0 50%;
+}
+@supports (transform: rotate(atan2(1px, 1px))) {
+  .kz-slash-main {
+    --ang: atan2(-100vh, 100vw);
+  }
+}
+.kz-pre {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--w);
+  font-weight: 900;
+  font-size: clamp(22px, 4.4vw, 52px);
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  opacity: calc(1 - var(--cut) * 1.4);
+  pointer-events: none;
+}
+
+/* ───────── 約20年前（右から左へ読む横スクロール） ───────── */
+.kz-past {
+  position: relative;
+  height: 380vh;
+  background: var(--w);
+}
+.kz-past-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background-color: var(--w);
+  background-image: var(--tone-dots);
+  background-size: var(--tone-dots-size);
+}
+.kz-track {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: clamp(22px, 4vw, 64px);
+  padding: 0 clamp(22px, 7vw, 120px);
+  width: max-content;
+  transform: translate3d(calc(var(--p) * max(0px, 100% - 100vw)), 0, 0);
+  will-change: transform;
+}
+.kz-card {
+  flex: none;
+  writing-mode: vertical-rl;
+  font-weight: 900;
+  line-height: 1.5;
+}
+.kz-card-year {
+  font-size: clamp(54px, 12vh, 130px);
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+}
+.kz-card-year small {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.4em;
+  margin-left: 14px;
+}
+.kz-card-quote {
+  font-size: clamp(26px, 5.2vh, 52px);
+  letter-spacing: 0.1em;
+  background: var(--w);
+  padding: 18px 12px;
+}
+.kz-card-quote b {
+  background: var(--k);
+  color: var(--w);
+  padding: 10px 4px;
+}
+.kz-page {
+  flex: none;
+  margin: 0;
+  height: 78vh;
+  height: 78svh;
+  aspect-ratio: 1186 / 1761;
+  max-width: 86vw;
+  background: var(--w);
+  box-shadow: 0 0 0 var(--bw-bold) var(--k), 10px 10px 0 0 var(--k);
+}
+.kz-page:nth-of-type(odd) {
+  transform: rotate(-1.2deg);
+}
+.kz-page:nth-of-type(even) {
+  transform: rotate(1deg) translateY(1.5vh);
+}
+.kz-page img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.kz-past-bar {
+  position: absolute;
+  left: 8vw;
+  right: 8vw;
+  bottom: 22px;
+  height: var(--bw-bold);
+  background: color-mix(in srgb, var(--k) 16%, transparent);
+}
+.kz-past-bar i {
+  position: absolute;
+  inset: 0;
+  background: var(--k);
+  transform-origin: 100% 50%;
+  transform: scaleX(var(--p));
+}
+
+/* ───────── AIマンガ研究所 ───────── */
+.kz-lab {
+  background-color: var(--k);
+  color: var(--w);
+  overflow: hidden;
+}
+.kz-lab::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--w) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--w) 12%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse at 30% 50%, #000 10%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 30% 50%, #000 10%, transparent 75%);
+}
+.kz-lab-grid {
+  position: relative;
+  display: grid;
+  gap: clamp(34px, 6vw, 80px);
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 860px) {
+  .kz-lab-grid {
+    grid-template-columns: minmax(0, 0.82fr) 1fr;
+  }
+}
+.kz-lab-fig {
+  position: relative;
+  margin: 0 auto;
+  width: min(100%, 440px);
+  background: var(--w);
+  box-shadow: 0 0 0 var(--bw-bold) var(--w), 12px 12px 0 0 var(--w);
+  transform: perspective(1100px) rotateY(calc(var(--mx) * 7deg)) rotateX(calc(var(--my) * -5deg)) rotate(-2deg);
+  overflow: hidden;
+}
+.kz-lab-fig img {
+  width: 100%;
+  height: auto;
+}
+/* スキャンの走査線 */
+.kz-lab-fig::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 22%;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--k) 30%, transparent) 92%, var(--k) 100%);
+  transform: translateY(-110%);
+  pointer-events: none;
+}
+.kz-lab-copy .kz-lab-text {
+  margin: clamp(18px, 3vw, 30px) 0 0;
+  font-weight: 500;
+  font-size: clamp(15px, 1.7vw, 18px);
+  line-height: 2.1;
+  color: var(--paper-200);
+}
+.kz-lab .kz-big {
+  font-size: clamp(28px, 5vw, 62px);
+}
+
+/* ───────── 予告（CTA） ───────── */
+.kz-cta {
+  background: var(--w);
+  text-align: center;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+.kz-cta-logo {
+  width: min(680px, 90vw);
+  height: auto;
+  margin: 0 auto;
+}
+.kz-cta-soon {
+  margin: clamp(22px, 4vw, 40px) 0 0;
+  font-weight: 900;
+  font-size: clamp(30px, 7vw, 76px);
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  line-height: 1.2;
+}
+.kz-cta-soon small {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: clamp(11px, 1.4vw, 14px);
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  margin-bottom: 10px;
+}
+.kz-cta-lead {
+  margin: 20px auto 0;
+  max-width: 34em;
+  text-wrap: balance;
+  font-weight: 500;
+  font-size: clamp(14px, 1.6vw, 16px);
+  line-height: 2;
+  color: var(--ink-700);
+}
+.kz-btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 18px;
+  margin: clamp(26px, 4vw, 40px) 0 0;
+}
+.kz-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 26px;
+  border: var(--bw-bold) solid var(--k);
+  background: var(--k);
+  color: var(--w);
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  box-shadow: 6px 6px 0 0 var(--red-500);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.kz-btn-ghost {
+  background: var(--w);
+  color: var(--k);
+  box-shadow: 6px 6px 0 0 var(--k);
+}
+.kz-btn:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 0 var(--red-500);
+}
+.kz-btn-ghost:hover {
+  box-shadow: 3px 3px 0 0 var(--k);
+}
+.kz-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+.kz-btn i {
+  font-size: 20px;
+}
+.kz-author {
+  position: relative;
+  width: min(900px, 96vw);
+  margin: clamp(30px, 6vw, 70px) auto 0;
+}
+.kz-author img {
+  width: 100%;
+  height: auto;
+}
+/* 文字は、コマの空いている左半分（作者の手より左）の真ん中に置く。
+   画像の中でコマ枠は 上36%〜下98%、空きは 左1%〜43% */
+.kz-author p {
+  position: absolute;
+  left: 1%;
+  top: 36%;
+  width: 42%;
+  height: 62%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(17px, 4.2vw, 42px);
+  line-height: 1.35;
+  letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   ここから下は「動き」。動きを減らす設定の人には一切流さない。
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  /* —— 幕開け：黒幕に「号外!!」→ 斜めに裂けて消える —— */
+  .kz-curtain {
+    display: flex;
+    animation: kz-curtain-out 0.7s var(--ease-in-out) 1s both;
+  }
+  .kz-curtain span {
+    animation: kz-stamp 0.5s var(--ease-pop) 0.12s both;
+  }
+  @keyframes kz-stamp {
+    from {
+      transform: scale(3) rotate(-14deg);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1) rotate(-6deg);
+      opacity: 1;
+    }
+  }
+  @keyframes kz-curtain-out {
+    from {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    to {
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+      visibility: hidden;
+    }
+  }
+
+  /* —— ヒーローの入場 —— */
+  .kz-bg {
+    animation: kz-bg-in 3.4s var(--ease-out) 0.9s both;
+  }
+  @keyframes kz-bg-in {
+    from {
+      transform: scale(1.3);
+      filter: blur(8px) brightness(0.5);
+    }
+    to {
+      transform: none;
+      filter: none;
+    }
+  }
+  /* 影のまま迫ってきて、最後に光が当たる */
+  .kz-cast {
+    animation: kz-cast-in 2s var(--ease-out) 1.5s both;
+  }
+  @keyframes kz-cast-in {
+    0% {
+      transform: translateY(9%) scale(0.92);
+      filter: brightness(0);
+      opacity: 0;
+    }
+    35% {
+      filter: brightness(0);
+      opacity: 1;
+    }
+    70% {
+      transform: none;
+      filter: brightness(0);
+    }
+    100% {
+      transform: none;
+      filter: none;
+      opacity: 1;
+    }
+  }
+  .kz-logo {
+    animation: kz-slam 0.55s cubic-bezier(0.2, 1.4, 0.3, 1) 3.1s both;
+  }
+  @keyframes kz-slam {
+    0% {
+      transform: scale(3.2) rotate(-8deg);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(0.94) rotate(1deg);
+      opacity: 1;
+    }
+    100% {
+      transform: none;
+      opacity: 1;
+    }
+  }
+  .kz-flash {
+    animation: kz-flash 0.5s ease-out 3.32s both;
+  }
+  /* 0%を0にしておく（both指定なので、待ち時間のあいだ0%の値が当たる） */
+  @keyframes kz-flash {
+    0% {
+      opacity: 0;
+    }
+    8% {
+      opacity: 0.95;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .kz-hero-pin {
+    animation: kz-quake 0.45s linear 3.32s both;
+  }
+  @keyframes kz-quake {
+    0%,
+    100% {
+      transform: none;
+    }
+    15% {
+      transform: translate(-9px, 6px);
+    }
+    30% {
+      transform: translate(8px, -7px);
+    }
+    45% {
+      transform: translate(-6px, -4px);
+    }
+    60% {
+      transform: translate(5px, 4px);
+    }
+    80% {
+      transform: translate(-2px, 2px);
+    }
+  }
+  .kz-kicker {
+    animation: kz-pop 0.5s var(--ease-pop) 3.7s both;
+  }
+  .kz-soon,
+  .kz-cue {
+    animation: kz-fade 0.9s var(--ease-out) 4s both;
+  }
+  .kz-side-r {
+    animation: kz-fade 1.2s var(--ease-out) 4.1s both;
+  }
+  .kz-side-l {
+    animation: kz-fade 1.2s var(--ease-out) 4.3s both;
+  }
+  @keyframes kz-pop {
+    from {
+      scale: 0;
+      opacity: 0;
+    }
+    to {
+      scale: 1;
+      opacity: 1;
+    }
+  }
+  @keyframes kz-fade {
+    from {
+      opacity: 0;
+    }
+  }
+  .kz-cue::after {
+    animation: kz-cue 1.6s var(--ease-in-out) infinite;
+  }
+  @keyframes kz-cue {
+    0% {
+      transform: scaleY(0);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+    100% {
+      transform: scaleY(1) translateY(26px);
+      opacity: 0;
+    }
+  }
+
+  /* —— 号外の帯 —— */
+  .kz-band-row > span {
+    animation: kz-marquee 22s linear infinite;
+  }
+  .kz-band-row + .kz-band-row > span {
+    animation-direction: reverse;
+    animation-duration: 28s;
+  }
+  @keyframes kz-marquee {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* —— 集中線はゆっくり回す —— */
+  .kz-lines {
+    animation: kz-spin 26s linear infinite;
+  }
+  @keyframes kz-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* —— 視界に入ったら（.kz-js のときだけ初期状態を隠す） —— */
+  .kz-js .kz-io {
+    transition:
+      opacity 0.8s var(--ease-out),
+      transform 0.9s var(--ease-out);
+  }
+  /* 切り抜きは中の img に掛ける。監視している要素そのものを
+     clip-path で全部隠すと「画面に入った」と判定されなくなるため */
+  .kz-js .kz-io img {
+    transition:
+      transform 0.9s var(--ease-out),
+      clip-path 0.9s var(--ease-in-out);
+  }
+  /* コマは、ふわっと浮き上がるだけ（読むものなので派手に動かさない） */
+  .kz-js .kz-panel.kz-io img {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  .kz-js .kz-panel.kz-io.is-in img {
+    opacity: 1;
+    transform: none;
+    transition:
+      transform 0.8s var(--ease-out),
+      opacity 0.7s var(--ease-out);
+  }
+  .kz-js .kz-io.kz-rise {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .kz-js .kz-io.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  /* 文字が1字ずつ叩きつけられる */
+  .kz-js .kz-io .kz-ch {
+    opacity: 0;
+    transform: translateY(0.5em) rotate(8deg) scale(1.5);
+  }
+  .kz-js .kz-io.is-in .kz-ch {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.25s var(--ease-out),
+      transform 0.45s var(--ease-pop);
+    transition-delay: calc(var(--i) * 34ms + 0.1s);
+  }
+
+  /* —— ゾクッ：震える —— */
+  .kz-js .kz-sfx.is-in {
+    animation: kz-shiver 0.12s steps(2) 0.2s infinite;
+  }
+  @keyframes kz-shiver {
+    0% {
+      transform: translate(-5px, 3px) skewX(-3deg);
+    }
+    100% {
+      transform: translate(5px, -3px) skewX(3deg);
+    }
+  }
+
+  /* —— 研究所：走査線が1回通る —— */
+  .kz-js .kz-lab-fig.is-in::after {
+    animation: kz-scan 2.2s var(--ease-in-out) 0.3s 2;
+  }
+  @keyframes kz-scan {
+    to {
+      transform: translateY(560%);
+    }
+  }
+
+  /* —— 予告：ロゴが着地する —— */
+  .kz-js .kz-cta-logo.kz-io {
+    opacity: 0;
+  }
+  .kz-js .kz-cta-logo.kz-io.is-in {
+    animation: kz-slam 0.6s cubic-bezier(0.2, 1.4, 0.3, 1) both;
+  }
+  .kz-js .kz-author.kz-io img {
+    transform: translateY(40%);
+    transition: transform 0.9s var(--ease-pop) 0.2s;
+  }
+  .kz-js .kz-author.kz-io.is-in img {
+    transform: none;
+  }
+}
+
+/* 幕と一太刀は「スクロールに連動」なので、動きを減らす設定でも
+   ユーザーの操作ぶんしか動かない。JSが動いているときだけ出す */
+.kz-js .kz-cover,
+.kz-js .kz-slash {
+  display: block;
+}
+.kz-js .kz-pre {
+  display: flex;
+}
+
+/* ============================================================
+   演出の上乗せ（速度の歪み・集中線・RE:BOOT の場面）
+   ============================================================ */
+
+/* —— スクロールの速さで歪む（--vel は teaser.tsx が -1〜1 で入れる） —— */
+.kz-band-row {
+  --skew: calc(var(--vel, 0) * -22deg);
+}
+.kz-band {
+  transform: skewY(calc(var(--vel, 0) * 2.4deg));
+}
+
+/* —— ヒーロー：集中線と、ロゴの光 —— */
+.kz-hero-copy h1 {
+  position: relative;
+}
+/* ロゴの形に切り抜いた光の帯 */
+.kz-hero-copy h1::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask: url(/kazue/logo.webp) center / contain no-repeat;
+  mask: url(/kazue/logo.webp) center / contain no-repeat;
+  background: linear-gradient(105deg, transparent 42%, var(--w) 50%, transparent 58%) no-repeat;
+  background-size: 300% 100%;
+  background-position: 130% 0;
+  mix-blend-mode: difference;
+  opacity: 0;
+}
+
+/* —— 約20年前：背景で鳴る心臓の音 —— */
+.kz-past-sfx {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin: 0;
+  white-space: nowrap;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(120px, 34vh, 380px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 2px color-mix(in srgb, var(--k) 20%, transparent);
+  transform: translate3d(calc(-55% + var(--p) * 60vw), -50%, 0);
+  pointer-events: none;
+}
+
+/* —— 入選 → 週刊連載 → RE:BOOT —— */
+.kz-reboot {
+  position: relative;
+  background: var(--k);
+  color: var(--w);
+}
+.kz-reboot-pin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  padding: 90px 0;
+  overflow: hidden;
+  text-align: center;
+}
+.kz-rb {
+  margin: 0;
+  width: min(1100px, 92vw);
+  font-weight: 900;
+  line-height: 1.1;
+}
+.kz-rb small {
+  display: block;
+  margin-bottom: 0.9em;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(12px, 1.5vw, 15px);
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+}
+.kz-rb-1 p {
+  margin: 0;
+}
+.kz-rb-a {
+  font-size: clamp(50px, min(15vw, 15vh), 130px);
+  letter-spacing: 0.06em;
+}
+/* 「入選」は判子 */
+.kz-rb-a b {
+  display: inline-block;
+  margin-left: 0.2em;
+  padding: 0 0.14em 0.04em;
+  border: 0.07em solid currentColor;
+  transform: rotate(-7deg);
+}
+.kz-rb-b {
+  margin-top: 0.8em;
+  font-size: clamp(60px, min(19vw, 19vh), 170px);
+  letter-spacing: 0.04em;
+  font-style: italic;
+}
+.kz-rb-2 p {
+  margin: 0;
+}
+.kz-rb-lead {
+  font-size: clamp(18px, min(3.6vw, 5vh), 44px);
+  letter-spacing: 0.14em;
+}
+.kz-rb-2 .kz-rb-word {
+  position: relative;
+  display: inline-block;
+  margin: 0.06em 0 0.02em;
+  font-style: italic;
+  font-size: clamp(64px, min(20vw, 30vh), 300px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.kz-rb-word::before,
+.kz-rb-word::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.kz-rb-sub {
+  font-size: clamp(20px, min(4.4vw, 6vh), 56px);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+.kz-rb-sub span {
+  display: inline-block;
+  padding: 0.1em 0.5em 0.16em;
+  background: var(--w);
+  color: var(--k);
+}
+.kz-rb-art,
+.kz-rb-lines,
+.kz-rb-flash {
+  position: absolute;
+  pointer-events: none;
+  display: none;
+}
+/* JSが動くときは、3つを同じ場所に重ねて1つずつ見せる */
+.kz-js .kz-reboot {
+  height: 400vh;
+}
+.kz-js .kz-reboot-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  padding: 0;
+  display: block;
+}
+/* 中央寄せは inset + margin:auto で行う。translate プロパティは
+   ビルド時に transform へまとめられ、下の transform 指定に消されるため使わない */
+.kz-js .kz-rb {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  height: fit-content;
+  opacity: 0;
+  transform: scale(0.5);
+  visibility: hidden;
+}
+/* 次の段へ進んでも、入選と週刊連載は消さない。小さく畳んで上に残す
+   （速くスクロールして見逃しても、最後の画面で必ず読める） */
+.kz-js .kz-reboot[data-step="2"] .kz-rb-1 {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-33vh) scale(0.36);
+}
+.kz-js .kz-reboot[data-step="2"] .kz-rb-2 {
+  inset: 13vh 0 0;
+}
+@media (max-width: 859px) {
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-1 {
+    transform: translateY(-30vh) scale(0.56);
+  }
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-2 {
+    inset: 6vh 0 0;
+  }
+}
+.kz-js .kz-reboot[data-step="1"] .kz-rb-1,
+.kz-js .kz-reboot[data-step="2"] .kz-rb-2 {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+}
+.kz-js .kz-rb-lines {
+  display: block;
+  inset: -50%;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, var(--w) 0deg 0.4deg, transparent 0.4deg 2.8deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 22%, #000 52%);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0 22%, #000 52%);
+  opacity: 0.16;
+}
+.kz-js .kz-rb-flash {
+  display: block;
+  inset: 0;
+  background: var(--w);
+  opacity: 0;
+}
+.kz-js .kz-rb-art {
+  display: block;
+  left: 50%;
+  bottom: -18vh;
+  height: 112vh;
+  width: auto;
+  max-width: none;
+  margin-left: calc(112vh * 1219 / 1744 / -2);
+  opacity: 0;
+  filter: brightness(0.5) contrast(1.2);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1.6s var(--ease-out);
+  transform: scale(1.25);
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent 92%);
+}
+.kz-js .kz-reboot[data-step="2"] .kz-rb-art {
+  opacity: 0.42;
+  transform: none;
+}
+.kz-rb-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 26px;
+  width: min(220px, 50vw);
+  height: var(--bw-bold);
+  background: color-mix(in srgb, var(--w) 22%, transparent);
+  display: none;
+}
+.kz-js .kz-rb-bar {
+  display: block;
+}
+.kz-rb-bar i {
+  position: absolute;
+  inset: 0;
+  background: var(--w);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--p));
+}
+
+/* —— 予告：ロゴの後ろの集中線 —— */
+.kz-cta .kz-inner {
+  position: relative;
+}
+.kz-cta-burst {
+  position: absolute;
+  left: 50%;
+  top: clamp(120px, 18vw, 220px);
+  width: 150vmax;
+  height: 150vmax;
+  margin: -75vmax 0 0 -75vmax;
+  pointer-events: none;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, var(--k) 0deg 0.5deg, transparent 0.5deg 3deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 15%, #000 20%, transparent 46%);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0 15%, #000 20%, transparent 46%);
+  opacity: 0.5;
+}
+.kz-cta .kz-inner > *:not(.kz-cta-burst) {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 帯そのものを速さで倒す（流れる中身とは別の層） */
+  .kz-band-row:nth-child(1) {
+    transform: rotate(-1.6deg) translateX(-2%) skewX(var(--skew));
+  }
+  .kz-band-row:nth-child(2) {
+    transform: rotate(1.2deg) translateX(-2%) skewX(var(--skew));
+  }
+  .kz-band-row > span {
+    animation-duration: 13s;
+  }
+  .kz-band-row + .kz-band-row > span {
+    animation-duration: 17s;
+  }
+
+
+  /* 歩いてくる上下動 */
+  .kz-cast {
+    animation:
+      kz-cast-in 2s var(--ease-out) 1.5s both,
+      kz-walk 3.6s var(--ease-in-out) 3.5s infinite alternate;
+  }
+  @keyframes kz-walk {
+    from {
+      transform: translateY(0) scale(1);
+    }
+    to {
+      transform: translateY(-0.3%) scale(1.005);
+    }
+  }
+  .kz-logo {
+    animation:
+      kz-slam 0.55s cubic-bezier(0.2, 1.4, 0.3, 1) 3.1s both,
+      kz-breathe 2.6s var(--ease-in-out) 3.8s infinite alternate;
+  }
+  @keyframes kz-breathe {
+    to {
+      transform: scale(1.035) rotate(-0.6deg);
+    }
+  }
+  .kz-hero-copy h1::after {
+    animation: kz-shine 3.8s var(--ease-in-out) 4.2s infinite;
+  }
+  @keyframes kz-shine {
+    0% {
+      opacity: 1;
+      background-position: 130% 0;
+    }
+    38%,
+    100% {
+      opacity: 1;
+      background-position: -30% 0;
+    }
+  }
+  .kz-kicker {
+    animation:
+      kz-pop 0.5s var(--ease-pop) 3.7s both,
+      kz-wobble 1.4s var(--ease-in-out) 4.3s infinite alternate;
+  }
+  @keyframes kz-wobble {
+    to {
+      rotate: 5deg;
+      scale: 1.08;
+    }
+  }
+
+  /* 見出し：下線が走る */
+  .kz-js .kz-pro-grid .kz-big {
+    position: relative;
+  }
+  .kz-js .kz-pro-grid .kz-big::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(18px, 4vw, 50px);
+    height: clamp(8px, 1.4vw, 16px);
+    background: var(--k);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.7s var(--ease-out) 0.9s;
+  }
+  .kz-js .kz-pro-grid .kz-big.is-in::after {
+    transform: scaleX(1);
+  }
+
+
+  /* カズエ：斬った瞬間に閃光、幕が開いたらコマが一瞬だけ迫る */
+  .kz-kazue-flash {
+    position: absolute;
+    inset: 0;
+    background: var(--w);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .kz-kazue.is-cut .kz-kazue-flash {
+    animation: kz-flash 0.55s ease-out both;
+  }
+  .kz-kazue.is-open .kz-kazue-fig img {
+    animation: kz-punch 0.7s var(--ease-out) both;
+  }
+  @keyframes kz-punch {
+    0% {
+      transform: scale(1.08);
+      filter: contrast(2) brightness(1.4);
+    }
+    100% {
+      transform: none;
+      filter: none;
+    }
+  }
+  .kz-kazue.is-open .kz-lines {
+    animation: kz-spin 9s linear infinite;
+  }
+
+  /* 約20年前：鼓動 */
+  .kz-past-sfx span {
+    display: inline-block;
+    animation: kz-beat 0.86s var(--ease-out) infinite;
+  }
+  @keyframes kz-beat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    12% {
+      transform: scale(1.09);
+    }
+    24% {
+      transform: scale(1);
+    }
+    36% {
+      transform: scale(1.05);
+    }
+  }
+
+  /* 入選 → 週刊連載 → RE:BOOT */
+  .kz-js .kz-rb {
+    transition:
+      transform 0.5s var(--ease-in-out),
+      opacity 0.3s linear,
+      filter 0.5s linear,
+      visibility 0s linear 0.5s;
+  }
+  .kz-js .kz-reboot[data-step="1"] .kz-rb-1,
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-2 {
+    transition: none;
+    animation: kz-rb-slam 0.6s cubic-bezier(0.2, 1.5, 0.3, 1) both;
+  }
+  @keyframes kz-rb-slam {
+    0% {
+      opacity: 0;
+      transform: scale(4.5) rotate(-9deg);
+    }
+    55% {
+      opacity: 1;
+      transform: scale(0.93) rotate(1deg);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* 「週刊連載」は半拍おくれて同じ画面に着地する */
+  .kz-js .kz-reboot[data-step="1"] .kz-rb-b {
+    animation: kz-rb-slam 0.6s cubic-bezier(0.2, 1.5, 0.3, 1) 0.75s both;
+  }
+  .kz-js .kz-reboot[data-step="1"] .kz-rb-a b {
+    animation: kz-stamp-b 0.5s var(--ease-pop) 0.45s both;
+  }
+  @keyframes kz-stamp-b {
+    from {
+      opacity: 0;
+      scale: 3.2;
+      rotate: 16deg;
+    }
+  }
+  /* 段が替わるたびに閃光（名前を変えて毎回発火させる） */
+  .kz-js .kz-reboot[data-step="1"] .kz-rb-flash {
+    animation: kz-rbf-a 0.5s ease-out 0.28s both;
+  }
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-flash {
+    animation: kz-rbf-c 0.7s ease-out 0.28s both;
+  }
+  @keyframes kz-rbf-a {
+    0% {
+      opacity: 0;
+    }
+    8% {
+      opacity: 0.9;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes kz-rbf-c {
+    0% {
+      opacity: 0;
+    }
+    6% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .kz-js .kz-rb-lines {
+    animation: kz-spin 18s linear infinite;
+  }
+  /* RE:BOOT の文字が、ずれて、戻る */
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-word::before {
+    animation: kz-glitch-a 2.4s steps(1) 0.6s infinite;
+  }
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-word::after {
+    animation: kz-glitch-b 2.4s steps(1) 0.6s infinite;
+  }
+  @keyframes kz-glitch-a {
+    0%,
+    9%,
+    44%,
+    52%,
+    100% {
+      opacity: 0;
+    }
+    3% {
+      opacity: 1;
+      clip-path: inset(8% 0 62% 0);
+      transform: translateX(-0.07em);
+    }
+    6% {
+      opacity: 1;
+      clip-path: inset(58% 0 12% 0);
+      transform: translateX(0.09em);
+    }
+    47% {
+      opacity: 1;
+      clip-path: inset(30% 0 40% 0);
+      transform: translateX(0.12em) skewX(-14deg);
+    }
+  }
+  @keyframes kz-glitch-b {
+    0%,
+    11%,
+    46%,
+    55%,
+    100% {
+      opacity: 0;
+    }
+    5% {
+      opacity: 1;
+      color: var(--red-500);
+      clip-path: inset(40% 0 34% 0);
+      transform: translateX(0.08em);
+    }
+    8% {
+      opacity: 1;
+      color: var(--red-500);
+      clip-path: inset(76% 0 4% 0);
+      transform: translateX(-0.1em);
+    }
+    50% {
+      opacity: 1;
+      color: var(--red-500);
+      clip-path: inset(4% 0 80% 0);
+      transform: translateX(-0.14em) skewX(14deg);
+    }
+  }
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-sub span {
+    animation: kz-pop 0.5s var(--ease-pop) 0.7s both;
+  }
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-lead {
+    animation: kz-fade 0.5s linear 0.2s both;
+  }
+
+  /* 研究所：方眼が流れる */
+  .kz-lab::before {
+    animation: kz-grid 6s linear infinite;
+  }
+  @keyframes kz-grid {
+    to {
+      background-position:
+        44px 44px,
+        44px 44px;
+    }
+  }
+
+  /* 予告 */
+  .kz-cta-burst {
+    animation: kz-spin 50s linear infinite;
+  }
+  .kz-js .kz-btns.is-in .kz-btn:first-child:not(:hover) {
+    animation: kz-btn-pulse 1.5s var(--ease-in-out) 1s infinite;
+  }
+  @keyframes kz-btn-pulse {
+    0%,
+    100% {
+      scale: 1;
+    }
+    50% {
+      scale: 1.06;
+    }
+  }
+}
