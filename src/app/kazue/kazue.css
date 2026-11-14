@@ -818,11 +818,17 @@
   width: 100%;
   height: auto;
 }
+/* 文字は、コマの空いている左半分（作者の手より左）の真ん中に置く。
+   画像の中でコマ枠は 上36%〜下98%、空きは 左1%〜43% */
 .kz-author p {
   position: absolute;
-  left: 3%;
-  top: 44%;
-  width: 54%;
+  left: 1%;
+  top: 36%;
+  width: 42%;
+  height: 62%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
   font-weight: 900;
   font-size: clamp(17px, 4.2vw, 42px);
@@ -1404,22 +1410,6 @@
     animation-duration: 17s;
   }
 
-  /* 幕開け：消える直前に白黒が明滅する */
-  .kz-curtain {
-    animation:
-      kz-strobe 0.36s steps(1) 0.62s,
-      kz-curtain-out 0.5s var(--ease-in-out) 1s both;
-  }
-  @keyframes kz-strobe {
-    0%,
-    50% {
-      filter: invert(1);
-    }
-    25%,
-    75% {
-      filter: none;
-    }
-  }
 
   /* 歩いてくる上下動 */
   .kz-cast {
@@ -1433,28 +1423,6 @@
     }
     to {
       transform: translateY(-0.3%) scale(1.005);
-    }
-  }
-  /* ときどき稲光 */
-  .kz-flash {
-    animation:
-      kz-flash 0.5s ease-out 3.32s both,
-      kz-bolt 7s linear 7s infinite;
-  }
-  @keyframes kz-bolt {
-    0%,
-    4%,
-    100% {
-      opacity: 0;
-    }
-    1% {
-      opacity: 0.5;
-    }
-    2% {
-      opacity: 0.05;
-    }
-    3% {
-      opacity: 0.34;
     }
   }
   .kz-logo {
