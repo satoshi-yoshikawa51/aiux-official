@@ -2193,6 +2193,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
       { label: "用語：AIグラス（身につけるAIのもうひとつの形）", href: "/glossary/ai-glasses" },
       { label: "用語：音声認識（話し言葉を文字にするしくみ）", href: "/glossary/speech-recognition" },
+      { label: "比較：音声アシスタントと常時録音AIの違い", href: "/vs/voice-assistant-vs-always-listening-ai" },
     ],
     relatedSlugs: ["ai-glasses", "speech-recognition", "voice-assistant", "memory", "ai-ethics"],
     faq: [
