@@ -1,0 +1,301 @@
+/* ============================================================
+   トップの特設バナー「号外!! 新選組カズエ RE:BOOT」（kazue/banner.tsx）。
+   1200×480 で作った絵をそのまま縮めるため、寸法は cqw（バナー幅の%）。
+   1cqw = 12px（1200px基準）。小さい画面で読めなくならないよう、
+   文字には最小サイズを入れている。
+
+   色はティザー本体と同じく --ink-900 / --paper-0 の白黒だけ。
+   隠す系の初期状態は .kzb-js（JSが動いた印）の下にだけ書く。
+   再生の合図は .kzb-on（画面に半分以上入ったら付く）。
+   ============================================================ */
+.kzb {
+  --k: var(--ink-900);
+  --w: var(--paper-0);
+  position: relative;
+  aspect-ratio: 1200 / 480;
+  container-type: inline-size;
+  overflow: hidden;
+  background: var(--k);
+  color: var(--w);
+  text-decoration: none;
+  font-family: var(--font-display);
+}
+.kzb-body {
+  position: absolute;
+  inset: 0;
+}
+/* 背景：箱より少し大きく敷いて、その余りぶんをゆっくり流す */
+.kzb-bg {
+  position: absolute;
+  left: -5%;
+  top: -8%;
+  width: 110%;
+  height: 132%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 0;
+}
+/* 五人：右寄せ。左端は霞ませてロゴの裏へ消す */
+.kzb-cast {
+  position: absolute;
+  right: -2cqw;
+  bottom: -0.5cqw;
+  /* 高さがバナーに収まる幅（920×660 の絵で 54cqw → 高さ約38.7cqw）。頭を切らない */
+  width: 54cqw;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 34%);
+  mask-image: linear-gradient(to right, transparent 0, #000 34%);
+}
+.kzb-cast img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.kzb-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, color-mix(in srgb, var(--k) 88%, transparent) 0%, color-mix(in srgb, var(--k) 55%, transparent) 34%, transparent 62%),
+    linear-gradient(to top, color-mix(in srgb, var(--k) 70%, transparent) 0%, transparent 38%);
+}
+/* 左の文字のかたまり。左の余白はカルーセルの矢印に被らないため */
+.kzb-text {
+  position: absolute;
+  left: max(6cqw, 42px);
+  top: 50%;
+  width: 38cqw;
+  transform: translateY(-52%);
+  text-align: center;
+}
+.kzb-kicker {
+  position: absolute;
+  left: -2.4cqw;
+  top: -2cqw;
+  z-index: 1;
+  padding: 0.3cqw 1.2cqw 0.4cqw;
+  background: var(--w);
+  color: var(--k);
+  border: max(2px, 0.25cqw) solid var(--k);
+  font-weight: 900;
+  font-size: max(9px, 1.5cqw);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  transform: rotate(-8deg);
+}
+.kzb-logo {
+  position: relative;
+}
+.kzb-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0.6cqw 1.4cqw color-mix(in srgb, var(--k) 60%, transparent));
+}
+/* ロゴの形に切り抜いた光の帯 */
+.kzb-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask: url(/kazue/banner-logo.webp) center / contain no-repeat;
+  mask: url(/kazue/banner-logo.webp) center / contain no-repeat;
+  background: linear-gradient(105deg, transparent 42%, var(--w) 50%, transparent 58%) no-repeat;
+  background-size: 300% 100%;
+  background-position: 130% 0;
+  mix-blend-mode: difference;
+  opacity: 0;
+}
+.kzb-soon {
+  margin-top: 0.9cqw;
+  font-weight: 900;
+  font-size: max(10px, 2.1cqw);
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  text-shadow: 0 0.2cqw 1cqw var(--k);
+}
+.kzb-cta {
+  position: absolute;
+  /* 右の矢印（32px）に被らない位置 */
+  right: max(3.4cqw, 42px);
+  bottom: 2.6cqw;
+  display: flex;
+  align-items: center;
+  gap: 0.6cqw;
+  padding: 0.8cqw 1.8cqw 0.9cqw;
+  background: var(--w);
+  color: var(--k);
+  border: max(2px, 0.25cqw) solid var(--k);
+  box-shadow: 0.4cqw 0.4cqw 0 0 var(--red-500);
+  font-weight: 900;
+  font-size: max(10px, 1.6cqw);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+/* 灰 */
+.kzb-ash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.kzb-ash i {
+  position: absolute;
+  left: var(--x);
+  bottom: -3cqw;
+  width: var(--s);
+  height: calc(var(--s) * 0.5);
+  background: var(--w);
+  opacity: 0;
+}
+.kzb-ash .kzb-ash-k {
+  background: var(--k);
+}
+
+/* ───────── 動き（動きを減らす設定の人には流さない） ───────── */
+@media (prefers-reduced-motion: no-preference) {
+  /* 登場前の姿（JSが動いたときだけ隠す） */
+  .kzb-js .kzb-cast img {
+    opacity: 0;
+    filter: brightness(0);
+    transform: translateX(5%) scale(0.96);
+  }
+  .kzb-js .kzb-logo img {
+    opacity: 0;
+    transform: scale(1.7) rotate(-5deg);
+  }
+  .kzb-js .kzb-kicker,
+  .kzb-js .kzb-soon,
+  .kzb-js .kzb-cta {
+    opacity: 0;
+  }
+
+  /* 背景はずっと、ゆっくり流れる */
+  .kzb-on .kzb-bg {
+    animation: kzb-pan 16s var(--ease-in-out) infinite alternate;
+  }
+  @keyframes kzb-pan {
+    from {
+      transform: translate3d(3%, 0, 0);
+    }
+    to {
+      transform: translate3d(-3%, -14%, 0);
+    }
+  }
+  /* 五人：影のまま迫り、光が当たる。そのあとは歩く上下動（小さく・ゆっくり） */
+  .kzb-on .kzb-cast img {
+    animation:
+      kzb-cast-in 1.7s var(--ease-out) 0.2s both,
+      kzb-walk 3.6s var(--ease-in-out) 2s infinite alternate;
+  }
+  @keyframes kzb-cast-in {
+    0% {
+      opacity: 0;
+      filter: brightness(0);
+      transform: translateX(5%) scale(0.96);
+    }
+    35% {
+      opacity: 1;
+      filter: brightness(0);
+    }
+    70% {
+      filter: brightness(0);
+      transform: none;
+    }
+    100% {
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+  }
+  @keyframes kzb-walk {
+    from {
+      transform: translateY(0) scale(1);
+    }
+    to {
+      transform: translateY(-0.5%) scale(1.008);
+    }
+  }
+  /* ロゴ：着地して、ゆっくり息をする */
+  .kzb-on .kzb-logo img {
+    animation:
+      kzb-slam 0.55s cubic-bezier(0.2, 1.3, 0.3, 1) 1.5s both,
+      kzb-breathe 2.8s var(--ease-in-out) 2.2s infinite alternate;
+  }
+  @keyframes kzb-slam {
+    0% {
+      opacity: 0;
+      transform: scale(1.7) rotate(-5deg);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(0.97) rotate(0.5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes kzb-breathe {
+    to {
+      transform: scale(1.025);
+    }
+  }
+  .kzb-on .kzb-logo::after {
+    animation: kzb-shine 4.2s var(--ease-in-out) 2.6s infinite;
+  }
+  @keyframes kzb-shine {
+    0% {
+      opacity: 1;
+      background-position: 130% 0;
+    }
+    36%,
+    100% {
+      opacity: 1;
+      background-position: -30% 0;
+    }
+  }
+  .kzb-on .kzb-kicker {
+    animation: kzb-fade 0.4s var(--ease-out) 2s both;
+  }
+  .kzb-on .kzb-soon {
+    animation: kzb-fade 0.7s var(--ease-out) 2.2s both;
+  }
+  .kzb-on .kzb-cta {
+    animation: kzb-fade 0.7s var(--ease-out) 2.5s both;
+  }
+  @keyframes kzb-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .kzb-on .kzb-cta i {
+    animation: kzb-nudge 1.2s var(--ease-in-out) 3.2s infinite alternate;
+  }
+  @keyframes kzb-nudge {
+    to {
+      transform: translateX(0.5cqw);
+    }
+  }
+  .kzb-on .kzb-ash i {
+    animation: kzb-ash var(--d) linear var(--w) infinite;
+  }
+  @keyframes kzb-ash {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    12% {
+      opacity: 0.75;
+    }
+    85% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(-9cqw, -46cqw, 0) rotate(260deg);
+    }
+  }
+}

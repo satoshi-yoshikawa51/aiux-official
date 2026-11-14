@@ -1,14 +1,15 @@
 "use client";
 /* ============================================================
-   トップの特設バナー（防災手帳・スマホアプリ・Claude教習所）のカルーセル。
+   トップの特設バナー（新選組カズエ・防災手帳・スマホアプリ・Claude教習所）のカルーセル。
 
    ・1枚のバナー＝1枚の横長画像（1200×480）＋リンク1つ。
      画像は scripts/generate-top-banners.mjs（npm run banners:top）で
      生成する。デザインツールで作った絵に差し替えるときは、
      public/top-banners/<name>.webp を置き換えるだけでよい。
-   ・防災手帳だけは画像ではなく「動くバナー」（bousai/banner.tsx）。
-     背景のコードの雨が流れ、タイトルは画面に入るたびに解読演出で出る。
-     画像と同じ 1200×480 の比率で、並びの中では他と同じ扱い。
+   ・新選組カズエと防災手帳は画像ではなく「動くバナー」
+     （kazue/banner.tsx・bousai/banner.tsx）。画面に入るたびに登場の
+     演出が最初から流れる。画像と同じ 1200×480 の比率で、並びの中では
+     他と同じ扱い。動くバナーを足すときは LIVE に1件足す。
    ・PC（>900px）：2枚が見える横スクロール。3枚目からは矢印か
      ドットで送る（3枚になったので、2枚並べから変えた）。
    ・スマホ（≤900px）：1枚ずつの横スワイプ。
@@ -33,6 +34,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { BOUSAI_BANNER, BousaiBannerBody } from "./bousai/banner";
 import "./bousai/cyber.css";
 import "./bousai/banner.css";
+import { KAZUE_BANNER, KazueBannerBody } from "./kazue/banner";
+import "./kazue/banner.css";
 
 /* site-chrome の PAGE と同じ値。クライアント側に Nav/Footer まで
    引き込まないよう、定数だけ書き写している */
@@ -41,8 +44,15 @@ const PAGE = "min(1080px, 92vw)";
 /* 自動送りの間隔。速い＝読み終わる前に切り替わる、遅い＝2枚目に気づかない */
 const AUTO_MS = 5000;
 
-/* img を持たないものは「動くバナー」（いまは防災手帳だけ） */
+/* 「動くバナー」の中身と、外側の <a> に付けるクラス。キーは SLIDES の key */
+const LIVE: Record<string, { cls: string; Body: (props: { clone: boolean }) => React.ReactNode }> = {
+  kazue: { cls: "kzb", Body: KazueBannerBody },
+  bousai: { cls: "bb tk-theme", Body: BousaiBannerBody },
+};
+
+/* img を持たないものは「動くバナー」（LIVE に中身がある） */
 const SLIDES: { key: string; href: string; img?: string; alt: string; gaPlace: string }[] = [
+  { key: "kazue", ...KAZUE_BANNER },
   { key: "bousai", ...BOUSAI_BANNER },
   {
     key: "academy",
@@ -70,8 +80,8 @@ const rawToReal = (raw: number) => raw % COUNT;
 
 function Slide({ s, clone }: { s: (typeof SLIDES)[number]; clone?: number }) {
   const isClone = clone !== undefined;
-  const live = !s.img;
-  const cls = ["top-banner-slide", isClone && `top-banner-clone top-banner-clone-${clone}`, live && "bb tk-theme"].filter(Boolean).join(" ");
+  const live = s.img ? undefined : LIVE[s.key];
+  const cls = ["top-banner-slide", isClone && `top-banner-clone top-banner-clone-${clone}`, live?.cls].filter(Boolean).join(" ");
   return (
     <a
       className={cls}
@@ -83,7 +93,7 @@ function Slide({ s, clone }: { s: (typeof SLIDES)[number]; clone?: number }) {
       tabIndex={isClone ? -1 : undefined}
     >
       {live ? (
-        <BousaiBannerBody clone={isClone} />
+        <live.Body clone={isClone} />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={s.img} alt={isClone ? "" : s.alt} width={1200} height={480} style={{ width: "100%", height: "auto", display: "block" }} />
