@@ -1,7 +1,7 @@
 /* ============================================================
    「号外!! 新選組カズエ RE:BOOT」（/kazue）のOGP画像（1200×630）を生成する。
    ティザーのヒーローと同じ素材（町並み・五人・ロゴ）を重ねて1枚にする。
-   色（--ink-900 / --paper-0 / --red-500）は globals.css から読む。
+   色（--ink-900 / --paper-0）は globals.css から読む。
    Playwright(Chromium)でスクリーンショットして public/og/kazue.png に書き出す。
 
    使い方:
@@ -26,7 +26,6 @@ const css = await readFile(path.join(ROOT, "src/app/globals.css"), "utf8");
 const tok = (name) => css.match(new RegExp(`--${name}:\\s*([^;]+);`))[1].trim();
 const INK = tok("ink-900");
 const PAPER = tok("paper-0");
-const RED = tok("red-500");
 
 /* 画像は data URI で埋める（setContent のページからは file:// を読めないため） */
 const img = async (name) => `data:image/webp;base64,${(await readFile(path.join(ROOT, "public/kazue", name))).toString("base64")}`;
@@ -75,8 +74,6 @@ body{position:relative;color:${PAPER};font-family:"Zen Kaku Gothic New",sans-ser
 .logo{position:absolute;left:52px;top:150px;width:560px;height:auto;filter:drop-shadow(0 12px 26px ${INK}cc)}
 .soon{position:absolute;left:52px;top:522px;width:560px;text-align:center;font-weight:900;font-size:38px;letter-spacing:.34em;text-indent:.34em;
   text-shadow:0 3px 14px ${INK}}
-.url{position:absolute;right:44px;bottom:36px;padding:9px 18px 10px;background:${PAPER};color:${INK};border:4px solid ${INK};
-  box-shadow:6px 6px 0 0 ${RED};font-family:"JetBrains Mono",monospace;font-weight:700;font-size:22px;letter-spacing:.08em}
 </style></head><body>
 <img class="bg" src="${BG}">
 <img class="cast" src="${CAST}">
@@ -86,7 +83,6 @@ body{position:relative;color:${PAPER};font-family:"Zen Kaku Gothic New",sans-ser
 <div class="kicker">新連載</div>
 <img class="logo" src="${LOGO}">
 <div class="soon">近日連載開始</div>
-<div class="url">comixai.dev/kazue</div>
 </body></html>`;
 
 const npmRoot = execSync("npm root -g").toString().trim();
