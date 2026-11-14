@@ -3,7 +3,7 @@
 /* ============================================================
    トップの特設バナー「号外!! 新選組カズエ RE:BOOT」の中身（→ /kazue）。
    防災手帳（bousai/banner.tsx）と同じく、画像ではなく「動く」バナー：
-   ・背景の町並みがゆっくり流れ、灰が舞う
+   ・背景の町並みがゆっくり流れ、灰が下から舞い上がる（ティザーのヒーローと同じ）
    ・五人は影のまま現れて光が当たり、ロゴがあとから着地する
    ・画面に入るたびに最初から再生し、出たら巻き戻す
    外側の <a>（top-banners.tsx の Slide）に .kzb を付けて使う。
@@ -21,20 +21,28 @@ export const KAZUE_BANNER = {
   gaPlace: "top-kazue-banner",
 };
 
-/* 灰の粒。位置・大きさ・速さは決め打ち（乱数にするとSSRと食い違う）。
-   x=左からの%, s=大きさ(cqw), d=1周の秒, w=開始の遅れ(秒), k=濃い色か */
-const ASH = [
-  { x: 6, s: 0.5, d: 9, w: 0, k: 0 },
-  { x: 17, s: 0.3, d: 12, w: 3, k: 1 },
-  { x: 28, s: 0.6, d: 8, w: 5, k: 0 },
-  { x: 39, s: 0.35, d: 11, w: 1, k: 0 },
-  { x: 48, s: 0.45, d: 10, w: 6, k: 1 },
-  { x: 58, s: 0.3, d: 13, w: 2, k: 0 },
-  { x: 67, s: 0.55, d: 9, w: 7, k: 0 },
-  { x: 76, s: 0.4, d: 12, w: 4, k: 1 },
-  { x: 85, s: 0.5, d: 10, w: 8, k: 0 },
-  { x: 94, s: 0.3, d: 11, w: 2.5, k: 0 },
-];
+/* 灰の粒。ティザー本体のヒーローで舞っているものと同じ見え方にする。
+   乱数は種を固定した擬似乱数で作る（Math.random だとSSRと食い違う）。
+   x=左からの%, s=大きさ(cqw), d=1周の秒, w=開始の遅れ(秒), k=濃い色か。
+   w を負にして、表示した瞬間から画面じゅうに散っているようにする。
+   CSSへ渡す名前は --delay（--w はバナーの白色なので使わない） */
+const ASH_COUNT = 36;
+const ASH = (() => {
+  let seed = 51;
+  const rnd = () => {
+    seed = (seed * 48271) % 2147483647;
+    return seed / 2147483647;
+  };
+  const r2 = (v: number) => Math.round(v * 100) / 100;
+  return Array.from({ length: ASH_COUNT }, () => ({
+    x: r2(rnd() * 112),
+    s: r2(0.45 + rnd() * 0.95),
+    d: r2(4.5 + rnd() * 5),
+    w: r2(-rnd() * 9.5),
+    a: r2(0.35 + rnd() * 0.55),
+    k: rnd() < 0.3,
+  }));
+})();
 
 export function KazueBannerBody({ clone }: { clone: boolean }) {
   const wrap = useRef<HTMLDivElement>(null);
@@ -65,16 +73,16 @@ export function KazueBannerBody({ clone }: { clone: boolean }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/kazue/banner-cast.webp" alt="" width={920} height={660} loading="lazy" decoding="async" />
       </div>
+      <div className="kzb-shade" />
       <div className="kzb-ash" aria-hidden="true">
         {ASH.map((a, i) => (
           <i
             key={i}
             className={a.k ? "kzb-ash-k" : undefined}
-            style={{ "--x": `${a.x}%`, "--s": `${a.s}cqw`, "--d": `${a.d}s`, "--w": `${a.w}s` } as CSSProperties}
+            style={{ "--x": `${a.x}%`, "--s": `${a.s}cqw`, "--d": `${a.d}s`, "--delay": `${a.w}s`, "--a": a.a } as CSSProperties}
           />
         ))}
       </div>
-      <div className="kzb-shade" />
       <div className="kzb-text">
         <span className="kzb-kicker">新連載</span>
         <div className="kzb-logo">

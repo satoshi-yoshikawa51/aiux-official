@@ -142,8 +142,8 @@
   position: absolute;
   left: var(--x);
   bottom: -3cqw;
-  width: var(--s);
-  height: calc(var(--s) * 0.5);
+  width: max(2.5px, var(--s));
+  height: max(1.5px, calc(var(--s) * 0.5));
   background: var(--w);
   opacity: 0;
 }
@@ -280,22 +280,22 @@
     }
   }
   .kzb-on .kzb-ash i {
-    animation: kzb-ash var(--d) linear var(--w) infinite;
+    animation: kzb-ash var(--d) linear var(--delay) infinite;
   }
   @keyframes kzb-ash {
     0% {
       opacity: 0;
       transform: translate3d(0, 0, 0) rotate(0deg);
     }
-    12% {
-      opacity: 0.75;
+    8% {
+      opacity: var(--a);
     }
-    85% {
-      opacity: 0.6;
+    90% {
+      opacity: var(--a);
     }
     100% {
       opacity: 0;
-      transform: translate3d(-9cqw, -46cqw, 0) rotate(260deg);
+      transform: translate3d(-16cqw, -48cqw, 0) rotate(300deg);
     }
   }
 }
