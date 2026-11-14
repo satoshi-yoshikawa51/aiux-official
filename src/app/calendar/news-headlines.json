@@ -1,32 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-11T01:27:48.118Z",
+  "updatedAt": "2026-11-13T02:05:42.923Z",
   "items": [
     {
-      "title": "ChatGPTでビジネスを展開できる新機能 自社サイトのクリック数集計、顧客へのAIチャット提供など 一部機能は米国から",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/11/2000003088/",
+      "title": "「AI処理、データ非保持が守られず」――Notionが委託先の問題指摘、漏えいの恐れ巡り",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/13/2000003172/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-11T00:27:17.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/11/2000003088/10011815/2048"
+      "date": "2026-11-13T01:22:05.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/13/2000003172/10012075/2048"
     },
     {
-      "title": "Gemini Intelligence: New features, on more devices",
-      "url": "https://blog.google/products-and-platforms/platforms/android/gemini-intelligence-november-features-devices/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-11-10T19:00:00.000Z",
-      "titleJa": "Gemini Intelligence、新機能をより多くのデバイスへ",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_Intelligence_Signature27_Hero_2784x156.width-1300.jpg"
+      "title": "M365障害、ChatGPT／Claudeのコネクタにも影響 「ほとんどのリクエストで動作しない」",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/13/2000003164/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-13T00:08:39.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/13/2000003164/10012056/2048"
     },
     {
-      "title": "Google Cloud launches Gemini for healthcare.",
-      "url": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/gemini-for-healthcare/",
+      "title": "株式会社Own B、AIで仕様書を数分で作成するアパレル製造プラットフォーム「Own B AI」を正式リリース",
+      "url": "https://ascii.jp/elem/000/004/451/4451211/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-13T00:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "エネルギー・ファースト NeoCloud の Bentaus 社、ドライブネッツの高性能 AI ファブリックと AMD GPU を導入 - AI トークン生成に要するエネルギーを 30% 削減",
+      "url": "https://ascii.jp/elem/000/004/451/4451213/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-13T00:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "Google’s new Gemini model is better at understanding complicated questions",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1032505/google-search-ai-mode-gemini-4-hydrogen",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-12T21:55:32.000Z",
+      "titleJa": "Googleの新Geminiモデル、複雑な質問の理解力が向上",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25290329/STK255_Google_Gemini_A.jpg?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
+    },
+    {
+      "title": "Nebius tests the neocloud playbook with $40 billion in planned spending",
+      "url": "https://techcrunch.com/2026/11/12/nebius-tests-the-neocloud-playbook-with-40-billion-in-planned-spending/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-12T21:27:10.000Z",
+      "titleJa": "Nebius、400億ドルの投資計画で「ネオクラウド」戦略を試す",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/11/GettyImages-2300447831.jpg?w=1024"
+    },
+    {
+      "title": "Google faces calls for AI moratoriums in schools after Gemini pilot backlash",
+      "url": "https://arstechnica.com/tech-policy/2026/11/families-fight-to-keep-googles-disturbing-ai-off-school-issued-chromebooks/",
+      "source": "Ars Technica",
+      "lang": "en",
+      "date": "2026-11-12T18:57:45.000Z",
+      "titleJa": "Gemini試験導入への反発で、Googleに学校でのAI一時停止を求める声",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Win-win-1152x648.jpeg"
+    },
+    {
+      "title": "Google、高速で低価格の「Gemini 4 Hydrogen」発表 無料ユーザーも利用可能",
+      "url": "https://www.itmedia.co.jp/news/article/2611/13/2000003162/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-12T23:04:46.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/13/2000003162/10012050/2048"
+    },
+    {
+      "title": "設計／製造から工場運用へ、オートデスクが描く工場全体の最適化戦略",
+      "url": "https://monoist.itmedia.co.jp/mn/articles/2611/13/news012.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-12T23:00:00.000Z",
+      "image": "https://image.itmedia.co.jp/mn/articles/2611/13/cover_news012.jpg"
+    },
+    {
+      "title": "中国、AIとの「親密さ」を規制へ--AIに相談する中国人の実態と不安",
+      "url": "https://japan.zdnet.com/article/35254663/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-12T22:00:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2024/12/06/e842a9b7cb4a959c364f8e7a66f8242f/241206_china_as_1280_1043161556.jpg"
+    },
+    {
+      "title": "マイクロソフトの「Outlook」で大規模障害--Microsoft 365、Copilotなどにも影響",
+      "url": "https://japan.cnet.com/article/35254809/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-12T21:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/13/c5a7ffacb8b2691bc1e4eb227601df80/outlook-large.jpg"
+    },
+    {
+      "title": "Gemini Decisions API: Fast, calibrated multimodal decisions",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/",
       "source": "Google AI（公式）",
       "lang": "en",
-      "date": "2026-11-10T13:00:00.000Z",
-      "titleJa": "Google Cloud、ヘルスケア向けGeminiを提供開始",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/social_share_NWQpgus.max-1440x810.png"
+      "date": "2026-11-11T18:00:00.000Z",
+      "titleJa": "Gemini Decisions API：高速かつキャリブレーション済みのマルチモーダル意思決定",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini__decisions__blog-header_2784x1566.width-1300.png"
+    },
+    {
+      "title": "ChatGPT Plus for veterans and servicemembers",
+      "url": "https://openai.com/index/chatgpt-plus-for-veterans",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-11T08:00:00.000Z",
+      "titleJa": "退役軍人・現役軍人にChatGPT Plusを提供",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/1xM6UVTcHLBSPyEgaezNtb/9e28e813c1d3f25564da209e17526702/chatgpt-plus-for-veterans-social.png?w=1600&h=900&fit=fill"
     },
     {
       "title": "Introducing Businesses in ChatGPT",
@@ -34,91 +117,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-11-10T10:00:00.000Z",
-      "titleJa": "ChatGPTに「Businesses」登場",
+      "titleJa": "ChatGPTに「Businesses」を導入",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/7Eicp7g84HA3PCzyVJTfbT/d423890d5a1a863bf69a57bcbbbf6e99/business-agents-blog-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Ring cameras go mobile as Amazon debuts AI-powered security drone and robot",
-      "url": "https://arstechnica.com/ai/2026/11/ring-cameras-go-mobile-as-amazon-debuts-ai-powered-security-drone-and-robot/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-10T22:35:01.000Z",
-      "titleJa": "Amazon、AI搭載の警備ドローンとロボットを発表 Ringカメラが「動く」時代へ",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/Ring-Drone-1152x648.jpeg"
-    },
-    {
-      "title": "Grok Build coding agent leaks oodles of confidential info, some belonging to SpaceXSI",
-      "url": "https://arstechnica.com/security/2026/11/grok-build-coding-agent-leaks-oodles-of-confidential-info-some-belonging-to-spacexsi/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-10T21:12:59.000Z",
-      "titleJa": "コーディングエージェント「Grok Build」が機密情報を大量流出、一部はSpaceXSIのものも",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/grok-plugin-marketplace-1152x648.webp"
-    },
-    {
-      "title": "人材紹介会社10社の比較に関するAI回答状況を調査｜32テーマ中13テーマで言及率首位が変化ー「急な欠員補充」でdoda97.9%、営業マネージャー後任採用ではJAC85.4%",
-      "url": "https://ascii.jp/elem/000/004/450/4450373/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-10T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "【新発売】Siri AI対応、ネット障害時も家電操作が可能！リンクジャパン、独自BTメッシュ技術搭載のスマートリモコン「リンクREMO」を発売",
-      "url": "https://ascii.jp/elem/000/004/450/4450386/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-10T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg?20200122"
-    },
-    {
-      "title": "Claude、まるでExcelな表計算機能「Sheets」公開 共同作業用の「Whiteboards」も",
-      "url": "https://japan.cnet.com/article/35254678/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-10T22:34:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/11/82a028fd0b7e9f3baf964e72b253e87a/HWx5V3aXcAAAa-u.jpeg"
-    },
-    {
-      "title": "Google、「Gemini 4 Carbon」提供開始--AstraやFable対抗の最上位AI",
-      "url": "https://japan.cnet.com/article/35254674/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-10T22:30:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/11/c556c9ba7ee99f907a2d1f9084fe36ca/%E8%A6%8B%E5%87%BA%E3%81%97%E7%94%BB%E5%83%8F.jpg"
-    },
-    {
-      "title": "ソフトバンクG、7～9月期は1.1兆円の最終赤字--米AIデータセンター向け発電設備の調達見直し響く",
-      "url": "https://japan.cnet.com/article/35254675/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-10T22:15:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/11/17ee07c1a75aa5282db310b9350db5d0/IMG_3935.jpeg"
-    },
-    {
-      "title": "Google、「Gemini 4 Carbon」一般提供開始 Geminiアプリでは最上位「AI Ultra」限定",
-      "url": "https://www.itmedia.co.jp/news/article/2611/11/2000003083/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-10T22:03:30.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/11/2000003083/10011800/2048"
-    },
-    {
-      "title": "通信大手3社こぞって「フィジカルAI」に参入、なぜ？ ロボットが動くともうかるワケ",
-      "url": "https://www.itmedia.co.jp/business/articles/2611/11/news038.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-10T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2611/11/cover_news038.jpg"
-    },
-    {
-      "title": "ChatGPT Enterprise now available in AWS Marketplace",
-      "url": "https://openai.com/index/chatgpt-enterprise-aws-marketplace",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-09T19:00:00.000Z",
-      "titleJa": "ChatGPT Enterprise、AWS Marketplaceで提供開始",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5DGBSgbf6fNNvNwn1uSuuS/b1cb4070d26ff221cd7f08bbc171b268/chatgpt-enterprise-now-available-in-aws-marketplace-social.png?w=1600&h=900&fit=fill"
     }
   ]
 }

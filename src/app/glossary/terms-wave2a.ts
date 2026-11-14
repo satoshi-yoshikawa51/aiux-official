@@ -359,6 +359,7 @@ export const TERMS_WAVE2A: GlossaryTerm[] = [
       { label: "体験ゲーム：AIのウソを見抜け（それらしく見えるものを疑う練習）", href: "/uso" },
       { label: "用語：音声AI（声そのものを作る側の技術）", href: "/glossary/voice-ai" },
       { label: "用語：ハルシネーション（作り話が起きるしくみ）", href: "/glossary/hallucination" },
+      { label: "比較：音声アシスタントと常時録音AIの違い", href: "/vs/voice-assistant-vs-always-listening-ai" },
     ],
     relatedSlugs: ["speech-recognition", "voice-ai", "chatbot", "gemini", "hallucination", "ai-agent"],
     lastUpdated: "2026-11-04",
