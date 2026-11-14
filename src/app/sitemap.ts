@@ -212,6 +212,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${base}/kazue`,
+      lastModified: new Date("2026-11-14"),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: `${base}/history`,
       lastModified: new Date("2026-07-08"),
       changeFrequency: "monthly",
