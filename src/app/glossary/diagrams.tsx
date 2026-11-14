@@ -1963,6 +1963,22 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  codemender: {
+    caption: "見つけて終わり、ではない",
+    render: () => (
+      <Svg h={352} title="CodeMenderの流れの図解">
+        <T x={300} y={22} text="途中に「本当に危ないか試す」工程が入る" size={13.5} color={INK} />
+        <B x={30} y={38} w={540} h={46} label="脆弱性の候補を見つける" />
+        <AV x={300} y1={88} y2={110} />
+        <B x={30} y={114} w={540} h={50} label="実際に攻撃して確かめる" sub="顧客が管理する隔離環境の中で試す" fill={YELLOW} />
+        <AV x={300} y1={168} y2={190} />
+        <B x={30} y={194} w={540} h={50} label="修正をコードの差分で渡す" sub="別のモデルが審査役として点検する" />
+        <AV x={300} y1={248} y2={270} />
+        <B x={30} y={274} w={540} h={44} label="人が承認して初めて取り込まれる" dashed={true} />
+        <T x={300} y={340} text="自動化されたのは手前まで。最後の判断は人に残っている" size={13} color={INK} />
+      </Svg>
+    ),
+  },
   "gpt-6-cyber": {
     caption: "強い能力ほど、配る相手を先に絞る",
     render: () => (
@@ -2046,14 +2062,29 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
   "gemini-4-carbon": {
     caption: "強い機能ほど、配る順番が変わる",
     render: () => (
-      <Svg h={266} title="Gemini 4 Carbonの提供範囲と評価条件の図解">
+      <Svg h={272} title="Gemini 4 Carbonの提供範囲と評価条件の図解">
         <T x={300} y={22} text="1か月足らずで2つ。どちらも守る側から配った" size={13.5} color={INK} />
         <B x={30} y={44} w={240} h={54} label="Gemini 4 Argon" sub="2026年9月30日発表" />
         <AH x1={275} x2={322} y={71} />
         <B x={330} y={44} w={240} h={54} label="Gemini 4 Carbon" sub="2026年10月28日" fill={YELLOW} />
         <B x={30} y={122} w={540} h={52} label="まずサイバー防御の担当者だけ" sub="Fairwindプログラム（審査制）" fill={YELLOW} />
-        <B x={30} y={186} w={540} h={46} label="開発者・企業・一般は時期未定" dashed={true} />
-        <T x={300} y={254} text="公表スコアは安全装置を外して測った、と明記されている" size={13} color={INK} />
+        <B x={30} y={186} w={540} h={52} label="2026年11月10日、一般提供へ" sub="Geminiアプリは最上位プラン限定" />
+        <T x={300} y={262} text="公表スコアは安全装置を外して測った、と明記されている" size={13} color={INK} />
+      </Svg>
+    ),
+  },
+  "gemini-4-hydrogen": {
+    caption: "上を伸ばす話と、下に広げる話",
+    render: () => (
+      <Svg h={330} title="Gemini 4 Hydrogenの位置づけと提供範囲の図解">
+        <T x={300} y={22} text="同じGemini 4の中で、向きが逆の2本が出た" size={13.5} color={INK} />
+        <B x={30} y={42} w={255} h={58} label="Argon／Carbon" sub="長い開発と防御。最上位プラン前提" />
+        <B x={315} y={42} w={255} h={58} label="Gemini 4 Hydrogen" sub="毎日の作業。速くて安い" fill={YELLOW} />
+        <AV x={442} y1={104} y2={132} />
+        <B x={30} y={136} w={540} h={56} label="無料の利用者にも回ってくる" sub="ただし自動選択（Auto）経由。名指しでは選べない" />
+        <AV x={300} y1={196} y2={224} />
+        <B x={30} y={228} w={540} h={52} label="組ませる使い方も示された" sub="計画はCarbon、編集とテストはHydrogen" dashed={true} />
+        <T x={300} y={306} text="便利になるぶん、どれが答えたのかは見えにくくなる" size={13} color={INK} />
       </Svg>
     ),
   },
