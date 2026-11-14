@@ -100,7 +100,7 @@ export function KazueTeaser() {
           s.classList.toggle("is-cut", p > 0.2);
           s.classList.toggle("is-open", p > 0.5);
         } else if (s.dataset.kzScrub === "reboot") {
-          s.dataset.step = String(p < 0.03 ? 0 : p < 0.34 ? 1 : p < 0.64 ? 2 : 3);
+          s.dataset.step = String(p < 0.03 ? 0 : p < 0.5 ? 1 : 2);
         }
       }
       const doc = document.documentElement;
@@ -238,7 +238,6 @@ export function KazueTeaser() {
           <div className="kz-bg-wrap">
             <img className="kz-bg" src="/kazue/bg.webp" alt="" width={1219} height={1744} fetchPriority="high" />
           </div>
-          <div className="kz-burst" aria-hidden="true" />
           <div className="kz-cast-wrap">
             <img
               className="kz-cast"
@@ -249,7 +248,6 @@ export function KazueTeaser() {
               fetchPriority="high"
             />
           </div>
-          <div className="kz-zoom-lines" aria-hidden="true" />
           <canvas className="kz-ash" ref={canvas} aria-hidden="true" />
           <div className="kz-vignette" aria-hidden="true" />
           <p className="kz-side kz-side-r" aria-hidden="true">
@@ -288,7 +286,7 @@ export function KazueTeaser() {
           <p className="kz-label">PROLOGUE</p>
           <div className="kz-pro-grid">
             <Panel src="p2-desk" alt="デスクでポメラニアンを抱いて画面に向かう主人公" w={1186} h={548} className="kz-from-l" />
-            <Panel src="p2-tsumaran" alt="「つまらん!!!」と椅子の上でのけぞる主人公" w={1186} h={584} className="kz-from-r kz-shout" />
+            <Panel src="p2-tsumaran" alt="「つまらん!!!」と椅子の上でのけぞる主人公" w={1186} h={584} className="kz-from-r" />
             <Big parts={["誰でも何でも", "すぐ作れる", "時代が来た。"]} className="kz-span" />
             <Panel src="p3-talk" alt="「生成AIが進化しすぎて、誰でも何でもすぐ作れる時代が来た」と語る主人公" w={1186} h={993} className="kz-from-b" />
             <Panel src="p3-same" alt="「さすがに冷めません…？」" w={1186} h={752} className="kz-from-r" />
@@ -376,20 +374,22 @@ export function KazueTeaser() {
         </div>
       </div>
 
-      {/* ═══ 入選 → 週刊連載 → RE:BOOT：あの作品を、いま創りなおす ═══ */}
+      {/* ═══ 入選と週刊連載 → RE:BOOT：あの作品を、いま創りなおす ═══ */}
       <div className="kz-reboot" data-kz-scrub="reboot" data-step="0">
         <div className="kz-reboot-pin">
           <div className="kz-rb-lines" aria-hidden="true" />
           <img className="kz-rb-art" src="/kazue/cast.webp" alt="" width={1219} height={1744} loading="lazy" decoding="async" />
-          <p className="kz-rb kz-rb-1">
-            <small>約20年前</small>
-            新人賞<b>入選</b>
-          </p>
-          <p className="kz-rb kz-rb-2">
-            <small>そして</small>
-            週刊連載
-          </p>
-          <div className="kz-rb kz-rb-3">
+          <div className="kz-rb kz-rb-1">
+            <p className="kz-rb-a">
+              <small>約20年前</small>
+              新人賞<b>入選</b>
+            </p>
+            <p className="kz-rb-b">
+              <small>そして</small>
+              週刊連載
+            </p>
+          </div>
+          <div className="kz-rb kz-rb-2">
             <p className="kz-rb-lead">その作品を、AIといっしょに</p>
             <p className="kz-rb-word" data-text="RE:BOOT">
               RE:BOOT

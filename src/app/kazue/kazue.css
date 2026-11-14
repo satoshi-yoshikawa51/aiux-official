@@ -1051,15 +1051,8 @@
     opacity: 1;
     transform: none;
     transition:
-      transform 0.62s cubic-bezier(0.2, 1.5, 0.3, 1),
+      transform 0.6s var(--ease-out),
       opacity 0.18s linear;
-  }
-  /* 着地の衝撃でコマが揺れる */
-  .kz-js .kz-panel.kz-io.is-in {
-    animation: kz-quake 0.4s linear 0.42s;
-  }
-  .kz-js .kz-panel.kz-shout.is-in {
-    animation: kz-quake 0.3s linear 0.42s 4;
   }
   .kz-js .kz-io.kz-rise {
     opacity: 0;
@@ -1096,9 +1089,7 @@
     }
   }
   .kz-js .kz-panel.kz-zoku-shadow.is-in {
-    animation:
-      kz-loom 1.2s var(--ease-out) both,
-      kz-quake 0.3s linear 0.56s 2;
+    animation: kz-loom 1.2s var(--ease-out) both;
   }
   @keyframes kz-loom {
     0% {
@@ -1164,31 +1155,8 @@
 .kz-band {
   transform: skewY(calc(var(--vel, 0) * 2.4deg));
 }
-.kz-page img {
-  transform: skewX(calc(var(--vel, 0) * -5deg));
-}
 
 /* —— ヒーロー：集中線と、ロゴの光 —— */
-.kz-burst {
-  position: absolute;
-  inset: -50%;
-  pointer-events: none;
-  background: repeating-conic-gradient(from 0deg at 50% 50%, var(--w) 0deg 0.45deg, transparent 0.45deg 2.6deg);
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 17%, #000 44%);
-  mask-image: radial-gradient(circle at 50% 50%, transparent 0 17%, #000 44%);
-  opacity: 0.2;
-}
-/* スクロールで寄るほど線が濃くなる */
-.kz-zoom-lines {
-  position: absolute;
-  inset: -50%;
-  pointer-events: none;
-  background: repeating-conic-gradient(from 0deg at 50% 50%, var(--k) 0deg 0.7deg, transparent 0.7deg 3.4deg);
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 20%, #000 50%);
-  mask-image: radial-gradient(circle at 50% 50%, transparent 0 20%, #000 50%);
-  opacity: clamp(0, calc(var(--p) * 2.2), 0.9);
-  transform: scale(calc(1.4 - var(--p) * 0.4));
-}
 .kz-hero-copy h1 {
   position: relative;
 }
@@ -1257,32 +1225,35 @@
   letter-spacing: 0.5em;
   text-indent: 0.5em;
 }
-.kz-rb-1 {
-  font-size: clamp(72px, 20vw, 190px);
+.kz-rb-1 p {
+  margin: 0;
+}
+.kz-rb-a {
+  font-size: clamp(50px, 15vw, 130px);
   letter-spacing: 0.06em;
 }
 /* 「入選」は判子 */
-.kz-rb-1 b {
-  display: block;
-  width: fit-content;
-  margin: 0.16em auto 0;
+.kz-rb-a b {
+  display: inline-block;
+  margin-left: 0.2em;
   padding: 0 0.14em 0.04em;
   border: 0.07em solid currentColor;
   transform: rotate(-7deg);
 }
-.kz-rb-2 {
-  font-size: clamp(64px, 21vw, 220px);
+.kz-rb-b {
+  margin-top: 0.8em;
+  font-size: clamp(60px, 19vw, 170px);
   letter-spacing: 0.04em;
   font-style: italic;
 }
-.kz-rb-3 p {
+.kz-rb-2 p {
   margin: 0;
 }
 .kz-rb-lead {
   font-size: clamp(18px, 3.6vw, 44px);
   letter-spacing: 0.14em;
 }
-.kz-rb-3 .kz-rb-word {
+.kz-rb-2 .kz-rb-word {
   position: relative;
   display: inline-block;
   margin: 0.06em 0 0.02em;
@@ -1319,7 +1290,7 @@
 }
 /* JSが動くときは、3つを同じ場所に重ねて1つずつ見せる */
 .kz-js .kz-reboot {
-  height: 420vh;
+  height: 320vh;
 }
 .kz-js .kz-reboot-pin {
   position: sticky;
@@ -1341,15 +1312,12 @@
   visibility: hidden;
 }
 /* 通り過ぎたものは、手前に飛んで消える */
-.kz-js .kz-reboot[data-step="2"] .kz-rb-1,
-.kz-js .kz-reboot[data-step="3"] .kz-rb-1,
-.kz-js .kz-reboot[data-step="3"] .kz-rb-2 {
+.kz-js .kz-reboot[data-step="2"] .kz-rb-1 {
   transform: scale(3.4);
   filter: blur(10px);
 }
 .kz-js .kz-reboot[data-step="1"] .kz-rb-1,
-.kz-js .kz-reboot[data-step="2"] .kz-rb-2,
-.kz-js .kz-reboot[data-step="3"] .kz-rb-3 {
+.kz-js .kz-reboot[data-step="2"] .kz-rb-2 {
   opacity: 1;
   transform: none;
   visibility: visible;
@@ -1385,7 +1353,7 @@
   -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 92%);
   mask-image: linear-gradient(to bottom, #000 40%, transparent 92%);
 }
-.kz-js .kz-reboot[data-step="3"] .kz-rb-art {
+.kz-js .kz-reboot[data-step="2"] .kz-rb-art {
   opacity: 0.42;
   transform: none;
 }
@@ -1464,25 +1432,6 @@
     }
   }
 
-  /* ヒーロー：着地と同時に集中線が弾け、そのまま回り続ける */
-  .kz-burst {
-    animation:
-      kz-burst-in 0.9s var(--ease-out) 3.3s both,
-      kz-spin 40s linear 3.3s infinite;
-  }
-  @keyframes kz-burst-in {
-    0% {
-      opacity: 0;
-      scale: 0.4;
-    }
-    20% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0.2;
-      scale: 1;
-    }
-  }
   /* 歩いてくる上下動 */
   .kz-cast {
     animation:
@@ -1592,7 +1541,7 @@
     }
   }
 
-  /* カズエ：斬った瞬間に閃光と揺れ、幕が開いたらコマが突き出す */
+  /* カズエ：斬った瞬間に閃光、幕が開いたらコマが一瞬だけ迫る */
   .kz-kazue-flash {
     position: absolute;
     inset: 0;
@@ -1603,19 +1552,13 @@
   .kz-kazue.is-cut .kz-kazue-flash {
     animation: kz-flash 0.55s ease-out both;
   }
-  .kz-kazue.is-cut .kz-kazue-pin {
-    animation: kz-quake 0.4s linear 2;
-  }
   .kz-kazue.is-open .kz-kazue-fig img {
     animation: kz-punch 0.7s var(--ease-out) both;
   }
   @keyframes kz-punch {
     0% {
-      transform: scale(1.18) rotate(-2deg);
+      transform: scale(1.08);
       filter: contrast(2) brightness(1.4);
-    }
-    35% {
-      transform: scale(0.97) rotate(0.6deg);
     }
     100% {
       transform: none;
@@ -1656,8 +1599,7 @@
       visibility 0s linear 0.5s;
   }
   .kz-js .kz-reboot[data-step="1"] .kz-rb-1,
-  .kz-js .kz-reboot[data-step="2"] .kz-rb-2,
-  .kz-js .kz-reboot[data-step="3"] .kz-rb-3 {
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-2 {
     transition: none;
     animation: kz-rb-slam 0.6s cubic-bezier(0.2, 1.5, 0.3, 1) both;
   }
@@ -1675,7 +1617,11 @@
       transform: none;
     }
   }
-  .kz-js .kz-reboot[data-step="1"] .kz-rb-1 b {
+  /* 「週刊連載」は半拍おくれて同じ画面に着地する */
+  .kz-js .kz-reboot[data-step="1"] .kz-rb-b {
+    animation: kz-rb-slam 0.6s cubic-bezier(0.2, 1.5, 0.3, 1) 0.75s both;
+  }
+  .kz-js .kz-reboot[data-step="1"] .kz-rb-a b {
     animation: kz-stamp-b 0.5s var(--ease-pop) 0.45s both;
   }
   @keyframes kz-stamp-b {
@@ -1685,28 +1631,14 @@
       rotate: 16deg;
     }
   }
-  /* 段が替わるたびに閃光と揺れ（名前を変えて毎回発火させる） */
+  /* 段が替わるたびに閃光（名前を変えて毎回発火させる） */
   .kz-js .kz-reboot[data-step="1"] .kz-rb-flash {
     animation: kz-rbf-a 0.5s ease-out 0.28s both;
   }
   .kz-js .kz-reboot[data-step="2"] .kz-rb-flash {
-    animation: kz-rbf-b 0.5s ease-out 0.28s both;
-  }
-  .kz-js .kz-reboot[data-step="3"] .kz-rb-flash {
     animation: kz-rbf-c 0.7s ease-out 0.28s both;
   }
   @keyframes kz-rbf-a {
-    0% {
-      opacity: 0;
-    }
-    8% {
-      opacity: 0.9;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-  @keyframes kz-rbf-b {
     0% {
       opacity: 0;
     }
@@ -1728,62 +1660,14 @@
       opacity: 0;
     }
   }
-  .kz-js .kz-reboot[data-step="1"] .kz-reboot-pin {
-    animation: kz-quake 0.4s linear 0.3s;
-  }
-  .kz-js .kz-reboot[data-step="2"] .kz-reboot-pin {
-    animation: kz-quake-b 0.4s linear 0.3s;
-  }
-  .kz-js .kz-reboot[data-step="3"] .kz-reboot-pin {
-    animation: kz-quake-c 0.5s linear 0.3s 2;
-  }
-  @keyframes kz-quake-b {
-    0%,
-    100% {
-      transform: none;
-    }
-    20% {
-      transform: translate(9px, -6px);
-    }
-    40% {
-      transform: translate(-8px, 7px);
-    }
-    60% {
-      transform: translate(6px, 4px);
-    }
-    80% {
-      transform: translate(-3px, -2px);
-    }
-  }
-  @keyframes kz-quake-c {
-    0%,
-    100% {
-      transform: none;
-    }
-    15% {
-      transform: translate(-12px, 8px);
-    }
-    30% {
-      transform: translate(11px, -9px);
-    }
-    45% {
-      transform: translate(-8px, -5px);
-    }
-    60% {
-      transform: translate(7px, 6px);
-    }
-    80% {
-      transform: translate(-3px, 2px);
-    }
-  }
   .kz-js .kz-rb-lines {
     animation: kz-spin 18s linear infinite;
   }
   /* RE:BOOT の文字が、ずれて、戻る */
-  .kz-js .kz-reboot[data-step="3"] .kz-rb-word::before {
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-word::before {
     animation: kz-glitch-a 2.4s steps(1) 0.6s infinite;
   }
-  .kz-js .kz-reboot[data-step="3"] .kz-rb-word::after {
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-word::after {
     animation: kz-glitch-b 2.4s steps(1) 0.6s infinite;
   }
   @keyframes kz-glitch-a {
@@ -1837,10 +1721,10 @@
       transform: translateX(-0.14em) skewX(14deg);
     }
   }
-  .kz-js .kz-reboot[data-step="3"] .kz-rb-sub span {
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-sub span {
     animation: kz-pop 0.5s var(--ease-pop) 0.7s both;
   }
-  .kz-js .kz-reboot[data-step="3"] .kz-rb-lead {
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-lead {
     animation: kz-fade 0.5s linear 0.2s both;
   }
 
