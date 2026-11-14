@@ -96,14 +96,15 @@
 .kz-bg-wrap {
   position: absolute;
   inset: -7%;
-  transform: translate3d(calc(var(--mx) * -14px), calc(var(--my) * -10px), 0) scale(calc(1 + var(--p) * 0.22));
+  /* スクロールでは拡大しない。カメラが下へ降りるように、絵を上へ送る */
+  transform: translate3d(calc(var(--mx) * -14px), calc(var(--my) * -10px - var(--p) * 5.5%), 0);
   will-change: transform;
 }
 .kz-bg {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 10%;
+  object-position: 50% calc(10% + var(--p) * 62%);
 }
 .kz-cast-wrap {
   position: absolute;
@@ -223,9 +224,10 @@
 }
 .kz-side-r {
   right: clamp(28px, 6vw, 110px);
-  font-size: clamp(34px, 4.4vw, 68px);
+  /* 10文字を縦に並べるので、高さ基準でも上限を掛ける（低い窓で上が切れないように） */
+  font-size: clamp(22px, min(4.4vw, 6vh), 68px);
   letter-spacing: 0.12em;
-  transform: translate3d(calc(var(--mx) * 30px), calc(-56% + var(--my) * 16px), 0);
+  transform: translate3d(calc(var(--mx) * 30px), calc(-50% + var(--my) * 16px), 0);
 }
 .kz-side-l {
   left: clamp(28px, 6vw, 110px);
@@ -1035,24 +1037,17 @@
       transform 0.9s var(--ease-out),
       clip-path 0.9s var(--ease-in-out);
   }
-  .kz-js .kz-io.kz-from-l img {
+  /* コマは、ふわっと浮き上がるだけ（読むものなので派手に動かさない） */
+  .kz-js .kz-panel.kz-io img {
     opacity: 0;
-    transform: translateX(-34vw) rotate(-12deg) scale(1.2);
+    transform: translateY(22px);
   }
-  .kz-js .kz-io.kz-from-r img {
-    opacity: 0;
-    transform: translateX(34vw) rotate(12deg) scale(1.2);
-  }
-  .kz-js .kz-io.kz-from-b img {
-    opacity: 0;
-    transform: translateY(60%) scale(1.5) rotate(-5deg);
-  }
-  .kz-js .kz-io.is-in img {
+  .kz-js .kz-panel.kz-io.is-in img {
     opacity: 1;
     transform: none;
     transition:
-      transform 0.6s var(--ease-out),
-      opacity 0.18s linear;
+      transform 0.8s var(--ease-out),
+      opacity 0.7s var(--ease-out);
   }
   .kz-js .kz-io.kz-rise {
     opacity: 0;
@@ -1086,25 +1081,6 @@
     }
     100% {
       transform: translate(5px, -3px) skewX(3deg);
-    }
-  }
-  .kz-js .kz-panel.kz-zoku-shadow.is-in {
-    animation: kz-loom 1.2s var(--ease-out) both;
-  }
-  @keyframes kz-loom {
-    0% {
-      filter: brightness(0) contrast(2);
-      transform: scale(1.12);
-    }
-    40% {
-      filter: brightness(0) contrast(2);
-    }
-    46% {
-      filter: invert(1);
-    }
-    52% {
-      filter: none;
-      transform: scale(1);
     }
   }
 
@@ -1229,7 +1205,7 @@
   margin: 0;
 }
 .kz-rb-a {
-  font-size: clamp(50px, 15vw, 130px);
+  font-size: clamp(50px, min(15vw, 15vh), 130px);
   letter-spacing: 0.06em;
 }
 /* 「入選」は判子 */
@@ -1242,7 +1218,7 @@
 }
 .kz-rb-b {
   margin-top: 0.8em;
-  font-size: clamp(60px, 19vw, 170px);
+  font-size: clamp(60px, min(19vw, 19vh), 170px);
   letter-spacing: 0.04em;
   font-style: italic;
 }
@@ -1250,7 +1226,7 @@
   margin: 0;
 }
 .kz-rb-lead {
-  font-size: clamp(18px, 3.6vw, 44px);
+  font-size: clamp(18px, min(3.6vw, 5vh), 44px);
   letter-spacing: 0.14em;
 }
 .kz-rb-2 .kz-rb-word {
@@ -1258,7 +1234,7 @@
   display: inline-block;
   margin: 0.06em 0 0.02em;
   font-style: italic;
-  font-size: clamp(64px, 20vw, 300px);
+  font-size: clamp(64px, min(20vw, 30vh), 300px);
   line-height: 1;
   letter-spacing: -0.01em;
 }
@@ -1271,7 +1247,7 @@
   pointer-events: none;
 }
 .kz-rb-sub {
-  font-size: clamp(20px, 4.4vw, 56px);
+  font-size: clamp(20px, min(4.4vw, 6vh), 56px);
   letter-spacing: 0.3em;
   text-indent: 0.3em;
 }
@@ -1290,7 +1266,7 @@
 }
 /* JSが動くときは、3つを同じ場所に重ねて1つずつ見せる */
 .kz-js .kz-reboot {
-  height: 320vh;
+  height: 400vh;
 }
 .kz-js .kz-reboot-pin {
   position: sticky;
@@ -1311,10 +1287,23 @@
   transform: scale(0.5);
   visibility: hidden;
 }
-/* 通り過ぎたものは、手前に飛んで消える */
+/* 次の段へ進んでも、入選と週刊連載は消さない。小さく畳んで上に残す
+   （速くスクロールして見逃しても、最後の画面で必ず読める） */
 .kz-js .kz-reboot[data-step="2"] .kz-rb-1 {
-  transform: scale(3.4);
-  filter: blur(10px);
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-33vh) scale(0.36);
+}
+.kz-js .kz-reboot[data-step="2"] .kz-rb-2 {
+  inset: 13vh 0 0;
+}
+@media (max-width: 859px) {
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-1 {
+    transform: translateY(-30vh) scale(0.56);
+  }
+  .kz-js .kz-reboot[data-step="2"] .kz-rb-2 {
+    inset: 6vh 0 0;
+  }
 }
 .kz-js .kz-reboot[data-step="1"] .kz-rb-1,
 .kz-js .kz-reboot[data-step="2"] .kz-rb-2 {
@@ -1436,14 +1425,14 @@
   .kz-cast {
     animation:
       kz-cast-in 2s var(--ease-out) 1.5s both,
-      kz-walk 1.15s var(--ease-in-out) 3.5s infinite alternate;
+      kz-walk 3.6s var(--ease-in-out) 3.5s infinite alternate;
   }
   @keyframes kz-walk {
     from {
       transform: translateY(0) scale(1);
     }
     to {
-      transform: translateY(-0.9%) scale(1.012);
+      transform: translateY(-0.3%) scale(1.005);
     }
   }
   /* ときどき稲光 */
@@ -1524,22 +1513,6 @@
     transform: scaleX(1);
   }
 
-  /* ゾクッ：背景が白黒に明滅する */
-  .kz-js .kz-zoku.is-in {
-    animation: kz-zoku-strobe 0.7s steps(1) 0.15s;
-  }
-  @keyframes kz-zoku-strobe {
-    0%,
-    30%,
-    60% {
-      filter: invert(1);
-    }
-    15%,
-    45%,
-    75% {
-      filter: none;
-    }
-  }
 
   /* カズエ：斬った瞬間に閃光、幕が開いたらコマが一瞬だけ迫る */
   .kz-kazue-flash {

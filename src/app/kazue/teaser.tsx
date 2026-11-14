@@ -87,6 +87,9 @@ export function KazueTeaser() {
     /* —— スクロール連動 —— */
     const scrubs = Array.from(el.querySelectorAll<HTMLElement>("[data-kz-scrub]"));
     let ticking = false;
+    const STEP_HOLD = reduce ? 0 : 1500;
+    let stepShownAt = 0;
+    let stepTimer = 0;
     const measure = () => {
       ticking = false;
       const vh = window.innerHeight;
@@ -100,7 +103,25 @@ export function KazueTeaser() {
           s.classList.toggle("is-cut", p > 0.2);
           s.classList.toggle("is-open", p > 0.5);
         } else if (s.dataset.kzScrub === "reboot") {
-          s.dataset.step = String(p < 0.03 ? 0 : p < 0.5 ? 1 : 2);
+          /* 1段目は、固定される前（画面の半分に入った時点）から出し始める。
+             2段目は「1段目を最低 STEP_HOLD ミリ秒見せてから」にする。
+             速くスクロールしても、入選と週刊連載が一瞬で流れないように */
+          const want = p >= 0.5 ? 2 : r.top < vh * 0.5 ? 1 : 0;
+          const now = Number(s.dataset.step ?? 0);
+          let next = want;
+          if (want === 2 && now < 2) {
+            const waited = performance.now() - stepShownAt;
+            if (now === 0) next = 1;
+            else if (waited < STEP_HOLD) next = 1;
+            if (next === 1) {
+              window.clearTimeout(stepTimer);
+              stepTimer = window.setTimeout(measure, now === 0 ? STEP_HOLD : STEP_HOLD - waited + 20);
+            }
+          }
+          if (next !== now) {
+            if (next === 1) stepShownAt = performance.now();
+            s.dataset.step = String(next);
+          }
         }
       }
       const doc = document.documentElement;
@@ -217,6 +238,7 @@ export function KazueTeaser() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMove);
       cancelAnimationFrame(raf);
+      window.clearTimeout(stepTimer);
       io.disconnect();
       heroIo.disconnect();
     };
@@ -285,11 +307,11 @@ export function KazueTeaser() {
         <div className="kz-inner">
           <p className="kz-label">PROLOGUE</p>
           <div className="kz-pro-grid">
-            <Panel src="p2-desk" alt="デスクでポメラニアンを抱いて画面に向かう主人公" w={1186} h={548} className="kz-from-l" />
-            <Panel src="p2-tsumaran" alt="「つまらん!!!」と椅子の上でのけぞる主人公" w={1186} h={584} className="kz-from-r" />
+            <Panel src="p2-desk" alt="デスクでポメラニアンを抱いて画面に向かう主人公" w={1186} h={548} />
+            <Panel src="p2-tsumaran" alt="「つまらん!!!」と椅子の上でのけぞる主人公" w={1186} h={584} />
             <Big parts={["誰でも何でも", "すぐ作れる", "時代が来た。"]} className="kz-span" />
-            <Panel src="p3-talk" alt="「生成AIが進化しすぎて、誰でも何でもすぐ作れる時代が来た」と語る主人公" w={1186} h={993} className="kz-from-b" />
-            <Panel src="p3-same" alt="「さすがに冷めません…？」" w={1186} h={752} className="kz-from-r" />
+            <Panel src="p3-talk" alt="「生成AIが進化しすぎて、誰でも何でもすぐ作れる時代が来た」と語る主人公" w={1186} h={993} />
+            <Panel src="p3-same" alt="「さすがに冷めません…？」" w={1186} h={752} />
           </div>
         </div>
       </div>
@@ -304,7 +326,7 @@ export function KazueTeaser() {
               </p>
               <p className="kz-zoku-note kz-io kz-rise">そのとき、背後に。</p>
             </div>
-            <Panel src="p4-shadow" alt="主人公の背後に、刀を持った長い髪の影が立つ" w={1186} h={1096} className="kz-zoku-shadow" />
+            <Panel src="p4-shadow" alt="主人公の背後に、刀を持った長い髪の影が立つ" w={1186} h={1096} />
           </div>
         </div>
       </div>
