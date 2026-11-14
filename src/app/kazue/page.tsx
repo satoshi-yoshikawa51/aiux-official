@@ -9,7 +9,7 @@ import { KazueTeaser } from "./teaser";
 
 const TITLE = "号外!! 新選組カズエ RE:BOOT｜近日連載開始｜COMIXAI";
 const DESC =
-  "「貴様、それでも男か」——約20年前の新人賞から、いま再起動。吉川聡史の新連載マンガ『号外!! 新選組カズエ RE:BOOT』ティザーサイト。AIと一緒に漫画を描きながら、そのノウハウも惜しみなく公開していきます。";
+  "「貴様、それでも男か」——約20年前に新人賞に入選し、週刊連載された作品を、AIといっしょにRE:BOOT（創りなおす）。吉川聡史の新連載マンガ『号外!! 新選組カズエ RE:BOOT』ティザーサイト。描きながら、そのノウハウも惜しみなく公開していきます。";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "COMIXAI",
     title: "号外!! 新選組カズエ RE:BOOT｜近日連載開始",
-    description: "「貴様、それでも男か」——約20年前の新人賞から、いま再起動。新連載マンガのティザーサイト。",
+    description: "「貴様、それでも男か」——新人賞入選、そして週刊連載。その作品をAIといっしょにRE:BOOT（創りなおす）。",
     url: "/kazue",
     locale: "ja_JP",
     images: [{ url: "/og/kazue.png", width: 1200, height: 630, alt: "号外!! 新選組カズエ RE:BOOT" }],

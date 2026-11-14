@@ -93,7 +93,15 @@ export function KazueTeaser() {
       for (const s of scrubs) {
         const r = s.getBoundingClientRect();
         const span = r.height - vh;
-        s.style.setProperty("--p", (span > 0 ? clamp(-r.top / span) : 0).toFixed(4));
+        const p = span > 0 ? clamp(-r.top / span) : 0;
+        s.style.setProperty("--p", p.toFixed(4));
+        /* 「一度きりの演出」は、しきい値を越えた印をクラスで渡す */
+        if (s.dataset.kzScrub === "kazue") {
+          s.classList.toggle("is-cut", p > 0.2);
+          s.classList.toggle("is-open", p > 0.5);
+        } else if (s.dataset.kzScrub === "reboot") {
+          s.dataset.step = String(p < 0.03 ? 0 : p < 0.34 ? 1 : p < 0.64 ? 2 : 3);
+        }
       }
       const doc = document.documentElement;
       el.style.setProperty("--kz-total", clamp(window.scrollY / Math.max(1, doc.scrollHeight - vh)).toFixed(4));
@@ -126,6 +134,8 @@ export function KazueTeaser() {
     let ty = 0;
     let mx = 0;
     let my = 0;
+    let vel = 0;
+    let lastY = window.scrollY;
     const onMove = (e: PointerEvent) => {
       if (e.pointerType === "touch") return;
       tx = (e.clientX / window.innerWidth) * 2 - 1;
@@ -172,6 +182,11 @@ export function KazueTeaser() {
       my += (ty - my) * 0.06;
       el.style.setProperty("--mx", mx.toFixed(4));
       el.style.setProperty("--my", my.toFixed(4));
+      /* スクロールの速さ（-1〜1）。帯や原稿を進行方向に倒すのに使う */
+      const y = window.scrollY;
+      vel += (Math.max(-1, Math.min(1, (y - lastY) / 60)) - vel) * 0.18;
+      lastY = y;
+      el.style.setProperty("--vel", (Math.abs(vel) < 0.002 ? 0 : vel).toFixed(4));
       if (!ctx || !heroVisible) return;
       ctx.clearRect(0, 0, cw, chh);
       for (let i = 0; i < ashes.length; i++) {
@@ -223,6 +238,7 @@ export function KazueTeaser() {
           <div className="kz-bg-wrap">
             <img className="kz-bg" src="/kazue/bg.webp" alt="" width={1219} height={1744} fetchPriority="high" />
           </div>
+          <div className="kz-burst" aria-hidden="true" />
           <div className="kz-cast-wrap">
             <img
               className="kz-cast"
@@ -233,6 +249,7 @@ export function KazueTeaser() {
               fetchPriority="high"
             />
           </div>
+          <div className="kz-zoom-lines" aria-hidden="true" />
           <canvas className="kz-ash" ref={canvas} aria-hidden="true" />
           <div className="kz-vignette" aria-hidden="true" />
           <p className="kz-side kz-side-r" aria-hidden="true">
@@ -271,18 +288,16 @@ export function KazueTeaser() {
           <p className="kz-label">PROLOGUE</p>
           <div className="kz-pro-grid">
             <Panel src="p2-desk" alt="デスクでポメラニアンを抱いて画面に向かう主人公" w={1186} h={548} className="kz-from-l" />
-            <Panel src="p2-tsumaran" alt="「つまらん!!!」と椅子の上でのけぞる主人公" w={1186} h={584} className="kz-from-r" />
-            <Big parts={["誰でも", "何でも", "すぐ作れる", "時代が", "来た。"]} className="kz-span" />
+            <Panel src="p2-tsumaran" alt="「つまらん!!!」と椅子の上でのけぞる主人公" w={1186} h={584} className="kz-from-r kz-shout" />
+            <Big parts={["誰でも何でも", "すぐ作れる", "時代が来た。"]} className="kz-span" />
             <Panel src="p3-talk" alt="「生成AIが進化しすぎて、誰でも何でもすぐ作れる時代が来た」と語る主人公" w={1186} h={993} className="kz-from-b" />
-            <div>
-              <Panel src="p3-same" alt="「さすがに冷めません…？」" w={1186} h={752} className="kz-from-r" />
-            </div>
+            <Panel src="p3-same" alt="「さすがに冷めません…？」" w={1186} h={752} className="kz-from-r" />
           </div>
         </div>
       </div>
 
       {/* ═══ ゾクッ：背後に立つ影 ═══ */}
-      <div className="kz-sec kz-zoku">
+      <div className="kz-sec kz-zoku kz-io">
         <div className="kz-inner">
           <div className="kz-zoku-grid">
             <div>
@@ -297,7 +312,7 @@ export function KazueTeaser() {
       </div>
 
       {/* ═══ カズエ登場：一太刀で黒幕が割れる ═══ */}
-      <div className="kz-kazue" data-kz-scrub>
+      <div className="kz-kazue" data-kz-scrub="kazue">
         <div className="kz-kazue-pin">
           <div className="kz-lines" aria-hidden="true" />
           <figure className="kz-kazue-fig">
@@ -319,13 +334,22 @@ export function KazueTeaser() {
           <div className="kz-pre" aria-hidden="true">
             斬るぞ
           </div>
-          <div className="kz-slash" aria-hidden="true" />
+          <div className="kz-slash kz-slash-1" aria-hidden="true" />
+          <div className="kz-slash kz-slash-2" aria-hidden="true" />
+          <div className="kz-slash kz-slash-main" aria-hidden="true" />
+          <div className="kz-kazue-flash" aria-hidden="true" />
         </div>
       </div>
 
       {/* ═══ 約20年前：右から左へ、原稿をめくる ═══ */}
       <div className="kz-past" data-kz-scrub>
         <div className="kz-past-pin">
+          <p className="kz-past-sfx" aria-hidden="true">
+            <span>ドキ</span>
+            <span>ドキ</span>
+            <span>ドキ</span>
+            <span>ドキ</span>
+          </p>
           <div className="kz-track">
             <p className="kz-card kz-card-year">
               約20年前
@@ -347,6 +371,35 @@ export function KazueTeaser() {
             </p>
           </div>
           <div className="kz-past-bar" aria-hidden="true">
+            <i />
+          </div>
+        </div>
+      </div>
+
+      {/* ═══ 入選 → 週刊連載 → RE:BOOT：あの作品を、いま創りなおす ═══ */}
+      <div className="kz-reboot" data-kz-scrub="reboot" data-step="0">
+        <div className="kz-reboot-pin">
+          <div className="kz-rb-lines" aria-hidden="true" />
+          <img className="kz-rb-art" src="/kazue/cast.webp" alt="" width={1219} height={1744} loading="lazy" decoding="async" />
+          <p className="kz-rb kz-rb-1">
+            <small>約20年前</small>
+            新人賞<b>入選</b>
+          </p>
+          <p className="kz-rb kz-rb-2">
+            <small>そして</small>
+            週刊連載
+          </p>
+          <div className="kz-rb kz-rb-3">
+            <p className="kz-rb-lead">その作品を、AIといっしょに</p>
+            <p className="kz-rb-word" data-text="RE:BOOT">
+              RE:BOOT
+            </p>
+            <p className="kz-rb-sub">
+              <span>創りなおす</span>
+            </p>
+          </div>
+          <div className="kz-rb-flash" aria-hidden="true" />
+          <div className="kz-rb-bar" aria-hidden="true">
             <i />
           </div>
         </div>
@@ -382,6 +435,7 @@ export function KazueTeaser() {
       {/* ═══ 予告 ═══ */}
       <div className="kz-sec kz-cta">
         <div className="kz-inner">
+          <div className="kz-cta-burst" aria-hidden="true" />
           <img className="kz-cta-logo kz-io" src="/kazue/logo.webp" alt="号外!! 新選組カズエ RE:BOOT" width={1336} height={856} loading="lazy" decoding="async" />
           <p className="kz-cta-soon kz-io kz-rise">
             <small>COMING SOON</small>
