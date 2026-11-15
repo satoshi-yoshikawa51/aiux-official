@@ -10,10 +10,14 @@
 
    原稿のセリフはマンガ本編からの引用。ここで新しく話を作らない。
    ============================================================ */
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 const X_URL = "https://x.com/yoshikawa5116";
 const NOTE_URL = "https://note.com/aiux_unite";
+/* AIマンガ研究所：第0話（note）と紹介動画（YouTube） */
+const LAB_NOTE_URL = "https://note.com/aiux_unite/n/n2bb5b9e4713d";
+const LAB_VIDEO_ID = "Wbodp2EQgvw";
+const LAB_VIDEO_URL = `https://www.youtube.com/watch?v=${LAB_VIDEO_ID}`;
 
 /* 1字ずつ <span> に割る。読み上げには元の文をそのまま渡す */
 function Chars({ text, from = 0 }: { text: string; from?: number }) {
@@ -72,6 +76,54 @@ const BAND = Array.from({ length: 4 }, (_, i) => (
     <em>COMING SOON</em>
   </span>
 ));
+
+/* AIマンガ研究所の紹介動画。
+   ・iframe は、枠が画面に近づいてから差し込む。最初から置くと、ページを
+     開いた瞬間にYouTubeの読み込みが走り、ヒーローの表示が遅くなる。
+   ・自動再生は音なし（ブラウザは音つきの自動再生を止める）。音は
+     プレイヤーのボタンで出せる。「動きを減らす」設定では自動再生しない。
+   ・Cookieを使わない youtube-nocookie.com から埋め込む。 */
+function LabVideo() {
+  const box = useRef<HTMLDivElement>(null);
+  const [src, setSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        const auto = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 1;
+        /* loop は playlist に同じIDを渡すのが決まり */
+        setSrc(
+          `https://www.youtube-nocookie.com/embed/${LAB_VIDEO_ID}?autoplay=${auto}&mute=1&playsinline=1&loop=1&playlist=${LAB_VIDEO_ID}&rel=0`,
+        );
+      },
+      { rootMargin: "300px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div className="kz-video" ref={box}>
+      {src ? (
+        <iframe
+          src={src}
+          title="AIマンガ研究所 紹介動画"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+          loading="lazy"
+        />
+      ) : (
+        <a className="kz-video-ph" href={LAB_VIDEO_URL} target="_blank" rel="noopener noreferrer" aria-label="AIマンガ研究所の紹介動画をYouTubeで見る">
+          <i className="ph-bold ph-play" aria-hidden="true" />
+        </a>
+      )}
+    </div>
+  );
+}
 
 export function KazueTeaser() {
   const root = useRef<HTMLDivElement>(null);
@@ -427,33 +479,6 @@ export function KazueTeaser() {
         </div>
       </div>
 
-      {/* ═══ AIマンガ研究所：作り方ごと公開する ═══ */}
-      <div className="kz-sec kz-lab">
-        <div className="kz-inner">
-          <div className="kz-lab-grid">
-            <figure className="kz-lab-fig kz-io">
-              <img
-                src="/kazue/p6-lab.webp"
-                alt="AIマンガ研究所。カズエの3Dモデルが映る作業机と「AIと一緒に漫画を描きながらそのノウハウを惜しみなく公開！乞うご期待！」と語る主人公"
-                width={1186}
-                height={1851}
-                loading="lazy"
-                decoding="async"
-              />
-            </figure>
-            <div className="kz-lab-copy">
-              <p className="kz-label">AI MANGA LAB</p>
-              <Big parts={["AIと一緒に、", "漫画を描く。", "そのノウハウを、", "惜しみなく公開。"]} />
-              <p className="kz-lab-text kz-io kz-rise">
-                描きながら、作り方ごと見せていく。
-                <br />
-                制作の裏側は「AIマンガ研究所」で。乞うご期待！
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* ═══ 予告 ═══ */}
       <div className="kz-sec kz-cta">
         <div className="kz-inner">
@@ -482,6 +507,44 @@ export function KazueTeaser() {
             <br />
             ご期待！
           </p>
+        </div>
+      </div>
+
+      {/* ═══ AIマンガ研究所：このマンガの作り方を、まるごと公開する ═══ */}
+      <div className="kz-sec kz-lab">
+        <div className="kz-inner">
+          <p className="kz-label">AI MANGA LAB ／ AIマンガ研究所</p>
+          <Big parts={["この「号外!!", "新選組カズエ」を", "AIと一緒に描く", "ノウハウを", "完全公開！"]} />
+          <div className="kz-lab-grid">
+            <div className="kz-lab-main">
+              <LabVideo />
+              <p className="kz-lab-text kz-io kz-rise">
+                描きながら、作り方ごと見せていく連載が「AIマンガ研究所」です。
+                <br />
+                まずは第0話から、どうぞ。
+              </p>
+              <div className="kz-btns kz-lab-btns kz-io kz-rise">
+                <a className="kz-btn kz-btn-ghost" href={LAB_NOTE_URL} target="_blank" rel="noopener noreferrer" data-ga="kazue_lab_note">
+                  <i className="ph-bold ph-book-open-text" aria-hidden="true" />
+                  AIマンガ研究所 第0話を読む
+                </a>
+                <a className="kz-lab-yt" href={LAB_VIDEO_URL} target="_blank" rel="noopener noreferrer" data-ga="kazue_lab_youtube">
+                  <i className="ph-bold ph-youtube-logo" aria-hidden="true" />
+                  YouTubeで見る
+                </a>
+              </div>
+            </div>
+            <figure className="kz-lab-fig kz-io">
+              <img
+                src="/kazue/p6-lab.webp"
+                alt="AIマンガ研究所。カズエの3Dモデルが映る作業机と「AIと一緒に漫画を描きながらそのノウハウを惜しみなく公開！乞うご期待！」と語る主人公"
+                width={1186}
+                height={1851}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </div>
         </div>
       </div>
     </div>
