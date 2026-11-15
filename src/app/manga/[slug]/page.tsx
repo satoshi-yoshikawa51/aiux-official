@@ -174,14 +174,14 @@ export default async function MangaSeriesPage({ params }: Props) {
             {s.episodes.map((e) => (
               <a key={e.url} href={e.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
                 <Card variant="pop" hover padding={0} style={{ overflow: "hidden" }}>
-                  <div style={{ display: "flex", flexWrap: "wrap" }}>
+                  <div className="episode-card" style={{ display: "flex", flexWrap: "wrap" }}>
                     {e.thumb && (
-                      <div style={{ flex: "0 1 240px", minWidth: 200, background: toneBg(s.tone) }}>
+                      <div className="episode-thumb" style={{ flex: "0 1 240px", minWidth: 200, background: toneBg(s.tone) }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={e.thumb} alt={e.title} loading="lazy" style={{ width: "100%", height: "100%", minHeight: 130, objectFit: "cover", display: "block" }} />
                       </div>
                     )}
-                    <div style={{ flex: "1 1 280px", padding: "16px 18px 16px", display: "flex", flexDirection: "column", borderLeft: e.thumb ? "var(--bw-line) solid var(--ink-900)" : "none" }}>
+                    <div className="episode-body" style={{ flex: "1 1 280px", padding: "16px 18px 16px", display: "flex", flexDirection: "column", borderLeft: e.thumb ? "var(--bw-line) solid var(--ink-900)" : "none" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                         {e.no != null && <Badge tone="yellow">第{e.no}話</Badge>}
                         {e.likes != null && (

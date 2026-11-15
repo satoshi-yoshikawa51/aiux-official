@@ -1230,3 +1230,24 @@ html.splash-hold .hero-burst {
     display: none;
   }
 }
+
+/* エピソードカード（/manga/[slug] 収録エピソード）：
+   スマホでは「サムネ(左)｜本文(右)」の横並びをやめ、
+   サムネを上に全幅で載せる縦積みにする（note記事カード風）。
+   横並びのままだとサムネが最小幅で左寄せになり枠と干渉するため。 */
+@media (max-width: 600px) {
+  .episode-card {
+    flex-direction: column;
+  }
+  .episode-card .episode-thumb {
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    height: 180px;
+    border-bottom: var(--bw-line) solid var(--ink-900);
+  }
+  .episode-card .episode-body {
+    border-left: none !important;
+    flex: 1 1 auto;
+  }
+}
