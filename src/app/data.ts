@@ -52,6 +52,17 @@ export const YOUTUBE = "https://www.youtube.com/@comixai-dev";
 /* —— note マガジン（実データ・カバー画像つき） —— */
 export const MAGAZINES: Magazine[] = [
   {
+    id: "manga-lab",
+    title: "AIマンガ研究所",
+    count: 1,
+    label: "新連載・マンガ制作",
+    desc: "週刊少年チャンピオンで連載していた吉川聡史が、AIと一緒に漫画を描くノウハウを完全公開！「号外!!新選組カズエ」をRE:BOOTとして描きおろしながら、専用AIツールで描く方法を研究・公開していきます。",
+    url: "https://note.com/aiux_unite/m/m15b8b3cf9ee5",
+    cover:
+      "https://assets.st-note.com/production/uploads/images/336411744/magazine_cover_landscape_aa75dd696a37aa1612e64b7e448e7665.jpeg?width=900",
+    tone: "blue",
+  },
+  {
     id: "wakaru",
     title: "マンガでわかる！AI活用",
     count: 7,

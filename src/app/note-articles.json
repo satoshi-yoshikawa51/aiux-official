@@ -1,7 +1,15 @@
 {
   "_comment": "noteの記事一覧（自動生成）。scripts/fetch-note-articles.mjs が毎週更新する。手で編集しないこと。badge/tone/tags/excerptの手書きは note-article-meta.json 側へ。",
-  "updatedAt": "2026-11-09",
+  "updatedAt": "2026-11-15",
   "articles": [
+    {
+      "url": "https://note.com/aiux_unite/n/n2bb5b9e4713d",
+      "title": "AIマンガ研究所 第0話：「AIで漫画を描くのではない。AIと一緒にマンガを描く」",
+      "date": "2026-11-15",
+      "likes": 14,
+      "thumb": "https://assets.st-note.com/production/uploads/images/336237473/rectangle_large_type_2_ef212b4ca7a4e1aaf444bacf03993536.jpeg?fit=bounds&quality=85&width=1280",
+      "excerpt": "・・・どうです？みなさん。。 この2~3年。自分はある程度前線でAI活用に取り組んできたと思っていますが、やはり、そこには「ものづくり」の楽しさがあったからだ…"
+    },
     {
       "url": "https://note.com/aiux_unite/n/n653456393888",
       "title": "【サイバー攻撃対策】Claude Codeでサイバー攻撃防災手帳を作ってみた",
@@ -14,7 +22,7 @@
       "url": "https://note.com/aiux_unite/n/nc937d34eed97",
       "title": "【COMIXAI制作記】いぬがたり｜「AIに文章を書かせない」という選択",
       "date": "2026-09-27",
-      "likes": 55,
+      "likes": 56,
       "thumb": "https://assets.st-note.com/production/uploads/images/317966311/rectangle_large_type_2_ea55a5e2155b3fa695d168170642069c.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回作ったものは「いぬがたり~あなたの「想い」にこたえます~」 自分の今の想いを伝えると、ワンちゃんたちが、実際の過去の偉人たちの名言から、今の想いにあった名…"
     },
@@ -78,7 +86,7 @@
       "url": "https://note.com/aiux_unite/n/n480de3323d7d",
       "title": "Claude Designでデザインシステムをゼロから構築し、オフィシャルサイトを公開してみた",
       "date": "2026-06-10",
-      "likes": 126,
+      "likes": 127,
       "thumb": "https://assets.st-note.com/production/uploads/images/283493151/rectangle_large_type_2_cc2f011337f41700cf0803c9d7c0dddb.png?fit=bounds&quality=85&width=1280",
       "excerpt": "今回はClaude Designでデザインシステムの構築から、Claude Codeにつなげてサイト公開までした話です。 Claude Designで何かして…"
     },
@@ -195,20 +203,20 @@
       "excerpt": ""
     },
     {
-      "url": "https://note.com/aiux_unite/n/nbd39b2f9a740",
-      "title": "マンガで実践！AI活用 第4話：「ペルソナ」",
-      "date": "2025-06-14",
-      "likes": 95,
-      "thumb": "https://assets.st-note.com/production/uploads/images/196089454/rectangle_large_type_2_43198dc8b4ed80a236d2c9cc8b53f93a.png?fit=bounds&quality=85&width=1280",
-      "excerpt": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせたい。 前回はKPIシートを作り、目標達成までの道筋を設定が完了…"
-    },
-    {
       "url": "https://note.com/aiux_unite/n/nc4adf7f5acb0",
       "title": "6/27（金）19:00から行う高松さんとの無料イベント https://n…",
       "date": "2025-06-14",
       "likes": 16,
       "thumb": "https://assets.st-note.com/production/uploads/images/196018244/aa749401284c6fea365aa247a13749a3.png",
       "excerpt": "6/27（金）19:00から行う高松さんとの無料イベント https://nijibox.connpass.com/event/355632/ ご登録者400…"
+    },
+    {
+      "url": "https://note.com/aiux_unite/n/nbd39b2f9a740",
+      "title": "マンガで実践！AI活用 第4話：「ペルソナ」",
+      "date": "2025-06-14",
+      "likes": 95,
+      "thumb": "https://assets.st-note.com/production/uploads/images/196089454/rectangle_large_type_2_43198dc8b4ed80a236d2c9cc8b53f93a.png?fit=bounds&quality=85&width=1280",
+      "excerpt": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせたい。 前回はKPIシートを作り、目標達成までの道筋を設定が完了…"
     },
     {
       "url": "https://note.com/aiux_unite/n/naac3d48a3258",
@@ -243,20 +251,20 @@
       "excerpt": "【前回までのあらすじ】 AIを駆使してWebサイトを作り、そのWebサイトで漫画を大ヒットさせる。 その為にnoteの読者数5万UU/月を目指すことになった吉…"
     },
     {
-      "url": "https://note.com/aiux_unite/n/n2744fb1ebdfa",
-      "title": "「絵心ゼロでもOK！」手描きイラストから3DモデルをAIで自動生成してみた（ChatGPT×Tripo AI）",
-      "date": "2025-05-02",
-      "likes": 197,
-      "thumb": "https://assets.st-note.com/production/uploads/images/187630665/rectangle_large_type_2_454c8d283a0110454a566932c6c35d04.png?fit=bounds&quality=85&width=1280",
-      "excerpt": "今回は誰でも簡単に自分の手描きイラストから3DモデルをAIで作成する方法を試してみました！ この方法なら落書きレベルのイラストでも、立派な3Dモデルにすること…"
-    },
-    {
       "url": "https://note.com/aiux_unite/n/ncb35e2f72a48",
       "title": "マンガで実践！AI活用のマガジン作りました！ https://note.co…",
       "date": "2025-05-02",
       "likes": 36,
       "thumb": "https://assets.st-note.com/production/uploads/images/187520921/1f965590bfec8beb08b7cc837690146a.png",
       "excerpt": "マンガで実践！AI活用のマガジン作りました！ https://note.com/aiux_unite/m/m0b7bcbd79d18 「マンガでわかる！AI活…"
+    },
+    {
+      "url": "https://note.com/aiux_unite/n/n2744fb1ebdfa",
+      "title": "「絵心ゼロでもOK！」手描きイラストから3DモデルをAIで自動生成してみた（ChatGPT×Tripo AI）",
+      "date": "2025-05-02",
+      "likes": 197,
+      "thumb": "https://assets.st-note.com/production/uploads/images/187630665/rectangle_large_type_2_454c8d283a0110454a566932c6c35d04.png?fit=bounds&quality=85&width=1280",
+      "excerpt": "今回は誰でも簡単に自分の手描きイラストから3DモデルをAIで作成する方法を試してみました！ この方法なら落書きレベルのイラストでも、立派な3Dモデルにすること…"
     },
     {
       "url": "https://note.com/aiux_unite/n/nba0bd5d5c1c5",
