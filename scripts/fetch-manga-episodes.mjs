@@ -26,6 +26,7 @@ const ARTICLES_PATH = path.join(ROOT, "src/app/note-articles.json");
 const USER = "aiux_unite";
 /* slug は src/app/manga/data.ts の MANGA_SERIES と一致させること */
 const SERIES = [
+  { slug: "manga-lab", key: "m15b8b3cf9ee5" },
   { slug: "wakaru", key: "m92e0de4e5627" },
   { slug: "jissen", key: "m0b7bcbd79d18" },
   { slug: "honshitsu", key: "m19a44a319753" },

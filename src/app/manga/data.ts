@@ -55,6 +55,64 @@ type SeriesBase = Omit<MangaSeries, "episodes" | "lastUpdated">;
 
 const SERIES_BASE: SeriesBase[] = [
   {
+    slug: "manga-lab",
+    title: "AIマンガ研究所",
+    label: "新連載・マンガ制作",
+    noteUrl: "https://note.com/aiux_unite/m/m15b8b3cf9ee5",
+    cover:
+      "https://assets.st-note.com/production/uploads/images/336411744/magazine_cover_landscape_aa75dd696a37aa1612e64b7e448e7665.jpeg?width=900",
+    tone: "blue",
+    metaTitle: "AIマンガ研究所｜AIと一緒に漫画を描くノウハウを公開（吉川聡史）",
+    metaDescription:
+      "週刊少年チャンピオンで連載していた漫画家・吉川聡史が、AIと一緒に漫画を描くノウハウを公開する新連載。連載作「号外!!新選組カズエ」を『RE:BOOT』として描きおろしながら、作画・仕上げに使う専用AIツールの作り方と使い方を、研究所スタイルで一話ずつ記録します。",
+    keywords: [
+      "AIマンガ",
+      "AI 漫画 描き方",
+      "AIと漫画制作",
+      "AIマンガ研究所",
+      "号外 新選組カズエ",
+      "週刊少年チャンピオン",
+      "AIツール 漫画",
+      "吉川聡史",
+    ],
+    intro: [
+      "「AIに漫画を描かせる」のではなく、「AIと一緒に漫画を描く」。週刊少年チャンピオンで連載していた漫画家・吉川聡史が、その制作ノウハウをまるごと公開していく新連載です。",
+      "題材は、かつて連載していた「号外!!新選組カズエ」。これを『号外!!新選組カズエ RE:BOOT』として描きおろしながら、作画・ネーム・仕上げのために自分専用のAIツールを作って使う過程を、研究所のレポートのように一話ずつ記録していきます。",
+    ],
+    points: [
+      {
+        icon: "ph-pen-nib",
+        title: "AIと二人三脚で描く",
+        text: "AIに丸投げするのではなく、漫画家の手とAIを組み合わせる制作フローを公開。",
+      },
+      {
+        icon: "ph-wrench",
+        title: "専用AIツールを自作",
+        text: "作画や仕上げのために、自分の絵柄・用途に合わせたAIツールをゼロから作って使う。",
+      },
+      {
+        icon: "ph-book-open",
+        title: "連載作をRE:BOOT",
+        text: "過去の連載「号外!!新選組カズエ」を描きおろしでリブートしながら、実践的に解説。",
+      },
+      {
+        icon: "ph-flask",
+        title: "研究所スタイルで記録",
+        text: "うまくいった手法も失敗も、研究レポートのようにオープンに一話ずつ共有。",
+      },
+    ],
+    recommendedFor: [
+      "AIを使って漫画・イラストを描いてみたい人",
+      "AIに全部任せず、作家性を保ったままAIを使いたい人",
+      "プロの漫画家のAI活用プロセスを間近で見たい人",
+    ],
+    relatedUrls: [
+      "https://note.com/aiux_unite/n/n2bb5b9e4713d",
+      "https://note.com/aiux_unite/n/nc937d34eed97",
+      "https://note.com/aiux_unite/n/ndd10e1acf1b1",
+    ],
+  },
+  {
     slug: "wakaru",
     title: "マンガでわかる！AI活用",
     label: "全7話・入門編",
