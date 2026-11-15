@@ -2632,6 +2632,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "体験ゲーム：AI警備員（AIに仕込まれた隠れ指示を見抜く）", href: "/keibi" },
       { label: "用語：Gemini 4 Argon（同じ月に出た前の世代）", href: "/glossary/gemini-4-argon" },
       { label: "比較：Gemini 4 CarbonとGPT-6 Cyberの違い", href: "/vs/gemini-4-carbon-vs-gpt-6-cyber" },
+      { label: "比較：Gemini 4 HydrogenとCarbonの違い", href: "/vs/gemini-4-hydrogen-vs-carbon" },
     ],
     relatedSlugs: ["gemini-4-argon", "gemini", "frontier-model", "trusted-access", "bug-bounty", "deep-review"],
     faq: [
@@ -3090,6 +3091,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "体験ゲーム：AIの脳みそ、仕分けます（速いAIとじっくり考えるAIの使い分け）", href: "/nou" },
       { label: "用語：Gemini 4 Carbon（組ませる相手になる最上位モデル）", href: "/glossary/gemini-4-carbon" },
       { label: "用語：モデルルーティング（自動で振り分ける仕組み）", href: "/glossary/model-routing" },
+      { label: "比較：Gemini 4 HydrogenとCarbonの違い", href: "/vs/gemini-4-hydrogen-vs-carbon" },
     ],
     relatedSlugs: ["gemini", "gemini-4-carbon", "gemini-4-argon", "model-routing", "frontier-model", "reasoning-model"],
     faq: [
