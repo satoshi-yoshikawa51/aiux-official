@@ -49,4 +49,19 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/app/manga/episodes.json src/app/glossary/article-meta.json src/app/note-articles.json
           git commit -m "chore: refresh note article data"
-          git push
+          # 取得から push までの数十秒のあいだに誰かが同じブランチへ
+          # pushすると、素の git push は弾かれて取得結果ごと捨てられる
+          # （2026-11-15、PRのマージと3秒差で実際に起きた）。
+          # コミットの中身は生成ファイルだけなので、弾かれたら最新に
+          # rebaseして載せ直し、最大5回まで試す。
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "pushed (attempt $attempt)"
+              exit 0
+            fi
+            echo "push rejected; rebasing onto origin/$GITHUB_REF_NAME (attempt $attempt)"
+            sleep $((attempt * 5))
+            git pull --rebase origin "$GITHUB_REF_NAME"
+          done
+          echo "::error::push failed after 5 attempts"
+          exit 1
