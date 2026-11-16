@@ -287,6 +287,7 @@ export const GUIDES: Guide[] = [
         prompts: [
           { slug: "manual", label: "マニュアル・手順書" },
           { slug: "task-breakdown", label: "作業の分解・段取り" },
+          { slug: "handover", label: "業務の引き継ぎ書" },
         ],
       },
       {
@@ -908,7 +909,7 @@ export const GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES_UPDATED = "2026-11-10";
+export const GUIDES_UPDATED = "2026-11-17";
 
 export function getGuide(slug: string): Guide | undefined {
   return GUIDES.find((g) => g.slug === slug);
