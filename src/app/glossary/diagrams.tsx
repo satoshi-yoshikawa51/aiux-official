@@ -2088,6 +2088,37 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "chatgpt-wallet": {
+    caption: "任せたのは探すところまで",
+    render: () => (
+      <Svg h={352} title="ChatGPT Walletの支払いの流れの図解">
+        <T x={300} y={22} text="財布は預けるが、払う瞬間は毎回こちらに戻る" size={13.5} color={INK} />
+        <B x={30} y={38} w={540} h={46} label="カードを一度だけ登録する" />
+        <AV x={300} y1={88} y2={110} />
+        <B x={30} y={114} w={540} h={46} label="dotsが商品を探して選ぶ" sub="ここまではAIの仕事" />
+        <AV x={300} y1={164} y2={186} />
+        <B x={30} y={190} w={540} h={52} label="買うもの・合計・カードが示される" sub="顔か指紋で承認して初めて進む" fill={YELLOW} />
+        <AV x={300} y1={246} y2={268} />
+        <B x={30} y={272} w={540} h={46} label="身代わりの番号で店に支払う" sub="店もAIも本物のカード番号を見ない" />
+        <T x={300} y={340} text="承認は通過点。店が注文を弾くこともある" size={13} color={INK} />
+      </Svg>
+    ),
+  },
+  "zero-data-retention": {
+    caption: "契約であって、設定ではない",
+    render: () => (
+      <Svg h={300} title="ゼロデータ保持が効く範囲の図解">
+        <T x={300} y={22} text="「残さない」は3つの別々の問いでできている" size={13.5} color={INK} />
+        <B x={20} y={44} w={180} h={74} label="学習に使うか" sub="モデルの改善に回るか" />
+        <B x={210} y={44} w={180} h={74} label="ログに残すか" sub="残すなら何日か" fill={YELLOW} />
+        <B x={400} y={44} w={180} h={74} label="誰が見られるか" sub="従業員か、委託先までか" />
+        <AV x={300} y1={122} y2={150} label="ZDRが効くのは真ん中だけ" />
+        <B x={30} y={154} w={540} h={52} label="委託先にも同じ約束が要る" sub="画面に出てこない会社が処理していることがある" />
+        <B x={30} y={218} w={540} h={44} label="約束があることと、守られていることは別" dashed={true} />
+        <T x={300} y={288} text="いちばん効くのは、そもそも書かないこと" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
