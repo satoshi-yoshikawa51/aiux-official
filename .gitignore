@@ -37,3 +37,8 @@ next-env.d.ts
 # ショート動画（生成物。アップロードしたら消してよい）
 /yonkoma-videos/
 /academy-video/
+
+# Claude Codeの個人用ローカル設定（権限の許可リストなど。手元だけのもの）
+# スキル本体（.claude/skills/）は意図してコミットしているので除外しない
+.claude/settings.local.json
+.claude/*.local.json
