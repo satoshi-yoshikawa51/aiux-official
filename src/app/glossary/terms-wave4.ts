@@ -592,6 +592,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "用語：AIエージェント（自律して動くAIの基本）", href: "/glossary/ai-agent" },
       { label: "用語：AIクローラー（robots.txtでAIを断るやり方）", href: "/glossary/ai-crawler" },
       { label: "用語：ChatGPT Wallet（実際に動き始めた支払いの仕組み）", href: "/glossary/chatgpt-wallet" },
+      { label: "比較：ChatGPT Walletとエージェンティックコマースの違い", href: "/vs/chatgpt-wallet-vs-agentic-commerce" },
     ],
     relatedSlugs: ["ai-agent", "prompt-injection", "llmo", "recommendation", "guardrail", "function-calling", "ai-crawler", "mcp", "chatgpt-wallet", "dots"],
     faq: [
@@ -3198,6 +3199,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "体験ゲーム：AIエージェントに任せてみた（任せた結果がどう転ぶかを6つの結末で）", href: "/agent" },
       { label: "体験ゲーム：AI警備員（AIに仕込まれた隠れ指示を見抜く）", href: "/keibi" },
       { label: "用語：エージェンティックコマース（AIが代わりに買う仕組み全体）", href: "/glossary/agentic-commerce" },
+      { label: "比較：ChatGPT Walletとエージェンティックコマースの違い", href: "/vs/chatgpt-wallet-vs-agentic-commerce" },
       { label: "用語：dots（この財布を使う常駐エージェント）", href: "/glossary/dots" },
     ],
     relatedSlugs: ["agentic-commerce", "dots", "ai-agent", "prompt-injection", "openai", "function-calling"],
