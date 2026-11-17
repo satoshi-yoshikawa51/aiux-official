@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-16T01:21:09.301Z",
+  "updatedAt": "2026-11-17T04:09:28.561Z",
   "items": [
     {
-      "title": "「Gemini」に新機能「メモリーの要約」が登場--内容を確認、編集するには",
-      "url": "https://japan.zdnet.com/article/35254927/",
-      "source": "ZDNET Japan",
+      "title": "カリフォルニア州、OpenAIを提訴 AIエージェントの不正アクセスめぐり",
+      "url": "https://japan.cnet.com/article/35254995/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-16T01:13:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/16/29a03062b4bea618359a2a51742010cd/Gemini-memory-summary_1280.jpg"
+      "date": "2026-11-17T03:45:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/05/11/c91ead991a6990ceb56ffd75c531f482/openai-purple-logo_1280x960.jpg"
     },
     {
-      "title": "エージェントが「安全に支払いを代行」する「ChatGPT Wallet」登場 OpenAIが決済大手と提携し開発 提供は米国から",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/16/2000003211/",
+      "title": "AIが脆弱性の発見から攻撃まで自動実行--Google、悪用事例を初確認",
+      "url": "https://japan.cnet.com/article/35254969/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-17T03:10:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/17/655a3e73dfadb3ea0d622e6be5dcecfc/large.jpg"
+    },
+    {
+      "title": "規制の厳しい業界でAIエージェントをどう導入する？ MicrosoftとIBMが発表した基盤「3つの特徴」",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2611/17/news015.html",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-16T00:44:05.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/16/2000003211/10012176/2048"
+      "date": "2026-11-17T02:30:00.000Z",
+      "image": "https://image.itmedia.co.jp/enterprise/articles/2611/17/cover_news015.jpg"
     },
     {
-      "title": "Amazonの「買い物AI」がAlexaに統合。ペットや家族の好みまで覚えてくれます",
-      "url": "https://www.gizmodo.jp/article/amazon-alexa-for-shopping/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-11-16T00:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/11/13/4bba3e0d-32d8-4d80-ac5f-a2190ac4ffd5/original.png?w=1200&h=630"
-    },
-    {
-      "title": "Jensen Huang might be plotting a return and more of the latest Nvidia drama",
-      "url": "https://www.theverge.com/tech/1033999/jensen-huang-return-nvidia-megaspeed",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-11-15T20:43:49.000Z",
-      "titleJa": "Jensen Huangが復帰を画策か――Nvidiaをめぐる最新の騒動",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/Nvidia_Jensen_huang_03.jpg?quality=90&strip=all&crop=0%2C12.339110464558%2C100%2C75.321779070884&w=1200"
-    },
-    {
-      "title": "Congress wants to tighten export rules on AI chips after Nvidia spy scandal",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1033984/congress-export-rules-ai-chips-china",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-11-15T19:15:43.000Z",
-      "titleJa": "Nvidiaのスパイ疑惑を受け、米議会がAIチップの輸出規制強化へ",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25545717/STK481_STK432_CONGRESS_GOVERNMENT_CIVRGINIA_D.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "AI関連の求人・応募はビジネス職で高い伸び／2026年度のIT投資インデックスが過去最高に／世界の中で“働く喜び”が低い日本、ほか",
-      "url": "https://ascii.jp/elem/000/004/451/4451603/?rss",
+      "title": "NVIDIA、フアン氏辞任後初の決算へ 新CEOの業績見通しに注目",
+      "url": "https://ascii.jp/elem/000/004/452/4452086/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-11-15T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/15/4552205/xl/5a01b35c472b656a.jpg?20200122"
+      "date": "2026-11-17T02:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/17/4552887/xl/6810b64e1e09c2ad.png?20200122"
     },
     {
-      "title": "AI導入の次に来る課題--日本企業のインフラは準備できているか【前編】",
-      "url": "https://japan.zdnet.com/article/35254861/",
-      "source": "ZDNET Japan",
+      "title": "～マネジメントにも、AIの力を。～「管理のための間接業務」を圧縮し、事業を加速させるマネジメントAI「Growill Compass」先行導入パートナー5社を募集開始",
+      "url": "https://ascii.jp/elem/000/004/452/4452183/?rss",
+      "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-11-15T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/13/68533368ca1eb9adbafc0906ad3746e8/t/1280/960/d/261113_cio_as_1290_330430277.jpeg"
+      "date": "2026-11-17T02:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "AIモデリングもできる無償3D CAD「SolidCraft」を試してみた！",
-      "url": "https://monoist.itmedia.co.jp/mn/articles/2611/16/news011.html",
+      "title": "ゴムマリの専門業務AI-BPO、『マスタクレンジング』を提供開始",
+      "url": "https://ascii.jp/elem/000/004/452/4452191/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-17T02:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "OpenAI、児童性的虐待コンテンツ（CSAM）検出ツールを公開 ChatGPTで探すと24時間アカウント停止の警告も",
+      "url": "https://www.itmedia.co.jp/news/article/2611/17/2000003254/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-15T22:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/mn/articles/2611/16/cover_news011.jpg"
+      "date": "2026-11-17T01:45:02.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/17/2000003254/10012301/2048"
     },
     {
-      "title": "AIデータセンターで導入進む「液浸冷却システム」、絶縁性の高い液体に浸す",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/01679/092800307/",
-      "source": "日経クロステック",
+      "title": "サムスン「Galaxy S27」に自律型AI搭載か 「Galaxy Claw」が電話やメッセージを代行",
+      "url": "https://japan.cnet.com/article/35254980/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-15T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/01679/092800307/topm.jpg?20220512"
+      "date": "2026-11-17T01:35:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/17/467210769df7f45937654fb1c14d8bd2/e3bba3cb-906a-4248-a05f-bb20154a2e3f_1280x960.jpg"
     },
     {
-      "title": "PostgreSQL 19リリース延期の背景。β4で多くの新機能取り下げが発生、原因はAIによるコードレビューか",
-      "url": "https://www.publickey1.jp/blog/26/postgresql_194ai.html",
-      "source": "Publickey",
-      "lang": "ja",
-      "date": "2026-11-15T15:31:49.000Z",
-      "image": "https://www.publickey1.jp/2026/postgresql19-logo.png"
-    },
-    {
-      "title": "The OpenAI board member who fired Sam Altman says we still can’t trust AI CEOs",
-      "url": "https://www.theverge.com/podcast/1032907/helen-toner-openai-cset-ai-safety-policy-interview",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-11-14T15:00:00.000Z",
-      "titleJa": "Sam Altmanを解任したOpenAI取締役、「AI企業のCEOはいまだ信用できない」",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/DCD-Helen-Toner.jpg?quality=90&strip=all&crop=0%2C10.711631919237%2C100%2C78.576736161526&w=1200"
-    },
-    {
-      "title": "Introducing ChatGPT Wallet",
-      "url": "https://openai.com/index/introducing-chatgpt-wallet",
+      "title": "Science at the Frontier: How scientists use ChatGPT",
+      "url": "https://openai.com/index/science-at-the-frontier",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-11-13T15:00:00.000Z",
-      "titleJa": "ChatGPT Walletを発表",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/2xTvIZkcQhKk3VNFioQ4CR/4efb84a6adbddb41311f6b18158fad8b/introducing-chatgpt-wallet-social.png?w=1600&h=900&fit=fill"
+      "date": "2026-11-16T12:00:00.000Z",
+      "titleJa": "科学の最前線：科学者はChatGPTをどう使っているか",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/r0NQL0JSQTS1Kzvpq9Fqm/6b10f87bd44e394bb04737e1ca00b017/science-at-the-frontier-social.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "Shield helps technicians hand off legacy portal work with OpenAI",
-      "url": "https://openai.com/business/customer-stories/shield",
+      "title": "LVMH’s Media Division announces strategic partnership with OpenAI",
+      "url": "https://openai.com/index/lvmh-media-division-partnership",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-11-13T08:00:00.000Z",
-      "titleJa": "Shield、OpenAIを活用してレガシーポータル業務の引き継ぎを支援",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/2k2eu0bdwRQBf4AXMBdKfl/44d9a8963dee51ba8283d49a0cfa4721/og.png?w=1600&h=900&fit=fill"
+      "date": "2026-11-16T09:00:00.000Z",
+      "titleJa": "LVMHのメディア部門、OpenAIと戦略的提携を発表",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/34LfcwNBjpeCtav2XM8FhI/462f77d234875c50af8cc3368e9c529c/lvmh-media-division-partnership-seo-v2.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "AI agent startup LangChain hits $3B valuation",
-      "url": "https://techcrunch.com/2026/11/13/ai-agent-startup-langchain-hits-3b-valuation/",
+      "title": "Cybersecurity AI startup Corma reaches $1B valuation in about 3 months",
+      "url": "https://techcrunch.com/2026/11/16/cybersecurity-ai-startup-corma-reaches-1b-valuation-in-about-3-months/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-11-13T19:37:57.000Z",
-      "titleJa": "AIエージェント新興のLangChain、評価額30億ドルに",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/11/Raising-money.jpg?resize=1200,829"
+      "date": "2026-11-16T23:32:32.000Z",
+      "titleJa": "サイバーセキュリティAIスタートアップCorma、約3カ月で評価額10億ドルに",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Networked-AI-swarm-with-glowing-nodes.png?resize=1200,600"
+    },
+    {
+      "title": "All the questions Nvidia should answer on Tuesday — but probably won’t",
+      "url": "https://techcrunch.com/2026/11/16/all-the-questions-nvidia-should-answer-on-tuesday-but-probably-wont/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-16T22:03:02.000Z",
+      "titleJa": "Nvidiaが火曜日に答えるべきすべての疑問",
+      "image": "https://techcrunch.com/wp-content/uploads/2020/05/GettyImages-1147839035.jpg?resize=1200,800"
+    },
+    {
+      "title": "California sues OpenAI over rogue AI hacking incidents",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1034815/california-openai-hugging-face-lawsuit",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-16T20:46:01.000Z",
+      "titleJa": "カリフォルニア州、暴走AIによるハッキング事件でOpenAIを提訴",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/10/STK155_OPEN_AI_4_CVirginia_D.png?quality=90&strip=all&crop=0%2C10.742221417566%2C100%2C78.515557164868&w=1200"
+    },
+    {
+      "title": "Apple is testing daily usage limits for more complex Siri AI interactions",
+      "url": "https://www.theverge.com/tech/1034581/apple-intelligence-siri-ai-daily-usage-limits-icloud-subscription",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-16T19:24:40.000Z",
+      "titleJa": "Apple、より複雑なSiriのAI対話に1日あたりの利用制限をテスト中",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/siri-ai.jpg?quality=90&strip=all&crop=0.17391304347827%2C0%2C99.652173913043%2C100&w=1200"
     }
   ]
 }
