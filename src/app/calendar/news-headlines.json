@@ -1,124 +1,124 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-17T04:09:28.561Z",
+  "updatedAt": "2026-11-18T03:06:21.013Z",
   "items": [
     {
-      "title": "カリフォルニア州、OpenAIを提訴 AIエージェントの不正アクセスめぐり",
-      "url": "https://japan.cnet.com/article/35254995/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-17T03:45:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/05/11/c91ead991a6990ceb56ffd75c531f482/openai-purple-logo_1280x960.jpg"
-    },
-    {
-      "title": "AIが脆弱性の発見から攻撃まで自動実行--Google、悪用事例を初確認",
-      "url": "https://japan.cnet.com/article/35254969/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-17T03:10:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/17/655a3e73dfadb3ea0d622e6be5dcecfc/large.jpg"
-    },
-    {
-      "title": "規制の厳しい業界でAIエージェントをどう導入する？ MicrosoftとIBMが発表した基盤「3つの特徴」",
-      "url": "https://www.itmedia.co.jp/enterprise/articles/2611/17/news015.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-17T02:30:00.000Z",
-      "image": "https://image.itmedia.co.jp/enterprise/articles/2611/17/cover_news015.jpg"
-    },
-    {
-      "title": "NVIDIA、フアン氏辞任後初の決算へ 新CEOの業績見通しに注目",
-      "url": "https://ascii.jp/elem/000/004/452/4452086/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-17T02:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/17/4552887/xl/6810b64e1e09c2ad.png?20200122"
-    },
-    {
-      "title": "～マネジメントにも、AIの力を。～「管理のための間接業務」を圧縮し、事業を加速させるマネジメントAI「Growill Compass」先行導入パートナー5社を募集開始",
-      "url": "https://ascii.jp/elem/000/004/452/4452183/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-17T02:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "ゴムマリの専門業務AI-BPO、『マスタクレンジング』を提供開始",
-      "url": "https://ascii.jp/elem/000/004/452/4452191/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-17T02:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "OpenAI、児童性的虐待コンテンツ（CSAM）検出ツールを公開 ChatGPTで探すと24時間アカウント停止の警告も",
-      "url": "https://www.itmedia.co.jp/news/article/2611/17/2000003254/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-17T01:45:02.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/17/2000003254/10012301/2048"
-    },
-    {
-      "title": "サムスン「Galaxy S27」に自律型AI搭載か 「Galaxy Claw」が電話やメッセージを代行",
-      "url": "https://japan.cnet.com/article/35254980/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-17T01:35:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/17/467210769df7f45937654fb1c14d8bd2/e3bba3cb-906a-4248-a05f-bb20154a2e3f_1280x960.jpg"
-    },
-    {
-      "title": "Science at the Frontier: How scientists use ChatGPT",
-      "url": "https://openai.com/index/science-at-the-frontier",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-16T12:00:00.000Z",
-      "titleJa": "科学の最前線：科学者はChatGPTをどう使っているか",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/r0NQL0JSQTS1Kzvpq9Fqm/6b10f87bd44e394bb04737e1ca00b017/science-at-the-frontier-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "LVMH’s Media Division announces strategic partnership with OpenAI",
-      "url": "https://openai.com/index/lvmh-media-division-partnership",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-16T09:00:00.000Z",
-      "titleJa": "LVMHのメディア部門、OpenAIと戦略的提携を発表",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/34LfcwNBjpeCtav2XM8FhI/462f77d234875c50af8cc3368e9c529c/lvmh-media-division-partnership-seo-v2.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Cybersecurity AI startup Corma reaches $1B valuation in about 3 months",
-      "url": "https://techcrunch.com/2026/11/16/cybersecurity-ai-startup-corma-reaches-1b-valuation-in-about-3-months/",
+      "title": "Nvidia’s startup stakes ballooned to $65B, but Huang’s exit puts future deals in doubt",
+      "url": "https://techcrunch.com/2026/11/17/nvidias-startup-stakes-ballooned-to-65b-but-huangs-exit-puts-future-deals-in-doubt/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-11-16T23:32:32.000Z",
-      "titleJa": "サイバーセキュリティAIスタートアップCorma、約3カ月で評価額10億ドルに",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/Networked-AI-swarm-with-glowing-nodes.png?resize=1200,600"
+      "date": "2026-11-18T01:44:21.000Z",
+      "titleJa": "Nvidiaのスタートアップ出資は650億ドルに膨張、だがHuang退任で今後の案件に不透明感",
+      "image": "https://techcrunch.com/wp-content/uploads/2024/11/GettyImages-2150167239.jpg?resize=1200,771"
     },
     {
-      "title": "All the questions Nvidia should answer on Tuesday — but probably won’t",
-      "url": "https://techcrunch.com/2026/11/16/all-the-questions-nvidia-should-answer-on-tuesday-but-probably-wont/",
+      "title": "Nvidia promises that revenue will keep soaring — for now",
+      "url": "https://techcrunch.com/2026/11/17/nvidia-promises-that-revenue-will-keep-soaring-for-now/",
       "source": "TechCrunch",
       "lang": "en",
-      "date": "2026-11-16T22:03:02.000Z",
-      "titleJa": "Nvidiaが火曜日に答えるべきすべての疑問",
-      "image": "https://techcrunch.com/wp-content/uploads/2020/05/GettyImages-1147839035.jpg?resize=1200,800"
+      "date": "2026-11-18T00:16:50.000Z",
+      "titleJa": "Nvidia、売上高の急拡大が続くと明言",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-157503102.jpg?resize=1200,776"
     },
     {
-      "title": "California sues OpenAI over rogue AI hacking incidents",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1034815/california-openai-hugging-face-lawsuit",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-11-16T20:46:01.000Z",
-      "titleJa": "カリフォルニア州、暴走AIによるハッキング事件でOpenAIを提訴",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/10/STK155_OPEN_AI_4_CVirginia_D.png?quality=90&strip=all&crop=0%2C10.742221417566%2C100%2C78.515557164868&w=1200"
+      "title": "OpenAIが新AI「GPT-6.2 Astra」をリリース。“最高に賢い”のもうひとつのカタチ",
+      "url": "https://www.gizmodo.jp/article/2611-gpt-6-2-astra-release/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-11-18T02:40:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/11/18/81d2bbc3-808b-4b3e-b61d-59da25abb8ad/original.png?w=1200&h=630"
     },
     {
-      "title": "Apple is testing daily usage limits for more complex Siri AI interactions",
-      "url": "https://www.theverge.com/tech/1034581/apple-intelligence-siri-ai-daily-usage-limits-icloud-subscription",
-      "source": "The Verge",
+      "title": "マイクロソフト、新コーディングモデル「MAI Code 2」と「Code 2 Flash」発表",
+      "url": "https://japan.zdnet.com/article/35255058/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-18T02:19:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/18/9bc5341836ff9598deda634179724f6d/ignite_l.jpg"
+    },
+    {
+      "title": "トークンコスト、データ主権、コンテキスト腐敗 AI時代を生き残るためのデータ戦略とは？",
+      "url": "https://ascii.jp/elem/000/004/452/4452212/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-18T02:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/17/4552964/xl/d4e4ef3eda5a5283.jpg?20200122"
+    },
+    {
+      "title": "わが社はChatGPTでどう紹介されている？ OpenAIが企業向けの確認機能を提供開始",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2611/18/news022.html",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-18T01:40:00.000Z",
+      "image": "https://image.itmedia.co.jp/enterprise/articles/2611/18/cover_news022.jpg"
+    },
+    {
+      "title": "「GPT-6.2 Astra／Sol」登場 前世代超える性能を「コスト1/3で実現」 Ultrafast提供も拡大",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/18/2000003282/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-18T01:32:09.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/18/2000003282/10012388/2048"
+    },
+    {
+      "title": "マイクロソフト、「Copilot Workspaces」を発表--AIワークプレースを推進",
+      "url": "https://japan.zdnet.com/article/35255046/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-18T01:15:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/18/c9b3c944a055000fca324ce2502ecc51/Screenshot-2026-11-17-at-1.21.10-PM_l.jpg"
+    },
+    {
+      "title": "OpenAI、GPT-6.2 AstraとSolを発表 ChatGPT WorkとCodexで提供開始",
+      "url": "https://japan.cnet.com/article/35255041/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-18T01:15:00.000Z",
+      "image": "https://japan.cnet.com/storage/2024/12/06/d3ec09bc2506472b04a01743b30ddfb8/openai-blue-logo_1280x960.jpg"
+    },
+    {
+      "title": "VAIO、「落下・水ぬれも対象」のメーカー1年保証を開始",
+      "url": "https://japan.zdnet.com/article/35255045/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-18T01:13:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/18/a38e4b53295957c4b3e3a7a6ce8544d2/261117_vaio_l.jpg"
+    },
+    {
+      "title": "Introducing GPT-6.2 Astra and Sol",
+      "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol",
+      "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-11-16T19:24:40.000Z",
-      "titleJa": "Apple、より複雑なSiriのAI対話に1日あたりの利用制限をテスト中",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/siri-ai.jpg?quality=90&strip=all&crop=0.17391304347827%2C0%2C99.652173913043%2C100&w=1200"
+      "date": "2026-11-17T17:45:00.000Z",
+      "titleJa": "GPT-6.2 AstraとSolを発表",
+      "image": "https://cdn.openai.com/mdx-assets/e193aefe-5e58-431c-8cd2-adadac0c1496/44573edd-9653-49b3-ba07-7b3643545ef9.d3072be3.png"
+    },
+    {
+      "title": "Put Gemini to work for you",
+      "url": "https://blog.google/innovation-and-ai/products/gemini-app/tasks-in-gemini-free-new-features/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-11-17T17:00:00.000Z",
+      "titleJa": "Geminiを仕事に活用しよう",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Hero_2784_x_1566_1.width-1300.png"
+    },
+    {
+      "title": "Introducing OpenAI for Chile",
+      "url": "https://openai.com/index/introducing-openai-for-chile",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-17T00:00:00.000Z",
+      "titleJa": "OpenAI for Chileを発表",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/1rTLbF8FhSFEoyiGB0lTYU/418dfbea2c146e27e301a9f85869eb12/introducing-openai-for-chile-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Nvidia is abandoning China after Jensen Huang’s ouster",
+      "url": "https://techcrunch.com/2026/11/17/nvidia-is-abandoning-china-after-jensen-huangs-ouster/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-17T23:37:48.000Z",
+      "titleJa": "Nvidia、Jensen Huang解任後に中国から撤退へ",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/03/jensen-huang-gtc-getty.jpg?resize=1200,781"
     }
   ]
 }
