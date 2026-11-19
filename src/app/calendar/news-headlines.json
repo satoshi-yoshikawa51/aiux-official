@@ -1,97 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-18T03:06:21.013Z",
+  "updatedAt": "2026-11-19T02:46:14.491Z",
   "items": [
     {
-      "title": "Nvidia’s startup stakes ballooned to $65B, but Huang’s exit puts future deals in doubt",
-      "url": "https://techcrunch.com/2026/11/17/nvidias-startup-stakes-ballooned-to-65b-but-huangs-exit-puts-future-deals-in-doubt/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-18T01:44:21.000Z",
-      "titleJa": "Nvidiaのスタートアップ出資は650億ドルに膨張、だがHuang退任で今後の案件に不透明感",
-      "image": "https://techcrunch.com/wp-content/uploads/2024/11/GettyImages-2150167239.jpg?resize=1200,771"
-    },
-    {
-      "title": "Nvidia promises that revenue will keep soaring — for now",
-      "url": "https://techcrunch.com/2026/11/17/nvidia-promises-that-revenue-will-keep-soaring-for-now/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-18T00:16:50.000Z",
-      "titleJa": "Nvidia、売上高の急拡大が続くと明言",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-157503102.jpg?resize=1200,776"
-    },
-    {
-      "title": "OpenAIが新AI「GPT-6.2 Astra」をリリース。“最高に賢い”のもうひとつのカタチ",
-      "url": "https://www.gizmodo.jp/article/2611-gpt-6-2-astra-release/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-11-18T02:40:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/11/18/81d2bbc3-808b-4b3e-b61d-59da25abb8ad/original.png?w=1200&h=630"
-    },
-    {
-      "title": "マイクロソフト、新コーディングモデル「MAI Code 2」と「Code 2 Flash」発表",
-      "url": "https://japan.zdnet.com/article/35255058/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-11-18T02:19:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/18/9bc5341836ff9598deda634179724f6d/ignite_l.jpg"
-    },
-    {
-      "title": "トークンコスト、データ主権、コンテキスト腐敗 AI時代を生き残るためのデータ戦略とは？",
-      "url": "https://ascii.jp/elem/000/004/452/4452212/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-18T02:00:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/17/4552964/xl/d4e4ef3eda5a5283.jpg?20200122"
-    },
-    {
-      "title": "わが社はChatGPTでどう紹介されている？ OpenAIが企業向けの確認機能を提供開始",
-      "url": "https://www.itmedia.co.jp/enterprise/articles/2611/18/news022.html",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-18T01:40:00.000Z",
-      "image": "https://image.itmedia.co.jp/enterprise/articles/2611/18/cover_news022.jpg"
-    },
-    {
-      "title": "「GPT-6.2 Astra／Sol」登場 前世代超える性能を「コスト1/3で実現」 Ultrafast提供も拡大",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/18/2000003282/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-18T01:32:09.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/18/2000003282/10012388/2048"
-    },
-    {
-      "title": "マイクロソフト、「Copilot Workspaces」を発表--AIワークプレースを推進",
-      "url": "https://japan.zdnet.com/article/35255046/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-11-18T01:15:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/18/c9b3c944a055000fca324ce2502ecc51/Screenshot-2026-11-17-at-1.21.10-PM_l.jpg"
-    },
-    {
-      "title": "OpenAI、GPT-6.2 AstraとSolを発表 ChatGPT WorkとCodexで提供開始",
-      "url": "https://japan.cnet.com/article/35255041/",
+      "title": "Google、新AI「Gemini 4 Neon」提供開始 最上位モデルに迫る性能 コストも削減",
+      "url": "https://japan.cnet.com/article/35255129/",
       "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-18T01:15:00.000Z",
-      "image": "https://japan.cnet.com/storage/2024/12/06/d3ec09bc2506472b04a01743b30ddfb8/openai-blue-logo_1280x960.jpg"
+      "date": "2026-11-19T02:33:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/19/e6bdc2b91ece03b5a7f48abe562f3234/large.jpg"
     },
     {
-      "title": "VAIO、「落下・水ぬれも対象」のメーカー1年保証を開始",
-      "url": "https://japan.zdnet.com/article/35255045/",
+      "title": "トヨタ「bZ4X」が無人タクシーに 中国で商用運行開始",
+      "url": "https://japan.cnet.com/article/35255116/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-19T01:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/19/976fe48d5db739d6f7d77320759b14aa/large.jpg"
+    },
+    {
+      "title": "手のひらサイズでローカルAIを実行 ドスパラ、RTX Spark搭載「ProArt GR1X」を発売",
+      "url": "https://ascii.jp/elem/000/004/452/4452965/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-19T01:15:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/19/4554085/xl/81c158df162cfdeb.png?20200122"
+    },
+    {
+      "title": "MS、自社データでカスタマイズ可能な企業向けAIモデルを発表",
+      "url": "https://japan.zdnet.com/article/35255122/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-11-18T01:13:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/18/a38e4b53295957c4b3e3a7a6ce8544d2/261117_vaio_l.jpg"
+      "date": "2026-11-19T00:58:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/19/9ac1403fd5916a52b551fa5cba180b28/Screenshot-2026-11-17-at-2.46.59-PM_1280.jpg"
     },
     {
-      "title": "Introducing GPT-6.2 Astra and Sol",
-      "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol",
+      "title": "AIによるAI研究「指数関数的に増加」でも「依然として人間中心」 OpenAIがレポート公開",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/19/2000003318/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-19T00:48:01.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/19/2000003318/10012518/2048"
+    },
+    {
+      "title": "1.1LのミニPCで120B級LLMをローカル実行 ASUS「ProArt GR1X」、最大128GBメモリー搭載",
+      "url": "https://ascii.jp/elem/000/004/452/4452961/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-19T00:15:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/19/4554061/xl/14b082a4f174754c.png?20200122"
+    },
+    {
+      "title": "ビューティシャンの確定申告を、働く場から支える シェアサロン「GO TODAY SHAiRE SALON」と提携",
+      "url": "https://ascii.jp/elem/000/004/452/4452996/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-19T00:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "ゴムマリの業務AIエージェント、『品質トラブル分析』を提供開始",
+      "url": "https://ascii.jp/elem/000/004/452/4452997/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-19T00:00:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "The Gemini app is now available on lower-memory Android devices.",
+      "url": "https://blog.google/innovation-and-ai/products/gemini-app/gemini-lower-memory-devices/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-11-18T17:00:00.000Z",
+      "titleJa": "Gemini アプリ、低メモリの Android 端末でも利用可能に",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_app_Android_social_share.max-1440x810.png"
+    },
+    {
+      "title": "Advancing chip design with OpenAI models",
+      "url": "https://openai.com/index/advancing-chip-design-with-our-models",
       "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-11-17T17:45:00.000Z",
-      "titleJa": "GPT-6.2 AstraとSolを発表",
-      "image": "https://cdn.openai.com/mdx-assets/e193aefe-5e58-431c-8cd2-adadac0c1496/44573edd-9653-49b3-ba07-7b3643545ef9.d3072be3.png"
+      "date": "2026-11-18T00:00:00.000Z",
+      "titleJa": "OpenAI のモデルでチップ設計を加速",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/658zg0FHAg7zuL73DTFCfC/fff21fd18c260ce64a10a14ee8d4e851/advancing-chip-design-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Le Groupe Figaro and OpenAI partner to bring Le Figaro journalism to ChatGPT",
+      "url": "https://openai.com/index/le-groupe-figaro-and-openai-announce-partnership",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-18T00:00:00.000Z",
+      "titleJa": "Le Groupe Figaro と OpenAI が提携、Le Figaro の報道を ChatGPT へ",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/6oojxLpPBP1EqJiCFQof6r/868dca9f2befad4a1cfa21aeaa7d1cdb/le-groupe-figaro-and-openai-announce-partnership-seo.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Microsoft CEO Satya Nadella remains confident in Nvidia after Huang’s exit",
+      "url": "https://techcrunch.com/2026/11/18/microsoft-ceo-satya-nadella-remains-confident-in-nvidia-after-huangs-exit/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-18T23:17:28.000Z",
+      "titleJa": "Microsoft のサティア・ナデラ CEO、Huang 氏退任後も Nvidia に変わらぬ信頼",
+      "image": "https://techcrunch.com/wp-content/uploads/2024/02/GettyImages-1930518491.jpg?resize=1200,800"
+    },
+    {
+      "title": "Anthropic reportedly prices IPO at $83 a share, above projected range",
+      "url": "https://techcrunch.com/2026/11/18/anthropic-reportedly-prices-ipo-at-83-a-share-above-projected-range/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-18T22:11:15.000Z",
+      "titleJa": "Anthropic、IPO 価格を1株83ドルに設定か 想定レンジを上回る",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/10/GettyImages-2295579000.jpg?resize=1200,800"
     },
     {
       "title": "Put Gemini to work for you",
@@ -99,26 +117,8 @@
       "source": "Google AI（公式）",
       "lang": "en",
       "date": "2026-11-17T17:00:00.000Z",
-      "titleJa": "Geminiを仕事に活用しよう",
+      "titleJa": "Gemini を仕事に活用しよう",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Hero_2784_x_1566_1.width-1300.png"
-    },
-    {
-      "title": "Introducing OpenAI for Chile",
-      "url": "https://openai.com/index/introducing-openai-for-chile",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-17T00:00:00.000Z",
-      "titleJa": "OpenAI for Chileを発表",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/1rTLbF8FhSFEoyiGB0lTYU/418dfbea2c146e27e301a9f85869eb12/introducing-openai-for-chile-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Nvidia is abandoning China after Jensen Huang’s ouster",
-      "url": "https://techcrunch.com/2026/11/17/nvidia-is-abandoning-china-after-jensen-huangs-ouster/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-17T23:37:48.000Z",
-      "titleJa": "Nvidia、Jensen Huang解任後に中国から撤退へ",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/03/jensen-huang-gtc-getty.jpg?resize=1200,781"
     }
   ]
 }
