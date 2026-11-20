@@ -1,70 +1,97 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-19T02:46:14.491Z",
+  "updatedAt": "2026-11-20T02:33:40.148Z",
   "items": [
     {
-      "title": "Google、新AI「Gemini 4 Neon」提供開始 最上位モデルに迫る性能 コストも削減",
-      "url": "https://japan.cnet.com/article/35255129/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-19T02:33:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/19/e6bdc2b91ece03b5a7f48abe562f3234/large.jpg"
+      "title": "Anthropic’s 7 founders cashed out nearly $2B in record-breaking IPO",
+      "url": "https://techcrunch.com/2026/11/19/anthropics-7-founders-cashed-out-nearly-2b-in-record-breaking-ipo/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-20T00:43:50.000Z",
+      "titleJa": "Anthropicの創業者7人、記録的IPOで約20億ドルを現金化",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/11/antrhopic-openingday-getty.jpg?resize=1200,801"
     },
     {
-      "title": "トヨタ「bZ4X」が無人タクシーに 中国で商用運行開始",
-      "url": "https://japan.cnet.com/article/35255116/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-19T01:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/19/976fe48d5db739d6f7d77320759b14aa/large.jpg"
-    },
-    {
-      "title": "手のひらサイズでローカルAIを実行 ドスパラ、RTX Spark搭載「ProArt GR1X」を発売",
-      "url": "https://ascii.jp/elem/000/004/452/4452965/?rss",
+      "title": "中国AI企業、NVIDIAの規制対象GPUを使用か 元OpenAI研究者らが分析結果を公開",
+      "url": "https://ascii.jp/elem/000/004/453/4453435/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-11-19T01:15:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/19/4554085/xl/81c158df162cfdeb.png?20200122"
+      "date": "2026-11-20T02:05:00.000Z",
+      "image": "https://ascii.jp/img/2026/11/20/4554610/xl/52204254cc77d128.png?20200122"
     },
     {
-      "title": "MS、自社データでカスタマイズ可能な企業向けAIモデルを発表",
-      "url": "https://japan.zdnet.com/article/35255122/",
+      "title": "軽さ、堅牢性、高いAI性能を備えた次世代ビジネスPCの決定版！「HP EliteBook X G2a 14 AI PC」レビュー",
+      "url": "https://ascii.jp/elem/000/004/435/4435172/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-20T02:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/16/4526208/xl/8a5b85d2e3973e03.jpg"
+    },
+    {
+      "title": "進化したノイキャン搭載で2万円台！「AirPods 5」を試すと完成度の向上を感じられた",
+      "url": "https://ascii.jp/elem/000/004/453/4453374/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-20T02:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/09/14/4525627/xl/0d52da7382eb947f.jpg?20200122"
+    },
+    {
+      "title": "三菱ケミカル、採用AIエージェント導入--採用担当者は「対話」に注力",
+      "url": "https://japan.zdnet.com/article/35255201/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-11-19T00:58:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/19/9ac1403fd5916a52b551fa5cba180b28/Screenshot-2026-11-17-at-2.46.59-PM_1280.jpg"
+      "date": "2026-11-20T01:10:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/06/01/9bd0571877ac1f80789f507515f2c07e/260601_office_as_1280_1842511410.jpg"
     },
     {
-      "title": "AIによるAI研究「指数関数的に増加」でも「依然として人間中心」 OpenAIがレポート公開",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/19/2000003318/",
-      "source": "ITmedia AI＋",
+      "title": "Canva、生成AI機能をオフにできる新設定を導入",
+      "url": "https://japan.cnet.com/article/35255191/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-19T00:48:01.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/19/2000003318/10012518/2048"
+      "date": "2026-11-20T00:50:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/20/7dbc63f7188a796dddda2f1c9cbaf5c9/AdobeStock_585917212_1280x960.jpeg"
     },
     {
-      "title": "1.1LのミニPCで120B級LLMをローカル実行 ASUS「ProArt GR1X」、最大128GBメモリー搭載",
-      "url": "https://ascii.jp/elem/000/004/452/4452961/?rss",
+      "title": "CodeRabbit、Hexabaseと共催でAI時代の脆弱性対策を考えるウェビナーを12月4日に開催",
+      "url": "https://ascii.jp/elem/000/004/453/4453412/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-11-19T00:15:00.000Z",
-      "image": "https://ascii.jp/img/2026/11/19/4554061/xl/14b082a4f174754c.png?20200122"
-    },
-    {
-      "title": "ビューティシャンの確定申告を、働く場から支える シェアサロン「GO TODAY SHAiRE SALON」と提携",
-      "url": "https://ascii.jp/elem/000/004/452/4452996/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-19T00:00:00.000Z",
+      "date": "2026-11-20T00:36:08.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
-      "title": "ゴムマリの業務AIエージェント、『品質トラブル分析』を提供開始",
-      "url": "https://ascii.jp/elem/000/004/452/4452997/?rss",
-      "source": "ASCII.jp",
+      "title": "Anthropic上場。創業者7人、全員が資産約4兆円に",
+      "url": "https://www.gizmodo.jp/article/2611-anthropic-ipo-2-trillion-valuation/",
+      "source": "GIZMODO JAPAN",
       "lang": "ja",
-      "date": "2026-11-19T00:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "date": "2026-11-20T00:35:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/11/19/aa4480c4-db96-41fb-b812-b553caa1257e/original.png?w=1200&h=630"
+    },
+    {
+      "title": "Anthropicがナスダック上場 期待と不安が交錯、「価値観と矛盾」との声も",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12193/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-11-20T00:10:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/00001/12193/topm.jpg?20220512"
+    },
+    {
+      "title": "Introducing Tool Retrieval in the Gemini API",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-api-tool-retrieval/",
+      "source": "Google AI（公式）",
+      "lang": "en",
+      "date": "2026-11-19T18:00:00.000Z",
+      "titleJa": "Gemini APIに「Tool Retrieval」登場",
+      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Tool_retrieval_hero.width-1300.png"
+    },
+    {
+      "title": "A brief history of Nvidia’s recent stock fluctuations",
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1038063/nvidia-stock-market-price-earnings",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-19T21:59:35.000Z",
+      "titleJa": "Nvidia株、直近の乱高下を振り返る",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/gettyimages-2305716823.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     },
     {
       "title": "The Gemini app is now available on lower-memory Android devices.",
@@ -72,17 +99,8 @@
       "source": "Google AI（公式）",
       "lang": "en",
       "date": "2026-11-18T17:00:00.000Z",
-      "titleJa": "Gemini アプリ、低メモリの Android 端末でも利用可能に",
+      "titleJa": "Geminiアプリ、低メモリのAndroid端末でも利用可能に",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_app_Android_social_share.max-1440x810.png"
-    },
-    {
-      "title": "Advancing chip design with OpenAI models",
-      "url": "https://openai.com/index/advancing-chip-design-with-our-models",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-18T00:00:00.000Z",
-      "titleJa": "OpenAI のモデルでチップ設計を加速",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/658zg0FHAg7zuL73DTFCfC/fff21fd18c260ce64a10a14ee8d4e851/advancing-chip-design-social.png?w=1600&h=900&fit=fill"
     },
     {
       "title": "Le Groupe Figaro and OpenAI partner to bring Le Figaro journalism to ChatGPT",
@@ -90,35 +108,17 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-11-18T00:00:00.000Z",
-      "titleJa": "Le Groupe Figaro と OpenAI が提携、Le Figaro の報道を ChatGPT へ",
+      "titleJa": "Le Groupe FigaroとOpenAIが提携、Le Figaroの報道をChatGPTへ",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/6oojxLpPBP1EqJiCFQof6r/868dca9f2befad4a1cfa21aeaa7d1cdb/le-groupe-figaro-and-openai-announce-partnership-seo.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "Microsoft CEO Satya Nadella remains confident in Nvidia after Huang’s exit",
-      "url": "https://techcrunch.com/2026/11/18/microsoft-ceo-satya-nadella-remains-confident-in-nvidia-after-huangs-exit/",
-      "source": "TechCrunch",
+      "title": "Advancing chip design with OpenAI models",
+      "url": "https://openai.com/index/advancing-chip-design-with-our-models",
+      "source": "OpenAI（公式）",
       "lang": "en",
-      "date": "2026-11-18T23:17:28.000Z",
-      "titleJa": "Microsoft のサティア・ナデラ CEO、Huang 氏退任後も Nvidia に変わらぬ信頼",
-      "image": "https://techcrunch.com/wp-content/uploads/2024/02/GettyImages-1930518491.jpg?resize=1200,800"
-    },
-    {
-      "title": "Anthropic reportedly prices IPO at $83 a share, above projected range",
-      "url": "https://techcrunch.com/2026/11/18/anthropic-reportedly-prices-ipo-at-83-a-share-above-projected-range/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-18T22:11:15.000Z",
-      "titleJa": "Anthropic、IPO 価格を1株83ドルに設定か 想定レンジを上回る",
-      "image": "https://techcrunch.com/wp-content/uploads/2026/10/GettyImages-2295579000.jpg?resize=1200,800"
-    },
-    {
-      "title": "Put Gemini to work for you",
-      "url": "https://blog.google/innovation-and-ai/products/gemini-app/tasks-in-gemini-free-new-features/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-11-17T17:00:00.000Z",
-      "titleJa": "Gemini を仕事に活用しよう",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Hero_2784_x_1566_1.width-1300.png"
+      "date": "2026-11-18T00:00:00.000Z",
+      "titleJa": "OpenAIのモデルでチップ設計を加速",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/658zg0FHAg7zuL73DTFCfC/fff21fd18c260ce64a10a14ee8d4e851/advancing-chip-design-social.png?w=1600&h=900&fit=fill"
     }
   ]
 }
