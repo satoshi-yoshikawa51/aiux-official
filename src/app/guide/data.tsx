@@ -310,6 +310,7 @@ export const GUIDES: Guide[] = [
           { slug: "meeting-minutes", label: "議事録の清書" },
           { slug: "weekly-report", label: "週報・日報" },
           { slug: "transcript", label: "文字起こしの整形" },
+          { slug: "agenda", label: "会議アジェンダ" },
         ],
       },
     ],
@@ -661,6 +662,7 @@ export const GUIDES: Guide[] = [
           { slug: "meeting-minutes", label: "議事録作成" },
           { slug: "summary", label: "長い資料の要約" },
           { slug: "transcript", label: "文字起こしの整形" },
+          { slug: "agenda", label: "会議アジェンダ" },
         ],
       },
       {
@@ -909,7 +911,7 @@ export const GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES_UPDATED = "2026-11-17";
+export const GUIDES_UPDATED = "2026-11-19";
 
 export function getGuide(slug: string): Guide | undefined {
   return GUIDES.find((g) => g.slug === slug);
