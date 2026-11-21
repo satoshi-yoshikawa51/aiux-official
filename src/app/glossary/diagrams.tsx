@@ -2149,6 +2149,20 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "ai-dependence": {
+    caption: "向きは逆でも、どちらも距離の話",
+    render: () => (
+      <Svg h={296} title="AI疲れとAI依存の関係の図解">
+        <T x={300} y={22} text="同じ「AIとの距離」を、別の向きから見たもの" size={13.5} color={INK} />
+        <B x={20} y={42} w={275} h={74} label="AI疲れ" sub="使うほど負担が増える" />
+        <B x={305} y={42} w={275} h={74} label="AI依存" sub="使わないと落ち着かない" fill={YELLOW} />
+        <AV x={300} y1={120} y2={146} />
+        <B x={30} y={150} w={540} h={52} label="距離を自分で決められているか" sub="能力の問題ではなく、決め方の問題" />
+        <B x={30} y={216} w={540} h={46} label="京大が示したのは6項目。点数式ではない" dashed={true} />
+        <T x={300} y={284} text="1つでも心当たりがあれば、しばらく離れてみる" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
