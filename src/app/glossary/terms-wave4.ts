@@ -1325,6 +1325,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "体験ゲーム：AIエージェントに任せてみた（任せた結果がどう転ぶかを6つの結末で）", href: "/agent" },
       { label: "体験ゲーム：プロンプトインジェクション（囲いの外から指示が入る怖さを体感）", href: "/keibi" },
       { label: "用語：ガードレール（もうひとつの歯止め）", href: "/glossary/guardrail" },
+      { label: "比較：サンドボックスとガードレールの違い", href: "/vs/sandbox-vs-guardrail" },
       { label: "用語：AIガバナンス（事故をどう扱うかの決めごと）", href: "/glossary/ai-governance" },
     ],
     relatedSlugs: ["guardrail", "ai-agent", "jailbreak", "alignment", "autonomous-cyberattack", "ai-governance", "hugging-face"],
