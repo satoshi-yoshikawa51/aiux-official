@@ -2119,6 +2119,36 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "gemini-4-neon": {
+    caption: "増えたのは性能の段と、選ぶ手間",
+    render: () => (
+      <Svg h={362} title="Gemini 4の4つの段とNeonの位置の図解">
+        <T x={300} y={22} text="2か月で4つ。Neonは上から2段目にあたる" size={13.5} color={INK} />
+        <B x={30} y={42} w={540} h={52} label="Argon／Carbon" sub="最上位。いちばん高くて、いちばん遅い" />
+        <AV x={300} y1={98} y2={122} />
+        <B x={30} y={126} w={540} h={56} label="Gemini 4 Neon" sub="Carbon比でタスク費用32%減、所要時間は約4割短い" fill={YELLOW} />
+        <AV x={300} y1={186} y2={210} />
+        <B x={30} y={214} w={540} h={52} label="Hydrogen" sub="毎日の作業。無料の利用者にも自動で回る" />
+        <B x={30} y={282} w={540} h={46} label="無料で使えるのはHydrogenだけ" dashed={true} />
+        <T x={300} y={350} text="下から試して、足りないところだけ上げる" size={13} color={INK} />
+      </Svg>
+    ),
+  },
+  "ai-fatigue": {
+    caption: "速くなった先に、何が残ったか",
+    render: () => (
+      <Svg h={362} title="AI疲れが起きる流れの図解">
+        <T x={300} y={22} text="速くなったのに疲れるのは、残る側が変わらないから" size={13.5} color={INK} />
+        <B x={30} y={42} w={540} h={50} label="作る時間は短くなる" sub="下書き・要約・画像づくり" />
+        <AV x={300} y1={96} y2={122} />
+        <B x={30} y={126} w={540} h={56} label="確かめる時間は人に残る" sub="国内調査で最多の負担は「回答が正しいかの確認」" fill={YELLOW} />
+        <AV x={300} y1={186} y2={210} />
+        <B x={30} y={214} w={540} h={52} label="浮いた時間が検算に移る" sub="効率化の実感と疲労感が同居する" />
+        <B x={30} y={282} w={540} h={46} label="2026年、AI機能を切る設定が出てきた" dashed={true} />
+        <T x={300} y={350} text="減らすべきは速さではなく、確かめる手間のほう" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
