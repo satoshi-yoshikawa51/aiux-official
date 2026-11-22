@@ -1,13 +1,38 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-21T02:46:51.752Z",
+  "updatedAt": "2026-11-22T01:31:58.975Z",
   "items": [
     {
-      "title": "ゴムマリの業務AIエージェント、『営業データ分析』を提供開始",
-      "url": "https://ascii.jp/elem/000/004/453/4453823/?rss",
+      "title": "A tale of two Nvidias",
+      "url": "https://techcrunch.com/2026/11/21/a-tale-of-two-nvidias/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-21T21:07:42.000Z",
+      "titleJa": "二つのNvidia、その二面性",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2256813240.jpg?resize=1200,800"
+    },
+    {
+      "title": "ORICO、最大110TB対応・RAID機能搭載の5ベイアルミ製HDDケースをAmazonブラックフライデー＆サイバーマンデーと同水準の特別価格で販売開始",
+      "url": "https://ascii.jp/elem/000/004/453/4453847/?rss",
       "source": "ASCII.jp",
       "lang": "ja",
-      "date": "2026-11-21T00:00:00.000Z",
+      "date": "2026-11-21T06:44:18.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "フィジカルAI向けコンポーネントの開発事業「NPC（NakaTaku PhysicalAI Components）」を開始",
+      "url": "https://ascii.jp/elem/000/004/453/4453843/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-21T05:44:05.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "ゴムマリの業務AIエージェント、『海外問い合わせ一次対応』を提供開始",
+      "url": "https://ascii.jp/elem/000/004/453/4453831/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-21T03:00:00.000Z",
       "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
     },
     {
@@ -24,7 +49,7 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-11-20T00:00:00.000Z",
-      "titleJa": "Hebbia、GPT-6 Astraで金融リサーチが向上",
+      "titleJa": "Hebbia、GPT-6 Astraで金融リサーチの精度向上を確認",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/70gWqYyqb096it9EoD7OqI/5df8cad1c7fdf2a4e942c3183a10f405/hebbia-smoked-depth-social.png?w=1600&h=900&fit=fill"
     },
     {
@@ -33,7 +58,7 @@
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-11-20T21:58:29.000Z",
-      "titleJa": "Google、AIチャット履歴付きで検索ボタンのない新検索ホームページを展開",
+      "titleJa": "Google、新検索トップページを公開 AIチャット履歴付きで検索ボタンは廃止",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/google-sign-logo-1152x648.jpg"
     },
     {
@@ -42,7 +67,7 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-11-20T14:55:44.000Z",
-      "titleJa": "NvidiaのJensen Huang氏スキャンダル、波紋広がる",
+      "titleJa": "NvidiaのJensen Huang氏スキャンダル、なお続く余波",
       "image": "https://techcrunch.com/wp-content/uploads/2026/11/Jensen-Huang.jpg?w=1024"
     },
     {
@@ -63,20 +88,12 @@
       "image": "https://japan.cnet.com/storage/2026/11/21/7ca82b8036c0ff17cb510c0e12b1750d/01-hero-large.jpg"
     },
     {
-      "title": "ゴムマリの専門業務AI-BPO、『不具合記録のデータベース構築・データ構造化』を提供開始",
-      "url": "https://ascii.jp/elem/000/004/453/4453825/?rss",
-      "source": "ASCII.jp",
+      "title": "Claudeを使い「リーマン予想」を証明か Anthropic数学者が発表 Lean検証も通過、数学界が精査へ",
+      "url": "https://japan.cnet.com/article/35255245/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-20T23:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "データを社外に出さないオンプレミスAI「LLM Link」が、デジタル化・AI導入補助金（旧IT導入補助金）の対象ITツールに登録",
-      "url": "https://ascii.jp/elem/000/004/453/4453815/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-20T11:42:24.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "date": "2026-11-20T22:48:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/07/01/b95d57450e1a0a14633bad7058b56d76/anthropic-claude-logo-gettyimages-2269811684__1_.jpg"
     },
     {
       "title": "京大がAI依存チェックリスト公開 「当てはまるものあれば、しばらくAI触らないで」",
@@ -95,14 +112,6 @@
       "image": "https://japan.zdnet.com/storage/2026/11/20/8f95870b832703b308187d32511b9a7f/progressdomo_l.jpg"
     },
     {
-      "title": "メルカリ、1522人分の顧客情報流出の恐れ Notion AIの委託先に不正アクセスで",
-      "url": "https://japan.cnet.com/article/35255231/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-20T08:01:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/20/bf124ce9f24d2d292ae8dbff76c26172/large.jpg"
-    },
-    {
       "title": "Introducing Tool Retrieval in the Gemini API",
       "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-api-tool-retrieval/",
       "source": "Google AI（公式）",
@@ -110,15 +119,6 @@
       "date": "2026-11-19T18:00:00.000Z",
       "titleJa": "Gemini APIに「Tool Retrieval」を導入",
       "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Tool_retrieval_hero.width-1300.png"
-    },
-    {
-      "title": "The Gemini app is now available on lower-memory Android devices.",
-      "url": "https://blog.google/innovation-and-ai/products/gemini-app/gemini-lower-memory-devices/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-11-18T17:00:00.000Z",
-      "titleJa": "Geminiアプリ、低メモリのAndroid端末でも利用可能に",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_app_Android_social_share.max-1440x810.png"
     }
   ]
 }
