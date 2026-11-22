@@ -2163,6 +2163,20 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "formal-verification": {
+    caption: "「通った」が意味する範囲",
+    render: () => (
+      <Svg h={322} title="形式検証が確かめる範囲の図解">
+        <T x={300} y={22} text="機械が確かめるのは、真ん中の段だけ" size={13.5} color={INK} />
+        <B x={30} y={42} w={540} h={54} label="主張を書く" sub="本当に問いたいことを書けているかは、人が確かめる" dashed={true} />
+        <AV x={300} y1={100} y2={126} />
+        <B x={30} y={130} w={540} h={56} label="一歩ずつ規則どおりか" sub="ここをLeanなどの道具が全部検査する" fill={YELLOW} />
+        <AV x={300} y1={190} y2={216} />
+        <B x={30} y={220} w={540} h={54} label="なぜそうなるのか" sub="理解は人の仕事として残る" dashed={true} />
+        <T x={300} y={306} text="「機械の検査が通った」と「決着した」の間には距離がある" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
