@@ -1,39 +1,81 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-22T01:31:58.975Z",
+  "updatedAt": "2026-11-23T01:56:50.762Z",
   "items": [
+    {
+      "title": "テスラ「FSD v15」配信開始 まるでGTA6のように自車を表示",
+      "url": "https://japan.cnet.com/article/35255284/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-22T23:30:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/23/a94501e5d2ca9e5fbc09dcc5f5e5fa8d/large.jpg"
+    },
+    {
+      "title": "We haven’t seen the last of the major tech outages",
+      "url": "https://www.theverge.com/tech/1039851/major-tech-outages",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-22T22:48:02.000Z",
+      "titleJa": "大規模なテック障害は、これで終わりではない",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/23318433/akrales_220309_4977_0182.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    {
+      "title": "メルカリの情報流出、AI委託先で何が起きた？ 確認された2つの攻撃",
+      "url": "https://kn.itmedia.co.jp/kn/article/2611/23/2000003393/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-22T21:00:00.000Z",
+      "image": "https://kn.itmedia.co.jp/kn/article/ogp/2611/23/2000003393/10012772/2048"
+    },
+    {
+      "title": "FMV直販に注目！ 23.8型の一体型デスクトップPCが、Ryzen AI 5搭載で24万円台！",
+      "url": "https://ascii.jp/elem/000/004/453/4453673/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-22T11:00:00.000Z",
+      "image": "https://ascii.jp/img/2026/04/24/4457952/xl/de9ac1662f82d96a.png?20200122"
+    },
+    {
+      "title": "アンソロピックがマイクロソフトに勝負をしかけた。新たなオフィスツールで“エクセル超え”なるか？",
+      "url": "https://www.gizmodo.jp/article/anthropic-goes-for-microsofts-crown-with-new-claude-powered-office-tools/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-11-22T10:30:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/11/20/2c794fb8-a7e2-4d28-8f92-193e77b92894/original.png?w=1200&h=630"
+    },
+    {
+      "title": "AIが実験室から「脱走」して外部をハッキング。OpenAIがカリフォルニア州に提訴される",
+      "url": "https://www.gizmodo.jp/article/openai-sued-california-ai-hacking-incident/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-11-22T10:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/11/20/85406717-9d20-4f83-a4ad-304da26b6431/original.png?w=1200&h=630"
+    },
+    {
+      "title": "OrcaRouterのサイバーセキュリティチーム、OrcaCyber、Tencent「Hy4 Flash」のアブリテーション版GGUFウェイトを公開",
+      "url": "https://ascii.jp/elem/000/004/453/4453880/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-22T06:30:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
     {
       "title": "A tale of two Nvidias",
       "url": "https://techcrunch.com/2026/11/21/a-tale-of-two-nvidias/",
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-11-21T21:07:42.000Z",
-      "titleJa": "二つのNvidia、その二面性",
+      "titleJa": "二つのNvidiaの物語",
       "image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2256813240.jpg?resize=1200,800"
     },
     {
-      "title": "ORICO、最大110TB対応・RAID機能搭載の5ベイアルミ製HDDケースをAmazonブラックフライデー＆サイバーマンデーと同水準の特別価格で販売開始",
-      "url": "https://ascii.jp/elem/000/004/453/4453847/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-21T06:44:18.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "フィジカルAI向けコンポーネントの開発事業「NPC（NakaTaku PhysicalAI Components）」を開始",
-      "url": "https://ascii.jp/elem/000/004/453/4453843/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-21T05:44:05.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "ゴムマリの業務AIエージェント、『海外問い合わせ一次対応』を提供開始",
-      "url": "https://ascii.jp/elem/000/004/453/4453831/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-21T03:00:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+      "title": "The UN fails to agree on rules regulating ‘killer robots’",
+      "url": "https://www.theverge.com/tech/1039554/un-regulations-killer-robots",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-21T20:03:37.000Z",
+      "titleJa": "国連、「キラーロボット」規制ルールで合意できず",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/13611631/503831564.jpg.jpg?quality=90&strip=all&crop=0%2C11.089604074363%2C100%2C77.820791851273&w=1200"
     },
     {
       "title": "AIで成果を出す企業ほど「人を増やす」？ “通説”を否定する調査結果をIDCが発表",
@@ -44,21 +86,12 @@
       "image": "https://image.itmedia.co.jp/enterprise/articles/2611/21/cover_news003.jpg"
     },
     {
-      "title": "Hebbia sees improvements in financial research with GPT-6 Astra",
-      "url": "https://openai.com/business/customer-stories/hebbia",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-20T00:00:00.000Z",
-      "titleJa": "Hebbia、GPT-6 Astraで金融リサーチの精度向上を確認",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/70gWqYyqb096it9EoD7OqI/5df8cad1c7fdf2a4e942c3183a10f405/hebbia-smoked-depth-social.png?w=1600&h=900&fit=fill"
-    },
-    {
       "title": "Google rolls out new search homepage with AI chat history and no search button",
       "url": "https://arstechnica.com/ai/2026/11/googles-latest-search-page-redesign-drops-the-search-button-adds-ai-sidebar/",
       "source": "Ars Technica",
       "lang": "en",
       "date": "2026-11-20T21:58:29.000Z",
-      "titleJa": "Google、新検索トップページを公開 AIチャット履歴付きで検索ボタンは廃止",
+      "titleJa": "Google、新検索ホームページを公開——AIチャット履歴付きで検索ボタンは廃止",
       "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/google-sign-logo-1152x648.jpg"
     },
     {
@@ -67,7 +100,7 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-11-20T14:55:44.000Z",
-      "titleJa": "NvidiaのJensen Huang氏スキャンダル、なお続く余波",
+      "titleJa": "NvidiaのJensen Huangをめぐるスキャンダル、余波続く",
       "image": "https://techcrunch.com/wp-content/uploads/2026/11/Jensen-Huang.jpg?w=1024"
     },
     {
@@ -86,39 +119,6 @@
       "lang": "ja",
       "date": "2026-11-20T23:30:00.000Z",
       "image": "https://japan.cnet.com/storage/2026/11/21/7ca82b8036c0ff17cb510c0e12b1750d/01-hero-large.jpg"
-    },
-    {
-      "title": "Claudeを使い「リーマン予想」を証明か Anthropic数学者が発表 Lean検証も通過、数学界が精査へ",
-      "url": "https://japan.cnet.com/article/35255245/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-20T22:48:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/07/01/b95d57450e1a0a14633bad7058b56d76/anthropic-claude-logo-gettyimages-2269811684__1_.jpg"
-    },
-    {
-      "title": "京大がAI依存チェックリスト公開 「当てはまるものあれば、しばらくAI触らないで」",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/20/2000003378/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-20T10:13:44.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/20/2000003378/10012708/2048"
-    },
-    {
-      "title": "プログレス・ソフトウェア、ドーモ買収でAIとデータ事業を強化へ",
-      "url": "https://japan.zdnet.com/article/35255234/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-11-20T09:16:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/20/8f95870b832703b308187d32511b9a7f/progressdomo_l.jpg"
-    },
-    {
-      "title": "Introducing Tool Retrieval in the Gemini API",
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-api-tool-retrieval/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-11-19T18:00:00.000Z",
-      "titleJa": "Gemini APIに「Tool Retrieval」を導入",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Tool_retrieval_hero.width-1300.png"
     }
   ]
 }
