@@ -2177,6 +2177,21 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "lethal-autonomous-weapons": {
+    caption: "論点は、人がどこに残るか",
+    render: () => (
+      <Svg h={356} title="自律型致死兵器の論点の図解">
+        <T x={300} y={22} text="3つの段のうち、真ん中に人がいるかどうか" size={13.5} color={INK} />
+        <B x={30} y={42} w={540} h={50} label="標的を見つける" sub="センサーやAIが担うことが多い" />
+        <AV x={300} y1={96} y2={122} />
+        <B x={30} y={126} w={540} h={56} label="攻撃するかを決める" sub="ここに人の判断が残るかが論点の中心" fill={YELLOW} />
+        <AV x={300} y1={186} y2={212} />
+        <B x={30} y={216} w={540} h={50} label="実行する" sub="一度起きたら取り返しがつかない" />
+        <B x={30} y={278} w={540} h={40} label="2026年11月、拘束力のあるルールには合意できず" dashed={true} />
+        <T x={300} y={346} text="戻せない判断の手前に、人を置けるか" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
