@@ -193,6 +193,7 @@ export const GUIDES: Guide[] = [
           { slug: "sns-post", label: "SNS投稿文" },
           { slug: "blog-article", label: "ブログ記事の構成・執筆" },
           { slug: "brainstorm", label: "ネタ出し・ブレスト" },
+          { slug: "press-release", label: "プレスリリース" },
         ],
       },
       {
@@ -758,6 +759,7 @@ export const GUIDES: Guide[] = [
         prompts: [
           { slug: "sales-email", label: "はじめて送るメール" },
           { slug: "sns-post", label: "SNS投稿文" },
+          { slug: "press-release", label: "プレスリリース" },
         ],
       },
       {
@@ -911,7 +913,7 @@ export const GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES_UPDATED = "2026-11-19";
+export const GUIDES_UPDATED = "2026-11-24";
 
 export function getGuide(slug: string): Guide | undefined {
   return GUIDES.find((g) => g.slug === slug);
