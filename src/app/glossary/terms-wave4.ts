@@ -3431,6 +3431,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "体験ゲーム：AIのウソを見抜け（確かめる目を鍛える全8問）", href: "/uso" },
       { label: "用語：Deep Review（確かめる側を助ける道具）", href: "/glossary/deep-review" },
       { label: "用語：AIスロップ（量で殴られる側の話）", href: "/glossary/ai-slop" },
+      { label: "比較：AI疲れとAI依存の違い", href: "/vs/ai-fatigue-vs-ai-dependence" },
     ],
     relatedSlugs: ["ai-slop", "deep-review", "hallucination", "ai-literacy", "generative-ai", "ai-workflow"],
     faq: [
@@ -3497,6 +3498,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
       { label: "体験ゲーム：AIのウソを見抜け（疑う目を鍛える全8問）", href: "/uso" },
       { label: "用語：AI疲れ（向きが逆の、もうひとつの距離の話）", href: "/glossary/ai-fatigue" },
+      { label: "比較：AI疲れとAI依存の違い", href: "/vs/ai-fatigue-vs-ai-dependence" },
       { label: "用語：ハルシネーション（疑う理由のほう）", href: "/glossary/hallucination" },
     ],
     relatedSlugs: ["ai-fatigue", "hallucination", "ai-literacy", "chatbot", "generative-ai", "always-listening-ai"],
