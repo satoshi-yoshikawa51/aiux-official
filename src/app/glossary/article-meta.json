@@ -4,7 +4,7 @@
     "title": "Claude Coworkで業務改善を半自動化してみた～毎朝のAIニュース収集から改善提案まで～",
     "excerpt": "毎朝のAIニュース収集から、自分の業務をどう改善できるかの提案までを自動でCoworkにやってもらう試み。",
     "thumb": "https://assets.st-note.com/production/uploads/images/268115959/rectangle_large_type_2_248be67915a76bf17d40201d5d7563b5.png?fit=bounds&quality=85&width=1280",
-    "likes": 126,
+    "likes": 125,
     "badge": "AI実践",
     "tone": "blue"
   },
@@ -12,7 +12,7 @@
     "title": "【非エンジニア向け】Claude Codeの「Agent Teams」を、Claude Opus 4.6に学習ガイドを作らせ、ゼロから実践してみた",
     "excerpt": "複数のClaudeがチームで協力して実装する「Agent Teams」を、非エンジニア目線でゼロから試した。",
     "thumb": "https://assets.st-note.com/production/uploads/images/250039831/rectangle_large_type_2_61e3df240b684fa7895b994ce5d0e4d7.png?fit=bounds&quality=85&width=1280",
-    "likes": 118,
+    "likes": 117,
     "badge": "Claude Code",
     "tone": "paper"
   },
@@ -36,7 +36,7 @@
     "title": "手書きイラストを3Dゲームに！Claudeで作った一部始終",
     "excerpt": "手描きのイラストから、Claudeを使って3Dゲームを作り上げるまでの一部始終を公開。",
     "thumb": "https://assets.st-note.com/production/uploads/images/287386173/rectangle_large_type_2_1f7bc7d23bb8871d27d4bc8f23a638c5.png?fit=bounds&quality=85&width=1280",
-    "likes": 110,
+    "likes": 112,
     "badge": "3Dゲーム",
     "tone": "yellow"
   },
@@ -60,7 +60,7 @@
     "title": "ノンエンジニアが挑むChatGPT APIを使ったPythonアプリ構築",
     "excerpt": "非エンジニアがChatGPT APIを使って、Pythonアプリの構築に挑戦した実践録。",
     "thumb": "https://assets.st-note.com/production/uploads/images/116603351/rectangle_large_type_2_5a84333e9f8a76f02c9253187b97d687.png?fit=bounds&quality=85&width=1280",
-    "likes": 226,
+    "likes": 227,
     "badge": "AI実践",
     "tone": "blue"
   },
@@ -68,7 +68,7 @@
     "title": "賀正🎍「Gemini」×「NotebookLM」で出来るDX（業務フロー改善）",
     "excerpt": "「Gemini」×「NotebookLM」で出来る業務フロー改善（DX）。AIでの業務改善について。",
     "thumb": "https://assets.st-note.com/production/uploads/images/240496348/rectangle_large_type_2_19012b56a59ec7acb4afd7bf47dd6330.png?fit=bounds&quality=85&width=1280",
-    "likes": 341,
+    "likes": 339,
     "badge": "業務DX",
     "tone": "blue"
   },
@@ -76,7 +76,7 @@
     "title": "企画(施策)の「承認フロー」を通すAI活用術｜Gemini × NotebookLM",
     "excerpt": "企画・施策の承認フローをスムーズに通すためのAI活用術を、Gemini × NotebookLMの組み合わせで。",
     "thumb": "https://assets.st-note.com/production/uploads/images/243019553/rectangle_large_type_2_0bea8a3fa731421fb2a817982eb7e19f.png?fit=bounds&quality=85&width=1280",
-    "likes": 135,
+    "likes": 131,
     "badge": "業務DX",
     "tone": "red"
   },
@@ -84,14 +84,14 @@
     "title": "【完全解説！】Midjourneyで作るアニメーションPV",
     "excerpt": "Midjourneyで生成したイラストを動かして、アニメーションPVに仕上げるまでの手順を完全解説。",
     "thumb": "https://assets.st-note.com/production/uploads/images/219870591/rectangle_large_type_2_53fff199eee0a728ba07bb3187dcba1d.png?fit=bounds&quality=85&width=1280",
-    "likes": 105,
+    "likes": 104,
     "badge": "Midjourney",
     "tone": "yellow"
   },
   "https://note.com/aiux_unite/n/n2744fb1ebdfa": {
     "title": "「絵心ゼロでもOK！」手描きイラストから3DモデルをAIで自動生成してみた（ChatGPT×Tripo AI）",
     "thumb": "https://assets.st-note.com/production/uploads/images/187630665/rectangle_large_type_2_454c8d283a0110454a566932c6c35d04.png?fit=bounds&quality=85&width=1280",
-    "likes": 197,
+    "likes": 199,
     "badge": "note記事",
     "tone": "paper"
   },

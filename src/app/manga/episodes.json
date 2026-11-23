@@ -1,6 +1,6 @@
 {
   "_comment": "各シリーズの収録エピソード。scripts/fetch-manga-episodes.mjs がnoteから自動生成する（手動で追記してもよい）。desc は note-article-meta.json の excerpt が優先される。",
-  "generatedAt": "2026-11-15",
+  "generatedAt": "2026-11-23",
   "series": {
     "wakaru": {
       "updatedAt": "2026-10-19",
@@ -130,7 +130,7 @@
       ]
     },
     "honshitsu": {
-      "updatedAt": "2026-10-12",
+      "updatedAt": "2026-11-23",
       "episodes": [
         {
           "title": "AI時代の「流行」と「本質」：序章_AI時代にAIを叫ぶ",
@@ -146,12 +146,12 @@
           "url": "https://note.com/aiux_unite/n/na87618c2923d",
           "date": "2026-01-05",
           "thumb": "https://assets.st-note.com/production/uploads/images/241595402/rectangle_large_type_2_a064de6ee4a40431b78183268d658ed0.png?width=800",
-          "likes": 178
+          "likes": 179
         }
       ]
     },
     "manga-lab": {
-      "updatedAt": "2026-11-15",
+      "updatedAt": "2026-11-23",
       "episodes": [
         {
           "title": "AIマンガ研究所 第0話：「AIで漫画を描くのではない。AIと一緒にマンガを描く」",
@@ -160,7 +160,7 @@
           "no": 0,
           "date": "2026-11-15",
           "thumb": "https://assets.st-note.com/production/uploads/images/336237473/rectangle_large_type_2_ef212b4ca7a4e1aaf444bacf03993536.jpeg?width=800",
-          "likes": 14
+          "likes": 30
         }
       ]
     }
