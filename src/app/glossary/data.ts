@@ -1951,6 +1951,7 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     links: [
       { label: "連載「マンガで実践！AI活用」（「売れる」サイトをAIで作る回を含む）", href: "/manga/jissen" },
       { label: "実物：当サイトのllms.txt（AIに読ませる案内文）", href: "/llms.txt" },
+      { label: "比較：LLMOとllms.txtの違い", href: "/vs/llmo-vs-llms-txt" },
       { label: "用語：AIクローラー（学習と検索を切り分けて断るやり方）", href: "/glossary/ai-crawler" },
       { label: "用語：エージェンティックコマース（同じ入口から買い物まで進む流れ）", href: "/glossary/agentic-commerce" },
     ],
