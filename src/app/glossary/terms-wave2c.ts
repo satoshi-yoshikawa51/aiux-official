@@ -50,7 +50,10 @@ export const TERMS_WAVE2C: GlossaryTerm[] = [
       "検索エンジンにはsitemap.xmlという案内板を渡すのが長年の作法でした。llms.txtはそのAI版で、「このサイトには何があり、どのページを読めばいいか」をAIが読みやすいマークダウン形式でまとめた案内ファイルです。サイトのURL末尾に/llms.txtを置く形で公開します。",
       "ChatGPTやPerplexityなどのAI検索経由の流入が増える中、「AIにサイトを正しく理解してもらう」工夫（LLMO）の具体策として広まりました。当サイトも実際に設置しており、マンガ・用語集・プロンプト集の全ページをAI向けに案内しています。効果の実証はまだ発展途上ですが、コストほぼゼロで張れる保険として導入が進んでいます。",
     ],
-    links: [{ label: "実物：当サイトのllms.txt", href: "/llms.txt" }],
+    links: [
+      { label: "実物：当サイトのllms.txt", href: "/llms.txt" },
+      { label: "比較：LLMOとllms.txtの違い", href: "/vs/llmo-vs-llms-txt" },
+    ],
     relatedSlugs: ["llmo", "ai-crawler", "perplexity"],
     lastUpdated: "2026-07-16",
   },
