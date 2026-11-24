@@ -2192,6 +2192,22 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "claude-ship": {
+    caption: "最後の一押しは、どこに残るか",
+    render: () => (
+      <Svg h={366} title="Claude Shipの3つの役とマージの図解">
+        <T x={300} y={22} text="3つの役のあとに、取り込みの段がある" size={13.5} color={INK} />
+        <B x={30} y={42} w={540} h={48} label="Code Review" sub="変更を点検して、指摘を書き込む" />
+        <AV x={300} y1={94} y2={116} />
+        <B x={30} y={120} w={540} h={48} label="PR Steward" sub="テストの失敗や衝突を直す。承認はしない" />
+        <AV x={300} y1={172} y2={194} />
+        <B x={30} y={198} w={540} h={52} label="Claude Approvals" sub="人が書いた方針に照らして承認を判断" fill={YELLOW} />
+        <AV x={300} y1={254} y2={276} />
+        <B x={30} y={280} w={540} h={46} label="マージ：人とGitHubの規則に残る" dashed={true} />
+        <T x={300} y={352} text="自動マージを有効にしていれば、人の操作なしで通りうる" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
