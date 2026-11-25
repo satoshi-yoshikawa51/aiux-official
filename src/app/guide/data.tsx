@@ -767,6 +767,7 @@ export const GUIDES: Guide[] = [
         prompts: [
           { slug: "excel-formula", label: "Excel・スプレッドシートの関数" },
           { slug: "data-cleanup", label: "名簿・データの整形" },
+          { slug: "contract-check", label: "契約書の一次チェック" },
         ],
       },
       {
@@ -911,7 +912,7 @@ export const GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES_UPDATED = "2026-11-19";
+export const GUIDES_UPDATED = "2026-11-26";
 
 export function getGuide(slug: string): Guide | undefined {
   return GUIDES.find((g) => g.slug === slug);
