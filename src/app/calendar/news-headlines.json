@@ -1,70 +1,115 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-24T05:29:10.539Z",
+  "updatedAt": "2026-11-25T04:32:54.071Z",
   "items": [
     {
-      "title": "12/8発表、Nothingのチラ見せ端末はAI機能＆ボイスレコーダー付きイヤホン？",
-      "url": "https://www.gizmodo.jp/article/2611-nothing-ear-note-ai-voice-recorder-earphones/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-11-24T05:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/11/24/f13817a8-7987-4b67-9a57-855153389090/original.jpg?w=1200&h=630"
+      "title": "Yale’s Sonnenfeld: Nvidia is a ‘detriment’ to US industrial might — not a champion",
+      "url": "https://techcrunch.com/2026/11/24/yales-sonnenfeld-nvidia-is-a-detriment-to-u-s-industrial-might-not-a-champion/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-25T00:12:02.000Z",
+      "titleJa": "イェール大学のソネンフェルド氏：NVIDIA は米国の産業力にとって「有害」である",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/11/Jensen-ChatGPT.png?resize=1200,675"
     },
     {
-      "title": "たまごっちみたいと言われたMetaのAIキャラチャーム、お値段4万円超え…",
-      "url": "https://www.gizmodo.jp/article/2611-meta-ai-muse-charm-price/",
-      "source": "GIZMODO JAPAN",
-      "lang": "ja",
-      "date": "2026-11-24T03:15:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/11/24/328f002a-eb8f-47c3-838e-da6dc023682b/original.jpg?w=1200&h=630"
-    },
-    {
-      "title": "AIO（LLMO/GEO）対策ツール「DolphinX AIO」が支援会社・代理店向けのエージェンシー特化機能をリリース｜1契約でプロジェクト・スタッフ数は無制限で利用可能",
-      "url": "https://ascii.jp/elem/000/004/454/4454168/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-24T02:56:49.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "子どもとサンタが会話できる「AIサンタクロース」本日11月24日から予約受付、11月27日に正式サービス開始。名前を呼ぶサンタの声のメッセージは、家族・恋人・友人へ今日から3通無料で贈れる",
-      "url": "https://ascii.jp/elem/000/004/454/4454143/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-24T02:34:08.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "明治、市乳製品の製造工程にALGO ARTISの計画DXソリューションを試験導入",
-      "url": "https://ascii.jp/elem/000/004/454/4454144/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-24T02:30:41.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
-    },
-    {
-      "title": "ローカル環境で利用可能な議事録作成AIアプリケーション「Panasonic PC Edge AI Note Taker」を提供開始",
-      "url": "https://ascii.jp/elem/000/004/454/4454186/?rss",
-      "source": "ASCII.jp",
-      "lang": "ja",
-      "date": "2026-11-24T02:30:00.000Z",
-      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg?20200122"
-    },
-    {
-      "title": "Anthropic、PRのレビューから修正、承認までをAIで支援する「Claude Ship」公開",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/24/2000003404/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-24T01:21:04.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/24/2000003404/10012801/2048"
-    },
-    {
-      "title": "Anthropic、プルリクエストをAIが処理する新機能「Claude Ship」を発表",
-      "url": "https://japan.zdnet.com/article/35255314/",
+      "title": "富士通、通院時の「足」スムーズに--AIで交通予約を自動化する実証実験",
+      "url": "https://japan.zdnet.com/article/35255383/",
       "source": "ZDNET Japan",
       "lang": "ja",
-      "date": "2026-11-24T00:42:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/24/5ac66f6e9f3a5daf87fe1a1799638af5/GettyImages-2271847888_1280.jpg"
+      "date": "2026-11-25T04:29:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2025/09/26/77c05fd09485bece132a6e1d724548c3/250926_bus_as_1280_159263221.jpg"
+    },
+    {
+      "title": "米クラウドストライク、ゼットスケーラーを約7兆円で買収へ AI時代のセキュリティー需要狙う",
+      "url": "https://japan.cnet.com/article/35255373/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-25T02:50:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/11/25/523670503052d3dc2724bb09cec8fbe7/large.jpg"
+    },
+    {
+      "title": "音楽サービスのTIDAL、AI生成楽曲を削除・受付停止へ 直近90日の配信楽曲の43％がAI生成",
+      "url": "https://www.itmedia.co.jp/news/article/2611/25/2000003433/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-25T01:57:02.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/25/2000003433/10012888/2048"
+    },
+    {
+      "title": "アスパラガス向けのAI自動収穫ロボットの強化学習を開始",
+      "url": "https://ascii.jp/elem/000/004/454/4454519/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-25T01:30:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "既存のデータ基盤（Databricks・Snowflake）で社内RAGを作る前に決めておく7つのこと｜解説レポートを無料公開【2026年11月版】",
+      "url": "https://ascii.jp/elem/000/004/454/4454524/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-25T01:30:00.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "OpenAI、米国の中小企業のAI導入を無料で支援するプログラムを開始",
+      "url": "https://japan.zdnet.com/article/35255363/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-25T00:58:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/25/bc40469a68ea23354194c93904420aa1/GettyImages-2295252875_1280.jpg"
+    },
+    {
+      "title": "GPT-6 models demonstrate intrinsic protein-design capabilities",
+      "url": "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities",
+      "source": "OpenAI（公式）",
+      "lang": "en",
+      "date": "2026-11-24T13:00:00.000Z",
+      "titleJa": "GPT-6 モデルは、固有のタンパク質設計能力を実証します",
+      "image": "https://images.ctfassets.net/kftzwdyauwt9/Eg5mCwwaA3KqnznOVCh0n/8e6deaef25fd508d9853ff86a95187c1/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities-social.png?w=1600&h=900&fit=fill"
+    },
+    {
+      "title": "Walmart teams up with Meta to bring Black Friday deals to AI agent Muse",
+      "url": "https://techcrunch.com/2026/11/24/walmart-teams-up-with-meta-to-bring-black-friday-deals-to-ai-agent-muse/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-24T21:32:38.000Z",
+      "titleJa": "ウォルマートがメタと提携してブラックフライデーセールをAIエージェントのミューズに提供",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/11/muse-walmart.png?w=1200"
+    },
+    {
+      "title": "Jensen Huang reportedly tells Nvidia staff it’s ‘not true’ Trump got him rehired",
+      "url": "https://www.theverge.com/tech/1041571/jensen-huang-all-hands-nvidia-apology",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-24T20:02:03.000Z",
+      "titleJa": "ジェンセン・フアン氏は、トランプ大統領が自分を再雇用させたのは「真実ではない」とNVIDIAスタッフに語ったと言われている",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/gettyimages-2300373989.jpg?quality=90&strip=all&crop=0%2C1.2974525602559%2C100%2C78.525377525853&w=1200"
+    },
+    {
+      "title": "Anthropic shares fall below IPO price, a worrying sign for AI startups",
+      "url": "https://techcrunch.com/2026/11/24/anthropic-shares-fall-below-ipo-price-a-worrying-sign-for-ai-startups/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-24T18:30:42.000Z",
+      "titleJa": "Anthropic株がIPO価格を下回る、AIスタートアップにとって憂慮すべき兆候",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/11/GettyImages-2305298275.jpg?w=594"
+    },
+    {
+      "title": "AIエージェントは隙あらばサンドボックスの外に出るのか Anthropicが評価手法「Siren」を発表",
+      "url": "https://www.itmedia.co.jp/news/article/2611/25/2000003430/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-24T22:41:42.000Z",
+      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/25/2000003430/10012875/2048"
+    },
+    {
+      "title": "業務で契約するAIサービス Copilot、ChatGPTが同率首位",
+      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600010/111700238/",
+      "source": "日経クロステック",
+      "lang": "ja",
+      "date": "2026-11-24T22:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020600010/111700238/topm.jpg?20220512"
     },
     {
       "title": "OpenAI and Cisco introduce Shirudo",
@@ -72,53 +117,8 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-11-23T21:20:00.000Z",
-      "titleJa": "OpenAIとCisco、「Shirudo」を発表",
+      "titleJa": "OpenAIとCiscoがShirudoを導入",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/5K7gFDr3r8vgjdIcsW6RVY/aba5325ce7902e5d1499b907f8e78f0b/shirudo-partner-logos-landscape-2x.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Elon Musk and others rejoice as Jensen Huang is reinstated at Nvidia amid scandal",
-      "url": "https://techcrunch.com/2026/11/23/elon-musk-and-others-rejoice-as-jensen-huang-is-reinstated-at-nvidia-amid-scandal/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-23T21:47:41.000Z",
-      "titleJa": "スキャンダルの渦中、Jensen HuangのNvidia復帰にElon Muskらが歓喜",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/08/GettyImages-2227140868.jpg?w=1024"
-    },
-    {
-      "title": "States sue SpaceX to stop Grok from generating child sex images, revenge porn",
-      "url": "https://arstechnica.com/tech-policy/2026/11/states-sue-spacex-to-stop-grok-from-generating-child-sex-images-revenge-porn/",
-      "source": "Ars Technica",
-      "lang": "en",
-      "date": "2026-11-23T21:30:44.000Z",
-      "titleJa": "Grokによる児童性的画像・リベンジポルノ生成の停止求め、各州がSpaceXを提訴",
-      "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/GettyImages-2284791219-1024x648.jpg"
-    },
-    {
-      "title": "Claude AI can review pull requests and ship fixes on its own now",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1040134/anthropic-claude-ship-ai-pull-requests",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-11-23T20:00:00.000Z",
-      "titleJa": "Claude AI、プルリクエストのレビューから修正の反映まで単独で可能に",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/STKB364_CLAUDE_2_C_96d15c-1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-    },
-    {
-      "title": "A more tailored Google Search that’s uniquely yours",
-      "url": "https://blog.google/products-and-platforms/products/search/google-search-personal-intelligence-apps/",
-      "source": "Google AI（公式）",
-      "lang": "en",
-      "date": "2026-11-23T17:00:00.000Z",
-      "titleJa": "あなただけに最適化された、よりパーソナルなGoogle検索",
-      "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Blog_pContext_Drive_1118.width-1300.png"
-    },
-    {
-      "title": "White House brags that Trump was ‘totally involved’ in getting Jensen reinstated",
-      "url": "https://www.theverge.com/policy/1040096/trump-nvidia-jensen-huang-reinstated",
-      "source": "The Verge",
-      "lang": "en",
-      "date": "2026-11-23T16:30:11.000Z",
-      "titleJa": "ホワイトハウス、Jensen復帰にTrumpが「全面的に関与」と誇示",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2250207971.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
     }
   ]
 }
