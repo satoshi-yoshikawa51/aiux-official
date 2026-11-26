@@ -2181,6 +2181,7 @@ export const TERMS_WAVE4: GlossaryTerm[] = [
       { label: "体験ゲーム：AIのウソを見抜け（実際のやらかしを集めた全8問）", href: "/uso" },
       { label: "連載「AI時代の流行と本質」シリーズ紹介", href: "/manga/honshitsu" },
       { label: "用語：ハルシネーション（もっともらしい間違いが生まれる理由）", href: "/glossary/hallucination" },
+      { label: "比較：Deep ResearchとDeep Reviewの違い", href: "/vs/deep-research-vs-deep-review" },
     ],
     relatedSlugs: ["hallucination", "ai-slop", "deep-research", "bug-bounty", "gemini", "coding-agent", "codemender"],
     faq: [
