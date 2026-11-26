@@ -1551,6 +1551,7 @@ const TERMS_BATCH3: GlossaryTerm[] = [
     ],
     links: [
       { label: "企画(施策)の「承認フロー」を通すAI活用術", href: "https://note.com/aiux_unite/n/ndae7f58601fc" },
+      { label: "比較：Deep ResearchとDeep Reviewの違い", href: "/vs/deep-research-vs-deep-review" },
     ],
     relatedSlugs: ["ai-agent", "perplexity", "hallucination"],
     sections: [
