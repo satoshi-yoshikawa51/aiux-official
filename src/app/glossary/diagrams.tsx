@@ -2208,6 +2208,22 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
       </Svg>
     ),
   },
+  "cve": {
+    caption: "番号は入口。急ぐ順は「悪用されているか」で決める",
+    render: () => (
+      <Svg h={384} title="CVEの図解">
+        <T x={300} y={22} text="見つかってから、直すまでにつく3つの情報" size={13.5} color={INK} />
+        <B x={30} y={42} w={540} h={50} label="脆弱性が見つかる" sub="AIの助けで、2026年は前年の2倍超に" />
+        <AV x={300} y1={96} y2={118} />
+        <B x={30} y={122} w={540} h={50} label="CVE番号がつく（名前）" sub="CVE-2026-12345 のような世界共通の呼び名" />
+        <AV x={300} y1={176} y2={198} />
+        <B x={30} y={202} w={540} h={50} label="CVSSがつく（深刻度）" sub="0〜10の点数。高い＝悪用されている、ではない" />
+        <AV x={300} y1={256} y2={278} />
+        <B x={30} y={282} w={540} h={56} label="悪用が確認されているか（KEV）" sub="確認されるのはごく一部。ここから先に直す" fill={YELLOW} />
+        <T x={300} y={368} text="数より「自分が使っているか」「悪用されているか」" size={13} color={INK} />
+      </Svg>
+    ),
+  },
 };
 
 export function hasDiagram(slug: string): boolean {
