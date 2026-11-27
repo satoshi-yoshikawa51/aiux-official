@@ -1941,7 +1941,7 @@ const DIAGRAMS: Record<string, { caption: string; render: () => React.ReactNode 
         <AH x1={333} x2={366} y={139} />
         <B x={371} y={116} w={209} h={46} label="予定を見せて待つ" fill={YELLOW} />
         <T x={300} y={196} text="動く場所はクラウド。端末を切っていても続く" size={13} />
-        <T x={300} y={224} text="米国のPro・Max向けの研究プレビュー（2026年10月時点）" size={13} color={INK} />
+        <T x={300} y={224} text="研究プレビュー。2026年11月から日本でも招待制で利用可" size={13} color={INK} />
       </Svg>
     ),
   },
