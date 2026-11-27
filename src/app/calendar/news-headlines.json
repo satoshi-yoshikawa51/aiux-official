@@ -1,45 +1,80 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-26T03:44:50.302Z",
+  "updatedAt": "2026-11-27T03:45:55.654Z",
   "items": [
     {
-      "title": "旅行会社に残る価値は？ 生成AIに「旅の相談」が当たり前の今、業界の生存戦略",
-      "url": "https://www.itmedia.co.jp/business/articles/2611/26/news033.html",
+      "title": "AIエージェント導入で検出時間は短縮、暴走懸念やコスト急増が課題に--Splunk調査",
+      "url": "https://japan.zdnet.com/article/35255498/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-27T02:55:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/27/0f17a3906e1886b8e3ac07491c38babe/261125_spkunk_001.jpg"
+    },
+    {
+      "title": "2100万件超のチャット履歴が競売対象に 米42州がCharacter.AIに異議",
+      "url": "https://japan.cnet.com/article/35255491/",
+      "source": "CNET Japan",
+      "lang": "ja",
+      "date": "2026-11-27T01:55:00.000Z",
+      "image": "https://japan.cnet.com/storage/2025/10/30/6d683037daa30aeea31cd72e9af97bf6/gettyimages-2192452577_1280x960.jpg"
+    },
+    {
+      "title": "電通が「Geminiを使いこなすFDE」ら3000人育成プログラムを開始 その内容とは？",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2611/27/news038.html",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-26T03:00:00.000Z",
-      "image": "https://image.itmedia.co.jp/business/articles/2611/26/cover_news033.jpg"
+      "date": "2026-11-27T00:45:00.000Z",
+      "image": "https://image.itmedia.co.jp/ait/articles/2611/27/cover_news038.jpg"
     },
     {
-      "title": "[PR]AIによる「A2B攻撃」が示す新たな脅威--製品の脆弱性管理にSBOMをどう生かすか",
-      "url": "https://japan.zdnet.com/pickup/veriserve_202611/35255049/",
-      "source": "ZDNET Japan",
+      "title": "NVIDIA、東南アジア4カ国へのサーバー出荷を一時停止",
+      "url": "https://japan.cnet.com/article/35255484/",
+      "source": "CNET Japan",
       "lang": "ja",
-      "date": "2026-11-26T02:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/19/a700f1c1796a52e46b987496bc3f1820/thumb_veriserve_1280.jpg"
+      "date": "2026-11-27T00:40:00.000Z",
+      "image": "https://japan.cnet.com/storage/2026/02/27/db638a7afc9f8857cc0d2ed63f5fbf41/nvidia-gettyimages-2172185102_1280x960.jpg"
     },
     {
-      "title": "富士通、OpenAIとの連携を拡大--攻撃者視点で悪用できる脆弱性を特定する診断サービスを提供",
-      "url": "https://japan.zdnet.com/article/35255427/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-11-26T01:26:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/03/13/0685712ce071f4bb5a7e7cf8db30b675/t/1280/960/d/260313_security_as_1280_744471190.jpg"
+      "title": "Nvidia hits pause on chip shipments to Southeast Asia",
+      "url": "https://techcrunch.com/2026/11/26/nvidia-hits-pause-on-chip-shipments-to-southeast-asia/",
+      "source": "TechCrunch",
+      "lang": "en",
+      "date": "2026-11-26T20:03:54.000Z",
+      "titleJa": "Nvidia、東南アジア向けチップ出荷を一時停止",
+      "image": "https://techcrunch.com/wp-content/uploads/2026/11/Taiwan-Nvidia.jpg?w=1024"
     },
     {
-      "title": "詐欺っぽい電話をAIがリアルタイム検知。会話で見抜くアプリ「みやブルフォン」",
-      "url": "https://www.gizmodo.jp/article/miyabull-phone-ai-fraud-detection-bbss/",
-      "source": "GIZMODO JAPAN",
+      "title": "Sansan流AI活用、商談準備を月60時間削減も 実践向けプロンプト公開",
+      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03671/111600010/",
+      "source": "日経クロステック",
       "lang": "ja",
-      "date": "2026-11-26T01:00:00.000Z",
-      "image": "https://media.loom-app.com/loom/2026/11/25/b3cf3842-61c8-4611-ac99-8728546b4ccf/original.jpg?w=1200&h=630"
+      "date": "2026-11-26T20:00:00.000Z",
+      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03671/111600010/fb.jpg?20220512"
+    },
+    {
+      "title": "【Claude Code】鹿野さんが実践するエンジニアの日常業務を爆速にする最新推しツール 大公開",
+      "url": "https://speakerdeck.com/tonkotsuboy_com/index-1f2ed0d2-597d-459d-abf2-db8db109c5d6",
+      "source": "Speaker Deck",
+      "lang": "ja",
+      "kind": "buzz",
+      "count": 331,
+      "date": "2026-11-26T12:31:47.000Z",
+      "image": "https://files.speakerdeck.com/presentations/4ead06dfc087473a85642706e19f07fc/slide_0.jpg?41530757"
+    },
+    {
+      "title": "「Claude Duet」日本でも開始 AnthropicのAIエージェント、研究プレビューを米国外に拡大",
+      "url": "https://www.itmedia.co.jp/aiplus/article/2611/26/2000003483/",
+      "source": "ITmedia AI＋",
+      "lang": "ja",
+      "date": "2026-11-26T05:09:57.000Z",
+      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/26/2000003483/10013044/2048"
     },
     {
       "title": "脆弱性の発見数、1年で2倍超 Microsoft製品も月100件から1000件超に……AIで一変",
       "url": "https://www.itmedia.co.jp/news/article/2611/26/2000003446/",
       "source": "ITmedia AI＋",
       "lang": "ja",
-      "date": "2026-11-26T01:00:00.000Z",
+      "date": "2026-11-26T05:04:44.000Z",
       "image": "https://www.itmedia.co.jp/news/article/ogp/2611/26/2000003446/10012927/2048"
     },
     {
@@ -48,7 +83,7 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-11-25T22:44:32.000Z",
-      "titleJa": "S&P、ガバナンスと「キーマン」リスクでNvidiaの格下げを検討",
+      "titleJa": "S&P、ガバナンスと「キーマン」リスクを理由にNvidiaの格下げを検討",
       "image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2256813240.jpg?resize=1200,800"
     },
     {
@@ -57,7 +92,7 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-11-25T21:51:26.000Z",
-      "titleJa": "Googleが取得したAI動画フィードの特許、エンタメの未来に暗い影",
+      "titleJa": "GoogleのAIカスタム動画フィード特許が描く、エンタメの暗い未来",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/Screenshot-2026-11-25-at-11.34.07-AM.png?quality=90&strip=all&crop=2.859375%2C11.97652241473%2C93.788122558594%2C75.148782257541&w=1200"
     },
     {
@@ -66,41 +101,8 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-11-25T20:03:27.000Z",
-      "titleJa": "OpenAI、ChatGPTのChatとWork統合でヘビーユーザーは制限に早く達する可能性",
+      "titleJa": "OpenAI、ChatとWorkの統合でChatGPTヘビーユーザーは制限に達しやすくなる可能性",
       "image": "https://techcrunch.com/wp-content/uploads/2026/11/openai-chatgpt.jpg?resize=1200,800"
-    },
-    {
-      "title": "Jensen Huang broke Nvidia’s code of conduct, and his employees may not forget it",
-      "url": "https://techcrunch.com/2026/11/25/jensen-huang-broke-nvidias-code-of-conduct-and-his-employees-may-not-forget-it/",
-      "source": "TechCrunch",
-      "lang": "en",
-      "date": "2026-11-25T19:54:57.000Z",
-      "titleJa": "Jensen HuangがNvidiaの行動規範に違反、従業員は忘れないかもしれない",
-      "image": "https://techcrunch.com/wp-content/uploads/2025/08/GettyImages-2227140868.jpg?w=1024"
-    },
-    {
-      "title": "Anthropic CEO「雇用への影響が大きい場合、AI導入を遅らせるのも選択肢」",
-      "url": "https://japan.cnet.com/article/35255413/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-25T22:22:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/11/26/59229520ca68d81fd61cfea0f8e7cac9/large.jpg"
-    },
-    {
-      "title": "JPXが運用監視にAI検索を導入 1万2000件のナレッジを絞り込み",
-      "url": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/111601530/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-11-25T22:01:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/mag/nc/18/020800017/111601530/topm.jpg?20220512"
-    },
-    {
-      "title": "UIを自社で持つ必要はない--BoxのCEOが語る、エージェント時代のSaaS戦略",
-      "url": "https://japan.zdnet.com/article/35255168/",
-      "source": "ZDNET Japan",
-      "lang": "ja",
-      "date": "2026-11-25T22:00:00.000Z",
-      "image": "https://japan.zdnet.com/storage/2026/11/19/aca4fda4f6bcef9f39fec23ed08babbf/boxceo_l.jpg"
     },
     {
       "title": "GPT-6 models demonstrate intrinsic protein-design capabilities",
@@ -108,17 +110,17 @@
       "source": "OpenAI（公式）",
       "lang": "en",
       "date": "2026-11-24T13:00:00.000Z",
-      "titleJa": "GPT-6モデル、タンパク質設計の内在的能力を実証",
+      "titleJa": "GPT-6、内在的なタンパク質設計能力を示す",
       "image": "https://images.ctfassets.net/kftzwdyauwt9/Eg5mCwwaA3KqnznOVCh0n/8e6deaef25fd508d9853ff86a95187c1/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities-social.png?w=1600&h=900&fit=fill"
     },
     {
-      "title": "OpenAI and Cisco introduce Shirudo",
-      "url": "https://openai.com/index/introducing-shirudo",
-      "source": "OpenAI（公式）",
+      "title": "Jensen Huang reportedly tells Nvidia staff it’s ‘not true’ Trump got him rehired",
+      "url": "https://www.theverge.com/tech/1041571/jensen-huang-all-hands-nvidia-apology",
+      "source": "The Verge",
       "lang": "en",
-      "date": "2026-11-23T21:20:00.000Z",
-      "titleJa": "OpenAIとCisco、「Shirudo」を発表",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/5K7gFDr3r8vgjdIcsW6RVY/aba5325ce7902e5d1499b907f8e78f0b/shirudo-partner-logos-landscape-2x.png?w=1600&h=900&fit=fill"
+      "date": "2026-11-24T20:02:03.000Z",
+      "titleJa": "Jensen Huang、「トランプ氏の口利きで復帰」は「事実でない」とNvidia社員に説明か",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/gettyimages-2300373989.jpg?quality=90&strip=all&crop=0%2C1.2974525602559%2C100%2C78.525377525853&w=1200"
     }
   ]
 }
