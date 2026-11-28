@@ -1,7 +1,47 @@
 {
   "_comment": "AIニュースの見出し（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-27T03:45:55.654Z",
+  "updatedAt": "2026-11-28T03:29:47.425Z",
   "items": [
+    {
+      "title": "爆弾の作り方には答えるな。日本でもAIを取り締まる法案を検討中",
+      "url": "https://www.gizmodo.jp/article/2611-japan-ai-regulation-penalties/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-11-27T22:00:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/11/27/f8825473-7257-4e95-80b8-57a8e5b4903c/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "住宅・不動産に特化したAIマーケティング会社「NAYUTA」、用地仕入れ・分譲企画の初期調査に使える「NAYUTA MAP」を無料公開",
+      "url": "https://ascii.jp/elem/000/004/455/4455870/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-27T10:45:15.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "手のひらサイズでAIもサクサク。M6搭載「Mac mini」が過去最安",
+      "url": "https://www.gizmodo.jp/article/2611-amazon-blackfriday-mac-minim6/",
+      "source": "GIZMODO JAPAN",
+      "lang": "ja",
+      "date": "2026-11-27T10:15:00.000Z",
+      "image": "https://media.loom-app.com/loom/2026/11/27/92db16fe-dc00-4e7c-9f3e-a0dea599b5d5/original.jpg?w=1200&h=630"
+    },
+    {
+      "title": "山本昌氏登壇決定！AIとITでビジネスを勝ち抜くための実践セミナー開催【Lenovo/萩原テクノソリューションズ共催】",
+      "url": "https://ascii.jp/elem/000/004/455/4455871/?rss",
+      "source": "ASCII.jp",
+      "lang": "ja",
+      "date": "2026-11-27T10:05:41.000Z",
+      "image": "https://ascii.jp/img/2019/05/13/1510511/xl/5e76a3dd2752b473.jpg"
+    },
+    {
+      "title": "IBMコンサルとマイクロソフト、AIエージェント基盤を発表--FDEが導入を支援",
+      "url": "https://japan.zdnet.com/article/35255506/",
+      "source": "ZDNET Japan",
+      "lang": "ja",
+      "date": "2026-11-27T06:45:00.000Z",
+      "image": "https://japan.zdnet.com/storage/2026/11/27/9c1191fb402ed3b36f370ad1b0cd0839/20261127_adobestock_497109796_1280x960.jpg"
+    },
     {
       "title": "AIエージェント導入で検出時間は短縮、暴走懸念やコスト急増が課題に--Splunk調査",
       "url": "https://japan.zdnet.com/article/35255498/",
@@ -27,12 +67,13 @@
       "image": "https://image.itmedia.co.jp/ait/articles/2611/27/cover_news038.jpg"
     },
     {
-      "title": "NVIDIA、東南アジア4カ国へのサーバー出荷を一時停止",
-      "url": "https://japan.cnet.com/article/35255484/",
-      "source": "CNET Japan",
-      "lang": "ja",
-      "date": "2026-11-27T00:40:00.000Z",
-      "image": "https://japan.cnet.com/storage/2026/02/27/db638a7afc9f8857cc0d2ed63f5fbf41/nvidia-gettyimages-2172185102_1280x960.jpg"
+      "title": "Android’s DIY widgets are a bit of vibe-coding fun",
+      "url": "https://www.theverge.com/tech/1041801/android-intelligence-create-my-widget-gemini",
+      "source": "The Verge",
+      "lang": "en",
+      "date": "2026-11-27T14:00:00.000Z",
+      "titleJa": "Androidの自作ウィジェット、ちょっとしたvibe codingの楽しみ",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/DSC04405_processed.jpg?quality=90&strip=all&crop=0%2C10.723165084465%2C100%2C78.55366983107&w=1200"
     },
     {
       "title": "Nvidia hits pause on chip shipments to Southeast Asia",
@@ -42,40 +83,6 @@
       "date": "2026-11-26T20:03:54.000Z",
       "titleJa": "Nvidia、東南アジア向けチップ出荷を一時停止",
       "image": "https://techcrunch.com/wp-content/uploads/2026/11/Taiwan-Nvidia.jpg?w=1024"
-    },
-    {
-      "title": "Sansan流AI活用、商談準備を月60時間削減も 実践向けプロンプト公開",
-      "url": "https://xtech.nikkei.com/atcl/nxt/column/18/03671/111600010/",
-      "source": "日経クロステック",
-      "lang": "ja",
-      "date": "2026-11-26T20:00:00.000Z",
-      "image": "https://xtech.nikkei.com/atcl/nxt/column/18/03671/111600010/fb.jpg?20220512"
-    },
-    {
-      "title": "【Claude Code】鹿野さんが実践するエンジニアの日常業務を爆速にする最新推しツール 大公開",
-      "url": "https://speakerdeck.com/tonkotsuboy_com/index-1f2ed0d2-597d-459d-abf2-db8db109c5d6",
-      "source": "Speaker Deck",
-      "lang": "ja",
-      "kind": "buzz",
-      "count": 331,
-      "date": "2026-11-26T12:31:47.000Z",
-      "image": "https://files.speakerdeck.com/presentations/4ead06dfc087473a85642706e19f07fc/slide_0.jpg?41530757"
-    },
-    {
-      "title": "「Claude Duet」日本でも開始 AnthropicのAIエージェント、研究プレビューを米国外に拡大",
-      "url": "https://www.itmedia.co.jp/aiplus/article/2611/26/2000003483/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-26T05:09:57.000Z",
-      "image": "https://www.itmedia.co.jp/aiplus/article/ogp/2611/26/2000003483/10013044/2048"
-    },
-    {
-      "title": "脆弱性の発見数、1年で2倍超 Microsoft製品も月100件から1000件超に……AIで一変",
-      "url": "https://www.itmedia.co.jp/news/article/2611/26/2000003446/",
-      "source": "ITmedia AI＋",
-      "lang": "ja",
-      "date": "2026-11-26T05:04:44.000Z",
-      "image": "https://www.itmedia.co.jp/news/article/ogp/2611/26/2000003446/10012927/2048"
     },
     {
       "title": "S&P considers Nvidia credit downgrade over governance and ‘key man’ risks",
@@ -92,7 +99,7 @@
       "source": "The Verge",
       "lang": "en",
       "date": "2026-11-25T21:51:26.000Z",
-      "titleJa": "GoogleのAIカスタム動画フィード特許が描く、エンタメの暗い未来",
+      "titleJa": "GoogleのAI生成カスタム動画フィード特許、エンタメの未来に暗い影",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/Screenshot-2026-11-25-at-11.34.07-AM.png?quality=90&strip=all&crop=2.859375%2C11.97652241473%2C93.788122558594%2C75.148782257541&w=1200"
     },
     {
@@ -101,26 +108,17 @@
       "source": "TechCrunch",
       "lang": "en",
       "date": "2026-11-25T20:03:27.000Z",
-      "titleJa": "OpenAI、ChatとWorkの統合でChatGPTヘビーユーザーは制限に達しやすくなる可能性",
+      "titleJa": "OpenAI、ChatとWorkの統合でChatGPTヘビーユーザーは制限に早く達する可能性",
       "image": "https://techcrunch.com/wp-content/uploads/2026/11/openai-chatgpt.jpg?resize=1200,800"
     },
     {
-      "title": "GPT-6 models demonstrate intrinsic protein-design capabilities",
-      "url": "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities",
-      "source": "OpenAI（公式）",
-      "lang": "en",
-      "date": "2026-11-24T13:00:00.000Z",
-      "titleJa": "GPT-6、内在的なタンパク質設計能力を示す",
-      "image": "https://images.ctfassets.net/kftzwdyauwt9/Eg5mCwwaA3KqnznOVCh0n/8e6deaef25fd508d9853ff86a95187c1/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities-social.png?w=1600&h=900&fit=fill"
-    },
-    {
-      "title": "Jensen Huang reportedly tells Nvidia staff it’s ‘not true’ Trump got him rehired",
-      "url": "https://www.theverge.com/tech/1041571/jensen-huang-all-hands-nvidia-apology",
+      "title": "Amazon is reportedly in talks to end Muse AI shopping block",
+      "url": "https://www.theverge.com/tech/1042071/meta-amazon-muse-ai-shopping-discussions",
       "source": "The Verge",
       "lang": "en",
-      "date": "2026-11-24T20:02:03.000Z",
-      "titleJa": "Jensen Huang、「トランプ氏の口利きで復帰」は「事実でない」とNvidia社員に説明か",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/11/gettyimages-2300373989.jpg?quality=90&strip=all&crop=0%2C1.2974525602559%2C100%2C78.525377525853&w=1200"
+      "date": "2026-11-25T14:12:33.000Z",
+      "titleJa": "Amazon、MuseのAIショッピング遮断解除に向け協議中か",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/STKB394_MUSE_AI_CVIRGINIA_D.png?quality=90&strip=all&crop=0%2C9.9676601489831%2C100%2C80.064679702034&w=1200"
     }
   ]
 }

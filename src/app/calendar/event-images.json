@@ -1,6 +1,6 @@
 {
   "_comment": "イベント公式サイトのOGP画像（自動生成）。scripts/fetch-ai-news.mjs が毎朝更新する。手で編集しないこと。",
-  "updatedAt": "2026-11-27T03:46:04.210Z",
+  "updatedAt": "2026-11-28T03:29:55.283Z",
   "images": {
     "next-tokyo-2026": "https://assets.swoogo.com/uploads/full/6810224-69d5ae740cab5.png",
     "openai-devday-2026": "https://images.ctfassets.net/kftzwdyauwt9/6E6hS38rOnhhKPPmfUflDh/bbcf20b5fc6f99478187ec5dcbd491d1/DevDay_Blog_ArtCard_16x9.png?w=1600&h=900&fit=fill",
